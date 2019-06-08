@@ -2,6 +2,9 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
   Caption = 'frmDefaultServerBrowse'
   ClientHeight = 440
   ClientWidth = 641
+  FormStyle = fsMDIChild
+  Visible = True
+  WindowState = wsMaximized
   OnCreate = FormCreate
   ExplicitWidth = 657
   ExplicitHeight = 479
@@ -14,8 +17,6 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
     Height = 370
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 611
-    ExplicitHeight = 313
     object cxGrdMain: TcxGridServerModeTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -42,8 +43,6 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
     Style.LookAndFeel.NativeStyle = False
     StyleDisabled.LookAndFeel.NativeStyle = False
     TabOrder = 1
-    ExplicitTop = 348
-    ExplicitWidth = 611
     Height = 35
     Width = 641
     object btnTutup: TcxButton
@@ -58,7 +57,6 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
       OnClick = btnTutupClick
-      ExplicitLeft = 531
     end
     object btnExport: TcxButton
       AlignWithMargins = True
@@ -145,7 +143,6 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
     Style.LookAndFeel.NativeStyle = False
     StyleDisabled.LookAndFeel.NativeStyle = False
     TabOrder = 2
-    ExplicitWidth = 611
     Height = 35
     Width = 641
     object btnRefresh: TcxButton
@@ -160,7 +157,6 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
       OnClick = btnRefreshClick
-      ExplicitLeft = 531
     end
     object EndDate: TcxDateEdit
       AlignWithMargins = True
@@ -171,7 +167,6 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Properties.ShowTime = False
       TabOrder = 1
       Visible = False
-      ExplicitLeft = 425
       Width = 100
     end
     object StartDate: TcxDateEdit
@@ -183,7 +178,6 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Properties.ShowTime = False
       TabOrder = 2
       Visible = False
-      ExplicitLeft = 198
       Width = 100
     end
     object cxLabel1: TcxLabel
@@ -193,7 +187,6 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Caption = 'Filter Periode'
       Properties.Alignment.Vert = taVCenter
       Visible = False
-      ExplicitLeft = 74
       AnchorY = 18
     end
     object cxLabel2: TcxLabel
@@ -203,7 +196,6 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Caption = 's/d'
       Properties.Alignment.Vert = taVCenter
       Visible = False
-      ExplicitLeft = 301
       AnchorY = 18
     end
     object lblTitle: TcxLabel

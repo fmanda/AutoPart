@@ -409,48 +409,57 @@ object frmMain: TfrmMain
       ImageIndex = 20
     end
     object dxBarButton3: TdxBarButton
-      Action = actMaterialCategory
+      Caption = 'Material Category'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 10
     end
     object dxBarButton4: TdxBarButton
-      Action = actBahan
+      Caption = 'Material'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 12
     end
     object dxBarButton5: TdxBarButton
-      Action = actProduct
+      Caption = 'Product'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 14
     end
     object dxBarButton6: TdxBarButton
-      Action = actCustomer
+      Caption = 'Customer'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 37
     end
     object dxBarButton7: TdxBarButton
-      Action = actSupplier
+      Caption = 'Supplier'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 16
     end
     object dxBarButton8: TdxBarButton
-      Action = actGudang
+      Caption = 'Warehouse'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 24
     end
     object dxBarButton9: TdxBarButton
-      Action = actMesin
+      Caption = 'Data Machine'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 39
     end
     object dxBarButton10: TdxBarButton
-      Action = actEmployee
+      Caption = 'Employee'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 38
     end
     object dxBarButton11: TdxBarButton
-      Action = actProductCategory
+      Caption = 'Product Category'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 13
     end
     object dxBarButton12: TdxBarButton
@@ -459,39 +468,39 @@ object frmMain: TfrmMain
       ImageIndex = 11
     end
     object dxBarButton13: TdxBarButton
-      Action = actSalesOrder
       Caption = 'Sales Order / Pesanan Customer'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 27
     end
     object dxBarButton14: TdxBarButton
-      Action = actProductionReport
       Caption = 'Laporan Produksi'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 29
     end
     object dxBarButton15: TdxBarButton
-      Action = actDeliveryOrder
       Caption = 'Delivery Order / Pengiriman'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 10
     end
     object dxBarButton16: TdxBarButton
-      Action = actPurchaseOrder
       Caption = 'Purchase Order / Pembelian'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 13
     end
     object dxBarButton17: TdxBarButton
-      Action = actGoodReceive
       Caption = 'Good Receive / Penerimaan'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 12
     end
     object dxBarButton18: TdxBarButton
-      Action = actMaterialTrans
       Caption = 'Material Transaction / Mutasi Material'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 9
     end
     object dxBarButton19: TdxBarButton
@@ -501,41 +510,45 @@ object frmMain: TfrmMain
       ImageIndex = 5
     end
     object dxBarButton20: TdxBarButton
-      Action = actReportSO
+      Caption = 'Laporan Progress SO / Pesanan Pelanggan'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 18
     end
     object dxBarButton21: TdxBarButton
-      Action = actLaporanPenjualan
+      Caption = 'Laporan Analisa Penjualan'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 17
     end
     object dxBarButton22: TdxBarButton
-      Action = actLapPemakaianBahan
+      Caption = 'Laporan Pemakaian Bahan'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 12
     end
     object dxBarButton23: TdxBarButton
-      Action = actMaterialStock
       Caption = 'Laporan Stok Material'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 12
     end
     object dxBarButton24: TdxBarButton
-      Action = actProductStock
       Caption = 'Laporan Stok Product'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 14
     end
     object dxBarButton25: TdxBarButton
-      Action = actKartuStock
       Caption = 'Kartu Stok Material'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 8
     end
     object dxBarButton26: TdxBarButton
-      Action = actProcess
+      Caption = 'Proses Kerja'
       Category = 0
+      Visible = ivAlways
       ImageIndex = 30
     end
     object dxBarButton27: TdxBarButton
@@ -551,15 +564,15 @@ object frmMain: TfrmMain
       Visible = ivAlways
     end
     object dxBarButton29: TdxBarButton
-      Action = actUtilisasiMesin
+      Caption = 'Laporan Utilisasi Mesin'
       Category = 0
       Visible = ivNever
       ImageIndex = 13
     end
   end
   object ActionManager: TActionManager
-    Left = 608
-    Top = 64
+    Left = 544
+    Top = 128
     StyleName = 'Platform Default'
     object actLogin: TAction
       Category = 'Application'
@@ -576,101 +589,9 @@ object frmMain: TfrmMain
       Caption = 'Data UOM / Satuan'
       OnExecute = actMasterUOMExecute
     end
-    object actMaterialCategory: TAction
-      Category = 'Master'
-      Caption = 'Material Category'
-    end
-    object actBahan: TAction
-      Category = 'Master'
-      Caption = 'Material'
-    end
-    object actProduct: TAction
-      Category = 'Master'
-      Caption = 'Product'
-    end
-    object actCustomer: TAction
-      Category = 'Master'
-      Caption = 'Customer'
-    end
-    object actSupplier: TAction
-      Category = 'Master'
-      Caption = 'Supplier'
-    end
-    object actGudang: TAction
-      Category = 'Master'
-      Caption = 'Warehouse'
-    end
-    object actEmployee: TAction
-      Category = 'Master'
-      Caption = 'Employee'
-    end
-    object actMesin: TAction
-      Category = 'Master'
-      Caption = 'Data Machine'
-    end
-    object actProductCategory: TAction
-      Category = 'Master'
-      Caption = 'Product Category'
-    end
-    object actSalesOrder: TAction
-      Category = 'Transaction'
-      Caption = 'Sales Order [SO] / Pesanan Pelanggan'
-    end
-    object actProductionReport: TAction
-      Category = 'Transaction'
-      Caption = 'Production Report [PRD]'
-    end
-    object actDeliveryOrder: TAction
-      Category = 'Transaction'
-      Caption = 'Delivery Order [WO] / Pengiriman'
-    end
-    object actPurchaseOrder: TAction
-      Category = 'Transaction'
-      Caption = 'Purchase Order [PO] ke Supplier'
-    end
-    object actGoodReceive: TAction
-      Category = 'Transaction'
-      Caption = 'Good Receive [GR] / Surat Jalan'
-    end
-    object actMaterialTrans: TAction
-      Category = 'Transaction'
-      Caption = 'Transaksi Keluar Masuk Bahan'
-    end
-    object actReportSO: TAction
-      Category = 'Report'
-      Caption = 'Laporan Progress SO / Pesanan Pelanggan'
-    end
-    object actMaterialStock: TAction
-      Category = 'Report'
-      Caption = 'Laporan Stock Bahan'
-    end
-    object actProductStock: TAction
-      Category = 'Report'
-      Caption = 'Laporan Stock Product'
-    end
-    object actKartuStock: TAction
-      Category = 'Report'
-      Caption = 'Kartu Stock Bahan'
-    end
-    object actLapPemakaianBahan: TAction
-      Category = 'Report'
-      Caption = 'Laporan Pemakaian Bahan'
-    end
-    object actLaporanPenjualan: TAction
-      Category = 'Report'
-      Caption = 'Laporan Analisa Penjualan'
-    end
-    object actProcess: TAction
-      Category = 'Master'
-      Caption = 'Proses Kerja'
-    end
     object actHelp: TAction
       Category = 'Application'
       Caption = 'Bantuan Alur Program'
-    end
-    object actUtilisasiMesin: TAction
-      Category = 'Report'
-      Caption = 'Laporan Utilisasi Mesin'
     end
   end
   object ImageList: TcxImageList
@@ -2161,8 +2082,8 @@ object frmMain: TfrmMain
   end
   object cxLookAndFeelController1: TcxLookAndFeelController
     NativeStyle = False
-    Left = 672
-    Top = 104
+    Left = 664
+    Top = 120
   end
   object FDConnection1: TFDConnection
     Params.Strings = (

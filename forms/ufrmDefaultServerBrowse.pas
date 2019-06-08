@@ -104,7 +104,6 @@ procedure TfrmDefaultServerBrowse.RefreshData;
 begin
   cxGrdMain.LoadFromSQL(GetSQL, GetKeyField);
   cxGrdMain.EnableFiltering();
-  cxGrdMain.SetVisibleColumns(['ID'], False);
 end;
 
 end.

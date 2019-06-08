@@ -3,43 +3,10 @@ inherited frmDefaultInput: TfrmDefaultInput
   ClientHeight = 377
   ClientWidth = 577
   Position = poDesktopCenter
-  OnCreate = FormCreate
   ExplicitWidth = 593
   ExplicitHeight = 416
   PixelsPerInch = 96
   TextHeight = 13
-  object cxGroupBox1: TcxGroupBox
-    Left = 0
-    Top = 0
-    Align = alTop
-    PanelStyle.Active = True
-    Style.BorderStyle = ebsFlat
-    Style.LookAndFeel.NativeStyle = False
-    StyleDisabled.LookAndFeel.NativeStyle = False
-    StyleFocused.LookAndFeel.NativeStyle = False
-    StyleHot.LookAndFeel.NativeStyle = False
-    TabOrder = 0
-    Visible = False
-    Height = 35
-    Width = 577
-    object lblTitle: TcxLabel
-      AlignWithMargins = True
-      Left = 5
-      Top = 5
-      Align = alLeft
-      Caption = 'Form Title Here'
-      ParentFont = False
-      Style.Font.Charset = DEFAULT_CHARSET
-      Style.Font.Color = clWindowText
-      Style.Font.Height = -11
-      Style.Font.Name = 'Tahoma'
-      Style.Font.Style = [fsBold]
-      Style.IsFontAssigned = True
-      Properties.Alignment.Horz = taLeftJustify
-      Properties.Alignment.Vert = taVCenter
-      AnchorY = 18
-    end
-  end
   object cxGroupBox2: TcxGroupBox
     Left = 0
     Top = 342
@@ -48,9 +15,7 @@ inherited frmDefaultInput: TfrmDefaultInput
     Style.BorderStyle = ebsFlat
     Style.LookAndFeel.NativeStyle = False
     StyleDisabled.LookAndFeel.NativeStyle = False
-    StyleFocused.LookAndFeel.NativeStyle = False
-    StyleHot.LookAndFeel.NativeStyle = False
-    TabOrder = 1
+    TabOrder = 0
     Height = 35
     Width = 577
     object btnCancel: TcxButton
@@ -63,7 +28,7 @@ inherited frmDefaultInput: TfrmDefaultInput
       Caption = 'Batal'
       OptionsImage.ImageIndex = 5
       OptionsImage.Images = frmMain.ImageList
-      TabOrder = 0
+      TabOrder = 1
       OnClick = btnCancelClick
     end
     object btnPrint: TcxButton
@@ -76,7 +41,7 @@ inherited frmDefaultInput: TfrmDefaultInput
       Caption = '&Cetak'
       OptionsImage.ImageIndex = 26
       OptionsImage.Images = frmMain.ImageList
-      TabOrder = 1
+      TabOrder = 2
       Visible = False
     end
     object btnSave: TcxButton
@@ -89,7 +54,7 @@ inherited frmDefaultInput: TfrmDefaultInput
       Caption = '&Simpan'
       OptionsImage.ImageIndex = 28
       OptionsImage.Images = frmMain.ImageList
-      TabOrder = 2
+      TabOrder = 0
     end
   end
 end

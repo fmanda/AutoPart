@@ -50,8 +50,8 @@ var
   i: Integer;
 begin
   inherited;
-  cxGrid1ServerModeTableView1.LoadFromSQL('select * from tblstok','KdBar');
-  cxGrid1ServerModeTableView1.EnableFiltering;
+//  cxGrid1ServerModeTableView1.LoadFromSQL('select * from tblstok','KdBar');
+//  cxGrid1ServerModeTableView1.EnableFiltering;
 
 
 //  cxExtLookupComboBox1.Properties.LoadServerMode('select KdBar, NamaBarang from tblstok','KdBar','NamaBarang',[], Self);
@@ -73,9 +73,9 @@ procedure TfrmTest.cxGrid1ServerModeTableView1CellDblClick(Sender:
     AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
 begin
   inherited;
-  showmessage(
-    VarToStr(cxGrid1ServerModeTableView1.Controller.SelectedRecords[0].Values[1])
-  );
+//  showmessage(
+//    VarToStr(cxGrid1ServerModeTableView1.Controller.SelectedRecords[0].Values[1])
+//  );
 end;
 
 end.

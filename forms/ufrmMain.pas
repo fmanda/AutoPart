@@ -29,7 +29,6 @@ type
     actLogin: TAction;
     actSettingKoneksi: TAction;
     actMasterUOM: TAction;
-    actMaterialCategory: TAction;
     dxBarManagerBar1: TdxBar;
     dxBarLargeButton1: TdxBarLargeButton;
     dxBarSubItem1: TdxBarSubItem;
@@ -40,13 +39,6 @@ type
     dxBarManagerBar2: TdxBar;
     dxBarButton2: TdxBarButton;
     dxBarButton3: TdxBarButton;
-    actBahan: TAction;
-    actProduct: TAction;
-    actCustomer: TAction;
-    actSupplier: TAction;
-    actGudang: TAction;
-    actEmployee: TAction;
-    actMesin: TAction;
     dxBarButton4: TdxBarButton;
     dxBarButton5: TdxBarButton;
     dxBarManagerBar3: TdxBar;
@@ -57,17 +49,10 @@ type
     dxBarButton9: TdxBarButton;
     dxBarButton10: TdxBarButton;
     dxBarButton11: TdxBarButton;
-    actProductCategory: TAction;
     dxBarButton12: TdxBarButton;
     dxBarManagerBar5: TdxBar;
     dxBarManagerBar6: TdxBar;
     dxBarManagerBar7: TdxBar;
-    actSalesOrder: TAction;
-    actProductionReport: TAction;
-    actDeliveryOrder: TAction;
-    actPurchaseOrder: TAction;
-    actGoodReceive: TAction;
-    actMaterialTrans: TAction;
     dxBarButton13: TdxBarButton;
     dxBarButton14: TdxBarButton;
     dxBarButton15: TdxBarButton;
@@ -75,12 +60,6 @@ type
     dxBarButton17: TdxBarButton;
     dxBarButton18: TdxBarButton;
     dxBarButton19: TdxBarButton;
-    actReportSO: TAction;
-    actMaterialStock: TAction;
-    actProductStock: TAction;
-    actKartuStock: TAction;
-    actLapPemakaianBahan: TAction;
-    actLaporanPenjualan: TAction;
     dxBarManagerBar8: TdxBar;
     dxBarManagerBar9: TdxBar;
     dxBarButton20: TdxBarButton;
@@ -89,11 +68,9 @@ type
     dxBarButton23: TdxBarButton;
     dxBarButton24: TdxBarButton;
     dxBarButton25: TdxBarButton;
-    actProcess: TAction;
     dxBarButton26: TdxBarButton;
     dxBarButton27: TdxBarButton;
     actHelp: TAction;
-    actUtilisasiMesin: TAction;
     dxBarButton28: TdxBarButton;
     dxBarButton29: TdxBarButton;
     procedure actLoginExecute(Sender: TObject);
@@ -108,15 +85,24 @@ type
     { Public declarations }
   end;
 
+function ShowForm(AFormClass: TFormClass): TForm;
+
 var
   frmMain: TfrmMain;
 
 implementation
 
 uses
-  uDBUtils, uApputils, uDXUtils, ufrmLogin, ufrmSetKoneksi, ufrmTest;
+  uDBUtils, uApputils, uDXUtils, ufrmLogin, ufrmSetKoneksi, ufrmTest,
+  ufrmBrowseUOM;
 
 {$R *.dfm}
+
+function ShowForm(AFormClass: TFormClass): TForm;
+begin
+  //check form akses here
+  Result := AFormClass.Create(Application);
+end;
 
 
 procedure TfrmMain.actLoginExecute(Sender: TObject);
@@ -126,10 +112,7 @@ end;
 
 procedure TfrmMain.actMasterUOMExecute(Sender: TObject);
 begin
-  with TfrmTest.Create(Self) do
-  begin
-    ShowModal;
-  end;
+  ShowForm(TfrmBrowseUOM);
 end;
 
 procedure TfrmMain.actSettingKoneksiExecute(Sender: TObject);

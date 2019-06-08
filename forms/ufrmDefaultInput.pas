@@ -10,13 +10,10 @@ uses
 
 type
   TfrmDefaultInput = class(TfrmDefault)
-    cxGroupBox1: TcxGroupBox;
-    lblTitle: TcxLabel;
     cxGroupBox2: TcxGroupBox;
     btnCancel: TcxButton;
     btnPrint: TcxButton;
     btnSave: TcxButton;
-    procedure FormCreate(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
   private
     { Private declarations }
@@ -30,12 +27,6 @@ var
 implementation
 
 {$R *.dfm}
-
-procedure TfrmDefaultInput.FormCreate(Sender: TObject);
-begin
-  inherited;
-  lblTitle.Caption := Self.Caption;
-end;
 
 procedure TfrmDefaultInput.btnCancelClick(Sender: TObject);
 begin

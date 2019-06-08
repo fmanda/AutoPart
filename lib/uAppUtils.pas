@@ -134,8 +134,8 @@ const
   ADD_KEY = 35891;	{Add default key}
 
   _ColorBarisGrid                 : TColor = $00E1E1E1;
-  _MSG_BERHASIL_SIMPAN            : String = 'Berhasil Menyimpan Data';
-  _MSG_BERHASIL_SIMPAN_NOBUKTI    : String = 'Berhasil Menyimpan Data' + #13
+  _MSG_BERHASIL_SIMPAN            : String = 'Data berhasil disimpan';
+  _MSG_BERHASIL_SIMPAN_NOBUKTI    : String = 'Data berhasil disimpan' + #13
                                     + 'Dengan No Bukti';
 
   _MSG_GAGAL_SIMPAN               : String = 'Gagal Menyimpan Data';

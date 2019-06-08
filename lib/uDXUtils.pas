@@ -247,6 +247,7 @@ type
     procedure EnableFiltering(ContainsMode: Boolean = True);
     procedure ExportToXLS(sFileName: String = ''; DoShowInfo: Boolean = True);
     function GetKeyValue: Variant;
+    function GetID: Variant;
     procedure LoadFromSQL(ASQL, AKeyName: String);
     procedure SetExtLookupCombo(ExtLookupProp: TcxExtLookupComboBoxProperties;
         IDField, DisplayField: String; HideIDField: Boolean = True); overload;
@@ -2277,6 +2278,13 @@ begin
   end;
 end;
 
+function TcxServerGridHelper.GetID: Variant;
+begin
+  Result := 0;
+  if not VarIsNull(GetKeyValue) then
+    Result := VarToInt(GetKeyValue);
+end;
+
 procedure TcxServerGridHelper.LoadFromSQL(ASQL, AKeyName: String);
 begin
   if Self.DataController.DataSource = nil then
@@ -2288,9 +2296,11 @@ begin
     SQL.Text := ASQL;
     KeyFieldNames := AKeyName;
     Connection := FDConnection;
+    if IsConnected then Close;
     Open;
   end;
   Self.DataController.CreateAllItems(True);
+  Self.SetVisibleColumns([AKeyName],False);
 end;
 
 procedure TcxServerGridHelper.SetExtLookupCombo(ExtLookupProp:

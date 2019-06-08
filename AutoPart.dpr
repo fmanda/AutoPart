@@ -17,7 +17,10 @@ uses
   ufrmDefaultReport in 'forms\ufrmDefaultReport.pas' {frmDefaultReport},
   ufrmTest in 'forms\ufrmTest.pas' {frmTest},
   ufrmDefaultServerBrowse in 'forms\ufrmDefaultServerBrowse.pas' {frmDefaultServerBrowse},
-  CRUDObject in 'lib\CRUDObject.pas';
+  CRUDObject in 'lib\CRUDObject.pas',
+  uUOM in 'classes\uUOM.pas',
+  ufrmBrowseUOM in 'forms\ufrmBrowseUOM.pas' {frmBrowseUOM},
+  ufrmUOM in 'forms\ufrmUOM.pas' {frmUOM};
 
 {$R *.res}
 
@@ -26,5 +29,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmUOM, frmUOM);
   Application.Run;
 end.
