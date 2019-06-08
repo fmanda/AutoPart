@@ -45,19 +45,26 @@ inherited frmTest: TfrmTest
     TabOrder = 2
     object cxGrid1ServerModeTableView1: TcxGridServerModeTableView
       Navigator.Buttons.CustomButtons = <>
+      OnCellDblClick = cxGrid1ServerModeTableView1CellDblClick
+      DataController.Filter.Options = [fcoCaseInsensitive]
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      Filtering.MRUItemsList = False
+      Filtering.ColumnAddValueItems = False
+      Filtering.ColumnMRUItemsList = False
+      FilterRow.Visible = True
+      FilterRow.OperatorCustomization = True
+      OptionsData.CancelOnExit = False
+      OptionsData.Deleting = False
+      OptionsData.DeletingConfirmation = False
+      OptionsData.Editing = False
+      OptionsData.Inserting = False
+      OptionsView.GroupByBox = False
     end
     object cxGrid1Level1: TcxGridLevel
       GridView = cxGrid1ServerModeTableView1
     end
-  end
-  object cxExtLookupComboBox1: TcxExtLookupComboBox
-    Left = 320
-    Top = 192
-    TabOrder = 3
-    Width = 145
   end
   object dxServerModeFireDACQueryDataSource1: TdxServerModeFireDACQueryDataSource
     SQL.Strings = (

@@ -46,8 +46,6 @@ object frmMain: TfrmMain
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    ExplicitTop = 447
-    ExplicitWidth = 859
   end
   object dxRibbon1: TdxRibbon
     Left = 0
@@ -61,7 +59,6 @@ object frmMain: TfrmMain
     Contexts = <>
     TabOrder = 1
     TabStop = False
-    ExplicitWidth = 859
     object dxRTApp: TdxRibbonTab
       Caption = 'Aplikasi'
       Groups = <

@@ -23,11 +23,13 @@ type
     dxServerModeFireDACQueryDataSource1: TdxServerModeFireDACQueryDataSource;
     cxGridViewRepository1: TcxGridViewRepository;
     cxGridViewRepository1ServerModeTableView1: TcxGridServerModeTableView;
-    cxExtLookupComboBox1: TcxExtLookupComboBox;
     cxGridViewRepository1TableView1: TcxGridTableView;
     cxGridViewRepository1DBTableView1: TcxGridDBTableView;
     cxGridViewRepository1ServerModeBandedTableView1: TcxGridServerModeBandedTableView;
     procedure btnSaveClick(Sender: TObject);
+    procedure cxGrid1ServerModeTableView1CellDblClick(Sender:
+        TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
+        AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
   private
     { Private declarations }
   public
@@ -44,10 +46,16 @@ implementation
 uses uDBUtils, uDXUtils;
 
 procedure TfrmTest.btnSaveClick(Sender: TObject);
+var
+  i: Integer;
 begin
   inherited;
   cxGrid1ServerModeTableView1.LoadFromSQL('select * from tblstok','KdBar');
-  cxExtLookupComboBox1.Properties.LoadServerMode('select KdBar, NamaBarang from tblstok','KdBar','NamaBarang',[], Self);
+  cxGrid1ServerModeTableView1.EnableFiltering;
+
+
+//  cxExtLookupComboBox1.Properties.LoadServerMode('select KdBar, NamaBarang from tblstok','KdBar','NamaBarang',[], Self);
+
 //  dxServerModeFireDACQueryDataSource1.Connection := FDConnection;
 //  dxServerModeFireDACQueryDataSource1.SQLAdapterClassName := 'TdxServerModeMSSQLAdapter';
 //  dxServerModeFireDACQueryDataSource1.SQL.Text :='select * from TblStok';
@@ -59,4 +67,15 @@ begin
 
 
 end;
+
+procedure TfrmTest.cxGrid1ServerModeTableView1CellDblClick(Sender:
+    TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
+    AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
+begin
+  inherited;
+  showmessage(
+    VarToStr(cxGrid1ServerModeTableView1.Controller.SelectedRecords[0].Values[1])
+  );
+end;
+
 end.

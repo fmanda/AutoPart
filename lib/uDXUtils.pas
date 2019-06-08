@@ -244,6 +244,9 @@ type
 
   TcxServerGridHelper = class helper for TcxGridServerModeTableView
   public
+    procedure EnableFiltering(ContainsMode: Boolean = True);
+    procedure ExportToXLS(sFileName: String = ''; DoShowInfo: Boolean = True);
+    function GetKeyValue: Variant;
     procedure LoadFromSQL(ASQL, AKeyName: String);
     procedure SetExtLookupCombo(ExtLookupProp: TcxExtLookupComboBoxProperties;
         IDField, DisplayField: String; HideIDField: Boolean = True); overload;
@@ -681,7 +684,7 @@ var
   i: Integer;
 begin
   //June 2019 : it doesnt work...
-  aRepo := nil;                                                                   GB5TG54R3C,4VKNU.. TFTHGB
+  aRepo := nil;
   for i := 0 to aOwnerForm.ComponentCount - 1 do
   begin
     If aOwnerForm.Components[i] is TcxGridViewRepository then
@@ -2215,6 +2218,62 @@ begin
       Self.ItemIndex := i;
       Break;
     end;
+  end;
+end;
+
+procedure TcxServerGridHelper.EnableFiltering(ContainsMode: Boolean = True);
+var
+  i: Integer;
+begin
+  Self.FilterRow.Visible := True;
+  if ContainsMode then
+  begin
+    Self.FilterRow.OperatorCustomization := True;
+    for i := 0 to Self.ColumnCount-1 do
+      Self.Columns[i].Options.FilterRowOperator := foContains;
+  end;
+end;
+
+procedure TcxServerGridHelper.ExportToXLS(sFileName: String = ''; DoShowInfo:
+    Boolean = True);
+var
+  DoSave: Boolean;
+  lSaveDlg: TSaveDialog;
+begin
+  DoSave := True;
+  If sFileName = '' then
+  begin
+    lSaveDlg := TSaveDialog.Create(nil);
+    Try
+      if lSaveDlg.Execute then
+        sFileName := lSaveDlg.FileName
+      else
+        DoSave := False;
+    Finally
+      lSaveDlg.Free;
+    End;
+  end;
+
+  If DoSave then
+  begin
+    Try
+      ExportGridToExcel(sFileName, TcxGrid(Self.Control));
+      If DoSHowInfo then TAppUtils.Information('Data berhasil diexport ke: ' + sFileName);
+    except
+      If DoSHowInfo then TAppUtils.Warning('Gagal menyimpan data ke excel');
+    end;
+  end;
+end;
+
+function TcxServerGridHelper.GetKeyValue: Variant;
+var
+  iCol: Integer;
+begin
+  Result := null;
+  if Self.Controller.SelectedRecordCount > 0 then
+  begin
+    iCol   := Self.GetColumnByFieldName(Self.DataController.DataSource.KeyFieldNames).Index;
+    Result := Self.Controller.SelectedRecords[0].Values[iCol];
   end;
 end;
 

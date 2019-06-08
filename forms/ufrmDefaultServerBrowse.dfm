@@ -1,31 +1,26 @@
-inherited frmDefaultBrowse: TfrmDefaultBrowse
-  Caption = 'frmDefaultBrowse'
-  ClientHeight = 383
-  ClientWidth = 611
-  FormStyle = fsMDIChild
-  Visible = True
-  WindowState = wsMaximized
+inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
+  Caption = 'frmDefaultServerBrowse'
+  ClientHeight = 440
+  ClientWidth = 641
   OnCreate = FormCreate
-  ExplicitWidth = 627
-  ExplicitHeight = 422
+  ExplicitWidth = 657
+  ExplicitHeight = 479
   PixelsPerInch = 96
   TextHeight = 13
   object cxGrid: TcxGrid
     Left = 0
     Top = 35
-    Width = 611
-    Height = 313
+    Width = 641
+    Height = 370
     Align = alClient
     TabOrder = 0
-    object cxGrdMain: TcxGridDBTableView
+    ExplicitWidth = 611
+    ExplicitHeight = 313
+    object cxGrdMain: TcxGridServerModeTableView
       Navigator.Buttons.CustomButtons = <>
-      DataController.Filter.Options = [fcoCaseInsensitive]
-      DataController.Filter.Active = True
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
-      FilterRow.Visible = True
-      FilterRow.ApplyChanges = fracImmediately
       OptionsData.CancelOnExit = False
       OptionsData.Deleting = False
       OptionsData.DeletingConfirmation = False
@@ -40,18 +35,20 @@ inherited frmDefaultBrowse: TfrmDefaultBrowse
   end
   object cxGroupBox2: TcxGroupBox
     Left = 0
-    Top = 348
+    Top = 405
     Align = alBottom
     PanelStyle.Active = True
     Style.BorderStyle = ebsFlat
     Style.LookAndFeel.NativeStyle = False
     StyleDisabled.LookAndFeel.NativeStyle = False
     TabOrder = 1
+    ExplicitTop = 348
+    ExplicitWidth = 611
     Height = 35
-    Width = 611
+    Width = 641
     object btnTutup: TcxButton
       AlignWithMargins = True
-      Left = 531
+      Left = 561
       Top = 5
       Width = 75
       Height = 25
@@ -61,6 +58,7 @@ inherited frmDefaultBrowse: TfrmDefaultBrowse
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
       OnClick = btnTutupClick
+      ExplicitLeft = 531
     end
     object btnExport: TcxButton
       AlignWithMargins = True
@@ -147,11 +145,12 @@ inherited frmDefaultBrowse: TfrmDefaultBrowse
     Style.LookAndFeel.NativeStyle = False
     StyleDisabled.LookAndFeel.NativeStyle = False
     TabOrder = 2
+    ExplicitWidth = 611
     Height = 35
-    Width = 611
+    Width = 641
     object btnRefresh: TcxButton
       AlignWithMargins = True
-      Left = 531
+      Left = 561
       Top = 5
       Width = 75
       Height = 25
@@ -161,45 +160,50 @@ inherited frmDefaultBrowse: TfrmDefaultBrowse
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
       OnClick = btnRefreshClick
+      ExplicitLeft = 531
     end
     object EndDate: TcxDateEdit
       AlignWithMargins = True
-      Left = 425
+      Left = 455
       Top = 5
       Align = alRight
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 1
       Visible = False
+      ExplicitLeft = 425
       Width = 100
     end
     object StartDate: TcxDateEdit
       AlignWithMargins = True
-      Left = 300
+      Left = 330
       Top = 5
       Align = alRight
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 2
       Visible = False
+      ExplicitLeft = 198
       Width = 100
     end
     object cxLabel1: TcxLabel
-      Left = 230
+      Left = 260
       Top = 2
       Align = alRight
       Caption = 'Filter Periode'
       Properties.Alignment.Vert = taVCenter
       Visible = False
+      ExplicitLeft = 74
       AnchorY = 18
     end
     object cxLabel2: TcxLabel
-      Left = 403
+      Left = 433
       Top = 2
       Align = alRight
       Caption = 's/d'
       Properties.Alignment.Vert = taVCenter
       Visible = False
+      ExplicitLeft = 301
       AnchorY = 18
     end
     object lblTitle: TcxLabel
@@ -221,8 +225,8 @@ inherited frmDefaultBrowse: TfrmDefaultBrowse
     end
   end
   object styleRepo: TcxStyleRepository
-    Left = 64
-    Top = 80
+    Left = 184
+    Top = 104
     PixelsPerInch = 96
     object styleOdd: TcxStyle
       AssignedValues = [svColor]

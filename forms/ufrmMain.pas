@@ -184,6 +184,7 @@ end;
 
 procedure TfrmMain.DoLogin;
 begin
+  exit;
   with TfrmLogin.Create(Self) do
   begin
     Try

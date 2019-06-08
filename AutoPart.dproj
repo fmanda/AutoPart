@@ -78,6 +78,7 @@
         <AppEnableHighDPI>true</AppEnableHighDPI>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <DCC_ExeOutput>bin</DCC_ExeOutput>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -93,48 +94,51 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="ufrmMain.pas">
+        <DCCReference Include="forms\ufrmMain.pas">
             <Form>frmMain</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\lib\CRUDObject.pas"/>
-        <DCCReference Include="..\lib\uAppUtils.pas"/>
-        <DCCReference Include="..\lib\uDBUtils.pas"/>
-        <DCCReference Include="..\lib\uDMReport.pas">
+        <DCCReference Include="lib\uAppUtils.pas"/>
+        <DCCReference Include="lib\uDBUtils.pas"/>
+        <DCCReference Include="lib\uDMReport.pas">
             <Form>DMReport</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\lib\uDXUtils.pas"/>
-        <DCCReference Include="..\lib\ufrmCXLookup.pas">
+        <DCCReference Include="lib\uDXUtils.pas"/>
+        <DCCReference Include="lib\ufrmCXLookup.pas">
             <Form>frmCXLookup</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\lib\ufrmCXMsgInfo.pas">
+        <DCCReference Include="lib\ufrmCXMsgInfo.pas">
             <Form>frmCXMsgInfo</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="ufrmLogin.pas"/>
-        <DCCReference Include="ufrmSetKoneksi.pas"/>
-        <DCCReference Include="ufrmDefault.pas">
+        <DCCReference Include="forms\ufrmLogin.pas"/>
+        <DCCReference Include="forms\ufrmSetKoneksi.pas"/>
+        <DCCReference Include="forms\ufrmDefault.pas">
             <Form>frmDefault</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="ufrmDefaultBrowse.pas">
+        <DCCReference Include="forms\ufrmDefaultBrowse.pas">
             <Form>frmDefaultBrowse</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="ufrmDefaultInput.pas">
+        <DCCReference Include="forms\ufrmDefaultInput.pas">
             <Form>frmDefaultInput</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="ufrmDefaultReport.pas">
+        <DCCReference Include="forms\ufrmDefaultReport.pas">
             <Form>frmDefaultReport</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="ufrmTest.pas">
+        <DCCReference Include="forms\ufrmTest.pas">
             <Form>frmTest</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="forms\ufrmDefaultServerBrowse.pas">
+            <Form>frmDefaultServerBrowse</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="lib\CRUDObject.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
