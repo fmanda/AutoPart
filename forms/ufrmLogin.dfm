@@ -370,6 +370,7 @@ inherited frmLogin: TfrmLogin
     Properties.ReadOnly = True
     Style.BorderStyle = ebsNone
     TabOrder = 5
+    Transparent = True
     Height = 149
     Width = 268
   end

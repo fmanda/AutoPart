@@ -17,7 +17,8 @@ uses
   System.TypInfo, cxButtonEdit, System.DateUtils, cxCalc, cxGridLevel,
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, dxServerModeFireDACDataSource,
+  cxGridServerModeTableView;
 
 
 type
@@ -71,6 +72,8 @@ type
         HideFields: Array Of String; aOwnerForm: TComponent); overload;
     procedure LoadFromCDS(aCDS: TClientDataSet; IDField, DisplayField: String;
         aOwnerForm: TComponent); overload;
+    procedure LoadServerMode(ASQL, IDField, DisplayField: String; HideFields: Array
+        Of String; aOwnerForm: TComponent); overload;
     procedure LoadFromSQL(aSQL, IDField, DisplayField: String; HideFields: Array Of
         String; aOwnerForm: TComponent);
     procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
@@ -237,6 +240,17 @@ type
     function Validate: Boolean;
     function Values(ARec, ACol : Integer): Variant; overload;
     function Values(ARec : Integer; AColumnCaption : String): Variant; overload;
+  end;
+
+  TcxServerGridHelper = class helper for TcxGridServerModeTableView
+  public
+    procedure LoadFromSQL(ASQL, AKeyName: String);
+    procedure SetExtLookupCombo(ExtLookupProp: TcxExtLookupComboBoxProperties;
+        IDField, DisplayField: String; HideIDField: Boolean = True); overload;
+    procedure SetVisibleColumns(ColumnIndexes: Array Of Integer; IsVisible:
+        Boolean); overload;
+    procedure SetVisibleColumns(ColumnSets: Array Of String; IsVisible: Boolean);
+        overload;
   end;
 
 type
@@ -659,13 +673,61 @@ begin
   Self.LoadFromCDS(aCDS, IDField, DisplayField,[IDField], aOwnerForm);
 end;
 
+procedure TcxExtLookupPropHelper.LoadServerMode(ASQL, IDField, DisplayField:
+    String; HideFields: Array Of String; aOwnerForm: TComponent);
+var
+  aRepo: TcxGridViewRepository;
+  aView: TcxGridServerModeTableView;
+  i: Integer;
+begin
+  //June 2019 : it doesnt work...
+  aRepo := nil;                                                                   GB5TG54R3C,4VKNU.. TFTHGB
+  for i := 0 to aOwnerForm.ComponentCount - 1 do
+  begin
+    If aOwnerForm.Components[i] is TcxGridViewRepository then
+    begin
+      aRepo := aOwnerForm.Components[i] as TcxGridViewRepository;
+      break;
+    end;
+  end;
+  If not Assigned(aRepo) then
+  begin
+    aRepo := TcxGridViewRepository.Create( aOwnerForm );
+    aRepo.Name  := 'ViewRepository_' + IntToStr(Integer(aRepo));
+
+  end;
+  aView       := aRepo.CreateItem(TcxGridServerModeTableView) as TcxGridServerModeTableView;
+  aView.Name  := 'ServerGridView_' + IntToStr(Integer(aView));
+
+  aView.OptionsView.GroupByBox        := False;
+  aView.DataController.Filter.Active  := True;
+  aView.FilterBox.Visible             := fvNever;
+
+  aView.LoadFromSQL(ASQL, IDField);
+  aView.SetVisibleColumns(HideFields,False);
+  aView.SetExtLookupCombo(Self, IDField, DisplayField, False);
+  aView.FindPanel.DisplayMode := fpdmManual;
+  aView.FindPanel.ClearFindFilterTextOnClose := True;
+//  aView.FindPanel.FocusViewOnApplyFilter := True;
+
+
+  If Self.GetOwner is TcxExtLookupComboBox then
+  begin
+    if aView.VisibleColumnCount = 1 then
+    begin
+      If aView.VisibleColumns[0].Width < TcxExtLookupComboBox(Self.GetOwner).Width then
+        aView.VisibleColumns[0].Width := TcxExtLookupComboBox(Self.GetOwner).Width
+    end;
+  end;
+end;
+
 procedure TcxExtLookupPropHelper.LoadFromSQL(aSQL, IDField, DisplayField: String;
     HideFields: Array Of String; aOwnerForm: TComponent);
 var
   lCDS: TClientDataSet;
 begin
-  //method ini hanya digunakan sekali saja,
-  //membuat cds sesuai owner form agar di free on destroy
+//  method ini hanya digunakan sekali saja,
+//  membuat cds sesuai owner form agar di free on destroy
   lCDS := TDBUtils.OpenDataset(aSQL, aOwnerForm);
   Self.LoadFromCDS(lCDS, IDField, DisplayField, HideFields, aOwnerForm);
 end;
@@ -2153,6 +2215,63 @@ begin
       Self.ItemIndex := i;
       Break;
     end;
+  end;
+end;
+
+procedure TcxServerGridHelper.LoadFromSQL(ASQL, AKeyName: String);
+begin
+  if Self.DataController.DataSource = nil then
+    Self.DataController.DataSource := TdxServerModeFireDACQueryDataSource.Create(Self);
+
+  with TdxServerModeFireDACQueryDataSource(Self.DataController.DataSource) do
+  begin
+    SQLAdapterClassName := 'TdxServerModeMSSQLAdapter';
+    SQL.Text := ASQL;
+    KeyFieldNames := AKeyName;
+    Connection := FDConnection;
+    Open;
+  end;
+  Self.DataController.CreateAllItems(True);
+end;
+
+procedure TcxServerGridHelper.SetExtLookupCombo(ExtLookupProp:
+    TcxExtLookupComboBoxProperties; IDField, DisplayField: String; HideIDField:
+    Boolean = True);
+begin
+  if not Assigned(ExtLookupProp) then exit;
+  with ExtLookupProp do
+  begin
+    View              := Self;
+    KeyFieldNames     := IDField;
+    If HideIDField then Self.SetVisibleColumns([IDField],False);
+    ListFieldItem     := Self.GetColumnByFieldName(DisplayField);
+    DropDownAutoSize  := True;
+  end;
+  ExtLookupProp.PopupAutoSize := True;
+  Self.OptionsBehavior.BestFitMaxRecordCount := 0;
+  Self.ApplyBestFit;
+end;
+
+procedure TcxServerGridHelper.SetVisibleColumns(ColumnIndexes: Array Of
+    Integer; IsVisible: Boolean);
+var
+  i: Integer;
+begin
+  for i := Low(ColumnIndexes) to High(ColumnIndexes) do
+  begin
+    Self.Columns[ColumnIndexes[i]].Visible := IsVisible;
+  end;
+end;
+
+procedure TcxServerGridHelper.SetVisibleColumns(ColumnSets: Array Of String;
+    IsVisible: Boolean);
+var
+  i: Integer;
+begin
+  for i := Low(ColumnSets) to High(ColumnSets) do
+  begin
+    If Assigned(Self.GetColumnByFieldName(ColumnSets[i])) then
+      Self.GetColumnByFieldName(ColumnSets[i]).Visible := IsVisible;
   end;
 end;
 
