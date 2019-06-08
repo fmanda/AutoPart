@@ -18,9 +18,13 @@ uses
   ufrmTest in 'forms\ufrmTest.pas' {frmTest},
   ufrmDefaultServerBrowse in 'forms\ufrmDefaultServerBrowse.pas' {frmDefaultServerBrowse},
   CRUDObject in 'lib\CRUDObject.pas',
-  uUOM in 'classes\uUOM.pas',
+  uItem in 'classes\uItem.pas',
   ufrmBrowseUOM in 'forms\ufrmBrowseUOM.pas' {frmBrowseUOM},
-  ufrmUOM in 'forms\ufrmUOM.pas' {frmUOM};
+  ufrmUOM in 'forms\ufrmUOM.pas' {frmUOM},
+  ufrmBrowseItemGroup in 'forms\ufrmBrowseItemGroup.pas' {frmBrowseItemGroup},
+  ufrmItemGroup in 'forms\ufrmItemGroup.pas' {frmItemGroup},
+  ufrmMerk in 'forms\ufrmMerk.pas' {frmMerk},
+  ufrmBrowseMerk in 'forms\ufrmBrowseMerk.pas' {frmBrowseMerk};
 
 {$R *.res}
 
@@ -29,6 +33,5 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmUOM, frmUOM);
   Application.Run;
 end.

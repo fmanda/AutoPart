@@ -79,6 +79,9 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_ExeOutput>bin</DCC_ExeOutput>
+        <Icon_MainIcon>AutoPart_Icon.ico</Icon_MainIcon>
+        <UWP_DelphiLogo44>assets\autopart.png</UWP_DelphiLogo44>
+        <UWP_DelphiLogo150>assets\autopart.png</UWP_DelphiLogo150>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -139,13 +142,29 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="lib\CRUDObject.pas"/>
-        <DCCReference Include="classes\uUOM.pas"/>
+        <DCCReference Include="classes\uItem.pas"/>
         <DCCReference Include="forms\ufrmBrowseUOM.pas">
             <Form>frmBrowseUOM</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="forms\ufrmUOM.pas">
             <Form>frmUOM</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmBrowseItemGroup.pas">
+            <Form>frmBrowseItemGroup</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmItemGroup.pas">
+            <Form>frmItemGroup</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmMerk.pas">
+            <Form>frmMerk</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmBrowseMerk.pas">
+            <Form>frmBrowseMerk</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">
@@ -174,6 +193,13 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
+                <DeployFile LocalName="assets\autopart.png" Configuration="Debug" Class="UWP_DelphiLogo44">
+                    <Platform Name="Win32">
+                        <RemoteDir>Assets\</RemoteDir>
+                        <RemoteName>Logo44x44.png</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="bin\AutoPart.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>AutoPart.exe</RemoteName>

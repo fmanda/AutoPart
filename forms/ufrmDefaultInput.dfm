@@ -25,7 +25,7 @@ inherited frmDefaultInput: TfrmDefaultInput
       Width = 80
       Height = 25
       Align = alRight
-      Caption = 'Batal'
+      Caption = 'Ba&tal'
       OptionsImage.ImageIndex = 5
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 1

@@ -31,6 +31,7 @@ type
 
   {$TYPEINFO ON}
   TCRUDObject = class;
+  TLog = class;
   {$TYPEINFO OFF}
 
   TCRUDObjectClass = class of TCRUDObject;
@@ -38,9 +39,11 @@ type
   private
     FID: Integer;
     FIsShowProgress: Boolean;
+    FLog: TLog;
     function GetSQLDelete: String; overload;
     function GetSQLUpdate: String;
     function GenerateDelete(aSS: TStrings = nil): TStrings;
+    function GetLog: TLog;
   protected
     function AfterSaveToDB: Boolean; dynamic;
     function BeforeSaveToDB: Boolean; dynamic;
@@ -49,7 +52,6 @@ type
         TRttiProperty;
     function FieldNameOf(aprop: TRttiProperty): String; dynamic;
     function GetCodeField: String; dynamic;
-    function GetCodeValue: String;
     function GetHeaderKey: String;
     function GetHeaderProperty: String;
     class function GetPrimaryField: String; dynamic;
@@ -57,11 +59,14 @@ type
     function GetSQLRetrieveDetails(Header_ID: Integer): String; overload; dynamic;
     class function GetTableName: string; dynamic;
     procedure LoadFromDataset(ADataSet: TDataset; LoadObjectList: Boolean = True);
+    function LogLevel: Integer; dynamic;
     procedure PrepareDetailObject(AObjItem: TCRUDObject); dynamic;
     function QuotValue(AProp: TRttiProperty): String;
+    property Log: TLog read GetLog write FLog;
   public
     constructor Create;
     constructor CreateID(aID: Integer);
+    destructor Destroy; override;
     class function CreateObjectDataSet(aClassType: TCRUDObjectClass; aOwner:
         TComponent; CreateDataSet: Boolean = True): TClientDataSet;
     class function CreateDataSet(aOwner: TComponent; CreateDataSet: Boolean =
@@ -72,6 +77,8 @@ type
     function GetSQLInsert: String;
     function LoadByID(AID: Integer; LoadObjectList: Boolean = True): Boolean;
     function LoadByCode(AKode: string; LoadObjectList: Boolean = True): Boolean;
+    function SaveLogToDB(Transtype: string; CaptureQuery: string = ''): Boolean;
+        dynamic;
     function ReLoad(LoadObjectList: Boolean = False): Boolean;
     function SaveObjectList: Boolean; dynamic;
     function ReUpdateData(DoCommit: Boolean = True): Boolean; dynamic;
@@ -79,7 +86,32 @@ type
     procedure UpdateToDataset(ADataSet: TDataset; RaiseException: Boolean = True);
     property IsShowProgress: Boolean read FIsShowProgress write FIsShowProgress;
   published
+    function GetCodeValue: String;
     property ID: Integer read FID write FID;
+  end;
+
+  TLog = class(TObject)
+  private
+    FObjectClass: String;
+    FObjectID: Integer;
+    FUserName: String;
+    FLogDate: TDateTime;
+    FObjectQuery: WideString;
+    FRefno: string;
+    FTranstype: String;
+    function GetSQLInsert: String;
+    function QuotValue(AProp: TRttiProperty): String;
+  protected
+  public
+    function SaveToDB(DoCommit: Boolean = False): Boolean;
+  published
+    property ObjectClass: String read FObjectClass write FObjectClass;
+    property ObjectID: Integer read FObjectID write FObjectID;
+    property UserName: String read FUserName write FUserName;
+    property LogDate: TDateTime read FLogDate write FLogDate;
+    property ObjectQuery: WideString read FObjectQuery write FObjectQuery;
+    property Refno: string read FRefno write FRefno;
+    property Transtype: String read FTranstype write FTranstype;
   end;
 
   
@@ -110,6 +142,12 @@ constructor TCRUDObject.CreateID(aID: Integer);
 begin
   inherited Create;
   Self.ID := AID;
+end;
+
+destructor TCRUDObject.Destroy;
+begin
+  inherited;
+  if FLog <> nil then FreeAndNil(FLog);
 end;
 
 function TCRUDObject.BeforeSaveToDB: Boolean;
@@ -229,8 +267,11 @@ begin
 end;
 
 function TCRUDObject.GetCodeValue: String;
+var
+  ctx : TRttiContext;
 begin
-  Result := PropFromAttr(AttributeOfCode).GetValue(Self).AsString;
+  ctx.GetType(Self.ClassType); //must use this line before calling GetValue(Self) after Delphi.Berlin... or u get AV
+  Result  := PropFromAttr(AttributeOfCode).GetValue(Self).AsString;
 end;
 
 function TCRUDObject.GetHeaderField: String;
@@ -242,7 +283,10 @@ begin
 end;
 
 function TCRUDObject.GetHeaderKey: String;
+var
+  ctx : TRttiContext;
 begin
+  ctx.GetType(Self.ClassType); //must use this line before calling GetValue(Self) after Delphi.Berlin... or u get AV
   Result := PropFromAttr(AttributeOfHeader).GetValue(Self).AsString;
 end;
 
@@ -585,6 +629,9 @@ end;
 function TCRUDObject.SaveToDB(DoCommit: Boolean = True): Boolean;
 var
   IsNewTrans: Boolean;
+  DoSaveLog: Boolean;
+  LastSQL: string;
+  sTransType: string;
 begin
   Result := False;
   IsNewTrans := True;
@@ -593,17 +640,35 @@ begin
     if not BeforeSaveTODB then
       Raise Exception.Create('Before Save To DB Failed');
 
-    IsNewTrans := Self.ID <= 0;
+    IsNewTrans    := Self.ID <= 0;
+    DoSaveLog       := LogLevel = 1;
+
     If IsNewTrans then
-      Self.ID := TDBUtils.ExecuteSQLIdent(Self.GetSQLInsert)
-    else
-      TDBUtils.ExecuteSQL(Self.GetSQLUpdate, False);
+    begin
+      sTransType  := 'Insert';
+      LastSQL     := Self.GetSQLInsert;
+      Self.ID     := TDBUtils.ExecuteSQLIdent(LastSQL);
+    end else
+    begin
+      sTransType  := 'Update';
+      LastSQL     := Self.GetSQLUpdate;
+      TDBUtils.ExecuteSQL(LastSQL, False);
+
+      DoSaveLog     := LogLevel in [1,2]; //all or update and delete only
+    end;
 
     if not SaveObjectList then
       Raise Exception.Create('Save ObjectList Failed');
 
     if not AfterSaveTODB then
       Raise Exception.Create('Before Save To DB Failed');
+
+    //save Log
+
+
+    if DoSaveLog then
+      if not SaveLogToDB(sTransType, LastSQL) then
+        Raise Exception.Create('Save Log To DB Failed');
 
     if DoCommit then
       TDBUtils.Commit;
@@ -633,6 +698,13 @@ begin
         Raise Exception.Create('Before Delete DB Failed');
 
       lSS := Self.GenerateDelete;
+
+      //for log purpose
+      if LogLevel in [1,2] then
+      begin
+        Self.SaveLogToDB('Delete', Self.GetSQLDelete);
+      end;
+
       Result := TDBUtils.ExecuteSQL(lSS, True);
     except
       TDBUtils.RollBack;
@@ -641,6 +713,14 @@ begin
   Finally
     lSS.Free;
   End;
+end;
+
+function TCRUDObject.GetLog: TLog;
+begin
+  if FLog = nil then
+    FLog := TLog.Create;
+
+  Result := FLog;
 end;
 
 function TCRUDObject.GetSQLDeleteDetails(Header_ID: Integer): String;
@@ -821,6 +901,28 @@ begin
   End;
 end;
 
+function TCRUDObject.LogLevel: Integer;
+begin
+  Result := 0; //no log
+  //1 : all
+  //2 : update and delete only
+ end;
+
+function TCRUDObject.SaveLogToDB(Transtype: string; CaptureQuery: string = ''):
+    Boolean;
+begin
+  Log.ObjectClass   := Self.ClassName;
+  Log.ObjectID      := Self.ID;
+  Log.UserName      := TDBUtils.GetUserLogin;
+  Log.LogDate       := Now();
+  Log.ObjectQuery   := CaptureQuery;
+
+//  if Self.PropFromAttr(AttributeOfCode,False) <> nil then
+    Log.Refno       := Self.GetCodeValue;
+
+  Result            := Log.SaveToDB();
+end;
+
 procedure TCRUDObject.PrepareDetailObject(AObjItem: TCRUDObject);
 begin
   // TODO -cMM: TCRUDObject.PrepareDetailObject default body inserted
@@ -941,6 +1043,75 @@ end;
 constructor AttributeOfCustom.Create(aCustomField: string = '');
 begin
   Self.CustomField := aCustomField;
+end;
+
+function TLog.GetSQLInsert: String;
+var
+  ctx : TRttiContext;
+  rt : TRttiType;
+  prop : TRttiProperty;
+  FieldValues : string;
+  FieldNames: String;
+begin
+  FieldValues := '';
+  FieldNames  := '';
+
+//  if AObject.ID = '' then AObject.ID := TLog.GetNextIDGUIDToString();
+
+  rt := ctx.GetType(Self.ClassType);
+  for prop in rt.GetProperties do
+  begin
+    If prop.Visibility <> mvPublished then continue;
+
+    if (UpperCase(prop.Name) = 'ID') then
+      continue;
+
+    If FieldNames <> '' then FieldNames := FieldNames + ',';
+    If FieldValues <> '' then FieldValues := FieldValues + ',';
+
+    FieldNames  := FieldNames + prop.Name;
+    FieldValues   := FieldValues + Self.QuotValue(prop);
+  end;
+
+  Result :=  Format(SQL_Insert,[Self.ClassName,FieldNames, FieldValues]);
+end;
+
+function TLog.QuotValue(AProp: TRttiProperty): String;
+var
+  lDate: TDateTime;
+begin
+  If LowerCase(AProp.PropertyType.Name) = LowerCase('TDateTime') then
+  begin
+    lDate := AProp.GetValue(Self).AsExtended;
+    Result :=  QuotedStr(FormatDateTime('yyyy-mm-dd hh:mm:ss',lDate));
+  end else begin
+    case AProp.PropertyType.TypeKind of
+      tkInteger, tkInt64:
+        Result := InttoStr(AProp.GetValue(Self).AsInteger);
+      tkFloat:
+        Result := FloatToStr(AProp.GetValue(Self).AsExtended);
+      tkString, tkLString, tkUString, tkChar, tkWString, tkVariant:
+        Result := QuotedStr(AProp.GetValue(Self).AsString);
+      tkEnumeration:
+        Result := BoolToStr(AProp.GetValue(Self).AsBoolean);
+    else
+      Raise Exception.Create(
+        'Property Type tidak terdaftar atas ' + Self.ClassName + ',' + AProp.Name);
+    end;
+  end;
+end;
+
+function TLog.SaveToDB(DoCommit: Boolean = False): Boolean;
+begin
+  Result := False;
+  Try
+    TDBUtils.ExecuteSQL(Self.GetSQLInsert, False);
+    if DoCommit then TDBUtils.Commit;
+    if not Result then Result := True;
+  except
+    TDBUtils.RollBack;
+    Raise;
+  End;
 end;
 
 end.

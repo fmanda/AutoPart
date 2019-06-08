@@ -56,11 +56,14 @@ type
     class function QuotDShort(aDate : TDateTime): String; overload;
     class function QuotF(ANumber : Double): String;
     class procedure RollBack;
+    class procedure SetUserLogin(aUser: string);
+    class function GetUserLogin: String;
   end;
 
 var
   FDConnection  : TFDConnection;
   FDTransaction : TFDTransaction;
+  UserLogin : String;
   DebugSS : TStrings;
 
 const
@@ -569,6 +572,16 @@ begin
     Q.SQL.Clear;
     FreeAndNIl(Q);
   End;
+end;
+
+class procedure TDBUtils.SetUserLogin(aUser: string);
+begin
+  UserLogin := aUser;
+end;
+
+class function TDBUtils.GetUserLogin: String;
+begin
+  Result := UserLogin;
 end;
 
 initialization

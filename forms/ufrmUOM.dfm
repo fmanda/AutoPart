@@ -40,7 +40,7 @@ inherited frmUOM: TfrmUOM
     Width = 77
   end
   object cxLabel2: TcxLabel
-    Left = 24
+    Left = 27
     Top = 69
     Caption = 'Deskripsi'
   end

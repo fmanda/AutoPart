@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
   Left = 0
   Top = 0
-  Caption = 'Sistem Informasi Penjualan Mesin'
+  Caption = 'AutoPart - [Software Manajemen Bengkel & Toko Sparepart]'
   ClientHeight = 539
   ClientWidth = 867
   Color = clScrollBar
@@ -78,37 +78,38 @@ object frmMain: TfrmMain
         end
         item
           ToolbarName = 'dxBarManagerBar3'
-        end
-        item
-          ToolbarName = 'dxBarManagerBar4'
         end>
       Index = 1
     end
-    object dxRTTrans: TdxRibbonTab
-      Caption = 'Transaction'
-      Groups = <
-        item
-          ToolbarName = 'dxBarManagerBar5'
-        end
-        item
-          ToolbarName = 'dxBarManagerBar6'
-        end
-        item
-          ToolbarName = 'dxBarManagerBar7'
-        end>
+    object dxRTInventory: TdxRibbonTab
+      Caption = 'Inventory'
+      Groups = <>
       Index = 2
     end
-    object dxRTReport: TdxRibbonTab
-      Caption = 'Report'
-      Groups = <
-        item
-          ToolbarName = 'dxBarManagerBar9'
-        end
-        item
-          ToolbarName = 'dxBarManagerBar8'
-        end>
+    object dxRTSales: TdxRibbonTab
+      Caption = 'Kasir & Penjualan'
+      Groups = <>
       Index = 3
     end
+    object dxRTARAP: TdxRibbonTab
+      Caption = 'Hutang & Piutang'
+      Groups = <>
+      Index = 4
+    end
+    object dxRTManagement: TdxRibbonTab
+      Caption = 'Manajemen'
+      Groups = <>
+      Index = 5
+    end
+  end
+  object cxButton1: TcxButton
+    Left = 160
+    Top = 272
+    Width = 75
+    Height = 25
+    Caption = 'cxButton1'
+    TabOrder = 6
+    OnClick = cxButton1Click
   end
   object dxBarManager: TdxBarManager
     Font.Charset = DEFAULT_CHARSET
@@ -132,11 +133,11 @@ object frmMain: TfrmMain
     UseBarHintWindow = False
     UseF10ForMenu = False
     UseSystemFont = True
-    Left = 648
-    Top = 49
+    Left = 752
+    Top = 177
     PixelsPerInch = 96
     object dxBarManagerBar1: TdxBar
-      Caption = 'Bahan & Produk'
+      Caption = 'Maintenance Data Item'
       CaptionButtons = <>
       DockedLeft = 0
       DockedTop = 0
@@ -159,15 +160,15 @@ object frmMain: TfrmMain
         end
         item
           Visible = True
-          ItemName = 'dxBarButton11'
+          ItemName = 'dxBarButton30'
         end
         item
           Visible = True
-          ItemName = 'dxBarButton5'
+          ItemName = 'dxBarButton33'
         end
         item
           Visible = True
-          ItemName = 'dxBarButton26'
+          ItemName = 'dxBarButton31'
         end>
       OneOnRow = False
       Row = 0
@@ -204,183 +205,15 @@ object frmMain: TfrmMain
       WholeRow = False
     end
     object dxBarManagerBar3: TdxBar
-      Caption = 'Lawan Transaksi'
+      Caption = 'Business Partner'
       CaptionButtons = <>
-      DockedLeft = 250
+      DockedLeft = 221
       DockedTop = 0
       FloatLeft = 656
       FloatTop = 8
       FloatClientWidth = 0
       FloatClientHeight = 0
-      ItemLinks = <
-        item
-          Visible = True
-          ItemName = 'dxBarButton6'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton7'
-        end>
-      OneOnRow = False
-      Row = 0
-      UseOwnFont = False
-      Visible = True
-      WholeRow = False
-    end
-    object dxBarManagerBar4: TdxBar
-      Caption = 'Office'
-      CaptionButtons = <>
-      DockedLeft = 345
-      DockedTop = 0
-      FloatLeft = 656
-      FloatTop = 8
-      FloatClientWidth = 0
-      FloatClientHeight = 0
-      ItemLinks = <
-        item
-          Visible = True
-          ItemName = 'dxBarButton8'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton9'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton10'
-        end>
-      OneOnRow = False
-      Row = 0
-      UseOwnFont = False
-      Visible = True
-      WholeRow = False
-    end
-    object dxBarManagerBar5: TdxBar
-      Caption = 'Penjualan - Produksi'
-      CaptionButtons = <>
-      DockedLeft = 0
-      DockedTop = 0
-      FloatLeft = 893
-      FloatTop = 8
-      FloatClientWidth = 0
-      FloatClientHeight = 0
-      ItemLinks = <
-        item
-          Visible = True
-          ItemName = 'dxBarButton13'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton14'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton15'
-        end>
-      OneOnRow = False
-      Row = 0
-      UseOwnFont = False
-      Visible = True
-      WholeRow = False
-    end
-    object dxBarManagerBar6: TdxBar
-      Caption = 'Pengadaan Material'
-      CaptionButtons = <>
-      DockedLeft = 205
-      DockedTop = 0
-      FloatLeft = 893
-      FloatTop = 8
-      FloatClientWidth = 0
-      FloatClientHeight = 0
-      ItemLinks = <
-        item
-          Visible = True
-          ItemName = 'dxBarButton16'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton17'
-        end>
-      OneOnRow = False
-      Row = 0
-      UseOwnFont = False
-      Visible = True
-      WholeRow = False
-    end
-    object dxBarManagerBar7: TdxBar
-      Caption = 'Mutasi Gudang'
-      CaptionButtons = <>
-      DockedLeft = 389
-      DockedTop = 0
-      FloatLeft = 893
-      FloatTop = 8
-      FloatClientWidth = 0
-      FloatClientHeight = 0
-      ItemLinks = <
-        item
-          Visible = True
-          ItemName = 'dxBarButton18'
-        end>
-      OneOnRow = False
-      Row = 0
-      UseOwnFont = False
-      Visible = True
-      WholeRow = False
-    end
-    object dxBarManagerBar8: TdxBar
-      Caption = 'Analisa Penjualan - Produksi'
-      CaptionButtons = <>
-      DockedLeft = 151
-      DockedTop = 0
-      FloatLeft = 893
-      FloatTop = 8
-      FloatClientWidth = 0
-      FloatClientHeight = 0
-      ItemLinks = <
-        item
-          Visible = True
-          ItemName = 'dxBarButton20'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton21'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton22'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton29'
-        end>
-      OneOnRow = False
-      Row = 0
-      UseOwnFont = False
-      Visible = True
-      WholeRow = False
-    end
-    object dxBarManagerBar9: TdxBar
-      Caption = 'Mutasi Stock'
-      CaptionButtons = <>
-      DockedLeft = 0
-      DockedTop = 0
-      FloatLeft = 893
-      FloatTop = 8
-      FloatClientWidth = 0
-      FloatClientHeight = 0
-      ItemLinks = <
-        item
-          Visible = True
-          ItemName = 'dxBarButton25'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton23'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton24'
-        end>
+      ItemLinks = <>
       OneOnRow = False
       Row = 0
       UseOwnFont = False
@@ -388,7 +221,7 @@ object frmMain: TfrmMain
       WholeRow = False
     end
     object dxBarLargeButton1: TdxBarLargeButton
-      Action = actMasterUOM
+      Action = actUOM
       Category = 0
     end
     object dxBarSubItem1: TdxBarSubItem
@@ -398,10 +231,9 @@ object frmMain: TfrmMain
       ItemLinks = <>
     end
     object dxBarButton1: TdxBarButton
-      Action = actMasterUOM
+      Action = actUOM
       Caption = 'UOM / Satuan'
       Category = 0
-      ImageIndex = 13
     end
     object dxBarButton2: TdxBarButton
       Action = actSettingKoneksi
@@ -409,16 +241,12 @@ object frmMain: TfrmMain
       ImageIndex = 20
     end
     object dxBarButton3: TdxBarButton
-      Caption = 'Material Category'
+      Action = actItemGroup
       Category = 0
-      Visible = ivAlways
-      ImageIndex = 10
     end
     object dxBarButton4: TdxBarButton
-      Caption = 'Material'
+      Action = actMerk
       Category = 0
-      Visible = ivAlways
-      ImageIndex = 12
     end
     object dxBarButton5: TdxBarButton
       Caption = 'Product'
@@ -569,10 +397,35 @@ object frmMain: TfrmMain
       Visible = ivNever
       ImageIndex = 13
     end
+    object dxBarSubItem2: TdxBarSubItem
+      Caption = 'New SubItem'
+      Category = 0
+      Visible = ivAlways
+      ItemLinks = <>
+    end
+    object dxBarButton30: TdxBarButton
+      Action = actItem
+      Category = 0
+    end
+    object dxBarButton31: TdxBarButton
+      Action = actQuotation
+      Category = 0
+    end
+    object dxBarButton32: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxBarButton33: TdxBarButton
+      Action = actService
+      Category = 0
+    end
   end
   object ActionManager: TActionManager
-    Left = 544
-    Top = 128
+    Images = ImageList
+    Left = 752
+    Top = 160
     StyleName = 'Platform Default'
     object actLogin: TAction
       Category = 'Application'
@@ -584,20 +437,48 @@ object frmMain: TfrmMain
       Caption = 'Setting Koneksi'
       OnExecute = actSettingKoneksiExecute
     end
-    object actMasterUOM: TAction
+    object actUOM: TAction
       Category = 'Master'
       Caption = 'Data UOM / Satuan'
-      OnExecute = actMasterUOMExecute
+      ImageIndex = 13
+      OnExecute = actUOMExecute
     end
     object actHelp: TAction
       Category = 'Application'
       Caption = 'Bantuan Alur Program'
     end
+    object actItemGroup: TAction
+      Category = 'Master'
+      Caption = 'Item Group'
+      ImageIndex = 12
+      OnExecute = actItemGroupExecute
+    end
+    object actMerk: TAction
+      Category = 'Master'
+      Caption = 'Data Merk'
+      ImageIndex = 8
+      OnExecute = actMerkExecute
+    end
+    object actItem: TAction
+      Category = 'Master'
+      Caption = 'Data Item'
+      ImageIndex = 10
+    end
+    object actQuotation: TAction
+      Category = 'Master'
+      Caption = 'Price Quotation'
+      ImageIndex = 14
+    end
+    object actService: TAction
+      Category = 'Master'
+      Caption = 'Jasa / Service'
+      ImageIndex = 39
+    end
   end
   object ImageList: TcxImageList
     SourceDPI = 96
     FormatVersion = 1
-    DesignInfo = 2622176
+    DesignInfo = 8913664
     ImageInfo = <
       item
         Image.Data = {
@@ -2082,8 +1963,8 @@ object frmMain: TfrmMain
   end
   object cxLookAndFeelController1: TcxLookAndFeelController
     NativeStyle = False
-    Left = 664
-    Top = 120
+    Left = 760
+    Top = 232
   end
   object FDConnection1: TFDConnection
     Params.Strings = (
@@ -2093,7 +1974,7 @@ object frmMain: TfrmMain
       'DriverID=MSSQL'
       'Server=127.0.0.1')
     LoginPrompt = False
-    Left = 784
-    Top = 48
+    Left = 808
+    Top = 184
   end
 end

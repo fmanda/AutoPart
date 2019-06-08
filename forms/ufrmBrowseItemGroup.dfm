@@ -1,5 +1,5 @@
-inherited frmBrowseUOM: TfrmBrowseUOM
-  Caption = 'Browse Data Satuan'
+inherited frmBrowseItemGroup: TfrmBrowseItemGroup
+  Caption = 'Browse Item Group'
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
@@ -34,8 +34,6 @@ inherited frmBrowseUOM: TfrmBrowseUOM
     end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 176
-    Top = 184
     PixelsPerInch = 96
   end
 end

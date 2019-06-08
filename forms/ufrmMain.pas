@@ -14,7 +14,7 @@ uses
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Phys, FireDAC.Phys.MSSQL, FireDAC.Phys.MSSQLDef, FireDAC.VCLUI.Wait,
   Data.DB, FireDAC.Comp.Client, Vcl.StdCtrls, dxRibbonBackstageView,
-  cxImageList;
+  cxImageList, dxNavBarOfficeNavigationBar, Vcl.Menus, cxButtons;
 
 type
   TfrmMain = class(TForm)
@@ -23,12 +23,12 @@ type
     dxRTApp: TdxRibbonTab;
     dxRibbon1: TdxRibbon;
     dxRTMaster: TdxRibbonTab;
-    dxRTTrans: TdxRibbonTab;
-    dxRTReport: TdxRibbonTab;
+    dxRTSales: TdxRibbonTab;
+    dxRTInventory: TdxRibbonTab;
     ActionManager: TActionManager;
     actLogin: TAction;
     actSettingKoneksi: TAction;
-    actMasterUOM: TAction;
+    actUOM: TAction;
     dxBarManagerBar1: TdxBar;
     dxBarLargeButton1: TdxBarLargeButton;
     dxBarSubItem1: TdxBarSubItem;
@@ -44,15 +44,11 @@ type
     dxBarManagerBar3: TdxBar;
     dxBarButton6: TdxBarButton;
     dxBarButton7: TdxBarButton;
-    dxBarManagerBar4: TdxBar;
     dxBarButton8: TdxBarButton;
     dxBarButton9: TdxBarButton;
     dxBarButton10: TdxBarButton;
     dxBarButton11: TdxBarButton;
     dxBarButton12: TdxBarButton;
-    dxBarManagerBar5: TdxBar;
-    dxBarManagerBar6: TdxBar;
-    dxBarManagerBar7: TdxBar;
     dxBarButton13: TdxBarButton;
     dxBarButton14: TdxBarButton;
     dxBarButton15: TdxBarButton;
@@ -60,8 +56,6 @@ type
     dxBarButton17: TdxBarButton;
     dxBarButton18: TdxBarButton;
     dxBarButton19: TdxBarButton;
-    dxBarManagerBar8: TdxBar;
-    dxBarManagerBar9: TdxBar;
     dxBarButton20: TdxBarButton;
     dxBarButton21: TdxBarButton;
     dxBarButton22: TdxBarButton;
@@ -73,10 +67,26 @@ type
     actHelp: TAction;
     dxBarButton28: TdxBarButton;
     dxBarButton29: TdxBarButton;
+    actItemGroup: TAction;
+    actMerk: TAction;
+    actItem: TAction;
+    actQuotation: TAction;
+    dxBarSubItem2: TdxBarSubItem;
+    dxBarButton30: TdxBarButton;
+    dxBarButton31: TdxBarButton;
+    dxBarButton32: TdxBarButton;
+    actService: TAction;
+    dxBarButton33: TdxBarButton;
+    dxRTARAP: TdxRibbonTab;
+    dxRTManagement: TdxRibbonTab;
+    cxButton1: TcxButton;
+    procedure actItemGroupExecute(Sender: TObject);
     procedure actLoginExecute(Sender: TObject);
-    procedure actMasterUOMExecute(Sender: TObject);
+    procedure actMerkExecute(Sender: TObject);
+    procedure actUOMExecute(Sender: TObject);
     procedure actSettingKoneksiExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure cxButton1Click(Sender: TObject);
   private
     function ConnectDB: Boolean;
     { Private declarations }
@@ -94,7 +104,7 @@ implementation
 
 uses
   uDBUtils, uApputils, uDXUtils, ufrmLogin, ufrmSetKoneksi, ufrmTest,
-  ufrmBrowseUOM;
+  ufrmBrowseUOM, ufrmBrowseItemGroup, ufrmBrowseMerk, uItem;
 
 {$R *.dfm}
 
@@ -105,12 +115,22 @@ begin
 end;
 
 
+procedure TfrmMain.actItemGroupExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseItemGroup);
+end;
+
 procedure TfrmMain.actLoginExecute(Sender: TObject);
 begin
   DoLogin;
 end;
 
-procedure TfrmMain.actMasterUOMExecute(Sender: TObject);
+procedure TfrmMain.actMerkExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseMerk);
+end;
+
+procedure TfrmMain.actUOMExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseUOM);
 end;
@@ -165,14 +185,26 @@ begin
 
 end;
 
+procedure TfrmMain.cxButton1Click(Sender: TObject);
+var
+  lMerk: TMerk;
+begin
+  lMerk := TMerk.Create;
+  lMerk.Kode := 'kode';
+  lMerk.Nama := 'nama';
+  ShowMessage(lMerk.GetCodeValue);
+end;
+
 procedure TfrmMain.DoLogin;
 begin
+  TDBUtils.SetUserLogin('programmer');
   exit;
   with TfrmLogin.Create(Self) do
   begin
     Try
       if ShowModal = mrOK then
       begin
+
 //        EnableDisableAction(True);
 //        SetPrivileges(User);
 //        dxRTTrans.Active := True;
