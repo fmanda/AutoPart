@@ -79,7 +79,6 @@ type
     dxBarButton33: TdxBarButton;
     dxRTARAP: TdxRibbonTab;
     dxRTManagement: TdxRibbonTab;
-    cxButton1: TcxButton;
     procedure actItemGroupExecute(Sender: TObject);
     procedure actLoginExecute(Sender: TObject);
     procedure actMerkExecute(Sender: TObject);

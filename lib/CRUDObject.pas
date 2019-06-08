@@ -916,8 +916,9 @@ begin
   Log.UserName      := TDBUtils.GetUserLogin;
   Log.LogDate       := Now();
   Log.ObjectQuery   := CaptureQuery;
+  Log.Transtype     := Transtype;
 
-//  if Self.PropFromAttr(AttributeOfCode,False) <> nil then
+  if Self.PropFromAttr(AttributeOfCode,False) <> nil then
     Log.Refno       := Self.GetCodeValue;
 
   Result            := Log.SaveToDB();

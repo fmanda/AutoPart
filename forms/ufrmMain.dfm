@@ -102,15 +102,6 @@ object frmMain: TfrmMain
       Index = 5
     end
   end
-  object cxButton1: TcxButton
-    Left = 160
-    Top = 272
-    Width = 75
-    Height = 25
-    Caption = 'cxButton1'
-    TabOrder = 6
-    OnClick = cxButton1Click
-  end
   object dxBarManager: TdxBarManager
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
