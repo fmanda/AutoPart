@@ -3,7 +3,7 @@ unit uItem;
 interface
 
 uses
-  CRUDObject, System.Generics.Collections;
+  CRUDObject, System.Generics.Collections, System.SysUtils;
 
 type
   TItem = class;
@@ -25,6 +25,8 @@ type
   private
     FKode: String;
     FNama: String;
+  protected
+    function ValidateDelete: Boolean; override;
   published
     [AttributeOfCode]
     property Kode: String read FKode write FKode;
@@ -57,7 +59,6 @@ type
     FRak: String;
     FPPN: Double;
     FNotes: String;
-    FUOMPCS: TUOM;
     function GetItemUOMs: TObjectList<TItemUOM>;
   public
     destructor Destroy; override;
@@ -73,7 +74,6 @@ type
     property Rak: String read FRak write FRak;
     property PPN: Double read FPPN write FPPN;
     property Notes: String read FNotes write FNotes;
-    property UOMPCS: TUOM read FUOMPCS write FUOMPCS;
   end;
 
   TItemUOM = class(TCRUDObject)
@@ -134,6 +134,12 @@ destructor TItemUOM.Destroy;
 begin
   inherited;
   if FUOM <> nil then FUOM.Free;
+end;
+
+function TItemGroup.ValidateDelete: Boolean;
+begin
+  Result := True;
+//  raise Exception.Create('Error Message');
 end;
 
 end.

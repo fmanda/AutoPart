@@ -1,13 +1,14 @@
-inherited frmBrowseItemGroup: TfrmBrowseItemGroup
-  Caption = 'Browse Item Group'
+inherited frmBrowseItem: TfrmBrowseItem
+  Caption = 'Browse Data Barang'
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
-    inherited btnHapus: TcxButton
-      OnClick = btnHapusClick
-    end
     inherited btnEdit: TcxButton
       OnClick = btnEditClick
+    end
+    inherited btnLihat: TcxButton
+      Visible = True
+      OnClick = btnLihatClick
     end
     inherited btnBaru: TcxButton
       OnClick = btnBaruClick

@@ -1,4 +1,4 @@
-unit ufrmBrowseItemGroup;
+unit ufrmBrowseItem;
 
 interface
 
@@ -11,13 +11,13 @@ uses
   Vcl.Menus, Vcl.ComCtrls, dxCore, cxDateUtils, cxClasses, cxLabel, cxTextEdit,
   cxMaskEdit, cxDropDownEdit, cxCalendar, Vcl.StdCtrls, cxButtons, cxGroupBox,
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridServerModeTableView, cxGrid, ufrmItemGroup, uDXUtils, uAppUtils;
+  cxGridServerModeTableView, cxGrid, uDXUtils;
 
 type
-  TfrmBrowseItemGroup = class(TfrmDefaultServerBrowse)
+  TfrmBrowseItem = class(TfrmDefaultServerBrowse)
     procedure btnBaruClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
-    procedure btnHapusClick(Sender: TObject);
+    procedure btnLihatClick(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -28,19 +28,19 @@ type
   end;
 
 var
-  frmBrowseItemGroup: TfrmBrowseItemGroup;
+  frmBrowseItem: TfrmBrowseItem;
 
 implementation
 
 uses
-  uItem;
+  ufrmItem, uDBUtils;
 
 {$R *.dfm}
 
-procedure TfrmBrowseItemGroup.btnBaruClick(Sender: TObject);
+procedure TfrmBrowseItem.btnBaruClick(Sender: TObject);
 begin
   inherited;
-  with TfrmItemGroup.Create(Application) do
+  with TfrmItem.Create(Application) do
   begin
     Try
       if ShowModal = mrOK then
@@ -51,12 +51,12 @@ begin
   end;
 end;
 
-procedure TfrmBrowseItemGroup.btnEditClick(Sender: TObject);
+procedure TfrmBrowseItem.btnEditClick(Sender: TObject);
 begin
   inherited;
-  with TfrmItemGroup.Create(Application) do
+  with TfrmItem.Create(Application) do
   begin
-    LoadByID(cxGrdMain.GetID);
+    LoadByID(cxGrdMain.GetID, False);
     Try
       if ShowModal = mrOK then
         RefreshData;
@@ -66,32 +66,33 @@ begin
   end;
 end;
 
-procedure TfrmBrowseItemGroup.btnHapusClick(Sender: TObject);
+procedure TfrmBrowseItem.btnLihatClick(Sender: TObject);
 begin
   inherited;
-  if not TAppUtils.Confirm('Anda yaking menghapus data ini?') then exit;
-  
-  with TItemGroup.Create do
+  with TfrmItem.Create(Application) do
   begin
-    if LoadByID(cxGrdMain.GetID) then
-      if DeleteFromDB then
-      begin
-        TAppUtils.Information('Berhasil menghapus data');
-        RefreshData;
-      end;
-    Free;
+    LoadByID(cxGrdMain.GetID, True);
+    Try
+      ShowModal;
+    Finally
+      Free;
+    End;
   end;
-
 end;
 
-function TfrmBrowseItemGroup.GetKeyField: string;
+function TfrmBrowseItem.GetKeyField: string;
 begin
   Result := 'id';
 end;
 
-function TfrmBrowseItemGroup.GetSQL: string;
+function TfrmBrowseItem.GetSQL: string;
 begin
-  Result := 'select * from titemgroup';
+  Result := 'SELECT A.ID, A.KODE, A.NAMA, A.NOTES AS CATATAN,'
+          +' B.NAMA AS MERK, C.NAMA AS GROUP_BARANG, A.PPN, A.RAK,'
+          +' A.MODIFIEDDATE, A.MODIFIEDBY'
+          +' FROM TITEM A'
+          +' LEFT JOIN TMERK B ON A.MERK_ID = B.ID'
+          +' LEFT JOIN TITEMGROUP C ON A.GROUP_ID = C.ID';
 end;
 
 end.

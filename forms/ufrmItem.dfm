@@ -2,6 +2,7 @@ inherited frmItem: TfrmItem
   Caption = 'Update Data Barang'
   ClientHeight = 545
   ClientWidth = 738
+  OnCreate = FormCreate
   ExplicitWidth = 754
   ExplicitHeight = 584
   PixelsPerInch = 96
@@ -22,9 +23,10 @@ inherited frmItem: TfrmItem
     end
     inherited btnSave: TcxButton
       Left = 481
+      OnClick = btnSaveClick
       ExplicitLeft = 544
     end
-    object btnAdd: TcxButton
+    object btnDel: TcxButton
       AlignWithMargins = True
       Left = 119
       Top = 5
@@ -35,18 +37,22 @@ inherited frmItem: TfrmItem
       OptionsImage.ImageIndex = 2
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 3
+      Visible = False
+      OnClick = btnDelClick
     end
-    object btnDel: TcxButton
+    object btnAdd: TcxButton
       AlignWithMargins = True
       Left = 5
       Top = 5
       Width = 108
       Height = 25
       Align = alLeft
-      Caption = '&Tambah Satuan'
+      Caption = 'T&ambah Satuan'
       OptionsImage.ImageIndex = 0
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 4
+      Visible = False
+      OnClick = btnAddClick
     end
   end
   object cxGroupBox1: TcxGroupBox
@@ -67,7 +73,7 @@ inherited frmItem: TfrmItem
       Left = 77
       Top = 42
       Properties.CharCase = ecUpperCase
-      TabOrder = 2
+      TabOrder = 1
       Width = 145
     end
     object cxLabel2: TcxLabel
@@ -79,13 +85,13 @@ inherited frmItem: TfrmItem
       Left = 77
       Top = 63
       Properties.CharCase = ecUpperCase
-      TabOrder = 3
+      TabOrder = 2
       Width = 292
     end
-    object cxExtLookupComboBox1: TcxExtLookupComboBox
+    object cxLookupGroup: TcxExtLookupComboBox
       Left = 77
       Top = 21
-      TabOrder = 1
+      TabOrder = 0
       Width = 244
     end
     object cxLabel3: TcxLabel
@@ -98,10 +104,10 @@ inherited frmItem: TfrmItem
       Top = 86
       Caption = 'Merk'
     end
-    object cxExtLookupComboBox2: TcxExtLookupComboBox
+    object cxLookupMerk: TcxExtLookupComboBox
       Left = 77
       Top = 85
-      TabOrder = 4
+      TabOrder = 3
       Width = 292
     end
     object cxLabel5: TcxLabel
@@ -109,11 +115,12 @@ inherited frmItem: TfrmItem
       Top = 22
       Caption = 'Rak'
     end
-    object cxTextEdit1: TcxTextEdit
+    object edRak: TcxTextEdit
       Left = 476
       Top = 21
       Properties.CharCase = ecUpperCase
-      TabOrder = 6
+      TabOrder = 5
+      OnKeyDown = edRakKeyDown
       Width = 201
     end
     object cxLabel6: TcxLabel
@@ -121,21 +128,22 @@ inherited frmItem: TfrmItem
       Top = 107
       Caption = 'Catatan'
     end
-    object cxMemo1: TcxMemo
+    object edNotes: TcxMemo
       Left = 77
       Top = 106
-      TabOrder = 5
+      TabOrder = 4
       Height = 55
       Width = 292
     end
-    object cxCurrencyEdit1: TcxCurrencyEdit
+    object crPPN: TcxCurrencyEdit
       Left = 476
       Top = 42
+      TabStop = False
       EditValue = 0.000000000000000000
       Properties.Alignment.Horz = taRightJustify
       Properties.DecimalPlaces = 0
       Properties.DisplayFormat = ',0.00;(,0.00)'
-      TabOrder = 7
+      TabOrder = 6
       Width = 69
     end
     object cxLabel7: TcxLabel
@@ -143,27 +151,29 @@ inherited frmItem: TfrmItem
       Top = 43
       Caption = 'PPN (%)'
     end
-    object cxLabel8: TcxLabel
+    object lbModifiedBy: TcxLabel
       Left = 415
       Top = 85
       Caption = 'Modified By'
     end
-    object cxTextEdit2: TcxTextEdit
+    object edModifiedBy: TcxTextEdit
       Left = 476
       Top = 85
+      TabStop = False
       Properties.CharCase = ecUpperCase
-      TabOrder = 9
+      TabOrder = 8
       Width = 201
     end
-    object cxLabel9: TcxLabel
+    object lbModified: TcxLabel
       Left = 404
       Top = 64
       Caption = 'Date Modified'
     end
-    object cxDateEdit1: TcxDateEdit
+    object dtModified: TcxDateEdit
       Left = 476
       Top = 63
-      TabOrder = 8
+      TabStop = False
+      TabOrder = 7
       Width = 133
     end
   end
@@ -200,14 +210,19 @@ inherited frmItem: TfrmItem
         TabOrder = 0
         ExplicitWidth = 283
         ExplicitHeight = 163
-        object cxGrid1DBBandedTableView1: TcxGridDBBandedTableView
+        object cxGrdUOM: TcxGridDBBandedTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
           DataController.Summary.FooterSummaryItems = <>
           DataController.Summary.SummaryGroups = <>
+          OptionsBehavior.FocusCellOnTab = True
+          OptionsBehavior.FocusFirstCellOnNewRecord = True
+          OptionsBehavior.GoToNextCellOnEnter = True
+          OptionsBehavior.FocusCellOnCycle = True
           OptionsCustomize.ColumnMoving = False
           OptionsCustomize.ColumnSorting = False
           OptionsCustomize.BandMoving = False
+          OptionsData.Appending = True
           OptionsView.GroupByBox = False
           OptionsView.Header = False
           OptionsView.BandHeaderHeight = 30
@@ -222,10 +237,11 @@ inherited frmItem: TfrmItem
             end
             item
               Caption = 'Harga Beli'
+              Styles.Content = styleInfoBk
               Width = 75
             end
             item
-              Caption = 'Harga Jual 1'
+              Caption = 'Harga Umum'
               Width = 110
             end
             item
@@ -241,7 +257,7 @@ inherited frmItem: TfrmItem
               Width = 75
             end
             item
-              Caption = 'Harga Jual 2'
+              Caption = 'Harga Bengkel'
               Width = 110
             end
             item
@@ -257,7 +273,7 @@ inherited frmItem: TfrmItem
               Width = 75
             end
             item
-              Caption = 'Harga Jual 3'
+              Caption = 'Harga Grosir'
               Width = 110
             end
             item
@@ -273,7 +289,7 @@ inherited frmItem: TfrmItem
               Width = 75
             end
             item
-              Caption = 'Harga Jual 4'
+              Caption = 'Harga Keliling'
               Width = 110
             end
             item
@@ -294,7 +310,8 @@ inherited frmItem: TfrmItem
               Width = 100
             end>
           object colSatuan: TcxGridDBBandedColumn
-            DataBinding.FieldName = 'UOM_ID'
+            DataBinding.FieldName = 'UOM'
+            PropertiesClassName = 'TcxExtLookupComboBoxProperties'
             Position.BandIndex = 0
             Position.ColIndex = 0
             Position.RowIndex = 0
@@ -313,6 +330,7 @@ inherited frmItem: TfrmItem
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0;(,0)'
+            Styles.Content = styleInfoBk
             Position.BandIndex = 2
             Position.ColIndex = 0
             Position.RowIndex = 0
@@ -322,6 +340,7 @@ inherited frmItem: TfrmItem
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0.00;(,0.00)'
+            Styles.Content = styleMoney
             Position.BandIndex = 4
             Position.ColIndex = 0
             Position.RowIndex = 0
@@ -331,6 +350,7 @@ inherited frmItem: TfrmItem
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0;(,0)'
+            Styles.Content = styleMoney
             Position.BandIndex = 5
             Position.ColIndex = 0
             Position.RowIndex = 0
@@ -340,6 +360,7 @@ inherited frmItem: TfrmItem
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0.00;(,0.00)'
+            Styles.Content = styleInfoBk
             Position.BandIndex = 7
             Position.ColIndex = 0
             Position.RowIndex = 0
@@ -349,6 +370,7 @@ inherited frmItem: TfrmItem
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0;(,0)'
+            Styles.Content = styleInfoBk
             Position.BandIndex = 8
             Position.ColIndex = 0
             Position.RowIndex = 0
@@ -358,6 +380,7 @@ inherited frmItem: TfrmItem
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0.00;(,0.00)'
+            Styles.Content = styleMoney
             Position.BandIndex = 10
             Position.ColIndex = 0
             Position.RowIndex = 0
@@ -367,6 +390,7 @@ inherited frmItem: TfrmItem
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0;(,0)'
+            Styles.Content = styleMoney
             Position.BandIndex = 11
             Position.ColIndex = 0
             Position.RowIndex = 0
@@ -376,6 +400,7 @@ inherited frmItem: TfrmItem
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0.00;(,0.00)'
+            Styles.Content = styleInfoBk
             Position.BandIndex = 13
             Position.ColIndex = 0
             Position.RowIndex = 0
@@ -385,13 +410,14 @@ inherited frmItem: TfrmItem
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0;(,0)'
+            Styles.Content = styleInfoBk
             Position.BandIndex = 14
             Position.ColIndex = 0
             Position.RowIndex = 0
           end
         end
         object cxGrid1Level1: TcxGridLevel
-          GridView = cxGrid1DBBandedTableView1
+          GridView = cxGrdUOM
         end
       end
     end
@@ -401,6 +427,19 @@ inherited frmItem: TfrmItem
       ExplicitTop = 24
       ExplicitWidth = 742
       ExplicitHeight = 283
+    end
+  end
+  object cxStyleRepository1: TcxStyleRepository
+    Left = 456
+    Top = 112
+    PixelsPerInch = 96
+    object styleMoney: TcxStyle
+      AssignedValues = [svColor]
+      Color = clMoneyGreen
+    end
+    object styleInfoBk: TcxStyle
+      AssignedValues = [svTextColor]
+      TextColor = clInfoBk
     end
   end
 end

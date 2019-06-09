@@ -79,12 +79,12 @@ type
     dxBarButton33: TdxBarButton;
     dxRTARAP: TdxRibbonTab;
     dxRTManagement: TdxRibbonTab;
+    procedure FormCreate(Sender: TObject);
     procedure actItemGroupExecute(Sender: TObject);
     procedure actLoginExecute(Sender: TObject);
     procedure actMerkExecute(Sender: TObject);
     procedure actUOMExecute(Sender: TObject);
     procedure actSettingKoneksiExecute(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure cxButton1Click(Sender: TObject);
   private
     function ConnectDB: Boolean;
@@ -113,6 +113,19 @@ begin
   Result := AFormClass.Create(Application);
 end;
 
+
+procedure TfrmMain.FormCreate(Sender: TObject);
+begin
+  if not ConnectDB then
+  begin
+    with TfrmSetKoneksi.Create(Self) do
+    begin
+      ShowModal;
+//      EnableDisableAction(False);
+    end;
+  end else
+    DoLogin;
+end;
 
 procedure TfrmMain.actItemGroupExecute(Sender: TObject);
 begin
@@ -215,19 +228,6 @@ begin
       Free;
     End;
   end;
-end;
-
-procedure TfrmMain.FormShow(Sender: TObject);
-begin
-  if not ConnectDB then
-  begin
-    with TfrmSetKoneksi.Create(Self) do
-    begin
-      ShowModal;
-//      EnableDisableAction(False);
-    end;
-  end else
-    DoLogin;
 end;
 
 end.

@@ -13,7 +13,7 @@ object frmMain: TfrmMain
   FormStyle = fsMDIForm
   OldCreateOrder = False
   WindowState = wsMaximized
-  OnShow = FormShow
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object dxStatusBar: TdxRibbonStatusBar

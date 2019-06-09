@@ -103,6 +103,8 @@ type
         aOwnerForm: TComponent); overload;
     procedure LoadFromSQL(ASQL, IDField, DisplayField: string; HideFields: Array Of
         String; aOwnerForm: TComponent); overload;
+    procedure LoadFromSQL(ASQL, IDField, DisplayField: string; aOwnerForm:
+        TComponent); overload;
     procedure SetDefaultValue(TriggerEvents: Boolean = True);
     procedure SetMultiPurposeLookup;
     procedure SetVisibleColumnsOnly(ColumnSets: Array Of String; IsVisible: Boolean
@@ -2174,6 +2176,13 @@ begin
     HideFields, aOwnerForm);
 end;
 
+procedure TcxExtLookupComboHelper.LoadFromSQL(ASQL, IDField, DisplayField:
+    string; aOwnerForm: TComponent);
+begin
+  Self.Properties.LoadFromDS(TDBUtils.OpenQuery(ASQL), IDField, DisplayField,
+    [IDField], aOwnerForm);
+end;
+
 procedure TcxExtLookupComboHelper.SetVisibleColumnsOnly(ColumnSets: Array Of
     String; IsVisible: Boolean = True);
 begin
@@ -2301,6 +2310,7 @@ begin
   end;
   Self.DataController.CreateAllItems(True);
   Self.SetVisibleColumns([AKeyName],False);
+  Self.ApplyBestFit();
 end;
 
 procedure TcxServerGridHelper.SetExtLookupCombo(ExtLookupProp:

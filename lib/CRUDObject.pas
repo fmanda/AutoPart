@@ -62,6 +62,7 @@ type
     function LogLevel: Integer; dynamic;
     procedure PrepareDetailObject(AObjItem: TCRUDObject); dynamic;
     function QuotValue(AProp: TRttiProperty): String;
+    function ValidateDelete: Boolean; dynamic;
     property Log: TLog read GetLog write FLog;
   public
     constructor Create;
@@ -690,7 +691,9 @@ function TCRUDObject.DeleteFromDB: Boolean;
 var
   lSS: TStrings;
 begin
-//  Result := False;
+  Result := False;
+  if not ValidateDelete then exit;
+
   lSS := TStringList.Create;
   Try
     Try
@@ -1039,6 +1042,11 @@ begin
       ADataSet.FieldByName(prop.Name).AsVariant := prop.GetValue(Self).AsVariant
     end;
   end;
+end;
+
+function TCRUDObject.ValidateDelete: Boolean;
+begin
+  Result := True;
 end;
 
 constructor AttributeOfCustom.Create(aCustomField: string = '');
