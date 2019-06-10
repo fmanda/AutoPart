@@ -183,6 +183,9 @@
             <Form>frmBrowseService</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="classes\uCabang.pas"/>
+        <DCCReference Include="classes\uCustomer.pas"/>
+        <DCCReference Include="classes\uSupplier.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

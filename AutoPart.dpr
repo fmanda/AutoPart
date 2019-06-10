@@ -28,7 +28,10 @@ uses
   ufrmItem in 'forms\ufrmItem.pas' {frmItem},
   ufrmBrowseItem in 'forms\ufrmBrowseItem.pas' {frmBrowseItem},
   ufrmService in 'forms\ufrmService.pas' {frmService},
-  ufrmBrowseService in 'forms\ufrmBrowseService.pas' {frmBrowseService};
+  ufrmBrowseService in 'forms\ufrmBrowseService.pas' {frmBrowseService},
+  uCabang in 'classes\uCabang.pas',
+  uCustomer in 'classes\uCustomer.pas',
+  uSupplier in 'classes\uSupplier.pas';
 
 {$R *.res}
 
