@@ -22,6 +22,9 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>
+      Filtering.MRUItemsList = False
+      Filtering.ColumnAddValueItems = False
+      Filtering.ColumnMRUItemsList = False
       OptionsData.CancelOnExit = False
       OptionsData.Deleting = False
       OptionsData.DeletingConfirmation = False

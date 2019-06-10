@@ -175,6 +175,14 @@
             <Form>frmBrowseItem</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="forms\ufrmService.pas">
+            <Form>frmService</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmBrowseService.pas">
+            <Form>frmBrowseService</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

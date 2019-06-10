@@ -79,10 +79,12 @@ type
     dxBarButton33: TdxBarButton;
     dxRTARAP: TdxRibbonTab;
     dxRTManagement: TdxRibbonTab;
+    procedure actItemExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actItemGroupExecute(Sender: TObject);
     procedure actLoginExecute(Sender: TObject);
     procedure actMerkExecute(Sender: TObject);
+    procedure actServiceExecute(Sender: TObject);
     procedure actUOMExecute(Sender: TObject);
     procedure actSettingKoneksiExecute(Sender: TObject);
     procedure cxButton1Click(Sender: TObject);
@@ -103,7 +105,8 @@ implementation
 
 uses
   uDBUtils, uApputils, uDXUtils, ufrmLogin, ufrmSetKoneksi, ufrmTest,
-  ufrmBrowseUOM, ufrmBrowseItemGroup, ufrmBrowseMerk, uItem;
+  ufrmBrowseUOM, ufrmBrowseItemGroup, ufrmBrowseMerk, uItem, ufrmBrowseItem,
+  ufrmBrowseService;
 
 {$R *.dfm}
 
@@ -113,6 +116,11 @@ begin
   Result := AFormClass.Create(Application);
 end;
 
+
+procedure TfrmMain.actItemExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseItem);
+end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
@@ -140,6 +148,11 @@ end;
 procedure TfrmMain.actMerkExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseMerk);
+end;
+
+procedure TfrmMain.actServiceExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseService);
 end;
 
 procedure TfrmMain.actUOMExecute(Sender: TObject);

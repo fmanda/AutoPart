@@ -246,6 +246,7 @@ type
 
   TcxServerGridHelper = class helper for TcxGridServerModeTableView
   public
+    procedure AutoFormatCurrency(ADisplayFormat: String =',0.00;(,0.00)');
     procedure EnableFiltering(ContainsMode: Boolean = True);
     procedure ExportToXLS(sFileName: String = ''; DoShowInfo: Boolean = True);
     function GetKeyValue: Variant;
@@ -2231,6 +2232,23 @@ begin
   end;
 end;
 
+procedure TcxServerGridHelper.AutoFormatCurrency(ADisplayFormat: String
+    =',0.00;(,0.00)');
+var
+  i: Integer;
+begin
+  for i := 0 to Self.DataController.DataSource.Fields.Count-1 do
+  begin
+    If Self.DataController.DataSource.Fields.Fields[i].DataType in [ftFloat, ftFMTBcd, ftBCD] then
+    begin
+      Self.Columns[i].PropertiesClassName := 'TcxCurrencyEditProperties';
+      TcxCurrencyEditProperties( Self.Columns[i].Properties).DisplayFormat := ADisplayFormat;
+      TcxCurrencyEditProperties( Self.Columns[i].Properties).Alignment.Horz := taRightJustify;
+      Self.Columns[i].DataBinding.ValueType := 'Float';
+    end;
+  end;
+end;
+
 procedure TcxServerGridHelper.EnableFiltering(ContainsMode: Boolean = True);
 var
   i: Integer;
@@ -2310,6 +2328,7 @@ begin
   end;
   Self.DataController.CreateAllItems(True);
   Self.SetVisibleColumns([AKeyName],False);
+  AutoFormatCurrency;
   Self.ApplyBestFit();
 end;
 

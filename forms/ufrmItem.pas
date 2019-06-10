@@ -13,7 +13,8 @@ uses
   cxGridBandedTableView, cxGridDBBandedTableView, cxClasses, cxGridLevel,
   cxGrid, cxMemo, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
   cxDBExtLookupComboBox, cxTextEdit, cxLabel, cxCurrencyEdit, dxBarBuiltInMenu,
-  cxPC, Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, Datasnap.DBClient, uItem;
+  cxPC, Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, Datasnap.DBClient, uItem,
+  cxCheckBox;
 
 type
   TfrmItem = class(TfrmDefaultInput)
@@ -44,7 +45,7 @@ type
     colMargin1: TcxGridDBBandedColumn;
     colHrgJual1: TcxGridDBBandedColumn;
     colMargin2: TcxGridDBBandedColumn;
-    clHrgJual2: TcxGridDBBandedColumn;
+    colHrgJual2: TcxGridDBBandedColumn;
     colMargin3: TcxGridDBBandedColumn;
     colHrgJual3: TcxGridDBBandedColumn;
     colMargin4: TcxGridDBBandedColumn;
@@ -58,11 +59,25 @@ type
     cxStyleRepository1: TcxStyleRepository;
     styleMoney: TcxStyle;
     styleInfoBk: TcxStyle;
+    chkActive: TcxCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure btnDelClick(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
     procedure edRakKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnSaveClick(Sender: TObject);
+    procedure cxLookupGroupKeyDown(Sender: TObject; var Key: Word; Shift:
+        TShiftState);
+    procedure cxLookupGroupPropertiesEditValueChanged(Sender: TObject);
+    procedure colMargin1PropertiesEditValueChanged(Sender: TObject);
+    procedure colMargin2PropertiesEditValueChanged(Sender: TObject);
+    procedure colMargin3PropertiesEditValueChanged(Sender: TObject);
+    procedure colMargin4PropertiesEditValueChanged(Sender: TObject);
+    procedure colHrgJual4PropertiesEditValueChanged(Sender: TObject);
+    procedure colHrgJual3PropertiesEditValueChanged(Sender: TObject);
+    procedure colHrgJual2PropertiesEditValueChanged(Sender: TObject);
+    procedure colHrgJual1PropertiesEditValueChanged(Sender: TObject);
+    procedure colHrgBeliPropertiesEditValueChanged(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     FCDS: TClientDataset;
     FCDSUOM: TClientDataset;
@@ -78,6 +93,7 @@ type
     property Item: TItem read GetItem write FItem;
     { Private declarations }
   public
+    procedure CalcSellPrice(aIndexPrice: Integer; IsMargin: Boolean);
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = True);
     { Public declarations }
   end;
@@ -88,7 +104,7 @@ var
 implementation
 
 uses
-  uDBUtils, uDXUtils, uAppUtils;
+  uDBUtils, uDXUtils, uAppUtils, cxDataUtils;
 
 {$R *.dfm}
 
@@ -124,6 +140,132 @@ begin
   end;
 end;
 
+procedure TfrmItem.CalcSellPrice(aIndexPrice: Integer; IsMargin: Boolean);
+var
+  iRec: TcxCustomGridRecord;
+  lBuyPrice: Double;
+begin
+  cxGrdUOM.DataController.Post();
+  iRec      := cxGrdUOM.Controller.FocusedRecord;
+  if iRec = nil then exit;
+
+  lBuyPrice := iRec.Values[colHrgBeli.Index];
+
+  if IsMargin then
+  begin
+    case aIndexPrice of
+      1 : cxGrdUOM.DataController.SetEditValue(colHrgJual1.Index,
+          lBuyPrice * (1 + (iRec.Values[colMargin1.Index] /100)),  evsValue);
+      2 : cxGrdUOM.DataController.SetEditValue(colHrgJual2.Index,
+          lBuyPrice * (1 + (iRec.Values[colMargin2.Index] /100)),  evsValue);
+      3 : cxGrdUOM.DataController.SetEditValue(colHrgJual3.Index,
+          lBuyPrice * (1 + (iRec.Values[colMargin3.Index] /100)),  evsValue);
+      4 : cxGrdUOM.DataController.SetEditValue(colHrgJual4.Index,
+          lBuyPrice * (1 + (iRec.Values[colMargin4.Index] /100)),  evsValue);
+    end;
+  end else
+  begin
+    if lBuyPrice = 0 then exit;
+
+    case aIndexPrice of
+      1 : cxGrdUOM.DataController.SetEditValue(colMargin1.Index,
+          (iRec.Values[colHrgJual1.Index] - lBuyPrice) / lBuyPrice * 100,  evsValue);
+      2 : cxGrdUOM.DataController.SetEditValue(colMargin2.Index,
+          (iRec.Values[colHrgJual2.Index] - lBuyPrice) / lBuyPrice * 100,  evsValue);
+      3 : cxGrdUOM.DataController.SetEditValue(colMargin3.Index,
+          (iRec.Values[colHrgJual3.Index] - lBuyPrice) / lBuyPrice * 100,  evsValue);
+      4 : cxGrdUOM.DataController.SetEditValue(colMargin4.Index,
+          (iRec.Values[colHrgJual4.Index] - lBuyPrice) / lBuyPrice * 100,  evsValue);
+    end;
+  end;
+
+end;
+
+procedure TfrmItem.colHrgBeliPropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalcSellPrice(1, False);
+  CalcSellPrice(2, False);
+  CalcSellPrice(3, False);
+  CalcSellPrice(4, False);
+end;
+
+procedure TfrmItem.colHrgJual1PropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalcSellPrice(1, False);
+end;
+
+procedure TfrmItem.colHrgJual2PropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalcSellPrice(2, False);
+end;
+
+procedure TfrmItem.colHrgJual3PropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalcSellPrice(3, False);
+end;
+
+procedure TfrmItem.colHrgJual4PropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalcSellPrice(4, False);
+end;
+
+procedure TfrmItem.colMargin1PropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalcSellPrice(1, True);
+end;
+
+procedure TfrmItem.colMargin2PropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalcSellPrice(2, True);
+end;
+
+procedure TfrmItem.colMargin3PropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalcSellPrice(3, True);
+end;
+
+procedure TfrmItem.colMargin4PropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalcSellPrice(4, True);
+end;
+
+procedure TfrmItem.cxLookupGroupKeyDown(Sender: TObject; var Key: Word; Shift:
+    TShiftState);
+begin
+  inherited;
+  if Key = VK_RETURN then
+  begin
+    edKode.SetFocus;
+    edKode.SelectAll;
+  end;
+end;
+
+procedure TfrmItem.cxLookupGroupPropertiesEditValueChanged(Sender: TObject);
+var
+  lGroup: TItemGroup;
+begin
+  inherited;
+  if VarIsNull(cxLookupGroup.EditValue) then exit;
+
+  if Item.ID = 0 then
+  begin
+    lGroup := TItemGroup.Create;
+    lGroup.LoadByID(cxLookupGroup.EditValue);
+
+    edKode.Text := Item.GenerateNo(lGroup.Kode,5);
+    lGroup.Free;
+  end;
+end;
+
 procedure TfrmItem.edRakKeyDown(Sender: TObject; var Key: Word; Shift:
     TShiftState);
 begin
@@ -137,6 +279,20 @@ begin
   inherited;
   Self.AssignKeyDownEvent;
   initView;
+end;
+
+procedure TfrmItem.FormKeyDown(Sender: TObject; var Key: Word; Shift:
+    TShiftState);
+begin
+  inherited;
+  if Key = VK_F2 then
+  begin
+    cxGrid1.SetFocus;
+  end
+  else if Key = VK_F1 then
+  begin
+    cxLookupGroup.SetFocus;
+  end;
 end;
 
 function TfrmItem.GetCDS: TClientDataset;
@@ -176,7 +332,7 @@ begin
   cxLookupGroup.LoadFromSQL('select id, nama from titemgroup','id','nama',Self);
   cxLookupMerk.LoadFromSQL('select id, nama from tmerk','id','nama',Self);
   TcxExtLookup(colSatuan.Properties).LoadFromCDS(CDSUOM, 'id','uom', Self);
-  LoadByID(0);
+  LoadByID(0, False);
 end;
 
 procedure TfrmItem.LoadByID(aID: Integer; IsReadOnly: Boolean = True);
@@ -199,6 +355,8 @@ begin
       lItemUOM.Konversi := 1;
       FItem.ItemUOMs.Add(lItemUOM);
     end;
+
+    Item.IsActive := 1;
   end;
 
   edKode.Text   := Item.Kode;
@@ -217,12 +375,29 @@ begin
   begin
     CDS.Append;
     lItemUOM.UpdateToDataset(CDS);
+
+    if lItemUOM.HargaBeli = 0 then
+    begin
+      CDS.FieldByName('Margin1').AsFloat := 0;
+      CDS.FieldByName('Margin2').AsFloat := 0;
+      CDS.FieldByName('Margin3').AsFloat := 0;
+      CDS.FieldByName('Margin4').AsFloat := 0;
+    end else
+    begin
+      CDS.FieldByName('Margin1').AsFloat := (lItemUOM.HargaJual1 - lItemUOM.HargaBeli) / lItemUOM.HargaBeli * 100;
+      CDS.FieldByName('Margin2').AsFloat := (lItemUOM.HargaJual2 - lItemUOM.HargaBeli) / lItemUOM.HargaBeli * 100;
+      CDS.FieldByName('Margin3').AsFloat := (lItemUOM.HargaJual3 - lItemUOM.HargaBeli) / lItemUOM.HargaBeli * 100;
+      CDS.FieldByName('Margin4').AsFloat := (lItemUOM.HargaJual4 - lItemUOM.HargaBeli) / lItemUOM.HargaBeli * 100;
+    end;
+
     CDS.Post;
   end;
 
+  chkActive.Checked := Item.IsActive = 1;
+
   btnSave.Enabled := not IsReadOnly;
-  btnAdd.Enabled  := not IsReadOnly;
-  btnDel.Enabled  := not IsReadOnly;
+//  btnAdd.Enabled  := not IsReadOnly;
+//  btnDel.Enabled  := not IsReadOnly;
 
 
 end;
@@ -259,6 +434,8 @@ begin
     CDS.Next;
   end;
 
+  Item.IsActive := 1;
+  if not chkActive.Checked then Item.IsActive := 0;
 
 end;
 

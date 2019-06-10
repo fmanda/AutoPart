@@ -454,6 +454,7 @@ object frmMain: TfrmMain
       Category = 'Master'
       Caption = 'Data Item'
       ImageIndex = 10
+      OnExecute = actItemExecute
     end
     object actQuotation: TAction
       Category = 'Master'
@@ -464,6 +465,7 @@ object frmMain: TfrmMain
       Category = 'Master'
       Caption = 'Jasa / Service'
       ImageIndex = 39
+      OnExecute = actServiceExecute
     end
   end
   object ImageList: TcxImageList

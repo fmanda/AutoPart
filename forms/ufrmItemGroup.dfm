@@ -9,16 +9,22 @@ inherited frmItemGroup: TfrmItemGroup
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
     Top = 111
+    TabOrder = 2
+    ExplicitTop = 111
+    ExplicitWidth = 418
     Width = 418
     inherited btnCancel: TcxButton
       Left = 333
+      ExplicitLeft = 333
     end
     inherited btnPrint: TcxButton
       Left = 247
+      ExplicitLeft = 247
     end
     inherited btnSave: TcxButton
       Left = 161
       OnClick = btnSaveClick
+      ExplicitLeft = 161
     end
   end
   object cxLabel1: TcxLabel
@@ -30,7 +36,7 @@ inherited frmItemGroup: TfrmItemGroup
     Left = 68
     Top = 25
     Properties.CharCase = ecUpperCase
-    TabOrder = 2
+    TabOrder = 0
     Width = 77
   end
   object cxLabel2: TcxLabel
@@ -42,7 +48,7 @@ inherited frmItemGroup: TfrmItemGroup
     Left = 68
     Top = 52
     Properties.CharCase = ecUpperCase
-    TabOrder = 4
+    TabOrder = 1
     Width = 293
   end
 end

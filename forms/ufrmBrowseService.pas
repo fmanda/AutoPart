@@ -1,4 +1,4 @@
-unit ufrmBrowseItem;
+unit ufrmBrowseService;
 
 interface
 
@@ -11,18 +11,18 @@ uses
   Vcl.Menus, Vcl.ComCtrls, dxCore, cxDateUtils, cxClasses, cxLabel, cxTextEdit,
   cxMaskEdit, cxDropDownEdit, cxCalendar, Vcl.StdCtrls, cxButtons, cxGroupBox,
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridServerModeTableView, cxGrid, uDXUtils;
+  cxGridServerModeTableView, cxGrid;
 
 type
-  TfrmBrowseItem = class(TfrmDefaultServerBrowse)
+  TfrmBrowseService = class(TfrmDefaultServerBrowse)
     styleNonActive: TcxStyle;
     procedure btnBaruClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
+    procedure btnHapusClick(Sender: TObject);
     procedure btnLihatClick(Sender: TObject);
     procedure cxGrdMainStylesGetContentStyle(Sender: TcxCustomGridTableView;
-      ARecord: TcxCustomGridRecord; AItem: TcxCustomGridTableItem;
-      var AStyle: TcxStyle);
-    procedure btnHapusClick(Sender: TObject);
+        ARecord: TcxCustomGridRecord; AItem: TcxCustomGridTableItem; var AStyle:
+        TcxStyle);
   private
     { Private declarations }
   protected
@@ -33,19 +33,19 @@ type
   end;
 
 var
-  frmBrowseItem: TfrmBrowseItem;
+  frmBrowseService: TfrmBrowseService;
 
 implementation
 
 uses
-  ufrmItem, uDBUtils, uAppUtils, uItem;
+  ufrmService, uAppUtils, uDXUtils, uDBUtils, uItem;
 
 {$R *.dfm}
 
-procedure TfrmBrowseItem.btnBaruClick(Sender: TObject);
+procedure TfrmBrowseService.btnBaruClick(Sender: TObject);
 begin
   inherited;
-  with TfrmItem.Create(Application) do
+  with TfrmService.Create(Application) do
   begin
     Try
       if ShowModal = mrOK then
@@ -56,10 +56,10 @@ begin
   end;
 end;
 
-procedure TfrmBrowseItem.btnEditClick(Sender: TObject);
+procedure TfrmBrowseService.btnEditClick(Sender: TObject);
 begin
   inherited;
-  with TfrmItem.Create(Application) do
+  with TfrmService.Create(Application) do
   begin
     LoadByID(cxGrdMain.GetID, False);
     Try
@@ -71,12 +71,12 @@ begin
   end;
 end;
 
-procedure TfrmBrowseItem.btnHapusClick(Sender: TObject);
+procedure TfrmBrowseService.btnHapusClick(Sender: TObject);
 begin
   inherited;
   if not TAppUtils.Confirm('Anda yakin menghapus data ini?') then exit;
 
-  with TItem.Create do
+  with TService.Create do
   begin
     if LoadByID(cxGrdMain.GetID) then
       if DeleteFromDB then
@@ -88,10 +88,10 @@ begin
   end;
 end;
 
-procedure TfrmBrowseItem.btnLihatClick(Sender: TObject);
+procedure TfrmBrowseService.btnLihatClick(Sender: TObject);
 begin
   inherited;
-  with TfrmItem.Create(Application) do
+  with TfrmService.Create(Application) do
   begin
     LoadByID(cxGrdMain.GetID, True);
     Try
@@ -102,9 +102,9 @@ begin
   end;
 end;
 
-procedure TfrmBrowseItem.cxGrdMainStylesGetContentStyle(
-  Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
-  AItem: TcxCustomGridTableItem; var AStyle: TcxStyle);
+procedure TfrmBrowseService.cxGrdMainStylesGetContentStyle(Sender:
+    TcxCustomGridTableView; ARecord: TcxCustomGridRecord; AItem:
+    TcxCustomGridTableItem; var AStyle: TcxStyle);
 var
   iCol: Integer;
 begin
@@ -118,19 +118,16 @@ begin
 
 end;
 
-function TfrmBrowseItem.GetKeyField: string;
+function TfrmBrowseService.GetKeyField: string;
 begin
   Result := 'id';
 end;
 
-function TfrmBrowseItem.GetSQL: string;
+function TfrmBrowseService.GetSQL: string;
 begin
-  Result := 'SELECT A.ID, A.KODE, A.NAMA, B.NAMA AS MERK, '
-          +' C.NAMA AS GROUP_BARANG, A.PPN, A.RAK,'
-          +' A.MODIFIEDDATE, A.MODIFIEDBY, A.ISACTIVE, A.NOTES AS CATATAN'
-          +' FROM TITEM A'
-          +' LEFT JOIN TMERK B ON A.MERK_ID = B.ID'
-          +' LEFT JOIN TITEMGROUP C ON A.GROUP_ID = C.ID';
+  Result := 'SELECT A.ID, A.KODE, A.NAMA, B.UOM, A.BIAYA, A.PPN, A.ISACTIVE, A.MODIFIEDDATE, A.MODIFIEDBY'
+           +' FROM TSERVICE A'
+           +' LEFT JOIN TUOM B ON A.UOM_ID = B.ID';
 end;
 
 end.

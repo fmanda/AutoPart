@@ -26,7 +26,9 @@ uses
   ufrmMerk in 'forms\ufrmMerk.pas' {frmMerk},
   ufrmBrowseMerk in 'forms\ufrmBrowseMerk.pas' {frmBrowseMerk},
   ufrmItem in 'forms\ufrmItem.pas' {frmItem},
-  ufrmBrowseItem in 'forms\ufrmBrowseItem.pas' {frmBrowseItem};
+  ufrmBrowseItem in 'forms\ufrmBrowseItem.pas' {frmBrowseItem},
+  ufrmService in 'forms\ufrmService.pas' {frmService},
+  ufrmBrowseService in 'forms\ufrmBrowseService.pas' {frmBrowseService};
 
 {$R *.res}
 
@@ -35,6 +37,5 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmBrowseItem, frmBrowseItem);
   Application.Run;
 end.

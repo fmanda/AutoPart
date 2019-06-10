@@ -69,7 +69,7 @@ end;
 procedure TfrmBrowseItemGroup.btnHapusClick(Sender: TObject);
 begin
   inherited;
-  if not TAppUtils.Confirm('Anda yaking menghapus data ini?') then exit;
+  if not TAppUtils.Confirm('Anda yakin menghapus data ini?') then exit;
   
   with TItemGroup.Create do
   begin

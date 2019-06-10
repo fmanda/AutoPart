@@ -1,0 +1,50 @@
+
+insert into AUTOPART.dbo.TITEMGROUP
+select top 245 kdjenis, NamJenis from MOTOROLI2017.dbo.TblJenis
+
+
+insert into AUTOPART.dbo.TMerk
+select kdmerk, NamaMerk from MOTOROLI2017.dbo.tblmerk
+
+
+alter table TITEM add kdmerk varchar(30)
+alter table TITEM add kdjenis varchar(30)
+alter table TITEMUOM add kdBar varchar(30)
+
+
+
+insert into AUTOPART.dbo.TItem(KODE, NAMA, RAK, PPN, ISACTIVE, KDMERK, KDJENIS)
+select KDBAR, NamaBarang, RAK, 0, 1, KdMerk, KdJenis
+from MOTOROLI2017.dbo.TblStok
+
+
+insert into AUTOPART.dbo.TITEMUOM(UOM_ID, KONVERSI, HARGABELI, HARGAJUAL1, HARGAJUAL2, HARGAJUAL3, HARGAJUAL4, KDBAR)
+select 1, 1, HargaPokok, HargaUmum, HargaBengkel, HargaGrosir, HargaKeliling, KdBar
+from MOTOROLI2017.dbo.TblStok
+
+
+UPDATE A SET GROUP_ID = B.ID
+FROM TITEM A
+INNER JOIN TITEMGROUP B ON A.KDJENIS = B.KODE
+
+UPDATE A SET MERK_ID = B.ID
+FROM TITEM A
+INNER JOIN TMERK B ON A.KDMERK = B.KODE
+
+UPDATE A SET ITEM_ID = B.ID
+FROM TITEMUOM A
+INNER JOIN TITEM B ON A.KDBAR = B.KODE
+
+
+
+alter table TITEM DROP COLUMN kdmerk
+alter table TITEM DROP COLUMN kdjenis
+alter table TITEMUOM DROP COLUMN kdBar
+
+
+
+
+insert into AUTOPART.dbo.TSERVICE(UOM_ID, kode, nama, biaya, ppn, modifieddate, isactive )
+select 1, KdService, NamaService, Biaya, 0, getdate(), 1
+from MOTOROLI2017.dbo.tblservice
+
