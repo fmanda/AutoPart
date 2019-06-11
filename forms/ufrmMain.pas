@@ -84,6 +84,10 @@ type
     actCustomer: TAction;
     actSupplier: TAction;
     dxBarManagerBar4: TdxBar;
+    actWarehouse: TAction;
+    dxBarButton36: TdxBarButton;
+    actRekening: TAction;
+    dxBarButton37: TdxBarButton;
     procedure actCustomerExecute(Sender: TObject);
     procedure actItemExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -94,6 +98,7 @@ type
     procedure actUOMExecute(Sender: TObject);
     procedure actSettingKoneksiExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
+    procedure actWarehouseExecute(Sender: TObject);
     procedure cxButton1Click(Sender: TObject);
   private
     function ConnectDB: Boolean;
@@ -113,7 +118,8 @@ implementation
 uses
   uDBUtils, uApputils, uDXUtils, ufrmLogin, ufrmSetKoneksi, ufrmTest,
   ufrmBrowseUOM, ufrmBrowseItemGroup, ufrmBrowseMerk, uItem, ufrmBrowseItem,
-  ufrmBrowseService, ufrmBrowseCustomer, ufrmBrowseSupplier;
+  ufrmBrowseService, ufrmBrowseCustomer, ufrmBrowseSupplier,
+  ufrmBrowseWarehouse;
 
 {$R *.dfm}
 
@@ -183,6 +189,11 @@ end;
 procedure TfrmMain.actSupplierExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseSupplier);
+end;
+
+procedure TfrmMain.actWarehouseExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseWarehouse);
 end;
 
 function TfrmMain.ConnectDB: Boolean;

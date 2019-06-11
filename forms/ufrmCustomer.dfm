@@ -128,7 +128,6 @@ inherited frmCustomer: TfrmCustomer
   object rbHarga: TcxRadioGroup
     Left = 109
     Top = 160
-    TabStop = False
     Caption = ' Default Harga '
     Properties.Columns = 4
     Properties.Items = <

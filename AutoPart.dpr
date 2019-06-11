@@ -35,7 +35,10 @@ uses
   ufrmBrowseCustomer in 'forms\ufrmBrowseCustomer.pas' {frmBrowseCustomer},
   ufrmCustomer in 'forms\ufrmCustomer.pas' {frmCustomer},
   ufrmSupplier in 'forms\ufrmSupplier.pas' {frmSupplier},
-  ufrmBrowseSupplier in 'forms\ufrmBrowseSupplier.pas' {frmBrowseSupplier};
+  ufrmBrowseSupplier in 'forms\ufrmBrowseSupplier.pas' {frmBrowseSupplier},
+  ufrmWarehouse in 'forms\ufrmWarehouse.pas' {frmWarehouse},
+  uWarehouse in 'classes\uWarehouse.pas',
+  ufrmBrowseWarehouse in 'forms\ufrmBrowseWarehouse.pas' {frmBrowseWarehouse};
 
 {$R *.res}
 

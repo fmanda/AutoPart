@@ -125,8 +125,8 @@ object frmMain: TfrmMain
     UseBarHintWindow = False
     UseF10ForMenu = False
     UseSystemFont = True
-    Left = 672
-    Top = 153
+    Left = 632
+    Top = 137
     PixelsPerInch = 96
     object dxBarManagerBar1: TdxBar
       Caption = 'Maintenance Data Item'
@@ -229,7 +229,15 @@ object frmMain: TfrmMain
       FloatTop = 8
       FloatClientWidth = 0
       FloatClientHeight = 0
-      ItemLinks = <>
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarButton36'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton37'
+        end>
       OneOnRow = True
       Row = 0
       UseOwnFont = False
@@ -445,11 +453,19 @@ object frmMain: TfrmMain
       Action = actSupplier
       Category = 0
     end
+    object dxBarButton36: TdxBarButton
+      Action = actWarehouse
+      Category = 0
+    end
+    object dxBarButton37: TdxBarButton
+      Action = actRekening
+      Category = 0
+    end
   end
   object ActionManager: TActionManager
     Images = ImageList
-    Left = 752
-    Top = 160
+    Left = 336
+    Top = 224
     StyleName = 'Platform Default'
     object actLogin: TAction
       Category = 'Application'
@@ -511,6 +527,17 @@ object frmMain: TfrmMain
       Caption = ' Data Supplier'
       ImageIndex = 38
       OnExecute = actSupplierExecute
+    end
+    object actWarehouse: TAction
+      Category = 'Master'
+      Caption = 'Data Gudang'
+      ImageIndex = 24
+      OnExecute = actWarehouseExecute
+    end
+    object actRekening: TAction
+      Category = 'Master'
+      Caption = 'Rekening Kas && Bank'
+      ImageIndex = 15
     end
   end
   object ImageList: TcxImageList

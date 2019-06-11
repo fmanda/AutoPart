@@ -202,6 +202,15 @@
             <Form>frmBrowseSupplier</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="forms\ufrmWarehouse.pas">
+            <Form>frmWarehouse</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="classes\uWarehouse.pas"/>
+        <DCCReference Include="forms\ufrmBrowseWarehouse.pas">
+            <Form>frmBrowseWarehouse</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
