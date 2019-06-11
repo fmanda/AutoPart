@@ -186,6 +186,22 @@
         <DCCReference Include="classes\uCabang.pas"/>
         <DCCReference Include="classes\uCustomer.pas"/>
         <DCCReference Include="classes\uSupplier.pas"/>
+        <DCCReference Include="forms\ufrmBrowseCustomer.pas">
+            <Form>frmBrowseCustomer</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmCustomer.pas">
+            <Form>frmCustomer</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmSupplier.pas">
+            <Form>frmSupplier</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmBrowseSupplier.pas">
+            <Form>frmBrowseSupplier</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

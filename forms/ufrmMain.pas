@@ -79,6 +79,12 @@ type
     dxBarButton33: TdxBarButton;
     dxRTARAP: TdxRibbonTab;
     dxRTManagement: TdxRibbonTab;
+    dxBarButton34: TdxBarButton;
+    dxBarButton35: TdxBarButton;
+    actCustomer: TAction;
+    actSupplier: TAction;
+    dxBarManagerBar4: TdxBar;
+    procedure actCustomerExecute(Sender: TObject);
     procedure actItemExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actItemGroupExecute(Sender: TObject);
@@ -87,6 +93,7 @@ type
     procedure actServiceExecute(Sender: TObject);
     procedure actUOMExecute(Sender: TObject);
     procedure actSettingKoneksiExecute(Sender: TObject);
+    procedure actSupplierExecute(Sender: TObject);
     procedure cxButton1Click(Sender: TObject);
   private
     function ConnectDB: Boolean;
@@ -106,7 +113,7 @@ implementation
 uses
   uDBUtils, uApputils, uDXUtils, ufrmLogin, ufrmSetKoneksi, ufrmTest,
   ufrmBrowseUOM, ufrmBrowseItemGroup, ufrmBrowseMerk, uItem, ufrmBrowseItem,
-  ufrmBrowseService;
+  ufrmBrowseService, ufrmBrowseCustomer, ufrmBrowseSupplier;
 
 {$R *.dfm}
 
@@ -116,6 +123,11 @@ begin
   Result := AFormClass.Create(Application);
 end;
 
+
+procedure TfrmMain.actCustomerExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseCustomer);
+end;
 
 procedure TfrmMain.actItemExecute(Sender: TObject);
 begin
@@ -166,6 +178,11 @@ begin
   begin
     ShowModal;
   end;
+end;
+
+procedure TfrmMain.actSupplierExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseSupplier);
 end;
 
 function TfrmMain.ConnectDB: Boolean;

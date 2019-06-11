@@ -68,7 +68,7 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Width = 75
       Height = 25
       Align = alLeft
-      Caption = '&Export'
+      Caption = 'E&xport'
       OptionsImage.ImageIndex = 31
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 1

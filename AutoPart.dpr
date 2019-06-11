@@ -31,7 +31,11 @@ uses
   ufrmBrowseService in 'forms\ufrmBrowseService.pas' {frmBrowseService},
   uCabang in 'classes\uCabang.pas',
   uCustomer in 'classes\uCustomer.pas',
-  uSupplier in 'classes\uSupplier.pas';
+  uSupplier in 'classes\uSupplier.pas',
+  ufrmBrowseCustomer in 'forms\ufrmBrowseCustomer.pas' {frmBrowseCustomer},
+  ufrmCustomer in 'forms\ufrmCustomer.pas' {frmCustomer},
+  ufrmSupplier in 'forms\ufrmSupplier.pas' {frmSupplier},
+  ufrmBrowseSupplier in 'forms\ufrmBrowseSupplier.pas' {frmBrowseSupplier};
 
 {$R *.res}
 

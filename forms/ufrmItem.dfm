@@ -63,7 +63,8 @@ inherited frmItem: TfrmItem
     Align = alTop
     Caption = ' Informasi Barang [F1] '
     TabOrder = 0
-    ExplicitTop = -6
+    ExplicitLeft = -120
+    ExplicitTop = -64
     Height = 177
     Width = 738
     object cxLabel1: TcxLabel

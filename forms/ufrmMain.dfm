@@ -72,12 +72,13 @@ object frmMain: TfrmMain
       Caption = 'Master Data'
       Groups = <
         item
-        end
-        item
           ToolbarName = 'dxBarManagerBar1'
         end
         item
           ToolbarName = 'dxBarManagerBar3'
+        end
+        item
+          ToolbarName = 'dxBarManagerBar4'
         end>
       Index = 1
     end
@@ -124,8 +125,8 @@ object frmMain: TfrmMain
     UseBarHintWindow = False
     UseF10ForMenu = False
     UseSystemFont = True
-    Left = 752
-    Top = 177
+    Left = 672
+    Top = 153
     PixelsPerInch = 96
     object dxBarManagerBar1: TdxBar
       Caption = 'Maintenance Data Item'
@@ -162,7 +163,7 @@ object frmMain: TfrmMain
           ItemName = 'dxBarButton31'
         end>
       OneOnRow = False
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -204,8 +205,32 @@ object frmMain: TfrmMain
       FloatTop = 8
       FloatClientWidth = 0
       FloatClientHeight = 0
-      ItemLinks = <>
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarButton34'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton35'
+        end>
       OneOnRow = False
+      Row = 1
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxBarManagerBar4: TdxBar
+      Caption = 'Data Toko / Bengkel'
+      CaptionButtons = <>
+      DockedLeft = 376
+      DockedTop = 0
+      FloatLeft = 901
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <>
+      OneOnRow = True
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -412,6 +437,14 @@ object frmMain: TfrmMain
       Action = actService
       Category = 0
     end
+    object dxBarButton34: TdxBarButton
+      Action = actCustomer
+      Category = 0
+    end
+    object dxBarButton35: TdxBarButton
+      Action = actSupplier
+      Category = 0
+    end
   end
   object ActionManager: TActionManager
     Images = ImageList
@@ -466,6 +499,18 @@ object frmMain: TfrmMain
       Caption = 'Jasa / Service'
       ImageIndex = 39
       OnExecute = actServiceExecute
+    end
+    object actCustomer: TAction
+      Category = 'Master'
+      Caption = 'Customer / Pelanggan'
+      ImageIndex = 37
+      OnExecute = actCustomerExecute
+    end
+    object actSupplier: TAction
+      Category = 'Master'
+      Caption = ' Data Supplier'
+      ImageIndex = 38
+      OnExecute = actSupplierExecute
     end
   end
   object ImageList: TcxImageList
