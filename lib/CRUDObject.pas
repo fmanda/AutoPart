@@ -46,7 +46,6 @@ type
     function GetLog: TLog;
   protected
     function AfterSaveToDB: Boolean; dynamic;
-    function BeforeSaveObjectList: Boolean; dynamic;
     function BeforeSaveToDB: Boolean; dynamic;
     function BeforeDeleteFromDB: Boolean; dynamic;
     function PropFromAttr(attr: TAttributeClass; WithException: Boolean = True):
@@ -158,11 +157,6 @@ begin
 end;
 
 function TCRUDObject.AfterSaveToDB: Boolean;
-begin
-  Result := True;
-end;
-
-function TCRUDObject.BeforeSaveObjectList: Boolean;
 begin
   Result := True;
 end;
@@ -511,8 +505,10 @@ begin
               DoUpdateDetails := True;
 
           if not DoUpdateDetails then
+          begin
+            PrepareDetailObject(lObjItem);
             TDBUtils.ExecuteSQL(lObjItem.GetSQLDeleteDetails(Self.ID) , False )
-          else
+          end else
           begin
             IDItems := '-1';
             for i := 0 to value2.GetArrayLength - 1 do
@@ -565,10 +561,10 @@ begin
           end;
 
 
-
           If not DoUpdateDetails then
             lObjItem.ID := 0;
 
+          PrepareDetailObject(lObjItem);
           if not lObjItem.SaveToDB(False) then
             Raise Exception.Create('Object Item SaveToDB failed');
 
@@ -592,7 +588,7 @@ var
   rt, rtItem  : TRttiType;
   i : Integer;
   lObj  : TObject;
-  lObjItem: TCRUDObject;
+  lObjItem, lAppItem: TCRUDObject;
   SQL: string;
   value, value2 : TValue;
   lAppClass : TCRUDObjectClass;
@@ -627,14 +623,17 @@ begin
 //            SQL := Format(SQL_Delete,[lObjItem.GetTableName,
 //              lObjItem.GetHeaderField + ' = ' + IntToStr(Self.ID) ]);
 
-
+            //diganti coding dibawah utk delete item ttransdetail juga
             sGenericItemClassName := StringReplace(lObjectList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
             sGenericItemClassName := StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
             rtItem                := ctx.FindType(sGenericItemClassName);
             lAppClass             := TCRUDObjectClass( rtItem.AsInstance.MetaclassType );
-
-            SQL := lAppClass(lObj).GetSQLDeleteDetails(Self.ID);   //force using descendant method
+            lAppItem              := lAppClass.Create;
+            PrepareDetailObject(lAppitem);
+            SQL                   := lAppItem.GetSQLDeleteDetails(Self.ID);   //force using descendant method
             Result.Add(SQL);
+            lAppItem.Free;
+
           end;
           //if item has objectlist
           lObjItem.GenerateDelete(Result);
@@ -677,8 +676,8 @@ begin
       DoSaveLog     := LogLevel in [1,2]; //all or update and delete only
     end;
 
-    if not BeforeSaveObjectList then
-      Raise Exception.Create('Before Save ObjectList Failed');
+//    if not BeforeSaveObjectList then
+//      Raise Exception.Create('Before Save ObjectList Failed');
 
     if not SaveObjectList then
       Raise Exception.Create('Save ObjectList Failed');

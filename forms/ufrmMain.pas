@@ -140,7 +140,7 @@ uses
   ufrmBrowseUOM, ufrmBrowseItemGroup, ufrmBrowseMerk, uItem, ufrmBrowseItem,
   ufrmBrowseService, ufrmBrowseCustomer, ufrmBrowseSupplier,
   ufrmBrowseWarehouse, ufrmBrowseRekening, ufrmCXServerLookup,
-  ufrmPurchaseInvoice, uTransDetail;
+  ufrmBrowsePurchaseInvoice, uTransDetail;
 
 {$R *.dfm}
 
@@ -191,7 +191,7 @@ end;
 
 procedure TfrmMain.actPurchaseInvoiceExecute(Sender: TObject);
 begin
-  ShowForm(TfrmPurchaseInvoice).ShowModal;
+  ShowForm(TfrmBrowsePurchaseInvoice);
 end;
 
 procedure TfrmMain.actRekeningExecute(Sender: TObject);

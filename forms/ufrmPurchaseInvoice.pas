@@ -457,7 +457,10 @@ begin
   edNotes.Text := PurchInv.Notes;
 
   if PurchInv.Supplier <> nil then
+  begin
+    PurchInv.Supplier.ReLoad(False);
     edSupplier.Text := PurchInv.Supplier.Nama;
+  end;
 
   if PurchInv.Warehouse <> nil then
     cxLookupGudang.EditValue := PurchInv.Warehouse.ID;
@@ -574,6 +577,8 @@ begin
 
   PurchInv.Warehouse.LoadByID(VarToInt(cxLookupGudang.EditValue));
 
+
+  PurchInv.Items.Clear;
 
   CDS.First;
   while not CDS.Eof do

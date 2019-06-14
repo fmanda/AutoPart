@@ -54,6 +54,5 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmBrowsePurchaseInvoice, frmBrowsePurchaseInvoice);
   Application.Run;
 end.

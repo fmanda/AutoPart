@@ -15,6 +15,7 @@ uses
 
 type
   TfrmBrowsePurchaseInvoice = class(TfrmDefaultServerBrowse)
+    procedure FormCreate(Sender: TObject);
     procedure btnBaruClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnHapusClick(Sender: TObject);
@@ -36,12 +37,23 @@ var
 
 implementation
 
+uses
+  uAppUtils, uDBUtils, uTransDetail, uDXUtils, System.DateUtils,
+  ufrmPurchaseInvoice;
+
 {$R *.dfm}
+
+procedure TfrmBrowsePurchaseInvoice.FormCreate(Sender: TObject);
+begin
+  StartDate.Date := StartOfTheMonth(Now());
+  EndDate.Date := EndOfTheMonth(Now());
+  inherited;
+end;
 
 procedure TfrmBrowsePurchaseInvoice.btnBaruClick(Sender: TObject);
 begin
   inherited;
-  with TfrmItem.Create(Application) do
+  with TfrmPurchaseInvoice.Create(Application) do
   begin
     Try
       if ShowModal = mrOK then
@@ -55,9 +67,9 @@ end;
 procedure TfrmBrowsePurchaseInvoice.btnEditClick(Sender: TObject);
 begin
   inherited;
-  with TfrmItem.Create(Application) do
+  with TfrmPurchaseInvoice.Create(Application) do
   begin
-    LoadByID(cxGrdMain.GetID, False);
+    LoadByID(Self.cxGrdMain.GetID, False);
     Try
       if ShowModal = mrOK then
         RefreshData;
@@ -72,9 +84,9 @@ begin
   inherited;
   if not TAppUtils.Confirm('Anda yakin menghapus data ini?') then exit;
 
-  with TItem.Create do
+  with TPurchaseInvoice.Create do
   begin
-    if LoadByID(cxGrdMain.GetID) then
+    if LoadByID(Self.cxGrdMain.GetID) then
       if DeleteFromDB then
       begin
         TAppUtils.Information('Berhasil menghapus data');
@@ -87,9 +99,9 @@ end;
 procedure TfrmBrowsePurchaseInvoice.btnLihatClick(Sender: TObject);
 begin
   inherited;
-  with TfrmItem.Create(Application) do
+  with TfrmPurchaseInvoice.Create(Application) do
   begin
-    LoadByID(cxGrdMain.GetID, True);
+    LoadByID(Self.cxGrdMain.GetID, True);
     Try
       ShowModal;
     Finally
@@ -101,16 +113,16 @@ end;
 procedure TfrmBrowsePurchaseInvoice.cxGrdMainStylesGetContentStyle(Sender:
     TcxCustomGridTableView; ARecord: TcxCustomGridRecord; AItem:
     TcxCustomGridTableItem; var AStyle: TcxStyle);
-var
-  iCol: Integer;
+//var
+//  iCol: Integer;
 begin
   inherited;
-  if cxGrdMain.GetColumnByFieldName('IsActive') = nil then exit;
-  if ARecord = nil then exit;
-
-  iCol := cxGrdMain.GetColumnByFieldName('IsActive').Index;
-  if VarToInt(ARecord.Values[iCol]) = 0 then
-    AStyle := styleNonActive;
+//  if cxGrdMain.GetColumnByFieldName('IsActive') = nil then exit;
+//  if ARecord = nil then exit;
+//
+//  iCol := cxGrdMain.GetColumnByFieldName('IsActive').Index;
+//  if VarToInt(ARecord.Values[iCol]) = 0 then
+//    AStyle := styleNonActive;
 
 end;
 
@@ -121,12 +133,16 @@ end;
 
 function TfrmBrowsePurchaseInvoice.GetSQL: string;
 begin
-  Result := 'SELECT A.ID, A.KODE, A.NAMA, B.NAMA AS MERK, '
-          +' C.NAMA AS GROUP_BARANG, A.PPN, A.RAK,'
-          +' A.MODIFIEDDATE, A.MODIFIEDBY, A.ISACTIVE, A.NOTES AS CATATAN'
-          +' FROM TITEM A'
-          +' LEFT JOIN TMERK B ON A.MERK_ID = B.ID'
-          +' LEFT JOIN TITEMGROUP C ON A.GROUP_ID = C.ID';
+  Result := 'SELECT A.ID, A.INVOICENO, A.TRANSDATE, B.NAMA AS SUPPLIER, A.DUEDATE,'
+           +' CASE WHEN A.PAYMENTFLAG = 1 THEN ''TEMPO'' ELSE ''CASH'' END AS CARABAYAR,'
+           +' A.SUBTOTAL, A.PPN, A.AMOUNT AS TOTAL, C.NAMA AS GUDANG,'
+           +' A.STATUS, A.CLOSED, A.MODIFIEDBY, A.MODIFIEDDATE'
+           +' FROM TPURCHASEINVOICE A'
+           +' INNER JOIN TSUPPLIER B ON A.SUPPLIER_ID = B.ID'
+           +' LEFT JOIN TWAREHOUSE C ON A.WAREHOUSE_ID = C.ID'
+           +' WHERE TRANSDATE BETWEEN ' + TAppUtils.QuotD(StartDate.Date)
+           +' AND ' + TAppUtils.QuotD(EndDate.Date);
+
 end;
 
 end.
