@@ -430,6 +430,8 @@ end;
 
 procedure TfrmPurchaseInvoice.LoadByID(aID: Integer; IsReadOnly: Boolean =
     True);
+var
+  lItem: TTransDetail;
 begin
   if FPurchInv <> nil then
     FreeAndNil(FPurchInv);
@@ -449,8 +451,29 @@ begin
   dtInvoice.Date := PurchInv.TransDate;
   dtJtTempo.Date := PurchInv.DueDate;
   cbBayar.ItemIndex := PurchInv.PaymentFlag;
+  crSubTotal.Value := PurchInv.SubTotal;
+  crPPN.Value := PurchInv.PPN;
+  crTotal.Value := PurchInv.Amount;
+  edNotes.Text := PurchInv.Notes;
+
+  if PurchInv.Supplier <> nil then
+    edSupplier.Text := PurchInv.Supplier.Nama;
+
+  if PurchInv.Warehouse <> nil then
+    cxLookupGudang.EditValue := PurchInv.Warehouse.ID;
 
 
+  for lItem in PurchInv.Items do
+  begin
+    CDS.Append;
+    lItem.UpdateToDataset(CDS);
+    lItem.Item.ReLoad(False);
+    CDS.FieldByName('Kode').AsString := lItem.Item.Kode;
+    CDS.FieldByName('Nama').AsString := lItem.Item.Nama;
+
+    CDS.Post;
+  end;
+  CalculateAll;
   btnSave.Enabled := not IsReadOnly;
 end;
 
@@ -540,6 +563,11 @@ begin
   PurchInv.DueDate  := dtJtTempo.Date;
   PurchInv.Notes := edNotes.Text;
   PurchInv.PaymentFlag := cbBayar.ItemIndex;
+  PurchInv.SubTotal := crSubTotal.Value;
+  PurchInv.PPN := crPPN.Value;
+  PurchInv.Amount := crTotal.Value;
+  PurchInv.ModifiedDate := Now();
+  PurchInv.ModifiedBy := UserLogin;
 
   if PurchInv.Warehouse = nil then
     PurchInv.Warehouse := TWarehouse.Create;

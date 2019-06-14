@@ -553,6 +553,7 @@ begin
           If not lObj.ClassType.InheritsFrom(TCRUDObject) then continue;
           lObjItem := TCRUDObject(lObj);
           if lObjItem = nil then continue;
+
           lHeaderProp := lObjItem.PropFromAttr(AttributeOfHeader);
 
           if lHeaderProp <> nil then
@@ -588,12 +589,15 @@ var
   ctx : TRttiContext;
   meth  : TRttiMethod;
   prop  : TRttiProperty;
-  rt  : TRttiType;
+  rt, rtItem  : TRttiType;
   i : Integer;
   lObj  : TObject;
   lObjItem: TCRUDObject;
   SQL: string;
   value, value2 : TValue;
+  lAppClass : TCRUDObjectClass;
+  lObjectList: TObject;
+  sGenericItemClassName: string;
 begin
   Result := aSS;
   if Result = nil then  Result := TStringList.Create;
@@ -609,6 +613,7 @@ begin
       meth := prop.PropertyType.GetMethod('ToArray');
       if Assigned(meth) then  //object list
       begin
+        lObjectList := prop.GetValue(Self).AsObject;
         value   := prop.GetValue(Self);
         value2  := meth.Invoke(value, []);
         Assert(value2.IsArray);
@@ -619,8 +624,16 @@ begin
           lObjItem := TCRUDObject(lObj);
           if i = 0 then  //delete all where header;
           begin
-            SQL := Format(SQL_Delete,[lObjItem.GetTableName,
-              lObjItem.GetHeaderField + ' = ' + IntToStr(Self.ID) ]);
+//            SQL := Format(SQL_Delete,[lObjItem.GetTableName,
+//              lObjItem.GetHeaderField + ' = ' + IntToStr(Self.ID) ]);
+
+
+            sGenericItemClassName := StringReplace(lObjectList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
+            sGenericItemClassName := StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
+            rtItem                := ctx.FindType(sGenericItemClassName);
+            lAppClass             := TCRUDObjectClass( rtItem.AsInstance.MetaclassType );
+
+            SQL := lAppClass(lObj).GetSQLDeleteDetails(Self.ID);   //force using descendant method
             Result.Add(SQL);
           end;
           //if item has objectlist

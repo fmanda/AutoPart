@@ -44,7 +44,8 @@ uses
   ufrmBrowseRekening in 'forms\ufrmBrowseRekening.pas' {frmBrowseRekening},
   uTransDetail in 'classes\uTransDetail.pas',
   ufrmPurchaseInvoice in 'forms\ufrmPurchaseInvoice.pas' {frmPurchaseInvoice},
-  ufrmCXServerLookup in 'lib\ufrmCXServerLookup.pas' {frmCXServerLookup};
+  ufrmCXServerLookup in 'lib\ufrmCXServerLookup.pas' {frmCXServerLookup},
+  ufrmBrowsePurchaseInvoice in 'forms\ufrmBrowsePurchaseInvoice.pas' {frmBrowsePurchaseInvoice};
 
 {$R *.res}
 
@@ -53,5 +54,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmBrowsePurchaseInvoice, frmBrowsePurchaseInvoice);
   Application.Run;
 end.

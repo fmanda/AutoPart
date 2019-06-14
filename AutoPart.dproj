@@ -229,6 +229,10 @@
             <Form>frmCXServerLookup</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="forms\ufrmBrowsePurchaseInvoice.pas">
+            <Form>frmBrowsePurchaseInvoice</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

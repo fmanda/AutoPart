@@ -14,10 +14,12 @@ type
     FItems: TObjectList<TTransDetail>;
     FTransDate: TDateTime;
     FClosed: Integer;
+    FModifiedBy: String;
+    FModifiedDate: TDateTime;
     function GetItems: TObjectList<TTransDetail>;
   protected
-    function BeforeSaveObjectList: Boolean; override;
     function GetRefno: String; dynamic;
+    procedure PrepareDetailObject(AObjItem: TCRUDObject); override;
   public
     destructor Destroy; override;
     function GetHeaderFlag: Integer; virtual; abstract;
@@ -25,13 +27,15 @@ type
   published
     property TransDate: TDateTime read FTransDate write FTransDate;
     property Closed: Integer read FClosed write FClosed;
+    property ModifiedBy: String read FModifiedBy write FModifiedBy;
+    property ModifiedDate: TDateTime read FModifiedDate write FModifiedDate;
   end;
 
   TTransDetail = class(TCRUDObject)
   private
     FHeader_Flag: Integer;
     FHeader_ID: Integer;
-    FTransDate: Integer;
+    FTransDate: TDateTime;
     FKonversi: Double;
     FQty: Double;
     FItem: TItem;
@@ -52,8 +56,9 @@ type
     destructor Destroy; override;
   published
     property Header_Flag: Integer read FHeader_Flag write FHeader_Flag;
+    [AttributeOfHeader]
     property Header_ID: Integer read FHeader_ID write FHeader_ID;
-    property TransDate: Integer read FTransDate write FTransDate;
+    property TransDate: TDateTime read FTransDate write FTransDate;
     property Konversi: Double read FKonversi write FKonversi;
     property Qty: Double read FQty write FQty;
     property Item: TItem read FItem write FItem;
@@ -116,20 +121,6 @@ begin
   if FItems <> nil then FItems.Free;
 end;
 
-function TCRUDTransDetail.BeforeSaveObjectList: Boolean;
-var
-  lItem: TTransDetail;
-begin
-  //transform ttransdetail
-  for lItem in Items do
-  begin
-    lItem.Header_ID := Self.ID;
-    lItem.Header_Flag := Self.GetHeaderFlag;
-    lItem.Refno := Self.GetRefno;
-  end;
-  Result := True;
-end;
-
 function TCRUDTransDetail.GetItems: TObjectList<TTransDetail>;
 begin
   if FItems = nil then
@@ -142,6 +133,16 @@ end;
 function TCRUDTransDetail.GetRefno: String;
 begin
   Result := '';
+end;
+
+procedure TCRUDTransDetail.PrepareDetailObject(AObjItem: TCRUDObject);
+begin
+  if AObjItem is TTransDetail then
+  begin
+    TTransDetail(AObjItem).Header_Flag := GetHeaderFlag;
+    TTransDetail(AObjItem).TransDate := TransDate;
+    TTransDetail(AObjItem).Refno := GetRefno;
+  end;
 end;
 
 destructor TPurchaseInvoice.Destroy;
@@ -209,7 +210,7 @@ begin
 //    Raise Exception.Create('Must override GetSQLDeleteDetails for TTRANSDETAIL');
 
   sFilter := 'Header_flag = ' + IntToStr(Header_Flag)
-    +'AND Header_ID = ' + IntToStr(Header_ID);
+    +' AND Header_ID = ' + IntToStr(Header_ID);
 
   Result  := Format(SQL_Delete,[Self.GetTableName,sFilter]);
 end;
@@ -223,7 +224,7 @@ begin
 //    Raise Exception.Create('Must override GetSQLRetrieveDetails for TTRANSDETAIL');
 
   sFilter := 'Header_flag = ' + IntToStr(Header_Flag)
-    +'and Header_ID = ' + IntToStr(Header_ID);
+    +' And Header_ID = ' + IntToStr(Header_ID);
   Result  := Format(SQL_Select,['*', Self.GetTableName,sFilter]);
 //
 //  lPO := TCRUDPOItem.Create;

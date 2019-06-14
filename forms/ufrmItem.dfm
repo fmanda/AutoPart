@@ -62,18 +62,24 @@ inherited frmItem: TfrmItem
     Top = 489
     Width = 738
     TabOrder = 3
+    ExplicitTop = 489
+    ExplicitWidth = 738
     inherited lbEscape: TLabel
       Left = 493
-      ExplicitLeft = 497
+      Height = 16
+      ExplicitLeft = 493
     end
     inherited lgndSave: TLabel
       Left = 572
-      ExplicitLeft = 332
+      Height = 16
+      ExplicitLeft = 572
       ExplicitTop = 1
+      ExplicitHeight = 16
     end
     inherited lgndPrint: TLabel
       Left = 659
-      ExplicitLeft = 419
+      Height = 16
+      ExplicitLeft = 659
     end
   end
   object cxGroupBox1: TcxGroupBox
@@ -223,6 +229,9 @@ inherited frmItem: TfrmItem
     object tsUOM: TcxTabSheet
       Caption = 'Konversi && Harga Satuan [F2]'
       ImageIndex = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object cxGrid1: TcxGrid
         AlignWithMargins = True
         Left = 3
@@ -456,6 +465,9 @@ inherited frmItem: TfrmItem
       Caption = 'History Perubahan Harga'
       ImageIndex = 1
       TabVisible = False
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
     end
   end
   object cxStyleRepository1: TcxStyleRepository
