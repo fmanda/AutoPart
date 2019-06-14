@@ -68,7 +68,6 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxRTMaster: TdxRibbonTab
-      Active = True
       Caption = 'Master Data'
       Groups = <
         item
@@ -83,8 +82,15 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxRTInventory: TdxRibbonTab
+      Active = True
       Caption = 'Inventory'
-      Groups = <>
+      Groups = <
+        item
+          ToolbarName = 'dxBarManagerBar5'
+        end
+        item
+          ToolbarName = 'dxBarManagerBar6'
+        end>
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
@@ -163,7 +169,7 @@ object frmMain: TfrmMain
           ItemName = 'dxBarButton31'
         end>
       OneOnRow = False
-      Row = 1
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -215,7 +221,7 @@ object frmMain: TfrmMain
           ItemName = 'dxBarButton35'
         end>
       OneOnRow = False
-      Row = 1
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -238,7 +244,71 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxBarButton37'
         end>
-      OneOnRow = True
+      OneOnRow = False
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxBarManagerBar5: TdxBar
+      Caption = 'Administrasi Gudang'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 901
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarButton38'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton39'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton40'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton41'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton42'
+        end>
+      OneOnRow = False
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxBarManagerBar6: TdxBar
+      Caption = 'Laporan'
+      CaptionButtons = <>
+      DockedLeft = 253
+      DockedTop = 0
+      FloatLeft = 901
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarButton43'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton44'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton45'
+        end>
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -461,11 +531,43 @@ object frmMain: TfrmMain
       Action = actRekening
       Category = 0
     end
+    object dxBarButton38: TdxBarButton
+      Action = actPurchaseInvoice
+      Category = 0
+    end
+    object dxBarButton39: TdxBarButton
+      Action = actPurchaseRetur
+      Category = 0
+    end
+    object dxBarButton40: TdxBarButton
+      Action = actTransferStock
+      Category = 0
+    end
+    object dxBarButton41: TdxBarButton
+      Action = actStockOpname
+      Category = 0
+    end
+    object dxBarButton42: TdxBarButton
+      Action = actStockAdjustment
+      Category = 0
+    end
+    object dxBarButton43: TdxBarButton
+      Action = actKartuStock
+      Category = 0
+    end
+    object dxBarButton44: TdxBarButton
+      Action = actLapStock
+      Category = 0
+    end
+    object dxBarButton45: TdxBarButton
+      Action = actLapStockOpname
+      Category = 0
+    end
   end
   object ActionManager: TActionManager
     Images = ImageList
-    Left = 336
-    Top = 224
+    Left = 640
+    Top = 200
     StyleName = 'Platform Default'
     object actLogin: TAction
       Category = 'Application'
@@ -538,6 +640,48 @@ object frmMain: TfrmMain
       Category = 'Master'
       Caption = 'Rekening Kas && Bank'
       ImageIndex = 15
+      OnExecute = actRekeningExecute
+    end
+    object actPurchaseInvoice: TAction
+      Category = 'Inventory'
+      Caption = 'Pembelian Barang'
+      ImageIndex = 36
+      OnExecute = actPurchaseInvoiceExecute
+    end
+    object actPurchaseRetur: TAction
+      Category = 'Inventory'
+      Caption = 'Retur Pembelian'
+      ImageIndex = 5
+    end
+    object actTransferStock: TAction
+      Category = 'Inventory'
+      Caption = 'Transfer Stock'
+      ImageIndex = 9
+    end
+    object actStockOpname: TAction
+      Category = 'Inventory'
+      Caption = 'Stock Opname'
+      ImageIndex = 8
+    end
+    object actStockAdjustment: TAction
+      Category = 'Inventory'
+      Caption = 'Stock Adjustment'
+      ImageIndex = 12
+    end
+    object actKartuStock: TAction
+      Category = 'Inventory'
+      Caption = 'Kartu Stock / Mutasi Harian'
+      ImageIndex = 13
+    end
+    object actLapStock: TAction
+      Category = 'Inventory'
+      Caption = 'Laporan Saldo Stock'
+      ImageIndex = 27
+    end
+    object actLapStockOpname: TAction
+      Category = 'Inventory'
+      Caption = 'Laporan Stock Opname'
+      ImageIndex = 8
     end
   end
   object ImageList: TcxImageList

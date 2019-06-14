@@ -8,7 +8,7 @@ uses
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   Vcl.Menus, Vcl.StdCtrls, cxButtons, cxGroupBox, Vcl.ComCtrls, dxCore,
   cxDateUtils, cxSpinEdit, cxCheckBox, cxMaskEdit, cxDropDownEdit, cxCalendar,
-  cxMemo, cxTextEdit, cxLabel, uCustomer, uSupplier;
+  cxMemo, cxTextEdit, cxLabel, uCustomer, uSupplier, Vcl.ExtCtrls;
 
 type
   TfrmSupplier = class(TfrmDefaultInput)

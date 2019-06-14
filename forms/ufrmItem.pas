@@ -14,7 +14,7 @@ uses
   cxGrid, cxMemo, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
   cxDBExtLookupComboBox, cxTextEdit, cxLabel, cxCurrencyEdit, dxBarBuiltInMenu,
   cxPC, Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, Datasnap.DBClient, uItem,
-  cxCheckBox;
+  cxCheckBox, Vcl.ExtCtrls;
 
 type
   TfrmItem = class(TfrmDefaultInput)

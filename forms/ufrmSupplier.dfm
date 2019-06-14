@@ -12,16 +12,21 @@ inherited frmSupplier: TfrmSupplier
   inherited cxGroupBox2: TcxGroupBox
     Top = 257
     TabOrder = 7
+    ExplicitTop = 236
+    ExplicitWidth = 484
     Width = 484
     inherited btnCancel: TcxButton
       Left = 399
+      ExplicitLeft = 399
     end
     inherited btnPrint: TcxButton
       Left = 313
+      ExplicitLeft = 313
     end
     inherited btnSave: TcxButton
       Left = 227
       OnClick = btnSaveClick
+      ExplicitLeft = 227
     end
     object cxLabel3: TcxLabel
       AlignWithMargins = True
@@ -31,6 +36,27 @@ inherited frmSupplier: TfrmSupplier
       Caption = '[F5] Generate Kode'
       Properties.Alignment.Vert = taVCenter
       AnchorY = 18
+    end
+  end
+  inherited Panel2: TPanel
+    Top = 236
+    Width = 484
+    TabOrder = 8
+    ExplicitTop = 241
+    ExplicitWidth = 484
+    inherited lbEscape: TLabel
+      Left = 404
+      ExplicitLeft = 497
+    end
+    inherited lgndSave: TLabel
+      Left = 239
+      ExplicitLeft = 332
+      ExplicitTop = 1
+      ExplicitHeight = 16
+    end
+    inherited lgndPrint: TLabel
+      Left = 326
+      ExplicitLeft = 419
     end
   end
   object cxLabel1: TcxLabel

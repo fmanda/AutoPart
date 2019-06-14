@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmDefault, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, Vcl.Menus,
-  Data.DB, Datasnap.DBClient, Vcl.StdCtrls, cxButtons, cxLabel, cxGroupBox;
+  Data.DB, Datasnap.DBClient, Vcl.StdCtrls, cxButtons, cxLabel, cxGroupBox,
+  Vcl.ExtCtrls;
 
 type
   TfrmDefaultInput = class(TfrmDefault)
@@ -14,6 +15,10 @@ type
     btnCancel: TcxButton;
     btnPrint: TcxButton;
     btnSave: TcxButton;
+    Panel2: TPanel;
+    lbEscape: TLabel;
+    lgndSave: TLabel;
+    lgndPrint: TLabel;
     procedure btnCancelClick(Sender: TObject);
   private
     { Private declarations }

@@ -38,7 +38,13 @@ uses
   ufrmBrowseSupplier in 'forms\ufrmBrowseSupplier.pas' {frmBrowseSupplier},
   ufrmWarehouse in 'forms\ufrmWarehouse.pas' {frmWarehouse},
   uWarehouse in 'classes\uWarehouse.pas',
-  ufrmBrowseWarehouse in 'forms\ufrmBrowseWarehouse.pas' {frmBrowseWarehouse};
+  ufrmBrowseWarehouse in 'forms\ufrmBrowseWarehouse.pas' {frmBrowseWarehouse},
+  uAccount in 'classes\uAccount.pas',
+  ufrmRekening in 'forms\ufrmRekening.pas' {frmRekening},
+  ufrmBrowseRekening in 'forms\ufrmBrowseRekening.pas' {frmBrowseRekening},
+  uTransDetail in 'classes\uTransDetail.pas',
+  ufrmPurchaseInvoice in 'forms\ufrmPurchaseInvoice.pas' {frmPurchaseInvoice},
+  ufrmCXServerLookup in 'lib\ufrmCXServerLookup.pas' {frmCXServerLookup};
 
 {$R *.res}
 

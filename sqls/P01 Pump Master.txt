@@ -48,3 +48,7 @@ insert into AUTOPART.dbo.TSERVICE(UOM_ID, kode, nama, biaya, ppn, modifieddate, 
 select 1, KdService, NamaService, Biaya, 0, getdate(), 1
 from MOTOROLI2017.dbo.tblservice
 
+
+insert into AUTOPART.dbo.TSUPPLIER(kode, nama, ALAMAT, TELP, TEMPO,  MODIFIEDDATE )
+select KdSupplier, NamaSupplier, Alamat,'', 0, getdate()
+from MOTOROLI2017.dbo.TblSupplier

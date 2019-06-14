@@ -75,11 +75,13 @@ type
     procedure LoadServerMode(ASQL, IDField, DisplayField: String; HideFields: Array
         Of String; aOwnerForm: TComponent); overload;
     procedure LoadFromSQL(aSQL, IDField, DisplayField: String; HideFields: Array Of
-        String; aOwnerForm: TComponent);
+        String; aOwnerForm: TComponent); overload;
     procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
         HideFields: Array Of String; aOwnerForm: TComponent); overload;
     procedure LoadFromDS(aDataSet: TDataSet; IDField, DisplayField: String;
         aOwnerForm: TComponent); overload;
+    procedure LoadFromSQL(aOwnerForm: TComponent; aSQL, DisplayField: String;
+        IDField: String = 'ID'); overload;
     procedure SetMultiPurposeLookup;
     procedure SetVisibleColumnsOnly(ColumnSets: Array Of String; IsVisible: Boolean
         = True);
@@ -728,13 +730,16 @@ begin
   end;
 end;
 
-procedure TcxExtLookupPropHelper.LoadFromSQL(aSQL, IDField, DisplayField: String;
-    HideFields: Array Of String; aOwnerForm: TComponent);
+procedure TcxExtLookupPropHelper.LoadFromSQL(aSQL, IDField, DisplayField:
+    String; HideFields: Array Of String; aOwnerForm: TComponent);
 var
   lCDS: TClientDataSet;
 begin
 //  method ini hanya digunakan sekali saja,
 //  membuat cds sesuai owner form agar di free on destroy
+//  if aOwnerForm = nil then
+//    aOwnerForm := Application;
+
   lCDS := TDBUtils.OpenDataset(aSQL, aOwnerForm);
   Self.LoadFromCDS(lCDS, IDField, DisplayField, HideFields, aOwnerForm);
 end;
@@ -759,6 +764,12 @@ begin
   //membuat cds sesuai owner form agar di free on destroy
   lCDS := TDBUtils.DSToCDS(aDataSet, aOwnerForm);
   Self.LoadFromCDS(lCDS, IDField, DisplayField, [IDField], aOwnerForm);
+end;
+
+procedure TcxExtLookupPropHelper.LoadFromSQL(aOwnerForm: TComponent; aSQL,
+    DisplayField: String; IDField: String = 'ID');
+begin
+  Self.LoadFromSQL(aSQL,'ID',DisplayField,['ID'], aOwnerForm);
 end;
 
 procedure TcxExtLookupPropHelper.SetMultiPurposeLookup;

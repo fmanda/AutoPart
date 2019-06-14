@@ -88,12 +88,32 @@ type
     dxBarButton36: TdxBarButton;
     actRekening: TAction;
     dxBarButton37: TdxBarButton;
+    dxBarManagerBar5: TdxBar;
+    actPurchaseInvoice: TAction;
+    actPurchaseRetur: TAction;
+    actTransferStock: TAction;
+    dxBarButton38: TdxBarButton;
+    dxBarButton39: TdxBarButton;
+    dxBarButton40: TdxBarButton;
+    dxBarManagerBar6: TdxBar;
+    actStockOpname: TAction;
+    actStockAdjustment: TAction;
+    dxBarButton41: TdxBarButton;
+    dxBarButton42: TdxBarButton;
+    actKartuStock: TAction;
+    actLapStock: TAction;
+    dxBarButton43: TdxBarButton;
+    dxBarButton44: TdxBarButton;
+    actLapStockOpname: TAction;
+    dxBarButton45: TdxBarButton;
     procedure actCustomerExecute(Sender: TObject);
     procedure actItemExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actItemGroupExecute(Sender: TObject);
     procedure actLoginExecute(Sender: TObject);
     procedure actMerkExecute(Sender: TObject);
+    procedure actPurchaseInvoiceExecute(Sender: TObject);
+    procedure actRekeningExecute(Sender: TObject);
     procedure actServiceExecute(Sender: TObject);
     procedure actUOMExecute(Sender: TObject);
     procedure actSettingKoneksiExecute(Sender: TObject);
@@ -119,7 +139,8 @@ uses
   uDBUtils, uApputils, uDXUtils, ufrmLogin, ufrmSetKoneksi, ufrmTest,
   ufrmBrowseUOM, ufrmBrowseItemGroup, ufrmBrowseMerk, uItem, ufrmBrowseItem,
   ufrmBrowseService, ufrmBrowseCustomer, ufrmBrowseSupplier,
-  ufrmBrowseWarehouse;
+  ufrmBrowseWarehouse, ufrmBrowseRekening, ufrmCXServerLookup,
+  ufrmPurchaseInvoice, uTransDetail;
 
 {$R *.dfm}
 
@@ -166,6 +187,16 @@ end;
 procedure TfrmMain.actMerkExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseMerk);
+end;
+
+procedure TfrmMain.actPurchaseInvoiceExecute(Sender: TObject);
+begin
+  ShowForm(TfrmPurchaseInvoice).ShowModal;
+end;
+
+procedure TfrmMain.actRekeningExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseRekening);
 end;
 
 procedure TfrmMain.actServiceExecute(Sender: TObject);
@@ -239,13 +270,20 @@ begin
 end;
 
 procedure TfrmMain.cxButton1Click(Sender: TObject);
-var
-  lMerk: TMerk;
+//var
+//  cxLookup: TfrmCXServerLookup;
 begin
-  lMerk := TMerk.Create;
-  lMerk.Kode := 'kode';
-  lMerk.Nama := 'nama';
-  ShowMessage(lMerk.GetCodeValue);
+//  cxLookup := TfrmCXServerLookup.Execute(
+//    'select * from titem','id'
+//  );
+//  Try
+//    cxLookup.PreFilter('nama','oli');
+//    if cxLookup.ShowModal = mrOK then
+//      ShowMessage( VarToStr(cxLookup.FieldValue('id')));
+//
+//  Finally
+//    cxLookup.Free;
+//  End;
 end;
 
 procedure TfrmMain.DoLogin;

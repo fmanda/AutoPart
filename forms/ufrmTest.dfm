@@ -7,16 +7,6 @@ inherited frmTest: TfrmTest
   ExplicitHeight = 552
   PixelsPerInch = 96
   TextHeight = 13
-  inherited cxGroupBox1: TcxGroupBox
-    ExplicitWidth = 719
-    Width = 719
-    inherited lblTitle: TcxLabel
-      Caption = 'Testing Purpose'
-      Style.IsFontAssigned = True
-      ExplicitWidth = 95
-      AnchorY = 18
-    end
-  end
   inherited cxGroupBox2: TcxGroupBox
     Top = 478
     ExplicitTop = 478
@@ -36,11 +26,28 @@ inherited frmTest: TfrmTest
       ExplicitLeft = 462
     end
   end
+  inherited Panel2: TPanel
+    Top = 457
+    Width = 719
+    inherited lbEscape: TLabel
+      Left = 561
+      ExplicitLeft = 497
+    end
+    inherited lgndSave: TLabel
+      Left = 474
+      ExplicitLeft = 332
+      ExplicitTop = 1
+    end
+    inherited lgndPrint: TLabel
+      Left = 640
+      ExplicitLeft = 419
+    end
+  end
   object cxGrid1: TcxGrid
     Left = 0
-    Top = 35
+    Top = 0
     Width = 719
-    Height = 443
+    Height = 457
     Align = alClient
     TabOrder = 2
     object cxGrid1ServerModeTableView1: TcxGridServerModeTableView

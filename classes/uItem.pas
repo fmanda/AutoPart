@@ -95,6 +95,7 @@ type
     FModifiedBy: String;
   public
     destructor Destroy; override;
+    class function GetItemUOM(aItemID, aUOMID: Integer): TItemUOM;
   published
     [AttributeOfHeader]
     property Item: TItem read FItem write FItem;
@@ -137,7 +138,7 @@ type
 implementation
 
 uses
-  uDBUtils, Strutils;
+  uDBUtils, Strutils, FireDAC.Comp.Client;
 
 destructor TItem.Destroy;
 begin
@@ -188,6 +189,27 @@ destructor TItemUOM.Destroy;
 begin
   inherited;
   if FUOM <> nil then FUOM.Free;
+end;
+
+class function TItemUOM.GetItemUOM(aItemID, aUOMID: Integer): TItemUOM;
+var
+  lQ: TFDQuery;
+  S: string;
+begin
+  Result := nil;
+  S := 'select * from TITEMUOM where item_id = ' + inttostr(aItemID)
+    +' and uom_id = ' + inttostr(aUOMID);
+
+  lQ := TDBUtils.OpenQuery(S);
+  Try
+    if not lQ.eof then
+    begin
+      Result := TItemUOm.Create;
+      Result.LoadFromDataset(lQ);;
+    end;
+  Finally
+    lQ.Free;
+  End;
 end;
 
 function TItemGroup.ValidateDelete: Boolean;

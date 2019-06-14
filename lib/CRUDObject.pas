@@ -46,6 +46,7 @@ type
     function GetLog: TLog;
   protected
     function AfterSaveToDB: Boolean; dynamic;
+    function BeforeSaveObjectList: Boolean; dynamic;
     function BeforeSaveToDB: Boolean; dynamic;
     function BeforeDeleteFromDB: Boolean; dynamic;
     function PropFromAttr(attr: TAttributeClass; WithException: Boolean = True):
@@ -55,8 +56,8 @@ type
     function GetHeaderKey: String;
     function GetHeaderProperty: String;
     class function GetPrimaryField: String; dynamic;
-    function GetSQLDeleteDetails(Header_ID: Integer): String; overload; dynamic;
-    function GetSQLRetrieveDetails(Header_ID: Integer): String; overload; dynamic;
+    function GetSQLDeleteDetails(Header_ID: Integer): String; dynamic;
+    function GetSQLRetrieveDetails(Header_ID: Integer): String; dynamic;
     class function GetTableName: string; dynamic;
     procedure LoadFromDataset(ADataSet: TDataset; LoadObjectList: Boolean = True);
     function LogLevel: Integer; dynamic;
@@ -157,6 +158,11 @@ begin
 end;
 
 function TCRUDObject.AfterSaveToDB: Boolean;
+begin
+  Result := True;
+end;
+
+function TCRUDObject.BeforeSaveObjectList: Boolean;
 begin
   Result := True;
 end;
@@ -657,6 +663,9 @@ begin
 
       DoSaveLog     := LogLevel in [1,2]; //all or update and delete only
     end;
+
+    if not BeforeSaveObjectList then
+      Raise Exception.Create('Before Save ObjectList Failed');
 
     if not SaveObjectList then
       Raise Exception.Create('Save ObjectList Failed');

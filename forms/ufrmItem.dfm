@@ -27,6 +27,7 @@ inherited frmItem: TfrmItem
       Left = 481
       OnClick = btnSaveClick
       ExplicitLeft = 481
+      ExplicitTop = 3
     end
     object btnDel: TcxButton
       AlignWithMargins = True
@@ -57,14 +58,30 @@ inherited frmItem: TfrmItem
       OnClick = btnAddClick
     end
   end
+  inherited Panel2: TPanel
+    Top = 489
+    Width = 738
+    TabOrder = 3
+    inherited lbEscape: TLabel
+      Left = 493
+      ExplicitLeft = 497
+    end
+    inherited lgndSave: TLabel
+      Left = 572
+      ExplicitLeft = 332
+      ExplicitTop = 1
+    end
+    inherited lgndPrint: TLabel
+      Left = 659
+      ExplicitLeft = 419
+    end
+  end
   object cxGroupBox1: TcxGroupBox
     Left = 0
     Top = 0
     Align = alTop
     Caption = ' Informasi Barang [F1] '
     TabOrder = 0
-    ExplicitLeft = -120
-    ExplicitTop = -64
     Height = 177
     Width = 738
     object cxLabel1: TcxLabel
@@ -194,13 +211,13 @@ inherited frmItem: TfrmItem
     Left = 0
     Top = 177
     Width = 738
-    Height = 333
+    Height = 312
     Align = alClient
     TabOrder = 1
     Properties.ActivePage = tsUOM
     Properties.CustomButtons.Buttons = <>
     Properties.TabHeight = 30
-    ClientRectBottom = 333
+    ClientRectBottom = 312
     ClientRectRight = 738
     ClientRectTop = 32
     object tsUOM: TcxTabSheet
@@ -211,7 +228,7 @@ inherited frmItem: TfrmItem
         Left = 3
         Top = 3
         Width = 732
-        Height = 295
+        Height = 274
         Align = alClient
         TabOrder = 0
         object cxGrdUOM: TcxGridDBBandedTableView

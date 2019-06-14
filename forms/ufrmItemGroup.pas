@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmDefaultInput, cxGraphics,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   Vcl.Menus, Vcl.StdCtrls, cxButtons, cxGroupBox, uItem, uAppUtils, uDXUtils,
-  cxTextEdit, cxLabel;
+  cxTextEdit, cxLabel, Vcl.ExtCtrls;
 
 type
   TfrmItemGroup = class(TfrmDefaultInput)

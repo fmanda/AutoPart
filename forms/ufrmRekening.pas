@@ -1,4 +1,4 @@
-unit ufrmWarehouse;
+unit ufrmRekening;
 
 interface
 
@@ -7,10 +7,10 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmDefaultInput, cxGraphics,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   Vcl.Menus, Vcl.StdCtrls, cxButtons, cxGroupBox, cxRadioGroup, cxCheckBox,
-  cxTextEdit, cxLabel, uSupplier, uWarehouse, Vcl.ExtCtrls;
+  cxTextEdit, cxLabel, uCustomer, uAccount, Vcl.ExtCtrls;
 
 type
-  TfrmWarehouse = class(TfrmDefaultInput)
+  TfrmRekening = class(TfrmDefaultInput)
     cxLabel1: TcxLabel;
     edKode: TcxTextEdit;
     cxLabel2: TcxLabel;
@@ -20,11 +20,11 @@ type
     procedure btnSaveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
-    FWarehouse: TWarehouse;
-    function GetWarehouse: TWarehouse;
+    FRekening: TRekening;
+    function GetRekening: TRekening;
     procedure UpdateData;
     function ValidateData: Boolean;
-    property Warehouse: TWarehouse read GetWarehouse write FWarehouse;
+    property Rekening: TRekening read GetRekening write FRekening;
     { Private declarations }
   public
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = False);
@@ -32,70 +32,63 @@ type
   end;
 
 var
-  frmWarehouse: TfrmWarehouse;
+  frmRekening: TfrmRekening;
 
 implementation
 
 uses
-  uAppUtils, uDXUtils;
+  uAppUtils, uDBUtils, uDXUtils;
 
 {$R *.dfm}
 
-procedure TfrmWarehouse.btnSaveClick(Sender: TObject);
+procedure TfrmRekening.btnSaveClick(Sender: TObject);
 begin
   inherited;
   if not ValidateData then exit;
   UpdateData;
-  if Warehouse.SaveToDB then
+  if Rekening.SaveToDB then
   begin
     TAppUtils.InformationBerhasilSimpan;
     Self.ModalResult := mrOK;
   end;
 end;
 
-procedure TfrmWarehouse.FormCreate(Sender: TObject);
+procedure TfrmRekening.FormCreate(Sender: TObject);
 begin
   inherited;
   Self.AssignKeyDownEvent;
   LoadByID(0);
 end;
 
-function TfrmWarehouse.GetWarehouse: TWarehouse;
+function TfrmRekening.GetRekening: TRekening;
 begin
-  if FWarehouse = nil then
-    FWarehouse := TWarehouse.Create;
+  if FRekening = nil then
+    FRekening := TRekening.Create;
 
-  Result := FWarehouse;
+  Result := FRekening;
 end;
 
-procedure TfrmWarehouse.LoadByID(aID: Integer; IsReadOnly: Boolean = False);
+procedure TfrmRekening.LoadByID(aID: Integer; IsReadOnly: Boolean = False);
 begin
-  if FWarehouse <> nil then FreeAndNil(FWarehouse);
+  if FRekening <> nil then FreeAndNil(FRekening);
 
-  Warehouse.LoadByID(aID);
-  if aID = 0 then
-  begin
-    Warehouse.IsActive := 1;
-  end;
-
-  edKode.Text       := Warehouse.Kode;
-  edNama.Text       := Warehouse.Nama;
-  rbJenis.ItemIndex := Warehouse.Jenis;
-  chkActive.Checked := Warehouse.IsActive = 1;
+  Rekening.LoadByID(aID);
+  edKode.Text       := Rekening.Kode;
+  edNama.Text       := Rekening.Nama;
+  rbJenis.ItemIndex := Rekening.Jenis;
+  chkActive.Checked := Rekening.IsActive = 1;
   btnSave.Enabled   := not IsReadOnly;
-
 end;
 
-procedure TfrmWarehouse.UpdateData;
+procedure TfrmRekening.UpdateData;
 begin
-  Warehouse.Kode          := edKode.Text;
-  Warehouse.Nama          := edNama.Text;
-  Warehouse.Jenis         := rbJenis.ItemIndex;
-  Warehouse.IsActive      := 1;
-  if not chkActive.Checked then Warehouse.IsActive := 0;
+  Rekening.Kode         := edKode.Text;
+  Rekening.Nama         := edNama.Text;
+  Rekening.Jenis        := rbJenis.ItemIndex;
+  Rekening.IsActive     := TAppUtils.BoolToInt(chkActive.Checked);
 end;
 
-function TfrmWarehouse.ValidateData: Boolean;
+function TfrmRekening.ValidateData: Boolean;
 begin
   Result := False;
 

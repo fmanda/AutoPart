@@ -9,7 +9,7 @@ uses
   Vcl.Menus, Vcl.StdCtrls, cxButtons, cxGroupBox, Vcl.ComCtrls, dxCore,
   cxDateUtils, cxCheckBox, cxDropDownEdit, cxCalendar, cxCurrencyEdit, cxMemo,
   cxMaskEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox, cxTextEdit,
-  cxLabel, uItem, Datasnap.DBClient;
+  cxLabel, uItem, Datasnap.DBClient, Vcl.ExtCtrls;
 
 type
   TfrmService = class(TfrmDefaultInput)

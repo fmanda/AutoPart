@@ -10,7 +10,7 @@ inherited frmService: TfrmService
   inherited cxGroupBox2: TcxGroupBox
     Top = 163
     TabOrder = 7
-    ExplicitTop = 163
+    ExplicitTop = 142
     ExplicitWidth = 468
     Width = 468
     inherited btnCancel: TcxButton
@@ -25,6 +25,28 @@ inherited frmService: TfrmService
       Left = 211
       OnClick = btnSaveClick
       ExplicitLeft = 211
+    end
+  end
+  inherited Panel2: TPanel
+    Top = 142
+    Width = 468
+    TabOrder = 8
+    ExplicitLeft = 8
+    ExplicitTop = 125
+    ExplicitWidth = 468
+    inherited lbEscape: TLabel
+      Left = 388
+      ExplicitLeft = 497
+    end
+    inherited lgndSave: TLabel
+      Left = 223
+      ExplicitLeft = 332
+      ExplicitTop = 1
+      ExplicitHeight = 16
+    end
+    inherited lgndPrint: TLabel
+      Left = 310
+      ExplicitLeft = 419
     end
   end
   object cxLabel1: TcxLabel

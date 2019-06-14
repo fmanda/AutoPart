@@ -7,10 +7,33 @@ inherited frmUOM: TfrmUOM
   ExplicitHeight = 228
   PixelsPerInch = 96
   TextHeight = 13
+  object cxLabel1: TcxLabel [0]
+    Left = 38
+    Top = 42
+    Caption = 'Satuan'
+  end
+  object edUOM: TcxTextEdit [1]
+    Left = 76
+    Top = 41
+    Properties.CharCase = ecUpperCase
+    TabOrder = 0
+    Width = 77
+  end
+  object cxLabel2: TcxLabel [2]
+    Left = 27
+    Top = 69
+    Caption = 'Deskripsi'
+  end
+  object edDesc: TcxTextEdit [3]
+    Left = 76
+    Top = 68
+    Properties.CharCase = ecUpperCase
+    TabOrder = 1
+    Width = 293
+  end
   inherited cxGroupBox2: TcxGroupBox
     Top = 154
-    TabOrder = 3
-    ExplicitTop = 154
+    TabOrder = 5
     ExplicitWidth = 417
     Width = 417
     inherited btnCancel: TcxButton
@@ -23,32 +46,26 @@ inherited frmUOM: TfrmUOM
     end
     inherited btnSave: TcxButton
       Left = 160
-      OnClick = btnSaveClick
       ExplicitLeft = 160
     end
   end
-  object cxLabel1: TcxLabel
-    Left = 38
-    Top = 42
-    Caption = 'Satuan'
-  end
-  object edUOM: TcxTextEdit
-    Left = 76
-    Top = 41
-    Properties.CharCase = ecUpperCase
-    TabOrder = 0
-    Width = 77
-  end
-  object cxLabel2: TcxLabel
-    Left = 27
-    Top = 69
-    Caption = 'Deskripsi'
-  end
-  object edDesc: TcxTextEdit
-    Left = 76
-    Top = 68
-    Properties.CharCase = ecUpperCase
-    TabOrder = 1
-    Width = 293
+  inherited Panel2: TPanel
+    Top = 133
+    Width = 417
+    TabOrder = 4
+    inherited lbEscape: TLabel
+      Left = 337
+      ExplicitLeft = 337
+    end
+    inherited lgndSave: TLabel
+      Left = 172
+      ExplicitLeft = 172
+      ExplicitTop = 1
+      ExplicitHeight = 16
+    end
+    inherited lgndPrint: TLabel
+      Left = 259
+      ExplicitLeft = 259
+    end
   end
 end

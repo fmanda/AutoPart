@@ -13,7 +13,7 @@ uses
   cxGridTableView, cxGridServerModeTableView, cxClasses, cxGridLevel, cxGrid,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
   cxDBExtLookupComboBox, Data.DB, cxDBData, cxGridBandedTableView,
-  cxGridServerModeBandedTableView, cxGridDBTableView;
+  cxGridServerModeBandedTableView, cxGridDBTableView, Vcl.ExtCtrls;
 
 type
   TfrmTest = class(TfrmDefaultInput)
@@ -46,8 +46,6 @@ implementation
 uses uDBUtils, uDXUtils;
 
 procedure TfrmTest.btnSaveClick(Sender: TObject);
-var
-  i: Integer;
 begin
   inherited;
 //  cxGrid1ServerModeTableView1.LoadFromSQL('select * from tblstok','KdBar');

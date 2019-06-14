@@ -64,6 +64,7 @@ var
   FDConnection  : TFDConnection;
   FDTransaction : TFDTransaction;
   UserLogin : String;
+  Cabang : String = '01';
   DebugSS : TStrings;
 
 const
