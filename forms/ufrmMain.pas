@@ -110,6 +110,7 @@ type
     procedure actItemExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actItemGroupExecute(Sender: TObject);
+    procedure actKartuStockExecute(Sender: TObject);
     procedure actLoginExecute(Sender: TObject);
     procedure actMerkExecute(Sender: TObject);
     procedure actPurchaseInvoiceExecute(Sender: TObject);
@@ -140,7 +141,7 @@ uses
   ufrmBrowseUOM, ufrmBrowseItemGroup, ufrmBrowseMerk, uItem, ufrmBrowseItem,
   ufrmBrowseService, ufrmBrowseCustomer, ufrmBrowseSupplier,
   ufrmBrowseWarehouse, ufrmBrowseRekening, ufrmCXServerLookup,
-  ufrmBrowsePurchaseInvoice, uTransDetail;
+  ufrmBrowsePurchaseInvoice, uTransDetail, ufrmKartuStock;
 
 {$R *.dfm}
 
@@ -177,6 +178,11 @@ end;
 procedure TfrmMain.actItemGroupExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseItemGroup);
+end;
+
+procedure TfrmMain.actKartuStockExecute(Sender: TObject);
+begin
+  ShowForm(TfrmKartuStock).ShowModal;
 end;
 
 procedure TfrmMain.actLoginExecute(Sender: TObject);

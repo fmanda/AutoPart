@@ -19,6 +19,7 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
     TabOrder = 0
     object cxGrdMain: TcxGridServerModeTableView
       Navigator.Buttons.CustomButtons = <>
+      OnCellDblClick = cxGrdMainCellDblClick
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <>
       DataController.Summary.SummaryGroups = <>

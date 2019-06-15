@@ -61,10 +61,13 @@ type
     FNotes: String;
     function GetItemUOMs: TObjectList<TItemUOM>;
   protected
+    function BeforeSaveToDB: Boolean; override;
     function LogLevel: Integer; override;
   public
     destructor Destroy; override;
     function GenerateNo(aPrefix: String; aDigitCount: Integer): String;
+    function GetKonversi(aUOMID: Integer): Double;
+    function ValidateEditUOM: Boolean;
     property ItemUOMs: TObjectList<TItemUOM> read GetItemUOMs write FItemUOMs;
   published
     [AttributeOfCode]
@@ -148,6 +151,11 @@ begin
   if FGroup <> nil then FGroup.Free;
 end;
 
+function TItem.BeforeSaveToDB: Boolean;
+begin
+  Result := ValidateEditUOM;
+end;
+
 function TItem.GenerateNo(aPrefix: String; aDigitCount: Integer): String;
 var
   lNum: Integer;
@@ -178,12 +186,96 @@ begin
   Result := FItemUOMs;
 end;
 
+function TItem.GetKonversi(aUOMID: Integer): Double;
+var
+  lUOM: TItemUOM;
+begin
+  Result := 0;
+
+  for lUOM in Self.ItemUOMs do
+  begin
+    if lUOM.UOM.ID = aUOMID then
+    begin
+      Result := lUOM.Konversi;
+      exit;
+    end;
+  end;
+
+  if Result = 0 then
+    raise Exception.Create('UOM ID ' + IntToStr(aUOMID) + ' not found in TItem');
+
+end;
+
 function TItem.LogLevel: Integer;
 begin
   Result := 1; //no log
   //1 : all
   //2 : update and delete only
  end;
+
+function TItem.ValidateEditUOM: Boolean;
+var
+  isFound: Boolean;
+  isDiffKonversi: Boolean;
+  lNewUOM: TItemUOM;
+  lOldItem: TItem;
+  lOldUOM: TItemUOM;
+  S: string;
+begin
+  Result := True;
+  lOldItem := TItem.Create;
+  Try
+    lOldItem.LoadByID(Self.ID);
+
+    //check deleted uom or modified konversi
+    for lOldUOM in lOLDItem.ItemUOMs do
+    begin
+      isFound := False;
+      isDiffKonversi := True;
+      for lNewUOM in Self.ItemUOMs do
+      begin
+        if not isFound then
+          isFound := lNewUOM.UOM.ID = lOldUOM.UOM.ID;
+
+        if isFound and isDiffKonversi then
+        begin
+          isDiffKonversi := lNewUOM.Konversi <> lOldUOM.Konversi;
+
+          if isDiffKonversi = false then break;
+        end;
+      end;
+
+      if (not isFound) or (isDiffKonversi) then
+      begin
+        S := 'select top 1 * from ttransdetail'
+            +' where item_id = ' + IntToStr(Self.ID)
+            +' and uom_id = ' + IntToStr(lOldUOM.UOM.ID);
+        with TDBUtils.OpenQuery(S) do
+        begin
+          Try
+            if not eof then
+              Result := False;
+
+            if not Result then
+            begin
+              lOldUOM.UOM.ReLoad();
+              raise Exception.Create(
+                'Satuan : ' + lOldUOM.UOM.UOM
+                +' tidak boleh di hapus atau diubah nilai konversi nya'
+                +' karena sudah dipakai di transaksi'
+              );
+            end;
+
+          Finally
+            Free;
+          End;
+        end;
+      end;
+    end;
+  Finally
+    lOldItem.Free;
+  End;
+end;
 
 destructor TItemUOM.Destroy;
 begin

@@ -18,8 +18,6 @@ inherited frmDefaultReport: TfrmDefaultReport
     Style.BorderStyle = ebsFlat
     Style.LookAndFeel.NativeStyle = False
     StyleDisabled.LookAndFeel.NativeStyle = False
-    StyleFocused.LookAndFeel.NativeStyle = False
-    StyleHot.LookAndFeel.NativeStyle = False
     TabOrder = 0
     Height = 35
     Width = 639
@@ -49,8 +47,6 @@ inherited frmDefaultReport: TfrmDefaultReport
     Style.BorderStyle = ebsFlat
     Style.LookAndFeel.NativeStyle = False
     StyleDisabled.LookAndFeel.NativeStyle = False
-    StyleFocused.LookAndFeel.NativeStyle = False
-    StyleHot.LookAndFeel.NativeStyle = False
     TabOrder = 1
     Height = 35
     Width = 639
@@ -102,6 +98,15 @@ inherited frmDefaultReport: TfrmDefaultReport
       OptionsImage.ImageIndex = 5
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 3
+    end
+  end
+  object styleRepo: TcxStyleRepository
+    Left = 184
+    Top = 104
+    PixelsPerInch = 96
+    object styleOdd: TcxStyle
+      AssignedValues = [svColor]
+      Color = clInfoBk
     end
   end
 end

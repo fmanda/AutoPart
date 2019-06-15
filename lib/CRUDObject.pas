@@ -656,10 +656,12 @@ begin
   IsNewTrans := True;
 
   Try
+    IsNewTrans      := Self.ID <= 0;
+    
     if not BeforeSaveTODB then
       Raise Exception.Create('Before Save To DB Failed');
 
-    IsNewTrans    := Self.ID <= 0;
+
     DoSaveLog       := LogLevel = 1;
 
     If IsNewTrans then
@@ -702,7 +704,8 @@ begin
     //jika sebelumnya IsNewTrans , kembalikan id = 0
     //bug terjadi , simpan pertama error, simpan berikutnya tidak error, detail diinsert,
     //sedangkan header yg blm tersimpan mjd update
-    if IsNewTrans then Self.ID := 0;
+    if IsNewTrans then
+      Self.ID := 0;
 
     Raise;
   End;

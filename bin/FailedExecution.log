@@ -1,3 +1,4 @@
-SET NOCOUNT ON
-Insert Into TTransDetail(Header_Flag,Header_ID,TransDate,Konversi,Qty,Item_ID,Harga,Discount,Total,PPN,HargaAvg,Warehouse_ID,UOM_ID,Refno,TransType,TransDef) values(100,7,0,1,1,7,1500,0,0,0,0,1,1,'01.190615.0001',0,'');
-Select Scope_Identity() as ID
+Delete From TItemUOM where Item_ID = 7;
+Delete From TItemUOM where ID = 23108;
+Delete From TItemUOM where ID = 23109;
+Delete From TItem where ID = 7;

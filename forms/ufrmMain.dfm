@@ -672,6 +672,7 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = 'Kartu Stock / Mutasi Harian'
       ImageIndex = 13
+      OnExecute = actKartuStockExecute
     end
     object actLapStock: TAction
       Category = 'Inventory'

@@ -45,7 +45,8 @@ uses
   uTransDetail in 'classes\uTransDetail.pas',
   ufrmPurchaseInvoice in 'forms\ufrmPurchaseInvoice.pas' {frmPurchaseInvoice},
   ufrmCXServerLookup in 'lib\ufrmCXServerLookup.pas' {frmCXServerLookup},
-  ufrmBrowsePurchaseInvoice in 'forms\ufrmBrowsePurchaseInvoice.pas' {frmBrowsePurchaseInvoice};
+  ufrmBrowsePurchaseInvoice in 'forms\ufrmBrowsePurchaseInvoice.pas' {frmBrowsePurchaseInvoice},
+  ufrmKartuStock in 'forms\ufrmKartuStock.pas' {frmKartuStock};
 
 {$R *.res}
 

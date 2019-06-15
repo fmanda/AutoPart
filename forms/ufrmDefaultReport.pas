@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmDefault, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, Vcl.ComCtrls,
   dxCore, cxDateUtils, Vcl.Menus, Vcl.StdCtrls, cxButtons, cxLabel, cxTextEdit,
-  cxMaskEdit, cxDropDownEdit, cxCalendar, cxGroupBox;
+  cxMaskEdit, cxDropDownEdit, cxCalendar, cxGroupBox, cxStyles, cxClasses;
 
 type
   TfrmDefaultReport = class(TfrmDefault)
@@ -18,6 +18,8 @@ type
     btnExport: TcxButton;
     btnPrint: TcxButton;
     btnRefresh: TcxButton;
+    styleRepo: TcxStyleRepository;
+    styleOdd: TcxStyle;
     procedure FormCreate(Sender: TObject);
     procedure btnTutupClick(Sender: TObject);
   private

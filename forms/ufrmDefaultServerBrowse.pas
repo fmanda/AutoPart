@@ -39,6 +39,9 @@ type
     procedure btnExportClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTutupClick(Sender: TObject);
+    procedure cxGrdMainCellDblClick(Sender: TcxCustomGridTableView; ACellViewInfo:
+        TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift: TShiftState;
+        var AHandled: Boolean);
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
@@ -79,6 +82,14 @@ procedure TfrmDefaultServerBrowse.btnTutupClick(Sender: TObject);
 begin
   inherited;
   Self.Close;
+end;
+
+procedure TfrmDefaultServerBrowse.cxGrdMainCellDblClick(Sender:
+    TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
+    AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
+begin
+  inherited;
+  btnEdit.Click;
 end;
 
 procedure TfrmDefaultServerBrowse.FormCreate(Sender: TObject);
