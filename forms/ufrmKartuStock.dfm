@@ -13,6 +13,7 @@ inherited frmKartuStock: TfrmKartuStock
   inherited cxGroupBox1: TcxGroupBox
     TabOrder = 2
     Visible = False
+    ExplicitWidth = 750
     Width = 750
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
@@ -23,9 +24,12 @@ inherited frmKartuStock: TfrmKartuStock
     Top = 576
     TabOrder = 3
     OnClick = cxGroupBox2Click
+    ExplicitTop = 576
+    ExplicitWidth = 750
     Width = 750
     inherited btnTutup: TcxButton
       Left = 670
+      ExplicitLeft = 670
     end
     inherited btnExport: TcxButton
       OnClick = btnExportClick
@@ -102,6 +106,7 @@ inherited frmKartuStock: TfrmKartuStock
           Default = True
           Kind = bkEllipsis
         end>
+      Properties.CharCase = ecUpperCase
       Properties.OnButtonClick = edKodePropertiesButtonClick
       Properties.OnValidate = edKodePropertiesValidate
       TabOrder = 2
@@ -141,7 +146,6 @@ inherited frmKartuStock: TfrmKartuStock
     Height = 409
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = -2
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -213,7 +217,7 @@ inherited frmKartuStock: TfrmKartuStock
     end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 320
+    Left = 344
     Top = 0
     PixelsPerInch = 96
   end

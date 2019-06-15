@@ -60,6 +60,8 @@ type
     styleMoney: TcxStyle;
     styleInfoBk: TcxStyle;
     chkActive: TcxCheckBox;
+    cxLookUpUOM: TcxExtLookupComboBox;
+    cxLabel8: TcxLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnDelClick(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
@@ -332,6 +334,8 @@ begin
   cxLookupGroup.LoadFromSQL('select id, nama from titemgroup','id','nama',Self);
   cxLookupMerk.LoadFromSQL('select id, nama from tmerk','id','nama',Self);
   TcxExtLookup(colSatuan.Properties).LoadFromCDS(CDSUOM, 'id','uom', Self);
+  cxLookUpUOM.LoadFromSQL('select id, uom from tuom','id','uom', self);
+  cxLookUpUOM.SetDefaultValue();
   LoadByID(0, False);
 end;
 
@@ -369,6 +373,9 @@ begin
 
   if Item.Group <> nil then
     cxLookupGroup.EditValue := Item.Group.ID;
+
+  if Item.StockUOM <> nil then
+    cxLookUpUOM.EditValue := Item.StockUOM.ID;
 
   CDS.EmptyDataSet;
   for lItemUOM in Item.ItemUOMs do
@@ -425,6 +432,8 @@ begin
   Item.ModifiedDate := Now();
   Item.ItemUOMs.Clear;
 
+  Item.StockUOM := TUOM.CreateID(VarToInt(cxLookUpUOM.EditValue));
+
   CDS.First;
   while not CDS.Eof do
   begin
@@ -464,6 +473,13 @@ begin
     exit;
   end;
 
+  if VarToInt(cxLookupUOM.EditValue)=0 then
+  begin
+    TAppUtils.Warning('Satuan Stock tidak boleh kosong');
+    exit;
+  end;
+
+
   if CDS.RecordCount = 0 then
   begin
     TAppUtils.Warning('Data Satuan tidak boleh kosong');
@@ -476,6 +492,13 @@ begin
     exit;
   end;
 
+  if not CDS.Locate('UOM', VarToInt(cxLookupUOM.EditValue), []) then
+  begin
+    TAppUtils.Warning('Satuan Stock belum didefinisikan konversi dan harga nya');
+    exit;
+  end;
+
+
   CDS.First;
   while not CDS.Eof do
   begin
@@ -487,6 +510,8 @@ begin
 
     CDS.Next;
   end;
+
+
 
 
   Result := True;

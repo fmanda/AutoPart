@@ -27,7 +27,6 @@ inherited frmItem: TfrmItem
       Left = 481
       OnClick = btnSaveClick
       ExplicitLeft = 481
-      ExplicitTop = 3
     end
     object btnDel: TcxButton
       AlignWithMargins = True
@@ -66,19 +65,17 @@ inherited frmItem: TfrmItem
     ExplicitWidth = 738
     inherited lbEscape: TLabel
       Left = 493
-      Height = 16
+      Height = 17
       ExplicitLeft = 493
     end
     inherited lgndSave: TLabel
       Left = 572
-      Height = 16
+      Height = 17
       ExplicitLeft = 572
-      ExplicitTop = 1
-      ExplicitHeight = 16
     end
     inherited lgndPrint: TLabel
       Left = 659
-      Height = 16
+      Height = 17
       ExplicitLeft = 659
     end
   end
@@ -88,6 +85,8 @@ inherited frmItem: TfrmItem
     Align = alTop
     Caption = ' Informasi Barang [F1] '
     TabOrder = 0
+    ExplicitLeft = -8
+    ExplicitTop = -16
     Height = 177
     Width = 738
     object cxLabel1: TcxLabel
@@ -139,15 +138,15 @@ inherited frmItem: TfrmItem
       Width = 292
     end
     object cxLabel5: TcxLabel
-      Left = 450
-      Top = 22
+      Left = 455
+      Top = 43
       Caption = 'Rak'
     end
     object edRak: TcxTextEdit
-      Left = 476
-      Top = 21
+      Left = 481
+      Top = 42
       Properties.CharCase = ecUpperCase
-      TabOrder = 5
+      TabOrder = 6
       OnKeyDown = edRakKeyDown
       Width = 201
     end
@@ -164,44 +163,44 @@ inherited frmItem: TfrmItem
       Width = 292
     end
     object crPPN: TcxCurrencyEdit
-      Left = 476
-      Top = 42
+      Left = 481
+      Top = 63
       TabStop = False
       EditValue = 0.000000000000000000
       Properties.Alignment.Horz = taRightJustify
       Properties.DecimalPlaces = 0
       Properties.DisplayFormat = ',0.00;(,0.00)'
-      TabOrder = 6
+      TabOrder = 7
       Width = 69
     end
     object cxLabel7: TcxLabel
-      Left = 429
-      Top = 43
+      Left = 434
+      Top = 64
       Caption = 'PPN (%)'
     end
     object lbModifiedBy: TcxLabel
-      Left = 415
-      Top = 85
+      Left = 420
+      Top = 106
       Caption = 'Modified By'
     end
     object edModifiedBy: TcxTextEdit
-      Left = 476
-      Top = 85
+      Left = 481
+      Top = 106
       TabStop = False
       Properties.CharCase = ecUpperCase
-      TabOrder = 8
+      TabOrder = 9
       Width = 201
     end
     object lbModified: TcxLabel
-      Left = 404
-      Top = 64
+      Left = 409
+      Top = 85
       Caption = 'Date Modified'
     end
     object dtModified: TcxDateEdit
-      Left = 476
-      Top = 63
+      Left = 481
+      Top = 84
       TabStop = False
-      TabOrder = 7
+      TabOrder = 8
       Width = 133
     end
     object chkActive: TcxCheckBox
@@ -210,7 +209,18 @@ inherited frmItem: TfrmItem
       TabStop = False
       Caption = 'Active'
       State = cbsChecked
-      TabOrder = 18
+      TabOrder = 19
+    end
+    object cxLookUpUOM: TcxExtLookupComboBox
+      Left = 481
+      Top = 21
+      TabOrder = 5
+      Width = 69
+    end
+    object cxLabel8: TcxLabel
+      Left = 410
+      Top = 22
+      Caption = 'Satuan Stock'
     end
   end
   object cxPageControl1: TcxPageControl
@@ -229,9 +239,6 @@ inherited frmItem: TfrmItem
     object tsUOM: TcxTabSheet
       Caption = 'Konversi && Harga Satuan [F2]'
       ImageIndex = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object cxGrid1: TcxGrid
         AlignWithMargins = True
         Left = 3
@@ -465,14 +472,11 @@ inherited frmItem: TfrmItem
       Caption = 'History Perubahan Harga'
       ImageIndex = 1
       TabVisible = False
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
     end
   end
   object cxStyleRepository1: TcxStyleRepository
-    Left = 696
-    Top = 72
+    Left = 712
+    Top = 24
     PixelsPerInch = 96
     object styleMoney: TcxStyle
       AssignedValues = [svColor]

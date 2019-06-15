@@ -59,6 +59,7 @@ type
     FRak: String;
     FPPN: Double;
     FNotes: String;
+    FStockUOM: TUOM;
     function GetItemUOMs: TObjectList<TItemUOM>;
   protected
     function BeforeSaveToDB: Boolean; override;
@@ -81,6 +82,7 @@ type
     property Rak: String read FRak write FRak;
     property PPN: Double read FPPN write FPPN;
     property Notes: String read FNotes write FNotes;
+    property StockUOM: TUOM read FStockUOM write FStockUOM;
   end;
 
   TItemUOM = class(TCRUDObject)
@@ -99,6 +101,7 @@ type
   public
     destructor Destroy; override;
     class function GetItemUOM(aItemID, aUOMID: Integer): TItemUOM;
+    function UpdateHargaAvg(aNewAvg: Double): Boolean;
   published
     [AttributeOfHeader]
     property Item: TItem read FItem write FItem;
@@ -302,6 +305,16 @@ begin
   Finally
     lQ.Free;
   End;
+end;
+
+function TItemUOM.UpdateHargaAvg(aNewAvg: Double): Boolean;
+var
+  S: string;
+begin
+  S := 'Update TITEMUOM set HargaAvg = ' + FloatToStr(aNewAvg)
+      +' where ITEM_ID = ' + IntToStr(Self.Item.ID);
+      +' where UOM_ID = ' + IntToStr(Self.UOM.ID);
+  Result := TDBUtils.ExecuteSQL(S, False);
 end;
 
 function TItemGroup.ValidateDelete: Boolean;

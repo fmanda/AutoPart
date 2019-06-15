@@ -13,8 +13,8 @@ alter table TITEMUOM add kdBar varchar(30)
 
 
 
-insert into AUTOPART.dbo.TItem(KODE, NAMA, RAK, PPN, ISACTIVE, KDMERK, KDJENIS)
-select KDBAR, NamaBarang, RAK, 0, 1, KdMerk, KdJenis
+insert into AUTOPART.dbo.TItem(KODE, NAMA, RAK, PPN, ISACTIVE, KDMERK, KDJENIS, STOCKUOM)
+select KDBAR, NamaBarang, RAK, 0, 1, KdMerk, KdJenis, 1
 from MOTOROLI2017.dbo.TblStok
 
 
