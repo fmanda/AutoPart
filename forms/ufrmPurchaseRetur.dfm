@@ -1,122 +1,148 @@
-inherited frmPurchaseInvoice: TfrmPurchaseInvoice
-  Caption = 'Faktur Pembelian Barang'
-  ClientHeight = 587
-  ClientWidth = 984
-  KeyPreview = True
-  OnCreate = FormCreate
-  OnKeyDown = FormKeyDown
-  ExplicitWidth = 1000
-  ExplicitHeight = 626
+inherited frmPurchaseRetur: TfrmPurchaseRetur
+  Caption = 'Purchase Retur'
+  ClientHeight = 558
+  ClientWidth = 936
+  ExplicitWidth = 952
+  ExplicitHeight = 597
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
-    Top = 552
-    TabOrder = 2
-    ExplicitTop = 552
-    ExplicitWidth = 984
-    Width = 984
+    Top = 523
+    Width = 936
     inherited btnCancel: TcxButton
-      Left = 899
-      ExplicitLeft = 899
+      Left = 851
     end
     inherited btnPrint: TcxButton
-      Left = 813
-      ExplicitLeft = 813
+      Left = 765
     end
     inherited btnSave: TcxButton
-      Left = 727
-      OnClick = btnSaveClick
-      ExplicitLeft = 727
+      Left = 679
     end
   end
-  object cxGroupBox1: TcxGroupBox [1]
+  inherited Panel2: TPanel
+    Top = 502
+    Width = 936
+    ExplicitTop = 321
+    inherited lbEscape: TLabel
+      Left = 856
+      Height = 17
+    end
+    inherited lgndSave: TLabel
+      Left = 691
+      Height = 17
+    end
+    inherited lgndPrint: TLabel
+      Left = 778
+      Height = 17
+    end
+    object Label2: TLabel
+      AlignWithMargins = True
+      Left = 194
+      Top = 1
+      Width = 84
+      Height = 17
+      Margins.Top = 1
+      Margins.Right = 13
+      Margins.Bottom = 1
+      Align = alLeft
+      Caption = 'Esc [Cancel Edit]'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
+      ParentFont = False
+      ExplicitHeight = 16
+    end
+    object Label1: TLabel
+      AlignWithMargins = True
+      Left = 3
+      Top = 1
+      Width = 175
+      Height = 17
+      Margins.Top = 1
+      Margins.Right = 13
+      Margins.Bottom = 1
+      Align = alLeft
+      Caption = 'F5 [Lookup Data Barang / Supplier]'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
+      ParentFont = False
+      ExplicitHeight = 16
+    end
+  end
+  object cxGroupBox1: TcxGroupBox
     Left = 0
     Top = 0
     Align = alTop
     Caption = '  Header Invoice [F1] '
-    TabOrder = 0
-    ExplicitTop = -6
+    TabOrder = 2
     DesignSize = (
-      984
+      936
       153)
     Height = 153
-    Width = 984
+    Width = 936
     object cxLabel1: TcxLabel
-      Left = 53
-      Top = 20
-      Caption = 'No. Invoice'
+      Left = 61
+      Top = 23
+      Caption = 'No. Retur'
     end
     object edNoInv: TcxTextEdit
       Left = 114
-      Top = 20
+      Top = 22
       TabStop = False
       Properties.CharCase = ecUpperCase
       TabOrder = 0
-      Width = 155
+      Width = 143
     end
     object cxLabel4: TcxLabel
       Left = 70
-      Top = 41
+      Top = 64
       Caption = 'Supplier'
     end
     object cxLabel6: TcxLabel
       Left = 69
-      Top = 103
+      Top = 105
       Caption = 'Catatan'
     end
     object edNotes: TcxMemo
       Left = 114
-      Top = 102
-      TabOrder = 6
-      OnKeyDown = edNotesKeyDown
+      Top = 104
+      TabOrder = 5
       Height = 35
-      Width = 335
+      Width = 343
     end
     object dtInvoice: TcxDateEdit
       Left = 114
-      Top = 61
+      Top = 83
       TabStop = False
       Properties.ImmediatePost = True
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 3
-      Width = 108
+      Width = 103
     end
     object cxLabel8: TcxLabel
-      Left = 56
-      Top = 61
-      Caption = 'Tgl Invoice'
-    end
-    object dtJtTempo: TcxDateEdit
-      Left = 341
-      Top = 61
-      TabStop = False
-      Properties.ImmediatePost = True
-      Properties.SaveTime = False
-      Properties.ShowTime = False
-      TabOrder = 4
-      Width = 108
-    end
-    object cxLabel9: TcxLabel
-      Left = 287
-      Top = 62
-      Caption = 'Jt. Tempo'
+      Left = 64
+      Top = 84
+      Caption = 'Tgl Retur'
     end
     object edSupplier: TcxButtonEdit
       Left = 114
-      Top = 40
+      Top = 43
       Properties.Buttons = <
         item
           Default = True
           Kind = bkEllipsis
         end>
-      Properties.OnButtonClick = edSupplierPropertiesButtonClick
       TabOrder = 2
-      OnKeyDown = edSupplierKeyDown
-      Width = 335
+      Width = 176
     end
     object crSubTotal: TcxCurrencyEdit
-      Left = 728
+      Left = 680
       Top = 48
       TabStop = False
       Anchors = [akTop, akRight]
@@ -132,11 +158,12 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       Style.Font.Name = 'Consolas'
       Style.Font.Style = []
       Style.IsFontAssigned = True
-      TabOrder = 7
+      TabOrder = 6
+      ExplicitLeft = 728
       Width = 241
     end
     object cxLabel2: TcxLabel
-      Left = 656
+      Left = 608
       Top = 49
       Anchors = [akTop, akRight]
       Caption = 'Sub Total'
@@ -147,9 +174,10 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
+      ExplicitLeft = 656
     end
     object cxLabel3: TcxLabel
-      Left = 692
+      Left = 644
       Top = 76
       Anchors = [akTop, akRight]
       Caption = 'PPN'
@@ -160,9 +188,10 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
+      ExplicitLeft = 692
     end
     object crPPN: TcxCurrencyEdit
-      Left = 728
+      Left = 680
       Top = 75
       TabStop = False
       Anchors = [akTop, akRight]
@@ -178,11 +207,12 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       Style.Font.Name = 'Consolas'
       Style.Font.Style = []
       Style.IsFontAssigned = True
-      TabOrder = 8
+      TabOrder = 7
+      ExplicitLeft = 728
       Width = 241
     end
     object cxLabel5: TcxLabel
-      Left = 669
+      Left = 621
       Top = 104
       Anchors = [akTop, akRight]
       Caption = 'TOTAL'
@@ -193,9 +223,10 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
+      ExplicitLeft = 669
     end
     object crTotal: TcxCurrencyEdit
-      Left = 728
+      Left = 680
       Top = 101
       TabStop = False
       Anchors = [akTop, akRight]
@@ -211,49 +242,78 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       Style.Font.Name = 'Consolas'
       Style.Font.Style = []
       Style.IsFontAssigned = True
-      TabOrder = 9
+      TabOrder = 8
+      ExplicitLeft = 728
       Width = 241
     end
     object cxLabel7: TcxLabel
-      Left = 35
-      Top = 83
-      Caption = 'Gudang Tujuan'
+      Left = 222
+      Top = 84
+      Caption = 'Gudang Asal'
     end
     object cxLookupGudang: TcxExtLookupComboBox
-      Left = 114
-      Top = 82
-      TabOrder = 5
-      Width = 335
+      Left = 288
+      Top = 83
+      TabOrder = 4
+      Width = 169
     end
-    object cbBayar: TcxComboBox
-      Left = 341
-      Top = 20
+    object cbJenis: TcxComboBox
+      Left = 296
+      Top = 22
       Properties.CharCase = ecUpperCase
       Properties.Items.Strings = (
-        'CASH'
-        'TEMPO')
+        'RETUR PEMBELIAN'
+        'PEMBATALAN PEMBELIAN')
       TabOrder = 1
-      Text = 'CASH'
-      Width = 108
+      Text = 'RETUR PEMBELIAN'
+      Width = 161
     end
     object cxLabel10: TcxLabel
-      Left = 275
-      Top = 21
-      Caption = 'Pembayaran'
+      Left = 267
+      Top = 23
+      Caption = 'Jenis'
+    end
+    object cxLabel9: TcxLabel
+      Left = 53
+      Top = 44
+      Caption = 'No. Invoice'
+    end
+    object cxTextEdit1: TcxTextEdit
+      Left = 114
+      Top = 63
+      TabStop = False
+      Properties.CharCase = ecUpperCase
+      TabOrder = 19
+      Width = 343
+    end
+    object cxDateEdit1: TcxDateEdit
+      Left = 354
+      Top = 43
+      TabStop = False
+      Properties.ImmediatePost = True
+      Properties.SaveTime = False
+      Properties.ShowTime = False
+      TabOrder = 20
+      Width = 103
+    end
+    object cxLabel11: TcxLabel
+      Left = 298
+      Top = 44
+      Caption = 'Tgl Invoice'
     end
   end
-  object cxGrid1: TcxGrid [2]
+  object cxGrid1: TcxGrid
     Left = 0
     Top = 153
-    Width = 984
-    Height = 378
+    Width = 936
+    Height = 349
     Align = alClient
-    TabOrder = 1
+    TabOrder = 3
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 152
+    ExplicitTop = 176
+    ExplicitHeight = 325
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
-      OnEditKeyDown = cxGrdMainEditKeyDown
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <
         item
@@ -282,8 +342,6 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
             Default = True
             Kind = bkEllipsis
           end>
-        Properties.OnButtonClick = colKodePropertiesButtonClick
-        Properties.OnValidate = colKodePropertiesValidate
         HeaderAlignmentHorz = taCenter
         Width = 137
       end
@@ -301,9 +359,6 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
         DataBinding.FieldName = 'UOM'
         PropertiesClassName = 'TcxExtLookupComboBoxProperties'
         Properties.ImmediatePost = True
-        Properties.OnCloseUp = colUOMPropertiesCloseUp
-        Properties.OnEditValueChanged = colUOMPropertiesEditValueChanged
-        Properties.OnInitPopup = colUOMPropertiesInitPopup
         HeaderAlignmentHorz = taCenter
         Width = 49
       end
@@ -312,7 +367,6 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0;(,0)'
-        Properties.OnEditValueChanged = colQtyPropertiesEditValueChanged
         HeaderAlignmentHorz = taCenter
         Width = 53
       end
@@ -332,7 +386,6 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0;(,0)'
-        Properties.OnEditValueChanged = colDiscPropertiesEditValueChanged
         HeaderAlignmentHorz = taCenter
         Width = 70
       end
@@ -372,66 +425,6 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
     object cxGrid1Level1: TcxGridLevel
       Caption = 'Detail Transaksi [F2]'
       GridView = cxGrdMain
-    end
-  end
-  inherited Panel2: TPanel
-    Top = 531
-    Width = 984
-    TabOrder = 3
-    ExplicitTop = 531
-    ExplicitWidth = 984
-    inherited lbEscape: TLabel
-      Left = 904
-      Height = 17
-      ExplicitLeft = 509
-    end
-    inherited lgndSave: TLabel
-      Left = 739
-      Height = 17
-      ExplicitLeft = 348
-    end
-    inherited lgndPrint: TLabel
-      Left = 826
-      Height = 17
-      ExplicitLeft = 826
-    end
-    object Label2: TLabel
-      AlignWithMargins = True
-      Left = 194
-      Top = 1
-      Width = 84
-      Height = 17
-      Margins.Top = 1
-      Margins.Right = 13
-      Margins.Bottom = 1
-      Align = alLeft
-      Caption = 'Esc [Cancel Edit]'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Trebuchet MS'
-      Font.Style = []
-      ParentFont = False
-      ExplicitHeight = 16
-    end
-    object Label1: TLabel
-      AlignWithMargins = True
-      Left = 3
-      Top = 1
-      Width = 175
-      Height = 17
-      Margins.Top = 1
-      Margins.Right = 13
-      Margins.Bottom = 1
-      Align = alLeft
-      Caption = 'F5 [Lookup Data Barang / Supplier]'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Trebuchet MS'
-      Font.Style = []
-      ParentFont = False
-      ExplicitHeight = 16
     end
   end
 end

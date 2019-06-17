@@ -46,7 +46,8 @@ uses
   ufrmPurchaseInvoice in 'forms\ufrmPurchaseInvoice.pas' {frmPurchaseInvoice},
   ufrmCXServerLookup in 'lib\ufrmCXServerLookup.pas' {frmCXServerLookup},
   ufrmBrowsePurchaseInvoice in 'forms\ufrmBrowsePurchaseInvoice.pas' {frmBrowsePurchaseInvoice},
-  ufrmKartuStock in 'forms\ufrmKartuStock.pas' {frmKartuStock};
+  ufrmKartuStock in 'forms\ufrmKartuStock.pas' {frmKartuStock},
+  ufrmPurchaseRetur in 'forms\ufrmPurchaseRetur.pas' {frmPurchaseRetur};
 
 {$R *.res}
 
@@ -55,5 +56,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmPurchaseRetur, frmPurchaseRetur);
   Application.Run;
 end.

@@ -1,4 +1,3 @@
-Delete From TItemUOM where Item_ID = 7;
-Delete From TItemUOM where ID = 23108;
-Delete From TItemUOM where ID = 23109;
-Delete From TItem where ID = 7;
+SET NOCOUNT ON
+Insert Into TAvgCostUpdate(Header_Flag,Header_ID,Item_ID,LastStockPCS,LastAvgCost,TransTotalPCS,TransDate,NewAvgCost,TransTotalValue,TransPricePcs) values(100,15,7,0,1500,1,43633.8967470718,0,1500,0);
+Select Scope_Identity() as ID

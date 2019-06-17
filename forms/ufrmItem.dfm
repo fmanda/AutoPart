@@ -85,8 +85,6 @@ inherited frmItem: TfrmItem
     Align = alTop
     Caption = ' Informasi Barang [F1] '
     TabOrder = 0
-    ExplicitLeft = -8
-    ExplicitTop = -16
     Height = 177
     Width = 738
     object cxLabel1: TcxLabel
@@ -223,7 +221,7 @@ inherited frmItem: TfrmItem
       Caption = 'Satuan Stock'
     end
   end
-  object cxPageControl1: TcxPageControl
+  object pgcMain: TcxPageControl
     Left = 0
     Top = 177
     Width = 738
@@ -472,6 +470,104 @@ inherited frmItem: TfrmItem
       Caption = 'History Perubahan Harga'
       ImageIndex = 1
       TabVisible = False
+    end
+    object tsAvgCost: TcxTabSheet
+      Caption = 'History Harga Pokok Penjualan / Harga Average'
+      ImageIndex = 1
+      ExplicitTop = 31
+      object cxGroupBox3: TcxGroupBox
+        Left = 0
+        Top = 0
+        Align = alTop
+        PanelStyle.Active = True
+        Style.BorderStyle = ebsFlat
+        Style.LookAndFeel.NativeStyle = False
+        StyleDisabled.LookAndFeel.NativeStyle = False
+        TabOrder = 0
+        ExplicitTop = 8
+        Height = 35
+        Width = 738
+        object btnRefresh: TcxButton
+          AlignWithMargins = True
+          Left = 658
+          Top = 5
+          Width = 75
+          Height = 25
+          Align = alRight
+          Caption = '&Refresh'
+          OptionsImage.ImageIndex = 5
+          OptionsImage.Images = frmMain.ImageList
+          TabOrder = 0
+          OnClick = btnRefreshClick
+        end
+        object EndDate: TcxDateEdit
+          AlignWithMargins = True
+          Left = 552
+          Top = 5
+          Align = alRight
+          Properties.SaveTime = False
+          Properties.ShowTime = False
+          TabOrder = 1
+          Width = 100
+        end
+        object StartDate: TcxDateEdit
+          AlignWithMargins = True
+          Left = 427
+          Top = 5
+          Align = alRight
+          Properties.SaveTime = False
+          Properties.ShowTime = False
+          TabOrder = 2
+          ExplicitLeft = 325
+          Width = 100
+        end
+        object cxLabel9: TcxLabel
+          Left = 357
+          Top = 2
+          Align = alRight
+          Caption = 'Filter Periode'
+          Properties.Alignment.Vert = taVCenter
+          ExplicitLeft = 201
+          AnchorY = 18
+        end
+        object cxLabel10: TcxLabel
+          Left = 530
+          Top = 2
+          Align = alRight
+          Caption = 's/d'
+          Properties.Alignment.Vert = taVCenter
+          ExplicitLeft = 428
+          AnchorY = 18
+        end
+      end
+      object cxGrid: TcxGrid
+        Left = 0
+        Top = 35
+        Width = 738
+        Height = 245
+        Align = alClient
+        TabOrder = 1
+        ExplicitWidth = 641
+        ExplicitHeight = 370
+        object cxGrdAvg: TcxGridServerModeTableView
+          Navigator.Buttons.CustomButtons = <>
+          DataController.Summary.DefaultGroupSummaryItems = <>
+          DataController.Summary.FooterSummaryItems = <>
+          DataController.Summary.SummaryGroups = <>
+          Filtering.MRUItemsList = False
+          Filtering.ColumnAddValueItems = False
+          Filtering.ColumnMRUItemsList = False
+          OptionsData.CancelOnExit = False
+          OptionsData.Deleting = False
+          OptionsData.DeletingConfirmation = False
+          OptionsData.Editing = False
+          OptionsData.Inserting = False
+          OptionsView.GroupByBox = False
+        end
+        object cxGridLevel1: TcxGridLevel
+          GridView = cxGrdAvg
+        end
+      end
     end
   end
   object cxStyleRepository1: TcxStyleRepository

@@ -9,6 +9,7 @@ uses
 type
   TTransDetail = class;
   TPurchaseInvoice = class;
+  TAvgCostUpdate = class;
 
   TCRUDTransDetail = class(TCRUDObject)
   private
@@ -83,19 +84,27 @@ type
     FInvoiceNo: string;
     FDueDate: TDateTime;
     FAmount: Double;
+    FAvgCostItems: TObjectList<TAvgCostUpdate>;
     FNotes: string;
     FPaidAmount: Double;
     FPaymentFlag: Integer;
     FReturAmount: Double;
     FStatus: Integer;
     FWarehouse: TWarehouse;
+    procedure GenerateAvgCost;
+    function GetAvgCostItems: TObjectList<TAvgCostUpdate>;
+    function GetOrAddAvgCost(aDetail: TTransDetail): TAvgCostUpdate;
   protected
     function AfterSaveToDB: Boolean; override;
+    function BeforeDeleteFromDB: Boolean; override;
+    function BeforeSaveToDB: Boolean; override;
     function GetRefno: String; override;
   public
     destructor Destroy; override;
     function GenerateNo: String;
     function GetHeaderFlag: Integer; override;
+    property AvgCostItems: TObjectList<TAvgCostUpdate> read GetAvgCostItems write
+        FAvgCostItems;
   published
     property SubTotal: Double read FSubTotal write FSubTotal;
     property PPN: Double read FPPN write FPPN;
@@ -111,7 +120,6 @@ type
     property Warehouse: TWarehouse read FWarehouse write FWarehouse;
   end;
 
-type
   TPurchaseRetur = class(TCRUDTransDetail)
   private
     FSubTotal: Double;
@@ -125,8 +133,7 @@ type
     FStatus: Integer;
     FInvoice: TPurchaseInvoice;
     FWarehouse: TWarehouse;
-    function UpdateReturAmt(aInvoiceID: Integer; aAmount: Double; IsRevert: Boolean
-        = False): Boolean;
+    function UpdateReturAmt(IsRevert: Boolean = False): Boolean;
   protected
     function AfterSaveToDB: Boolean; override;
     function BeforeSaveToDB: Boolean; override;
@@ -157,14 +164,21 @@ type
     FLastStockPCS: Double;
     FLastAvgCost: Double;
     FTransTotalPCS: Double;
-    FTransDate: Double;
+    FTransDate: TDateTime;
     FNewAvgCost: Double;
+    FRefno: string;
     FTransTotalValue: Double;
+    FTransPricePcs: Double;
     procedure CalcNewAvg;
+  protected
+    function BeforeSaveToDB: Boolean; override;
+    function GetSQLDeleteDetails(Header_ID: Integer): String; override;
+    function GetSQLRetrieveDetails(Header_ID: Integer): String; override;
   public
     destructor Destroy; override;
     function GetTransPrice: Double;
     procedure UpdateAvgCost;
+    procedure RevertAvgCost;
   published
     property Header_Flag: Integer read FHeader_Flag write FHeader_Flag;
     [AttributeOfHeader]
@@ -173,9 +187,11 @@ type
     property LastStockPCS: Double read FLastStockPCS write FLastStockPCS;
     property LastAvgCost: Double read FLastAvgCost write FLastAvgCost;
     property TransTotalPCS: Double read FTransTotalPCS write FTransTotalPCS;
-    property TransDate: Double read FTransDate write FTransDate;
+    property TransDate: TDateTime read FTransDate write FTransDate;
     property NewAvgCost: Double read FNewAvgCost write FNewAvgCost;
+    property Refno: string read FRefno write FRefno;
     property TransTotalValue: Double read FTransTotalValue write FTransTotalValue;
+    property TransPricePcs: Double read FTransPricePcs write FTransPricePcs;
   end;
 
 implementation
@@ -211,6 +227,11 @@ begin
     TTransDetail(AObjItem).TransDate := TransDate;
     TTransDetail(AObjItem).Refno := GetRefno;
   end;
+
+  if AObjItem is TAvgCostUpdate then
+  begin
+    TAvgCostUpdate(AObjItem).Header_Flag  := GetHeaderFlag;
+  end;
 end;
 
 destructor TPurchaseInvoice.Destroy;
@@ -225,6 +246,74 @@ begin
   
   
   Result := True;
+end;
+
+function TPurchaseInvoice.BeforeDeleteFromDB: Boolean;
+var
+  lAvg: TAvgCostUpdate;
+begin
+  for lAvg in Self.AvgCostItems do
+  begin
+    lAvg.RevertAvgCost;
+  end;
+
+  Result := True;
+end;
+
+function TPurchaseInvoice.BeforeSaveToDB: Boolean;
+begin
+  GenerateAvgCost;
+  Result := True;
+end;
+
+procedure TPurchaseInvoice.GenerateAvgCost;
+var
+  i: Integer;
+  lAvg: TAvgCostUpdate;
+  lFound: Boolean;
+  lItem: TTransDetail;
+begin
+  //AvgCostItems.Clear;
+  //delete avgcostitems where item doesnt exist in transdetail
+  for i := Self.AvgCostItems.Count-1 downto 0 do
+  begin
+    lAvg := Self.AvgCostItems[i];
+
+    lFound := False;
+    for lItem in Self.Items do
+    begin
+      lFound := lAvg.Item.ID = lItem.Item.ID;
+      if lFound then break;
+    end;
+
+    if not lFound then
+      Self.AvgCostItems.Delete(i);
+  end;
+
+  //clear transaksi
+  for lAvg in Self.AvgCostItems do
+  begin
+    lAvg.TransTotalPCS    := 0;
+    lAvg.TransTotalValue  := 0;
+//    lAvg.TransDate        := Now();
+  end;
+
+  //create if not exit;
+  for lItem in Self.Items do
+  begin
+    GetOrAddAvgCost(lItem);
+
+    lItem.HargaAvg := lItem.Harga;
+  end;
+end;
+
+function TPurchaseInvoice.GetAvgCostItems: TObjectList<TAvgCostUpdate>;
+begin
+  if FAvgCostItems = nil then
+  begin
+    FAvgCostItems := TObjectList<TAvgCostUpdate>.Create();
+  end;
+  Result := FAvgCostItems;
 end;
 
 function TPurchaseInvoice.GenerateNo: String;
@@ -258,6 +347,59 @@ end;
 function TPurchaseInvoice.GetHeaderFlag: Integer;
 begin
   Result := 100;
+end;
+
+function TPurchaseInvoice.GetOrAddAvgCost(aDetail: TTransDetail):
+    TAvgCostUpdate;
+var
+  lAvg: TAvgCostUpdate;
+  S: string;
+begin
+  Result := nil;
+  for lAvg in Self.AvgCostItems do
+  begin
+    if lAvg.Item.ID = aDetail.Item.ID then
+    begin
+      Result := lAvg;
+      break;
+    end;
+  end;
+
+  if Result = nil then
+  begin
+    Result                    := TAvgCostUpdate.Create;
+    Result.Item               := TItem.CreateID(aDetail.Item.ID);
+    Result.Item.ReLoad(True);
+
+    if Result.Item.GetAvgCostPCS = (aDetail.Harga * aDetail.Konversi) then
+      exit;  //no need save this
+    
+    
+    Result.LastStockPCS       := 0;
+    Result.LastAvgCost        := 0;
+
+    //getstock here
+    S := 'select sum(qtypcs) from FN_STOCK_BYITEM(' + IntToStr(aDetail.Item.ID) + ', getdate())';
+    with TDBUtils.OpenQuery(S) do
+    begin
+      Try
+        if not eof then
+        begin
+          Result.LastStockPCS := Fields[0].AsFloat;
+          Result.LastAvgCost  := Result.Item.GetAvgCostPCS;
+        end;
+      Finally
+        Free;
+      End;
+    end;
+    Self.AvgCostItems.Add(Result);
+  end;
+
+  Result.Refno            := Self.InvoiceNo;
+  Result.TransDate        := Now();  
+  Result.TransTotalPCS    := Result.TransTotalPCS + (aDetail.Qty * aDetail.Konversi);
+  Result.TransTotalValue  := Result.TransTotalValue + (aDetail.Qty * aDetail.Harga);
+
 end;
 
 function TPurchaseInvoice.GetRefno: String;
@@ -311,7 +453,7 @@ end;
 
 function TPurchaseRetur.AfterSaveToDB: Boolean;
 begin
-  Result := UpdateReturAmt(Self.Invoice.ID, Self.ReturAmount, True);
+  Result := UpdateReturAmt(False);
 end;
 
 function TPurchaseRetur.BeforeSaveToDB: Boolean;
@@ -324,9 +466,10 @@ begin
     exit;
   end;
 
-  oldRetur := TPurchaseInvoice.Create;
+  oldRetur := TPurchaseRetur.Create;
   Try
-    Result := UpdateReturAmt(oldRetur.Invoice.Id, oldRetur.ReturAmount, True);
+    oldRetur.LoadByID(Self.ID);
+    Result := oldRetur.UpdateReturAmt(True);
   Finally
     oldRetur.Free;
   End;
@@ -371,8 +514,7 @@ begin
   Result := Refno;
 end;
 
-function TPurchaseRetur.UpdateReturAmt(aInvoiceID: Integer; aAmount: Double;
-    IsRevert: Boolean = False): Boolean;
+function TPurchaseRetur.UpdateReturAmt(IsRevert: Boolean = False): Boolean;
 var
   S: string;
   sOperation: string;
@@ -382,8 +524,8 @@ begin
     sOperation := '-';
 
   S := 'Update TPurchaseInvoice set ReturAmount = ReturAmount '
-    + sOperation + FloatToStr(aAmount)
-    + 'where ID = ' + IntToStr(aInvoiceID);
+    + sOperation + FloatToStr(Self.Amount)
+    + 'where ID = ' + IntToStr(Self.Invoice.ID);
 
   Result := TDBUtils.ExecuteSQL(S, False);
 end;
@@ -394,6 +536,18 @@ begin
   if FItem <> nil then FreeAndNil(Fitem);
 end;
 
+function TAvgCostUpdate.BeforeSaveToDB: Boolean;
+begin
+  TransPricePcs := 0;
+  if TransPricePcs <> 0 then
+    TransPricePcs := TransTotalValue / TransTotalPCS;
+
+  UpdateAvgCost;
+  Result := True;     
+end;
+
+
+
 procedure TAvgCostUpdate.CalcNewAvg;
 var
   lAllQty: Double;
@@ -402,12 +556,15 @@ var
 begin
   //set LastAvgCost;
   // Item.ReLoad(True);
-  for lUOM in Item.ItemUOMs do
+  if Self.LastAvgCost = 0 then  //jika baru
   begin
-    if lUOM.Konversi = 0 then
-      raise Exception.Create('lUOM.Konversi = 0');
-    Self.LastAvgCost := lUOM.HargaAvg / lUOM.Konversi;
-    break;
+    for lUOM in Item.ItemUOMs do
+    begin
+      if lUOM.Konversi = 0 then
+        raise Exception.Create('lUOM.Konversi = 0');
+      Self.LastAvgCost := lUOM.HargaAvg / lUOM.Konversi;
+      break;
+    end;
   end;
 
   //new one
@@ -422,6 +579,35 @@ begin
 
   if Self.NewAvgCost <= 0 then
     Self.NewAvgCost := GetTransPrice;
+end;
+
+function TAvgCostUpdate.GetSQLDeleteDetails(Header_ID: Integer): String;
+var
+  sFilter : String;
+begin
+//  if UpperCase(Self.GetTableName) = 'TAvgCostUpdate' then
+//    Raise Exception.Create('Must override GetSQLDeleteDetails for TAvgCostUpdate');
+
+  sFilter := 'Header_flag = ' + IntToStr(Header_Flag)
+    +' AND Header_ID = ' + IntToStr(Header_ID);
+
+  Result  := Format(SQL_Delete,[Self.GetTableName,sFilter]);
+end;
+
+function TAvgCostUpdate.GetSQLRetrieveDetails(Header_ID: Integer): String;
+var
+//  lPO: TCRUDPOItem;
+  sFilter : String;
+begin
+//  if UpperCase(Self.GetTableName) = 'TAvgCostUpdate' then
+//    Raise Exception.Create('Must override GetSQLRetrieveDetails for TAvgCostUpdate');
+
+  sFilter := 'Header_flag = ' + IntToStr(Header_Flag)
+    +' And Header_ID = ' + IntToStr(Header_ID);
+  Result  := Format(SQL_Select,['*', Self.GetTableName,sFilter]);
+//
+//  lPO := TCRUDPOItem.Create;
+//  Result := Result + lPO.GetHeaderField;
 end;
 
 function TAvgCostUpdate.GetTransPrice: Double;
@@ -446,6 +632,22 @@ begin
     if lUOM.Konversi = 0 then
       raise Exception.Create('lUOM.Konversi = 0');
     lUOM.UpdateHargaAvg(Self.NewAvgCost * lUOM.Konversi);
+  end;
+
+end;
+
+procedure TAvgCostUpdate.RevertAvgCost;
+var
+  lUOM: TItemUOM;
+begin
+  if Item.ItemUOMs.Count = 0 then  
+    Item.ReLoad(True);
+    
+  for lUOM in Item.ItemUOMs do
+  begin
+    if lUOM.Konversi = 0 then
+      raise Exception.Create('lUOM.Konversi = 0');
+    lUOM.UpdateHargaAvg(Self.LastAvgCost * lUOM.Konversi);
   end;
 
 end;

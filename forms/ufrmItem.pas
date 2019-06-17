@@ -14,7 +14,7 @@ uses
   cxGrid, cxMemo, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
   cxDBExtLookupComboBox, cxTextEdit, cxLabel, cxCurrencyEdit, dxBarBuiltInMenu,
   cxPC, Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, Datasnap.DBClient, uItem,
-  cxCheckBox, Vcl.ExtCtrls;
+  cxCheckBox, Vcl.ExtCtrls, cxGridServerModeTableView;
 
 type
   TfrmItem = class(TfrmDefaultInput)
@@ -35,7 +35,7 @@ type
     cxLabel7: TcxLabel;
     btnDel: TcxButton;
     btnAdd: TcxButton;
-    cxPageControl1: TcxPageControl;
+    pgcMain: TcxPageControl;
     tsUOM: TcxTabSheet;
     cxGrid1: TcxGrid;
     cxGrdUOM: TcxGridDBBandedTableView;
@@ -62,6 +62,16 @@ type
     chkActive: TcxCheckBox;
     cxLookUpUOM: TcxExtLookupComboBox;
     cxLabel8: TcxLabel;
+    tsAvgCost: TcxTabSheet;
+    cxGroupBox3: TcxGroupBox;
+    btnRefresh: TcxButton;
+    EndDate: TcxDateEdit;
+    StartDate: TcxDateEdit;
+    cxLabel9: TcxLabel;
+    cxLabel10: TcxLabel;
+    cxGrid: TcxGrid;
+    cxGrdAvg: TcxGridServerModeTableView;
+    cxGridLevel1: TcxGridLevel;
     procedure FormCreate(Sender: TObject);
     procedure btnDelClick(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
@@ -80,6 +90,7 @@ type
     procedure colHrgJual1PropertiesEditValueChanged(Sender: TObject);
     procedure colHrgBeliPropertiesEditValueChanged(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btnRefreshClick(Sender: TObject);
   private
     FCDS: TClientDataset;
     FCDSUOM: TClientDataset;
@@ -106,7 +117,7 @@ var
 implementation
 
 uses
-  uDBUtils, uDXUtils, uAppUtils, cxDataUtils;
+  uDBUtils, uDXUtils, uAppUtils, cxDataUtils, System.DateUtils;
 
 {$R *.dfm}
 
@@ -128,6 +139,17 @@ begin
   inherited;
   if not CDSUOM.EOf then
     CDSUOM.Delete;
+end;
+
+procedure TfrmItem.btnRefreshClick(Sender: TObject);
+var
+  s: string;
+begin
+  inherited;
+  s := ' SELECT ID, TRANSDATE, REFNO, LASTAVGCOST, LASTSTOCKPCS, TRANSTOTALPCS, TRANSPRICEPCS, NEWAVGCOST'
+     + ' FROM TAVGCOSTUPDATE WHERE ITEM_ID = ' + IntToStr(Item.ID);
+  cxGrdAvg.LoadFromSQL(S, 'ID');
+  cxGrdAvg.EnableFiltering();
 end;
 
 procedure TfrmItem.btnSaveClick(Sender: TObject);
@@ -281,6 +303,8 @@ begin
   inherited;
   Self.AssignKeyDownEvent;
   initView;
+  StartDate.Date  := StartOfTheYear(Now());
+  EndDate.Date    := Now();
 end;
 
 procedure TfrmItem.FormKeyDown(Sender: TObject; var Key: Word; Shift:
@@ -336,6 +360,7 @@ begin
   TcxExtLookup(colSatuan.Properties).LoadFromCDS(CDSUOM, 'id','uom', Self);
   cxLookUpUOM.LoadFromSQL('select id, uom from tuom','id','uom', self);
   cxLookUpUOM.SetDefaultValue();
+  pgcMain.ActivePage := tsUOM;
   LoadByID(0, False);
 end;
 

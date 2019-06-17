@@ -67,6 +67,7 @@ type
   public
     destructor Destroy; override;
     function GenerateNo(aPrefix: String; aDigitCount: Integer): String;
+    function GetAvgCostPCS: Double;
     function GetKonversi(aUOMID: Integer): Double;
     function ValidateEditUOM: Boolean;
     property ItemUOMs: TObjectList<TItemUOM> read GetItemUOMs write FItemUOMs;
@@ -180,6 +181,22 @@ begin
 
   inc(lNum);
   Result := aPrefix + RightStr('0000000000' + IntToStr(lNum), aDigitCount);
+end;
+
+function TItem.GetAvgCostPCS: Double;
+var
+  lHarga: Double;
+  lUOM: TItemUOM;
+begin
+  Result := 0;
+  for lUOM in Self.ItemUOMs do
+  begin
+    lHarga := lUOM.HargaAvg;
+    if lHarga <= 0 then lHarga := lUOM.HargaBeli;
+
+    Result := lHarga * lUOM.Konversi;
+    exit;
+  end;
 end;
 
 function TItem.GetItemUOMs: TObjectList<TItemUOM>;
@@ -312,8 +329,8 @@ var
   S: string;
 begin
   S := 'Update TITEMUOM set HargaAvg = ' + FloatToStr(aNewAvg)
-      +' where ITEM_ID = ' + IntToStr(Self.Item.ID);
-      +' where UOM_ID = ' + IntToStr(Self.UOM.ID);
+      +' where ITEM_ID = ' + IntToStr(Self.Item.ID)
+      +' and UOM_ID = ' + IntToStr(Self.UOM.ID);
   Result := TDBUtils.ExecuteSQL(S, False);
 end;
 
