@@ -56,6 +56,5 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmPurchaseRetur, frmPurchaseRetur);
   Application.Run;
 end.

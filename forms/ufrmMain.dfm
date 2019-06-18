@@ -652,6 +652,7 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = 'Retur Pembelian'
       ImageIndex = 5
+      OnExecute = actPurchaseReturExecute
     end
     object actTransferStock: TAction
       Category = 'Inventory'

@@ -35,7 +35,6 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
     Align = alTop
     Caption = '  Header Invoice [F1] '
     TabOrder = 0
-    ExplicitTop = -6
     DesignSize = (
       984
       153)
@@ -250,7 +249,6 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 152
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown
@@ -383,12 +381,12 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
     inherited lbEscape: TLabel
       Left = 904
       Height = 17
-      ExplicitLeft = 509
+      ExplicitLeft = 904
     end
     inherited lgndSave: TLabel
       Left = 739
       Height = 17
-      ExplicitLeft = 348
+      ExplicitLeft = 739
     end
     inherited lgndPrint: TLabel
       Left = 826

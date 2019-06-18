@@ -194,6 +194,10 @@ type
     property TransPricePcs: Double read FTransPricePcs write FTransPricePcs;
   end;
 
+const
+  HeaderFlag_PurchaseInvoice : Integer = 100;
+  HeaderFlag_PurchaseRetur : Integer = 150;
+
 implementation
 
 uses
@@ -346,7 +350,7 @@ end;
 
 function TPurchaseInvoice.GetHeaderFlag: Integer;
 begin
-  Result := 100;
+  Result := HeaderFlag_PurchaseInvoice;
 end;
 
 function TPurchaseInvoice.GetOrAddAvgCost(aDetail: TTransDetail):
@@ -506,7 +510,7 @@ end;
 
 function TPurchaseRetur.GetHeaderFlag: Integer;
 begin
-  Result := 100;
+  Result := HeaderFlag_PurchaseRetur;
 end;
 
 function TPurchaseRetur.GetRefno: String;

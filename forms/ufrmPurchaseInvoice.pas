@@ -540,6 +540,8 @@ begin
 end;
 
 procedure TfrmPurchaseInvoice.SetItemToGrid(aItem: TItem);
+var
+  lItemUOM: TItemUOM;
 begin
   if aItem = nil then exit;
 
@@ -554,6 +556,24 @@ begin
   DC.SetEditValue(colDisc.Index, 0, evsValue);
   DC.SetEditValue(colSubTotal.Index, 0, evsValue);
   DC.SetEditValue(colPPN.Index, aItem.PPN, evsValue);
+
+  //def uom
+  if aItem.StockUOM <> nil then
+  begin
+    DC.SetEditValue(colUOM.Index, aItem.StockUOM.ID, evsValue);
+//    colUOMPropertiesEditValueChanged(nil);
+    lItemUOM := TItemUOM.GetItemUOM(
+      VarToInt(cxGrdMain.Controller.FocusedRecord.Values[colItemID.Index]),
+      VarToInt(cxGrdMain.Controller.FocusedRecord.Values[colUOM.Index])
+    );
+    if lItemUOM = nil then exit;
+    Try
+      DC.SetEditValue(colKonversi.Index, lItemUOM.Konversi, evsValue);
+      DC.SetEditValue(colHrgBeli.Index, lItemUOM.HargaBeli, evsValue);
+    Finally
+      FreeAndNil(lItemUOM);
+    End;
+  end;
 end;
 
 procedure TfrmPurchaseInvoice.UpdateData;

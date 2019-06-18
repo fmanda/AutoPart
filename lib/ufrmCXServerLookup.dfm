@@ -27,8 +27,6 @@ object frmCXServerLookup: TfrmCXServerLookup
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 0
-    ExplicitLeft = -67
-    ExplicitWidth = 684
     object lblHeader: TLabel
       AlignWithMargins = True
       Left = 5
@@ -55,7 +53,6 @@ object frmCXServerLookup: TfrmCXServerLookup
       Caption = 'Filter Data'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      ExplicitLeft = 327
       Height = 31
       Width = 58
       AnchorY = 16
@@ -72,7 +69,6 @@ object frmCXServerLookup: TfrmCXServerLookup
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 1
-      ExplicitLeft = 388
       Width = 89
     end
     object EndDate: TcxDateEdit
@@ -87,7 +83,6 @@ object frmCXServerLookup: TfrmCXServerLookup
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 2
-      ExplicitLeft = 504
       Width = 89
     end
     object btnRefresh: TcxButton
@@ -172,7 +167,6 @@ object frmCXServerLookup: TfrmCXServerLookup
       OptionsImage.NumGlyphs = 2
       TabOrder = 4
       OnClick = btnRefreshClick
-      ExplicitLeft = 599
     end
     object lblsdFilter: TcxLabel
       AlignWithMargins = True
@@ -185,7 +179,6 @@ object frmCXServerLookup: TfrmCXServerLookup
       Caption = 's/d'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      ExplicitLeft = 480
       Height = 25
       Width = 21
       AnchorY = 16
@@ -202,9 +195,6 @@ object frmCXServerLookup: TfrmCXServerLookup
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 1
-    ExplicitLeft = -67
-    ExplicitTop = 355
-    ExplicitWidth = 684
     object lbEscape: TLabel
       AlignWithMargins = True
       Left = 591
@@ -221,7 +211,6 @@ object frmCXServerLookup: TfrmCXServerLookup
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitLeft = 605
       ExplicitHeight = 16
     end
     object Label1: TLabel
@@ -241,7 +230,6 @@ object frmCXServerLookup: TfrmCXServerLookup
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitLeft = 487
       ExplicitHeight = 16
     end
     object Label2: TLabel
@@ -274,9 +262,6 @@ object frmCXServerLookup: TfrmCXServerLookup
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 2
-    ExplicitLeft = -67
-    ExplicitTop = 366
-    ExplicitWidth = 684
     object btnClose: TcxButton
       AlignWithMargins = True
       Left = 591
@@ -293,7 +278,6 @@ object frmCXServerLookup: TfrmCXServerLookup
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
       OnClick = btnCloseClick
-      ExplicitLeft = 605
     end
     object btnOK: TcxButton
       AlignWithMargins = True
@@ -325,8 +309,6 @@ object frmCXServerLookup: TfrmCXServerLookup
     Height = 383
     Align = alClient
     TabOrder = 3
-    ExplicitLeft = 40
-    ExplicitTop = -15
     object cxGrdMain: TcxGridServerModeTableView
       Navigator.Buttons.CustomButtons = <>
       OnCellDblClick = cxGrdMainCellDblClick

@@ -66,6 +66,11 @@ type
 var
   frmCXServerLookup: TfrmCXServerLookup;
 
+const
+  _startdateparam : String = ':startdate';
+  _enddateparam : String = ':enddate';
+
+
 implementation
 
 uses
@@ -219,6 +224,13 @@ end;
 
 procedure TfrmCXServerLookup.RefreshData;
 begin
+  //process SQL
+  if StartDate.Visible then
+  begin
+    SQL := StringReplace(SQL, _startdateparam, TAppUtils.QuotD(StartDate.Date) ,[rfReplaceAll,rfIgnoreCase]);
+    SQL := StringReplace(SQL, _enddateparam, TAppUtils.QuotD(EndDate.Date) ,[rfReplaceAll,rfIgnoreCase] );
+  end;
+
   cxGrdMain.LoadFromSQL(SQL, KeyName);
   cxGrdMain.EnableFiltering(True);
 end;
