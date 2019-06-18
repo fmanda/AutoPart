@@ -309,7 +309,7 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
         DataBinding.FieldName = 'Qty'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0;(,0)'
+        Properties.DisplayFormat = ',0.##;(,0.##)'
         Properties.OnEditValueChanged = colQtyPropertiesEditValueChanged
         HeaderAlignmentHorz = taCenter
         Width = 53
@@ -319,7 +319,7 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
         DataBinding.FieldName = 'Harga'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0;(,0)'
+        Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Options.Focusing = False
@@ -329,7 +329,8 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
         DataBinding.FieldName = 'Discount'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0;(,0)'
+        Properties.DisplayFormat = ',0.##;(,0.##)'
+        Properties.ReadOnly = True
         Properties.OnEditValueChanged = colDiscPropertiesEditValueChanged
         HeaderAlignmentHorz = taCenter
         Width = 70
@@ -339,7 +340,7 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
         DataBinding.FieldName = 'SubTotal'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0;(,0)'
+        Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Options.Focusing = False

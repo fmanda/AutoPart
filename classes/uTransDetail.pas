@@ -56,6 +56,9 @@ type
     function GetSQLRetrieveDetails(Header_ID: Integer): String; override;
   public
     destructor Destroy; override;
+    procedure MakePositive;
+    procedure MakeNegative;
+    procedure SetAvgCost;
   published
     property Header_Flag: Integer read FHeader_Flag write FHeader_Flag;
     [AttributeOfHeader]
@@ -140,6 +143,7 @@ type
     function GetRefno: String; override;
   public
     destructor Destroy; override;
+    procedure ClearInvoice;
     function GenerateNo: String;
     function GetHeaderFlag: Integer; override;
   published
@@ -197,6 +201,9 @@ type
 const
   HeaderFlag_PurchaseInvoice : Integer = 100;
   HeaderFlag_PurchaseRetur : Integer = 150;
+  Status_PurchaseInv_Created : Integer = 0;
+  Status_PurchaseInv_Paid : Integer = 1;
+  Status_PurchaseInv_Cancel : Integer = 2;
 
 implementation
 
@@ -448,6 +455,32 @@ begin
 //  Result := Result + lPO.GetHeaderField;
 end;
 
+procedure TTransDetail.MakePositive;
+begin
+  Self.Qty := Abs(Self.Qty);
+  Self.Total := Abs(Self.Total);
+  Self.PPN := Abs(Self.Total);
+end;
+
+procedure TTransDetail.MakeNegative;
+begin
+  Self.Qty := Abs(Self.Qty) * -1;
+  Self.Total := Abs(Self.Total) * -1;
+  Self.PPN := Abs(Self.Total) * -1;
+end;
+
+procedure TTransDetail.SetAvgCost;
+var
+  lItemUOM: TItemUOM;
+begin
+  lItemUOM := TItemUOM.GetItemUOM(Self.Item.ID, Self.UOM.ID);
+  Try
+    Self.HargaAvg := lItemUOM.HargaAvg;
+  Finally
+    lItemUOM.Free;
+  End;
+end;
+
 destructor TPurchaseRetur.Destroy;
 begin
   inherited;
@@ -462,6 +495,7 @@ end;
 
 function TPurchaseRetur.BeforeSaveToDB: Boolean;
 var
+  litem: TTransDetail;
   oldRetur: TPurchaseRetur;
 begin
   if Self.ID = 0 then
@@ -478,6 +512,13 @@ begin
     oldRetur.Free;
   End;
 
+  for lItem in Self.Items do
+    lItem.SetAvgCost;
+end;
+
+procedure TPurchaseRetur.ClearInvoice;
+begin
+  FreeAndNil(FInvoice);
 end;
 
 function TPurchaseRetur.GenerateNo: String;
@@ -528,8 +569,14 @@ begin
     sOperation := '-';
 
   S := 'Update TPurchaseInvoice set ReturAmount = ReturAmount '
-    + sOperation + FloatToStr(Self.Amount)
-    + 'where ID = ' + IntToStr(Self.Invoice.ID);
+    + sOperation + FloatToStr(Self.Amount);
+
+  if Self.ReturFlag = 1 then
+  begin
+    S := S + ', Status = ' + IntToStr(Status_PurchaseInv_Cancel)
+  end;
+
+  S := S + ' where ID = ' + IntToStr(Self.Invoice.ID);
 
   Result := TDBUtils.ExecuteSQL(S, False);
 end;

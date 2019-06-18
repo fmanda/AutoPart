@@ -665,7 +665,7 @@ begin
     exit;
   end;
 
-  Result := True;
+  Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
 
 end;
 

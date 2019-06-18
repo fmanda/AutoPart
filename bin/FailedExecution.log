@@ -1,3 +1,5 @@
-SET NOCOUNT ON
-Insert Into TAvgCostUpdate(Header_Flag,Header_ID,Item_ID,LastStockPCS,LastAvgCost,TransTotalPCS,TransDate,NewAvgCost,TransTotalValue,TransPricePcs) values(100,15,7,0,1500,1,43633.8967470718,0,1500,0);
-Select Scope_Identity() as ID
+Delete From TAvgCostUpdate where Header_flag = 100 AND Header_ID = 24;
+Delete From TAvgCostUpdate where ID = 17;
+Delete From TTransDetail where Header_flag = 100 AND Header_ID = 24;
+Delete From TTransDetail where ID = 18;
+Delete From TPurchaseInvoice where ID = 24;

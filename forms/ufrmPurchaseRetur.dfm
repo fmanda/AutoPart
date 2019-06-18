@@ -11,6 +11,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
     Top = 523
+    TabOrder = 2
     ExplicitTop = 523
     ExplicitWidth = 936
     Width = 941
@@ -24,12 +25,14 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     end
     inherited btnSave: TcxButton
       Left = 684
+      OnClick = btnSaveClick
       ExplicitLeft = 679
     end
   end
   inherited Panel2: TPanel
     Top = 502
     Width = 941
+    TabOrder = 3
     ExplicitTop = 502
     ExplicitWidth = 936
     inherited lbEscape: TLabel
@@ -92,67 +95,68 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     Top = 0
     Align = alTop
     Caption = '  Header Data [F1] '
-    TabOrder = 2
+    TabOrder = 0
     DesignSize = (
       941
       147)
     Height = 147
     Width = 941
     object cxLabel1: TcxLabel
-      Left = 42
-      Top = 22
+      Left = 182
+      Top = 20
       Caption = 'No. Retur'
     end
-    object edNoInv: TcxTextEdit
-      Left = 95
-      Top = 21
+    object edNoRetur: TcxTextEdit
+      Left = 235
+      Top = 19
       TabStop = False
       Properties.CharCase = ecUpperCase
-      TabOrder = 0
+      TabOrder = 1
       Width = 139
     end
     object cxLabel4: TcxLabel
-      Left = 51
-      Top = 63
+      Left = 191
+      Top = 61
       Caption = 'Supplier'
     end
     object cxLabel6: TcxLabel
-      Left = 50
-      Top = 104
+      Left = 190
+      Top = 102
       Caption = 'Catatan'
     end
     object edNotes: TcxMemo
-      Left = 95
-      Top = 103
-      TabOrder = 6
+      Left = 235
+      Top = 101
+      TabOrder = 7
+      OnKeyDown = edNotesKeyDown
       Height = 35
       Width = 298
     end
     object dtRetur: TcxDateEdit
-      Left = 290
-      Top = 21
+      Left = 430
+      Top = 19
       TabStop = False
       Properties.ImmediatePost = True
       Properties.SaveTime = False
       Properties.ShowTime = False
-      TabOrder = 1
+      TabOrder = 2
       Width = 103
     end
     object cxLabel8: TcxLabel
-      Left = 242
-      Top = 22
+      Left = 382
+      Top = 20
       Caption = 'Tgl Retur'
     end
     object edInv: TcxButtonEdit
-      Left = 95
-      Top = 42
+      Left = 235
+      Top = 40
       Properties.Buttons = <
         item
           Default = True
           Kind = bkEllipsis
         end>
       Properties.OnButtonClick = edInvPropertiesButtonClick
-      TabOrder = 2
+      TabOrder = 3
       OnKeyDown = edInvKeyDown
       Width = 139
     end
@@ -256,47 +260,47 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Width = 241
     end
     object cxLabel7: TcxLabel
-      Left = 29
-      Top = 84
+      Left = 169
+      Top = 82
       Caption = 'Gudang Asal'
     end
     object cxLookupGudang: TcxExtLookupComboBox
-      Left = 95
-      Top = 82
-      TabOrder = 5
+      Left = 235
+      Top = 80
+      TabOrder = 6
       Width = 298
     end
     object cxLabel9: TcxLabel
-      Left = 38
-      Top = 43
+      Left = 178
+      Top = 41
       Caption = 'No. Faktur'
     end
     object edSupp: TcxTextEdit
-      Left = 95
-      Top = 62
+      Left = 235
+      Top = 60
       TabStop = False
       Properties.CharCase = ecUpperCase
-      TabOrder = 4
+      TabOrder = 5
       Width = 298
     end
     object dtInvoice: TcxDateEdit
-      Left = 290
-      Top = 42
+      Left = 430
+      Top = 40
       TabStop = False
       Properties.ImmediatePost = True
       Properties.SaveTime = False
       Properties.ShowTime = False
-      TabOrder = 3
+      TabOrder = 4
       Width = 103
     end
     object cxLabel11: TcxLabel
-      Left = 238
-      Top = 43
+      Left = 378
+      Top = 41
       Caption = 'Tgl Faktur'
     end
     object rbJenis: TcxRadioGroup
-      Left = 403
-      Top = 19
+      Left = 15
+      Top = 24
       Anchors = [akTop, akRight]
       Caption = ' Jenis Retur Pembelian'
       Properties.Items = <
@@ -306,10 +310,11 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
         item
           Caption = 'Pembatalan Faktur'
         end>
+      Properties.OnEditValueChanged = rbJenisPropertiesEditValueChanged
       ItemIndex = 0
-      TabOrder = 7
+      TabOrder = 0
       Height = 77
-      Width = 149
+      Width = 136
     end
   end
   object cxGrid1: TcxGrid
@@ -318,7 +323,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     Width = 941
     Height = 355
     Align = alClient
-    TabOrder = 3
+    TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
     ExplicitTop = 168
     ExplicitHeight = 333
@@ -382,7 +387,8 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
         DataBinding.FieldName = 'Qty'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0;(,0)'
+        Properties.DisplayFormat = ',0.##;(,0.##)'
+        Properties.OnEditValueChanged = colQtyPropertiesEditValueChanged
         HeaderAlignmentHorz = taCenter
         Width = 53
       end
@@ -391,7 +397,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
         DataBinding.FieldName = 'Harga'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0;(,0)'
+        Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Options.Focusing = False
@@ -401,7 +407,9 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
         DataBinding.FieldName = 'Discount'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0;(,0)'
+        Properties.DisplayFormat = ',0.##;(,0.##)'
+        Properties.ReadOnly = True
+        Properties.OnEditValueChanged = colDiscPropertiesEditValueChanged
         HeaderAlignmentHorz = taCenter
         Width = 63
       end
@@ -410,7 +418,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
         DataBinding.FieldName = 'SubTotal'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0;(,0)'
+        Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Options.Focusing = False

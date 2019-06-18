@@ -21,7 +21,7 @@ type
     Label1: TLabel;
     cxGroupBox1: TcxGroupBox;
     cxLabel1: TcxLabel;
-    edNoInv: TcxTextEdit;
+    edNoRetur: TcxTextEdit;
     cxLabel4: TcxLabel;
     cxLabel6: TcxLabel;
     edNotes: TcxMemo;
@@ -70,26 +70,40 @@ type
     procedure colUOMPropertiesInitPopup(Sender: TObject);
     procedure colKodePropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure colQtyPropertiesEditValueChanged(Sender: TObject);
+    procedure colDiscPropertiesEditValueChanged(Sender: TObject);
+    procedure rbJenisPropertiesEditValueChanged(Sender: TObject);
+    procedure btnSaveClick(Sender: TObject);
+    procedure edNotesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     FCDS: TClientDataset;
+    FCDSValidate: TClientDataset;
     FCDSClone: TClientDataset;
     FCDSUOM: TClientDataset;
+    FDisableEvent: Boolean;
     FPurchRetur: TPurchaseRetur;
     procedure CalculateAll;
     procedure CDSAfterInsert(DataSet: TDataSet);
     function DC: TcxGridDBDataController;
     procedure FocusToGrid;
     function GetCDS: TClientDataset;
+    function GetCDSValidate: TClientDataset;
     function GetCDSClone: TClientDataset;
     function GetCDSUOM: TClientDataset;
     function GetPurchRetur: TPurchaseRetur;
     procedure InitView;
+    procedure LoadAllInvoiceItem;
     procedure LookupInvoice(sKey: string = '');
     procedure LookupItem(aKey: string = '');
     procedure SetItemToGrid(aItem: TItem);
+    procedure UpdateData;
+    function ValidateData: Boolean;
+    function ValidateItem: Boolean;
     property CDS: TClientDataset read GetCDS write FCDS;
+    property CDSValidate: TClientDataset read GetCDSValidate write FCDSValidate;
     property CDSClone: TClientDataset read GetCDSClone write FCDSClone;
     property CDSUOM: TClientDataset read GetCDSUOM write FCDSUOM;
+    property DisableEvent: Boolean read FDisableEvent write FDisableEvent;
     property PurchRetur: TPurchaseRetur read GetPurchRetur write FPurchRetur;
     { Private declarations }
   public
@@ -104,9 +118,21 @@ implementation
 
 uses
   uDBUtils, uDXUtils, uAppUtils, Strutils, ufrmCXServerLookup,
-  System.DateUtils, uSupplier;
+  System.DateUtils, uSupplier, ufrmCXMsgInfo, uWarehouse;
 
 {$R *.dfm}
+
+procedure TfrmPurchaseRetur.btnSaveClick(Sender: TObject);
+begin
+  inherited;
+  if not ValidateData then exit;
+  UpdateData;
+  if PurchRetur.SaveToDB then
+  begin
+    TAppUtils.InformationBerhasilSimpan;
+    Self.ModalResult := mrOK;
+  end;
+end;
 
 procedure TfrmPurchaseRetur.CalculateAll;
 var
@@ -151,12 +177,19 @@ begin
   InitView;
   Self.AssignKeyDownEvent;
   LoadByID(0, False);
+  DisableEvent := False;
 end;
 
 procedure TfrmPurchaseRetur.CDSAfterInsert(DataSet: TDataSet);
 begin
   inherited;
   DataSet.FieldByName('Warehouse').AsInteger := VarToInt(cxLookupGudang.EditValue);
+end;
+
+procedure TfrmPurchaseRetur.colDiscPropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalculateAll;
 end;
 
 procedure TfrmPurchaseRetur.colKodePropertiesButtonClick(Sender: TObject;
@@ -219,6 +252,12 @@ begin
   Finally
     lItem.Free;
   End;
+end;
+
+procedure TfrmPurchaseRetur.colQtyPropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalculateAll;
 end;
 
 procedure TfrmPurchaseRetur.colUOMPropertiesCloseUp(Sender: TObject);
@@ -327,6 +366,16 @@ begin
   LookupInvoice;
 end;
 
+procedure TfrmPurchaseRetur.edNotesKeyDown(Sender: TObject; var Key: Word;
+    Shift: TShiftState);
+begin
+  inherited;
+  if Key = VK_RETURN then
+  begin
+    FocusToGrid;
+  end;
+end;
+
 procedure TfrmPurchaseRetur.FocusToGrid;
 begin
   cxGrid1.SetFocus;
@@ -343,7 +392,7 @@ procedure TfrmPurchaseRetur.FormKeyDown(Sender: TObject; var Key: Word; Shift:
 begin
   inherited;
    if Key = VK_F1 then
-    edNoInv.SetFocus;
+    edInv.SetFocus;
 
   if Key = VK_F2 then
   begin
@@ -366,6 +415,21 @@ begin
 //    DisableTrigger := False;
   end;
   Result := FCDS;
+end;
+
+function TfrmPurchaseRetur.GetCDSValidate: TClientDataset;
+begin
+  if FCDSValidate = nil then
+  begin
+    FCDSValidate := TClientDataSet.Create(Self);
+    FCDSValidate.AddField('ItemID',ftInteger);
+    FCDSValidate.AddField('Kode',ftString);
+    FCDSValidate.AddField('Nama',ftString);
+    FCDSValidate.AddField('TotalPCS_Faktur',ftFloat);
+    FCDSValidate.AddField('TotalPCS_Retur',ftFloat);
+    FCDSValidate.CreateDataSet;
+  end;
+  Result := FCDSValidate;
 end;
 
 function TfrmPurchaseRetur.GetCDSClone: TClientDataset;
@@ -405,6 +469,22 @@ begin
   cxLookupGudang.SetDefaultValue();
 end;
 
+procedure TfrmPurchaseRetur.LoadAllInvoiceItem;
+var
+  lItem: TTransDetail;
+begin
+  for lItem in PurchRetur.Invoice.Items do
+  begin
+    CDS.Append;
+    lItem.UpdateToDataset(CDS);
+    lItem.Item.ReLoad(False);
+    CDS.FieldByName('Kode').AsString := lItem.Item.Kode;
+    CDS.FieldByName('Nama').AsString := lItem.Item.Nama;
+    CDS.Post;
+  end;
+  CalculateAll;
+end;
+
 procedure TfrmPurchaseRetur.LoadByID(aID: Integer; IsReadOnly: Boolean);
 var
   lItem: TTransDetail;
@@ -422,15 +502,23 @@ begin
     PurchRetur.Refno      := PurchRetur.GenerateNo;
   end;
 
-  edNoInv.Text  := PurchRetur.Refno;
-  rbJenis.ItemIndex := PurchRetur.ReturFlag;
-  crSubTotal.Value := PurchRetur.SubTotal;
-  crPPN.Value := PurchRetur.PPN;
-  crTotal.Value := PurchRetur.Amount;
+  edNoRetur.Text  := PurchRetur.Refno;
+  
+  DisableEvent := True;
+  Try
+    rbJenis.ItemIndex := PurchRetur.ReturFlag;
+    rbJenisPropertiesEditValueChanged(Self);
+  Finally
+    DisableEvent := False;
+  End;
+  
+  crSubTotal.Value := Abs(PurchRetur.SubTotal);
+  crPPN.Value := Abs(PurchRetur.PPN);
+  crTotal.Value := Abs(PurchRetur.Amount);
   edNotes.Text := PurchRetur.Notes;
   dtRetur.Date  := PurchRetur.TransDate;
 
-  edNoInv.Text := '';
+  edInv.Text := '';
   edSupp.Text := '';
   dtInvoice.Clear;
   if PurchRetur.Invoice <> nil then
@@ -453,11 +541,11 @@ begin
   for lItem in PurchRetur.Items do
   begin
     CDS.Append;
+    lItem.MakePositive;     
     lItem.UpdateToDataset(CDS);
-    lItem.Item.ReLoad(False);
+    lItem.Item.ReLoad(False);             
     CDS.FieldByName('Kode').AsString := lItem.Item.Kode;
     CDS.FieldByName('Nama').AsString := lItem.Item.Nama;
-
     CDS.Post;
   end;
   CalculateAll;
@@ -475,6 +563,9 @@ begin
       +' INNER JOIN TSUPPLIER B ON A.SUPPLIER_ID = B.ID'
       +' INNER JOIN TWAREHOUSE C ON A.WAREHOUSE_ID = C.ID'
       +' WHERE A.TRANSDATE BETWEEN :startdate AND :enddate';
+
+  if rbJenis.ItemIndex = 1 then
+    S := S + 'AND PAIDAMOUNT = 0 AND RETURAMOUNT = 0';
 
   cxLookup := TfrmCXServerLookup.Execute(S, 'ID', StartOfTheMonth(Now()), EndOfTheMonth(Now()) );
   Try
@@ -495,6 +586,9 @@ begin
       cxLookupGudang.EditValue := PurchRetur.Invoice.Warehouse.ID;
 
       CDS.EmptyDataSet;
+
+      if rbJenis.ItemIndex = 1 then
+        LoadAllInvoiceItem;
     end;
   Finally
     cxLookup.Free;
@@ -549,6 +643,26 @@ begin
   End;
 end;
 
+procedure TfrmPurchaseRetur.rbJenisPropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  cxGrdMain.OptionsData.Editing   := rbJenis.ItemIndex = 0;
+  cxGrdMain.OptionsData.Appending := rbJenis.ItemIndex = 0;
+  cxGrdMain.OptionsData.Inserting := rbJenis.ItemIndex = 0;
+  cxGrdMain.OptionsData.Deleting  := rbJenis.ItemIndex = 0;
+
+  if (rbJenis.ItemIndex = 1) and (not DisableEvent) then
+  begin
+//    PurchRetur.Invoice.Free;
+    PurchRetur.ClearInvoice;
+    edInv.Clear;
+    dtInvoice.Clear;
+    edSupp.Clear;
+    CDS.EmptyDataSet;
+  end;
+  
+end;
+
 procedure TfrmPurchaseRetur.SetItemToGrid(aItem: TItem);
 var
   lItemUOM: TItemUOM;
@@ -584,6 +698,162 @@ begin
       FreeAndNil(lItemUOM);
     End;
   end;
+end;
+
+procedure TfrmPurchaseRetur.UpdateData;
+var
+  lItem: TTransDetail;
+begin
+
+  PurchRetur.Refno := edNoRetur.Text;
+  PurchRetur.TransDate := dtRetur.Date;
+  PurchRetur.Notes := edNotes.Text;
+  PurchRetur.ReturFlag := rbJenis.ItemIndex;
+  PurchRetur.SubTotal := crSubTotal.Value;
+  PurchRetur.PPN := crPPN.Value;
+  PurchRetur.Amount := crTotal.Value;
+  PurchRetur.ModifiedDate := Now();
+  PurchRetur.ModifiedBy := UserLogin;
+
+  if PurchRetur.Warehouse = nil then
+    PurchRetur.Warehouse := TWarehouse.Create;
+
+  PurchRetur.Warehouse.LoadByID(VarToInt(cxLookupGudang.EditValue));    
+  PurchRetur.Items.Clear;
+
+  CDS.First;
+  while not CDS.Eof do
+  begin
+    lItem := TTransDetail.Create;
+    lItem.SetFromDataset(CDS);
+
+    lItem.MakeNegative;
+    PurchRetur.Items.Add(lItem);
+    CDS.Next;
+  end;    
+end;
+
+function TfrmPurchaseRetur.ValidateData: Boolean;
+begin
+  Result := False;
+
+  if PurchRetur.Invoice = nil then
+  begin
+    TAppUtils.Warning('Nomor Faktur belum dipilih');
+    exit;
+  end;
+
+  if PurchRetur.Invoice.ID = 0 then
+  begin
+    TAppUtils.Warning('Nomor Faktur belum dipilih');
+    exit;
+  end;
+
+
+  if crTotal.Value <= 0 then
+  begin
+    TAppUtils.Warning('Total <= 0');
+    exit;
+  end;
+
+  if CDS.RecordCount = 0 then
+  begin
+    TAppUtils.Warning('Data Item tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo+1));
+    exit;
+  end;
+
+  if CDS.Locate('Item', null, []) or CDS.Locate('Item', 0, []) then
+  begin
+    TAppUtils.Warning('Item tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo+1));
+    exit;
+  end;
+
+  if CDS.Locate('UOM', null, []) or CDS.Locate('UOM', 0, []) then
+  begin
+    TAppUtils.Warning('Satuan tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo+1));
+    exit;
+  end;
+
+  if CDS.Locate('Qty', 0, []) then
+  begin
+    TAppUtils.Warning('Qty tidak boleh 0' + #13 + 'Baris : ' +IntTostr(CDS.RecNo+1));
+    exit;
+  end;
+
+  if CDS.Locate('Warehouse', 0, []) or CDS.Locate('Warehouse', null, []) then
+  begin
+    TAppUtils.Warning('Warehouse tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo+1));
+    exit;
+  end;
+
+  //validate Inv    
+  if not ValidateItem then exit;  
+  if crTotal.Value > PurchRetur.Invoice.Amount then
+  begin
+    TAppUtils.Warning('Nilai Total Retur melebihi Total Faktur');
+    exit;
+  end;
+
+  Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
+
+end;
+
+function TfrmPurchaseRetur.ValidateItem: Boolean;
+var
+  lItem: TTransDetail;
+begin
+//  Result := ;
+
+  CDSValidate.Filtered := False;
+  CDSValidate.EmptyDataSet;
+
+  CDSClone.First;
+  while not CDSClone.Eof do
+  begin
+    if not CDSValidate.Locate('ItemID',CDSClone.FieldByName('Item').AsInteger,[]) then
+    begin
+      CDSValidate.Append;
+      CDSValidate.FieldByName('ItemID').AsInteger := CDSClone.FieldByName('Item').AsInteger;
+      CDSValidate.FieldByName('Kode').AsString := CDSClone.FieldByName('Nama').AsString;
+      CDSValidate.FieldByName('Nama').AsString := CDSClone.FieldByName('Kode').AsString;   
+      CDSValidate.FieldByName('TotalPCS_Faktur').AsFloat := 0;
+      CDSValidate.FieldByName('TotalPCS_Retur').AsFloat := 0;                  
+    end else
+    begin
+      CDSValidate.Edit;
+    end;
+
+    CDSValidate.FieldByName('TotalPCS_Retur').AsFloat := 
+      CDSValidate.FieldByName('TotalPCS_Retur').AsFloat 
+       + (CDSClone.FieldByName('Qty').AsFloat * CDSClone.FieldByName('Konversi').AsFloat);
+
+    CDSValidate.Post;
+    CDSClone.Next;
+  end;
+
+  if PurchRetur.Invoice.Items.Count = 0 then
+    PurchRetur.Invoice.ReLoad(True);
+
+  for lItem in PurchRetur.Invoice.Items do
+  begin       
+    if not CDSValidate.Locate('ItemID',CDSClone.FieldByName('Item').AsInteger,[]) then
+      continue;
+      
+    CDSValidate.Edit;
+    CDSValidate.FieldByName('TotalPCS_Faktur').AsFloat := 
+      CDSValidate.FieldByName('TotalPCS_Faktur').AsFloat 
+       + (lItem.Qty * lItem.Konversi);  
+    CDSValidate.Post;
+  end;       
+
+  CDSValidate.Filtered := True;
+  CDSValidate.Filter := 'TotalPCS_Retur > TotalPCS_Faktur';
+
+  Result := CDSValidate.Eof;
+
+  if not Result then 
+    TfrmCXMsgInfo.ShowWarning('Qty Retur tidak boleh melebihi Qty Faktur', CDSValidate, ['ItemID']);
+ 
 end;
 
 end.

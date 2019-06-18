@@ -142,7 +142,8 @@ uses
   ufrmBrowseUOM, ufrmBrowseItemGroup, ufrmBrowseMerk, uItem, ufrmBrowseItem,
   ufrmBrowseService, ufrmBrowseCustomer, ufrmBrowseSupplier,
   ufrmBrowseWarehouse, ufrmBrowseRekening, ufrmCXServerLookup,
-  ufrmBrowsePurchaseInvoice, uTransDetail, ufrmKartuStock, ufrmPurchaseRetur;
+  ufrmBrowsePurchaseInvoice, uTransDetail, ufrmKartuStock,
+  ufrmBrowsePurchaseRetur;
 
 {$R *.dfm}
 
@@ -203,7 +204,7 @@ end;
 
 procedure TfrmMain.actPurchaseReturExecute(Sender: TObject);
 begin
-  Showform(TfrmPurchaseRetur).ShowModal;
+  Showform(TfrmBrowsePurchaseRetur);
 end;
 
 procedure TfrmMain.actRekeningExecute(Sender: TObject);

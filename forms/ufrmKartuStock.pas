@@ -180,6 +180,8 @@ begin
   begin
     edKode.Text := Item.Kode;
     edNama.Text := Item.Nama;
+    if Item.StockUOM <> nil then
+      cxLookupUOM.EditValue := Item.StockUOM.ID;
   end
   else
   begin
@@ -309,6 +311,9 @@ begin
       Item.LoadByID(cxLookup.FieldValue('ID'));
       edKode.Text := Item.Kode;
       edNama.Text := Item.Nama;
+
+      if Item.StockUOM <> nil then
+        cxLookupUOM.EditValue := Item.StockUOM.ID;
     end;
   finally
     cxLookup.Free;

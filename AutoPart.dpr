@@ -47,7 +47,8 @@ uses
   ufrmCXServerLookup in 'lib\ufrmCXServerLookup.pas' {frmCXServerLookup},
   ufrmBrowsePurchaseInvoice in 'forms\ufrmBrowsePurchaseInvoice.pas' {frmBrowsePurchaseInvoice},
   ufrmKartuStock in 'forms\ufrmKartuStock.pas' {frmKartuStock},
-  ufrmPurchaseRetur in 'forms\ufrmPurchaseRetur.pas' {frmPurchaseRetur};
+  ufrmPurchaseRetur in 'forms\ufrmPurchaseRetur.pas' {frmPurchaseRetur},
+  ufrmBrowsePurchaseRetur in 'forms\ufrmBrowsePurchaseRetur.pas' {frmBrowsePurchaseRetur};
 
 {$R *.res}
 
