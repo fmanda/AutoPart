@@ -219,6 +219,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton35'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton46'
         end>
       OneOnRow = False
       Row = 0
@@ -563,6 +567,10 @@ object frmMain: TfrmMain
       Action = actLapStockOpname
       Category = 0
     end
+    object dxBarButton46: TdxBarButton
+      Action = actSalesman
+      Category = 0
+    end
   end
   object ActionManager: TActionManager
     Images = ImageList
@@ -626,8 +634,8 @@ object frmMain: TfrmMain
     end
     object actSupplier: TAction
       Category = 'Master'
-      Caption = ' Data Supplier'
-      ImageIndex = 38
+      Caption = 'Data Supplier'
+      ImageIndex = 16
       OnExecute = actSupplierExecute
     end
     object actWarehouse: TAction
@@ -685,6 +693,11 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = 'Laporan Stock Opname'
       ImageIndex = 8
+    end
+    object actSalesman: TAction
+      Category = 'Master'
+      Caption = 'Data Salesman'
+      ImageIndex = 38
     end
   end
   object ImageList: TcxImageList

@@ -52,7 +52,8 @@ uses
   uSalesman in 'classes\uSalesman.pas',
   uStockOpname in 'classes\uStockOpname.pas',
   ufrmTransferStock in 'forms\ufrmTransferStock.pas' {frmTransferStock},
-  ufrmBrowseTransferStock in 'forms\ufrmBrowseTransferStock.pas' {frmBrowseTransferStock};
+  ufrmBrowseTransferStock in 'forms\ufrmBrowseTransferStock.pas' {frmBrowseTransferStock},
+  ufrmLapStock in 'forms\ufrmLapStock.pas' {frmLapStock};
 
 {$R *.res}
 

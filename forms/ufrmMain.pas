@@ -106,6 +106,8 @@ type
     dxBarButton44: TdxBarButton;
     actLapStockOpname: TAction;
     dxBarButton45: TdxBarButton;
+    actSalesman: TAction;
+    dxBarButton46: TdxBarButton;
     procedure actCustomerExecute(Sender: TObject);
     procedure actItemExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);

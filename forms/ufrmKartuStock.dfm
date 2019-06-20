@@ -217,7 +217,7 @@ inherited frmKartuStock: TfrmKartuStock
     end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 344
+    Left = 456
     Top = 0
     PixelsPerInch = 96
   end
