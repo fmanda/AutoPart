@@ -4,7 +4,7 @@ interface
 
 uses
   CRUDObject, uDBUtils, Sysutils, uItem, System.Generics.Collections,
-  uWarehouse, uSupplier;
+  uWarehouse, uSupplier, uCustomer, uSalesman;
 
 type
   TTransDetail = class;
@@ -132,7 +132,6 @@ type
     FAmount: Double;
     FNotes: string;
     FReturFlag: Integer;
-    FReturAmount: Double;
     FStatus: Integer;
     FInvoice: TPurchaseInvoice;
     FWarehouse: TWarehouse;
@@ -154,7 +153,6 @@ type
     property Amount: Double read FAmount write FAmount;
     property Notes: string read FNotes write FNotes;
     property ReturFlag: Integer read FReturFlag write FReturFlag;
-    property ReturAmount: Double read FReturAmount write FReturAmount;
     property Status: Integer read FStatus write FStatus;
     property Invoice: TPurchaseInvoice read FInvoice write FInvoice;
     property Warehouse: TWarehouse read FWarehouse write FWarehouse;
@@ -198,9 +196,106 @@ type
     property TransPricePcs: Double read FTransPricePcs write FTransPricePcs;
   end;
 
+  TTransferStock = class(TCRUDTransDetail)
+  private
+    FNotes: string;
+    FWH_Asal: TWarehouse;
+    FRefNo: string;
+    FWH_Tujuan: TWarehouse;
+    procedure GenerateTrfOut;
+  protected
+    function BeforeSaveToDB: Boolean; override;
+    function GetRefno: String; override;
+  public
+    destructor Destroy; override;
+    function GenerateNo: String;
+    function GetHeaderFlag: Integer; override;
+  published
+    property Notes: string read FNotes write FNotes;
+    property WH_Asal: TWarehouse read FWH_Asal write FWH_Asal;
+    property RefNo: string read FRefNo write FRefNo;
+    property WH_Tujuan: TWarehouse read FWH_Tujuan write FWH_Tujuan;
+  end;
+
+  TSalesInvoice = class(TCRUDTransDetail)
+  private
+    FAmount: Double;
+    FDueDate: TDateTime;
+    FInvoiceNo: string;
+    FNotes: string;
+    FPaidAmount: Double;
+    FPaymentFlag: Integer;
+    FPPN: Double;
+    FReturAmount: Double;
+    FStatus: Integer;
+    FSubTotal: Double;
+    FCustomer: TCustomer;
+    FSalesman: TSalesman;
+    FWarehouse: TWarehouse;
+  protected
+    function BeforeSaveToDB: Boolean; override;
+    function GetRefno: String; override;
+  public
+    function GenerateNo: String;
+    function GetHeaderFlag: Integer; override;
+  published
+    property Amount: Double read FAmount write FAmount;
+    property DueDate: TDateTime read FDueDate write FDueDate;
+    property InvoiceNo: string read FInvoiceNo write FInvoiceNo;
+    property Notes: string read FNotes write FNotes;
+    property PaidAmount: Double read FPaidAmount write FPaidAmount;
+    property PaymentFlag: Integer read FPaymentFlag write FPaymentFlag;
+    property PPN: Double read FPPN write FPPN;
+    property ReturAmount: Double read FReturAmount write FReturAmount;
+    property Status: Integer read FStatus write FStatus;
+    property SubTotal: Double read FSubTotal write FSubTotal;
+    property Customer: TCustomer read FCustomer write FCustomer;
+    property Salesman: TSalesman read FSalesman write FSalesman;
+    property Warehouse: TWarehouse read FWarehouse write FWarehouse;
+  end;
+
+type
+  TSalesRetur = class(TCRUDTransDetail)
+  private
+    FAmount: Double;
+    FInvoice: TSalesInvoice;
+    FNotes: string;
+    FPPN: Double;
+    FRefno: string;
+    FReturFlag: Integer;
+    FStatus: Integer;
+    FSubTotal: Double;
+    FCustomer: TCustomer;
+    FSalesman: TSalesman;
+    FWarehouse: TWarehouse;
+    function UpdateReturAmt(IsRevert: Boolean = False): Boolean;
+  protected
+    function AfterSaveToDB: Boolean; override;
+    function BeforeSaveToDB: Boolean; override;
+    function GetRefno: String; override;
+  public
+    function GenerateNo: String;
+    function GetHeaderFlag: Integer; override;
+  published
+    property Amount: Double read FAmount write FAmount;
+    property Invoice: TSalesInvoice read FInvoice write FInvoice;
+    property Notes: string read FNotes write FNotes;
+    property PPN: Double read FPPN write FPPN;
+    property Refno: string read FRefno write FRefno;
+    property ReturFlag: Integer read FReturFlag write FReturFlag;
+    property Status: Integer read FStatus write FStatus;
+    property SubTotal: Double read FSubTotal write FSubTotal;
+    property Customer: TCustomer read FCustomer write FCustomer;
+    property Salesman: TSalesman read FSalesman write FSalesman;
+    property Warehouse: TWarehouse read FWarehouse write FWarehouse;
+  end;
+
 const
   HeaderFlag_PurchaseInvoice : Integer = 100;
   HeaderFlag_PurchaseRetur : Integer = 150;
+  HeaderFlag_SalesInvoice : Integer = 200;
+  HeaderFlag_SalesRetur : Integer = 250;
+  HeaderFlag_TransferStock : Integer = 300;
   Status_PurchaseInv_Created : Integer = 0;
   Status_PurchaseInv_Paid : Integer = 1;
   Status_PurchaseInv_Cancel : Integer = 2;
@@ -498,6 +593,9 @@ var
   litem: TTransDetail;
   oldRetur: TPurchaseRetur;
 begin
+  for lItem in Self.Items do
+    lItem.SetAvgCost;
+
   if Self.ID = 0 then
   begin
     Result := True;
@@ -512,8 +610,7 @@ begin
     oldRetur.Free;
   End;
 
-  for lItem in Self.Items do
-    lItem.SetAvgCost;
+
 end;
 
 procedure TPurchaseRetur.ClearInvoice;
@@ -564,6 +661,12 @@ var
   S: string;
   sOperation: string;
 begin
+  if Self.ReturFlag = 0 then
+  begin
+    Result := True;
+    exit;
+  end;
+
   sOperation := '+';
   if IsRevert then
     sOperation := '-';
@@ -701,6 +804,249 @@ begin
     lUOM.UpdateHargaAvg(Self.LastAvgCost * lUOM.Konversi);
   end;
 
+end;
+
+destructor TTransferStock.Destroy;
+begin
+  inherited;
+  if FWH_Asal <> nil then FreeAndNil(FWH_Asal);
+  if FWH_Tujuan <> nil then FreeAndNil(FWH_Tujuan);
+end;
+
+function TTransferStock.BeforeSaveToDB: Boolean;
+var
+  litem: TTransDetail;
+begin
+  GenerateTrfOut;
+
+  for lItem in Self.Items do
+    lItem.SetAvgCost;
+
+  Result := True;
+end;
+
+function TTransferStock.GenerateNo: String;
+var
+  aDigitCount: Integer;
+  aPrefix: string;
+  lNum: Integer;
+  S: string;
+begin
+  lNum := 0;
+  aDigitCount := 4;
+  aPrefix := Cabang + '.TS.' + FormatDateTime('yymmdd',Now()) + '.';
+
+
+  S := 'SELECT MAX(Refno) FROM TTransferStock where Refno LIKE ' + QuotedStr(aPrefix + '%');
+
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        TryStrToInt(RightStr(Fields[0].AsString, aDigitCount), lNum);
+    Finally
+      Free;
+    End;
+  end;
+
+  inc(lNum);
+  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
+end;
+
+procedure TTransferStock.GenerateTrfOut;
+var
+  i: Integer;
+  lItem: TTransDetail;
+begin
+
+  //delete all trf out first
+  for i := Self.Items.Count-1 downto 0 do
+  begin
+    if Self.Items[i].Qty < 0 then
+      Self.Items.Delete(i);
+  end;
+
+  for i := 0 to Self.Items.Count-1 do
+  begin
+    lItem             := TTransDetail.Create;
+    lItem.Header_Flag := Items[i].Header_Flag;
+    lItem.Header_ID   := Items[i].Header_ID;
+    lItem.TransDate   := Items[i].TransDate;
+    lItem.TransType   := Items[i].TransType;
+    lItem.Konversi    := Items[i].Konversi;
+    lItem.Qty         := Items[i].Qty * -1;
+
+    if Items[i].Item <> nil then
+      lItem.Item      := TItem.CreateID(Items[i].Item.ID);
+    if Items[i].UOM <> nil then
+      lItem.UOM       := TUOM.CreateID(Items[i].UOM.ID);
+    if Self.WH_Asal <> nil then
+      lItem.Warehouse := TWarehouse.CreateID(Self.WH_Asal.ID);
+
+    lItem.Harga       := Items[i].Harga;
+    lItem.HargaAvg    := Items[i].HargaAvg;
+    lItem.Discount    := Items[i].Discount;
+    lItem.Total       := Items[i].Total * -1;
+    lItem.PPN         := Items[i].PPN;
+    lItem.Refno       := Items[i].Refno;
+    lItem.TransDef    := Items[i].TransDef;
+
+    Self.Items.Add(lItem);
+  end;
+
+end;
+
+function TTransferStock.GetHeaderFlag: Integer;
+begin
+  Result := HeaderFlag_TransferStock;
+end;
+
+function TTransferStock.GetRefno: String;
+begin
+  Result := Refno;
+end;
+
+function TSalesInvoice.BeforeSaveToDB: Boolean;
+var
+  litem: TTransDetail;
+begin
+  for lItem in Self.Items do
+    lItem.SetAvgCost;
+
+  Result := True;
+end;
+
+function TSalesInvoice.GenerateNo: String;
+var
+  aDigitCount: Integer;
+  aPrefix: string;
+  lNum: Integer;
+  S: string;
+begin
+  lNum := 0;
+  aDigitCount := 4;
+  aPrefix := Cabang + '.FP.' + FormatDateTime('yymmdd',Now()) + '.';
+
+
+  S := 'SELECT MAX(Refno) FROM TSalesInvoice where InvoiceNo LIKE ' + QuotedStr(aPrefix + '%');
+
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        TryStrToInt(RightStr(Fields[0].AsString, aDigitCount), lNum);
+    Finally
+      Free;
+    End;
+  end;
+
+  inc(lNum);
+  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
+end;
+
+function TSalesInvoice.GetHeaderFlag: Integer;
+begin
+  Result := HeaderFlag_SalesInvoice;
+end;
+
+function TSalesInvoice.GetRefno: String;
+begin
+  Result := InvoiceNo;
+end;
+
+function TSalesRetur.AfterSaveToDB: Boolean;
+begin
+  Result := UpdateReturAmt(False);
+end;
+
+function TSalesRetur.BeforeSaveToDB: Boolean;
+var
+  litem: TTransDetail;
+  oldRetur: TSalesRetur;
+begin
+  for lItem in Self.Items do
+    lItem.SetAvgCost;
+
+  if Self.ID = 0 then
+  begin
+    Result := True;
+    exit;
+  end;
+
+  oldRetur := TSalesRetur.Create;
+  Try
+    oldRetur.LoadByID(Self.ID);
+    Result := oldRetur.UpdateReturAmt(True);
+  Finally
+    oldRetur.Free;
+  End;
+
+end;
+
+function TSalesRetur.GenerateNo: String;
+var
+  aDigitCount: Integer;
+  aPrefix: string;
+  lNum: Integer;
+  S: string;
+begin
+  lNum := 0;
+  aDigitCount := 4;
+  aPrefix := Cabang + '.RP.' + FormatDateTime('yymmdd',Now()) + '.';
+
+
+  S := 'SELECT MAX(Refno) FROM TSalesRetur where Refno LIKE ' + QuotedStr(aPrefix + '%');
+
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        TryStrToInt(RightStr(Fields[0].AsString, aDigitCount), lNum);
+    Finally
+      Free;
+    End;
+  end;
+
+  inc(lNum);
+  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
+end;
+
+function TSalesRetur.GetHeaderFlag: Integer;
+begin
+  Result := HeaderFlag_SalesRetur;
+end;
+
+function TSalesRetur.GetRefno: String;
+begin
+  Result := Refno;
+end;
+
+function TSalesRetur.UpdateReturAmt(IsRevert: Boolean = False): Boolean;
+var
+  S: string;
+  sOperation: string;
+begin
+  if Self.ReturFlag = 0 then
+  begin
+    Result := True;
+    exit;
+  end;
+
+  sOperation := '+';
+  if IsRevert then
+    sOperation := '-';
+
+  S := 'Update TSalesInvoice set ReturAmount = ReturAmount '
+    + sOperation + FloatToStr(Self.Amount);
+
+  if Self.ReturFlag = 1 then
+  begin
+    S := S + ', Status = ' + IntToStr(Status_PurchaseInv_Cancel)
+  end;
+
+  S := S + ' where ID = ' + IntToStr(Self.Invoice.ID);
+
+  Result := TDBUtils.ExecuteSQL(S, False);
 end;
 
 end.

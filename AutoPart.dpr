@@ -48,7 +48,9 @@ uses
   ufrmBrowsePurchaseInvoice in 'forms\ufrmBrowsePurchaseInvoice.pas' {frmBrowsePurchaseInvoice},
   ufrmKartuStock in 'forms\ufrmKartuStock.pas' {frmKartuStock},
   ufrmPurchaseRetur in 'forms\ufrmPurchaseRetur.pas' {frmPurchaseRetur},
-  ufrmBrowsePurchaseRetur in 'forms\ufrmBrowsePurchaseRetur.pas' {frmBrowsePurchaseRetur};
+  ufrmBrowsePurchaseRetur in 'forms\ufrmBrowsePurchaseRetur.pas' {frmBrowsePurchaseRetur},
+  uSalesman in 'classes\uSalesman.pas',
+  uStockOpname in 'classes\uStockOpname.pas';
 
 {$R *.res}
 
