@@ -299,7 +299,6 @@ begin
   begin
     LookupItem(VarToStr(AEdit.EditingValue));
   end;
-
 end;
 
 function TfrmPurchaseInvoice.DC: TcxGridDBDataController;
@@ -635,33 +634,35 @@ begin
     exit;
   end;
 
+//  if CDS.State in [dsInsert, dsEdit] then CDS.Post;
+
   if CDS.RecordCount = 0 then
   begin
-    TAppUtils.Warning('Data Item tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo+1));
+    TAppUtils.Warning('Data Item tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
     exit;
   end;
 
   if CDS.Locate('Item', null, []) or CDS.Locate('Item', 0, []) then
   begin
-    TAppUtils.Warning('Item tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo+1));
+    TAppUtils.Warning('Item tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
     exit;
   end;
 
   if CDS.Locate('UOM', null, []) or CDS.Locate('UOM', 0, []) then
   begin
-    TAppUtils.Warning('Satuan tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo+1));
+    TAppUtils.Warning('Satuan tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
     exit;
   end;
 
   if CDS.Locate('Qty', 0, []) then
   begin
-    TAppUtils.Warning('Qty tidak boleh 0' + #13 + 'Baris : ' +IntTostr(CDS.RecNo+1));
+    TAppUtils.Warning('Qty tidak boleh 0' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
     exit;
   end;
 
   if CDS.Locate('Warehouse', 0, []) or CDS.Locate('Warehouse', null, []) then
   begin
-    TAppUtils.Warning('Warehouse tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo+1));
+    TAppUtils.Warning('Warehouse tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
     exit;
   end;
 

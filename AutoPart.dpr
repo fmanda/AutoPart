@@ -50,7 +50,9 @@ uses
   ufrmPurchaseRetur in 'forms\ufrmPurchaseRetur.pas' {frmPurchaseRetur},
   ufrmBrowsePurchaseRetur in 'forms\ufrmBrowsePurchaseRetur.pas' {frmBrowsePurchaseRetur},
   uSalesman in 'classes\uSalesman.pas',
-  uStockOpname in 'classes\uStockOpname.pas';
+  uStockOpname in 'classes\uStockOpname.pas',
+  ufrmTransferStock in 'forms\ufrmTransferStock.pas' {frmTransferStock},
+  ufrmBrowseTransferStock in 'forms\ufrmBrowseTransferStock.pas' {frmBrowseTransferStock};
 
 {$R *.res}
 

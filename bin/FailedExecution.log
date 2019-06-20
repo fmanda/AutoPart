@@ -1,5 +1,4 @@
-Delete From TAvgCostUpdate where Header_flag = 100 AND Header_ID = 24;
-Delete From TAvgCostUpdate where ID = 17;
-Delete From TTransDetail where Header_flag = 100 AND Header_ID = 24;
-Delete From TTransDetail where ID = 18;
-Delete From TPurchaseInvoice where ID = 24;
+SET NOCOUNT ON
+Insert Into TTransferStock(Notes,WH_Asal_ID,RefNo,WH_Tujuan_ID,TransDate,Closed,ModifiedBy,ModifiedDate) values('
+',1,'01.TS.190620.0001',2,'2019-06-20 23:44:35',0,'programmer','2019-06-20 23:45:09');
+Select Scope_Identity() as ID

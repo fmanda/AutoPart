@@ -658,6 +658,7 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = 'Transfer Stock'
       ImageIndex = 9
+      OnExecute = actTransferStockExecute
     end
     object actStockOpname: TAction
       Category = 'Inventory'

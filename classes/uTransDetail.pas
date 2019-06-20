@@ -202,13 +202,14 @@ type
     FWH_Asal: TWarehouse;
     FRefNo: string;
     FWH_Tujuan: TWarehouse;
-    procedure GenerateTrfOut;
   protected
     function BeforeSaveToDB: Boolean; override;
     function GetRefno: String; override;
   public
     destructor Destroy; override;
+    procedure DeleteTrfOut;
     function GenerateNo: String;
+    procedure GenerateTrfOut;
     function GetHeaderFlag: Integer; override;
   published
     property Notes: string read FNotes write FNotes;
@@ -295,7 +296,9 @@ const
   HeaderFlag_PurchaseRetur : Integer = 150;
   HeaderFlag_SalesInvoice : Integer = 200;
   HeaderFlag_SalesRetur : Integer = 250;
-  HeaderFlag_TransferStock : Integer = 300;
+  HeaderFlag_TransferStock : Integer = 400;
+  HeaderFlag_Wastage : Integer = 450;
+  HeaderFlag_StockAdjustment : Integer = 500;
   Status_PurchaseInv_Created : Integer = 0;
   Status_PurchaseInv_Paid : Integer = 1;
   Status_PurchaseInv_Cancel : Integer = 2;
@@ -825,6 +828,17 @@ begin
   Result := True;
 end;
 
+procedure TTransferStock.DeleteTrfOut;
+var
+  i: Integer;
+begin
+  for i := Self.Items.Count-1 downto 0 do
+  begin
+    if Self.Items[i].Qty < 0 then
+      Self.Items.Delete(i);
+  end;
+end;
+
 function TTransferStock.GenerateNo: String;
 var
   aDigitCount: Integer;
@@ -860,11 +874,7 @@ var
 begin
 
   //delete all trf out first
-  for i := Self.Items.Count-1 downto 0 do
-  begin
-    if Self.Items[i].Qty < 0 then
-      Self.Items.Delete(i);
-  end;
+  DeleteTrfOut;
 
   for i := 0 to Self.Items.Count-1 do
   begin
@@ -880,8 +890,12 @@ begin
       lItem.Item      := TItem.CreateID(Items[i].Item.ID);
     if Items[i].UOM <> nil then
       lItem.UOM       := TUOM.CreateID(Items[i].UOM.ID);
+
     if Self.WH_Asal <> nil then
       lItem.Warehouse := TWarehouse.CreateID(Self.WH_Asal.ID);
+
+    if Self.WH_Tujuan <> nil then
+      Items[i].Warehouse := TWarehouse.CreateID(Self.WH_Tujuan.ID);
 
     lItem.Harga       := Items[i].Harga;
     lItem.HargaAvg    := Items[i].HargaAvg;

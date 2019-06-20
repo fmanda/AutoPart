@@ -13,20 +13,20 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     Top = 523
     TabOrder = 2
     ExplicitTop = 523
-    ExplicitWidth = 936
+    ExplicitWidth = 941
     Width = 941
     inherited btnCancel: TcxButton
       Left = 856
-      ExplicitLeft = 851
+      ExplicitLeft = 856
     end
     inherited btnPrint: TcxButton
       Left = 770
-      ExplicitLeft = 765
+      ExplicitLeft = 770
     end
     inherited btnSave: TcxButton
       Left = 684
       OnClick = btnSaveClick
-      ExplicitLeft = 679
+      ExplicitLeft = 684
     end
   end
   inherited Panel2: TPanel
@@ -34,21 +34,21 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     Width = 941
     TabOrder = 3
     ExplicitTop = 502
-    ExplicitWidth = 936
+    ExplicitWidth = 941
     inherited lbEscape: TLabel
       Left = 861
       Height = 17
-      ExplicitLeft = 856
+      ExplicitLeft = 861
     end
     inherited lgndSave: TLabel
       Left = 696
       Height = 17
-      ExplicitLeft = 691
+      ExplicitLeft = 696
     end
     inherited lgndPrint: TLabel
       Left = 783
       Height = 17
-      ExplicitLeft = 778
+      ExplicitLeft = 783
     end
     object Label2: TLabel
       AlignWithMargins = True
@@ -67,7 +67,6 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitLeft = 194
       ExplicitHeight = 16
     end
     object Label1: TLabel
@@ -325,8 +324,6 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 168
-    ExplicitHeight = 333
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown

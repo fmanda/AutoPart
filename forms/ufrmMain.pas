@@ -120,6 +120,7 @@ type
     procedure actUOMExecute(Sender: TObject);
     procedure actSettingKoneksiExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
+    procedure actTransferStockExecute(Sender: TObject);
     procedure actWarehouseExecute(Sender: TObject);
     procedure cxButton1Click(Sender: TObject);
   private
@@ -143,7 +144,7 @@ uses
   ufrmBrowseService, ufrmBrowseCustomer, ufrmBrowseSupplier,
   ufrmBrowseWarehouse, ufrmBrowseRekening, ufrmCXServerLookup,
   ufrmBrowsePurchaseInvoice, uTransDetail, ufrmKartuStock,
-  ufrmBrowsePurchaseRetur;
+  ufrmBrowsePurchaseRetur, ufrmBrowseTransferStock;
 
 {$R *.dfm}
 
@@ -233,6 +234,11 @@ end;
 procedure TfrmMain.actSupplierExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseSupplier);
+end;
+
+procedure TfrmMain.actTransferStockExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseTransferStock);
 end;
 
 procedure TfrmMain.actWarehouseExecute(Sender: TObject);
