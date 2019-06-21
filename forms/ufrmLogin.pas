@@ -45,8 +45,8 @@ begin
 end;
 
 procedure TfrmLogin.btnLoginClick(Sender: TObject);
-var
-  S: string;
+//var
+//  S: string;
 begin
   inherited;
   if (LowerCase(txtUser.Text) = 'admin') and (LowerCase(txtPassword.Text) = 'admin') then

@@ -11,33 +11,42 @@ inherited frmTransferStock: TfrmTransferStock
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
     Top = 500
+    ExplicitTop = 500
+    ExplicitWidth = 747
     Width = 747
     inherited btnCancel: TcxButton
       Left = 662
+      ExplicitLeft = 662
     end
     inherited btnPrint: TcxButton
       Left = 576
+      ExplicitLeft = 576
     end
     inherited btnSave: TcxButton
       Left = 490
       OnClick = btnSaveClick
+      ExplicitLeft = 490
     end
   end
   inherited Panel2: TPanel
     Top = 479
     Width = 747
-    ExplicitTop = 321
+    ExplicitTop = 479
+    ExplicitWidth = 747
     inherited lbEscape: TLabel
       Left = 667
       Height = 17
+      ExplicitLeft = 667
     end
     inherited lgndSave: TLabel
       Left = 502
       Height = 17
+      ExplicitLeft = 502
     end
     inherited lgndPrint: TLabel
       Left = 589
       Height = 17
+      ExplicitLeft = 589
     end
   end
   object cxGroupBox1: TcxGroupBox
@@ -46,7 +55,6 @@ inherited frmTransferStock: TfrmTransferStock
     Align = alTop
     Caption = '  Header Transfer [F1] '
     TabOrder = 2
-    ExplicitWidth = 874
     Height = 129
     Width = 747
     object cxLabel1: TcxLabel
@@ -121,10 +129,6 @@ inherited frmTransferStock: TfrmTransferStock
     Align = alClient
     TabOrder = 3
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitLeft = -110
-    ExplicitTop = 153
-    ExplicitWidth = 984
-    ExplicitHeight = 378
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown

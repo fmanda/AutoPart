@@ -7,6 +7,7 @@ inherited frmLapStock: TfrmLapStock
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
+    ExplicitWidth = 1009
     Width = 1009
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
@@ -15,9 +16,15 @@ inherited frmLapStock: TfrmLapStock
   end
   inherited cxGroupBox2: TcxGroupBox
     Top = 522
+    ExplicitTop = 522
+    ExplicitWidth = 1009
     Width = 1009
     inherited btnTutup: TcxButton
       Left = 929
+      ExplicitLeft = 929
+    end
+    inherited btnRefresh: TcxButton
+      OnClick = btnRefreshClick
     end
   end
   object cxGroupBox3: TcxGroupBox [2]
@@ -30,7 +37,6 @@ inherited frmLapStock: TfrmLapStock
     Align = alTop
     Caption = ' Report Parameter '
     TabOrder = 2
-    ExplicitWidth = 758
     Height = 123
     Width = 1009
     object edNama: TcxTextEdit
@@ -58,7 +64,7 @@ inherited frmLapStock: TfrmLapStock
       TabOrder = 0
       Width = 130
     end
-    object chkAll: TcxCheckBox
+    object ckGudang: TcxCheckBox
       Left = 46
       Top = 43
       TabStop = False
@@ -75,10 +81,13 @@ inherited frmLapStock: TfrmLapStock
           Kind = bkEllipsis
         end>
       Properties.CharCase = ecUpperCase
+      Properties.OnButtonClick = edKodePropertiesButtonClick
+      Properties.OnValidate = edKodePropertiesValidate
       TabOrder = 2
+      OnKeyDown = edKodeKeyDown
       Width = 130
     end
-    object cxCheckBox1: TcxCheckBox
+    object ckItem: TcxCheckBox
       Left = 47
       Top = 65
       TabStop = False
@@ -86,29 +95,34 @@ inherited frmLapStock: TfrmLapStock
       Properties.Alignment = taLeftJustify
       TabOrder = 6
     end
-    object cxCheckBox2: TcxCheckBox
+    object ckZeroStock: TcxCheckBox
       Left = 513
       Top = 44
       TabStop = False
       Caption = 'Tampilkan Stock 0'
       Properties.Alignment = taLeftJustify
+      State = cbsChecked
       TabOrder = 7
     end
-    object cxCheckBox3: TcxCheckBox
+    object ckShowAvgCost: TcxCheckBox
       Left = 513
       Top = 64
       TabStop = False
       Caption = 'Tampilkan Harga Avg && Total'
       Properties.Alignment = taLeftJustify
+      State = cbsChecked
       TabOrder = 8
+      Visible = False
     end
-    object cxCheckBox4: TcxCheckBox
+    object ckGrupMerk: TcxCheckBox
       Left = 513
       Top = 86
       TabStop = False
-      Caption = 'Tampilkan Merk && Group Barnag'
+      Caption = 'Tampilkan Merk && Group Barang'
       Properties.Alignment = taLeftJustify
+      State = cbsChecked
       TabOrder = 9
+      Visible = False
     end
   end
   object cxGrid1: TcxGrid [3]
@@ -120,7 +134,6 @@ inherited frmLapStock: TfrmLapStock
     Align = alClient
     TabOrder = 3
     ExplicitLeft = 8
-    ExplicitWidth = 1011
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -143,7 +156,7 @@ inherited frmLapStock: TfrmLapStock
       Styles.ContentOdd = styleOdd
       object colGroup: TcxGridDBColumn
         Caption = 'Group'
-        DataBinding.FieldName = 'GroupBrg'
+        DataBinding.FieldName = 'ItemGroup'
         PropertiesClassName = 'TcxTextEditProperties'
         HeaderAlignmentHorz = taCenter
         Width = 125
@@ -169,7 +182,8 @@ inherited frmLapStock: TfrmLapStock
         Width = 352
       end
       object colUOM: TcxGridDBColumn
-        DataBinding.FieldName = 'Satuan'
+        Caption = 'Satuan'
+        DataBinding.FieldName = 'UOM'
         PropertiesClassName = 'TcxTextEditProperties'
         HeaderAlignmentHorz = taCenter
         Width = 51
@@ -194,7 +208,7 @@ inherited frmLapStock: TfrmLapStock
       end
       object colValue: TcxGridDBColumn
         Caption = 'Qty x Harga Avg'
-        DataBinding.FieldName = 'Stockvalue'
+        DataBinding.FieldName = 'Total'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taCenter
         Properties.DisplayFormat = ',0.##;(,0.##)'

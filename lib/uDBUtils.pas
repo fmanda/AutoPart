@@ -511,7 +511,7 @@ class function TDBUtils.ExecuteSQLIdent(ASQLs: TStrings): Integer;
 var
   Q: TFDQuery;
 begin
-  Result := 0;
+//  Result := 0;
   Q := TFDQuery.Create(Application);
   Try
     try
@@ -545,7 +545,7 @@ class function TDBUtils.ExecuteSQLIdent(ASQL: string): Integer;
 var
   Q: TFDQuery;
 begin
-  Result := 0;
+//  Result := 0;
   Q := TFDQuery.Create(Application);
   Try
     try
