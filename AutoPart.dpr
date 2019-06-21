@@ -53,7 +53,8 @@ uses
   uStockOpname in 'classes\uStockOpname.pas',
   ufrmTransferStock in 'forms\ufrmTransferStock.pas' {frmTransferStock},
   ufrmBrowseTransferStock in 'forms\ufrmBrowseTransferStock.pas' {frmBrowseTransferStock},
-  ufrmLapStock in 'forms\ufrmLapStock.pas' {frmLapStock};
+  ufrmLapStock in 'forms\ufrmLapStock.pas' {frmLapStock},
+  uQuotation in 'classes\uQuotation.pas';
 
 {$R *.res}
 
