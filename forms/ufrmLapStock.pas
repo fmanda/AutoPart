@@ -164,12 +164,11 @@ begin
 
   if FCDS <> nil then FreeAndNil(FCDS);
 
-  CDS.EmptyDataSet;
   S := 'SELECT I.ID, I.KODE, I.NAMA, L.UOM,'
-      +' I.ISACTIVE, SUM(A.QTYPCS) / J.KONVERSI AS QTY,'
-      +' M.NAMA AS MERK, N.NAMA AS ITEMGROUP, J.HARGAAVG,'
-      +' SUM(A.QTYPCS) / J.KONVERSI  * J.HARGAAVG AS TOTAL'
-      +' FROM FN_STOCK(GETDATE()) A'
+      +' I.ISACTIVE, ISNULL(SUM(A.QTYPCS) / J.KONVERSI, 0) AS QTY,'
+      +' M.NAMA AS MERK, N.NAMA AS ITEMGROUP,  ISNULL(J.HARGAAVG,0) as HARGAAVG,'
+      +' ISNULL(SUM(A.QTYPCS) / J.KONVERSI  * J.HARGAAVG,0) AS TOTAL'
+      +' FROM FN_STOCK(' + TAppUtils.QuotD(dtStock.Date) + ') A'
       +' RIGHT JOIN TITEM I ON I .ID = A.ITEM_ID';
 
   if ckItem.Checked then
@@ -177,8 +176,8 @@ begin
 
   S := S +' RIGHT JOIN TITEMUOM J ON I.ID = J.ITEM_ID AND J.UOM_ID = I.STOCKUOM_ID'
       +' RIGHT JOIN TUOM L ON L.ID = I.STOCKUOM_ID'
-      +' RIGHT JOIN TMERK M ON M.ID = I.MERK_ID'
-      +' RIGHT JOIN TITEMGROUP N ON N.ID = I.GROUP_ID'
+      +' LEFT JOIN TMERK M ON M.ID = I.MERK_ID'
+      +' LEFT JOIN TITEMGROUP N ON N.ID = I.GROUP_ID'
       +' WHERE (A.QTYPCS IS NOT NULL ';
 
   if ckZeroStock.Checked then
@@ -189,15 +188,15 @@ begin
   if ckGudang.Checked then
     S := S + ' AND A.WAREHOUSE_ID = ' + IntToStr(VarToInt(cxLookupGudang.EditValue));
 
-  S := S + ' AND A.TRANSDATE BETWEEN = ' +  TAppUtils.QuotD(StartOfTheYear(dtStock.Date))
-      +' AND ' + TAppUtils.QuotD(dtStock.Date);
-
   S := S +' GROUP BY I.ID, I.KODE, I.NAMA, L.UOM,'
       +' I.ISACTIVE, J.KONVERSI, M.NAMA ,N.NAMA , J.HARGAAVG,'
       +' J.KONVERSI,J.HARGAAVG';
 
   FCDS := TDBUtils.OpenDataset(S);
   cxGrdMain.PrepareFromCDS(CDS);
+
+  cxGrdMain.SetVisibleColumns(['HargaAvg','Total'], ckShowAvgCost.Checked);
+  cxGrdMain.SetVisibleColumns(['Merk','ItemGroup'], ckGrupMerk.Checked);
 end;
 
 procedure TfrmLapStock.LookupItem(aKey: string = '');

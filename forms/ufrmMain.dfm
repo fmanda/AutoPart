@@ -688,6 +688,7 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = 'Laporan Saldo Stock'
       ImageIndex = 27
+      OnExecute = actLapStockExecute
     end
     object actLapStockOpname: TAction
       Category = 'Inventory'

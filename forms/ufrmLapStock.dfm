@@ -112,7 +112,6 @@ inherited frmLapStock: TfrmLapStock
       Properties.Alignment = taLeftJustify
       State = cbsChecked
       TabOrder = 8
-      Visible = False
     end
     object ckGrupMerk: TcxCheckBox
       Left = 513
@@ -122,7 +121,6 @@ inherited frmLapStock: TfrmLapStock
       Properties.Alignment = taLeftJustify
       State = cbsChecked
       TabOrder = 9
-      Visible = False
     end
   end
   object cxGrid1: TcxGrid [3]
