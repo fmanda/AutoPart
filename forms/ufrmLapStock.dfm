@@ -2,6 +2,7 @@ inherited frmLapStock: TfrmLapStock
   Caption = 'Laporan Stock'
   ClientHeight = 557
   ClientWidth = 1009
+  ExplicitTop = -157
   ExplicitWidth = 1025
   ExplicitHeight = 596
   PixelsPerInch = 96
@@ -131,6 +132,7 @@ inherited frmLapStock: TfrmLapStock
     Height = 355
     Align = alClient
     TabOrder = 3
+    RootLevelOptions.DetailTabsPosition = dtpTop
     ExplicitLeft = 8
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
@@ -214,8 +216,21 @@ inherited frmLapStock: TfrmLapStock
         Width = 103
       end
     end
+    object cxGrdSrv: TcxGridServerModeTableView
+      Navigator.Buttons.CustomButtons = <>
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      OptionsView.GroupByBox = False
+    end
     object cxGrid1Level1: TcxGridLevel
+      Caption = 'Data Stock'
       GridView = cxGrdMain
+    end
+    object cxGrid1Level2: TcxGridLevel
+      Caption = 'Data Stock'
+      GridView = cxGrdSrv
+      Visible = False
     end
   end
   inherited styleRepo: TcxStyleRepository

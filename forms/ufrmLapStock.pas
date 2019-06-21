@@ -13,7 +13,8 @@ uses
   cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
   cxCurrencyEdit, cxGridLevel, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGridCustomView, cxGrid, uItem, uDXUtils, uDBUtils,
-  Datasnap.DBClient, ufrmCXServerLookup, uAppUtils, System.DateUtils;
+  Datasnap.DBClient, ufrmCXServerLookup, uAppUtils, System.DateUtils,
+  cxGridServerModeTableView;
 
 type
   TfrmLapStock = class(TfrmDefaultReport)
@@ -39,6 +40,8 @@ type
     colMerk: TcxGridDBColumn;
     ckShowAvgCost: TcxCheckBox;
     ckGrupMerk: TcxCheckBox;
+    cxGrid1Level2: TcxGridLevel;
+    cxGrdSrv: TcxGridServerModeTableView;
     procedure edKodeKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edKodePropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
     procedure edKodePropertiesValidate(Sender: TObject; var DisplayValue: Variant;
@@ -194,9 +197,12 @@ begin
 
   FCDS := TDBUtils.OpenDataset(S);
   cxGrdMain.PrepareFromCDS(CDS);
-
   cxGrdMain.SetVisibleColumns(['HargaAvg','Total'], ckShowAvgCost.Checked);
   cxGrdMain.SetVisibleColumns(['Merk','ItemGroup'], ckGrupMerk.Checked);
+
+//  cxGrdSrv.LoadFromSQL(S, 'ID');
+//  cxGrdSrv.SetVisibleColumns(['HargaAvg','Total'], ckShowAvgCost.Checked);
+//  cxGrdSrv.SetVisibleColumns(['Merk','ItemGroup'], ckGrupMerk.Checked);
 end;
 
 procedure TfrmLapStock.LookupItem(aKey: string = '');
