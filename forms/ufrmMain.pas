@@ -108,6 +108,61 @@ type
     dxBarButton45: TdxBarButton;
     actSalesman: TAction;
     dxBarButton46: TdxBarButton;
+    actMekanik: TAction;
+    dxBarButton47: TdxBarButton;
+    dxBarButton48: TdxBarButton;
+    actAccount: TAction;
+    dxBarButton49: TdxBarButton;
+    dxBarManagerBar7: TdxBar;
+    dxBarManagerBar9: TdxBar;
+    dxBarManagerBar10: TdxBar;
+    dxBarManagerBar11: TdxBar;
+    dxBarManagerBar12: TdxBar;
+    dxBarManagerBar14: TdxBar;
+    actVariable: TAction;
+    actUser: TAction;
+    dxBarButton50: TdxBarButton;
+    dxBarButton51: TdxBarButton;
+    actSales: TAction;
+    dxBarButton52: TdxBarButton;
+    actSalesRetur: TAction;
+    dxBarButton53: TdxBarButton;
+    actCashIn: TAction;
+    actCashOut: TAction;
+    actInternalTransfer: TAction;
+    dxBarButton54: TdxBarButton;
+    dxBarButton55: TdxBarButton;
+    dxBarButton56: TdxBarButton;
+    actCashOpname: TAction;
+    dxBarButton57: TdxBarButton;
+    actSaldoKas: TAction;
+    actLapCashOpname: TAction;
+    actMutasiKas: TAction;
+    actLapPenjualan: TAction;
+    actBiaya: TAction;
+    dxBarButton58: TdxBarButton;
+    dxBarButton59: TdxBarButton;
+    dxBarButton60: TdxBarButton;
+    dxBarButton61: TdxBarButton;
+    dxBarButton62: TdxBarButton;
+    dxBarButton63: TdxBarButton;
+    actPurchPayment: TAction;
+    actSalesPayment: TAction;
+    dxBarButton64: TdxBarButton;
+    dxBarButton65: TdxBarButton;
+    actSaldoHutang: TAction;
+    actKartuHutang: TAction;
+    actSaldoPiutang: TAction;
+    actKartuPiutang: TAction;
+    dxBarSubItem3: TdxBarSubItem;
+    dxBarButton66: TdxBarButton;
+    dxBarButton67: TdxBarButton;
+    dxBarButton68: TdxBarButton;
+    dxBarButton69: TdxBarButton;
+    actClosingHarian: TAction;
+    dxBarButton70: TdxBarButton;
+    dxBarManagerBar8: TdxBar;
+    dxBarButton71: TdxBarButton;
     procedure actCustomerExecute(Sender: TObject);
     procedure actItemExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -115,10 +170,12 @@ type
     procedure actKartuStockExecute(Sender: TObject);
     procedure actLapStockExecute(Sender: TObject);
     procedure actLoginExecute(Sender: TObject);
+    procedure actMekanikExecute(Sender: TObject);
     procedure actMerkExecute(Sender: TObject);
     procedure actPurchaseInvoiceExecute(Sender: TObject);
     procedure actPurchaseReturExecute(Sender: TObject);
     procedure actRekeningExecute(Sender: TObject);
+    procedure actSalesmanExecute(Sender: TObject);
     procedure actServiceExecute(Sender: TObject);
     procedure actUOMExecute(Sender: TObject);
     procedure actSettingKoneksiExecute(Sender: TObject);
@@ -147,7 +204,8 @@ uses
   ufrmBrowseService, ufrmBrowseCustomer, ufrmBrowseSupplier,
   ufrmBrowseWarehouse, ufrmBrowseRekening, ufrmCXServerLookup,
   ufrmBrowsePurchaseInvoice, uTransDetail, ufrmKartuStock,
-  ufrmBrowsePurchaseRetur, ufrmBrowseTransferStock, ufrmLapStock;
+  ufrmBrowsePurchaseRetur, ufrmBrowseTransferStock, ufrmLapStock,
+  ufrmBrowseSalesman, ufrmBrowseMekanik;
 
 {$R *.dfm}
 
@@ -201,6 +259,11 @@ begin
   DoLogin;
 end;
 
+procedure TfrmMain.actMekanikExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseMekanik);
+end;
+
 procedure TfrmMain.actMerkExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseMerk);
@@ -219,6 +282,11 @@ end;
 procedure TfrmMain.actRekeningExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseRekening);
+end;
+
+procedure TfrmMain.actSalesmanExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseSalesman)
 end;
 
 procedure TfrmMain.actServiceExecute(Sender: TObject);

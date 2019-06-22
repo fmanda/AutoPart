@@ -260,6 +260,23 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="classes\uQuotation.pas"/>
+        <DCCReference Include="classes\uMekanik.pas"/>
+        <DCCReference Include="forms\ufrmSalesman.pas">
+            <Form>frmSalesman</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmMekanik.pas">
+            <Form>frmMekanik</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmBrowseSalesman.pas">
+            <Form>frmBrowseSalesman</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmBrowseMekanik.pas">
+            <Form>frmBrowseMekanik</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

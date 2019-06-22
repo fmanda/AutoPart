@@ -8,7 +8,8 @@ uses
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   Vcl.Menus, Vcl.StdCtrls, cxButtons, cxGroupBox, Vcl.ComCtrls, dxCore,
   cxDateUtils, cxRadioGroup, cxCheckBox, cxMaskEdit, cxDropDownEdit, cxCalendar,
-  cxCurrencyEdit, cxMemo, cxTextEdit, cxLabel, uItem, uCustomer, cxSpinEdit;
+  cxCurrencyEdit, cxMemo, cxTextEdit, cxLabel, uItem, uCustomer, cxSpinEdit,
+  Vcl.ExtCtrls;
 
 type
   TfrmCustomer = class(TfrmDefaultInput)

@@ -1,4 +1,4 @@
 SET NOCOUNT ON
-Insert Into TTransferStock(Notes,WH_Asal_ID,RefNo,WH_Tujuan_ID,TransDate,Closed,ModifiedBy,ModifiedDate) values('
-',1,'01.TS.190620.0001',2,'2019-06-20 23:44:35',0,'programmer','2019-06-20 23:45:09');
+Insert Into TSalesman(Alamat,Kode,Nama,IsActive,Telp) values('
+','SL01','SALESMAN 02',1,'');
 Select Scope_Identity() as ID

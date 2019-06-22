@@ -54,7 +54,12 @@ uses
   ufrmTransferStock in 'forms\ufrmTransferStock.pas' {frmTransferStock},
   ufrmBrowseTransferStock in 'forms\ufrmBrowseTransferStock.pas' {frmBrowseTransferStock},
   ufrmLapStock in 'forms\ufrmLapStock.pas' {frmLapStock},
-  uQuotation in 'classes\uQuotation.pas';
+  uQuotation in 'classes\uQuotation.pas',
+  uMekanik in 'classes\uMekanik.pas',
+  ufrmSalesman in 'forms\ufrmSalesman.pas' {frmSalesman},
+  ufrmMekanik in 'forms\ufrmMekanik.pas' {frmMekanik},
+  ufrmBrowseSalesman in 'forms\ufrmBrowseSalesman.pas' {frmBrowseSalesman},
+  ufrmBrowseMekanik in 'forms\ufrmBrowseMekanik.pas' {frmBrowseMekanik};
 
 {$R *.res}
 

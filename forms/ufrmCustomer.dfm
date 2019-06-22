@@ -38,6 +38,23 @@ inherited frmCustomer: TfrmCustomer
       AnchorY = 18
     end
   end
+  inherited Panel2: TPanel
+    Top = 293
+    Width = 491
+    TabOrder = 9
+    inherited lbEscape: TLabel
+      Left = 411
+      Height = 17
+    end
+    inherited lgndSave: TLabel
+      Left = 246
+      Height = 17
+    end
+    inherited lgndPrint: TLabel
+      Left = 333
+      Height = 17
+    end
+  end
   object cxLabel1: TcxLabel
     Left = 31
     Top = 21

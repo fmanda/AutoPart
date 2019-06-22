@@ -82,7 +82,6 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxRTInventory: TdxRibbonTab
-      Active = True
       Caption = 'Inventory'
       Groups = <
         item
@@ -94,18 +93,40 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
-      Caption = 'Kasir & Penjualan'
-      Groups = <>
+      Caption = 'Penjualan & Kas'
+      Groups = <
+        item
+          ToolbarName = 'dxBarManagerBar9'
+        end
+        item
+          ToolbarName = 'dxBarManagerBar10'
+        end>
       Index = 3
     end
     object dxRTARAP: TdxRibbonTab
-      Caption = 'Hutang & Piutang'
-      Groups = <>
+      Active = True
+      Caption = 'Hutang - Piutang'
+      Groups = <
+        item
+          ToolbarName = 'dxBarManagerBar12'
+        end
+        item
+          ToolbarName = 'dxBarManagerBar14'
+        end
+        item
+          ToolbarName = 'dxBarManagerBar8'
+        end>
       Index = 4
     end
     object dxRTManagement: TdxRibbonTab
       Caption = 'Manajemen'
-      Groups = <>
+      Groups = <
+        item
+          ToolbarName = 'dxBarManagerBar7'
+        end
+        item
+          ToolbarName = 'dxBarManagerBar11'
+        end>
       Index = 5
     end
   end
@@ -195,6 +216,14 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton27'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton50'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton51'
         end>
       OneOnRow = True
       Row = 0
@@ -247,6 +276,14 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton37'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton48'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton49'
         end>
       OneOnRow = False
       Row = 0
@@ -291,7 +328,7 @@ object frmMain: TfrmMain
       WholeRow = False
     end
     object dxBarManagerBar6: TdxBar
-      Caption = 'Laporan'
+      Caption = 'Lap Inventory'
       CaptionButtons = <>
       DockedLeft = 253
       DockedTop = 0
@@ -313,6 +350,190 @@ object frmMain: TfrmMain
           ItemName = 'dxBarButton45'
         end>
       OneOnRow = False
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxBarManagerBar7: TdxBar
+      Caption = 'Closing '
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 901
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarButton70'
+        end>
+      OneOnRow = True
+      Row = 1
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxBarManagerBar9: TdxBar
+      Caption = 'Transaksi Penjualan & Kas'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 901
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarButton52'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton53'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton56'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton54'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton55'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton57'
+        end>
+      OneOnRow = True
+      Row = 1
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxBarManagerBar10: TdxBar
+      Caption = 'Lap Keuangan'
+      CaptionButtons = <>
+      DockedLeft = 255
+      DockedTop = 0
+      FloatLeft = 901
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarButton58'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton59'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton61'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton60'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton62'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxBarManagerBar11: TdxBar
+      Caption = 'Lap Manajemen'
+      CaptionButtons = <>
+      DockedLeft = 95
+      DockedTop = 0
+      FloatLeft = 901
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxBarManagerBar12: TdxBar
+      Caption = 'Hutang - Piutang'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 901
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarButton64'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton65'
+        end>
+      OneOnRow = True
+      Row = 2
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxBarManagerBar14: TdxBar
+      Caption = 'Laporan Hutang'
+      CaptionButtons = <>
+      DockedLeft = 127
+      DockedTop = 0
+      FloatLeft = 901
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarButton66'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton67'
+        end>
+      OneOnRow = True
+      Row = 1
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxBarManagerBar8: TdxBar
+      Caption = 'Laporan Piutang'
+      CaptionButtons = <>
+      DockedLeft = 222
+      DockedTop = 0
+      FloatLeft = 901
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarButton68'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton71'
+        end>
+      OneOnRow = True
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -571,11 +792,121 @@ object frmMain: TfrmMain
       Action = actSalesman
       Category = 0
     end
+    object dxBarButton47: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxBarButton48: TdxBarButton
+      Action = actMekanik
+      Category = 0
+    end
+    object dxBarButton49: TdxBarButton
+      Action = actAccount
+      Category = 0
+    end
+    object dxBarButton50: TdxBarButton
+      Action = actVariable
+      Category = 0
+    end
+    object dxBarButton51: TdxBarButton
+      Action = actUser
+      Category = 0
+    end
+    object dxBarButton52: TdxBarButton
+      Action = actSales
+      Category = 0
+    end
+    object dxBarButton53: TdxBarButton
+      Action = actSalesRetur
+      Category = 0
+    end
+    object dxBarButton54: TdxBarButton
+      Action = actCashIn
+      Category = 0
+    end
+    object dxBarButton55: TdxBarButton
+      Action = actCashOut
+      Category = 0
+    end
+    object dxBarButton56: TdxBarButton
+      Action = actInternalTransfer
+      Category = 0
+    end
+    object dxBarButton57: TdxBarButton
+      Action = actCashOpname
+      Category = 0
+    end
+    object dxBarButton58: TdxBarButton
+      Action = actLapPenjualan
+      Category = 0
+    end
+    object dxBarButton59: TdxBarButton
+      Action = actSaldoKas
+      Category = 0
+    end
+    object dxBarButton60: TdxBarButton
+      Action = actLapCashOpname
+      Category = 0
+    end
+    object dxBarButton61: TdxBarButton
+      Action = actMutasiKas
+      Category = 0
+    end
+    object dxBarButton62: TdxBarButton
+      Action = actBiaya
+      Category = 0
+    end
+    object dxBarButton63: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxBarButton64: TdxBarButton
+      Action = actPurchPayment
+      Category = 0
+    end
+    object dxBarButton65: TdxBarButton
+      Action = actSalesPayment
+      Category = 0
+    end
+    object dxBarSubItem3: TdxBarSubItem
+      Caption = 'New SubItem'
+      Category = 0
+      Visible = ivAlways
+      ItemLinks = <>
+    end
+    object dxBarButton66: TdxBarButton
+      Action = actSaldoHutang
+      Category = 0
+    end
+    object dxBarButton67: TdxBarButton
+      Action = actKartuHutang
+      Category = 0
+    end
+    object dxBarButton68: TdxBarButton
+      Action = actSaldoPiutang
+      Category = 0
+    end
+    object dxBarButton69: TdxBarButton
+      Action = actKartuPiutang
+      Category = 0
+    end
+    object dxBarButton70: TdxBarButton
+      Action = actClosingHarian
+      Category = 0
+    end
+    object dxBarButton71: TdxBarButton
+      Action = actKartuPiutang
+      Category = 0
+    end
   end
   object ActionManager: TActionManager
     Images = ImageList
-    Left = 640
-    Top = 200
+    Left = 392
+    Top = 176
     StyleName = 'Platform Default'
     object actLogin: TAction
       Category = 'Application'
@@ -699,6 +1030,111 @@ object frmMain: TfrmMain
       Category = 'Master'
       Caption = 'Data Salesman'
       ImageIndex = 38
+      OnExecute = actSalesmanExecute
+    end
+    object actMekanik: TAction
+      Category = 'Master'
+      Caption = 'Mekanik / Montir'
+      ImageIndex = 30
+      OnExecute = actMekanikExecute
+    end
+    object actAccount: TAction
+      Category = 'Master'
+      Caption = 'Account'
+      ImageIndex = 13
+    end
+    object actVariable: TAction
+      Category = 'Application'
+      Caption = 'Variabel Aplikasi'
+      ImageIndex = 30
+    end
+    object actUser: TAction
+      Category = 'Application'
+      Caption = 'Manajemen User'
+      ImageIndex = 16
+    end
+    object actSales: TAction
+      Category = 'Kasir & Penjualan'
+      Caption = 'Penjualan && Service'
+      ImageIndex = 9
+    end
+    object actSalesRetur: TAction
+      Category = 'Kasir & Penjualan'
+      Caption = 'Retur Penjualan'
+      ImageIndex = 11
+    end
+    object actCashIn: TAction
+      Category = 'Kasir & Penjualan'
+      Caption = 'Penerimaan Kas'
+      ImageIndex = 0
+    end
+    object actCashOut: TAction
+      Category = 'Kasir & Penjualan'
+      Caption = 'Pengeluaran Kas'
+      ImageIndex = 6
+    end
+    object actInternalTransfer: TAction
+      Category = 'Kasir & Penjualan'
+      Caption = 'Internal Transfer'
+      ImageIndex = 5
+    end
+    object actCashOpname: TAction
+      Category = 'Kasir & Penjualan'
+      Caption = 'Cash Opname'
+      ImageIndex = 7
+    end
+    object actSaldoKas: TAction
+      Category = 'Kasir & Penjualan'
+      Caption = 'Saldo Kas'
+      ImageIndex = 25
+    end
+    object actLapCashOpname: TAction
+      Category = 'Kasir & Penjualan'
+      Caption = 'Lap Cash Opname'
+      ImageIndex = 7
+    end
+    object actMutasiKas: TAction
+      Category = 'Kasir & Penjualan'
+      Caption = 'Mutasi Kas'
+      ImageIndex = 18
+    end
+    object actLapPenjualan: TAction
+      Category = 'Kasir & Penjualan'
+      Caption = 'Lap Penjualan'
+      ImageIndex = 19
+    end
+    object actBiaya: TAction
+      Category = 'Kasir & Penjualan'
+      Caption = 'Lap Biaya'
+      ImageIndex = 15
+    end
+    object actPurchPayment: TAction
+      Category = 'Hutang Piutang'
+      Caption = 'Pembayaran Hutang'
+    end
+    object actSalesPayment: TAction
+      Category = 'Hutang Piutang'
+      Caption = 'Pembayaran Piutang'
+    end
+    object actSaldoHutang: TAction
+      Category = 'Hutang Piutang'
+      Caption = 'Saldo Hutang'
+    end
+    object actKartuHutang: TAction
+      Category = 'Hutang Piutang'
+      Caption = 'Kartu Hutang'
+    end
+    object actSaldoPiutang: TAction
+      Category = 'Hutang Piutang'
+      Caption = 'Saldo Piutang'
+    end
+    object actKartuPiutang: TAction
+      Category = 'Hutang Piutang'
+      Caption = 'Kartu Piutang'
+    end
+    object actClosingHarian: TAction
+      Category = 'Manajemen'
+      Caption = 'Closing Harian'
     end
   end
   object ImageList: TcxImageList
