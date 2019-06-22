@@ -59,7 +59,8 @@ uses
   ufrmSalesman in 'forms\ufrmSalesman.pas' {frmSalesman},
   ufrmMekanik in 'forms\ufrmMekanik.pas' {frmMekanik},
   ufrmBrowseSalesman in 'forms\ufrmBrowseSalesman.pas' {frmBrowseSalesman},
-  ufrmBrowseMekanik in 'forms\ufrmBrowseMekanik.pas' {frmBrowseMekanik};
+  ufrmBrowseMekanik in 'forms\ufrmBrowseMekanik.pas' {frmBrowseMekanik},
+  uFinancialProcess in 'classes\uFinancialProcess.pas';
 
 {$R *.res}
 

@@ -4,7 +4,7 @@ interface
 
 uses
   CRUDObject, uDBUtils, Sysutils, uItem, System.Generics.Collections,
-  uWarehouse, uSupplier, uCustomer, uSalesman;
+  uWarehouse, uSupplier, uCustomer, uSalesman, uAccount;
 
 type
   TFinancialTransaction = class;
@@ -35,22 +35,16 @@ type
 
   TFinancialTransaction = class(TCRUDObject)
   private
-    FHeader_Flag: Integer;
+    FAmount: Double;
+    FReturAmt: Double;
+    FInvoice_ID: Integer;
+    FNotes: string;
     FHeader_ID: Integer;
-    FTransDate: TDateTime;
-    FKonversi: Double;
-    FQty: Double;
-    FItem: TItem;
-    FHarga: Double;
-    FDiscount: Double;
-    FTotal: Double;
-    FPPN: Double;
-    FHargaAvg: Double;
-    FWarehouse: TWarehouse;
-    FUOM: TUOM;
-    FRefno: string;
-    FTransType: Integer;
-    FTransDef: string;
+    FHeader_Flag: Integer;
+    FRetur_ID: Integer;
+    FRekening: TRekening;
+    FAccount: TAccount;
+    FTransFlag: Integer;
   protected
     function GetSQLDeleteDetails(Header_ID: Integer): String; override;
     function GetSQLRetrieveDetails(Header_ID: Integer): String; override;
@@ -58,33 +52,66 @@ type
     destructor Destroy; override;
     procedure MakePositive;
     procedure MakeNegative;
-    procedure SetAvgCost;
   published
-    property Header_Flag: Integer read FHeader_Flag write FHeader_Flag;
+    property Amount: Double read FAmount write FAmount;
+    property ReturAmt: Double read FReturAmt write FReturAmt;
+    property Invoice_ID: Integer read FInvoice_ID write FInvoice_ID;
+    property Notes: string read FNotes write FNotes;
     [AttributeOfHeader]
     property Header_ID: Integer read FHeader_ID write FHeader_ID;
-    property TransDate: TDateTime read FTransDate write FTransDate;
-    property Konversi: Double read FKonversi write FKonversi;
-    property Qty: Double read FQty write FQty;
-    property Item: TItem read FItem write FItem;
-    property Harga: Double read FHarga write FHarga;
-    property Discount: Double read FDiscount write FDiscount;
-    property Total: Double read FTotal write FTotal;
-    property PPN: Double read FPPN write FPPN;
-    property HargaAvg: Double read FHargaAvg write FHargaAvg;
-    property Warehouse: TWarehouse read FWarehouse write FWarehouse;
-    property UOM: TUOM read FUOM write FUOM;
-    property Refno: string read FRefno write FRefno;
-    property TransType: Integer read FTransType write FTransType;
-    property TransDef: string read FTransDef write FTransDef;
+    property Header_Flag: Integer read FHeader_Flag write FHeader_Flag;
+    property Retur_ID: Integer read FRetur_ID write FRetur_ID;
+    property Rekening: TRekening read FRekening write FRekening;
+    property Account: TAccount read FAccount write FAccount;
+    property TransFlag: Integer read FTransFlag write FTransFlag;
   end;
 
-  TFinancialProcess = class(TCRUDFinance)
+  TCashTransfer = class(TCRUDFinance)
   private
-    FDueDate: TDateTime;
     FAmount: Double;
-    FRefno: string;
+    FDueDate: TDateTime;
     FNotes: string;
+    FRefno: string;
+  protected
+    function GetRefno: String; override;
+    class function GetTableName: string; override;
+  public
+    destructor Destroy; override;
+    function GenerateNo: String; override;
+    function GetHeaderFlag: Integer; override;
+  published
+    property Amount: Double read FAmount write FAmount;
+    property DueDate: TDateTime read FDueDate write FDueDate;
+    property Notes: string read FNotes write FNotes;
+    property Refno: string read FRefno write FRefno;
+  end;
+
+  TCashReceipt = class(TCRUDFinance)
+  private
+    FAmount: Double;
+    FDueDate: TDateTime;
+    FNotes: string;
+    FRefno: string;
+  protected
+    function GetRefno: String; override;
+    class function GetTableName: string; override;
+  public
+    destructor Destroy; override;
+    function GenerateNo: String; override;
+    function GetHeaderFlag: Integer; override;
+  published
+    property Amount: Double read FAmount write FAmount;
+    property DueDate: TDateTime read FDueDate write FDueDate;
+    property Notes: string read FNotes write FNotes;
+    property Refno: string read FRefno write FRefno;
+  end;
+
+  TCashPayment = class(TCRUDFinance)
+  private
+    FAmount: Double;
+    FDueDate: TDateTime;
+    FNotes: string;
+    FRefno: string;
   protected
     function GetRefno: String; override;
     class function GetTableName: string; override;
@@ -93,19 +120,52 @@ type
     function GenerateNo: String; dynamic;
     function GetHeaderFlag: Integer; override;
   published
-    property DueDate: TDateTime read FDueDate write FDueDate;
     property Amount: Double read FAmount write FAmount;
-    property Refno: string read FRefno write FRefno;
+    property DueDate: TDateTime read FDueDate write FDueDate;
     property Notes: string read FNotes write FNotes;
+    property Refno: string read FRefno write FRefno;
   end;
 
-  TInternalTransfer = class(TFinancialProcess)
+type
+  TSalesPayment = class(TCRUDFinance)
+  private
+    FAmount: Double;
+    FDueDate: TDateTime;
+    FNotes: string;
+    FRefno: string;
+  protected
+    function GetRefno: String; override;
+    class function GetTableName: string; override;
+  public
+    destructor Destroy; override;
+    function GenerateNo: String; override;
+    function GetHeaderFlag: Integer; override;
+  published
+    property Amount: Double read FAmount write FAmount;
+    property DueDate: TDateTime read FDueDate write FDueDate;
+    property Notes: string read FNotes write FNotes;
+    property Refno: string read FRefno write FRefno;
   end;
 
-  TBankCashIn = class(TFinancialProcess)
-  end;
-
-  TBankCashOut = class(TFinancialProcess)
+type
+  TPurchasePayment = class(TCRUDFinance)
+  private
+    FAmount: Double;
+    FDueDate: TDateTime;
+    FNotes: string;
+    FRefno: string;
+  protected
+    function GetRefno: String; override;
+    class function GetTableName: string; override;
+  public
+    destructor Destroy; override;
+    function GenerateNo: String; override;
+    function GetHeaderFlag: Integer; override;
+  published
+    property Amount: Double read FAmount write FAmount;
+    property DueDate: TDateTime read FDueDate write FDueDate;
+    property Notes: string read FNotes write FNotes;
+    property Refno: string read FRefno write FRefno;
   end;
 
 //const
@@ -160,55 +220,6 @@ begin
 //  end;
 end;
 
-destructor TFinancialProcess.Destroy;
-begin
-  inherited;
-//  if FSupplier <> nil then FreeAndNil(FSupplier);
-end;
-
-function TFinancialProcess.GenerateNo: String;
-var
-  aDigitCount: Integer;
-  aPrefix: string;
-  lNum: Integer;
-  S: string;
-begin
-  lNum := 0;
-  aDigitCount := 4;
-  aPrefix := Cabang + '.TR.' + FormatDateTime('yymmdd',Now()) + '.';
-
-
-  S := 'SELECT MAX(InvoiceNo) FROM TFinancialProcess where Refno LIKE ' + QuotedStr(aPrefix + '%');
-
-  with TDBUtils.OpenQuery(S) do
-  begin
-    Try
-      if not eof then
-        TryStrToInt(RightStr(Fields[0].AsString, aDigitCount), lNum);
-    Finally
-      Free;
-    End;
-  end;
-
-  inc(lNum);
-  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
-end;
-
-function TFinancialProcess.GetHeaderFlag: Integer;
-begin
-  Result := 0; //HeaderFlag_PurchaseInvoice;
-end;
-
-function TFinancialProcess.GetRefno: String;
-begin
-  Result := Refno;
-end;
-
-class function TFinancialProcess.GetTableName: string;
-begin
-  Result := Self.ClassName;
-end;
-
 destructor TFinancialTransaction.Destroy;
 begin
   inherited;
@@ -248,28 +259,261 @@ end;
 
 procedure TFinancialTransaction.MakePositive;
 begin
-  Self.Qty := Abs(Self.Qty);
-  Self.Total := Abs(Self.Total);
-  Self.PPN := Abs(Self.Total);
+//  Self.Qty := Abs(Self.Qty);
+//  Self.Total := Abs(Self.Total);
+//  Self.PPN := Abs(Self.Total);
 end;
 
 procedure TFinancialTransaction.MakeNegative;
 begin
-  Self.Qty := Abs(Self.Qty) * -1;
-  Self.Total := Abs(Self.Total) * -1;
-  Self.PPN := Abs(Self.Total) * -1;
+//  Self.Qty := Abs(Self.Qty) * -1;
+//  Self.Total := Abs(Self.Total) * -1;
+//  Self.PPN := Abs(Self.Total) * -1;
 end;
 
-procedure TFinancialTransaction.SetAvgCost;
-var
-  lItemUOM: TItemUOM;
+destructor TCashPayment.Destroy;
 begin
-  lItemUOM := TItemUOM.GetItemUOM(Self.Item.ID, Self.UOM.ID);
-  Try
-    Self.HargaAvg := lItemUOM.HargaAvg;
-  Finally
-    lItemUOM.Free;
-  End;
+  inherited;
+//  if FSupplier <> nil then FreeAndNil(FSupplier);
+end;
+
+function TCashPayment.GenerateNo: String;
+var
+  aDigitCount: Integer;
+  aPrefix: string;
+  lNum: Integer;
+  S: string;
+begin
+  lNum := 0;
+  aDigitCount := 4;
+  aPrefix := Cabang + '.TR.' + FormatDateTime('yymmdd',Now()) + '.';
+
+
+  S := 'SELECT MAX(InvoiceNo) FROM TCashPayment where Refno LIKE ' + QuotedStr(aPrefix + '%');
+
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        TryStrToInt(RightStr(Fields[0].AsString, aDigitCount), lNum);
+    Finally
+      Free;
+    End;
+  end;
+
+  inc(lNum);
+  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
+end;
+
+function TCashPayment.GetHeaderFlag: Integer;
+begin
+  Result := 0; //HeaderFlag_PurchaseInvoice;
+end;
+
+function TCashPayment.GetRefno: String;
+begin
+  Result := Refno;
+end;
+
+class function TCashPayment.GetTableName: string;
+begin
+  Result := Self.ClassName;
+end;
+
+destructor TCashReceipt.Destroy;
+begin
+  inherited;
+//  if FSupplier <> nil then FreeAndNil(FSupplier);
+end;
+
+function TCashReceipt.GenerateNo: String;
+var
+  aDigitCount: Integer;
+  aPrefix: string;
+  lNum: Integer;
+  S: string;
+begin
+  lNum := 0;
+  aDigitCount := 4;
+  aPrefix := Cabang + '.TR.' + FormatDateTime('yymmdd',Now()) + '.';
+
+
+  S := 'SELECT MAX(InvoiceNo) FROM TCashReceipt where Refno LIKE ' + QuotedStr(aPrefix + '%');
+
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        TryStrToInt(RightStr(Fields[0].AsString, aDigitCount), lNum);
+    Finally
+      Free;
+    End;
+  end;
+
+  inc(lNum);
+  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
+end;
+
+function TCashReceipt.GetHeaderFlag: Integer;
+begin
+  Result := 0; //HeaderFlag_PurchaseInvoice;
+end;
+
+function TCashReceipt.GetRefno: String;
+begin
+  Result := Refno;
+end;
+
+class function TCashReceipt.GetTableName: string;
+begin
+  Result := Self.ClassName;
+end;
+
+destructor TCashTransfer.Destroy;
+begin
+  inherited;
+//  if FSupplier <> nil then FreeAndNil(FSupplier);
+end;
+
+function TCashTransfer.GenerateNo: String;
+var
+  aDigitCount: Integer;
+  aPrefix: string;
+  lNum: Integer;
+  S: string;
+begin
+  lNum := 0;
+  aDigitCount := 4;
+  aPrefix := Cabang + '.TR.' + FormatDateTime('yymmdd',Now()) + '.';
+
+
+  S := 'SELECT MAX(InvoiceNo) FROM TCashTransfer where Refno LIKE ' + QuotedStr(aPrefix + '%');
+
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        TryStrToInt(RightStr(Fields[0].AsString, aDigitCount), lNum);
+    Finally
+      Free;
+    End;
+  end;
+
+  inc(lNum);
+  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
+end;
+
+function TCashTransfer.GetHeaderFlag: Integer;
+begin
+  Result := 0; //HeaderFlag_PurchaseInvoice;
+end;
+
+function TCashTransfer.GetRefno: String;
+begin
+  Result := Refno;
+end;
+
+class function TCashTransfer.GetTableName: string;
+begin
+  Result := Self.ClassName;
+end;
+
+destructor TSalesPayment.Destroy;
+begin
+  inherited;
+//  if FSupplier <> nil then FreeAndNil(FSupplier);
+end;
+
+function TSalesPayment.GenerateNo: String;
+var
+  aDigitCount: Integer;
+  aPrefix: string;
+  lNum: Integer;
+  S: string;
+begin
+  lNum := 0;
+  aDigitCount := 4;
+  aPrefix := Cabang + '.TR.' + FormatDateTime('yymmdd',Now()) + '.';
+
+
+  S := 'SELECT MAX(InvoiceNo) FROM TSalesPayment where Refno LIKE ' + QuotedStr(aPrefix + '%');
+
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        TryStrToInt(RightStr(Fields[0].AsString, aDigitCount), lNum);
+    Finally
+      Free;
+    End;
+  end;
+
+  inc(lNum);
+  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
+end;
+
+function TSalesPayment.GetHeaderFlag: Integer;
+begin
+  Result := 0; //HeaderFlag_PurchaseInvoice;
+end;
+
+function TSalesPayment.GetRefno: String;
+begin
+  Result := Refno;
+end;
+
+class function TSalesPayment.GetTableName: string;
+begin
+  Result := Self.ClassName;
+end;
+
+destructor TPurchasePayment.Destroy;
+begin
+  inherited;
+//  if FSupplier <> nil then FreeAndNil(FSupplier);
+end;
+
+function TPurchasePayment.GenerateNo: String;
+var
+  aDigitCount: Integer;
+  aPrefix: string;
+  lNum: Integer;
+  S: string;
+begin
+  lNum := 0;
+  aDigitCount := 4;
+  aPrefix := Cabang + '.TR.' + FormatDateTime('yymmdd',Now()) + '.';
+
+
+  S := 'SELECT MAX(InvoiceNo) FROM TPurchasePayment where Refno LIKE ' + QuotedStr(aPrefix + '%');
+
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        TryStrToInt(RightStr(Fields[0].AsString, aDigitCount), lNum);
+    Finally
+      Free;
+    End;
+  end;
+
+  inc(lNum);
+  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
+end;
+
+function TPurchasePayment.GetHeaderFlag: Integer;
+begin
+  Result := 0; //HeaderFlag_PurchaseInvoice;
+end;
+
+function TPurchasePayment.GetRefno: String;
+begin
+  Result := Refno;
+end;
+
+class function TPurchasePayment.GetTableName: string;
+begin
+  Result := Self.ClassName;
 end;
 
 
