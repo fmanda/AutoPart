@@ -44,15 +44,15 @@ inherited frmVariable: TfrmVariable
     Width = 584
     Height = 605
     Align = alClient
+    OptionsView.CellAutoHeight = True
+    OptionsView.CategoryExplorerStyle = True
     OptionsView.RowHeaderWidth = 208
+    OptionsView.ShowEmptyRowImage = True
     OptionsBehavior.GoToNextCellOnEnter = True
     OptionsBehavior.GoToNextCellOnTab = True
     OptionsBehavior.FocusCellOnCycle = True
     TabOrder = 2
-    ExplicitLeft = 53
-    ExplicitTop = 48
-    ExplicitWidth = 433
-    ExplicitHeight = 200
+    ExplicitTop = -1
     Version = 1
     object cxVertGridCategoryRow1: TcxCategoryRow
       Properties.Caption = 'Informasi Perusahaan'
@@ -120,9 +120,15 @@ inherited frmVariable: TfrmVariable
     end
     object colDefRekening: TcxEditorRow
       Properties.Caption = 'Default : Rekening Kas'
-      Properties.EditPropertiesClassName = 'TcxExtLookupComboBoxProperties'
+      Properties.EditPropertiesClassName = 'TcxButtonEditProperties'
+      Properties.EditProperties.Buttons = <
+        item
+          Default = True
+          Kind = bkEllipsis
+        end>
+      Properties.EditProperties.OnButtonClick = colDefRekeningEditPropertiesButtonClick
       Properties.DataBinding.ValueType = 'String'
-      Properties.Value = Null
+      Properties.Value = ''
       ID = 16
       ParentID = 12
       Index = 0
@@ -136,7 +142,6 @@ inherited frmVariable: TfrmVariable
           Default = True
           Kind = bkEllipsis
         end>
-      Properties.EditProperties.ReadOnly = True
       Properties.EditProperties.OnButtonClick = colDefCustUmumEditPropertiesButtonClick
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
@@ -153,7 +158,6 @@ inherited frmVariable: TfrmVariable
           Default = True
           Kind = bkEllipsis
         end>
-      Properties.EditProperties.ReadOnly = True
       Properties.EditProperties.OnButtonClick = colDefCustBengkelEditPropertiesButtonClick
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null

@@ -29,9 +29,12 @@ type
       AButtonIndex: Integer);
     procedure colDefCustBengkelEditPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
+    procedure colDefRekeningEditPropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
   private
     procedure LoadVariable;
     procedure LookupCustomer(AEditor: TcxEditorRow);
+    procedure LookupRekening(AEditor: TcxEditorRow);
     { Private declarations }
   public
     { Public declarations }
@@ -61,11 +64,18 @@ begin
   LookupCustomer(colDefCustUmum);
 end;
 
+procedure TfrmVariable.colDefRekeningEditPropertiesButtonClick(Sender: TObject;
+  AButtonIndex: Integer);
+begin
+  inherited;
+  LookupRekening(colDefRekening);
+end;
+
 procedure TfrmVariable.FormCreate(Sender: TObject);
 begin
   inherited;
-  TcxExtLookup(colKodePusat.Properties.EditProperties).LoadFromSQL(Self,
-    'select kode, nama from trekening','nama','kode');
+//  TcxExtLookup(colDefRekening.Properties.EditProperties).LoadFromSQL(Self,
+//    'select kode, nama from trekening','nama','kode');
   LoadVariable;
 end;
 
@@ -103,6 +113,25 @@ var
   S: string;
 begin
   S := 'select * from TCustomer';
+  cxLookup := TfrmCXServerLookup.Execute(S, 'ID');
+  Try
+    cxLookup.PreFilter('Nama', '');
+    if cxLookup.ShowModal = mrOK then
+    begin
+      AEditor.Properties.Value := cxLookup.FieldValue('Kode');
+//      Self.Refresh;
+    end;
+  Finally
+    cxLookup.Free;
+  End;
+end;
+
+procedure TfrmVariable.LookupRekening(AEditor: TcxEditorRow);
+var
+  cxLookup: TfrmCXServerLookup;
+  S: string;
+begin
+  S := 'select * from TRekening';
   cxLookup := TfrmCXServerLookup.Execute(S, 'ID');
   Try
     cxLookup.PreFilter('Nama', '');
