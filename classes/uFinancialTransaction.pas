@@ -1,4 +1,4 @@
-unit uFinancialProcess;
+unit uFinancialTransaction;
 
 interface
 
@@ -8,8 +8,6 @@ uses
 
 type
   TFinancialTransaction = class;
-  TFinancialProcess = class;
-  TAvgCostUpdate = class;
 
   TCRUDFinance = class(TCRUDObject)
   private
