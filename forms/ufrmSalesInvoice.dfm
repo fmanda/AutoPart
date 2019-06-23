@@ -528,7 +528,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
             Kind = bkEllipsis
           end>
         HeaderAlignmentHorz = taCenter
-        Width = 142
+        Width = 137
       end
       object colSrvName: TcxGridDBColumn
         Caption = 'Nama Jasa'
@@ -537,7 +537,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Options.Focusing = False
-        Width = 329
+        Width = 384
       end
       object colSrvUOM: TcxGridDBColumn
         Caption = 'Satuan'
@@ -554,7 +554,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
-        Width = 53
+        Width = 65
       end
       object colSrvHarga: TcxGridDBColumn
         Caption = 'Harga Jasa'
@@ -565,7 +565,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Options.Focusing = False
-        Width = 90
+        Width = 109
       end
       object colSrvDisc: TcxGridDBColumn
         DataBinding.FieldName = 'Discount'
@@ -574,7 +574,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
         Properties.DisplayFormat = ',0.##;(,0.##)'
         Properties.ReadOnly = True
         HeaderAlignmentHorz = taCenter
-        Width = 70
+        Width = 94
       end
       object colSrvSubTotal: TcxGridDBColumn
         Caption = 'Sub Total'
@@ -585,7 +585,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Options.Focusing = False
-        Width = 100
+        Width = 116
       end
       object colSrvID: TcxGridDBColumn
         DataBinding.FieldName = 'Service'
