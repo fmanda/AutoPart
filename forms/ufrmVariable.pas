@@ -118,7 +118,9 @@ begin
     cxLookup.PreFilter('Nama', '');
     if cxLookup.ShowModal = mrOK then
     begin
+
       AEditor.Properties.Value := cxLookup.FieldValue('Kode');
+      Keybd_event(VK_RETURN, 0, 0, 0);
 //      Self.Refresh;
     end;
   Finally
@@ -138,6 +140,7 @@ begin
     if cxLookup.ShowModal = mrOK then
     begin
       AEditor.Properties.Value := cxLookup.FieldValue('Kode');
+      Keybd_event(VK_RETURN, 0, 0, 0);
     end;
   Finally
     cxLookup.Free;

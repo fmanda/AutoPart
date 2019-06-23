@@ -9,33 +9,42 @@ inherited frmVariable: TfrmVariable
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
     Top = 626
+    ExplicitTop = 626
+    ExplicitWidth = 584
     Width = 584
     inherited btnCancel: TcxButton
       Left = 499
+      ExplicitLeft = 499
     end
     inherited btnPrint: TcxButton
       Left = 413
+      ExplicitLeft = 413
     end
     inherited btnSave: TcxButton
       Left = 327
       OnClick = btnSaveClick
+      ExplicitLeft = 327
     end
   end
   inherited Panel2: TPanel
     Top = 605
     Width = 584
-    ExplicitTop = 321
+    ExplicitTop = 605
+    ExplicitWidth = 584
     inherited lbEscape: TLabel
       Left = 504
       Height = 17
+      ExplicitLeft = 504
     end
     inherited lgndSave: TLabel
       Left = 339
       Height = 17
+      ExplicitLeft = 339
     end
     inherited lgndPrint: TLabel
       Left = 426
       Height = 17
+      ExplicitLeft = 426
     end
   end
   object cxVertGrid: TcxVerticalGrid
@@ -52,11 +61,10 @@ inherited frmVariable: TfrmVariable
     OptionsBehavior.GoToNextCellOnTab = True
     OptionsBehavior.FocusCellOnCycle = True
     TabOrder = 2
-    ExplicitTop = -1
     Version = 1
     object cxVertGridCategoryRow1: TcxCategoryRow
       Properties.Caption = 'Informasi Perusahaan'
-      ID = 5
+      ID = 0
       ParentID = -1
       Index = 0
       Version = 1
@@ -66,8 +74,8 @@ inherited frmVariable: TfrmVariable
       Properties.EditPropertiesClassName = 'TcxTextEditProperties'
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
-      ID = 6
-      ParentID = 5
+      ID = 1
+      ParentID = 0
       Index = 0
       Version = 1
     end
@@ -76,8 +84,8 @@ inherited frmVariable: TfrmVariable
       Properties.EditPropertiesClassName = 'TcxTextEditProperties'
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
-      ID = 7
-      ParentID = 5
+      ID = 2
+      ParentID = 0
       Index = 1
       Version = 1
     end
@@ -86,8 +94,8 @@ inherited frmVariable: TfrmVariable
       Properties.EditPropertiesClassName = 'TcxTextEditProperties'
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
-      ID = 10
-      ParentID = 5
+      ID = 3
+      ParentID = 0
       Index = 2
       Version = 1
     end
@@ -96,8 +104,8 @@ inherited frmVariable: TfrmVariable
       Properties.EditPropertiesClassName = 'TcxTextEditProperties'
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
-      ID = 8
-      ParentID = 5
+      ID = 4
+      ParentID = 0
       Index = 3
       Version = 1
     end
@@ -106,14 +114,14 @@ inherited frmVariable: TfrmVariable
       Properties.EditPropertiesClassName = 'TcxTextEditProperties'
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
-      ID = 9
-      ParentID = 5
+      ID = 5
+      ParentID = 0
       Index = 4
       Version = 1
     end
     object cxVertGridCategoryRow2: TcxCategoryRow
       Properties.Caption = 'Setting Transaksi'
-      ID = 12
+      ID = 6
       ParentID = -1
       Index = 1
       Version = 1
@@ -129,8 +137,8 @@ inherited frmVariable: TfrmVariable
       Properties.EditProperties.OnButtonClick = colDefRekeningEditPropertiesButtonClick
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = ''
-      ID = 16
-      ParentID = 12
+      ID = 7
+      ParentID = 6
       Index = 0
       Version = 1
     end
@@ -145,8 +153,8 @@ inherited frmVariable: TfrmVariable
       Properties.EditProperties.OnButtonClick = colDefCustUmumEditPropertiesButtonClick
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
-      ID = 15
-      ParentID = 12
+      ID = 8
+      ParentID = 6
       Index = 1
       Version = 1
     end
@@ -161,8 +169,8 @@ inherited frmVariable: TfrmVariable
       Properties.EditProperties.OnButtonClick = colDefCustBengkelEditPropertiesButtonClick
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
-      ID = 13
-      ParentID = 12
+      ID = 9
+      ParentID = 6
       Index = 2
       Version = 1
     end

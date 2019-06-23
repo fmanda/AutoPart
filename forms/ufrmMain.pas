@@ -207,7 +207,7 @@ uses
   ufrmBrowseWarehouse, ufrmBrowseRekening, ufrmCXServerLookup,
   ufrmBrowsePurchaseInvoice, uTransDetail, ufrmKartuStock,
   ufrmBrowsePurchaseRetur, ufrmBrowseTransferStock, ufrmLapStock,
-  ufrmBrowseSalesman, ufrmBrowseMekanik, ufrmSalesInvoice, ufrmVariable,
+  ufrmBrowseSalesman, ufrmBrowseMekanik, ufrmBrowseSalesInvoice, ufrmVariable,
   uVariable;
 
 {$R *.dfm}
@@ -244,8 +244,6 @@ begin
     AppVariable.LoadVariable;
     DoLogin;
   end;
-
-//  actSales.Execute;
 end;
 
 procedure TfrmMain.actItemGroupExecute(Sender: TObject);
@@ -295,7 +293,7 @@ end;
 
 procedure TfrmMain.actSalesExecute(Sender: TObject);
 begin
-  ShowForm(TfrmSalesInvoice).ShowModal;
+  ShowForm(TfrmBrowseSalesInvoice);
 end;
 
 procedure TfrmMain.actSalesmanExecute(Sender: TObject);

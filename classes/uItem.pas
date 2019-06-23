@@ -101,6 +101,7 @@ type
     FModifiedBy: String;
   public
     destructor Destroy; override;
+    function GetHarga(aTipeHarga: Integer): Double;
     class function GetItemUOM(aItemID, aUOMID: Integer): TItemUOM;
     function UpdateHargaAvg(aNewAvg: Double): Boolean;
   published
@@ -301,6 +302,19 @@ destructor TItemUOM.Destroy;
 begin
   inherited;
   if FUOM <> nil then FUOM.Free;
+end;
+
+function TItemUOM.GetHarga(aTipeHarga: Integer): Double;
+begin
+//  Result := 0;      
+  Case aTipeHarga of
+    0 : Result := HargaJual1;
+    1 : Result := HargaJual2;
+    2 : Result := HargaJual3;
+    3 : Result := HargaJual4;
+  else 
+    raise Exception.Create('Tipe Harga Index : ' + Inttostr(aTipeHarga) + ' tidak ter-register di TItemUOM');
+  end;
 end;
 
 class function TItemUOM.GetItemUOM(aItemID, aUOMID: Integer): TItemUOM;

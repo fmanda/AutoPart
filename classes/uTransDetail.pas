@@ -10,6 +10,7 @@ type
   TTransDetail = class;
   TPurchaseInvoice = class;
   TAvgCostUpdate = class;
+  TServiceDetail = class;
 
   TCRUDTransDetail = class(TCRUDObject)
   private
@@ -231,19 +232,23 @@ type
     FStatus: Integer;
     FSubTotal: Double;
     FCustomer: TCustomer;
+    FServices: TObjectList<TServiceDetail>;
     FRekening: TRekening;
     FSalesman: TSalesman;
     FMekanik: TMekanik;
     FSalesType: Integer;
     FWarehouse: TWarehouse;
+    function GetServices: TObjectList<TServiceDetail>;
   protected
     function AfterSaveToDB: Boolean; override;
     function BeforeDeleteFromDB: Boolean; override;
     function BeforeSaveToDB: Boolean; override;
     function GetRefno: String; override;
   public
+    destructor Destroy; override;
     function GenerateNo: String;
     function GetHeaderFlag: Integer; override;
+    property Services: TObjectList<TServiceDetail> read GetServices write FServices;
   published
     property Amount: Double read FAmount write FAmount;
     property DueDate: TDateTime read FDueDate write FDueDate;
@@ -299,6 +304,28 @@ type
     property Warehouse: TWarehouse read FWarehouse write FWarehouse;
   end;
 
+  TServiceDetail = class(TCRUDObject)
+  private
+    FDiscount: Double;
+    FHarga: Double;
+    FService: TService;
+    FQty: Double;
+    FTotal: Double;
+    FPPN: Double;
+    FSalesInvoice: TSalesInvoice;
+  public
+    destructor Destroy; override;
+  published
+    property Discount: Double read FDiscount write FDiscount;
+    property Harga: Double read FHarga write FHarga;
+    property Service: TService read FService write FService;
+    property Qty: Double read FQty write FQty;
+    property Total: Double read FTotal write FTotal;
+    property PPN: Double read FPPN write FPPN;
+    [AttributeOfHeader]
+    property SalesInvoice: TSalesInvoice read FSalesInvoice write FSalesInvoice;
+  end;
+
 const
   HeaderFlag_PurchaseInvoice : Integer = 100;
   HeaderFlag_PurchaseRetur : Integer = 150;
@@ -311,6 +338,9 @@ const
   Status_Inv_Paid : Integer = 1;
   Status_Inv_Cancel : Integer = 2;
   Status_Inv_FullPaid : Integer = 100;
+
+  PaymentFlag_Cash  : Integer = 0;
+  PaymentFlag_Credit : Integer = 1;
 
 implementation
 
@@ -929,12 +959,22 @@ begin
   Result := Refno;
 end;
 
+destructor TSalesInvoice.Destroy;
+begin
+  inherited;
+  if FServices <> nil then FreeAndNil(FServices);
+  if FCustomer <> nil then FreeAndNil(FCustomer);
+  if FWarehouse <> nil then FreeAndNil(FWarehouse);
+  if FMekanik <> nil then FreeAndNil(FMekanik);
+  if FRekening <> nil then FreeAndNil(FRekening);
+end;
+
 function TSalesInvoice.AfterSaveToDB: Boolean;
 var
   lSalesPayment: TSalesPayment;
 begin
   //update avg
-  if Self.PaymentFlag = PaymentFlag_CashInvoice then
+  if Self.PaymentFlag = PaymentFlag_Cash then
   begin
     lSalesPayment :=  TSalesPayment.CreateOrGetFromInv(Self);
     Result := lSalesPayment.SaveToDB(False);
@@ -947,7 +987,7 @@ var
   lSalesPayment: TSalesPayment;
 begin
   //update avg
-  if Self.PaymentFlag = PaymentFlag_CashInvoice then
+  if Self.PaymentFlag = PaymentFlag_Cash then
   begin
     Result := True;
     lSalesPayment :=  TSalesPayment.Create;
@@ -961,8 +1001,11 @@ function TSalesInvoice.BeforeSaveToDB: Boolean;
 var
   litem: TTransDetail;
 begin
-  for lItem in Self.Items do
+  for lItem in Self.Services do
+  begin
     lItem.SetAvgCost;
+    lItem.MakeNegative;
+  end;
 
   Result := True;
 end;
@@ -998,6 +1041,15 @@ end;
 function TSalesInvoice.GetHeaderFlag: Integer;
 begin
   Result := HeaderFlag_SalesInvoice;
+end;
+
+function TSalesInvoice.GetServices: TObjectList<TServiceDetail>;
+begin
+  if FServices = nil then
+  begin
+    FServices := TObjectList<TServiceDetail>.Create();
+  end;
+  Result := FServices;
 end;
 
 function TSalesInvoice.GetRefno: String;
@@ -1098,6 +1150,12 @@ begin
   S := S + ' where ID = ' + IntToStr(Self.Invoice.ID);
 
   Result := TDBUtils.ExecuteSQL(S, False);
+end;
+
+destructor TServiceDetail.Destroy;
+begin
+  inherited;
+  if FService <> nil then FreeAndNil(FService);
 end;
 
 end.

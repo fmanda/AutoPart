@@ -112,7 +112,8 @@ var
 implementation
 
 uses
-  uAppUtils, uDXUtils, ufrmCXServerLookup, cxDataUtils, uSupplier, uWarehouse;
+  uAppUtils, uDXUtils, ufrmCXServerLookup, cxDataUtils, uSupplier, uWarehouse,
+  uFinancialTransaction;
 
 {$R *.dfm}
 
@@ -440,7 +441,7 @@ begin
   begin
     PurchInv.TransDate := Now();
     PurchInv.DueDate  := Now();
-    PurchInv.PaymentFlag := 1;
+    PurchInv.PaymentFlag := PaymentFlag_Credit;
     PurchInv.InvoiceNo := PurchInv.GenerateNo;
   end;
 

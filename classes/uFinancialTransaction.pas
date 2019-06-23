@@ -173,8 +173,7 @@ const
   Media_BG : Integer = 2;
   Media_Cek : Integer = 3;
 
-  PaymentFlag_Payment : Integer = 0;
-  PaymentFlag_CashInvoice : Integer = 1;
+  
 
 implementation
 
@@ -406,7 +405,7 @@ begin
   Result.TransDate    := aSalesInvoice.TransDate;
   Result.DueDate      := Result.TransDate;
   Result.Amount       := aSalesInvoice.Amount;
-  Result.PaymentFlag  := PaymentFlag_CashInvoice;
+  Result.PaymentFlag  := PaymentFlag_Cash;
   Result.ReturAmount  := 0;
   Result.Items.Clear;
 
@@ -432,6 +431,9 @@ begin
   lItem.Notes         := 'Penjualan No : ' + aSalesInvoice.InvoiceNo;
   lItem.TransType     := Result.PaymentFlag;
   Result.Items.Add(lItem);
+
+  Result.ModifiedBy   := UserLogin;
+  Result.ModifiedDate := Now();
 
 end;
 

@@ -12,18 +12,22 @@ inherited frmSalesInvoice: TfrmSalesInvoice
   inherited cxGroupBox2: TcxGroupBox
     Top = 626
     TabOrder = 3
+    ExplicitTop = 626
+    ExplicitWidth = 984
     Width = 984
     inherited btnCancel: TcxButton
       Left = 899
+      ExplicitLeft = 899
     end
     inherited btnPrint: TcxButton
       Left = 813
+      ExplicitLeft = 813
     end
     inherited btnSave: TcxButton
       Left = 707
       Width = 100
       OnClick = btnSaveClick
-      ExplicitLeft = 727
+      ExplicitLeft = 707
       ExplicitWidth = 100
     end
   end
@@ -31,24 +35,23 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     Top = 605
     Width = 984
     TabOrder = 4
-    ExplicitLeft = 12
-    ExplicitTop = 632
+    ExplicitTop = 605
     ExplicitWidth = 984
     inherited lbEscape: TLabel
       Left = 904
       Height = 17
+      ExplicitLeft = 904
     end
     inherited lgndSave: TLabel
       Left = 729
       Height = 17
       Margins.Right = 25
       ExplicitLeft = 729
-      ExplicitTop = 2
-      ExplicitHeight = 17
     end
     inherited lgndPrint: TLabel
       Left = 826
       Height = 17
+      ExplicitLeft = 826
     end
     object Label1: TLabel
       AlignWithMargins = True
@@ -82,53 +85,38 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     Width = 984
     object cxLabel1: TcxLabel
       Left = 109
-      Top = 28
+      Top = 22
       Caption = 'No Invoice'
     end
     object edNoInv: TcxTextEdit
       Left = 168
-      Top = 27
+      Top = 21
       TabStop = False
       Properties.CharCase = ecUpperCase
       TabOrder = 1
-      Width = 243
+      Width = 122
     end
     object cxLabel4: TcxLabel
       Left = 116
-      Top = 49
+      Top = 43
       Caption = 'Customer'
     end
     object cxLabel6: TcxLabel
-      Left = 429
-      Top = 70
+      Left = 428
+      Top = 85
       Caption = 'Catatan'
     end
     object edNotes: TcxMemo
       Left = 474
-      Top = 69
-      TabOrder = 8
+      Top = 84
+      TabOrder = 10
       OnKeyDown = edNotesKeyDown
-      Height = 42
+      Height = 32
       Width = 238
     end
     object dtInvoice: TcxDateEdit
       Left = 168
-      Top = 69
-      TabStop = False
-      Properties.ImmediatePost = True
-      Properties.SaveTime = False
-      Properties.ShowTime = False
-      TabOrder = 3
-      Width = 90
-    end
-    object cxLabel8: TcxLabel
-      Left = 110
-      Top = 69
-      Caption = 'Tgl Invoice'
-    end
-    object dtJtTempo: TcxDateEdit
-      Left = 321
-      Top = 69
+      Top = 63
       TabStop = False
       Properties.ImmediatePost = True
       Properties.SaveTime = False
@@ -136,21 +124,37 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       TabOrder = 4
       Width = 90
     end
+    object cxLabel8: TcxLabel
+      Left = 110
+      Top = 63
+      Caption = 'Tgl Invoice'
+    end
+    object dtJtTempo: TcxDateEdit
+      Left = 321
+      Top = 63
+      TabStop = False
+      Properties.ImmediatePost = True
+      Properties.SaveTime = False
+      Properties.ShowTime = False
+      TabOrder = 5
+      Width = 90
+    end
     object cxLabel9: TcxLabel
       Left = 269
-      Top = 70
+      Top = 64
       Caption = 'Jt. Tempo'
     end
     object edCustomer: TcxButtonEdit
       Left = 168
-      Top = 48
+      Top = 42
       Properties.Buttons = <
         item
           Default = True
           Kind = bkEllipsis
         end>
       Properties.OnButtonClick = edCustomerPropertiesButtonClick
-      TabOrder = 2
+      Properties.OnValidate = edCustomerPropertiesValidate
+      TabOrder = 3
       OnKeyDown = edCustomerKeyDown
       Width = 243
     end
@@ -171,7 +175,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       Style.Font.Name = 'Consolas'
       Style.Font.Style = []
       Style.IsFontAssigned = True
-      TabOrder = 9
+      TabOrder = 11
       Width = 180
     end
     object cxLabel2: TcxLabel
@@ -217,7 +221,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       Style.Font.Name = 'Consolas'
       Style.Font.Style = []
       Style.IsFontAssigned = True
-      TabOrder = 10
+      TabOrder = 12
       Width = 180
     end
     object cxLabel5: TcxLabel
@@ -250,18 +254,18 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       Style.Font.Name = 'Consolas'
       Style.Font.Style = []
       Style.IsFontAssigned = True
-      TabOrder = 11
+      TabOrder = 13
       Width = 180
     end
     object cxLabel7: TcxLabel
       Left = 124
-      Top = 91
+      Top = 85
       Caption = 'Gudang'
     end
     object cxLookupSalesman: TcxExtLookupComboBox
       Left = 474
-      Top = 27
-      TabOrder = 6
+      Top = 42
+      TabOrder = 8
       Width = 238
     end
     object rbHarga: TcxRadioGroup
@@ -287,36 +291,66 @@ inherited frmSalesInvoice: TfrmSalesInvoice
         item
           Caption = 'Keliling'
         end>
+      Properties.OnEditValueChanged = rbHargaPropertiesEditValueChanged
       ItemIndex = 0
       TabOrder = 0
-      ExplicitHeight = 104
       Height = 105
       Width = 85
     end
     object cxLookupGudang: TcxExtLookupComboBox
       Left = 168
-      Top = 90
-      TabOrder = 5
+      Top = 84
+      TabOrder = 6
       Width = 243
     end
     object cxLabel11: TcxLabel
       Left = 423
-      Top = 28
+      Top = 43
       Caption = 'Salesman'
     end
     object cxLabel12: TcxLabel
       Left = 430
-      Top = 48
+      Top = 63
       Caption = 'Mekanik'
     end
     object cxLookupMekanik: TcxExtLookupComboBox
       Left = 474
-      Top = 48
+      Top = 63
+      TabOrder = 9
+      Width = 238
+    end
+    object cbBayar: TcxComboBox
+      Left = 353
+      Top = 21
+      Properties.CharCase = ecUpperCase
+      Properties.DropDownListStyle = lsFixedList
+      Properties.ImmediatePost = True
+      Properties.Items.Strings = (
+        'CASH'
+        'TEMPO')
+      Properties.OnEditValueChanged = cbBayarPropertiesEditValueChanged
+      TabOrder = 2
+      Text = 'CASH'
+      Width = 58
+    end
+    object cxLabel10: TcxLabel
+      Left = 295
+      Top = 22
+      Caption = 'Cara Bayar'
+    end
+    object cxLabel13: TcxLabel
+      Left = 423
+      Top = 22
+      Caption = 'Rekening'
+    end
+    object cxLookupRekening: TcxExtLookupComboBox
+      Left = 474
+      Top = 21
       TabOrder = 7
       Width = 238
     end
   end
-  object cxGrid1: TcxGrid
+  object cxGridItem: TcxGrid
     Left = 0
     Top = 129
     Width = 984
@@ -324,8 +358,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 187
-    ExplicitHeight = 207
+    ExplicitTop = 130
     object cxGrdItem: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdItemEditKeyDown
@@ -444,7 +477,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
         Visible = False
       end
     end
-    object cxGrid1Level1: TcxGridLevel
+    object cxGridItemLevel1: TcxGridLevel
       Caption = 'Detail Barang [F2]'
       GridView = cxGrdItem
     end
@@ -456,9 +489,8 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     Height = 8
     HotZoneClassName = 'TcxXPTaskBarStyle'
     AlignSplitter = salBottom
-    ExplicitTop = 391
   end
-  object cxGrid2: TcxGrid
+  object cxGridService: TcxGrid
     Left = 0
     Top = 405
     Width = 984
@@ -466,7 +498,6 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     Align = alBottom
     TabOrder = 2
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 455
     object cxGrdService: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -497,7 +528,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
             Kind = bkEllipsis
           end>
         HeaderAlignmentHorz = taCenter
-        Width = 137
+        Width = 142
       end
       object colSrvName: TcxGridDBColumn
         Caption = 'Nama Jasa'
@@ -506,13 +537,14 @@ inherited frmSalesInvoice: TfrmSalesInvoice
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Options.Focusing = False
-        Width = 290
+        Width = 329
       end
       object colSrvUOM: TcxGridDBColumn
         Caption = 'Satuan'
         DataBinding.FieldName = 'UOM'
         PropertiesClassName = 'TcxExtLookupComboBoxProperties'
         Properties.ImmediatePost = True
+        Visible = False
         HeaderAlignmentHorz = taCenter
         Width = 49
       end

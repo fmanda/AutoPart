@@ -63,7 +63,8 @@ uses
   uFinancialTransaction in 'classes\uFinancialTransaction.pas',
   ufrmSalesInvoice in 'forms\ufrmSalesInvoice.pas' {frmSalesInvoice},
   uVariable in 'classes\uVariable.pas',
-  ufrmVariable in 'forms\ufrmVariable.pas' {frmVariable};
+  ufrmVariable in 'forms\ufrmVariable.pas' {frmVariable},
+  ufrmBrowseSalesInvoice in 'forms\ufrmBrowseSalesInvoice.pas' {frmBrowseSalesInvoice};
 
 {$R *.res}
 
@@ -72,5 +73,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmBrowseSalesInvoice, frmBrowseSalesInvoice);
   Application.Run;
 end.

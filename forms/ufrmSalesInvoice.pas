@@ -42,7 +42,7 @@ type
     cxLabel11: TcxLabel;
     cxLabel12: TcxLabel;
     cxLookupMekanik: TcxExtLookupComboBox;
-    cxGrid1: TcxGrid;
+    cxGridItem: TcxGrid;
     cxGrdItem: TcxGridDBTableView;
     colKode: TcxGridDBColumn;
     colNama: TcxGridDBColumn;
@@ -55,9 +55,9 @@ type
     colItemID: TcxGridDBColumn;
     colKonversi: TcxGridDBColumn;
     colPPN: TcxGridDBColumn;
-    cxGrid1Level1: TcxGridLevel;
+    cxGridItemLevel1: TcxGridLevel;
     cxSplitter: TcxSplitter;
-    cxGrid2: TcxGrid;
+    cxGridService: TcxGrid;
     cxGrdService: TcxGridDBTableView;
     colSrvKode: TcxGridDBColumn;
     colSrvName: TcxGridDBColumn;
@@ -69,6 +69,10 @@ type
     colSrvID: TcxGridDBColumn;
     cxGridLevel1: TcxGridLevel;
     Label1: TLabel;
+    cbBayar: TcxComboBox;
+    cxLabel10: TcxLabel;
+    cxLabel13: TcxLabel;
+    cxLookupRekening: TcxExtLookupComboBox;
     procedure edCustomerKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edNotesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -88,6 +92,10 @@ type
     procedure cxGrdItemEditKeyDown(Sender: TcxCustomGridTableView; AItem:
         TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Word; Shift:
         TShiftState);
+    procedure rbHargaPropertiesEditValueChanged(Sender: TObject);
+    procedure edCustomerPropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure cbBayarPropertiesEditValueChanged(Sender: TObject);
   private
     DisableTrigger: Boolean;
     FCDS: TClientDataset;
@@ -105,8 +113,10 @@ type
     procedure InitView;
     procedure LookupItem(aKey: string = '');
     procedure LookupCustomer(sKey: string = '');
+    procedure SetDefaultValueTipeHarga;
     procedure SetItemToGrid(aItem: TItem);
     procedure UpdateData;
+    procedure UpdateHarga;
     function ValidateData: Boolean;
     property CDS: TClientDataset read GetCDS write FCDS;
     property CDSClone: TClientDataset read GetCDSClone write FCDSClone;
@@ -116,6 +126,7 @@ type
   public
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = True);
     { Public declarations }
+  published
   end;
 
 var
@@ -125,15 +136,13 @@ implementation
 
 uses
   uDXUtils, uDBUtils, uAppUtils, ufrmCXServerLookup, uCustomer, cxDataUtils,
-  uWarehouse, uMekanik, uSalesman;
+  uWarehouse, uMekanik, uSalesman, uVariable, uAccount;
 
 {$R *.dfm}
 
 procedure TfrmSalesInvoice.btnSaveClick(Sender: TObject);
 begin
   inherited;
-  exit;
-
   if not ValidateData then exit;
   UpdateData;
   if SalesInv.SaveToDB then
@@ -178,6 +187,16 @@ begin
     CDS.EnableControls;
     DisableTrigger := False;
   End;
+end;
+
+procedure TfrmSalesInvoice.cbBayarPropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  if cbBayar.ItemIndex = PaymentFlag_Cash then
+    dtJtTempo.Date := dtInvoice.Date;
+
+  cxLookupRekening.Enabled := cbBayar.ItemIndex = PaymentFlag_Cash;
+  dtJtTempo.Enabled := cbBayar.ItemIndex = PaymentFlag_Credit;
 end;
 
 procedure TfrmSalesInvoice.CDSAfterInsert(DataSet: TDataSet);
@@ -254,7 +273,7 @@ begin
   if lItemUOM = nil then exit;
   Try
     DC.SetEditValue(colKonversi.Index, lItemUOM.Konversi, evsValue);
-    DC.SetEditValue(colHarga.Index, lItemUOM.HargaJual1, evsValue);
+    DC.SetEditValue(colHarga.Index, lItemUOM.GetHarga(rbHarga.ItemIndex), evsValue);
 
     CalculateAll;
     colQty.FocusWithSelection;
@@ -335,6 +354,16 @@ begin
   LookupCustomer;
 end;
 
+procedure TfrmSalesInvoice.edCustomerPropertiesValidate(Sender: TObject;
+  var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+begin
+  inherited;
+  if SalesInv.Customer = nil then
+    SalesInv.Customer := TCustomer.Create;
+  SalesInv.Customer.LoadByCode(VarToStr(DisplayValue));
+  edCustomer.Text := SalesInv.Customer.Nama;
+end;
+
 procedure TfrmSalesInvoice.edNotesKeyDown(Sender: TObject; var Key: Word;
     Shift: TShiftState);
 begin
@@ -347,8 +376,8 @@ end;
 
 procedure TfrmSalesInvoice.FocusToGrid;
 begin
-  cxGrid1.SetFocus;
-  cxGrid1.FocusedView := cxGrdItem;
+  cxGridItem.SetFocus;
+  cxGridItem.FocusedView := cxGrdItem;
   if CDS.RecordCount = 0 then
   begin
     CDS.Append;
@@ -440,11 +469,20 @@ begin
 
   cxLookupSalesman.Properties.LoadFromSQL(Self,
     'select id, nama from tsalesman','nama');
-  cxLookupSalesman.SetDefaultValue();
+//  cxLookupSalesman.SetDefaultValue();
 
   cxLookupMekanik.Properties.LoadFromSQL(Self,
     'select id, nama from tmekanik','nama');
-  cxLookupMekanik.SetDefaultValue();
+//  cxLookupMekanik.SetDefaultValue();
+
+  cxLookupRekening.Properties.LoadFromSQL(Self,
+    'select id, nama from trekening','nama');
+
+  if SalesInv.Rekening = nil then
+    SalesInv.Rekening := TRekening.Create;
+
+  SalesInv.Rekening.LoadByCode(AppVariable.Def_Rekening);
+  cxLookupRekening.EditValue := SalesInv.Rekening.ID;
 end;
 
 procedure TfrmSalesInvoice.LoadByID(aID: Integer; IsReadOnly: Boolean = True);
@@ -461,15 +499,21 @@ begin
   begin
     SalesInv.TransDate    := Now();
     SalesInv.DueDate      := Now();
-    SalesInv.PaymentFlag  := 1;
+    SalesInv.PaymentFlag  := 0;
     SalesInv.InvoiceNo    := SalesInv.GenerateNo;
   end;
 
   edNoInv.Text := SalesInv.InvoiceNo;
+
+  cbBayar.ItemIndex := SalesInv.PaymentFlag;
+  cbBayarPropertiesEditValueChanged(Self);
+
+  rbHarga.ItemIndex := SalesInv.SalesType;
+  rbHargaPropertiesEditValueChanged(Self);
+
   dtInvoice.Date := SalesInv.TransDate;
   dtJtTempo.Date := SalesInv.DueDate;
-//  cbBayar.ItemIndex := SalesInv.PaymentFlag;
-  rbHarga.ItemIndex := SalesInv.PaymentFlag;
+
   crSubTotal.Value := SalesInv.SubTotal;
   crPPN.Value := SalesInv.PPN;
   crTotal.Value := SalesInv.Amount;
@@ -494,11 +538,11 @@ begin
   for lItem in SalesInv.Items do
   begin
     CDS.Append;
+    lItem.MakePositive;
     lItem.UpdateToDataset(CDS);
     lItem.Item.ReLoad(False);
     CDS.FieldByName('Kode').AsString := lItem.Item.Kode;
     CDS.FieldByName('Nama').AsString := lItem.Item.Nama;
-
     CDS.Post;
   end;
   CalculateAll;
@@ -543,6 +587,39 @@ begin
   End;
 end;
 
+procedure TfrmSalesInvoice.rbHargaPropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  if CDS.RecordCount > 0 then
+  begin
+    if SalesInv.SalesType <> rbHarga.ItemIndex then
+    begin
+      //update harga
+      if TAppUtils.Confirm('Anda yakin harga diubah menjadi : ' + rbHarga.Properties.Items[rbHarga.ItemIndex].Caption + '?')
+      then
+      begin
+        UpdateHarga;
+//        SalesInv.SalesType := rbHarga.ItemIndex;
+      end else
+      begin
+        rbHarga.ItemIndex := SalesInv.SalesType;
+        exit;
+      end;
+    end;
+  end;
+
+  SalesInv.SalesType := rbHarga.ItemIndex;
+  SetDefaultValueTipeHarga;
+  cxLookupMekanik.Enabled := rbHarga.ItemIndex in [0,1];
+  cxGridService.Visible := rbHarga.ItemIndex in [0,1];
+
+  if not cxGridService.Visible then
+  begin
+//    CDSService.EmtpyDataSet;
+  end;
+
+end;
+
 procedure TfrmSalesInvoice.LookupCustomer(sKey: string = '');
 var
   cxLookup: TfrmCXServerLookup;
@@ -562,6 +639,25 @@ begin
   Finally
     cxLookup.Free;
   End;
+end;
+
+procedure TfrmSalesInvoice.SetDefaultValueTipeHarga;
+begin
+  if SalesInv.Customer = nil then
+    SalesInv.Customer := TCustomer.Create;
+
+  Case rbHarga.ItemIndex of
+    0 :
+    begin
+      SalesInv.Customer.LoadByCode(AppVariable.Def_Cust_Umum);
+      edCustomer.Text := SalesInv.Customer.Nama;
+    end;
+    1 :
+    begin
+      SalesInv.Customer.LoadByCode(AppVariable.Def_Cust_Bengkel);
+      edCustomer.Text := SalesInv.Customer.Nama;
+    end;
+  end
 end;
 
 procedure TfrmSalesInvoice.SetItemToGrid(aItem: TItem);
@@ -594,7 +690,7 @@ begin
     if lItemUOM = nil then exit;
     Try
       DC.SetEditValue(colKonversi.Index, lItemUOM.Konversi, evsValue);
-      DC.SetEditValue(colHarga.Index, lItemUOM.HargaJual1, evsValue);
+      DC.SetEditValue(colHarga.Index, lItemUOM.GetHarga(rbHarga.ItemIndex), evsValue);
     Finally
       FreeAndNil(lItemUOM);
     End;
@@ -629,6 +725,10 @@ begin
     SalesInv.Salesman := TSalesman.Create;
   SalesInv.Salesman.LoadByID(VarToInt(cxLookupSalesman.EditValue));
 
+  if SalesInv.Rekening = nil then
+    SalesInv.Rekening := TRekening.Create;
+  SalesInv.Rekening.LoadByID(VarToInt(cxLookupRekening.EditValue));
+
   SalesInv.Items.Clear;
 
   CDS.First;
@@ -640,6 +740,32 @@ begin
     CDS.Next;
   end;
 
+end;
+
+procedure TfrmSalesInvoice.UpdateHarga;
+var
+  lItemUOM: TItemUOM;
+begin
+  CDSClone.First;
+  while not CDSClone.Eof do
+  begin
+    lItemUOM := TItemUOM.GetItemUOM(
+      CDSClone.FieldByName('Item').AsInteger,
+      CDSClone.FieldByName('UOM').AsInteger
+    );
+    if lItemUOM <> nil then
+    begin
+      Try
+        CDSClone.Edit;
+        CDSClone.FieldByName('Harga').AsFloat := lItemUOM.GetHarga(rbHarga.ItemIndex);
+        CDSClone.Post;
+      Finally
+        FreeAndNil(lItemUOM);
+      End;
+    end;
+    CDSClone.Next;
+  end;
+  CalculateAll;
 end;
 
 function TfrmSalesInvoice.ValidateData: Boolean;
@@ -665,6 +791,13 @@ begin
     TAppUtils.Warning('Total <= 0');
     exit;
   end;
+
+  if (cbBayar.ItemIndex = 0) and (VarToInt(cxLookupRekening.EditValue) = 0) then
+  begin
+    TAppUtils.Warning('Untuk Pembayaran Cash, Rekening Kas wajib diisi');
+    exit;
+  end;
+
 
 //  if CDS.State in [dsInsert, dsEdit] then CDS.Post;
 
