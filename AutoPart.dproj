@@ -277,7 +277,16 @@
             <Form>frmBrowseMekanik</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="classes\uFinancialProcess.pas"/>
+        <DCCReference Include="classes\uFinancialTransaction.pas"/>
+        <DCCReference Include="forms\ufrmSalesInvoice.pas">
+            <Form>frmSalesInvoice</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="classes\uVariable.pas"/>
+        <DCCReference Include="forms\ufrmVariable.pas">
+            <Form>frmVariable</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

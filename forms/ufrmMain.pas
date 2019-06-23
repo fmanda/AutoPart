@@ -175,12 +175,14 @@ type
     procedure actPurchaseInvoiceExecute(Sender: TObject);
     procedure actPurchaseReturExecute(Sender: TObject);
     procedure actRekeningExecute(Sender: TObject);
+    procedure actSalesExecute(Sender: TObject);
     procedure actSalesmanExecute(Sender: TObject);
     procedure actServiceExecute(Sender: TObject);
     procedure actUOMExecute(Sender: TObject);
     procedure actSettingKoneksiExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
     procedure actTransferStockExecute(Sender: TObject);
+    procedure actVariableExecute(Sender: TObject);
     procedure actWarehouseExecute(Sender: TObject);
     procedure cxButton1Click(Sender: TObject);
   private
@@ -205,7 +207,8 @@ uses
   ufrmBrowseWarehouse, ufrmBrowseRekening, ufrmCXServerLookup,
   ufrmBrowsePurchaseInvoice, uTransDetail, ufrmKartuStock,
   ufrmBrowsePurchaseRetur, ufrmBrowseTransferStock, ufrmLapStock,
-  ufrmBrowseSalesman, ufrmBrowseMekanik;
+  ufrmBrowseSalesman, ufrmBrowseMekanik, ufrmSalesInvoice, ufrmVariable,
+  uVariable;
 
 {$R *.dfm}
 
@@ -236,7 +239,13 @@ begin
 //      EnableDisableAction(False);
     end;
   end else
+  begin
+    AppVariable := TVariable.Create(Application);
+    AppVariable.LoadVariable;
     DoLogin;
+  end;
+
+//  actSales.Execute;
 end;
 
 procedure TfrmMain.actItemGroupExecute(Sender: TObject);
@@ -284,6 +293,11 @@ begin
   ShowForm(TfrmBrowseRekening);
 end;
 
+procedure TfrmMain.actSalesExecute(Sender: TObject);
+begin
+  ShowForm(TfrmSalesInvoice).ShowModal;
+end;
+
 procedure TfrmMain.actSalesmanExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseSalesman)
@@ -315,6 +329,11 @@ end;
 procedure TfrmMain.actTransferStockExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseTransferStock);
+end;
+
+procedure TfrmMain.actVariableExecute(Sender: TObject);
+begin
+  ShowForm(TfrmVariable).ShowModal;
 end;
 
 procedure TfrmMain.actWarehouseExecute(Sender: TObject);

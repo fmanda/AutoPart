@@ -4,7 +4,7 @@ interface
 
 uses
   CRUDObject, uDBUtils, Sysutils, uItem, System.Generics.Collections,
-  uWarehouse, uSupplier, uCustomer, uSalesman;
+  uWarehouse, uSupplier, uCustomer, uSalesman, uAccount, uMekanik;
 
 type
   TTransDetail = class;
@@ -231,9 +231,14 @@ type
     FStatus: Integer;
     FSubTotal: Double;
     FCustomer: TCustomer;
+    FRekening: TRekening;
     FSalesman: TSalesman;
+    FMekanik: TMekanik;
+    FSalesType: Integer;
     FWarehouse: TWarehouse;
   protected
+    function AfterSaveToDB: Boolean; override;
+    function BeforeDeleteFromDB: Boolean; override;
     function BeforeSaveToDB: Boolean; override;
     function GetRefno: String; override;
   public
@@ -251,11 +256,14 @@ type
     property Status: Integer read FStatus write FStatus;
     property SubTotal: Double read FSubTotal write FSubTotal;
     property Customer: TCustomer read FCustomer write FCustomer;
+    property Rekening: TRekening read FRekening write FRekening;
     property Salesman: TSalesman read FSalesman write FSalesman;
+    property Mekanik: TMekanik read FMekanik write FMekanik;
+    property SalesType: Integer read FSalesType write FSalesType;
     property Warehouse: TWarehouse read FWarehouse write FWarehouse;
   end;
 
-type
+
   TSalesRetur = class(TCRUDTransDetail)
   private
     FAmount: Double;
@@ -299,14 +307,15 @@ const
   HeaderFlag_TransferStock : Integer = 400;
   HeaderFlag_Wastage : Integer = 450;
   HeaderFlag_StockAdjustment : Integer = 500;
-  Status_PurchaseInv_Created : Integer = 0;
-  Status_PurchaseInv_Paid : Integer = 1;
-  Status_PurchaseInv_Cancel : Integer = 2;
+  Status_Inv_Created : Integer = 0;
+  Status_Inv_Paid : Integer = 1;
+  Status_Inv_Cancel : Integer = 2;
+  Status_Inv_FullPaid : Integer = 100;
 
 implementation
 
 uses
-  System.StrUtils;
+  System.StrUtils, uFinancialTransaction;
 
 destructor TCRUDTransDetail.Destroy;
 begin
@@ -679,7 +688,7 @@ begin
 
   if Self.ReturFlag = 1 then
   begin
-    S := S + ', Status = ' + IntToStr(Status_PurchaseInv_Cancel)
+    S := S + ', Status = ' + IntToStr(Status_Inv_Cancel)
   end;
 
   S := S + ' where ID = ' + IntToStr(Self.Invoice.ID);
@@ -920,6 +929,34 @@ begin
   Result := Refno;
 end;
 
+function TSalesInvoice.AfterSaveToDB: Boolean;
+var
+  lSalesPayment: TSalesPayment;
+begin
+  //update avg
+  if Self.PaymentFlag = PaymentFlag_CashInvoice then
+  begin
+    lSalesPayment :=  TSalesPayment.CreateOrGetFromInv(Self);
+    Result := lSalesPayment.SaveToDB(False);
+  end else
+    Result := True;
+end;
+
+function TSalesInvoice.BeforeDeleteFromDB: Boolean;
+var
+  lSalesPayment: TSalesPayment;
+begin
+  //update avg
+  if Self.PaymentFlag = PaymentFlag_CashInvoice then
+  begin
+    Result := True;
+    lSalesPayment :=  TSalesPayment.Create;
+    if lSalesPayment.LoadByCode(Self.InvoiceNo) then
+      Result := lSalesPayment.DeleteFromDB
+  end else
+    Result := True;
+end;
+
 function TSalesInvoice.BeforeSaveToDB: Boolean;
 var
   litem: TTransDetail;
@@ -942,7 +979,7 @@ begin
   aPrefix := Cabang + '.FP.' + FormatDateTime('yymmdd',Now()) + '.';
 
 
-  S := 'SELECT MAX(Refno) FROM TSalesInvoice where InvoiceNo LIKE ' + QuotedStr(aPrefix + '%');
+  S := 'SELECT MAX(InvoiceNo) FROM TSalesInvoice where InvoiceNo LIKE ' + QuotedStr(aPrefix + '%');
 
   with TDBUtils.OpenQuery(S) do
   begin
@@ -1055,7 +1092,7 @@ begin
 
   if Self.ReturFlag = 1 then
   begin
-    S := S + ', Status = ' + IntToStr(Status_PurchaseInv_Cancel)
+    S := S + ', Status = ' + IntToStr(Status_Inv_Cancel)
   end;
 
   S := S + ' where ID = ' + IntToStr(Self.Invoice.ID);

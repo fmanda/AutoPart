@@ -93,6 +93,7 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
+      Active = True
       Caption = 'Penjualan & Kas'
       Groups = <
         item
@@ -104,7 +105,6 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxRTARAP: TdxRibbonTab
-      Active = True
       Caption = 'Hutang - Piutang'
       Groups = <
         item
@@ -369,8 +369,8 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxBarButton70'
         end>
-      OneOnRow = True
-      Row = 1
+      OneOnRow = False
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -409,8 +409,8 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxBarButton57'
         end>
-      OneOnRow = True
-      Row = 1
+      OneOnRow = False
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -445,7 +445,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxBarButton62'
         end>
-      OneOnRow = True
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -461,7 +461,7 @@ object frmMain: TfrmMain
       FloatClientWidth = 0
       FloatClientHeight = 0
       ItemLinks = <>
-      OneOnRow = True
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -485,8 +485,8 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxBarButton65'
         end>
-      OneOnRow = True
-      Row = 2
+      OneOnRow = False
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -509,8 +509,8 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxBarButton67'
         end>
-      OneOnRow = True
-      Row = 1
+      OneOnRow = False
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -533,7 +533,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxBarButton71'
         end>
-      OneOnRow = True
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -1047,6 +1047,7 @@ object frmMain: TfrmMain
       Category = 'Application'
       Caption = 'Variabel Aplikasi'
       ImageIndex = 30
+      OnExecute = actVariableExecute
     end
     object actUser: TAction
       Category = 'Application'
@@ -1057,6 +1058,7 @@ object frmMain: TfrmMain
       Category = 'Kasir & Penjualan'
       Caption = 'Penjualan && Service'
       ImageIndex = 9
+      OnExecute = actSalesExecute
     end
     object actSalesRetur: TAction
       Category = 'Kasir & Penjualan'

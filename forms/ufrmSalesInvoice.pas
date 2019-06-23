@@ -1,4 +1,4 @@
-unit ufrmPurchaseInvoice;
+unit ufrmSalesInvoice;
 
 interface
 
@@ -6,18 +6,18 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmDefaultInput, cxGraphics,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
-  Vcl.Menus, Vcl.StdCtrls, cxButtons, cxGroupBox, Vcl.ComCtrls, dxCore,
-  cxDateUtils, cxButtonEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, cxMemo,
-  cxTextEdit, cxLabel, cxCurrencyEdit, cxRadioGroup, cxStyles, cxCustomData,
-  cxFilter, cxData, cxDataStorage, cxNavigator, Datasnap.DBClient,
+  Vcl.Menus, Vcl.StdCtrls, Vcl.ExtCtrls, cxButtons, cxGroupBox, Vcl.ComCtrls,
+  dxCore, cxDateUtils, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
+  cxDBExtLookupComboBox, cxCurrencyEdit, cxButtonEdit, cxMaskEdit, cxCalendar,
+  cxMemo, cxTextEdit, cxLabel, cxRadioGroup, cxStyles, cxCustomData, cxFilter,
+  cxData, cxDataStorage, cxNavigator,
   cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
-  cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridLevel,
-  cxClasses, cxGridCustomView, cxGrid, cxLookupEdit, cxDBLookupEdit,
-  cxDBExtLookupComboBox, Vcl.ExtCtrls, uTransDetail, uDBUtils, uItem,
-  cxGridDBDataDefinitions;
+  cxSplitter, cxGridLevel, cxGridCustomTableView, cxGridTableView,
+  cxGridDBTableView, cxClasses, cxGridCustomView, cxGrid, uTransDetail,
+  cxGridDBDataDefinitions, uItem, Datasnap.DBClient;
 
 type
-  TfrmPurchaseInvoice = class(TfrmDefaultInput)
+  TfrmSalesInvoice = class(TfrmDefaultInput)
     cxGroupBox1: TcxGroupBox;
     cxLabel1: TcxLabel;
     edNoInv: TcxTextEdit;
@@ -28,58 +28,72 @@ type
     cxLabel8: TcxLabel;
     dtJtTempo: TcxDateEdit;
     cxLabel9: TcxLabel;
-    edSupplier: TcxButtonEdit;
+    edCustomer: TcxButtonEdit;
     crSubTotal: TcxCurrencyEdit;
     cxLabel2: TcxLabel;
     cxLabel3: TcxLabel;
     crPPN: TcxCurrencyEdit;
     cxLabel5: TcxLabel;
     crTotal: TcxCurrencyEdit;
-    cxGrdMain: TcxGridDBTableView;
-    cxGrid1Level1: TcxGridLevel;
+    cxLabel7: TcxLabel;
+    cxLookupSalesman: TcxExtLookupComboBox;
+    rbHarga: TcxRadioGroup;
+    cxLookupGudang: TcxExtLookupComboBox;
+    cxLabel11: TcxLabel;
+    cxLabel12: TcxLabel;
+    cxLookupMekanik: TcxExtLookupComboBox;
     cxGrid1: TcxGrid;
+    cxGrdItem: TcxGridDBTableView;
     colKode: TcxGridDBColumn;
     colNama: TcxGridDBColumn;
     colUOM: TcxGridDBColumn;
     colQty: TcxGridDBColumn;
-    colHrgBeli: TcxGridDBColumn;
+    colHarga: TcxGridDBColumn;
     colDisc: TcxGridDBColumn;
     colSubTotal: TcxGridDBColumn;
-    cxLabel7: TcxLabel;
-    cxLookupGudang: TcxExtLookupComboBox;
-    cbBayar: TcxComboBox;
-    cxLabel10: TcxLabel;
     colWarehouse: TcxGridDBColumn;
-    Label2: TLabel;
     colItemID: TcxGridDBColumn;
     colKonversi: TcxGridDBColumn;
     colPPN: TcxGridDBColumn;
+    cxGrid1Level1: TcxGridLevel;
+    cxSplitter: TcxSplitter;
+    cxGrid2: TcxGrid;
+    cxGrdService: TcxGridDBTableView;
+    colSrvKode: TcxGridDBColumn;
+    colSrvName: TcxGridDBColumn;
+    colSrvUOM: TcxGridDBColumn;
+    colSrvQty: TcxGridDBColumn;
+    colSrvHarga: TcxGridDBColumn;
+    colSrvDisc: TcxGridDBColumn;
+    colSrvSubTotal: TcxGridDBColumn;
+    colSrvID: TcxGridDBColumn;
+    cxGridLevel1: TcxGridLevel;
     Label1: TLabel;
-    procedure cxGrdMainEditKeyDown(Sender: TcxCustomGridTableView; AItem:
-        TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Word; Shift:
-        TShiftState);
+    procedure edCustomerKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edNotesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure colKodePropertiesValidate(Sender: TObject;
-      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure colKodePropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
-    procedure colUOMPropertiesInitPopup(Sender: TObject);
+    procedure colKodePropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure colUOMPropertiesCloseUp(Sender: TObject);
     procedure colUOMPropertiesEditValueChanged(Sender: TObject);
-    procedure edSupplierKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure colUOMPropertiesInitPopup(Sender: TObject);
     procedure colQtyPropertiesEditValueChanged(Sender: TObject);
     procedure colDiscPropertiesEditValueChanged(Sender: TObject);
-    procedure btnSaveClick(Sender: TObject);
-    procedure edSupplierPropertiesButtonClick(Sender: TObject;
+    procedure edCustomerPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
+    procedure btnSaveClick(Sender: TObject);
+    procedure cxGrdItemEditKeyDown(Sender: TcxCustomGridTableView; AItem:
+        TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Word; Shift:
+        TShiftState);
   private
     DisableTrigger: Boolean;
     FCDS: TClientDataset;
     FCDSClone: TClientDataset;
     FCDSUOM: TClientDataset;
-    FPurchInv: TPurchaseInvoice;
+    FSalesInv: TSalesInvoice;
     procedure CalculateAll;
     procedure CDSAfterInsert(DataSet: TDataSet);
     function DC: TcxGridDBDataController;
@@ -87,48 +101,49 @@ type
     function GetCDS: TClientDataset;
     function GetCDSClone: TClientDataset;
     function GetCDSUOM: TClientDataset;
-    function GetPurchInv: TPurchaseInvoice;
+    function GetSalesInv: TSalesInvoice;
     procedure InitView;
     procedure LookupItem(aKey: string = '');
-    procedure LookupSupplier(sKey: string = '');
+    procedure LookupCustomer(sKey: string = '');
     procedure SetItemToGrid(aItem: TItem);
     procedure UpdateData;
     function ValidateData: Boolean;
     property CDS: TClientDataset read GetCDS write FCDS;
     property CDSClone: TClientDataset read GetCDSClone write FCDSClone;
     property CDSUOM: TClientDataset read GetCDSUOM write FCDSUOM;
-    property PurchInv: TPurchaseInvoice read GetPurchInv write FPurchInv;
+    property SalesInv: TSalesInvoice read GetSalesInv write FSalesInv;
     { Private declarations }
-  protected
-    procedure CDSAfterPost(DataSet: TDataSet);
   public
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = True);
     { Public declarations }
   end;
 
 var
-  frmPurchaseInvoice: TfrmPurchaseInvoice;
+  frmSalesInvoice: TfrmSalesInvoice;
 
 implementation
 
 uses
-  uAppUtils, uDXUtils, ufrmCXServerLookup, cxDataUtils, uSupplier, uWarehouse;
+  uDXUtils, uDBUtils, uAppUtils, ufrmCXServerLookup, uCustomer, cxDataUtils,
+  uWarehouse, uMekanik, uSalesman;
 
 {$R *.dfm}
 
-procedure TfrmPurchaseInvoice.btnSaveClick(Sender: TObject);
+procedure TfrmSalesInvoice.btnSaveClick(Sender: TObject);
 begin
   inherited;
+  exit;
+
   if not ValidateData then exit;
   UpdateData;
-  if PurchInv.SaveToDB then
+  if SalesInv.SaveToDB then
   begin
     TAppUtils.InformationBerhasilSimpan;
     Self.ModalResult := mrOK;
   end;
 end;
 
-procedure TfrmPurchaseInvoice.CalculateAll;
+procedure TfrmSalesInvoice.CalculateAll;
 var
   dPPN: Double;
   dSubTotal: Double;
@@ -165,27 +180,19 @@ begin
   End;
 end;
 
-procedure TfrmPurchaseInvoice.CDSAfterInsert(DataSet: TDataSet);
+procedure TfrmSalesInvoice.CDSAfterInsert(DataSet: TDataSet);
 begin
   inherited;
   DataSet.FieldByName('Warehouse').AsInteger := VarToInt(cxLookupGudang.EditValue);
 end;
 
-procedure TfrmPurchaseInvoice.CDSAfterPost(DataSet: TDataSet);
-begin
-  inherited;
-  if DisableTrigger then exit;
-  CalculateAll;
-end;
-
-procedure TfrmPurchaseInvoice.colDiscPropertiesEditValueChanged(
-  Sender: TObject);
+procedure TfrmSalesInvoice.colDiscPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
   CalculateAll;
 end;
 
-procedure TfrmPurchaseInvoice.colKodePropertiesButtonClick(Sender: TObject;
+procedure TfrmSalesInvoice.colKodePropertiesButtonClick(Sender: TObject;
   AButtonIndex: Integer);
 var
   sKey: string;
@@ -197,7 +204,7 @@ begin
   LookupItem(sKey);
 end;
 
-procedure TfrmPurchaseInvoice.colKodePropertiesValidate(Sender: TObject;
+procedure TfrmSalesInvoice.colKodePropertiesValidate(Sender: TObject;
   var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
 var
   lItem: TItem;
@@ -217,13 +224,13 @@ begin
   End;
 end;
 
-procedure TfrmPurchaseInvoice.colQtyPropertiesEditValueChanged(Sender: TObject);
+procedure TfrmSalesInvoice.colQtyPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
   CalculateAll;
 end;
 
-procedure TfrmPurchaseInvoice.colUOMPropertiesCloseUp(Sender: TObject);
+procedure TfrmSalesInvoice.colUOMPropertiesCloseUp(Sender: TObject);
 begin
   inherited;
   with TcxExtLookup(colUOM.Properties).DataController.filter do
@@ -234,39 +241,39 @@ begin
   end;
 end;
 
-procedure TfrmPurchaseInvoice.colUOMPropertiesEditValueChanged(Sender: TObject);
+procedure TfrmSalesInvoice.colUOMPropertiesEditValueChanged(Sender: TObject);
 var
   lItemUOM: TItemUOM;
 begin
   inherited;
 
   lItemUOM := TItemUOM.GetItemUOM(
-    VarToInt(cxGrdMain.Controller.FocusedRecord.Values[colItemID.Index]),
-    VarToInt(cxGrdMain.Controller.FocusedRecord.Values[colUOM.Index])
+    VarToInt(cxGrdItem.Controller.FocusedRecord.Values[colItemID.Index]),
+    VarToInt(cxGrdItem.Controller.FocusedRecord.Values[colUOM.Index])
   );
   if lItemUOM = nil then exit;
   Try
     DC.SetEditValue(colKonversi.Index, lItemUOM.Konversi, evsValue);
-    DC.SetEditValue(colHrgBeli.Index, lItemUOM.HargaBeli, evsValue);
+    DC.SetEditValue(colHarga.Index, lItemUOM.HargaJual1, evsValue);
 
     CalculateAll;
     colQty.FocusWithSelection;
-    cxGrdMain.Controller.EditingController.ShowEdit;
+    cxGrdItem.Controller.EditingController.ShowEdit;
   Finally
     FreeAndNil(lItemUOM);
   End;
 end;
 
-procedure TfrmPurchaseInvoice.colUOMPropertiesInitPopup(Sender: TObject);
+procedure TfrmSalesInvoice.colUOMPropertiesInitPopup(Sender: TObject);
 var
   lItem: TItem;
   lItemUOM: TItemUOM;
 begin
   inherited;
-  if cxGrdMain.Controller.FocusedRecord = nil then exit;
+  if cxGrdItem.Controller.FocusedRecord = nil then exit;
   lItem := TItem.Create;
   Try
-    lItem.LoadByID(VarToInt(cxGrdMain.Controller.FocusedRecord.Values[colItemID.Index]));
+    lItem.LoadByID(VarToInt(cxGrdItem.Controller.FocusedRecord.Values[colItemID.Index]));
     with TcxExtLookup(colUOM.Properties).DataController.filter do
     begin
       BeginUpdate;
@@ -285,12 +292,11 @@ begin
   Finally
     lItem.Free;
   End;
-
 end;
 
-procedure TfrmPurchaseInvoice.cxGrdMainEditKeyDown(Sender:
-    TcxCustomGridTableView; AItem: TcxCustomGridTableItem; AEdit:
-    TcxCustomEdit; var Key: Word; Shift: TShiftState);
+procedure TfrmSalesInvoice.cxGrdItemEditKeyDown(Sender: TcxCustomGridTableView;
+    AItem: TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Word; Shift:
+    TShiftState);
 begin
   inherited;
   if (Key = VK_F5) and (aItem = colKode) then
@@ -299,22 +305,12 @@ begin
   end;
 end;
 
-function TfrmPurchaseInvoice.DC: TcxGridDBDataController;
+function TfrmSalesInvoice.DC: TcxGridDBDataController;
 begin
-  Result := cxGrdMain.DataController;
+  Result := cxGrdItem.DataController;
 end;
 
-procedure TfrmPurchaseInvoice.edNotesKeyDown(Sender: TObject; var Key: Word;
-    Shift: TShiftState);
-begin
-  inherited;
-  if Key = VK_RETURN then
-  begin
-    FocusToGrid;
-  end;
-end;
-
-procedure TfrmPurchaseInvoice.edSupplierKeyDown(Sender: TObject; var Key: Word;
+procedure TfrmSalesInvoice.edCustomerKeyDown(Sender: TObject; var Key: Word;
     Shift: TShiftState);
 var
   Edit: TcxCustomEdit;
@@ -325,32 +321,42 @@ begin
   begin
     Edit := Sender as TcxCustomEdit;
     sKey := VarToStr(Edit.EditingValue);
-    LookupSupplier(sKey);
+    LookupCustomer(sKey);
   end else if Key = VK_RETURN then
   begin
     SelectNext(Screen.ActiveControl, True, True);
   end;
 end;
 
-procedure TfrmPurchaseInvoice.edSupplierPropertiesButtonClick(Sender: TObject;
+procedure TfrmSalesInvoice.edCustomerPropertiesButtonClick(Sender: TObject;
   AButtonIndex: Integer);
 begin
   inherited;
-  LookupSupplier;
+  LookupCustomer;
 end;
 
-procedure TfrmPurchaseInvoice.FocusToGrid;
+procedure TfrmSalesInvoice.edNotesKeyDown(Sender: TObject; var Key: Word;
+    Shift: TShiftState);
 begin
-  cxGrid1.SetFocus;
-  cxGrid1.FocusedView := cxGrdMain;
-  if CDS.RecordCount = 0 then
+  inherited;
+  if Key = VK_RETURN then
   begin
-    CDS.Append;
-    cxGrdMain.Controller.EditingController.ShowEdit;
+    FocusToGrid;
   end;
 end;
 
-procedure TfrmPurchaseInvoice.FormCreate(Sender: TObject);
+procedure TfrmSalesInvoice.FocusToGrid;
+begin
+  cxGrid1.SetFocus;
+  cxGrid1.FocusedView := cxGrdItem;
+  if CDS.RecordCount = 0 then
+  begin
+    CDS.Append;
+    cxGrdItem.Controller.EditingController.ShowEdit;
+  end;
+end;
+
+procedure TfrmSalesInvoice.FormCreate(Sender: TObject);
 begin
   inherited;
   InitView;
@@ -358,8 +364,8 @@ begin
   LoadByID(0, False);
 end;
 
-procedure TfrmPurchaseInvoice.FormKeyDown(Sender: TObject; var Key: Word;
-    Shift: TShiftState);
+procedure TfrmSalesInvoice.FormKeyDown(Sender: TObject; var Key: Word; Shift:
+    TShiftState);
 begin
   inherited;
   if Key = VK_F1 then
@@ -368,10 +374,18 @@ begin
   if Key = VK_F2 then
   begin
     FocusToGrid;
+  end
+  else if Key = VK_F12 then
+  begin
+    if cxSplitter.State = ssOpened  then
+      cxSplitter.CloseSplitter
+    else
+      cxSplitter.OpenSplitter;
   end;
+
 end;
 
-function TfrmPurchaseInvoice.GetCDS: TClientDataset;
+function TfrmSalesInvoice.GetCDS: TClientDataset;
 begin
   if FCDS = nil then
   begin
@@ -388,7 +402,7 @@ begin
   Result := FCDS;
 end;
 
-function TfrmPurchaseInvoice.GetCDSClone: TClientDataset;
+function TfrmSalesInvoice.GetCDSClone: TClientDataset;
 begin
   if FCDSClone = nil then
   begin
@@ -397,7 +411,7 @@ begin
   Result := FCDSClone;
 end;
 
-function TfrmPurchaseInvoice.GetCDSUOM: TClientDataset;
+function TfrmSalesInvoice.GetCDSUOM: TClientDataset;
 begin
   if FCDSUOM = nil then
   begin
@@ -406,16 +420,16 @@ begin
   Result := FCDSUOM;
 end;
 
-function TfrmPurchaseInvoice.GetPurchInv: TPurchaseInvoice;
+function TfrmSalesInvoice.GetSalesInv: TSalesInvoice;
 begin
-  if FPurchInv = nil then
-    FPurchInv := TPurchaseInvoice.Create;
-  Result := FPurchInv;
+  if FSalesInv = nil then
+    FSalesInv := TSalesInvoice.Create;
+  Result := FSalesInv;
 end;
 
-procedure TfrmPurchaseInvoice.InitView;
+procedure TfrmSalesInvoice.InitView;
 begin
-  cxGrdMain.PrepareFromCDS(CDS);
+  cxGrdItem.PrepareFromCDS(CDS);
   TcxExtLookup(colWarehouse.Properties).LoadFromSQL(Self,
     'select id, nama from twarehouse','nama');
   TcxExtLookup(colUOM.Properties).LoadFromCDS(CDSUOM, 'id', 'uom', ['id'], Self);
@@ -423,47 +437,61 @@ begin
     'select id, nama from twarehouse','nama');
 
   cxLookupGudang.SetDefaultValue();
+
+  cxLookupSalesman.Properties.LoadFromSQL(Self,
+    'select id, nama from tsalesman','nama');
+  cxLookupSalesman.SetDefaultValue();
+
+  cxLookupMekanik.Properties.LoadFromSQL(Self,
+    'select id, nama from tmekanik','nama');
+  cxLookupMekanik.SetDefaultValue();
 end;
 
-procedure TfrmPurchaseInvoice.LoadByID(aID: Integer; IsReadOnly: Boolean =
-    True);
+procedure TfrmSalesInvoice.LoadByID(aID: Integer; IsReadOnly: Boolean = True);
 var
   lItem: TTransDetail;
 begin
-  if FPurchInv <> nil then
-    FreeAndNil(FPurchInv);
+  if FSalesInv <> nil then
+    FreeAndNil(FSalesInv);
 
-  PurchInv.LoadByID(aID);
+  SalesInv.LoadByID(aID);
 
   //def uom
   if aID = 0 then
   begin
-    PurchInv.TransDate := Now();
-    PurchInv.DueDate  := Now();
-    PurchInv.PaymentFlag := 1;
-    PurchInv.InvoiceNo := PurchInv.GenerateNo;
+    SalesInv.TransDate    := Now();
+    SalesInv.DueDate      := Now();
+    SalesInv.PaymentFlag  := 1;
+    SalesInv.InvoiceNo    := SalesInv.GenerateNo;
   end;
 
-  edNoInv.Text := PurchInv.InvoiceNo;
-  dtInvoice.Date := PurchInv.TransDate;
-  dtJtTempo.Date := PurchInv.DueDate;
-  cbBayar.ItemIndex := PurchInv.PaymentFlag;
-  crSubTotal.Value := PurchInv.SubTotal;
-  crPPN.Value := PurchInv.PPN;
-  crTotal.Value := PurchInv.Amount;
-  edNotes.Text := PurchInv.Notes;
+  edNoInv.Text := SalesInv.InvoiceNo;
+  dtInvoice.Date := SalesInv.TransDate;
+  dtJtTempo.Date := SalesInv.DueDate;
+//  cbBayar.ItemIndex := SalesInv.PaymentFlag;
+  rbHarga.ItemIndex := SalesInv.PaymentFlag;
+  crSubTotal.Value := SalesInv.SubTotal;
+  crPPN.Value := SalesInv.PPN;
+  crTotal.Value := SalesInv.Amount;
+  edNotes.Text := SalesInv.Notes;
 
-  if PurchInv.Supplier <> nil then
+  if SalesInv.Customer <> nil then
   begin
-    PurchInv.Supplier.ReLoad(False);
-    edSupplier.Text := PurchInv.Supplier.Nama;
+    SalesInv.Customer.ReLoad(False);
+    edCustomer.Text := SalesInv.Customer.Nama;
   end;
 
-  if PurchInv.Warehouse <> nil then
-    cxLookupGudang.EditValue := PurchInv.Warehouse.ID;
+  if SalesInv.Warehouse <> nil then
+    cxLookupGudang.EditValue := SalesInv.Warehouse.ID;
+
+  if SalesInv.Salesman <> nil then
+    cxLookupSalesman.EditValue := SalesInv.Salesman.ID;
+
+  if SalesInv.Mekanik <> nil then
+     cxLookupMekanik.EditValue := SalesInv.Mekanik.ID;
 
 
-  for lItem in PurchInv.Items do
+  for lItem in SalesInv.Items do
   begin
     CDS.Append;
     lItem.UpdateToDataset(CDS);
@@ -477,7 +505,7 @@ begin
   btnSave.Enabled := not IsReadOnly;
 end;
 
-procedure TfrmPurchaseInvoice.LookupItem(aKey: string = '');
+procedure TfrmSalesInvoice.LookupItem(aKey: string = '');
 var
   cxLookup: TfrmCXServerLookup;
   lItem: TItem;
@@ -515,28 +543,28 @@ begin
   End;
 end;
 
-procedure TfrmPurchaseInvoice.LookupSupplier(sKey: string = '');
+procedure TfrmSalesInvoice.LookupCustomer(sKey: string = '');
 var
   cxLookup: TfrmCXServerLookup;
   S: string;
 begin
-  S := 'select * from TSUPPLIER';
+  S := 'select * from TCUSTOMER';
   cxLookup := TfrmCXServerLookup.Execute(S, 'ID');
   Try
     cxLookup.PreFilter('Nama', sKey);
     if cxLookup.ShowModal = mrOK then
     begin
-      if PurchInv.Supplier = nil then
-        PurchInv.Supplier := TSupplier.Create;
-      PurchInv.Supplier.LoadByID(cxLookup.FieldValue('id'));
-      edSupplier.Text := PurchInv.Supplier.Nama;
+      if SalesInv.Customer = nil then
+        SalesInv.Customer := TCustomer.Create;
+      SalesInv.Customer.LoadByID(cxLookup.FieldValue('id'));
+      edCustomer.Text := SalesInv.Customer.Nama;
     end;
   Finally
     cxLookup.Free;
   End;
 end;
 
-procedure TfrmPurchaseInvoice.SetItemToGrid(aItem: TItem);
+procedure TfrmSalesInvoice.SetItemToGrid(aItem: TItem);
 var
   lItemUOM: TItemUOM;
 begin
@@ -549,7 +577,7 @@ begin
   DC.SetEditValue(colUOM.Index, 0, evsValue);
   DC.SetEditValue(colQty.Index, 0, evsValue);
   DC.SetEditValue(colKonversi.Index, 0, evsValue);
-  DC.SetEditValue(colHrgBeli.Index, 0, evsValue);
+  DC.SetEditValue(colHarga.Index, 0, evsValue);
   DC.SetEditValue(colDisc.Index, 0, evsValue);
   DC.SetEditValue(colSubTotal.Index, 0, evsValue);
   DC.SetEditValue(colPPN.Index, aItem.PPN, evsValue);
@@ -560,69 +588,75 @@ begin
     DC.SetEditValue(colUOM.Index, aItem.StockUOM.ID, evsValue);
 //    colUOMPropertiesEditValueChanged(nil);
     lItemUOM := TItemUOM.GetItemUOM(
-      VarToInt(cxGrdMain.Controller.FocusedRecord.Values[colItemID.Index]),
-      VarToInt(cxGrdMain.Controller.FocusedRecord.Values[colUOM.Index])
+      VarToInt(cxGrdItem.Controller.FocusedRecord.Values[colItemID.Index]),
+      VarToInt(cxGrdItem.Controller.FocusedRecord.Values[colUOM.Index])
     );
     if lItemUOM = nil then exit;
     Try
       DC.SetEditValue(colKonversi.Index, lItemUOM.Konversi, evsValue);
-      DC.SetEditValue(colHrgBeli.Index, lItemUOM.HargaBeli, evsValue);
+      DC.SetEditValue(colHarga.Index, lItemUOM.HargaJual1, evsValue);
     Finally
       FreeAndNil(lItemUOM);
     End;
   end;
 end;
 
-procedure TfrmPurchaseInvoice.UpdateData;
+procedure TfrmSalesInvoice.UpdateData;
 var
   lItem: TTransDetail;
 begin
 
-  PurchInv.InvoiceNo := edNoInv.Text;
-  PurchInv.TransDate := dtInvoice.Date;
-  PurchInv.DueDate  := dtJtTempo.Date;
-  PurchInv.Notes := edNotes.Text;
-  PurchInv.PaymentFlag := cbBayar.ItemIndex;
-  PurchInv.SubTotal := crSubTotal.Value;
-  PurchInv.PPN := crPPN.Value;
-  PurchInv.Amount := crTotal.Value;
-  PurchInv.ModifiedDate := Now();
-  PurchInv.ModifiedBy := UserLogin;
+  SalesInv.InvoiceNo := edNoInv.Text;
+  SalesInv.TransDate := dtInvoice.Date;
+  SalesInv.DueDate  := dtJtTempo.Date;
+  SalesInv.Notes := edNotes.Text;
+  SalesInv.PaymentFlag := rbHarga.ItemIndex;
+  SalesInv.SubTotal := crSubTotal.Value;
+  SalesInv.PPN := crPPN.Value;
+  SalesInv.Amount := crTotal.Value;
+  SalesInv.ModifiedDate := Now();
+  SalesInv.ModifiedBy := UserLogin;
 
-  if PurchInv.Warehouse = nil then
-    PurchInv.Warehouse := TWarehouse.Create;
+  if SalesInv.Warehouse = nil then
+    SalesInv.Warehouse := TWarehouse.Create;
+  SalesInv.Warehouse.LoadByID(VarToInt(cxLookupGudang.EditValue));
 
-  PurchInv.Warehouse.LoadByID(VarToInt(cxLookupGudang.EditValue));
+  if SalesInv.Mekanik = nil then
+    SalesInv.Mekanik := TMekanik.Create;
+  SalesInv.Mekanik.LoadByID(VarToInt(cxLookupMekanik.EditValue));
 
+  if SalesInv.Salesman = nil then
+    SalesInv.Salesman := TSalesman.Create;
+  SalesInv.Salesman.LoadByID(VarToInt(cxLookupSalesman.EditValue));
 
-  PurchInv.Items.Clear;
+  SalesInv.Items.Clear;
 
   CDS.First;
   while not CDS.Eof do
   begin
     lItem := TTransDetail.Create;
     lItem.SetFromDataset(CDS);
-    PurchInv.Items.Add(lItem);
+    SalesInv.Items.Add(lItem);
     CDS.Next;
   end;
 
 end;
 
-function TfrmPurchaseInvoice.ValidateData: Boolean;
+function TfrmSalesInvoice.ValidateData: Boolean;
 begin
   Result := False;
 
-  if PurchInv.Supplier = nil then
+  if SalesInv.Customer = nil then
   begin
-    TAppUtils.Warning('Supplier belum dipilih');
-    edSupplier.SetFocus;
+    TAppUtils.Warning('Customer belum dipilih');
+    edCustomer.SetFocus;
     exit;
   end;
 
-  if PurchInv.Supplier.ID = 0 then
+  if SalesInv.Customer.ID = 0 then
   begin
-    TAppUtils.Warning('Supplier belum dipilih');
-    edSupplier.SetFocus;
+    TAppUtils.Warning('Customer belum dipilih');
+    edCustomer.SetFocus;
     exit;
   end;
 

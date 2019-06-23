@@ -60,7 +60,10 @@ uses
   ufrmMekanik in 'forms\ufrmMekanik.pas' {frmMekanik},
   ufrmBrowseSalesman in 'forms\ufrmBrowseSalesman.pas' {frmBrowseSalesman},
   ufrmBrowseMekanik in 'forms\ufrmBrowseMekanik.pas' {frmBrowseMekanik},
-  uFinancialProcess in 'classes\uFinancialProcess.pas';
+  uFinancialTransaction in 'classes\uFinancialTransaction.pas',
+  ufrmSalesInvoice in 'forms\ufrmSalesInvoice.pas' {frmSalesInvoice},
+  uVariable in 'classes\uVariable.pas',
+  ufrmVariable in 'forms\ufrmVariable.pas' {frmVariable};
 
 {$R *.res}
 

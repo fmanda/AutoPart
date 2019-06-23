@@ -1,16 +1,16 @@
 inherited frmCustomer: TfrmCustomer
   Caption = 'Update Data Pelanggan'
-  ClientHeight = 349
+  ClientHeight = 352
   ClientWidth = 491
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   ExplicitWidth = 507
-  ExplicitHeight = 388
+  ExplicitHeight = 391
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
-    Top = 314
+    Top = 317
     TabOrder = 8
     ExplicitTop = 314
     ExplicitWidth = 491
@@ -39,20 +39,25 @@ inherited frmCustomer: TfrmCustomer
     end
   end
   inherited Panel2: TPanel
-    Top = 293
+    Top = 296
     Width = 491
     TabOrder = 9
+    ExplicitTop = 293
+    ExplicitWidth = 491
     inherited lbEscape: TLabel
       Left = 411
       Height = 17
+      ExplicitLeft = 411
     end
     inherited lgndSave: TLabel
       Left = 246
       Height = 17
+      ExplicitLeft = 246
     end
     inherited lgndPrint: TLabel
       Left = 333
       Height = 17
+      ExplicitLeft = 333
     end
   end
   object cxLabel1: TcxLabel
