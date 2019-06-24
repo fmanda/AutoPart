@@ -55,6 +55,8 @@ type
     colKonversi: TcxGridDBColumn;
     colPPN: TcxGridDBColumn;
     Label1: TLabel;
+    cxLabel13: TcxLabel;
+    cxLookupRekening: TcxExtLookupComboBox;
     procedure cxGrdMainEditKeyDown(Sender: TcxCustomGridTableView; AItem:
         TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Word; Shift:
         TShiftState);
@@ -113,7 +115,7 @@ implementation
 
 uses
   uAppUtils, uDXUtils, ufrmCXServerLookup, cxDataUtils, uSupplier, uWarehouse,
-  uFinancialTransaction;
+  uFinancialTransaction, uAccount, uVariable;
 
 {$R *.dfm}
 
@@ -423,7 +425,16 @@ begin
   cxLookupGudang.Properties.LoadFromSQL(Self,
     'select id, nama from twarehouse','nama');
 
+  cxLookupRekening.Properties.LoadFromSQL(Self,
+    'select id, nama from trekening','nama');
+
   cxLookupGudang.SetDefaultValue();
+
+  if PurchInv.Rekening = nil then
+    PurchInv.Rekening := TRekening.Create;
+
+  PurchInv.Rekening.LoadByCode(AppVariable.Def_Rekening);
+  cxLookupRekening.EditValue := PurchInv.Rekening.ID;
 end;
 
 procedure TfrmPurchaseInvoice.LoadByID(aID: Integer; IsReadOnly: Boolean =
@@ -595,6 +606,13 @@ begin
 
   PurchInv.Warehouse.LoadByID(VarToInt(cxLookupGudang.EditValue));
 
+  if PurchInv.Rekening = nil then
+    PurchInv.Rekening := TRekening.Create;
+
+  if PurchInv.PaymentFlag = PaymentFlag_Cash then
+    PurchInv.Rekening.LoadByID(VarToInt(cxLookupRekening.EditValue))
+  else
+    PurchInv.Warehouse.LoadByID(0);
 
   PurchInv.Items.Clear;
 
@@ -630,6 +648,12 @@ begin
   if crTotal.Value <= 0 then
   begin
     TAppUtils.Warning('Total <= 0');
+    exit;
+  end;
+
+  if (cbBayar.ItemIndex = 0) and (VarToInt(cxLookupRekening.EditValue) = 0) then
+  begin
+    TAppUtils.Warning('Untuk Pembayaran Cash, Rekening Kas wajib diisi');
     exit;
   end;
 

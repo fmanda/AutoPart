@@ -56,8 +56,8 @@ type
     FMedia: Integer;
     FMediaNo: string;
     FRefNo: string;
-    FPurchaseInvoice: TSalesInvoice;
-    FPurchaseRetur: TSalesRetur;
+    FPurchaseInvoice: TPurchaseInvoice;
+    FPurchaseRetur: TPurchaseRetur;
     FTransDate: TDateTime;
     FTransType: Integer;
   protected
@@ -83,9 +83,9 @@ type
     property Media: Integer read FMedia write FMedia;
     property MediaNo: string read FMediaNo write FMediaNo;
     property RefNo: string read FRefNo write FRefNo;
-    property PurchaseInvoice: TSalesInvoice read FPurchaseInvoice write
+    property PurchaseInvoice: TPurchaseInvoice read FPurchaseInvoice write
         FPurchaseInvoice;
-    property PurchaseRetur: TSalesRetur read FPurchaseRetur write FPurchaseRetur;
+    property PurchaseRetur: TPurchaseRetur read FPurchaseRetur write FPurchaseRetur;
     property TransDate: TDateTime read FTransDate write FTransDate;
     property TransType: Integer read FTransType write FTransType;
   end;
@@ -148,16 +148,22 @@ type
     FMedia: Integer;
     FMediaNo: string;
     FPaymentFlag: Integer;
+    FRekening: TRekening;
     FReturAmount: Double;
   protected
   public
     destructor Destroy; override;
+    class function CreateOrGetFromInv(aPurchaseInv: TPurchaseInvoice):
+        TPurchasePayment;
+    class function CreateOrGetFromRetur(aPurchaseRetur: TPurchaseRetur):
+        TPurchasePayment;
     function GenerateNo: String;
     function GetHeaderFlag: Integer; override;
     property PaymentFlag: Integer read FPaymentFlag write FPaymentFlag;
   published
     property Media: Integer read FMedia write FMedia;
     property MediaNo: string read FMediaNo write FMediaNo;
+    property Rekening: TRekening read FRekening write FRekening;
     property ReturAmount: Double read FReturAmount write FReturAmount;
   end;
 
@@ -397,6 +403,9 @@ class function TSalesPayment.CreateOrGetFromInv(aSalesInvoice: TSalesInvoice):
 var
   lItem: TFinancialTransaction;
 begin
+  if aSalesInvoice.Rekening = nil then
+    raise Exception.Create('aSalesInvoice.Rekening = nil');
+
   Result := TSalesPayment.Create;
 
   //load from inv
@@ -407,18 +416,18 @@ begin
   Result.Amount       := aSalesInvoice.Amount;
   Result.PaymentFlag  := PaymentFlag_Cash;
   Result.ReturAmount  := 0;
+  Result.Rekening     := TRekening.CreateID(aSalesInvoice.Rekening.ID);
   Result.Items.Clear;
 
   //debet cash in
   lItem               := TFinancialTransaction.Create;
-  if aSalesInvoice.Rekening = nil then
-    raise Exception.Create('aSalesInvoice.Rekening = nil');
+
 
   lItem.Rekening      := TRekening.CreateID(aSalesInvoice.Rekening.ID);
   lItem.DebetAmt      := aSalesInvoice.Amount;
   lItem.Amount        := lItem.DebetAmt;
   lItem.TransDate     := aSalesInvoice.TransDate;
-  lItem.Notes         := 'Penjualan No : ' + aSalesInvoice.InvoiceNo;
+  lItem.Notes         := 'Penjualan Cash No : ' + aSalesInvoice.InvoiceNo;
   lItem.TransType     := Result.PaymentFlag;
   Result.Items.Add(lItem);
 
@@ -428,7 +437,7 @@ begin
   lItem.CreditAmt     := aSalesInvoice.Amount;
   lItem.Amount        := lItem.CreditAmt;
   lItem.TransDate     := aSalesInvoice.TransDate;
-  lItem.Notes         := 'Penjualan No : ' + aSalesInvoice.InvoiceNo;
+  lItem.Notes         := 'Penjualan Cash No : ' + aSalesInvoice.InvoiceNo;
   lItem.TransType     := Result.PaymentFlag;
   Result.Items.Add(lItem);
 
@@ -474,6 +483,94 @@ destructor TPurchasePayment.Destroy;
 begin
   inherited;
 //  if FSupplier <> nil then FreeAndNil(FSupplier);
+end;
+
+class function TPurchasePayment.CreateOrGetFromInv(aPurchaseInv:
+    TPurchaseInvoice): TPurchasePayment;
+var
+  lItem: TFinancialTransaction;
+begin
+  if aPurchaseInv.Rekening = nil then
+    raise Exception.Create('aPurchaseInv.Rekening = nil');
+
+  Result := TPurchasePayment.Create;
+
+  //load from inv
+  Result.LoadByCode(aPurchaseInv.InvoiceNo);
+  Result.Refno            := aPurchaseInv.InvoiceNo;
+  Result.TransDate        := aPurchaseInv.TransDate;
+  Result.DueDate          := Result.TransDate;
+  Result.Amount           := aPurchaseInv.Amount;
+  Result.PaymentFlag      := PaymentFlag_Cash;
+  Result.ReturAmount      := 0;
+  Result.Rekening         := TRekening.CreateID(aPurchaseInv.Rekening.ID);
+  Result.Items.Clear;
+
+  //debet hutang
+  lItem                   := TFinancialTransaction.Create;
+  lItem.PurchaseInvoice   := TPurchaseInvoice.CreateID(aPurchaseInv.ID);
+  lItem.DebetAmt          := aPurchaseInv.Amount;
+  lItem.Amount            := lItem.DebetAmt;
+  lItem.TransDate         := aPurchaseInv.TransDate;
+  lItem.Notes             := 'Pembelian Cash No : ' + aPurchaseInv.InvoiceNo;
+  lItem.TransType         := Result.PaymentFlag;
+  Result.Items.Add(lItem);
+
+  //credit cash out
+  lItem                   := TFinancialTransaction.Create;
+  lItem.Rekening          := TRekening.CreateID(aPurchaseInv.Rekening.ID);
+  lItem.CreditAmt         := aPurchaseInv.Amount;
+  lItem.Amount            := lItem.CreditAmt;
+  lItem.TransDate         := aPurchaseInv.TransDate;
+  lItem.Notes             := 'Pembelian Cash No : ' + aPurchaseInv.InvoiceNo;
+  lItem.TransType         := Result.PaymentFlag;
+  Result.Items.Add(lItem);
+  Result.ModifiedBy       := UserLogin;
+  Result.ModifiedDate     := Now();
+end;
+
+class function TPurchasePayment.CreateOrGetFromRetur(aPurchaseRetur:
+    TPurchaseRetur): TPurchasePayment;
+var
+  lItem: TFinancialTransaction;
+begin
+  if aPurchaseRetur.ReturFlag <> ReturFlag_Cancel then
+  begin
+    raise Exception.Create('Hanya Retur Batalyang bisa dipotong langsung');
+  end;
+
+  if aPurchaseRetur.Invoice = nil then
+  begin
+    raise Exception.Create('[TPurchasePayment.CreateOrGetFromRetur] PurchaseRetur.Invoice = nil');
+  end;
+
+//  if aPurchaseRetur.Rekening = nil then
+//    raise Exception.Create('aPurchaseRetur.Rekening = nil');
+  Result := TPurchasePayment.Create;
+
+  //load from inv
+  Result.LoadByCode(aPurchaseRetur.Refno);
+  Result.Refno            := aPurchaseRetur.Refno;
+  Result.TransDate        := aPurchaseRetur.TransDate;
+  Result.DueDate          := Result.TransDate;
+  Result.Amount           := 0;
+  Result.PaymentFlag      := PaymentFlag_Cash;
+  Result.ReturAmount      := aPurchaseRetur.Amount;
+  Result.Items.Clear;
+
+  //debet hutang
+  lItem                   := TFinancialTransaction.Create;
+  lItem.PurchaseInvoice   := TPurchaseInvoice.CreateID(aPurchaseRetur.Invoice.ID);
+  lItem.DebetAmt          := 0;
+  lItem.Amount            := 0;
+  lItem.ReturAmt          := aPurchaseRetur.Amount;
+  lItem.PurchaseRetur     := TPurchaseRetur.CreateID(aPurchaseRetur.ID);
+  lItem.TransDate         := aPurchaseRetur.TransDate;
+  lItem.Notes             := 'Retur Batal No : ' + aPurchaseRetur.Refno;
+  lItem.TransType         := Result.PaymentFlag;
+  Result.Items.Add(lItem);
+
+  //credit retur penjualan : tidak perlu
 end;
 
 function TPurchasePayment.GenerateNo: String;

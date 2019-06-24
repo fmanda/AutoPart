@@ -92,6 +92,7 @@ type
     FNotes: string;
     FPaidAmount: Double;
     FPaymentFlag: Integer;
+    FRekening: TRekening;
     FReturAmount: Double;
     FStatus: Integer;
     FWarehouse: TWarehouse;
@@ -119,6 +120,7 @@ type
     property Notes: string read FNotes write FNotes;
     property PaidAmount: Double read FPaidAmount write FPaidAmount;
     property PaymentFlag: Integer read FPaymentFlag write FPaymentFlag;
+    property Rekening: TRekening read FRekening write FRekening;
     property ReturAmount: Double read FReturAmount write FReturAmount;
     property Status: Integer read FStatus write FStatus;
     property Warehouse: TWarehouse read FWarehouse write FWarehouse;
@@ -139,6 +141,7 @@ type
     function UpdateReturAmt(IsRevert: Boolean = False): Boolean;
   protected
     function AfterSaveToDB: Boolean; override;
+    function BeforeDeleteFromDB: Boolean; override;
     function BeforeSaveToDB: Boolean; override;
     function GetRefno: String; override;
   public
@@ -342,6 +345,9 @@ const
   PaymentFlag_Cash  : Integer = 0;
   PaymentFlag_Credit : Integer = 1;
 
+  ReturFlag_Reguler : Integer = 0;
+  ReturFlag_Cancel : Integer = 1;
+
 implementation
 
 uses
@@ -389,29 +395,60 @@ begin
 end;
 
 function TPurchaseInvoice.AfterSaveToDB: Boolean;
+var
+  lPurchasePayment: TPurchasePayment;
 begin
   //update avg
-  
-  
-  Result := True;
+  if Self.PaymentFlag = PaymentFlag_Cash then
+  begin
+    lPurchasePayment := TPurchasePayment.CreateOrGetFromInv(Self);
+    Result := lPurchasePayment.SaveToDB(False);
+  end else
+    Result := True;
 end;
 
 function TPurchaseInvoice.BeforeDeleteFromDB: Boolean;
 var
   lAvg: TAvgCostUpdate;
+  lPurchasePayment: TPurchasePayment;
 begin
   for lAvg in Self.AvgCostItems do
   begin
     lAvg.RevertAvgCost;
   end;
 
+
   Result := True;
+  lPurchasePayment := TPurchasePayment.Create;
+  Try
+    if lPurchasePayment.LoadByCode(Self.InvoiceNo) then
+      Result := lPurchasePayment.DeleteFromDB;
+  Finally
+    lPurchasePayment.Free;
+  End;
+
+//  Result := True;
 end;
 
 function TPurchaseInvoice.BeforeSaveToDB: Boolean;
+var
+  lPurchasePayment: TPurchasePayment;
 begin
   GenerateAvgCost;
   Result := True;
+
+  if Self.PaymentFlag = PaymentFlag_Cash then
+    Self.PaidAmount := Self.Amount;
+
+  if Self.ID = 0 then  exit;
+  //hanya edit
+  lPurchasePayment :=  TPurchasePayment.Create;
+  Try
+    if lPurchasePayment.LoadByCode(Self.InvoiceNo) then
+      Result := lPurchasePayment.DeleteFromDB;
+  Finally
+    lPurchasePayment.Free;
+  End;
 end;
 
 procedure TPurchaseInvoice.GenerateAvgCost;
@@ -626,13 +663,50 @@ begin
 end;
 
 function TPurchaseRetur.AfterSaveToDB: Boolean;
+var
+  lPurchasePayment: TPurchasePayment;
 begin
   Result := UpdateReturAmt(False);
+  if not Result then exit;
+
+  if Self.ReturFlag = ReturFlag_Cancel then
+  begin
+    lPurchasePayment := TPurchasePayment.CreateOrGetFromRetur(Self);
+    Result := lPurchasePayment.SaveToDB(False);
+  end else
+    Result := True;
+end;
+
+function TPurchaseRetur.BeforeDeleteFromDB: Boolean;
+var
+  lPurchasePayment: TPurchasePayment;
+  oldRetur: TPurchaseRetur;
+begin
+//  Result := True;
+  oldRetur := TPurchaseRetur.Create;
+  Try
+    oldRetur.LoadByID(Self.ID);
+    Result := oldRetur.UpdateReturAmt(True);
+  Finally
+    oldRetur.Free;
+  End;
+
+
+  lPurchasePayment := TPurchasePayment.Create;
+  Try
+    if lPurchasePayment.LoadByCode(Self.Refno) then
+      Result := lPurchasePayment.DeleteFromDB;
+  Finally
+    lPurchasePayment.Free;
+  End;
+
+//  Result := True;
 end;
 
 function TPurchaseRetur.BeforeSaveToDB: Boolean;
 var
   litem: TTransDetail;
+  lPurchasePayment: TPurchasePayment;
   oldRetur: TPurchaseRetur;
 begin
   for lItem in Self.Items do
@@ -652,7 +726,13 @@ begin
     oldRetur.Free;
   End;
 
-
+  lPurchasePayment := TPurchasePayment.Create;
+  Try
+    if lPurchasePayment.LoadByCode(Self.Refno) then
+      Result := lPurchasePayment.DeleteFromDB;
+  Finally
+    lPurchasePayment.Free;
+  End;
 end;
 
 procedure TPurchaseRetur.ClearInvoice;
@@ -703,23 +783,23 @@ var
   S: string;
   sOperation: string;
 begin
-  if Self.ReturFlag = 0 then
+  if Self.ReturFlag = ReturFlag_Reguler then
   begin
     Result := True;
     exit;
   end;
 
   sOperation := '+';
-  if IsRevert then
-    sOperation := '-';
+  if IsRevert then sOperation := '-';
 
   S := 'Update TPurchaseInvoice set ReturAmount = ReturAmount '
     + sOperation + FloatToStr(Self.Amount);
 
-  if Self.ReturFlag = 1 then
-  begin
+  if IsRevert then
     S := S + ', Status = ' + IntToStr(Status_Inv_Cancel)
-  end;
+  else
+    S := S + ', Status = ' + IntToStr(Status_Inv_Created);
+
 
   S := S + ' where ID = ' + IntToStr(Self.Invoice.ID);
 
@@ -986,28 +1066,37 @@ function TSalesInvoice.BeforeDeleteFromDB: Boolean;
 var
   lSalesPayment: TSalesPayment;
 begin
-  //update avg
-  if Self.PaymentFlag = PaymentFlag_Cash then
-  begin
-    Result := True;
-    lSalesPayment :=  TSalesPayment.Create;
+  Result := True;
+  lSalesPayment :=  TSalesPayment.Create;
+  Try
     if lSalesPayment.LoadByCode(Self.InvoiceNo) then
-      Result := lSalesPayment.DeleteFromDB
-  end else
-    Result := True;
+      Result := lSalesPayment.DeleteFromDB;
+  Finally
+    lSalesPayment.Free;
+  End;
 end;
 
 function TSalesInvoice.BeforeSaveToDB: Boolean;
 var
-  litem: TTransDetail;
+  lItem: TTransDetail;
+  lSalesPayment: TSalesPayment;
 begin
-  for lItem in Self.Services do
+  for lItem in Self.Items do
   begin
     lItem.SetAvgCost;
     lItem.MakeNegative;
   end;
 
   Result := True;
+  if Self.ID = 0 then  exit;
+  //hanya edit
+  lSalesPayment :=  TSalesPayment.Create;
+  Try
+    if lSalesPayment.LoadByCode(Self.InvoiceNo) then
+      Result := lSalesPayment.DeleteFromDB;
+  Finally
+    lSalesPayment.Free;
+  End;
 end;
 
 function TSalesInvoice.GenerateNo: String;

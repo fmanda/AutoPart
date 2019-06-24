@@ -660,7 +660,6 @@ begin
     edSupp.Clear;
     CDS.EmptyDataSet;
   end;
-  
 end;
 
 procedure TfrmPurchaseRetur.SetItemToGrid(aItem: TItem);
