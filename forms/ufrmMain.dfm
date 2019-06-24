@@ -2,8 +2,8 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   Caption = 'AutoPart - [Software Manajemen Bengkel & Toko Sparepart]'
-  ClientHeight = 539
-  ClientWidth = 867
+  ClientHeight = 729
+  ClientWidth = 1350
   Color = clScrollBar
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,14 +12,13 @@ object frmMain: TfrmMain
   Font.Style = []
   FormStyle = fsMDIForm
   OldCreateOrder = False
-  WindowState = wsMaximized
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object dxStatusBar: TdxRibbonStatusBar
     Left = 0
-    Top = 516
-    Width = 867
+    Top = 706
+    Width = 1350
     Height = 23
     Panels = <
       item
@@ -34,7 +33,7 @@ object frmMain: TfrmMain
       end
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
-        Text = 'Status'
+        Text = 'User Login'
         Width = 150
       end
       item
@@ -46,11 +45,13 @@ object frmMain: TfrmMain
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+    ExplicitTop = 516
+    ExplicitWidth = 867
   end
   object dxRibbon1: TdxRibbon
     Left = 0
     Top = 0
-    Width = 867
+    Width = 1350
     Height = 122
     BarManager = dxBarManager
     Style = rs2013
@@ -59,6 +60,7 @@ object frmMain: TfrmMain
     Contexts = <>
     TabOrder = 1
     TabStop = False
+    ExplicitWidth = 867
     object dxRTApp: TdxRibbonTab
       Caption = 'Aplikasi'
       Groups = <
@@ -93,6 +95,7 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
+      Active = True
       Caption = 'Penjualan & Kas'
       Groups = <
         item
@@ -104,7 +107,6 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxRTARAP: TdxRibbonTab
-      Active = True
       Caption = 'Hutang - Piutang'
       Groups = <
         item
@@ -518,7 +520,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar8: TdxBar
       Caption = 'Laporan Piutang'
       CaptionButtons = <>
-      DockedLeft = 294
+      DockedLeft = 313
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8
@@ -1127,6 +1129,7 @@ object frmMain: TfrmMain
     object actPurchaseInvoiceHistory: TAction
       Category = 'Hutang Piutang'
       Caption = 'History Pembayaran Hutang'
+      ImageIndex = 29
       OnExecute = actPurchaseInvoiceHistoryExecute
     end
     object actSaldoPiutang: TAction
@@ -1136,6 +1139,7 @@ object frmMain: TfrmMain
     object actSalesInvoiceHistory: TAction
       Category = 'Hutang Piutang'
       Caption = 'History Pembayaran Piutang'
+      ImageIndex = 15
       OnExecute = actSalesInvoiceHistoryExecute
     end
     object actClosingHarian: TAction

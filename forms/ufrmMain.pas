@@ -367,7 +367,7 @@ begin
 
   dxStatusBar.Panels[0].Text := 'Server : ' + lServer;
   dxStatusBar.Panels[1].Text := 'Database : ' + lDB;
-  dxStatusBar.Panels[2].Text := 'Status : Not Connected';
+  dxStatusBar.Panels[2].Text := 'UserLogin : ';
 
   Try
     if TDBUtils.ConnectDB('MSSQL',lServer,lDB,lUser,lPassword, '1433') then
@@ -413,6 +413,7 @@ end;
 procedure TfrmMain.DoLogin;
 begin
   TDBUtils.SetUserLogin('programmer');
+  dxStatusBar.Panels[2].Text := 'UserLogin : ' + UserLogin;
   exit;
   with TfrmLogin.Create(Self) do
   begin
@@ -423,6 +424,7 @@ begin
 //        EnableDisableAction(True);
 //        SetPrivileges(User);
 //        dxRTTrans.Active := True;
+        dxStatusBar.Panels[2].Text := 'UserLogin : ' + UserLogin;
       end else
       begin
 //        EnableDisableAction(False);
