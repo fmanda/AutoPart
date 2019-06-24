@@ -13,7 +13,7 @@ inherited frmKartuStock: TfrmKartuStock
   inherited cxGroupBox1: TcxGroupBox
     TabOrder = 2
     Visible = False
-    ExplicitWidth = 750
+    ExplicitWidth = 760
     Width = 760
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
@@ -25,11 +25,11 @@ inherited frmKartuStock: TfrmKartuStock
     TabOrder = 3
     OnClick = cxGroupBox2Click
     ExplicitTop = 576
-    ExplicitWidth = 750
+    ExplicitWidth = 760
     Width = 760
     inherited btnTutup: TcxButton
       Left = 680
-      ExplicitLeft = 670
+      ExplicitLeft = 680
     end
     inherited btnExport: TcxButton
       OnClick = btnExportClick
@@ -48,7 +48,6 @@ inherited frmKartuStock: TfrmKartuStock
     Align = alTop
     Caption = ' Report Parameter '
     TabOrder = 0
-    ExplicitWidth = 750
     Height = 123
     Width = 760
     object cxLabel1: TcxLabel
@@ -147,7 +146,6 @@ inherited frmKartuStock: TfrmKartuStock
     Height = 409
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = 8
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -170,6 +168,14 @@ inherited frmKartuStock: TfrmKartuStock
       OptionsView.GroupByBox = False
       OptionsView.HeaderHeight = 30
       Styles.ContentOdd = styleOdd
+      ConditionalFormatting = {
+        010000000A0000002E0000005400640078005300700072006500610064005300
+        680065006500740043006F006E0064006900740069006F006E0061006C004600
+        6F0072006D0061007400740069006E006700520075006C006500490063006F00
+        6E005300650074006400000001000000000700000033004100720072006F0077
+        007300030000000000000003000000FFFFFF7F00020000000200000000000200
+        0000010000000500000000000000000000000000000100000001000000050000
+        00000000000000000100000000000000}
       object colTransDate: TcxGridDBColumn
         Caption = 'Tanggal'
         DataBinding.FieldName = 'TransDate'
