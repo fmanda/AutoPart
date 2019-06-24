@@ -73,6 +73,7 @@ type
     cxLabel10: TcxLabel;
     cxLabel13: TcxLabel;
     cxLookupRekening: TcxExtLookupComboBox;
+    Label2: TLabel;
     procedure edCustomerKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edNotesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -96,19 +97,28 @@ type
     procedure edCustomerPropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure cbBayarPropertiesEditValueChanged(Sender: TObject);
+    procedure colSrvKodePropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
   private
     DisableTrigger: Boolean;
     FCDS: TClientDataset;
+    FCDSService: TClientDataset;
     FCDSClone: TClientDataset;
+    FCDSCloneServ: TClientDataset;
     FCDSUOM: TClientDataset;
+    FCDSMasterService: TClientDataset;
     FSalesInv: TSalesInvoice;
     procedure CalculateAll;
     procedure CDSAfterInsert(DataSet: TDataSet);
     function DC: TcxGridDBDataController;
+    function DCService: TcxGridDBDataController;
     procedure FocusToGrid;
     function GetCDS: TClientDataset;
+    function GetCDSService: TClientDataset;
     function GetCDSClone: TClientDataset;
+    function GetCDSCloneServ: TClientDataset;
     function GetCDSUOM: TClientDataset;
+    function GetCDSMasterService: TClientDataset;
     function GetSalesInv: TSalesInvoice;
     procedure InitView;
     procedure LookupItem(aKey: string = '');
@@ -119,8 +129,12 @@ type
     procedure UpdateHarga;
     function ValidateData: Boolean;
     property CDS: TClientDataset read GetCDS write FCDS;
+    property CDSService: TClientDataset read GetCDSService write FCDSService;
     property CDSClone: TClientDataset read GetCDSClone write FCDSClone;
+    property CDSCloneServ: TClientDataset read GetCDSCloneServ write FCDSCloneServ;
     property CDSUOM: TClientDataset read GetCDSUOM write FCDSUOM;
+    property CDSMasterService: TClientDataset read GetCDSMasterService write
+        FCDSMasterService;
     property SalesInv: TSalesInvoice read GetSalesInv write FSalesInv;
     { Private declarations }
   public
@@ -160,7 +174,11 @@ begin
   if CDS.State in [dsInsert, dsEdit] then
     CDS.Post;
 
+  if CDSService.State in [dsInsert, dsEdit] then
+    CDSService.Post;
+
   CDS.DisableControls;
+  CDSService.DisableControls;
   DisableTrigger := True;
   Try
     dSubTotal := 0;
@@ -180,11 +198,26 @@ begin
       CDSClone.Next;
     end;
 
+    CDSCloneServ.First;
+    while not CDSCloneServ.Eof do
+    begin
+      CDSCloneServ.Edit;
+      CDSCloneServ.FieldByName('SubTotal').AsFloat :=
+        (CDSCloneServ.FieldByName('Harga').AsFloat - CDSCloneServ.FieldByName('Discount').AsFloat)
+        * CDSCloneServ.FieldByName('QTY').AsFloat;
+      dSubTotal := dSubTotal +  CDSCloneServ.FieldByName('SubTotal').AsFloat;
+      dPPN :=  dPPN + (CDSCloneServ.FieldByName('PPN').AsFloat * CDSCloneServ.FieldByName('SubTotal').AsFloat / 100);
+
+      CDSCloneServ.Post;
+      CDSCloneServ.Next;
+    end;
+
     crSubTotal.Value  := dSubTotal;
     crPPN.Value       := dPPN;
     crTotal.Value     := crSubTotal.Value + crPPN.Value;
   Finally
     CDS.EnableControls;
+    CDSService.EnableControls;
     DisableTrigger := False;
   End;
 end;
@@ -247,6 +280,23 @@ procedure TfrmSalesInvoice.colQtyPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
   CalculateAll;
+end;
+
+procedure TfrmSalesInvoice.colSrvKodePropertiesValidate(Sender: TObject;
+  var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+begin
+  inherited;
+
+  DCService.SetEditValue(colSrvKode.Index, aItem.ID, evsValue);
+  DCService.SetEditValue(colseKode.Index, aItem.Kode, evsValue);
+  DCService.SetEditValue(colNama.Index, aItem.Nama, evsValue);
+  DCService.SetEditValue(colUOM.Index, 0, evsValue);
+  DCService.SetEditValue(colQty.Index, 0, evsValue);
+  DCService.SetEditValue(colKonversi.Index, 0, evsValue);
+  DCService.SetEditValue(colHarga.Index, 0, evsValue);
+  DCService.SetEditValue(colDisc.Index, 0, evsValue);
+  DCService.SetEditValue(colSubTotal.Index, 0, evsValue);
+  DCService.SetEditValue(colPPN.Index, aItem.PPN, evsValue);
 end;
 
 procedure TfrmSalesInvoice.colUOMPropertiesCloseUp(Sender: TObject);
@@ -327,6 +377,11 @@ end;
 function TfrmSalesInvoice.DC: TcxGridDBDataController;
 begin
   Result := cxGrdItem.DataController;
+end;
+
+function TfrmSalesInvoice.DCService: TcxGridDBDataController;
+begin
+  Result := cxGrdService.DataController;
 end;
 
 procedure TfrmSalesInvoice.edCustomerKeyDown(Sender: TObject; var Key: Word;
@@ -431,6 +486,17 @@ begin
   Result := FCDS;
 end;
 
+function TfrmSalesInvoice.GetCDSService: TClientDataset;
+begin
+  if FCDSService = nil then
+  begin
+    FCDSService := TServiceDetail.CreateDataSet(Self, False);
+    FCDSService.AddField('SubTotal',ftFloat);
+    FCDSService.CreateDataSet;
+  end;
+  Result := FCDSService;
+end;
+
 function TfrmSalesInvoice.GetCDSClone: TClientDataset;
 begin
   if FCDSClone = nil then
@@ -440,6 +506,15 @@ begin
   Result := FCDSClone;
 end;
 
+function TfrmSalesInvoice.GetCDSCloneServ: TClientDataset;
+begin
+  if FCDSCloneServ = nil then
+  begin
+    FCDSCloneServ := CDSService.ClonedDataset(Self);
+  end;
+  Result := FCDSCloneServ;
+end;
+
 function TfrmSalesInvoice.GetCDSUOM: TClientDataset;
 begin
   if FCDSUOM = nil then
@@ -447,6 +522,15 @@ begin
     FCDSUOM := TDBUtils.OpenDataset('select id, uom from tuom',Self);
   end;
   Result := FCDSUOM;
+end;
+
+function TfrmSalesInvoice.GetCDSMasterService: TClientDataset;
+begin
+  if FCDSMasterService = nil then
+  begin
+    FCDSMasterService := TDBUtils.OpenDataset('select id, kode, nama, biaya from tservice',Self);
+  end;
+  Result := FCDSMasterService;
 end;
 
 function TfrmSalesInvoice.GetSalesInv: TSalesInvoice;
@@ -459,6 +543,11 @@ end;
 procedure TfrmSalesInvoice.InitView;
 begin
   cxGrdItem.PrepareFromCDS(CDS);
+  cxGrdService.PrepareFromCDS(CDS);
+
+  TcxExtLookup(colSrvKode.Properties).LoadFromCDS(CDSMasterService,'id','kode',['id','nama'], Self);
+  TcxExtLookup(colSrvName.Properties).LoadFromCDS(CDSMasterService,'id','nama',['id','kode'], Self);
+
   TcxExtLookup(colWarehouse.Properties).LoadFromSQL(Self,
     'select id, nama from twarehouse','nama');
   TcxExtLookup(colUOM.Properties).LoadFromCDS(CDSUOM, 'id', 'uom', ['id'], Self);

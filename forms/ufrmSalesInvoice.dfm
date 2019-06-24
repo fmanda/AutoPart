@@ -55,7 +55,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     end
     object Label1: TLabel
       AlignWithMargins = True
-      Left = 3
+      Left = 99
       Top = 1
       Width = 152
       Height = 17
@@ -63,6 +63,25 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       Margins.Bottom = 1
       Align = alLeft
       Caption = '[F12 : Show / Hide Detail Jasa]'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
+      ParentFont = False
+      ExplicitLeft = 3
+      ExplicitHeight = 16
+    end
+    object Label2: TLabel
+      AlignWithMargins = True
+      Left = 3
+      Top = 1
+      Width = 90
+      Height = 17
+      Margins.Top = 1
+      Margins.Bottom = 1
+      Align = alLeft
+      Caption = '[F5: Lookup Data]'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -358,7 +377,6 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 130
     object cxGrdItem: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdItemEditKeyDown
@@ -520,20 +538,18 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       OptionsView.HeaderHeight = 30
       object colSrvKode: TcxGridDBColumn
         Caption = 'Kode Jasa'
-        DataBinding.FieldName = 'Kode'
-        PropertiesClassName = 'TcxButtonEditProperties'
-        Properties.Buttons = <
-          item
-            Default = True
-            Kind = bkEllipsis
-          end>
+        DataBinding.FieldName = 'Service'
+        PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+        Properties.ImmediatePost = True
+        Properties.OnValidate = colSrvKodePropertiesValidate
         HeaderAlignmentHorz = taCenter
         Width = 137
       end
       object colSrvName: TcxGridDBColumn
         Caption = 'Nama Jasa'
-        DataBinding.FieldName = 'Nama'
-        PropertiesClassName = 'TcxTextEditProperties'
+        DataBinding.FieldName = 'Servcie'
+        PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+        Properties.ImmediatePost = True
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Options.Focusing = False
