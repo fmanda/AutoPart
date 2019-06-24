@@ -18,16 +18,20 @@ inherited frmBrowsePurchaseRetur: TfrmBrowsePurchaseRetur
   end
   inherited cxGroupBox1: TcxGroupBox
     inherited EndDate: TcxDateEdit
+      Visible = True
       ExplicitHeight = 25
     end
     inherited StartDate: TcxDateEdit
+      Visible = True
       ExplicitHeight = 25
     end
     inherited cxLabel1: TcxLabel
+      Visible = True
       ExplicitLeft = 260
       AnchorY = 18
     end
     inherited cxLabel2: TcxLabel
+      Visible = True
       ExplicitLeft = 433
       AnchorY = 18
     end

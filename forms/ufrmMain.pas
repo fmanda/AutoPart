@@ -151,9 +151,9 @@ type
     dxBarButton64: TdxBarButton;
     dxBarButton65: TdxBarButton;
     actSaldoHutang: TAction;
-    actKartuHutang: TAction;
+    actPurchaseInvoiceHistory: TAction;
     actSaldoPiutang: TAction;
-    actKartuPiutang: TAction;
+    actSalesInvoiceHistory: TAction;
     dxBarSubItem3: TdxBarSubItem;
     dxBarButton66: TdxBarButton;
     dxBarButton67: TdxBarButton;
@@ -173,9 +173,11 @@ type
     procedure actMekanikExecute(Sender: TObject);
     procedure actMerkExecute(Sender: TObject);
     procedure actPurchaseInvoiceExecute(Sender: TObject);
+    procedure actPurchaseInvoiceHistoryExecute(Sender: TObject);
     procedure actPurchaseReturExecute(Sender: TObject);
     procedure actRekeningExecute(Sender: TObject);
     procedure actSalesExecute(Sender: TObject);
+    procedure actSalesInvoiceHistoryExecute(Sender: TObject);
     procedure actSalesmanExecute(Sender: TObject);
     procedure actServiceExecute(Sender: TObject);
     procedure actUOMExecute(Sender: TObject);
@@ -208,7 +210,7 @@ uses
   ufrmBrowsePurchaseInvoice, uTransDetail, ufrmKartuStock,
   ufrmBrowsePurchaseRetur, ufrmBrowseTransferStock, ufrmLapStock,
   ufrmBrowseSalesman, ufrmBrowseMekanik, ufrmBrowseSalesInvoice, ufrmVariable,
-  uVariable;
+  uVariable, ufrmSalesInvoiceHistory, ufrmPurchaseInvoiceHistory;
 
 {$R *.dfm}
 
@@ -281,6 +283,11 @@ begin
   ShowForm(TfrmBrowsePurchaseInvoice);
 end;
 
+procedure TfrmMain.actPurchaseInvoiceHistoryExecute(Sender: TObject);
+begin
+  ShowForm(TfrmPurchaseInvoiceHistory).ShowModal;
+end;
+
 procedure TfrmMain.actPurchaseReturExecute(Sender: TObject);
 begin
   Showform(TfrmBrowsePurchaseRetur);
@@ -294,6 +301,11 @@ end;
 procedure TfrmMain.actSalesExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseSalesInvoice);
+end;
+
+procedure TfrmMain.actSalesInvoiceHistoryExecute(Sender: TObject);
+begin
+  ShowForm(TfrmSalesInvoiceHistory).ShowModal;
 end;
 
 procedure TfrmMain.actSalesmanExecute(Sender: TObject);

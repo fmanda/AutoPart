@@ -1,12 +1,12 @@
 inherited frmKartuStock: TfrmKartuStock
   Caption = 'Kartu Stock'
   ClientHeight = 611
-  ClientWidth = 750
+  ClientWidth = 760
   FormStyle = fsStayOnTop
   Position = poMainFormCenter
   Visible = False
   WindowState = wsNormal
-  ExplicitWidth = 766
+  ExplicitWidth = 776
   ExplicitHeight = 650
   PixelsPerInch = 96
   TextHeight = 13
@@ -14,7 +14,7 @@ inherited frmKartuStock: TfrmKartuStock
     TabOrder = 2
     Visible = False
     ExplicitWidth = 750
-    Width = 750
+    Width = 760
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
       AnchorY = 18
@@ -26,9 +26,9 @@ inherited frmKartuStock: TfrmKartuStock
     OnClick = cxGroupBox2Click
     ExplicitTop = 576
     ExplicitWidth = 750
-    Width = 750
+    Width = 760
     inherited btnTutup: TcxButton
-      Left = 670
+      Left = 680
       ExplicitLeft = 670
     end
     inherited btnExport: TcxButton
@@ -48,8 +48,9 @@ inherited frmKartuStock: TfrmKartuStock
     Align = alTop
     Caption = ' Report Parameter '
     TabOrder = 0
+    ExplicitWidth = 750
     Height = 123
-    Width = 750
+    Width = 760
     object cxLabel1: TcxLabel
       Left = 46
       Top = 45
@@ -142,10 +143,11 @@ inherited frmKartuStock: TfrmKartuStock
     AlignWithMargins = True
     Left = 3
     Top = 164
-    Width = 744
+    Width = 754
     Height = 409
     Align = alClient
     TabOrder = 1
+    ExplicitLeft = 8
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -217,8 +219,8 @@ inherited frmKartuStock: TfrmKartuStock
     end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 456
-    Top = 0
+    Left = 416
+    Top = 65520
     PixelsPerInch = 96
   end
 end

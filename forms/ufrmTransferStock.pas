@@ -312,6 +312,7 @@ begin
   if Transfer.WH_Tujuan <> nil then
     cxLookupWHTujuan.EditValue := Transfer.WH_Tujuan.ID;
 
+  CDS.EmptyDataSet;
   Transfer.DeleteTrfOut;
   for lItem in Transfer.Items do
   begin

@@ -474,7 +474,7 @@ begin
   if PurchInv.Warehouse <> nil then
     cxLookupGudang.EditValue := PurchInv.Warehouse.ID;
 
-
+  CDS.EmptyDataSet;
   for lItem in PurchInv.Items do
   begin
     CDS.Append;

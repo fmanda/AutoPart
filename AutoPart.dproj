@@ -291,6 +291,14 @@
             <Form>frmBrowseSalesInvoice</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="forms\ufrmSalesInvoiceHistory.pas">
+            <Form>frmSalesInvoiceHistory</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmPurchaseInvoiceHistory.pas">
+            <Form>frmPurchaseInvoiceHistory</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

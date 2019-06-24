@@ -1,5 +1,1 @@
-Delete From TAvgCostUpdate where Header_flag = 100 AND Header_ID = 24;
-Delete From TAvgCostUpdate where ID = 19;
-Delete From TTransDetail where Header_flag = 100 AND Header_ID = 24;
-Delete From TTransDetail where ID = 25;
-Delete From TPurchaseInvoice where ID = 24;
+Update SalesInvoice set PaidAmount = 4500, ReturAmount = 0 where id = 5

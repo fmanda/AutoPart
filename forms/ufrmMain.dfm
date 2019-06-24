@@ -93,7 +93,6 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
-      Active = True
       Caption = 'Penjualan & Kas'
       Groups = <
         item
@@ -105,6 +104,7 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxRTARAP: TdxRibbonTab
+      Active = True
       Caption = 'Hutang - Piutang'
       Groups = <
         item
@@ -518,7 +518,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar8: TdxBar
       Caption = 'Laporan Piutang'
       CaptionButtons = <>
-      DockedLeft = 222
+      DockedLeft = 294
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8
@@ -880,18 +880,20 @@ object frmMain: TfrmMain
     end
     object dxBarButton66: TdxBarButton
       Action = actSaldoHutang
+      Caption = 'Laporan Saldo Hutang'
       Category = 0
     end
     object dxBarButton67: TdxBarButton
-      Action = actKartuHutang
+      Action = actPurchaseInvoiceHistory
       Category = 0
     end
     object dxBarButton68: TdxBarButton
       Action = actSaldoPiutang
+      Caption = 'Laporan Saldo Piutang'
       Category = 0
     end
     object dxBarButton69: TdxBarButton
-      Action = actKartuPiutang
+      Action = actSalesInvoiceHistory
       Category = 0
     end
     object dxBarButton70: TdxBarButton
@@ -899,7 +901,7 @@ object frmMain: TfrmMain
       Category = 0
     end
     object dxBarButton71: TdxBarButton
-      Action = actKartuPiutang
+      Action = actSalesInvoiceHistory
       Category = 0
     end
   end
@@ -1122,17 +1124,19 @@ object frmMain: TfrmMain
       Category = 'Hutang Piutang'
       Caption = 'Saldo Hutang'
     end
-    object actKartuHutang: TAction
+    object actPurchaseInvoiceHistory: TAction
       Category = 'Hutang Piutang'
-      Caption = 'Kartu Hutang'
+      Caption = 'History Pembayaran Hutang'
+      OnExecute = actPurchaseInvoiceHistoryExecute
     end
     object actSaldoPiutang: TAction
       Category = 'Hutang Piutang'
       Caption = 'Saldo Piutang'
     end
-    object actKartuPiutang: TAction
+    object actSalesInvoiceHistory: TAction
       Category = 'Hutang Piutang'
-      Caption = 'Kartu Piutang'
+      Caption = 'History Pembayaran Piutang'
+      OnExecute = actSalesInvoiceHistoryExecute
     end
     object actClosingHarian: TAction
       Category = 'Manajemen'

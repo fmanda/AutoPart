@@ -108,12 +108,16 @@ type
     destructor Destroy; override;
     function GenerateNo: String;
     function GetHeaderFlag: Integer; override;
+    function GetRemain: Double;
+    function GetTotalBayar: Double;
+    function UpdateRemain: Boolean;
     property AvgCostItems: TObjectList<TAvgCostUpdate> read GetAvgCostItems write
         FAvgCostItems;
   published
     property SubTotal: Double read FSubTotal write FSubTotal;
     property PPN: Double read FPPN write FPPN;
     property Supplier: TSupplier read FSupplier write FSupplier;
+    [AttributeOfCode]
     property InvoiceNo: string read FInvoiceNo write FInvoiceNo;
     property DueDate: TDateTime read FDueDate write FDueDate;
     property Amount: Double read FAmount write FAmount;
@@ -153,6 +157,7 @@ type
     property SubTotal: Double read FSubTotal write FSubTotal;
     property PPN: Double read FPPN write FPPN;
     property Supplier: TSupplier read FSupplier write FSupplier;
+    [AttributeOfCode]
     property Refno: string read FRefno write FRefno;
     property Amount: Double read FAmount write FAmount;
     property Notes: string read FNotes write FNotes;
@@ -218,6 +223,7 @@ type
   published
     property Notes: string read FNotes write FNotes;
     property WH_Asal: TWarehouse read FWH_Asal write FWH_Asal;
+    [AttributeOfCode]
     property RefNo: string read FRefNo write FRefNo;
     property WH_Tujuan: TWarehouse read FWH_Tujuan write FWH_Tujuan;
   end;
@@ -251,10 +257,14 @@ type
     destructor Destroy; override;
     function GenerateNo: String;
     function GetHeaderFlag: Integer; override;
+    function GetRemain: Double;
+    function GetTotalBayar: Double;
+    function UpdateRemain: Boolean;
     property Services: TObjectList<TServiceDetail> read GetServices write FServices;
   published
     property Amount: Double read FAmount write FAmount;
     property DueDate: TDateTime read FDueDate write FDueDate;
+    [AttributeOfCode]
     property InvoiceNo: string read FInvoiceNo write FInvoiceNo;
     property Notes: string read FNotes write FNotes;
     property PaidAmount: Double read FPaidAmount write FPaidAmount;
@@ -298,6 +308,7 @@ type
     property Invoice: TSalesInvoice read FInvoice write FInvoice;
     property Notes: string read FNotes write FNotes;
     property PPN: Double read FPPN write FPPN;
+    [AttributeOfCode]
     property Refno: string read FRefno write FRefno;
     property ReturFlag: Integer read FReturFlag write FReturFlag;
     property Status: Integer read FStatus write FStatus;
@@ -590,6 +601,27 @@ end;
 function TPurchaseInvoice.GetRefno: String;
 begin
   Result := InvoiceNO;
+end;
+
+function TPurchaseInvoice.GetRemain: Double;
+begin
+  Result := Self.Amount - Self.PaidAmount - Self.ReturAmount;
+end;
+
+function TPurchaseInvoice.GetTotalBayar: Double;
+begin
+  Result := Self.PaidAmount + Self.ReturAmount;
+end;
+
+function TPurchaseInvoice.UpdateRemain: Boolean;
+var
+  S: string;
+begin
+  S := 'Update TPurchaseInvoice set PaidAmount = ' + FloatToStr(Self.PaidAmount)
+  + ', ReturAmount = ' + FloatToSTr(Self.ReturAmount)
+  + ' where id = ' + IntToStr(Self.ID);
+
+  Result := TDBUtils.ExecuteSQL(S);
 end;
 
 destructor TTransDetail.Destroy;
@@ -1088,6 +1120,9 @@ begin
   end;
 
   Result := True;
+  if Self.PaymentFlag = PaymentFlag_Cash then
+    Self.PaidAmount := Self.Amount;
+
   if Self.ID = 0 then  exit;
   //hanya edit
   lSalesPayment :=  TSalesPayment.Create;
@@ -1144,6 +1179,27 @@ end;
 function TSalesInvoice.GetRefno: String;
 begin
   Result := InvoiceNo;
+end;
+
+function TSalesInvoice.GetRemain: Double;
+begin
+  Result := Self.Amount - Self.PaidAmount - Self.ReturAmount;
+end;
+
+function TSalesInvoice.GetTotalBayar: Double;
+begin
+  Result := Self.PaidAmount + Self.ReturAmount;
+end;
+
+function TSalesInvoice.UpdateRemain: Boolean;
+var
+  S: string;
+begin
+  S := 'Update TSalesInvoice set PaidAmount = ' + FloatToStr(Self.PaidAmount)
+  + ', ReturAmount = ' + FloatToSTr(Self.ReturAmount)
+  + ' where id = ' + IntToStr(Self.ID);
+
+  Result := TDBUtils.ExecuteSQL(S);
 end;
 
 function TSalesRetur.AfterSaveToDB: Boolean;

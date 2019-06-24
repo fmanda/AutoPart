@@ -61,7 +61,6 @@ type
     cxGrdService: TcxGridDBTableView;
     colSrvKode: TcxGridDBColumn;
     colSrvName: TcxGridDBColumn;
-    colSrvUOM: TcxGridDBColumn;
     colSrvQty: TcxGridDBColumn;
     colSrvHarga: TcxGridDBColumn;
     colSrvDisc: TcxGridDBColumn;
@@ -74,6 +73,7 @@ type
     cxLabel13: TcxLabel;
     cxLookupRekening: TcxExtLookupComboBox;
     Label2: TLabel;
+    colSrvPPN: TcxGridDBColumn;
     procedure edCustomerKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edNotesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -97,8 +97,9 @@ type
     procedure edCustomerPropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure cbBayarPropertiesEditValueChanged(Sender: TObject);
-    procedure colSrvKodePropertiesValidate(Sender: TObject;
-      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure colSrvKodePropertiesEditValueChanged(Sender: TObject);
+    procedure colSrvNamePropertiesEditValueChanged(Sender: TObject);
+    procedure colSrvQtyPropertiesEditValueChanged(Sender: TObject);
   private
     DisableTrigger: Boolean;
     FCDS: TClientDataset;
@@ -113,6 +114,7 @@ type
     function DC: TcxGridDBDataController;
     function DCService: TcxGridDBDataController;
     procedure FocusToGrid;
+    procedure FocusToService;
     function GetCDS: TClientDataset;
     function GetCDSService: TClientDataset;
     function GetCDSClone: TClientDataset;
@@ -282,21 +284,54 @@ begin
   CalculateAll;
 end;
 
-procedure TfrmSalesInvoice.colSrvKodePropertiesValidate(Sender: TObject;
-  var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+procedure TfrmSalesInvoice.colSrvKodePropertiesEditValueChanged(
+  Sender: TObject);
+var
+  iServiceID: Integer;
 begin
   inherited;
+  iServiceID := VarToInt(DCService.Controller.FocusedRecord.Values[colSrvKode.Index]);
+  DCService.SetEditValue(colSrvName.Index, DCService.Controller.FocusedRecord.Values[colSrvKode.Index], evsValue);
+  if VarToInt(DCService.Controller.FocusedRecord.Values[colSrvQty.Index]) = 0 then
+    DCService.SetEditValue(colSrvQty.Index, 1, evsValue);
 
-  DCService.SetEditValue(colSrvKode.Index, aItem.ID, evsValue);
-  DCService.SetEditValue(colseKode.Index, aItem.Kode, evsValue);
-  DCService.SetEditValue(colNama.Index, aItem.Nama, evsValue);
-  DCService.SetEditValue(colUOM.Index, 0, evsValue);
-  DCService.SetEditValue(colQty.Index, 0, evsValue);
-  DCService.SetEditValue(colKonversi.Index, 0, evsValue);
-  DCService.SetEditValue(colHarga.Index, 0, evsValue);
-  DCService.SetEditValue(colDisc.Index, 0, evsValue);
-  DCService.SetEditValue(colSubTotal.Index, 0, evsValue);
-  DCService.SetEditValue(colPPN.Index, aItem.PPN, evsValue);
+  if CDSMasterService.Locate('id', iServiceID, []) then
+  begin
+    DCService.SetEditValue(colSrvHarga.Index, CDSMasterService.FieldByName('Biaya').AsFloat, evsValue);
+    DCService.SetEditValue(colSrvPPN.Index, CDSMasterService.FieldByName('PPN').AsFloat, evsValue);
+    DCService.SetEditValue(colSrvDisc.Index, 0, evsValue);
+  end;
+  colSrvQty.FocusWithSelection;
+  cxGrdService.Controller.EditingController.ShowEdit;
+  CalculateAll;
+end;
+
+procedure TfrmSalesInvoice.colSrvNamePropertiesEditValueChanged(
+  Sender: TObject);
+var
+  iServiceID: Integer;
+begin
+  inherited;
+  iServiceID := VarToInt(DCService.Controller.FocusedRecord.Values[colSrvName.Index]);
+  DCService.SetEditValue(colSrvKode.Index, DCService.Controller.FocusedRecord.Values[colSrvName.Index], evsValue);
+  if VarToInt(DCService.Controller.FocusedRecord.Values[colSrvQty.Index]) = 0 then
+    DCService.SetEditValue(colSrvQty.Index, 1, evsValue);
+
+  if CDSMasterService.Locate('id', iServiceID, []) then
+  begin
+    DCService.SetEditValue(colSrvHarga.Index, CDSMasterService.FieldByName('Biaya').AsFloat, evsValue);
+    DCService.SetEditValue(colSrvPPN.Index, CDSMasterService.FieldByName('PPN').AsFloat, evsValue);
+    DCService.SetEditValue(colSrvDisc.Index, 0, evsValue);
+  end;
+  colSrvQty.FocusWithSelection;
+  cxGrdService.Controller.EditingController.ShowEdit;
+  CalculateAll;
+end;
+
+procedure TfrmSalesInvoice.colSrvQtyPropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalculateAll;
 end;
 
 procedure TfrmSalesInvoice.colUOMPropertiesCloseUp(Sender: TObject);
@@ -440,6 +475,17 @@ begin
   end;
 end;
 
+procedure TfrmSalesInvoice.FocusToService;
+begin
+  cxGridService.SetFocus;
+  cxGridService.FocusedView := cxGrdService;
+  if CDSService.RecordCount = 0 then
+  begin
+    CDSService.Append;
+    cxGrdService.Controller.EditingController.ShowEdit;
+  end;
+end;
+
 procedure TfrmSalesInvoice.FormCreate(Sender: TObject);
 begin
   inherited;
@@ -458,6 +504,10 @@ begin
   if Key = VK_F2 then
   begin
     FocusToGrid;
+  end
+  else if Key = VK_F3 then
+  begin
+    FocusToService;
   end
   else if Key = VK_F12 then
   begin
@@ -528,7 +578,7 @@ function TfrmSalesInvoice.GetCDSMasterService: TClientDataset;
 begin
   if FCDSMasterService = nil then
   begin
-    FCDSMasterService := TDBUtils.OpenDataset('select id, kode, nama, biaya from tservice',Self);
+    FCDSMasterService := TDBUtils.OpenDataset('select id, kode, nama, biaya, ppn from tservice',Self);
   end;
   Result := FCDSMasterService;
 end;
@@ -543,7 +593,7 @@ end;
 procedure TfrmSalesInvoice.InitView;
 begin
   cxGrdItem.PrepareFromCDS(CDS);
-  cxGrdService.PrepareFromCDS(CDS);
+  cxGrdService.PrepareFromCDS(CDSService);
 
   TcxExtLookup(colSrvKode.Properties).LoadFromCDS(CDSMasterService,'id','kode',['id','nama'], Self);
   TcxExtLookup(colSrvName.Properties).LoadFromCDS(CDSMasterService,'id','nama',['id','kode'], Self);
@@ -577,6 +627,7 @@ end;
 procedure TfrmSalesInvoice.LoadByID(aID: Integer; IsReadOnly: Boolean = True);
 var
   lItem: TTransDetail;
+  lService: TServiceDetail;
 begin
   if FSalesInv <> nil then
     FreeAndNil(FSalesInv);
@@ -624,6 +675,9 @@ begin
      cxLookupMekanik.EditValue := SalesInv.Mekanik.ID;
 
 
+  CDS.EmptyDataSet;
+  CDSService.EmptyDataSet;
+
   for lItem in SalesInv.Items do
   begin
     CDS.Append;
@@ -634,6 +688,14 @@ begin
     CDS.FieldByName('Nama').AsString := lItem.Item.Nama;
     CDS.Post;
   end;
+
+  for lService in SalesInv.Services do
+  begin
+    CDSService.Append;
+    lService.UpdateToDataset(CDSService);
+    CDSService.Post;
+  end;
+
   CalculateAll;
   btnSave.Enabled := not IsReadOnly;
 end;
@@ -701,6 +763,10 @@ begin
   SetDefaultValueTipeHarga;
   cxLookupMekanik.Enabled := rbHarga.ItemIndex in [0,1];
   cxGridService.Visible := rbHarga.ItemIndex in [0,1];
+
+  cxLookupSalesman.TabStop := rbHarga.ItemIndex in [2,3];
+  cxLookupMekanik.TabStop := rbHarga.ItemIndex = 1;
+//  cxLookupRekening.TabOrder := cbBayar.ItemIndex = 0;
 
   if not cxGridService.Visible then
   begin
@@ -789,6 +855,7 @@ end;
 procedure TfrmSalesInvoice.UpdateData;
 var
   lItem: TTransDetail;
+  lService: TServiceDetail;
 begin
 
   SalesInv.InvoiceNo := edNoInv.Text;
@@ -819,7 +886,6 @@ begin
   SalesInv.Rekening.LoadByID(VarToInt(cxLookupRekening.EditValue));
 
   SalesInv.Items.Clear;
-
   CDS.First;
   while not CDS.Eof do
   begin
@@ -827,6 +893,16 @@ begin
     lItem.SetFromDataset(CDS);
     SalesInv.Items.Add(lItem);
     CDS.Next;
+  end;
+
+  SalesInv.Services.Clear;
+  CDSService.First;
+  while not CDSService.Eof do
+  begin
+    lService := TServiceDetail.Create;
+    lService.SetFromDataset(CDSService);
+    SalesInv.Services.Add(lService);
+    CDSService.Next;
   end;
 
 end;

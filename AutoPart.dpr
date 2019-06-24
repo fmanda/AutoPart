@@ -64,7 +64,9 @@ uses
   ufrmSalesInvoice in 'forms\ufrmSalesInvoice.pas' {frmSalesInvoice},
   uVariable in 'classes\uVariable.pas',
   ufrmVariable in 'forms\ufrmVariable.pas' {frmVariable},
-  ufrmBrowseSalesInvoice in 'forms\ufrmBrowseSalesInvoice.pas' {frmBrowseSalesInvoice};
+  ufrmBrowseSalesInvoice in 'forms\ufrmBrowseSalesInvoice.pas' {frmBrowseSalesInvoice},
+  ufrmSalesInvoiceHistory in 'forms\ufrmSalesInvoiceHistory.pas' {frmSalesInvoiceHistory},
+  ufrmPurchaseInvoiceHistory in 'forms\ufrmPurchaseInvoiceHistory.pas' {frmPurchaseInvoiceHistory};
 
 {$R *.res}
 
@@ -73,6 +75,5 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmBrowseSalesInvoice, frmBrowseSalesInvoice);
   Application.Run;
 end.

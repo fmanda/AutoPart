@@ -365,6 +365,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     object cxLookupRekening: TcxExtLookupComboBox
       Left = 474
       Top = 21
+      TabStop = False
       TabOrder = 7
       Width = 238
     end
@@ -541,34 +542,25 @@ inherited frmSalesInvoice: TfrmSalesInvoice
         DataBinding.FieldName = 'Service'
         PropertiesClassName = 'TcxExtLookupComboBoxProperties'
         Properties.ImmediatePost = True
-        Properties.OnValidate = colSrvKodePropertiesValidate
+        Properties.OnEditValueChanged = colSrvKodePropertiesEditValueChanged
         HeaderAlignmentHorz = taCenter
         Width = 137
       end
       object colSrvName: TcxGridDBColumn
         Caption = 'Nama Jasa'
-        DataBinding.FieldName = 'Servcie'
+        DataBinding.FieldName = 'Service'
         PropertiesClassName = 'TcxExtLookupComboBoxProperties'
         Properties.ImmediatePost = True
+        Properties.OnEditValueChanged = colSrvNamePropertiesEditValueChanged
         HeaderAlignmentHorz = taCenter
-        Options.Editing = False
-        Options.Focusing = False
         Width = 384
-      end
-      object colSrvUOM: TcxGridDBColumn
-        Caption = 'Satuan'
-        DataBinding.FieldName = 'UOM'
-        PropertiesClassName = 'TcxExtLookupComboBoxProperties'
-        Properties.ImmediatePost = True
-        Visible = False
-        HeaderAlignmentHorz = taCenter
-        Width = 49
       end
       object colSrvQty: TcxGridDBColumn
         DataBinding.FieldName = 'Qty'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
+        Properties.OnEditValueChanged = colSrvQtyPropertiesEditValueChanged
         HeaderAlignmentHorz = taCenter
         Width = 65
       end
@@ -607,6 +599,11 @@ inherited frmSalesInvoice: TfrmSalesInvoice
         DataBinding.FieldName = 'Service'
         Visible = False
         Options.Editing = False
+      end
+      object colSrvPPN: TcxGridDBColumn
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.DisplayFormat = ',0.##;(,0.##)'
+        Visible = False
       end
     end
     object cxGridLevel1: TcxGridLevel
