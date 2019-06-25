@@ -299,6 +299,15 @@
             <Form>frmPurchaseInvoiceHistory</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="classes\uSalesFee.pas"/>
+        <DCCReference Include="forms\ufrmSalesFee.pas">
+            <Form>frmSalesFee</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmBrowseSalesFee.pas">
+            <Form>frmBrowseSalesFee</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -757,6 +766,7 @@
             <Platforms>
                 <Platform value="Win32">True</Platform>
             </Platforms>
+            <ModelSupport>False</ModelSupport>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>

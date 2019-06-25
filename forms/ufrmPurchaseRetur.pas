@@ -127,9 +127,9 @@ begin
   inherited;
   if not ValidateData then exit;
   UpdateData;
-  if PurchRetur.SaveToDB then
+  if PurchRetur.SaveRepeat then
   begin
-    TAppUtils.InformationBerhasilSimpan;
+//    TAppUtils.InformationBerhasilSimpan;
     Self.ModalResult := mrOK;
   end;
 end;

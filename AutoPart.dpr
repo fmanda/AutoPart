@@ -66,7 +66,10 @@ uses
   ufrmVariable in 'forms\ufrmVariable.pas' {frmVariable},
   ufrmBrowseSalesInvoice in 'forms\ufrmBrowseSalesInvoice.pas' {frmBrowseSalesInvoice},
   ufrmSalesInvoiceHistory in 'forms\ufrmSalesInvoiceHistory.pas' {frmSalesInvoiceHistory},
-  ufrmPurchaseInvoiceHistory in 'forms\ufrmPurchaseInvoiceHistory.pas' {frmPurchaseInvoiceHistory};
+  ufrmPurchaseInvoiceHistory in 'forms\ufrmPurchaseInvoiceHistory.pas' {frmPurchaseInvoiceHistory},
+  uSalesFee in 'classes\uSalesFee.pas',
+  ufrmSalesFee in 'forms\ufrmSalesFee.pas' {frmSalesFee},
+  ufrmBrowseSalesFee in 'forms\ufrmBrowseSalesFee.pas' {frmBrowseSalesFee};
 
 {$R *.res}
 

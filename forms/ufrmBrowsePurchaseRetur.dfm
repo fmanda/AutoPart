@@ -10,7 +10,9 @@ inherited frmBrowsePurchaseRetur: TfrmBrowsePurchaseRetur
       OnClick = btnEditClick
     end
     inherited btnLihat: TcxButton
+      Visible = True
       OnClick = btnLihatClick
+      ExplicitTop = 6
     end
     inherited btnBaru: TcxButton
       OnClick = btnBaruClick

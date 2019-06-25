@@ -30,6 +30,8 @@ type
     rbHarga: TcxRadioGroup;
     cxLabel3: TcxLabel;
     crTempo: TcxSpinEdit;
+    crCreditLimit: TcxCurrencyEdit;
+    cxLabel5: TcxLabel;
     procedure btnSaveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -113,6 +115,8 @@ begin
   chkActive.Checked := Customer.IsActive = 1;
   btnSave.Enabled   := not IsReadOnly;
 
+  crCreditLimit.Value := Customer.CreditLimit;
+
   dtModified.Date   := Customer.ModifiedDate;
   edModifiedBy.Text := Customer.ModifiedBy;
 end;
@@ -127,6 +131,7 @@ begin
   Customer.TipeHarga    := rbHarga.ItemIndex;
   Customer.ModifiedBy   := UserLogin;
   Customer.ModifiedDate := Now();
+  Customer.CreditLimit  := crCreditLimit.Value;
   Customer.IsActive := 1;
   if not chkActive.Checked then Customer.IsActive := 0;
 end;

@@ -4,7 +4,7 @@ interface
 
 uses
   CRUDObject, uDBUtils, Sysutils, uItem, System.Generics.Collections,
-  uWarehouse, uSupplier, uCustomer, uSalesman, uAccount, uMekanik;
+  uWarehouse, uSupplier, uCustomer, uSalesman, uAccount, uMekanik, uSalesFee;
 
 type
   TTransDetail = class;
@@ -25,7 +25,11 @@ type
     procedure PrepareDetailObject(AObjItem: TCRUDObject); override;
   public
     destructor Destroy; override;
+    function GenerateNo: String; virtual; abstract;
+    procedure SetGenerateNo; virtual; abstract;
     function GetHeaderFlag: Integer; virtual; abstract;
+    function SaveRepeat(aRepeatCount: Integer = 2; DoShowMsg: Boolean = True):
+        Boolean;
     property Items: TObjectList<TTransDetail> read GetItems write FItems;
   published
     property TransDate: TDateTime read FTransDate write FTransDate;
@@ -47,6 +51,7 @@ type
     FTotal: Double;
     FPPN: Double;
     FHargaAvg: Double;
+    FLastCost: Double;
     FWarehouse: TWarehouse;
     FUOM: TUOM;
     FRefno: string;
@@ -73,6 +78,7 @@ type
     property Total: Double read FTotal write FTotal;
     property PPN: Double read FPPN write FPPN;
     property HargaAvg: Double read FHargaAvg write FHargaAvg;
+    property LastCost: Double read FLastCost write FLastCost;
     property Warehouse: TWarehouse read FWarehouse write FWarehouse;
     property UOM: TUOM read FUOM write FUOM;
     property Refno: string read FRefno write FRefno;
@@ -106,10 +112,11 @@ type
     function GetRefno: String; override;
   public
     destructor Destroy; override;
-    function GenerateNo: String;
+    function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
     function GetRemain: Double;
     function GetTotalBayar: Double;
+    procedure SetGenerateNo; override;
     function UpdateRemain: Boolean;
     property AvgCostItems: TObjectList<TAvgCostUpdate> read GetAvgCostItems write
         FAvgCostItems;
@@ -151,8 +158,9 @@ type
   public
     destructor Destroy; override;
     procedure ClearInvoice;
-    function GenerateNo: String;
+    function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
+    procedure SetGenerateNo; override;
   published
     property SubTotal: Double read FSubTotal write FSubTotal;
     property PPN: Double read FPPN write FPPN;
@@ -217,9 +225,10 @@ type
   public
     destructor Destroy; override;
     procedure DeleteTrfOut;
-    function GenerateNo: String;
+    function GenerateNo: String; override;
     procedure GenerateTrfOut;
     function GetHeaderFlag: Integer; override;
+    procedure SetGenerateNo; override;
   published
     property Notes: string read FNotes write FNotes;
     property WH_Asal: TWarehouse read FWH_Asal write FWH_Asal;
@@ -245,6 +254,7 @@ type
     FRekening: TRekening;
     FSalesman: TSalesman;
     FMekanik: TMekanik;
+    FSalesFee: TSalesFee;
     FSalesType: Integer;
     FWarehouse: TWarehouse;
     function GetServices: TObjectList<TServiceDetail>;
@@ -255,10 +265,11 @@ type
     function GetRefno: String; override;
   public
     destructor Destroy; override;
-    function GenerateNo: String;
+    function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
     function GetRemain: Double;
     function GetTotalBayar: Double;
+    procedure SetGenerateNo; override;
     function UpdateRemain: Boolean;
     property Services: TObjectList<TServiceDetail> read GetServices write FServices;
   published
@@ -277,6 +288,7 @@ type
     property Rekening: TRekening read FRekening write FRekening;
     property Salesman: TSalesman read FSalesman write FSalesman;
     property Mekanik: TMekanik read FMekanik write FMekanik;
+    property SalesFee: TSalesFee read FSalesFee write FSalesFee;
     property SalesType: Integer read FSalesType write FSalesType;
     property Warehouse: TWarehouse read FWarehouse write FWarehouse;
   end;
@@ -301,8 +313,9 @@ type
     function BeforeSaveToDB: Boolean; override;
     function GetRefno: String; override;
   public
-    function GenerateNo: String;
+    function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
+    procedure SetGenerateNo; override;
   published
     property Amount: Double read FAmount write FAmount;
     property Invoice: TSalesInvoice read FInvoice write FInvoice;
@@ -362,7 +375,7 @@ const
 implementation
 
 uses
-  System.StrUtils, uFinancialTransaction;
+  System.StrUtils, uFinancialTransaction, uAppUtils;
 
 destructor TCRUDTransDetail.Destroy;
 begin
@@ -396,6 +409,61 @@ begin
   if AObjItem is TAvgCostUpdate then
   begin
     TAvgCostUpdate(AObjItem).Header_Flag  := GetHeaderFlag;
+  end;
+end;
+
+function TCRUDTransDetail.SaveRepeat(aRepeatCount: Integer = 2; DoShowMsg:
+    Boolean = True): Boolean;
+var
+  iRepeat: Integer;
+begin
+  Result := False;
+
+  if Self.ID > 0 then
+  begin
+    Result := Self.SaveToDB();
+    exit;
+  end else
+  begin
+    //hanya berlaku utk baru
+    iRepeat := 0;
+    while iRepeat <= aRepeatCount do
+    begin
+      Try    
+        Self.SetGenerateNo;
+        inc(iRepeat);           
+        Result := Self.SaveToDB();
+
+        if Result then
+        begin
+          if DoShowMsg then          
+            TAppUtils.Information('Data Berhasil Disimpan dengan nomor bukti : ' + Self.GetRefno);
+        end else
+        begin
+          TAppUtils.Error('SaveToDB Result = False without exception ???');
+        end;
+        
+        exit; //sukses or error without exception we must exist
+      except
+        on E:Exception do
+        begin
+          if Pos('unique key', LowerCase(E.Message)) > 0 then
+          begin
+            if (iRepeat > aRepeatCount) or (not TAppUtils.Confirm('Terdeteksi Ada Nomor Bukti sudah terpakai, Otomatis Generate Baru dan Simpan?'
+              + #13 +'Percobaan Simpan ke : ' + IntToStr(iRepeat)
+              + #13#13 +'Pesan Error : '
+              + #13 + E.Message
+            ))
+            then
+            begin
+              E.Message := 'Gagal Mengulang Simpan ke- ' + IntToStr(iRepeat-1) + #13 + E.Message;
+              raise;
+            end;
+          end else
+            Raise;
+        end;
+      End;
+    end;
   end;
 end;
 
@@ -499,7 +567,8 @@ begin
   begin
     GetOrAddAvgCost(lItem);
 
-    lItem.HargaAvg := lItem.Harga;
+    lItem.HargaAvg  := lItem.Harga;
+    lItem.LastCost  := lItem.Harga;
   end;
 end;
 
@@ -520,8 +589,8 @@ var
   S: string;
 begin
   lNum := 0;
-  aDigitCount := 4;
-  aPrefix := Cabang + '.FB.' + FormatDateTime('yymmdd',Now()) + '.';
+  aDigitCount := 5;
+  aPrefix := Cabang + '.FB' + FormatDateTime('yymm',Now()) + '.';
 
 
   S := 'SELECT MAX(InvoiceNo) FROM TPurchaseInvoice where InvoiceNo LIKE ' + QuotedStr(aPrefix + '%');
@@ -537,7 +606,7 @@ begin
   end;
 
   inc(lNum);
-  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
+  Result := aPrefix + RightStr('00000' + IntToStr(lNum), aDigitCount);
 end;
 
 function TPurchaseInvoice.GetHeaderFlag: Integer;
@@ -613,6 +682,11 @@ begin
   Result := Self.PaidAmount + Self.ReturAmount;
 end;
 
+procedure TPurchaseInvoice.SetGenerateNo;
+begin
+  if Self.ID = 0 then Self.InvoiceNo := Self.GenerateNo;
+end;
+
 function TPurchaseInvoice.UpdateRemain: Boolean;
 var
   S: string;
@@ -682,6 +756,7 @@ begin
   lItemUOM := TItemUOM.GetItemUOM(Self.Item.ID, Self.UOM.ID);
   Try
     Self.HargaAvg := lItemUOM.HargaAvg;
+    Self.LastCost := lItemUOM.HargaBeli;
   Finally
     lItemUOM.Free;
   End;
@@ -780,8 +855,8 @@ var
   S: string;
 begin
   lNum := 0;
-  aDigitCount := 4;
-  aPrefix := Cabang + '.RB.' + FormatDateTime('yymmdd',Now()) + '.';
+  aDigitCount := 5;
+  aPrefix := Cabang + '.RB' + FormatDateTime('yymm',Now()) + '.';
 
 
   S := 'SELECT MAX(Refno) FROM TPurchaseRetur where Refno LIKE ' + QuotedStr(aPrefix + '%');
@@ -797,7 +872,7 @@ begin
   end;
 
   inc(lNum);
-  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
+  Result := aPrefix + RightStr('00000' + IntToStr(lNum), aDigitCount);
 end;
 
 function TPurchaseRetur.GetHeaderFlag: Integer;
@@ -808,6 +883,11 @@ end;
 function TPurchaseRetur.GetRefno: String;
 begin
   Result := Refno;
+end;
+
+procedure TPurchaseRetur.SetGenerateNo;
+begin
+  if Self.ID = 0 then Self.Refno := Self.GenerateNo;
 end;
 
 function TPurchaseRetur.UpdateReturAmt(IsRevert: Boolean = False): Boolean;
@@ -998,8 +1078,8 @@ var
   S: string;
 begin
   lNum := 0;
-  aDigitCount := 4;
-  aPrefix := Cabang + '.TS.' + FormatDateTime('yymmdd',Now()) + '.';
+  aDigitCount := 5;
+  aPrefix := Cabang + '.TS' + FormatDateTime('yymm',Now()) + '.';
 
 
   S := 'SELECT MAX(Refno) FROM TTransferStock where Refno LIKE ' + QuotedStr(aPrefix + '%');
@@ -1015,7 +1095,7 @@ begin
   end;
 
   inc(lNum);
-  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
+  Result := aPrefix + RightStr('00000' + IntToStr(lNum), aDigitCount);
 end;
 
 procedure TTransferStock.GenerateTrfOut;
@@ -1069,6 +1149,11 @@ end;
 function TTransferStock.GetRefno: String;
 begin
   Result := Refno;
+end;
+
+procedure TTransferStock.SetGenerateNo;
+begin
+  if Self.ID = 0 then Self.RefNo := Self.GenerateNo;
 end;
 
 destructor TSalesInvoice.Destroy;
@@ -1142,8 +1227,8 @@ var
   S: string;
 begin
   lNum := 0;
-  aDigitCount := 4;
-  aPrefix := Cabang + '.FP.' + FormatDateTime('yymmdd',Now()) + '.';
+  aDigitCount := 5;
+  aPrefix := Cabang + '.FP' + FormatDateTime('yymm',Now()) + '.';
 
 
   S := 'SELECT MAX(InvoiceNo) FROM TSalesInvoice where InvoiceNo LIKE ' + QuotedStr(aPrefix + '%');
@@ -1159,7 +1244,7 @@ begin
   end;
 
   inc(lNum);
-  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
+  Result := aPrefix + RightStr('00000' + IntToStr(lNum), aDigitCount);
 end;
 
 function TSalesInvoice.GetHeaderFlag: Integer;
@@ -1189,6 +1274,11 @@ end;
 function TSalesInvoice.GetTotalBayar: Double;
 begin
   Result := Self.PaidAmount + Self.ReturAmount;
+end;
+
+procedure TSalesInvoice.SetGenerateNo;
+begin
+  if Self.ID = 0 then Self.InvoiceNo := Self.GenerateNo;
 end;
 
 function TSalesInvoice.UpdateRemain: Boolean;
@@ -1267,6 +1357,11 @@ end;
 function TSalesRetur.GetRefno: String;
 begin
   Result := Refno;
+end;
+
+procedure TSalesRetur.SetGenerateNo;
+begin
+  if Self.ID = 0 then Self.Refno := Self.GenerateNo;
 end;
 
 function TSalesRetur.UpdateReturAmt(IsRevert: Boolean = False): Boolean;

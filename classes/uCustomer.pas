@@ -16,6 +16,7 @@ type
     FIsActive: Integer;
     FModifiedBy: String;
     FModifiedDate: TDateTime;
+    FCreditLimit: Double;
     FTipeHarga: Integer;
   public
     function GenerateNo: String;
@@ -29,6 +30,7 @@ type
     property IsActive: Integer read FIsActive write FIsActive;
     property ModifiedBy: String read FModifiedBy write FModifiedBy;
     property ModifiedDate: TDateTime read FModifiedDate write FModifiedDate;
+    property CreditLimit: Double read FCreditLimit write FCreditLimit;
     property TipeHarga: Integer read FTipeHarga write FTipeHarga;
   end;
 

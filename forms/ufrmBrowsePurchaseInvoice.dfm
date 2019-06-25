@@ -10,6 +10,7 @@ inherited frmBrowsePurchaseInvoice: TfrmBrowsePurchaseInvoice
       OnClick = btnEditClick
     end
     inherited btnLihat: TcxButton
+      Visible = True
       OnClick = btnLihatClick
     end
     inherited btnBaru: TcxButton
@@ -19,16 +20,20 @@ inherited frmBrowsePurchaseInvoice: TfrmBrowsePurchaseInvoice
   inherited cxGroupBox1: TcxGroupBox
     inherited EndDate: TcxDateEdit
       Visible = True
+      ExplicitHeight = 25
     end
     inherited StartDate: TcxDateEdit
       Visible = True
+      ExplicitHeight = 25
     end
     inherited cxLabel1: TcxLabel
       Visible = True
+      ExplicitLeft = 260
       AnchorY = 18
     end
     inherited cxLabel2: TcxLabel
       Visible = True
+      ExplicitLeft = 433
       AnchorY = 18
     end
     inherited lblTitle: TcxLabel

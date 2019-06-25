@@ -45,8 +45,6 @@ object frmMain: TfrmMain
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    ExplicitTop = 516
-    ExplicitWidth = 867
   end
   object dxRibbon1: TdxRibbon
     Left = 0
@@ -60,7 +58,6 @@ object frmMain: TfrmMain
     Contexts = <>
     TabOrder = 1
     TabStop = False
-    ExplicitWidth = 867
     object dxRTApp: TdxRibbonTab
       Caption = 'Aplikasi'
       Groups = <
@@ -70,6 +67,7 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxRTMaster: TdxRibbonTab
+      Active = True
       Caption = 'Master Data'
       Groups = <
         item
@@ -95,7 +93,6 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
-      Active = True
       Caption = 'Penjualan & Kas'
       Groups = <
         item
@@ -286,6 +283,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton49'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton73'
         end>
       OneOnRow = False
       Row = 0
@@ -906,6 +907,14 @@ object frmMain: TfrmMain
       Action = actSalesInvoiceHistory
       Category = 0
     end
+    object dxBarButton72: TdxBarButton
+      Action = actSalesFee
+      Category = 0
+    end
+    object dxBarButton73: TdxBarButton
+      Action = actSalesFee
+      Category = 0
+    end
   end
   object ActionManager: TActionManager
     Images = ImageList
@@ -1145,6 +1154,12 @@ object frmMain: TfrmMain
     object actClosingHarian: TAction
       Category = 'Manajemen'
       Caption = 'Closing Harian'
+    end
+    object actSalesFee: TAction
+      Category = 'Master'
+      Caption = 'Komisi / Fee Salesman'
+      ImageIndex = 14
+      OnExecute = actSalesFeeExecute
     end
   end
   object ImageList: TcxImageList

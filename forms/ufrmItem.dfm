@@ -474,7 +474,6 @@ inherited frmItem: TfrmItem
     object tsAvgCost: TcxTabSheet
       Caption = 'History Harga Pokok Penjualan / Harga Average'
       ImageIndex = 1
-      ExplicitTop = 31
       object cxGroupBox3: TcxGroupBox
         Left = 0
         Top = 0
@@ -484,7 +483,6 @@ inherited frmItem: TfrmItem
         Style.LookAndFeel.NativeStyle = False
         StyleDisabled.LookAndFeel.NativeStyle = False
         TabOrder = 0
-        ExplicitTop = 8
         Height = 35
         Width = 738
         object btnRefresh: TcxButton
@@ -518,7 +516,6 @@ inherited frmItem: TfrmItem
           Properties.SaveTime = False
           Properties.ShowTime = False
           TabOrder = 2
-          ExplicitLeft = 325
           Width = 100
         end
         object cxLabel9: TcxLabel
@@ -527,7 +524,6 @@ inherited frmItem: TfrmItem
           Align = alRight
           Caption = 'Filter Periode'
           Properties.Alignment.Vert = taVCenter
-          ExplicitLeft = 201
           AnchorY = 18
         end
         object cxLabel10: TcxLabel
@@ -536,7 +532,6 @@ inherited frmItem: TfrmItem
           Align = alRight
           Caption = 's/d'
           Properties.Alignment.Vert = taVCenter
-          ExplicitLeft = 428
           AnchorY = 18
         end
       end
@@ -547,8 +542,6 @@ inherited frmItem: TfrmItem
         Height = 245
         Align = alClient
         TabOrder = 1
-        ExplicitWidth = 641
-        ExplicitHeight = 370
         object cxGrdAvg: TcxGridServerModeTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -571,8 +564,8 @@ inherited frmItem: TfrmItem
     end
   end
   object cxStyleRepository1: TcxStyleRepository
-    Left = 712
-    Top = 24
+    Left = 688
+    Top = 136
     PixelsPerInch = 96
     object styleMoney: TcxStyle
       AssignedValues = [svColor]

@@ -11,8 +11,8 @@ inherited frmCustomer: TfrmCustomer
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
     Top = 317
-    TabOrder = 8
-    ExplicitTop = 314
+    TabOrder = 9
+    ExplicitTop = 317
     ExplicitWidth = 491
     Width = 491
     inherited btnCancel: TcxButton
@@ -41,8 +41,8 @@ inherited frmCustomer: TfrmCustomer
   inherited Panel2: TPanel
     Top = 296
     Width = 491
-    TabOrder = 9
-    ExplicitTop = 293
+    TabOrder = 10
+    ExplicitTop = 296
     ExplicitWidth = 491
     inherited lbEscape: TLabel
       Left = 411
@@ -112,7 +112,7 @@ inherited frmCustomer: TfrmCustomer
     Top = 229
     TabStop = False
     Properties.CharCase = ecUpperCase
-    TabOrder = 7
+    TabOrder = 8
     Width = 292
   end
   object lbModified: TcxLabel
@@ -124,7 +124,7 @@ inherited frmCustomer: TfrmCustomer
     Left = 109
     Top = 208
     TabStop = False
-    TabOrder = 6
+    TabOrder = 7
     Width = 292
   end
   object chkActive: TcxCheckBox
@@ -133,7 +133,7 @@ inherited frmCustomer: TfrmCustomer
     TabStop = False
     Caption = 'Active'
     State = cbsChecked
-    TabOrder = 15
+    TabOrder = 16
   end
   object cxLabel4: TcxLabel
     Left = 46
@@ -166,7 +166,7 @@ inherited frmCustomer: TfrmCustomer
         Caption = 'Keliling'
       end>
     ItemIndex = 0
-    TabOrder = 5
+    TabOrder = 6
     Height = 44
     Width = 292
   end
@@ -174,6 +174,21 @@ inherited frmCustomer: TfrmCustomer
     Left = 109
     Top = 139
     TabOrder = 4
-    Width = 133
+    Width = 84
+  end
+  object crCreditLimit: TcxCurrencyEdit
+    Left = 294
+    Top = 139
+    EditValue = 0.000000000000000000
+    Properties.Alignment.Horz = taRightJustify
+    Properties.DecimalPlaces = 0
+    Properties.DisplayFormat = ',0.00;(,0.00)'
+    TabOrder = 5
+    Width = 107
+  end
+  object cxLabel5: TcxLabel
+    Left = 234
+    Top = 140
+    Caption = 'Credit Limit'
   end
 end

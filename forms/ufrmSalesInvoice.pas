@@ -14,7 +14,7 @@ uses
   cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
   cxSplitter, cxGridLevel, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxClasses, cxGridCustomView, cxGrid, uTransDetail,
-  cxGridDBDataDefinitions, uItem, Datasnap.DBClient;
+  cxGridDBDataDefinitions, uItem, Datasnap.DBClient, cxSpinEdit;
 
 type
   TfrmSalesInvoice = class(TfrmDefaultInput)
@@ -74,6 +74,9 @@ type
     cxLookupRekening: TcxExtLookupComboBox;
     Label2: TLabel;
     colSrvPPN: TcxGridDBColumn;
+    cxLookupFee: TcxExtLookupComboBox;
+    cxLabel14: TcxLabel;
+    spTempo: TcxSpinEdit;
     procedure edCustomerKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edNotesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -100,6 +103,8 @@ type
     procedure colSrvKodePropertiesEditValueChanged(Sender: TObject);
     procedure colSrvNamePropertiesEditValueChanged(Sender: TObject);
     procedure colSrvQtyPropertiesEditValueChanged(Sender: TObject);
+    procedure spTempoPropertiesEditValueChanged(Sender: TObject);
+    procedure dtInvoicePropertiesEditValueChanged(Sender: TObject);
   private
     DisableTrigger: Boolean;
     FCDS: TClientDataset;
@@ -161,9 +166,9 @@ begin
   inherited;
   if not ValidateData then exit;
   UpdateData;
-  if SalesInv.SaveToDB then
+  if SalesInv.SaveRepeat then
   begin
-    TAppUtils.InformationBerhasilSimpan;
+//    TAppUtils.InformationBerhasilSimpan;
     Self.ModalResult := mrOK;
   end;
 end;
@@ -228,10 +233,15 @@ procedure TfrmSalesInvoice.cbBayarPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
   if cbBayar.ItemIndex = PaymentFlag_Cash then
-    dtJtTempo.Date := dtInvoice.Date;
+  begin
+    spTempo.Value   := 0;
+    dtJtTempo.Date  := dtInvoice.Date;
+  end;
 
   cxLookupRekening.Enabled := cbBayar.ItemIndex = PaymentFlag_Cash;
   dtJtTempo.Enabled := cbBayar.ItemIndex = PaymentFlag_Credit;
+  spTempo.Visible := cbBayar.ItemIndex = PaymentFlag_Credit;
+
 end;
 
 procedure TfrmSalesInvoice.CDSAfterInsert(DataSet: TDataSet);
@@ -417,6 +427,12 @@ end;
 function TfrmSalesInvoice.DCService: TcxGridDBDataController;
 begin
   Result := cxGrdService.DataController;
+end;
+
+procedure TfrmSalesInvoice.dtInvoicePropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  dtJtTempo.Date := dtInvoice.Date + spTempo.Value;
 end;
 
 procedure TfrmSalesInvoice.edCustomerKeyDown(Sender: TObject; var Key: Word;
@@ -617,6 +633,9 @@ begin
   cxLookupRekening.Properties.LoadFromSQL(Self,
     'select id, nama from trekening','nama');
 
+  cxLookupFee.Properties.LoadFromSQL(Self,
+    'select id, nama from TSALESFEE','nama');
+
   if SalesInv.Rekening = nil then
     SalesInv.Rekening := TRekening.Create;
 
@@ -653,6 +672,7 @@ begin
 
   dtInvoice.Date := SalesInv.TransDate;
   dtJtTempo.Date := SalesInv.DueDate;
+  spTempo.Value := SalesInv.DueDate - SalesInv.TransDate;
 
   crSubTotal.Value := SalesInv.SubTotal;
   crPPN.Value := SalesInv.PPN;
@@ -764,8 +784,12 @@ begin
   cxLookupMekanik.Enabled := rbHarga.ItemIndex in [0,1];
   cxGridService.Visible := rbHarga.ItemIndex in [0,1];
 
-  cxLookupSalesman.TabStop := rbHarga.ItemIndex in [2,3];
+//  cxLookupSalesman.TabStop := rbHarga.ItemIndex in [2,3];
   cxLookupMekanik.TabStop := rbHarga.ItemIndex = 1;
+
+  cxLookupSalesman.Enabled := rbHarga.ItemIndex = 3;
+  cxLookupFee.Enabled := rbHarga.ItemIndex = 3;
+
 //  cxLookupRekening.TabOrder := cbBayar.ItemIndex = 0;
 
   if not cxGridService.Visible then
@@ -806,11 +830,13 @@ begin
     begin
       SalesInv.Customer.LoadByCode(AppVariable.Def_Cust_Umum);
       edCustomer.Text := SalesInv.Customer.Nama;
+      cbBayar.ItemIndex := PaymentFlag_Cash;
     end;
     1 :
     begin
       SalesInv.Customer.LoadByCode(AppVariable.Def_Cust_Bengkel);
       edCustomer.Text := SalesInv.Customer.Nama;
+      cbBayar.ItemIndex := PaymentFlag_Cash;
     end;
   end
 end;
@@ -850,6 +876,12 @@ begin
       FreeAndNil(lItemUOM);
     End;
   end;
+end;
+
+procedure TfrmSalesInvoice.spTempoPropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  dtJtTempo.Date := dtInvoice.Date + spTempo.Value;
 end;
 
 procedure TfrmSalesInvoice.UpdateData;
@@ -961,6 +993,39 @@ begin
   begin
     TAppUtils.Warning('Untuk Pembayaran Cash, Rekening Kas wajib diisi');
     exit;
+  end;
+
+//  if (rbHarga.ItemIndex = 1) and (VarToInt(cxLookupMekanik.EditValue) = 0) then
+//  begin
+//    TAppUtils.Warning('Untuk Harga Bengkel, Mekanik wajib diisi');
+//    exit;
+//  end;
+
+  if (rbHarga.ItemIndex = 3) and (VarToInt(cxLookupSalesman.EditValue) = 0) then
+  begin
+    TAppUtils.Warning('Untuk Harga Keliling Salesman wajib diisi');
+    exit;
+  end;
+
+  if (rbHarga.ItemIndex = 3) and (VarToInt(cxLookupFee.EditValue) = 0) then
+  begin
+    TAppUtils.Warning('Untuk Harga Keliling Jenis Fee wajib diisi');
+    exit;
+  end;
+
+
+  if (SalesInv.Customer.Kode = AppVariable.Def_Cust_Umum) and (cbBayar.ItemIndex = PaymentFlag_Credit)
+  then
+  begin
+    TAppUtils.Warning('Customer : ' + SalesInv.Customer.Nama + ' hanya diperbolehkan melakukan pembayaran CASH');
+    exit
+  end;
+
+  if (SalesInv.Customer.Kode = AppVariable.Def_Cust_Bengkel) and (cbBayar.ItemIndex = PaymentFlag_Credit)
+  then
+  begin
+    TAppUtils.Warning('Customer : ' + SalesInv.Customer.Nama + ' hanya diperbolehkan melakukan pembayaran CASH');
+    exit
   end;
 
 

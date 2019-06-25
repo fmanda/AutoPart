@@ -98,9 +98,9 @@ begin
   inherited;
   if not ValidateData then exit;
   UpdateData;
-  if Transfer.SaveToDB then
+  if Transfer.SaveRepeat then
   begin
-    TAppUtils.InformationBerhasilSimpan;
+//    TAppUtils.InformationBerhasilSimpan;
     Self.ModalResult := mrOK;
   end;
 end;

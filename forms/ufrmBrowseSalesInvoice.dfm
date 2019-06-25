@@ -10,6 +10,7 @@ inherited frmBrowseSalesInvoice: TfrmBrowseSalesInvoice
       OnClick = btnEditClick
     end
     inherited btnLihat: TcxButton
+      Visible = True
       OnClick = btnLihatClick
     end
     inherited btnBaru: TcxButton
