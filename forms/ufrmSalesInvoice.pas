@@ -157,7 +157,7 @@ implementation
 
 uses
   uDXUtils, uDBUtils, uAppUtils, ufrmCXServerLookup, uCustomer, cxDataUtils,
-  uWarehouse, uMekanik, uSalesman, uVariable, uAccount;
+  uWarehouse, uMekanik, uSalesman, uVariable, uAccount, uSalesFee;
 
 {$R *.dfm}
 
@@ -694,6 +694,9 @@ begin
   if SalesInv.Mekanik <> nil then
      cxLookupMekanik.EditValue := SalesInv.Mekanik.ID;
 
+  if SalesInv.SalesFee <> nil then
+     cxLookupFee.EditValue := SalesInv.SalesFee.ID;
+
 
   CDS.EmptyDataSet;
   CDSService.EmptyDataSet;
@@ -770,6 +773,8 @@ begin
       then
       begin
         UpdateHarga;
+        cxLookupFee.Clear;
+        cxLookupSalesman.Clear;
 //        SalesInv.SalesType := rbHarga.ItemIndex;
       end else
       begin
@@ -778,6 +783,8 @@ begin
       end;
     end;
   end;
+
+
 
   SalesInv.SalesType := rbHarga.ItemIndex;
   SetDefaultValueTipeHarga;
@@ -916,6 +923,10 @@ begin
   if SalesInv.Rekening = nil then
     SalesInv.Rekening := TRekening.Create;
   SalesInv.Rekening.LoadByID(VarToInt(cxLookupRekening.EditValue));
+
+  if SalesInv.SalesFee = nil then
+    SalesInv.SalesFee := TSalesFee.Create;
+  SalesInv.SalesFee.LoadByID(VarToInt(cxLookupFee.EditValue));
 
   SalesInv.Items.Clear;
   CDS.First;

@@ -377,7 +377,6 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     object cxLookupFee: TcxExtLookupComboBox
       Left = 474
       Top = 39
-      TabStop = False
       TabOrder = 9
       Width = 238
     end

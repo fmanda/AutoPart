@@ -1164,6 +1164,7 @@ begin
   if FWarehouse <> nil then FreeAndNil(FWarehouse);
   if FMekanik <> nil then FreeAndNil(FMekanik);
   if FRekening <> nil then FreeAndNil(FRekening);
+  if FSalesFee <> nil then FreeAndNil(FSalesFee);
 end;
 
 function TSalesInvoice.AfterSaveToDB: Boolean;
