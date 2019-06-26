@@ -96,8 +96,10 @@ type
     FDueDate: TDateTime;
     FAmount: Double;
     FAvgCostItems: TObjectList<TAvgCostUpdate>;
+    FPaidOff: Integer;
     FNotes: string;
     FPaidAmount: Double;
+    FPaidOffDate: TDatetime;
     FPaymentFlag: Integer;
     FRekening: TRekening;
     FReturAmount: Double;
@@ -112,6 +114,7 @@ type
     function BeforeSaveToDB: Boolean; override;
     function GetRefno: String; override;
   public
+    constructor Create;
     destructor Destroy; override;
     function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
@@ -129,8 +132,10 @@ type
     property InvoiceNo: string read FInvoiceNo write FInvoiceNo;
     property DueDate: TDateTime read FDueDate write FDueDate;
     property Amount: Double read FAmount write FAmount;
+    property PaidOff: Integer read FPaidOff write FPaidOff;
     property Notes: string read FNotes write FNotes;
     property PaidAmount: Double read FPaidAmount write FPaidAmount;
+    property PaidOffDate: TDatetime read FPaidOffDate write FPaidOffDate;
     property PaymentFlag: Integer read FPaymentFlag write FPaymentFlag;
     property Rekening: TRekening read FRekening write FRekening;
     property ReturAmount: Double read FReturAmount write FReturAmount;
@@ -241,6 +246,7 @@ type
   TSalesInvoice = class(TCRUDTransDetail)
   private
     FAmount: Double;
+    FPaidOff: Integer;
     FDueDate: TDateTime;
     FInvoiceNo: string;
     FNotes: string;
@@ -251,6 +257,7 @@ type
     FStatus: Integer;
     FSubTotal: Double;
     FCustomer: TCustomer;
+    FPaidOffDate: TDatetime;
     FServices: TObjectList<TServiceDetail>;
     FRekening: TRekening;
     FSalesman: TSalesman;
@@ -265,6 +272,7 @@ type
     function BeforeSaveToDB: Boolean; override;
     function GetRefno: String; override;
   public
+    constructor Create;
     destructor Destroy; override;
     function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
@@ -275,6 +283,7 @@ type
     property Services: TObjectList<TServiceDetail> read GetServices write FServices;
   published
     property Amount: Double read FAmount write FAmount;
+    property PaidOff: Integer read FPaidOff write FPaidOff;
     property DueDate: TDateTime read FDueDate write FDueDate;
     [AttributeOfCode]
     property InvoiceNo: string read FInvoiceNo write FInvoiceNo;
@@ -286,6 +295,7 @@ type
     property Status: Integer read FStatus write FStatus;
     property SubTotal: Double read FSubTotal write FSubTotal;
     property Customer: TCustomer read FCustomer write FCustomer;
+    property PaidOffDate: TDatetime read FPaidOffDate write FPaidOffDate;
     property Rekening: TRekening read FRekening write FRekening;
     property Salesman: TSalesman read FSalesman write FSalesman;
     property Mekanik: TMekanik read FMekanik write FMekanik;
@@ -466,6 +476,12 @@ begin
       End;
     end;
   end;
+end;
+
+constructor TPurchaseInvoice.Create;
+begin
+  inherited;
+  Self.PaidOff := 0;
 end;
 
 destructor TPurchaseInvoice.Destroy;
@@ -1157,6 +1173,12 @@ begin
   if Self.ID = 0 then Self.RefNo := Self.GenerateNo;
 end;
 
+constructor TSalesInvoice.Create;
+begin
+  inherited;
+  Self.PaidOff := 0;
+end;
+
 destructor TSalesInvoice.Destroy;
 begin
   inherited;
@@ -1208,7 +1230,10 @@ begin
 
   Result := True;
   if Self.PaymentFlag = PaymentFlag_Cash then
+  begin
     Self.PaidAmount := Self.Amount;
+    Self.PaidOff    := 0;
+  end;
 
   if Self.ID = 0 then  exit;
   //hanya edit

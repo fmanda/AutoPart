@@ -3,38 +3,56 @@ unit uSalesFee;
 interface
 
 uses
-  CRUDObject;
+  CRUDObject, uTransDetail, uSalesman, uSettingFee;
 
 type
   TSalesFee = class(TCRUDObject)
   private
-    FIsActive: Integer;
-    FFee_1: Double;
-    FFee_2: Double;
-    FFee_3: Double;
-    FNama: string;
-    FMaxTempo_1: Integer;
-    FMaxTempo_2: Integer;
-    FMaxTempo_3: Integer;
+    FSalesInvoice: TSalesInvoice;
+    FSalesman: TSalesman;
+    FReturAmt: Double;
+    FSalesAmt: Double;
+    FSalesCost: Double;
+    FFee: Double;
+    FNetProfit: Double;
+    FRefNo: string;
+    FReturCost: Double;
+    FSalesRetur: TSalesRetur;
+    FStatus: Integer;
+    FSettingFee: TSettingFee;
+    FTransDate: TDatetime;
+    FPaidOffDate: TDatetime;
   public
     constructor Create;
   published
-    property IsActive: Integer read FIsActive write FIsActive;
-    property Fee_1: Double read FFee_1 write FFee_1;
-    property Fee_2: Double read FFee_2 write FFee_2;
-    property Fee_3: Double read FFee_3 write FFee_3;
-    property Nama: string read FNama write FNama;
-    property MaxTempo_1: Integer read FMaxTempo_1 write FMaxTempo_1;
-    property MaxTempo_2: Integer read FMaxTempo_2 write FMaxTempo_2;
-    property MaxTempo_3: Integer read FMaxTempo_3 write FMaxTempo_3;
+    property SalesInvoice: TSalesInvoice read FSalesInvoice write FSalesInvoice;
+    property Salesman: TSalesman read FSalesman write FSalesman;
+    property ReturAmt: Double read FReturAmt write FReturAmt;
+    property SalesAmt: Double read FSalesAmt write FSalesAmt;
+    property SalesCost: Double read FSalesCost write FSalesCost;
+    property Fee: Double read FFee write FFee;
+    property NetProfit: Double read FNetProfit write FNetProfit;
+    [AttributeOfCode]
+    property RefNo: string read FRefNo write FRefNo;
+    property ReturCost: Double read FReturCost write FReturCost;
+    property SalesRetur: TSalesRetur read FSalesRetur write FSalesRetur;
+    property Status: Integer read FStatus write FStatus;
+    property SettingFee: TSettingFee read FSettingFee write FSettingFee;
+    property TransDate: TDatetime read FTransDate write FTransDate;
+    property PaidOffDate: TDatetime read FPaidOffDate write FPaidOffDate;
   end;
+
+const
+  SalesFee_Open : Integer = 0;
+  SalesFee_Paid : Integer = 1;
+  SalesFee_Cancel : Integer = 2;
 
 implementation
 
 constructor TSalesFee.Create;
 begin
   inherited;
-  IsActive := 1;
+  Self.Status := 0;
 end;
 
 end.
