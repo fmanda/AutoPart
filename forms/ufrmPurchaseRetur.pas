@@ -717,7 +717,7 @@ begin
   if PurchRetur.Warehouse = nil then
     PurchRetur.Warehouse := TWarehouse.Create;
 
-  PurchRetur.Warehouse.LoadByID(VarToInt(cxLookupGudang.EditValue));    
+  PurchRetur.Warehouse.LoadByID(VarToInt(cxLookupGudang.EditValue));
   PurchRetur.Items.Clear;
 
   CDS.First;

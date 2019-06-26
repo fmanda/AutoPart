@@ -4,7 +4,8 @@ interface
 
 uses
   CRUDObject, uDBUtils, Sysutils, uItem, System.Generics.Collections,
-  uWarehouse, uSupplier, uCustomer, uSalesman, uAccount, uMekanik, uSettingFee;
+  uWarehouse, uSupplier, uCustomer, uSalesman, uAccount, uMekanik, uSettingFee,
+  uVariable, Dateutils;
 
 type
   TTransDetail = class;
@@ -28,6 +29,8 @@ type
     function GenerateNo: String; virtual; abstract;
     procedure SetGenerateNo; virtual; abstract;
     function GetHeaderFlag: Integer; virtual; abstract;
+    function GetTotalCost(UseLastCost: Boolean = False; IncludePPN: Boolean =
+        False): Double;
     function SaveRepeat(aRepeatCount: Integer = 2; DoShowMsg: Boolean = True):
         Boolean;
     property Items: TObjectList<TTransDetail> read GetItems write FItems;
@@ -120,7 +123,7 @@ type
     function GetRemain: Double;
     function GetTotalBayar: Double;
     procedure SetGenerateNo; override;
-    function UpdateRemain: Boolean;
+    function UpdateRemain(aDate: TDateTime = 0): Boolean;
     property AvgCostItems: TObjectList<TAvgCostUpdate> read GetAvgCostItems write
         FAvgCostItems;
   published
@@ -278,7 +281,9 @@ type
     function GetRemain: Double;
     function GetTotalBayar: Double;
     procedure SetGenerateNo; override;
-    function UpdateRemain: Boolean;
+    function UpdateRemain(aPaymentDate: TDateTime; AddedPaidAmt: Double = 0;
+        AddedReturAmt: Double = 0): Boolean;
+    function UpdateSalesFee: Boolean;
     property Services: TObjectList<TServiceDetail> read GetServices write FServices;
   published
     property Amount: Double read FAmount write FAmount;
@@ -385,7 +390,7 @@ const
 implementation
 
 uses
-  System.StrUtils, uFinancialTransaction, uAppUtils;
+  System.StrUtils, uFinancialTransaction, uAppUtils, uSalesFee;
 
 destructor TCRUDTransDetail.Destroy;
 begin
@@ -405,6 +410,27 @@ end;
 function TCRUDTransDetail.GetRefno: String;
 begin
   Result := '';
+end;
+
+function TCRUDTransDetail.GetTotalCost(UseLastCost: Boolean = False;
+    IncludePPN: Boolean = False): Double;
+var
+  lCost: Double;
+  lItem: TTransDetail;
+begin
+  Result := 0;
+  for lItem in Self.Items do
+  begin
+    if UseLastCost then
+      lCost := lItem.Qty * lItem.LastCost
+    else
+      lCost := lItem.Qty * lItem.HargaAvg;
+
+    if IncludePPN then
+      lCost := lCost * (100+lItem.PPN)/100;
+
+    Result := Result + Abs(lCost);
+  end;
 end;
 
 procedure TCRUDTransDetail.PrepareDetailObject(AObjItem: TCRUDObject);
@@ -703,13 +729,22 @@ begin
   if Self.ID = 0 then Self.InvoiceNo := Self.GenerateNo;
 end;
 
-function TPurchaseInvoice.UpdateRemain: Boolean;
+function TPurchaseInvoice.UpdateRemain(aDate: TDateTime = 0): Boolean;
 var
   S: string;
 begin
+  if aDate = 0 then aDate := Now();
+
   S := 'Update TPurchaseInvoice set PaidAmount = ' + FloatToStr(Self.PaidAmount)
-  + ', ReturAmount = ' + FloatToSTr(Self.ReturAmount)
-  + ' where id = ' + IntToStr(Self.ID);
+  + ', ReturAmount = ' + FloatToSTr(Self.ReturAmount);
+
+  if (Self.Amount - Self.GetTotalBayar) <=  AppVariable.Toleransi_Piutang then
+    S := S + ',PaidOff = 1, PaidOffDate = ' + TAppUtils.QuotD(aDate)
+  else
+    S := S + ',PaidOff = 0, PaidOffDate = NULL';
+
+
+  S := S + ' where id = ' + IntToStr(Self.ID);
 
   Result := TDBUtils.ExecuteSQL(S);
 end;
@@ -1193,32 +1228,43 @@ function TSalesInvoice.AfterSaveToDB: Boolean;
 var
   lSalesPayment: TSalesPayment;
 begin
-  //update avg
   if Self.PaymentFlag = PaymentFlag_Cash then
   begin
     lSalesPayment :=  TSalesPayment.CreateOrGetFromInv(Self);
     Result := lSalesPayment.SaveToDB(False);
   end else
     Result := True;
+
+  if Result then
+    Result := Self.UpdateRemain(Self.TransDate);
 end;
 
 function TSalesInvoice.BeforeDeleteFromDB: Boolean;
 var
+  lSalesFee: TSalesFee;
   lSalesPayment: TSalesPayment;
 begin
-  Result := True;
+//  Result := True;
   lSalesPayment :=  TSalesPayment.Create;
+  lSalesFee := TSalesFee.Create;
   Try
     if lSalesPayment.LoadByCode(Self.InvoiceNo) then
-      Result := lSalesPayment.DeleteFromDB;
+      lSalesPayment.DeleteFromDB;
+
+    if lSalesFee.LoadByCode(Self.InvoiceNo) then
+      lSalesFee.DeleteFromDB;
+
+    Result := True;
   Finally
     lSalesPayment.Free;
+    lSalesFee.Free;
   End;
 end;
 
 function TSalesInvoice.BeforeSaveToDB: Boolean;
 var
   lItem: TTransDetail;
+  lSalesFee: TSalesFee;
   lSalesPayment: TSalesPayment;
 begin
   for lItem in Self.Items do
@@ -1227,21 +1273,31 @@ begin
     lItem.MakeNegative;
   end;
 
-  Result := True;
   if Self.PaymentFlag = PaymentFlag_Cash then
   begin
-    Self.PaidAmount := Self.Amount;
-    Self.PaidOff    := 0;
+    Self.PaidAmount   := Self.Amount;
+//    Self.PaidOff      := 1;
+//    Self.PaidOffDate  := Self.TransDate; diudpate di after safe
   end;
 
-  if Self.ID = 0 then  exit;
+  Result := True;
+  if Self.ID = 0 then exit;
   //hanya edit
+
+
   lSalesPayment :=  TSalesPayment.Create;
+  lSalesFee := TSalesFee.Create;
   Try
     if lSalesPayment.LoadByCode(Self.InvoiceNo) then
-      Result := lSalesPayment.DeleteFromDB;
+      lSalesPayment.DeleteFromDB;
+
+    if lSalesFee.LoadByCode(Self.InvoiceNo) then
+      lSalesFee.DeleteFromDB;
+
+    Result := True;
   Finally
     lSalesPayment.Free;
+    lSalesFee.Free;
   End;
 end;
 
@@ -1307,15 +1363,53 @@ begin
   if Self.ID = 0 then Self.InvoiceNo := Self.GenerateNo;
 end;
 
-function TSalesInvoice.UpdateRemain: Boolean;
+function TSalesInvoice.UpdateRemain(aPaymentDate: TDateTime; AddedPaidAmt:
+    Double = 0; AddedReturAmt: Double = 0): Boolean;
 var
   S: string;
 begin
+  //doupdatesales
+  if aPaymentDate = 0 then aPaymentDate := Now();
+
+  Self.PaidAmount := Self.PaidAmount + AddedPaidAmt;   //utk update / revert remain dari collection
+  Self.ReturAmount := Self.ReturAmount + AddedReturAmt;
+
   S := 'Update TSalesInvoice set PaidAmount = ' + FloatToStr(Self.PaidAmount)
-  + ', ReturAmount = ' + FloatToSTr(Self.ReturAmount)
-  + ' where id = ' + IntToStr(Self.ID);
+    + ', ReturAmount = ' + FloatToSTr(Self.ReturAmount);
+
+  if (Self.Amount - Self.GetTotalBayar) <=  AppVariable.Toleransi_Piutang then
+    S := S + ',PaidOff = 1, PaidOffDate = ' + TAppUtils.QuotD(aPaymentDate)
+  else
+    S := S + ',PaidOff = 0, PaidOffDate = NULL';
+
+
+  S := S + ' where id = ' + IntToStr(Self.ID);
 
   Result := TDBUtils.ExecuteSQL(S);
+
+  if Result then
+    Result := Self.UpdateSalesFee;
+end;
+
+function TSalesInvoice.UpdateSalesFee: Boolean;
+var
+  lSalesFee: TSalesFee;
+begin
+  Result :=  Self.SettingFee = nil;
+  if Result then exit;
+
+  Result :=  Self.SettingFee.ID = 0;
+  if Result then exit;
+
+  //reload here
+  Self.ReLoad(True);
+
+  lSalesFee := TSalesFee.UpdateFromInv(Self);
+  Try
+    Result := lSalesFee.SaveToDB(False);
+  Finally
+    lSalesFee.Free;
+  End;
 end;
 
 function TSalesRetur.AfterSaveToDB: Boolean;

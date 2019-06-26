@@ -612,7 +612,7 @@ begin
   if PurchInv.PaymentFlag = PaymentFlag_Cash then
     PurchInv.Rekening.LoadByID(VarToInt(cxLookupRekening.EditValue))
   else
-    PurchInv.Warehouse.LoadByID(0);
+    PurchInv.Rekening.ID := 0;
 
   PurchInv.Items.Clear;
 

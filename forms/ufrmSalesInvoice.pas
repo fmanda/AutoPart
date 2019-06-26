@@ -838,12 +838,20 @@ begin
       SalesInv.Customer.LoadByCode(AppVariable.Def_Cust_Umum);
       edCustomer.Text := SalesInv.Customer.Nama;
       cbBayar.ItemIndex := PaymentFlag_Cash;
+//      cxLookupFee.Clear;
+//      cxLookupSalesman.Clear;
     end;
     1 :
     begin
       SalesInv.Customer.LoadByCode(AppVariable.Def_Cust_Bengkel);
       edCustomer.Text := SalesInv.Customer.Nama;
       cbBayar.ItemIndex := PaymentFlag_Cash;
+    end;
+    3 :
+    begin
+//      SalesInv.Customer.LoadByCode(AppVariable.Def_Cust_Bengkel);
+//      edCustomer.Text := SalesInv.Customer.Nama;
+      cbBayar.ItemIndex := PaymentFlag_Credit;
     end;
   end
 end;
@@ -896,12 +904,12 @@ var
   lItem: TTransDetail;
   lService: TServiceDetail;
 begin
-
   SalesInv.InvoiceNo := edNoInv.Text;
   SalesInv.TransDate := dtInvoice.Date;
   SalesInv.DueDate  := dtJtTempo.Date;
   SalesInv.Notes := edNotes.Text;
-  SalesInv.PaymentFlag := rbHarga.ItemIndex;
+  SalesInv.PaymentFlag := cbBayar.ItemIndex;
+  SalesInv.SalesType := rbHarga.ItemIndex;
   SalesInv.SubTotal := crSubTotal.Value;
   SalesInv.PPN := crPPN.Value;
   SalesInv.Amount := crTotal.Value;
@@ -910,23 +918,23 @@ begin
 
   if SalesInv.Warehouse = nil then
     SalesInv.Warehouse := TWarehouse.Create;
-  SalesInv.Warehouse.LoadByID(VarToInt(cxLookupGudang.EditValue));
+  SalesInv.Warehouse.ID := VarToInt(cxLookupGudang.EditValue);
 
   if SalesInv.Mekanik = nil then
     SalesInv.Mekanik := TMekanik.Create;
-  SalesInv.Mekanik.LoadByID(VarToInt(cxLookupMekanik.EditValue));
+  SalesInv.Mekanik.ID := VarToInt(cxLookupMekanik.EditValue);
 
   if SalesInv.Salesman = nil then
     SalesInv.Salesman := TSalesman.Create;
-  SalesInv.Salesman.LoadByID(VarToInt(cxLookupSalesman.EditValue));
+  SalesInv.Salesman.ID := VarToInt(cxLookupSalesman.EditValue);
 
   if SalesInv.Rekening = nil then
     SalesInv.Rekening := TRekening.Create;
-  SalesInv.Rekening.LoadByID(VarToInt(cxLookupRekening.EditValue));
+  SalesInv.Rekening.ID := VarToInt(cxLookupRekening.EditValue);
 
   if SalesInv.SettingFee = nil then
     SalesInv.SettingFee := TSettingFee.Create;
-  SalesInv.SettingFee.LoadByID(VarToInt(cxLookupFee.EditValue));
+  SalesInv.SettingFee.ID := VarToInt(cxLookupFee.EditValue);
 
   SalesInv.Items.Clear;
   CDS.First;

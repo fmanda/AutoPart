@@ -16,6 +16,7 @@ type
     FDef_Cust_Umum: string;
     FTelp: string;
     FDef_Rekening: string;
+    FToleransi_Piutang: Double;
   public
     procedure LoadVariable;
     function UpdateVariable: Boolean;
@@ -28,6 +29,8 @@ type
     property Def_Cust_Umum: string read FDef_Cust_Umum write FDef_Cust_Umum;
     property Telp: string read FTelp write FTelp;
     property Def_Rekening: string read FDef_Rekening write FDef_Rekening;
+    property Toleransi_Piutang: Double read FToleransi_Piutang write
+        FToleransi_Piutang;
   end;
 
 
@@ -47,6 +50,9 @@ begin
   S := 'select * from TVariable';
   lCDS := TDBUtils.OpenDataset(S, nil);
   Try
+    //def
+    Toleransi_Piutang := 100;
+
     if lCDS.Locate('varname','Kode_Pusat',[loCaseInsensitive]) then
       Kode_Pusat := lCDS.FieldByName('VarValue').AsString;
     if lCDS.Locate('varname','Kode_Cabang',[loCaseInsensitive]) then
@@ -63,6 +69,8 @@ begin
       Def_Cust_Bengkel := lCDS.FieldByName('VarValue').AsString;
     if lCDS.Locate('varname','Def_Rekening',[loCaseInsensitive]) then
       Def_Rekening := lCDS.FieldByName('VarValue').AsString;
+    if lCDS.Locate('varname','Toleransi_Piutang',[loCaseInsensitive]) then
+      Def_Rekening := lCDS.FieldByName('Toleransi_Piutang').AsString;
   Finally
     lCDS.Free;
   End;
@@ -91,6 +99,10 @@ begin
       + QuotedStr(Def_Cust_Bengkel) + ');');
     SS.Add('insert into tvariable(varname, varvalue) values(''Def_Rekening'','
       + QuotedStr(Def_Rekening) + ');');
+
+
+    SS.Add('insert into tvariable(varname, varvalue) values(''Toleransi_Piutang'','
+      + FloatToStr(Toleransi_Piutang) + ');');
 
     Result := TDBUtils.ExecuteSQL(SS);
   Finally

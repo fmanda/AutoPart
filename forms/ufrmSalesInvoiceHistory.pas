@@ -300,7 +300,7 @@ begin
     );
     SalesInvoice.PaidAmount := CashTerbayar;
     SalesInvoice.ReturAmount := ReturTerBayar;
-    SalesInvoice.UpdateRemain;
+    SalesInvoice.UpdateRemain(Now());
   end;
 end;
 

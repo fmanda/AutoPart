@@ -415,7 +415,10 @@ begin
   If LowerCase(AProp.PropertyType.Name) = LowerCase('TDateTime') then
   begin
     lDate := AProp.GetValue(Self).AsExtended;
-    Result :=  QuotedStr(FormatDateTime('yyyy-mm-dd hh:mm:ss',lDate));
+    if lDate > 0 then
+      Result :=  QuotedStr(FormatDateTime('yyyy-mm-dd hh:mm:ss',lDate))
+    else
+      Result := 'NULL';
   end else begin
     case AProp.PropertyType.TypeKind of
       tkInteger, tkInt64:

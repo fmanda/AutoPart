@@ -39,15 +39,18 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     ExplicitWidth = 984
     inherited lbEscape: TLabel
       Left = 904
+      Height = 17
       ExplicitLeft = 904
     end
     inherited lgndSave: TLabel
       Left = 729
+      Height = 17
       Margins.Right = 25
       ExplicitLeft = 729
     end
     inherited lgndPrint: TLabel
       Left = 826
+      Height = 17
       ExplicitLeft = 826
     end
     object Label1: TLabel
@@ -55,7 +58,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       Left = 99
       Top = 1
       Width = 152
-      Height = 16
+      Height = 17
       Margins.Top = 1
       Margins.Bottom = 1
       Align = alLeft
@@ -66,13 +69,14 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      ExplicitHeight = 16
     end
     object Label2: TLabel
       AlignWithMargins = True
       Left = 3
       Top = 1
       Width = 90
-      Height = 16
+      Height = 17
       Margins.Top = 1
       Margins.Bottom = 1
       Align = alLeft
@@ -83,6 +87,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      ExplicitHeight = 16
     end
   end
   object cxGroupBox1: TcxGroupBox
@@ -396,8 +401,6 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitLeft = 8
-    ExplicitTop = 132
     object cxGrdItem: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdItemEditKeyDown
@@ -528,7 +531,6 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     Height = 8
     HotZoneClassName = 'TcxXPTaskBarStyle'
     AlignSplitter = salBottom
-    ExplicitWidth = 8
   end
   object cxGridService: TcxGrid
     Left = 0
