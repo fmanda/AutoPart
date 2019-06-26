@@ -4,8 +4,7 @@ interface
 
 uses
   CRUDObject, uDBUtils, Sysutils, uItem, System.Generics.Collections,
-  uWarehouse, uSupplier, uCustomer, uSalesman, uAccount, uMekanik, uSalesFee,
-  uSettingFee;
+  uWarehouse, uSupplier, uCustomer, uSalesman, uAccount, uMekanik, uSettingFee;
 
 type
   TTransDetail = class;

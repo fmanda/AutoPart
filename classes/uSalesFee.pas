@@ -24,6 +24,7 @@ type
     FPaidOffDate: TDatetime;
   public
     constructor Create;
+    class function UpdateFromInv(aPurchaseInv: TPurchaseInvoice): TSalesFee;
   published
     property SalesInvoice: TSalesInvoice read FSalesInvoice write FSalesInvoice;
     property Salesman: TSalesman read FSalesman write FSalesman;
@@ -53,6 +54,19 @@ constructor TSalesFee.Create;
 begin
   inherited;
   Self.Status := 0;
+end;
+
+class function TSalesFee.UpdateFromInv(aPurchaseInv: TPurchaseInvoice):
+    TSalesFee;
+
+begin
+  Result := TSalesFee.Create;
+  //load from inv
+  Result.LoadByCode(aPurchaseInv.InvoiceNo);
+  Result.Refno            := aPurchaseInv.InvoiceNo;
+  Result.TransDate        := aPurchaseInv.TransDate;
+
+  Result.SaveToDB(False);
 end;
 
 end.
