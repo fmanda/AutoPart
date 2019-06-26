@@ -908,11 +908,11 @@ object frmMain: TfrmMain
       Category = 0
     end
     object dxBarButton72: TdxBarButton
-      Action = actSalesFee
+      Action = actSettingFee
       Category = 0
     end
     object dxBarButton73: TdxBarButton
-      Action = actSalesFee
+      Action = actSettingFee
       Category = 0
     end
   end
@@ -1155,11 +1155,11 @@ object frmMain: TfrmMain
       Category = 'Manajemen'
       Caption = 'Closing Harian'
     end
-    object actSalesFee: TAction
+    object actSettingFee: TAction
       Category = 'Master'
       Caption = 'Komisi / Fee Salesman'
       ImageIndex = 14
-      OnExecute = actSalesFeeExecute
+      OnExecute = actSettingFeeExecute
     end
   end
   object ImageList: TcxImageList

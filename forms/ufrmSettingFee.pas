@@ -1,4 +1,4 @@
-unit ufrmSalesFee;
+unit ufrmSettingFee;
 
 interface
 
@@ -11,7 +11,7 @@ uses
   uSettingFee;
 
 type
-  TfrmSalesFee = class(TfrmDefaultInput)
+  TfrmSettingFee = class(TfrmDefaultInput)
     edNama: TcxTextEdit;
     cxLabel2: TcxLabel;
     chkActive: TcxCheckBox;
@@ -46,7 +46,7 @@ type
   end;
 
 var
-  frmSalesFee: TfrmSalesFee;
+  frmSettingFee: TfrmSettingFee;
 
 implementation
 
@@ -55,7 +55,7 @@ uses
 
 {$R *.dfm}
 
-procedure TfrmSalesFee.btnSaveClick(Sender: TObject);
+procedure TfrmSettingFee.btnSaveClick(Sender: TObject);
 begin
   inherited;
   if not ValidateData then exit;
@@ -67,22 +67,22 @@ begin
   end;
 end;
 
-procedure TfrmSalesFee.FormCreate(Sender: TObject);
+procedure TfrmSettingFee.FormCreate(Sender: TObject);
 begin
   inherited;
   Self.AssignKeyDownEvent;
   LoadByID(0);
 end;
 
-function TfrmSalesFee.GetSettingFee: TSettingFee;
+function TfrmSettingFee.GetSettingFee: TSettingFee;
 begin
   if FSettingFee = nil then
-    FSettingFee := TSalesFee.Create;
+    FSettingFee := TSettingFee.Create;
 
   Result := FSettingFee;
 end;
 
-procedure TfrmSalesFee.LoadByID(aID: Integer; IsReadOnly: Boolean = False);
+procedure TfrmSettingFee.LoadByID(aID: Integer; IsReadOnly: Boolean = False);
 begin
   if FSettingFee <> nil then FreeAndNil(FSettingFee);
 
@@ -100,7 +100,7 @@ begin
 
 end;
 
-procedure TfrmSalesFee.UpdateData;
+procedure TfrmSettingFee.UpdateData;
 begin
   SettingFee.Nama         := edNama.Text;
   SettingFee.Fee_1        := crFee1.Value;
@@ -113,7 +113,7 @@ begin
   if not chkActive.Checked then SettingFee.IsActive := 0;
 end;
 
-function TfrmSalesFee.ValidateData: Boolean;
+function TfrmSettingFee.ValidateData: Boolean;
 begin
   Result := False;
 

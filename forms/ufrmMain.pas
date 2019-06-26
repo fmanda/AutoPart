@@ -163,7 +163,7 @@ type
     dxBarButton70: TdxBarButton;
     dxBarManagerBar8: TdxBar;
     dxBarButton71: TdxBarButton;
-    actSalesFee: TAction;
+    actSettingFee: TAction;
     dxBarButton72: TdxBarButton;
     dxBarButton73: TdxBarButton;
     procedure actCustomerExecute(Sender: TObject);
@@ -180,7 +180,7 @@ type
     procedure actPurchaseReturExecute(Sender: TObject);
     procedure actRekeningExecute(Sender: TObject);
     procedure actSalesExecute(Sender: TObject);
-    procedure actSalesFeeExecute(Sender: TObject);
+    procedure actSettingFeeExecute(Sender: TObject);
     procedure actSalesInvoiceHistoryExecute(Sender: TObject);
     procedure actSalesmanExecute(Sender: TObject);
     procedure actServiceExecute(Sender: TObject);
@@ -215,7 +215,7 @@ uses
   ufrmBrowsePurchaseRetur, ufrmBrowseTransferStock, ufrmLapStock,
   ufrmBrowseSalesman, ufrmBrowseMekanik, ufrmBrowseSalesInvoice, ufrmVariable,
   uVariable, ufrmSalesInvoiceHistory, ufrmPurchaseInvoiceHistory,
-  ufrmBrowseSalesFee;
+  ufrmBrowseSettingFee;
 
 {$R *.dfm}
 
@@ -308,9 +308,9 @@ begin
   ShowForm(TfrmBrowseSalesInvoice);
 end;
 
-procedure TfrmMain.actSalesFeeExecute(Sender: TObject);
+procedure TfrmMain.actSettingFeeExecute(Sender: TObject);
 begin
-  ShowForm(TfrmBrowseSalesFee);
+  ShowForm(TfrmBrowseSettingFee);
 end;
 
 procedure TfrmMain.actSalesInvoiceHistoryExecute(Sender: TObject);

@@ -4,7 +4,8 @@ interface
 
 uses
   CRUDObject, uDBUtils, Sysutils, uItem, System.Generics.Collections,
-  uWarehouse, uSupplier, uCustomer, uSalesman, uAccount, uMekanik, uSalesFee;
+  uWarehouse, uSupplier, uCustomer, uSalesman, uAccount, uMekanik, uSalesFee,
+  uSettingFee;
 
 type
   TTransDetail = class;
@@ -254,7 +255,7 @@ type
     FRekening: TRekening;
     FSalesman: TSalesman;
     FMekanik: TMekanik;
-    FSalesFee: TSalesFee;
+    FSettingFee: TSettingFee;
     FSalesType: Integer;
     FWarehouse: TWarehouse;
     function GetServices: TObjectList<TServiceDetail>;
@@ -288,7 +289,7 @@ type
     property Rekening: TRekening read FRekening write FRekening;
     property Salesman: TSalesman read FSalesman write FSalesman;
     property Mekanik: TMekanik read FMekanik write FMekanik;
-    property SalesFee: TSalesFee read FSalesFee write FSalesFee;
+    property SettingFee: TSettingFee read FSettingFee write FSettingFee;
     property SalesType: Integer read FSalesType write FSalesType;
     property Warehouse: TWarehouse read FWarehouse write FWarehouse;
   end;
@@ -1164,7 +1165,7 @@ begin
   if FWarehouse <> nil then FreeAndNil(FWarehouse);
   if FMekanik <> nil then FreeAndNil(FMekanik);
   if FRekening <> nil then FreeAndNil(FRekening);
-  if FSalesFee <> nil then FreeAndNil(FSalesFee);
+  if FSettingFee <> nil then FreeAndNil(FSettingFee);
 end;
 
 function TSalesInvoice.AfterSaveToDB: Boolean;

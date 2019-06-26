@@ -1,4 +1,4 @@
-unit ufrmBrowseSalesFee;
+unit ufrmBrowseSettingFee;
 
 interface
 
@@ -14,7 +14,7 @@ uses
   cxGridServerModeTableView, cxGrid, uSettingFee;
 
 type
-  TfrmBrowseSalesFee = class(TfrmDefaultServerBrowse)
+  TfrmBrowseSettingFee = class(TfrmDefaultServerBrowse)
     procedure btnBaruClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnHapusClick(Sender: TObject);
@@ -28,19 +28,19 @@ type
   end;
 
 var
-  frmBrowseSalesFee: TfrmBrowseSalesFee;
+  frmBrowseSettingFee: TfrmBrowseSettingFee;
 
 implementation
 
 uses
-  ufrmSalesFee, uDXUtils, uAppUtils;
+  ufrmSettingFee, uDXUtils, uAppUtils;
 
 {$R *.dfm}
 
-procedure TfrmBrowseSalesFee.btnBaruClick(Sender: TObject);
+procedure TfrmBrowseSettingFee.btnBaruClick(Sender: TObject);
 begin
   inherited;
-  with TfrmSalesFee.Create(Application) do
+  with TfrmSettingFee.Create(Application) do
   begin
     Try
       if ShowModal = mrOK then
@@ -51,10 +51,10 @@ begin
   end;
 end;
 
-procedure TfrmBrowseSalesFee.btnEditClick(Sender: TObject);
+procedure TfrmBrowseSettingFee.btnEditClick(Sender: TObject);
 begin
   inherited;
-  with TfrmSalesFee.Create(Application) do
+  with TfrmSettingFee.Create(Application) do
   begin
     LoadByID(cxGrdMain.GetID);
     Try
@@ -66,7 +66,7 @@ begin
   end;
 end;
 
-procedure TfrmBrowseSalesFee.btnHapusClick(Sender: TObject);
+procedure TfrmBrowseSettingFee.btnHapusClick(Sender: TObject);
 begin
   inherited;
   if not TAppUtils.Confirm('Anda yakin menghapus data ini?') then exit;
@@ -84,14 +84,14 @@ begin
 
 end;
 
-function TfrmBrowseSalesFee.GetKeyField: string;
+function TfrmBrowseSettingFee.GetKeyField: string;
 begin
   Result := 'id';
 end;
 
-function TfrmBrowseSalesFee.GetSQL: string;
+function TfrmBrowseSettingFee.GetSQL: string;
 begin
-  Result := 'select * from tsalesfee';
+  Result := 'select * from tsettingfee';
 end;
 
 end.

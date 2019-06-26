@@ -68,8 +68,9 @@ uses
   ufrmSalesInvoiceHistory in 'forms\ufrmSalesInvoiceHistory.pas' {frmSalesInvoiceHistory},
   ufrmPurchaseInvoiceHistory in 'forms\ufrmPurchaseInvoiceHistory.pas' {frmPurchaseInvoiceHistory},
   uSalesFee in 'classes\uSalesFee.pas',
-  ufrmSalesFee in 'forms\ufrmSalesFee.pas' {frmSalesFee},
-  ufrmBrowseSalesFee in 'forms\ufrmBrowseSalesFee.pas' {frmBrowseSalesFee};
+  ufrmSettingFee in 'forms\ufrmSettingFee.pas' {frmSettingFee},
+  ufrmBrowseSettingFee in 'forms\ufrmBrowseSettingFee.pas' {frmBrowseSettingFee},
+  uSettingFee in 'classes\uSettingFee.pas';
 
 {$R *.res}
 

@@ -1,4 +1,4 @@
-inherited frmSalesFee: TfrmSalesFee
+inherited frmSettingFee: TfrmSettingFee
   Caption = 'Update Komisi / Fee Salesman'
   ClientHeight = 211
   ClientWidth = 364
@@ -31,18 +31,21 @@ inherited frmSalesFee: TfrmSalesFee
     Top = 155
     Width = 364
     TabOrder = 9
-    ExplicitTop = 321
+    ExplicitTop = 155
     ExplicitWidth = 364
     inherited lbEscape: TLabel
       Left = 284
+      Height = 17
       ExplicitLeft = 284
     end
     inherited lgndSave: TLabel
       Left = 119
+      Height = 17
       ExplicitLeft = 119
     end
     inherited lgndPrint: TLabel
       Left = 206
+      Height = 17
       ExplicitLeft = 206
     end
   end

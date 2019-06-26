@@ -157,7 +157,7 @@ implementation
 
 uses
   uDXUtils, uDBUtils, uAppUtils, ufrmCXServerLookup, uCustomer, cxDataUtils,
-  uWarehouse, uMekanik, uSalesman, uVariable, uAccount, uSalesFee;
+  uWarehouse, uMekanik, uSalesman, uVariable, uAccount, uSettingFee;
 
 {$R *.dfm}
 
@@ -634,7 +634,7 @@ begin
     'select id, nama from trekening','nama');
 
   cxLookupFee.Properties.LoadFromSQL(Self,
-    'select id, nama from TSALESFEE','nama');
+    'select id, nama from TSettingFee','nama');
 
   if SalesInv.Rekening = nil then
     SalesInv.Rekening := TRekening.Create;
@@ -694,8 +694,8 @@ begin
   if SalesInv.Mekanik <> nil then
      cxLookupMekanik.EditValue := SalesInv.Mekanik.ID;
 
-  if SalesInv.SalesFee <> nil then
-     cxLookupFee.EditValue := SalesInv.SalesFee.ID;
+  if SalesInv.SettingFee <> nil then
+     cxLookupFee.EditValue := SalesInv.SettingFee.ID;
 
 
   CDS.EmptyDataSet;
@@ -924,9 +924,9 @@ begin
     SalesInv.Rekening := TRekening.Create;
   SalesInv.Rekening.LoadByID(VarToInt(cxLookupRekening.EditValue));
 
-  if SalesInv.SalesFee = nil then
-    SalesInv.SalesFee := TSalesFee.Create;
-  SalesInv.SalesFee.LoadByID(VarToInt(cxLookupFee.EditValue));
+  if SalesInv.SettingFee = nil then
+    SalesInv.SettingFee := TSettingFee.Create;
+  SalesInv.SettingFee.LoadByID(VarToInt(cxLookupFee.EditValue));
 
   SalesInv.Items.Clear;
   CDS.First;
