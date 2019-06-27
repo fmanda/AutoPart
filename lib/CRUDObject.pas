@@ -73,7 +73,7 @@ type
     class function CreateDataSet(aOwner: TComponent; CreateDataSet: Boolean =
         True): TClientDataSet;
     function SaveToDB(DoCommit: Boolean = True): Boolean; dynamic;
-    function DeleteFromDB: Boolean; dynamic;
+    function DeleteFromDB(DoCommit: Boolean = True): Boolean; dynamic;
     function GetHeaderField: String;
     function GetSQLInsert: String;
     function LoadByID(AID: Integer; LoadObjectList: Boolean = True): Boolean;
@@ -714,7 +714,7 @@ begin
   End;
 end;
 
-function TCRUDObject.DeleteFromDB: Boolean;
+function TCRUDObject.DeleteFromDB(DoCommit: Boolean = True): Boolean;
 var
   lSS: TStrings;
 begin
@@ -735,7 +735,7 @@ begin
         Self.SaveLogToDB('Delete', Self.GetSQLDelete);
       end;
 
-      Result := TDBUtils.ExecuteSQL(lSS, True);
+      Result := TDBUtils.ExecuteSQL(lSS, DoCommit);
     except
       TDBUtils.RollBack;
       Raise;

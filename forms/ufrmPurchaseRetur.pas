@@ -13,7 +13,8 @@ uses
   cxGridLevel, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxClasses, cxGridCustomView, cxGrid, cxDropDownEdit, cxLookupEdit,
   cxDBLookupEdit, cxMaskEdit, cxCalendar, cxMemo, cxLabel, uTransDetail,
-  Datasnap.DBClient, cxRadioGroup, uItem, cxGridDBDataDefinitions, cxDataUtils;
+  Datasnap.DBClient, cxRadioGroup, uItem, cxGridDBDataDefinitions, cxDataUtils,
+  cxCheckBox;
 
 type
   TfrmPurchaseRetur = class(TfrmDefaultInput)
@@ -55,6 +56,7 @@ type
     cxLabel11: TcxLabel;
     rbJenis: TcxRadioGroup;
     edSupp: TcxButtonEdit;
+    ckReferensiFaktur: TcxCheckBox;
     procedure edInvKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
     procedure edInvPropertiesButtonClick(Sender: TObject;
@@ -75,6 +77,10 @@ type
     procedure rbJenisPropertiesEditValueChanged(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
     procedure edNotesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure edSuppKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure edSuppPropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
+    procedure ckReferensiFakturPropertiesEditValueChanged(Sender: TObject);
   private
     FCDS: TClientDataset;
     FCDSValidate: TClientDataset;
@@ -95,6 +101,7 @@ type
     procedure LoadAllInvoiceItem;
     procedure LookupInvoice(sKey: string = '');
     procedure LookupItem(aKey: string = '');
+    procedure LookupSupplier(sKey: string = '');
     procedure SetItemToGrid(aItem: TItem);
     procedure UpdateData;
     function ValidateData: Boolean;
@@ -186,6 +193,23 @@ begin
   DataSet.FieldByName('Warehouse').AsInteger := VarToInt(cxLookupGudang.EditValue);
 end;
 
+procedure TfrmPurchaseRetur.ckReferensiFakturPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  edInv.Enabled := ckReferensiFaktur.Checked;
+  dtInvoice.Enabled := ckReferensiFaktur.Checked;
+  if not DisableEvent then
+  begin
+    if not ckReferensiFaktur.Checked then
+    begin
+      PurchRetur.ClearInvoice;
+      edInv.Clear;
+      dtInvoice.Clear;
+    end;
+  end;
+end;
+
 procedure TfrmPurchaseRetur.colDiscPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
@@ -207,16 +231,19 @@ var
   lItem: TItem;
 begin
   inherited;
-  if PurchRetur.Invoice = nil then
+  if ckReferensiFaktur.Checked then
   begin
-    TAppUtils.Warning('Nomor Faktur belum dipilih');
-    exit;
-  end;
+    if PurchRetur.Invoice = nil then
+    begin
+      TAppUtils.Warning('Nomor Faktur belum dipilih');
+      exit;
+    end;
 
-  if PurchRetur.Invoice.ID = 0 then
-  begin
-    TAppUtils.Warning('Nomor Faktur belum dipilih');
-    exit;
+    if PurchRetur.Invoice.ID = 0 then
+    begin
+      TAppUtils.Warning('Nomor Faktur belum dipilih');
+      exit;
+    end;
   end;
 
   lItem := TItem.Create;
@@ -224,23 +251,27 @@ begin
     if lItem.LoadByCode(VarToStr(DisplayValue)) then
     begin
       //find item
-      if PurchRetur.Invoice.Items.Count = 0 then
-        PurchRetur.Invoice.ReLoad(True);
-
-      lFound := False;
-      for lDetail in PurchRetur.Invoice.Items do
+      if ckReferensiFaktur.Checked then
       begin
-        lFound := lDetail.Item.ID = lItem.ID;
-        if lFound then break;
-      end;
 
-      if not lFound then
-      begin        
-        Error := True;
-        ErrorText := 'Kode Barang ' + VarToStr(DisplayValue)
-          + ' tidak ditemukan di faktur pembelian';
-//        exit;        
-      end;                                        
+        if PurchRetur.Invoice.Items.Count = 0 then
+          PurchRetur.Invoice.ReLoad(True);
+
+        lFound := False;
+        for lDetail in PurchRetur.Invoice.Items do
+        begin
+          lFound := lDetail.Item.ID = lItem.ID;
+          if lFound then break;
+        end;
+
+        if not lFound then
+        begin
+          Error := True;
+          ErrorText := 'Kode Barang ' + VarToStr(DisplayValue)
+            + ' tidak ditemukan di faktur pembelian';
+  //        exit;
+        end;
+      end;
 
       SetItemToGrid(lItem);
     end
@@ -374,6 +405,31 @@ begin
   begin
     FocusToGrid;
   end;
+end;
+
+procedure TfrmPurchaseRetur.edSuppKeyDown(Sender: TObject; var Key: Word;
+    Shift: TShiftState);
+var
+  Edit: TcxCustomEdit;
+  sKey: string;
+begin
+  inherited;
+  if Key = VK_F5 then
+  begin
+    Edit := Sender as TcxCustomEdit;
+    sKey := VarToStr(Edit.EditingValue);
+    LookupSupplier(sKey);
+  end else if Key = VK_RETURN then
+  begin
+    SelectNext(Screen.ActiveControl, True, True);
+  end;
+end;
+
+procedure TfrmPurchaseRetur.edSuppPropertiesButtonClick(Sender: TObject;
+  AButtonIndex: Integer);
+begin
+  inherited;
+  LookupSupplier();
 end;
 
 procedure TfrmPurchaseRetur.FocusToGrid;
@@ -557,12 +613,26 @@ var
   cxLookup: TfrmCXServerLookup;
   S: string;
 begin
+  if PurchRetur.Supplier = nil then
+  begin
+    TAppUtils.Warning('Supplier Harus dipilih terlebih dahulu');
+    exit;
+  end;
+
+  if PurchRetur.Supplier.ID = 0 then
+  begin
+    TAppUtils.Warning('Supplier Harus dipilih terlebih dahulu');
+    exit;
+  end;
+
+
   S := 'SELECT A.ID, A.INVOICENO, A.TRANSDATE AS TANGGAL,'
       +' B.NAMA AS SUPPLIER, A.AMOUNT AS TOTAL, C.NAMA AS GUDANG'
       +' FROM TPURCHASEINVOICE A'
       +' INNER JOIN TSUPPLIER B ON A.SUPPLIER_ID = B.ID'
       +' INNER JOIN TWAREHOUSE C ON A.WAREHOUSE_ID = C.ID'
-      +' WHERE A.TRANSDATE BETWEEN :startdate AND :enddate';
+      +' WHERE A.TRANSDATE BETWEEN :startdate AND :enddate'
+      +' AND A.SUPPLIER_ID = ' + IntToStr(PurchRetur.Supplier.ID);
 
   if rbJenis.ItemIndex = 1 then
     S := S + 'AND PAIDAMOUNT = 0 AND RETURAMOUNT = 0';
@@ -574,15 +644,15 @@ begin
     begin
       if PurchRetur.Invoice = nil then
         PurchRetur.Invoice := TPurchaseInvoice.Create;
-      if PurchRetur.Supplier = nil then
-        PurchRetur.Supplier := TSupplier.Create;
+//      if PurchRetur.Supplier = nil then
+//        PurchRetur.Supplier := TSupplier.Create;
 
       PurchRetur.Invoice.LoadByID(cxLookup.FieldValue('id'));
-      PurchRetur.Supplier.LoadByID(PurchRetur.Invoice.Supplier.ID);
+//      PurchRetur.Supplier.LoadByID(PurchRetur.Invoice.Supplier.ID);
 
       edInv.Text := PurchRetur.Invoice.InvoiceNo;
       dtInvoice.Date := PurchRetur.Invoice.TransDate;
-      edSupp.Text := PurchRetur.Supplier.Nama;
+//      edSupp.Text := PurchRetur.Supplier.Nama;
       cxLookupGudang.EditValue := PurchRetur.Invoice.Warehouse.ID;
 
       CDS.EmptyDataSet;
@@ -603,25 +673,32 @@ var
 //  sKey: string;
 begin
 
-  if PurchRetur.Invoice = nil then
+  if ckReferensiFaktur.Checked then
   begin
-    TAppUtils.Warning('Nomor Faktur belum dipilih');
-    exit;
-  end;
+    if PurchRetur.Invoice = nil then
+    begin
+      TAppUtils.Warning('Nomor Faktur belum dipilih');
+      exit;
+    end;
 
-  if PurchRetur.Invoice.ID = 0 then
-  begin
-    TAppUtils.Warning('Nomor Faktur belum dipilih');
-    exit;
+    if PurchRetur.Invoice.ID = 0 then
+    begin
+      TAppUtils.Warning('Nomor Faktur belum dipilih');
+      exit;
+    end;
   end;
 
   lItem  := TItem.Create;
   Try
+    if True then
+
     s := 'SELECT distinct A.ID, A.KODE, A.NAMA, C.NAMA AS MERK, B.NAMA AS ITEMGROUP, A.RAK'
         +' FROM TITEM A'
         +' LEFT JOIN TITEMGROUP B ON A.GROUP_ID = B.ID'
-        +' LEFT JOIN TMERK C ON A.MERK_ID = C.ID'
-        +' INNER JOIN TTRANSDETAIL D ON D.HEADER_FLAG = ' + IntToStr(HeaderFlag_PurchaseInvoice)
+        +' LEFT JOIN TMERK C ON A.MERK_ID = C.ID';
+
+    if ckReferensiFaktur.Checked then
+      S := S +' INNER JOIN TTRANSDETAIL D ON D.HEADER_FLAG = ' + IntToStr(HeaderFlag_PurchaseInvoice)
         +' AND D.ITEM_ID = A.ID AND D.HEADER_ID = ' + IntToStr(PurchRetur.Invoice.ID);
 
     cxLookup := TfrmCXServerLookup.Execute(S,'ID');
@@ -643,6 +720,33 @@ begin
   End;
 end;
 
+procedure TfrmPurchaseRetur.LookupSupplier(sKey: string = '');
+var
+  cxLookup: TfrmCXServerLookup;
+  S: string;
+begin
+  S := 'select * from TSUPPLIER';
+  cxLookup := TfrmCXServerLookup.Execute(S, 'ID');
+  Try
+    cxLookup.PreFilter('Nama', sKey);
+    if cxLookup.ShowModal = mrOK then
+    begin
+      if PurchRetur.Supplier = nil then
+        PurchRetur.Supplier := TSupplier.Create;
+      PurchRetur.Supplier.LoadByID(cxLookup.FieldValue('id'));
+      edSupp.Text := PurchRetur.Supplier.Nama;
+
+      PurchRetur.ClearInvoice;
+      edInv.Clear;
+      dtInvoice.Clear;
+
+      CDS.EmptyDataSet;
+    end;
+  Finally
+    cxLookup.Free;
+  End;
+end;
+
 procedure TfrmPurchaseRetur.rbJenisPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
@@ -650,16 +754,22 @@ begin
   cxGrdMain.OptionsData.Appending := rbJenis.ItemIndex = 0;
   cxGrdMain.OptionsData.Inserting := rbJenis.ItemIndex = 0;
   cxGrdMain.OptionsData.Deleting  := rbJenis.ItemIndex = 0;
+  ckReferensiFaktur.Enabled       := rbJenis.ItemIndex = 0;
 
   if (rbJenis.ItemIndex = 1) and (not DisableEvent) then
   begin
 //    PurchRetur.Invoice.Free;
     PurchRetur.ClearInvoice;
+    PurchRetur.ClearSupplier;
+
     edInv.Clear;
     dtInvoice.Clear;
     edSupp.Clear;
     CDS.EmptyDataSet;
   end;
+
+//  if not DisableEvent then
+  ckReferensiFaktur.Checked := rbJenis.ItemIndex = 1;
 end;
 
 procedure TfrmPurchaseRetur.SetItemToGrid(aItem: TItem);
@@ -736,16 +846,19 @@ function TfrmPurchaseRetur.ValidateData: Boolean;
 begin
   Result := False;
 
-  if PurchRetur.Invoice = nil then
+  if ckReferensiFaktur.Checked then
   begin
-    TAppUtils.Warning('Nomor Faktur belum dipilih');
-    exit;
-  end;
+    if PurchRetur.Invoice = nil then
+    begin
+      TAppUtils.Warning('Nomor Faktur belum dipilih');
+      exit;
+    end;
 
-  if PurchRetur.Invoice.ID = 0 then
-  begin
-    TAppUtils.Warning('Nomor Faktur belum dipilih');
-    exit;
+    if PurchRetur.Invoice.ID = 0 then
+    begin
+      TAppUtils.Warning('Nomor Faktur belum dipilih');
+      exit;
+    end;
   end;
 
 
@@ -787,12 +900,15 @@ begin
     exit;
   end;
 
-  //validate Inv    
-  if not ValidateItem then exit;  
-  if crTotal.Value > PurchRetur.Invoice.Amount then
+  //validate Inv
+  if ckReferensiFaktur.Checked then
   begin
-    TAppUtils.Warning('Nilai Total Retur melebihi Total Faktur');
-    exit;
+    if not ValidateItem then exit;
+    if crTotal.Value > PurchRetur.Invoice.Amount then
+    begin
+      TAppUtils.Warning('Nilai Total Retur melebihi Total Faktur');
+      exit;
+    end;
   end;
 
   Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');

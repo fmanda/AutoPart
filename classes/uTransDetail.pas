@@ -123,7 +123,8 @@ type
     function GetRemain: Double;
     function GetTotalBayar: Double;
     procedure SetGenerateNo; override;
-    function UpdateRemain(aDate: TDateTime = 0): Boolean;
+    function UpdateRemain(aDate: TDateTime = 0; AddedPaidAmt: Double = 0;
+        AddedReturAmt: Double = 0): Boolean;
     property AvgCostItems: TObjectList<TAvgCostUpdate> read GetAvgCostItems write
         FAvgCostItems;
   published
@@ -152,12 +153,12 @@ type
     FSupplier: TSupplier;
     FRefno: string;
     FAmount: Double;
+    FPaidAmount: Double;
     FNotes: string;
     FReturFlag: Integer;
     FStatus: Integer;
     FInvoice: TPurchaseInvoice;
     FWarehouse: TWarehouse;
-    function UpdateReturAmt(IsRevert: Boolean = False): Boolean;
   protected
     function AfterSaveToDB: Boolean; override;
     function BeforeDeleteFromDB: Boolean; override;
@@ -166,9 +167,11 @@ type
   public
     destructor Destroy; override;
     procedure ClearInvoice;
+    procedure ClearSupplier;
     function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
     procedure SetGenerateNo; override;
+    function UpdateRemain(AddedPaidAmt: Double = 0): Boolean;
   published
     property SubTotal: Double read FSubTotal write FSubTotal;
     property PPN: Double read FPPN write FPPN;
@@ -176,6 +179,7 @@ type
     [AttributeOfCode]
     property Refno: string read FRefno write FRefno;
     property Amount: Double read FAmount write FAmount;
+    property PaidAmount: Double read FPaidAmount write FPaidAmount;
     property Notes: string read FNotes write FNotes;
     property ReturFlag: Integer read FReturFlag write FReturFlag;
     property Status: Integer read FStatus write FStatus;
@@ -283,7 +287,7 @@ type
     procedure SetGenerateNo; override;
     function UpdateRemain(aPaymentDate: TDateTime; AddedPaidAmt: Double = 0;
         AddedReturAmt: Double = 0): Boolean;
-    function UpdateSalesFee: Boolean;
+    function UpdateSalesFee(ReloadSales: Boolean = True): Boolean;
     property Services: TObjectList<TServiceDetail> read GetServices write FServices;
   published
     property Amount: Double read FAmount write FAmount;
@@ -312,6 +316,7 @@ type
   TSalesRetur = class(TCRUDTransDetail)
   private
     FAmount: Double;
+    FPaidAmount: Double;
     FInvoice: TSalesInvoice;
     FNotes: string;
     FPPN: Double;
@@ -322,7 +327,6 @@ type
     FCustomer: TCustomer;
     FSalesman: TSalesman;
     FWarehouse: TWarehouse;
-    function UpdateReturAmt(IsRevert: Boolean = False): Boolean;
   protected
     function AfterSaveToDB: Boolean; override;
     function BeforeSaveToDB: Boolean; override;
@@ -331,8 +335,10 @@ type
     function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
     procedure SetGenerateNo; override;
+    function UpdateRemain(AddedPaidAmt: Double = 0): Boolean;
   published
     property Amount: Double read FAmount write FAmount;
+    property PaidAmount: Double read FPaidAmount write FPaidAmount;
     property Invoice: TSalesInvoice read FInvoice write FInvoice;
     property Notes: string read FNotes write FNotes;
     property PPN: Double read FPPN write FPPN;
@@ -543,7 +549,7 @@ begin
   lPurchasePayment := TPurchasePayment.Create;
   Try
     if lPurchasePayment.LoadByCode(Self.InvoiceNo) then
-      Result := lPurchasePayment.DeleteFromDB;
+      Result := lPurchasePayment.DeleteFromDB(False);
   Finally
     lPurchasePayment.Free;
   End;
@@ -558,15 +564,19 @@ begin
   GenerateAvgCost;
   Result := True;
 
-  if Self.PaymentFlag = PaymentFlag_Cash then
-    Self.PaidAmount := Self.Amount;
-
+//  if Self.PaymentFlag = PaymentFlag_Cash then
   if Self.ID = 0 then  exit;
+
+  Self.PaidAmount   := 0; //reset , value ini hanya boleh diupdate di method UpdateRemain
+  Self.ReturAmount  := 0;
+  Self.PaidOff      := 0;
+  Self.PaidOffDate  := 0;
+
   //hanya edit
   lPurchasePayment :=  TPurchasePayment.Create;
   Try
     if lPurchasePayment.LoadByCode(Self.InvoiceNo) then
-      Result := lPurchasePayment.DeleteFromDB;
+      Result := lPurchasePayment.DeleteFromDB(False);
   Finally
     lPurchasePayment.Free;
   End;
@@ -729,11 +739,15 @@ begin
   if Self.ID = 0 then Self.InvoiceNo := Self.GenerateNo;
 end;
 
-function TPurchaseInvoice.UpdateRemain(aDate: TDateTime = 0): Boolean;
+function TPurchaseInvoice.UpdateRemain(aDate: TDateTime = 0; AddedPaidAmt:
+    Double = 0; AddedReturAmt: Double = 0): Boolean;
 var
   S: string;
 begin
   if aDate = 0 then aDate := Now();
+
+  Self.PaidAmount := Self.PaidAmount + AddedPaidAmt;   //utk update / revert remain dari collection
+  Self.ReturAmount := Self.ReturAmount + AddedReturAmt;
 
   S := 'Update TPurchaseInvoice set PaidAmount = ' + FloatToStr(Self.PaidAmount)
   + ', ReturAmount = ' + FloatToSTr(Self.ReturAmount);
@@ -746,7 +760,7 @@ begin
 
   S := S + ' where id = ' + IntToStr(Self.ID);
 
-  Result := TDBUtils.ExecuteSQL(S);
+  Result := TDBUtils.ExecuteSQL(S, False);
 end;
 
 destructor TTransDetail.Destroy;
@@ -824,8 +838,8 @@ function TPurchaseRetur.AfterSaveToDB: Boolean;
 var
   lPurchasePayment: TPurchasePayment;
 begin
-  Result := UpdateReturAmt(False);
-  if not Result then exit;
+//  Result := UpdateReturAmt(False);
+//  if not Result then exit;
 
   if Self.ReturFlag = ReturFlag_Cancel then
   begin
@@ -838,22 +852,13 @@ end;
 function TPurchaseRetur.BeforeDeleteFromDB: Boolean;
 var
   lPurchasePayment: TPurchasePayment;
-  oldRetur: TPurchaseRetur;
 begin
-//  Result := True;
-  oldRetur := TPurchaseRetur.Create;
-  Try
-    oldRetur.LoadByID(Self.ID);
-    Result := oldRetur.UpdateReturAmt(True);
-  Finally
-    oldRetur.Free;
-  End;
-
+  Result := True;
 
   lPurchasePayment := TPurchasePayment.Create;
   Try
     if lPurchasePayment.LoadByCode(Self.Refno) then
-      Result := lPurchasePayment.DeleteFromDB;
+      Result := lPurchasePayment.DeleteFromDB(False);
   Finally
     lPurchasePayment.Free;
   End;
@@ -865,29 +870,19 @@ function TPurchaseRetur.BeforeSaveToDB: Boolean;
 var
   litem: TTransDetail;
   lPurchasePayment: TPurchasePayment;
-  oldRetur: TPurchaseRetur;
 begin
+  Result := True;
   for lItem in Self.Items do
     lItem.SetAvgCost;
 
-  if Self.ID = 0 then
-  begin
-    Result := True;
-    exit;
-  end;
+  if Self.ID = 0 then  exit;
 
-  oldRetur := TPurchaseRetur.Create;
-  Try
-    oldRetur.LoadByID(Self.ID);
-    Result := oldRetur.UpdateReturAmt(True);
-  Finally
-    oldRetur.Free;
-  End;
+  Self.PaidAmount   := 0; //reset , value ini hanya boleh diupdate di method UpdateRemain
 
   lPurchasePayment := TPurchasePayment.Create;
   Try
     if lPurchasePayment.LoadByCode(Self.Refno) then
-      Result := lPurchasePayment.DeleteFromDB;
+      Result := lPurchasePayment.DeleteFromDB(False);
   Finally
     lPurchasePayment.Free;
   End;
@@ -896,6 +891,11 @@ end;
 procedure TPurchaseRetur.ClearInvoice;
 begin
   FreeAndNil(FInvoice);
+end;
+
+procedure TPurchaseRetur.ClearSupplier;
+begin
+  FreeAndNil(FSupplier);
 end;
 
 function TPurchaseRetur.GenerateNo: String;
@@ -941,35 +941,14 @@ begin
   if Self.ID = 0 then Self.Refno := Self.GenerateNo;
 end;
 
-function TPurchaseRetur.UpdateReturAmt(IsRevert: Boolean = False): Boolean;
+function TPurchaseRetur.UpdateRemain(AddedPaidAmt: Double = 0): Boolean;
 var
   S: string;
-  sOperation: string;
 begin
-  if Self.ReturFlag = ReturFlag_Reguler then
-  begin
-    Result := True;
-    exit;
-  end;
-  if Self.Invoice = nil then
-  begin
-    Result := True;
-    exit;
-  end;
+  Self.PaidAmount := Self.PaidAmount + AddedPaidAmt;   //utk update / revert remain dari collection
 
-  sOperation := '+';
-  if IsRevert then sOperation := '-';
-
-  S := 'Update TPurchaseInvoice set ReturAmount = ReturAmount '
-    + sOperation + FloatToStr(Self.Amount);
-
-  if IsRevert then
-    S := S + ', Status = ' + IntToStr(Status_Inv_Cancel)
-  else
-    S := S + ', Status = ' + IntToStr(Status_Inv_Created);
-
-
-  S := S + ' where ID = ' + IntToStr(Self.Invoice.ID);
+  S := 'Update TPurchaseRetur set PaidAmount = ' + FloatToStr(Self.PaidAmount);
+  S := S + ' where id = ' + IntToStr(Self.ID);
 
   Result := TDBUtils.ExecuteSQL(S, False);
 end;
@@ -1236,12 +1215,15 @@ begin
   if Self.PaymentFlag = PaymentFlag_Cash then
   begin
     lSalesPayment :=  TSalesPayment.CreateOrGetFromInv(Self);
-    Result := lSalesPayment.SaveToDB(False);
+    Result := lSalesPayment.SaveToDB(False);  //updatesales here
   end else
+  begin
     Result := True;
+    Self.UpdateSalesFee(False);
+  end;
 
-  if Result then
-    Result := Self.UpdateRemain(Self.TransDate);
+//  if Result then      //migrasi update remain ke Payment
+//    Result := Self.UpdateRemain(Self.TransDate);
 end;
 
 function TSalesInvoice.BeforeDeleteFromDB: Boolean;
@@ -1254,10 +1236,10 @@ begin
   lSalesFee := TSalesFee.Create;
   Try
     if lSalesPayment.LoadByCode(Self.InvoiceNo) then
-      lSalesPayment.DeleteFromDB;
+      lSalesPayment.DeleteFromDB(False);
 
     if lSalesFee.LoadByCode(Self.InvoiceNo) then
-      lSalesFee.DeleteFromDB;
+      lSalesFee.DeleteFromDB(False);
 
     Result := True;
   Finally
@@ -1278,26 +1260,23 @@ begin
     lItem.MakeNegative;
   end;
 
-  if Self.PaymentFlag = PaymentFlag_Cash then
-  begin
-    Self.PaidAmount   := Self.Amount;
-//    Self.PaidOff      := 1;
-//    Self.PaidOffDate  := Self.TransDate; diudpate di after safe
-  end;
-
   Result := True;
-  if Self.ID = 0 then exit;
-  //hanya edit
 
+  if Self.ID = 0 then exit;
+
+  Self.PaidAmount   := 0; //reset , value ini hanya boleh diupdate di method UpdateRemain
+  Self.ReturAmount  := 0;
+  Self.PaidOff      := 0;
+  Self.PaidOffDate  := 0;
 
   lSalesPayment :=  TSalesPayment.Create;
   lSalesFee := TSalesFee.Create;
   Try
     if lSalesPayment.LoadByCode(Self.InvoiceNo) then
-      lSalesPayment.DeleteFromDB;
+      lSalesPayment.DeleteFromDB(False);
 
     if lSalesFee.LoadByCode(Self.InvoiceNo) then
-      lSalesFee.DeleteFromDB;
+      lSalesFee.DeleteFromDB(False);
 
     Result := True;
   Finally
@@ -1390,13 +1369,13 @@ begin
 
   S := S + ' where id = ' + IntToStr(Self.ID);
 
-  Result := TDBUtils.ExecuteSQL(S);
+  Result := TDBUtils.ExecuteSQL(S, False);
 
   if Result then
     Result := Self.UpdateSalesFee;
 end;
 
-function TSalesInvoice.UpdateSalesFee: Boolean;
+function TSalesInvoice.UpdateSalesFee(ReloadSales: Boolean = True): Boolean;
 var
   lSalesFee: TSalesFee;
 begin
@@ -1407,7 +1386,8 @@ begin
   if Result then exit;
 
   //reload here
-  Self.ReLoad(True);
+  if ReloadSales then
+    Self.ReLoad(True);
 
   lSalesFee := TSalesFee.UpdateFromInv(Self);
   Try
@@ -1419,30 +1399,20 @@ end;
 
 function TSalesRetur.AfterSaveToDB: Boolean;
 begin
-  Result := UpdateReturAmt(False);
+  Result := True; //UpdateReturAmt(False);
 end;
 
 function TSalesRetur.BeforeSaveToDB: Boolean;
 var
   litem: TTransDetail;
-  oldRetur: TSalesRetur;
 begin
+  Result := True;
   for lItem in Self.Items do
     lItem.SetAvgCost;
 
-  if Self.ID = 0 then
-  begin
-    Result := True;
-    exit;
-  end;
+  if Self.ID = 0 then exit;
 
-  oldRetur := TSalesRetur.Create;
-  Try
-    oldRetur.LoadByID(Self.ID);
-    Result := oldRetur.UpdateReturAmt(True);
-  Finally
-    oldRetur.Free;
-  End;
+
 
 end;
 
@@ -1489,43 +1459,16 @@ begin
   if Self.ID = 0 then Self.Refno := Self.GenerateNo;
 end;
 
-function TSalesRetur.UpdateReturAmt(IsRevert: Boolean = False): Boolean;
-//var
-//  S: string;
-//  sOperation: string;
+function TSalesRetur.UpdateRemain(AddedPaidAmt: Double = 0): Boolean;
+var
+  S: string;
 begin
-  if Self.ReturFlag = 0 then
-  begin
-    Result := True;
-    exit;
-  end;
-  if Self.Invoice = nil then
-  begin
-    Result := True;
-    exit;
-  end;
+  Self.PaidAmount := Self.PaidAmount + AddedPaidAmt;   //utk update / revert remain dari collection
 
-  Self.Invoice.ReLoad(False);
-  if IsRevert then
-    Result := Self.Invoice.UpdateRemain(Self.TransDate, 0, -1* Self.Amount)
-  else
-    Result := Self.Invoice.UpdateRemain(Self.TransDate, 0, Self.Amount);
+  S := 'Update TSalesRetur set PaidAmount = ' + FloatToStr(Self.PaidAmount);
+  S := S + ' where id = ' + IntToStr(Self.ID);
 
-//  sOperation := '+';
-//  if IsRevert then
-//    sOperation := '-';
-//
-//  S := 'Update TSalesInvoice set ReturAmount = ReturAmount '
-//    + sOperation + FloatToStr(Self.Amount);
-//
-//  if Self.ReturFlag = 1 then
-//  begin
-//    S := S + ', Status = ' + IntToStr(Status_Inv_Cancel)
-//  end;
-//
-//  S := S + ' where ID = ' + IntToStr(Self.Invoice.ID);
-//
-//  Result := TDBUtils.ExecuteSQL(S, False);
+  Result := TDBUtils.ExecuteSQL(S, False);
 end;
 
 destructor TServiceDetail.Destroy;

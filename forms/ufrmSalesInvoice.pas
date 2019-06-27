@@ -664,11 +664,16 @@ begin
 
   edNoInv.Text := SalesInv.InvoiceNo;
 
-  cbBayar.ItemIndex := SalesInv.PaymentFlag;
-  cbBayarPropertiesEditValueChanged(Self);
+  DisableTrigger := True;
+  Try
+    cbBayar.ItemIndex := SalesInv.PaymentFlag;
+    cbBayarPropertiesEditValueChanged(Self);
 
-  rbHarga.ItemIndex := SalesInv.SalesType;
-  rbHargaPropertiesEditValueChanged(Self);
+    rbHarga.ItemIndex := SalesInv.SalesType;
+    rbHargaPropertiesEditValueChanged(Self);
+  Finally
+    DisableTrigger := False;
+  End;
 
   dtInvoice.Date := SalesInv.TransDate;
   dtJtTempo.Date := SalesInv.DueDate;
@@ -764,6 +769,8 @@ end;
 procedure TfrmSalesInvoice.rbHargaPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
+
+  
   if CDS.RecordCount > 0 then
   begin
     if SalesInv.SalesType <> rbHarga.ItemIndex then
@@ -785,9 +792,10 @@ begin
   end;
 
 
-
   SalesInv.SalesType := rbHarga.ItemIndex;
-  SetDefaultValueTipeHarga;
+
+  if not DisableTrigger then
+    SetDefaultValueTipeHarga;
   cxLookupMekanik.Enabled := rbHarga.ItemIndex in [0,1];
   cxGridService.Visible := rbHarga.ItemIndex in [0,1];
 

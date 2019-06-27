@@ -12,6 +12,7 @@ object frmMain: TfrmMain
   Font.Style = []
   FormStyle = fsMDIForm
   OldCreateOrder = False
+  OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -39,22 +40,22 @@ object frmMain: TfrmMain
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
       end>
-    Ribbon = dxRibbon1
+    Ribbon = dxRBMain
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clDefault
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
   end
-  object dxRibbon1: TdxRibbon
+  object dxRBMain: TdxRibbon
     Left = 0
     Top = 0
     Width = 1350
     Height = 122
     BarManager = dxBarManager
     Style = rs2013
-    ColorSchemeAccent = rcsaGreen
-    ColorSchemeName = 'White'
+    ColorSchemeAccent = rcsaOrange
+    ColorSchemeName = 'LightGray'
     Contexts = <>
     TabOrder = 1
     TabStop = False

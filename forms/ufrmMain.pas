@@ -21,7 +21,7 @@ type
     dxBarManager: TdxBarManager;
     dxStatusBar: TdxRibbonStatusBar;
     dxRTApp: TdxRibbonTab;
-    dxRibbon1: TdxRibbon;
+    dxRBMain: TdxRibbon;
     dxRTMaster: TdxRibbonTab;
     dxRTSales: TdxRibbonTab;
     dxRTInventory: TdxRibbonTab;
@@ -191,6 +191,7 @@ type
     procedure actVariableExecute(Sender: TObject);
     procedure actWarehouseExecute(Sender: TObject);
     procedure cxButton1Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     function ConnectDB: Boolean;
     { Private declarations }
@@ -237,6 +238,8 @@ begin
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
+var
+  iIndex: Integer;
 begin
   if not ConnectDB then
   begin
@@ -251,6 +254,13 @@ begin
     AppVariable.LoadVariable;
     DoLogin;
   end;
+
+
+  TryStrToInt(TAppUtils.BacaRegistry('LastRibbonTabIndex'), iIndex);
+  Try
+    dxRBMain.ActiveTab := dxRBMain.Tabs[iIndex];
+  except
+  End;
 end;
 
 procedure TfrmMain.actItemGroupExecute(Sender: TObject);
@@ -443,6 +453,11 @@ begin
       Free;
     End;
   end;
+end;
+
+procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  TAppUtils.TulisRegistry('LastRibbonTabIndex', IntToStr(dxRBMain.ActiveTab.Index));
 end;
 
 end.

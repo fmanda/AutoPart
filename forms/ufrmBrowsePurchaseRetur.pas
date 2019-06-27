@@ -139,7 +139,7 @@ begin
            +' FROM TPURCHASERETUR A'
            +' INNER JOIN TSUPPLIER B ON A.SUPPLIER_ID = B.ID'
            +' LEFT JOIN TWAREHOUSE C ON A.WAREHOUSE_ID = C.ID'
-           +' INNER JOIN TPURCHASEINVOICE D ON A.INVOICE_ID = D.ID'
+           +' LEFT JOIN TPURCHASEINVOICE D ON A.INVOICE_ID = D.ID'
            +' WHERE A.TRANSDATE BETWEEN ' + TAppUtils.QuotD(StartDate.Date)
            +' AND ' + TAppUtils.QuotD(EndDate.Date);
 

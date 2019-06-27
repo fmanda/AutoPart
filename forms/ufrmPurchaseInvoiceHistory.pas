@@ -302,9 +302,10 @@ begin
     TAppUtils.Warning('Ada Selisih Antara Saldo Header dengan Detail Pembayaran'
       +#13 + 'Aplikasi akan otomatis melakukan adjust saldo Header'
     );
-//    PurchaseInvoice.PaidAmount := CashTerbayar;
-//    PurchaseInvoice.ReturAmount := ReturTerBayar;
-//    PurchaseInvoice.UpdateRemain;
+    PurchaseInvoice.PaidAmount := CashTerbayar;
+    PurchaseInvoice.ReturAmount := ReturTerBayar;
+    PurchaseInvoice.UpdateRemain(Now());
+    TDBUtils.Commit;
   end;
 end;
 

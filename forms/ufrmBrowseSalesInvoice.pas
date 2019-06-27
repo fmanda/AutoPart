@@ -133,7 +133,7 @@ end;
 
 function TfrmBrowseSalesInvoice.GetSQL: string;
 begin
-  Result := 'SELECT A.ID, A.INVOICENO, A.TRANSDATE, B.NAMA AS SUPPLIER, A.DUEDATE,'
+  Result := 'SELECT A.ID, A.INVOICENO, A.TRANSDATE, B.NAMA AS CUSTOMER, A.DUEDATE,'
            +' CASE WHEN A.PAYMENTFLAG = 1 THEN ''TEMPO'' ELSE ''CASH'' END AS CARABAYAR,'
            +' CASE WHEN A.SALESTYPE = 1 THEN ''BENGKEL'' '
            +' WHEN A.SALESTYPE = 2 THEN ''GROSIR'' '

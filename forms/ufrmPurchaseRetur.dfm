@@ -115,7 +115,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     end
     object cxLabel4: TcxLabel
       Left = 191
-      Top = 61
+      Top = 41
       Caption = 'Supplier'
     end
     object cxLabel6: TcxLabel
@@ -148,14 +148,14 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     end
     object edInv: TcxButtonEdit
       Left = 235
-      Top = 40
+      Top = 60
       Properties.Buttons = <
         item
           Default = True
           Kind = bkEllipsis
         end>
       Properties.OnButtonClick = edInvPropertiesButtonClick
-      TabOrder = 3
+      TabOrder = 4
       OnKeyDown = edInvKeyDown
       Width = 139
     end
@@ -271,22 +271,22 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     end
     object cxLabel9: TcxLabel
       Left = 178
-      Top = 41
+      Top = 61
       Caption = 'No. Faktur'
     end
     object dtInvoice: TcxDateEdit
       Left = 430
-      Top = 40
+      Top = 60
       TabStop = False
       Properties.ImmediatePost = True
       Properties.SaveTime = False
       Properties.ShowTime = False
-      TabOrder = 4
+      TabOrder = 5
       Width = 103
     end
     object cxLabel11: TcxLabel
       Left = 378
-      Top = 41
+      Top = 61
       Caption = 'Tgl Faktur'
     end
     object rbJenis: TcxRadioGroup
@@ -309,16 +309,25 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     end
     object edSupp: TcxButtonEdit
       Left = 235
-      Top = 60
+      Top = 40
       Properties.Buttons = <
         item
           Default = True
           Kind = bkEllipsis
         end>
-      Properties.OnButtonClick = edInvPropertiesButtonClick
-      TabOrder = 5
-      OnKeyDown = edInvKeyDown
+      Properties.OnButtonClick = edSuppPropertiesButtonClick
+      TabOrder = 3
+      OnKeyDown = edSuppKeyDown
       Width = 298
+    end
+    object ckReferensiFaktur: TcxCheckBox
+      Left = 15
+      Top = 107
+      Caption = 'Dengan Referensi Faktur'
+      Properties.ImmediatePost = True
+      Properties.OnEditValueChanged = ckReferensiFakturPropertiesEditValueChanged
+      State = cbsChecked
+      TabOrder = 21
     end
   end
   object cxGrid1: TcxGrid

@@ -11,6 +11,7 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
+    ExplicitWidth = 934
     Width = 934
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
@@ -19,9 +20,12 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
   end
   inherited cxGroupBox2: TcxGroupBox
     Top = 490
+    ExplicitTop = 490
+    ExplicitWidth = 934
     Width = 934
     inherited btnTutup: TcxButton
       Left = 854
+      ExplicitLeft = 854
     end
     inherited btnExport: TcxButton
       OnClick = btnExportClick
@@ -40,8 +44,6 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
     Align = alTop
     Caption = ' Report Parameter '
     TabOrder = 2
-    ExplicitLeft = -88
-    ExplicitWidth = 908
     DesignSize = (
       934
       123)
@@ -151,7 +153,6 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 10
-      ExplicitLeft = 704
       Width = 180
     end
     object cxLabel4: TcxLabel
@@ -166,7 +167,6 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
-      ExplicitLeft = 629
     end
     object cxLabel5: TcxLabel
       Left = 627
@@ -180,7 +180,6 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
-      ExplicitLeft = 601
     end
     object crPaid: TcxCurrencyEdit
       Left = 730
@@ -200,7 +199,6 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 13
-      ExplicitLeft = 704
       Width = 180
     end
     object cxLabel6: TcxLabel
@@ -215,7 +213,6 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
-      ExplicitLeft = 521
     end
     object crRemain: TcxCurrencyEdit
       Left = 730
@@ -235,7 +232,6 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 15
-      ExplicitLeft = 704
       Width = 180
     end
     object cxLabel7: TcxLabel
@@ -259,8 +255,6 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
     Height = 323
     Align = alClient
     TabOrder = 3
-    ExplicitLeft = -2
-    ExplicitWidth = 814
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>

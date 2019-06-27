@@ -301,6 +301,7 @@ begin
     SalesInvoice.PaidAmount := CashTerbayar;
     SalesInvoice.ReturAmount := ReturTerBayar;
     SalesInvoice.UpdateRemain(Now());
+    TDBUtils.Commit;
   end;
 end;
 

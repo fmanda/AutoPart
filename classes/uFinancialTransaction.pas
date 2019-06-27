@@ -129,11 +129,15 @@ type
     FPaymentFlag: Integer;
     FRekening: TRekening;
   protected
+    function AfterSaveToDB: Boolean; override;
+    function BeforeDeleteFromDB: Boolean; override;
+    function BeforeSaveToDB: Boolean; override;
   public
     destructor Destroy; override;
     function GenerateNo: String;
     function GetHeaderFlag: Integer; override;
     class function CreateOrGetFromInv(aSalesInvoice: TSalesInvoice): TSalesPayment;
+    function UpdateRemain(aIsRevert: Boolean = False): Boolean;
     property PaymentFlag: Integer read FPaymentFlag write FPaymentFlag;
   published
     property Media: Integer read FMedia write FMedia;
@@ -151,6 +155,9 @@ type
     FRekening: TRekening;
     FReturAmount: Double;
   protected
+    function AfterSaveToDB: Boolean; override;
+    function BeforeDeleteFromDB: Boolean; override;
+    function BeforeSaveToDB: Boolean; override;
   public
     destructor Destroy; override;
     class function CreateOrGetFromInv(aPurchaseInv: TPurchaseInvoice):
@@ -159,6 +166,7 @@ type
         TPurchasePayment;
     function GenerateNo: String;
     function GetHeaderFlag: Integer; override;
+    function UpdateRemain(aIsRevert: Boolean = False): Boolean;
     property PaymentFlag: Integer read FPaymentFlag write FPaymentFlag;
   published
     property Media: Integer read FMedia write FMedia;
@@ -184,7 +192,7 @@ const
 implementation
 
 uses
-  System.StrUtils;
+  System.StrUtils, System.Classes;
 
 destructor TCRUDFinance.Destroy;
 begin
@@ -398,6 +406,32 @@ begin
 //  if FSupplier <> nil then FreeAndNil(FSupplier);
 end;
 
+function TSalesPayment.AfterSaveToDB: Boolean;
+begin
+  Result := Self.UpdateRemain;
+end;
+
+function TSalesPayment.BeforeDeleteFromDB: Boolean;
+begin
+  Result := Self.UpdateRemain(True);
+end;
+
+function TSalesPayment.BeforeSaveToDB: Boolean;
+var
+  lOldPayment: TSalesPayment;
+begin
+  Result := True;
+  if Self.ID = 0 then exit;
+
+  lOldPayment := TSalesPayment.Create;
+  Try
+    lOldPayment.LoadByID(Self.ID);
+    lOldPayment.UpdateRemain(True);
+  Finally
+    lOldPayment.Free;
+  End;
+end;
+
 class function TSalesPayment.CreateOrGetFromInv(aSalesInvoice: TSalesInvoice):
     TSalesPayment;
 var
@@ -479,10 +513,68 @@ begin
   Result := HeaderFlag_SalesPayment;
 end;
 
+function TSalesPayment.UpdateRemain(aIsRevert: Boolean = False): Boolean;
+var
+  lItem: TFinancialTransaction;
+  iFactor: Integer;
+begin
+  Result := True;
+  iFactor := 1;
+  if aIsRevert then iFactor := -1;
+
+  for lItem in Self.Items do
+  begin
+    if lItem.SalesInvoice <> nil then
+    begin
+      if lItem.SalesInvoice.ID <> 0 then
+      begin
+        lItem.SalesInvoice.ReLoad(False);
+        lItem.SalesInvoice.UpdateRemain(self.TransDate, iFactor*lItem.Amount, iFactor*lItem.ReturAmt);
+      end;
+    end;
+
+
+    if lItem.SalesRetur <> nil then
+    begin
+      if lItem.SalesRetur.ID <> 0 then
+      begin
+        lItem.SalesRetur.ReLoad(False);
+        lItem.SalesRetur.UpdateRemain(iFactor*lItem.ReturAmt);
+      end;
+    end;
+  end;
+end;
+
 destructor TPurchasePayment.Destroy;
 begin
   inherited;
 //  if FSupplier <> nil then FreeAndNil(FSupplier);
+end;
+
+function TPurchasePayment.AfterSaveToDB: Boolean;
+begin
+  Result := Self.UpdateRemain;
+end;
+
+function TPurchasePayment.BeforeDeleteFromDB: Boolean;
+begin
+  Result := Self.UpdateRemain(True);
+end;
+
+function TPurchasePayment.BeforeSaveToDB: Boolean;
+var
+  lOldPurchase: TPurchasePayment;
+begin
+  Result := True;
+  if Self.ID = 0 then exit;
+
+  lOldPurchase := TPurchasePayment.Create;
+  Try
+    lOldPurchase.LoadByID(Self.ID);
+    lOldPurchase.UpdateRemain(True);
+  Finally
+    lOldPurchase.Free;
+  End;
 end;
 
 class function TPurchasePayment.CreateOrGetFromInv(aPurchaseInv:
@@ -604,6 +696,38 @@ end;
 function TPurchasePayment.GetHeaderFlag: Integer;
 begin
   Result := HeaderFlag_PurchasePayment;
+end;
+
+function TPurchasePayment.UpdateRemain(aIsRevert: Boolean = False): Boolean;
+var
+  lItem: TFinancialTransaction;
+  iFactor: Integer;
+begin
+  Result := True;
+  iFactor := 1;
+  if aIsRevert then iFactor := -1;
+
+  for lItem in Self.Items do
+  begin
+    if lItem.PurchaseInvoice <> nil then
+    begin
+      if lItem.PurchaseInvoice.ID <> 0 then
+      begin
+        lItem.PurchaseInvoice.ReLoad(False);
+        lItem.PurchaseInvoice.UpdateRemain(self.TransDate, iFactor*lItem.Amount, iFactor*lItem.ReturAmt);
+      end;
+    end;
+
+
+    if lItem.PurchaseRetur <> nil then
+    begin
+      if lItem.PurchaseRetur.ID <> 0 then
+      begin
+        lItem.PurchaseRetur.ReLoad(False);
+        lItem.PurchaseRetur.UpdateRemain(iFactor*lItem.ReturAmt);
+      end;
+    end;
+  end;
 end;
 
 
