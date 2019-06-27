@@ -274,14 +274,6 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Top = 41
       Caption = 'No. Faktur'
     end
-    object edSupp: TcxTextEdit
-      Left = 235
-      Top = 60
-      TabStop = False
-      Properties.CharCase = ecUpperCase
-      TabOrder = 5
-      Width = 298
-    end
     object dtInvoice: TcxDateEdit
       Left = 430
       Top = 40
@@ -314,6 +306,19 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       TabOrder = 0
       Height = 77
       Width = 136
+    end
+    object edSupp: TcxButtonEdit
+      Left = 235
+      Top = 60
+      Properties.Buttons = <
+        item
+          Default = True
+          Kind = bkEllipsis
+        end>
+      Properties.OnButtonClick = edInvPropertiesButtonClick
+      TabOrder = 5
+      OnKeyDown = edInvKeyDown
+      Width = 298
     end
   end
   object cxGrid1: TcxGrid

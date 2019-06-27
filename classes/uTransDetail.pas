@@ -951,6 +951,11 @@ begin
     Result := True;
     exit;
   end;
+  if Self.Invoice = nil then
+  begin
+    Result := True;
+    exit;
+  end;
 
   sOperation := '+';
   if IsRevert then sOperation := '-';
@@ -1485,31 +1490,42 @@ begin
 end;
 
 function TSalesRetur.UpdateReturAmt(IsRevert: Boolean = False): Boolean;
-var
-  S: string;
-  sOperation: string;
+//var
+//  S: string;
+//  sOperation: string;
 begin
   if Self.ReturFlag = 0 then
   begin
     Result := True;
     exit;
   end;
-
-  sOperation := '+';
-  if IsRevert then
-    sOperation := '-';
-
-  S := 'Update TSalesInvoice set ReturAmount = ReturAmount '
-    + sOperation + FloatToStr(Self.Amount);
-
-  if Self.ReturFlag = 1 then
+  if Self.Invoice = nil then
   begin
-    S := S + ', Status = ' + IntToStr(Status_Inv_Cancel)
+    Result := True;
+    exit;
   end;
 
-  S := S + ' where ID = ' + IntToStr(Self.Invoice.ID);
+  Self.Invoice.ReLoad(False);
+  if IsRevert then
+    Result := Self.Invoice.UpdateRemain(Self.TransDate, 0, -1* Self.Amount)
+  else
+    Result := Self.Invoice.UpdateRemain(Self.TransDate, 0, Self.Amount);
 
-  Result := TDBUtils.ExecuteSQL(S, False);
+//  sOperation := '+';
+//  if IsRevert then
+//    sOperation := '-';
+//
+//  S := 'Update TSalesInvoice set ReturAmount = ReturAmount '
+//    + sOperation + FloatToStr(Self.Amount);
+//
+//  if Self.ReturFlag = 1 then
+//  begin
+//    S := S + ', Status = ' + IntToStr(Status_Inv_Cancel)
+//  end;
+//
+//  S := S + ' where ID = ' + IntToStr(Self.Invoice.ID);
+//
+//  Result := TDBUtils.ExecuteSQL(S, False);
 end;
 
 destructor TServiceDetail.Destroy;

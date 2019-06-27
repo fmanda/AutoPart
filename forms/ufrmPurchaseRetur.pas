@@ -51,10 +51,10 @@ type
     colPPN: TcxGridDBColumn;
     cxGrid1Level1: TcxGridLevel;
     cxLabel9: TcxLabel;
-    edSupp: TcxTextEdit;
     dtInvoice: TcxDateEdit;
     cxLabel11: TcxLabel;
     rbJenis: TcxRadioGroup;
+    edSupp: TcxButtonEdit;
     procedure edInvKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
     procedure edInvPropertiesButtonClick(Sender: TObject;
