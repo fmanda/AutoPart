@@ -180,6 +180,7 @@ type
     procedure actPurchaseInvoiceExecute(Sender: TObject);
     procedure actPurchaseInvoiceHistoryExecute(Sender: TObject);
     procedure actPurchaseReturExecute(Sender: TObject);
+    procedure actPurchPaymentExecute(Sender: TObject);
     procedure actRekeningExecute(Sender: TObject);
     procedure actSaldoKasExecute(Sender: TObject);
     procedure actSalesExecute(Sender: TObject);
@@ -221,14 +222,29 @@ uses
   ufrmBrowseSalesman, ufrmBrowseMekanik, ufrmBrowseSalesInvoice, ufrmVariable,
   uVariable, ufrmSalesInvoiceHistory, ufrmPurchaseInvoiceHistory,
   ufrmBrowseSettingFee, ufrmSaldoRekening, ufrmBrowseSalesRetur,
-  ufrmMutasiRekening;
+  ufrmMutasiRekening, ufrmPurchasePayment;
 
 {$R *.dfm}
 
 function ShowForm(AFormClass: TFormClass): TForm;
+var
+  i: Integer;
 begin
   //check form akses here
-  Result := AFormClass.Create(Application);
+  try
+    for i := 0 to frmMain.MDIChildCount-1 do
+    begin
+      if frmMain.MDIChildren[i].ClassName = AFormClass.ClassName then
+      begin
+        Result := frmMain.MDIChildren[i];
+        Result.Show;
+        exit;
+      end;
+    end;
+    Result := AFormClass.Create(Application);
+  except
+    Result := AFormClass.Create(Application);
+  end;
 end;
 
 
@@ -316,6 +332,11 @@ end;
 procedure TfrmMain.actPurchaseReturExecute(Sender: TObject);
 begin
   Showform(TfrmBrowsePurchaseRetur);
+end;
+
+procedure TfrmMain.actPurchPaymentExecute(Sender: TObject);
+begin
+  ShowForm(TfrmPurchasePayment).ShowModal;
 end;
 
 procedure TfrmMain.actRekeningExecute(Sender: TObject);

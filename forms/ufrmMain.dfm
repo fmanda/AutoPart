@@ -94,7 +94,6 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
-      Active = True
       Caption = 'Penjualan & Kas'
       Groups = <
         item
@@ -106,6 +105,7 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxRTARAP: TdxRibbonTab
+      Active = True
       Caption = 'Hutang - Piutang'
       Groups = <
         item
@@ -499,7 +499,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar14: TdxBar
       Caption = 'Laporan Hutang'
       CaptionButtons = <>
-      DockedLeft = 127
+      DockedLeft = 146
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8
@@ -523,7 +523,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar8: TdxBar
       Caption = 'Laporan Piutang'
       CaptionButtons = <>
-      DockedLeft = 313
+      DockedLeft = 332
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8
@@ -1131,10 +1131,13 @@ object frmMain: TfrmMain
     object actPurchPayment: TAction
       Category = 'Hutang Piutang'
       Caption = 'Pembayaran Hutang'
+      ImageIndex = 23
+      OnExecute = actPurchPaymentExecute
     end
     object actSalesPayment: TAction
       Category = 'Hutang Piutang'
       Caption = 'Pembayaran Piutang'
+      ImageIndex = 13
     end
     object actSaldoHutang: TAction
       Category = 'Hutang Piutang'
@@ -2671,7 +2674,9 @@ object frmMain: TfrmMain
   end
   object dxTabbedMDIManager: TdxTabbedMDIManager
     Active = True
+    TabProperties.AllowTabDragDrop = True
     TabProperties.CloseButtonMode = cbmActiveTab
+    TabProperties.CloseTabWithMiddleClick = True
     TabProperties.CustomButtons.Buttons = <>
     TabProperties.HotTrack = True
     TabProperties.NavigatorPosition = npLeftBottom

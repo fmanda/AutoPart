@@ -74,7 +74,8 @@ uses
   ufrmSaldoRekening in 'forms\ufrmSaldoRekening.pas' {frmSaldoRekening},
   ufrmSalesRetur in 'forms\ufrmSalesRetur.pas' {frmSalesRetur},
   ufrmBrowseSalesRetur in 'forms\ufrmBrowseSalesRetur.pas' {frmBrowseSalesRetur},
-  ufrmMutasiRekening in 'forms\ufrmMutasiRekening.pas' {frmMutasiRekening};
+  ufrmMutasiRekening in 'forms\ufrmMutasiRekening.pas' {frmMutasiRekening},
+  ufrmPurchasePayment in 'forms\ufrmPurchasePayment.pas' {frmPurchasePayment};
 
 {$R *.res}
 
