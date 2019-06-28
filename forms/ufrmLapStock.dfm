@@ -24,6 +24,9 @@ inherited frmLapStock: TfrmLapStock
       Left = 929
       ExplicitLeft = 929
     end
+    inherited btnExport: TcxButton
+      OnClick = btnExportClick
+    end
     inherited btnRefresh: TcxButton
       OnClick = btnRefreshClick
     end
@@ -133,7 +136,6 @@ inherited frmLapStock: TfrmLapStock
     Align = alClient
     TabOrder = 3
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitLeft = 8
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>

@@ -329,9 +329,12 @@ type
     FWarehouse: TWarehouse;
   protected
     function AfterSaveToDB: Boolean; override;
+    function BeforeDeleteFromDB: Boolean; override;
     function BeforeSaveToDB: Boolean; override;
     function GetRefno: String; override;
   public
+    procedure ClearInvoice;
+    procedure ClearCustomer;
     function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
     procedure SetGenerateNo; override;
@@ -1398,22 +1401,67 @@ begin
 end;
 
 function TSalesRetur.AfterSaveToDB: Boolean;
+var
+  lSalesPayment: TSalesPayment;
 begin
-  Result := True; //UpdateReturAmt(False);
+//  Result := UpdateReturAmt(False);
+//  if not Result then exit;
+
+  if Self.ReturFlag = ReturFlag_Cancel then
+  begin
+    lSalesPayment := TSalesPayment.CreateOrGetFromRetur(Self);
+    Result := lSalesPayment.SaveToDB(False);
+  end else
+    Result := True;
+end;
+
+function TSalesRetur.BeforeDeleteFromDB: Boolean;
+var
+  lSalesPayment: TSalesPayment;
+begin
+  Result := True;
+
+  lSalesPayment := TSalesPayment.Create;
+  Try
+    if lSalesPayment.LoadByCode(Self.Refno) then
+      Result := lSalesPayment.DeleteFromDB(False);
+  Finally
+    lSalesPayment.Free;
+  End;
+
+//  Result := True;
 end;
 
 function TSalesRetur.BeforeSaveToDB: Boolean;
 var
   litem: TTransDetail;
+  lSalesPayment: TSalesPayment;
 begin
   Result := True;
   for lItem in Self.Items do
     lItem.SetAvgCost;
 
-  if Self.ID = 0 then exit;
+  if Self.ID = 0 then  exit;
 
+  Self.PaidAmount   := 0; //reset , value ini hanya boleh diupdate di method UpdateRemain
 
+  lSalesPayment := TSalesPayment.Create;
+  Try
+    if lSalesPayment.LoadByCode(Self.Refno) then
+      Result := lSalesPayment.DeleteFromDB(False);
+  Finally
+    lSalesPayment.Free;
+  End;
+end;
 
+procedure TSalesRetur.ClearInvoice;
+begin
+  FreeAndNil(FInvoice);
+end;
+
+procedure TSalesRetur.ClearCustomer;
+begin
+  FreeAndNil(FCustomer);
 end;
 
 function TSalesRetur.GenerateNo: String;

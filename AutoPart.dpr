@@ -70,9 +70,13 @@ uses
   ufrmSettingFee in 'forms\ufrmSettingFee.pas' {frmSettingFee},
   ufrmBrowseSettingFee in 'forms\ufrmBrowseSettingFee.pas' {frmBrowseSettingFee},
   uSettingFee in 'classes\uSettingFee.pas',
-  uSalesFee in 'classes\uSalesFee.pas';
+  uSalesFee in 'classes\uSalesFee.pas',
+  ufrmSaldoRekening in 'forms\ufrmSaldoRekening.pas' {frmSaldoRekening},
+  ufrmSalesRetur in 'forms\ufrmSalesRetur.pas' {frmSalesRetur},
+  ufrmBrowseSalesRetur in 'forms\ufrmBrowseSalesRetur.pas' {frmBrowseSalesRetur};
 
 {$R *.res}
+
 
 begin
   Application.Initialize;

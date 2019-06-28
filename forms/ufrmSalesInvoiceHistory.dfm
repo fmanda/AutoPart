@@ -2,10 +2,8 @@ inherited frmSalesInvoiceHistory: TfrmSalesInvoiceHistory
   Caption = 'History Pembayaran Faktur Penjualan'
   ClientHeight = 524
   ClientWidth = 908
-  FormStyle = fsStayOnTop
   Position = poScreenCenter
-  Visible = False
-  WindowState = wsNormal
+  ExplicitLeft = -141
   ExplicitWidth = 924
   ExplicitHeight = 563
   PixelsPerInch = 96
@@ -43,9 +41,6 @@ inherited frmSalesInvoiceHistory: TfrmSalesInvoiceHistory
     Align = alTop
     Caption = ' Report Parameter '
     TabOrder = 0
-    DesignSize = (
-      908
-      123)
     Height = 123
     Width = 908
     object cxLabel1: TcxLabel
@@ -149,10 +144,9 @@ inherited frmSalesInvoiceHistory: TfrmSalesInvoiceHistory
       Width = 70
     end
     object crAmount: TcxCurrencyEdit
-      Left = 704
+      Left = 698
       Top = 20
       TabStop = False
-      Anchors = [akTop, akRight]
       EditValue = 0.000000000000000000
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
@@ -169,9 +163,8 @@ inherited frmSalesInvoiceHistory: TfrmSalesInvoiceHistory
       Width = 180
     end
     object cxLabel4: TcxLabel
-      Left = 629
+      Left = 623
       Top = 21
-      Anchors = [akTop, akRight]
       Caption = 'Nilai Faktur'
       ParentFont = False
       Style.Font.Charset = DEFAULT_CHARSET
@@ -182,9 +175,8 @@ inherited frmSalesInvoiceHistory: TfrmSalesInvoiceHistory
       Style.IsFontAssigned = True
     end
     object cxLabel5: TcxLabel
-      Left = 601
+      Left = 595
       Top = 47
-      Anchors = [akTop, akRight]
       Caption = 'Total Terbayar'
       ParentFont = False
       Style.Font.Charset = DEFAULT_CHARSET
@@ -195,10 +187,9 @@ inherited frmSalesInvoiceHistory: TfrmSalesInvoiceHistory
       Style.IsFontAssigned = True
     end
     object crPaid: TcxCurrencyEdit
-      Left = 704
+      Left = 698
       Top = 46
       TabStop = False
-      Anchors = [akTop, akRight]
       EditValue = 0.000000000000000000
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
@@ -215,9 +206,8 @@ inherited frmSalesInvoiceHistory: TfrmSalesInvoiceHistory
       Width = 180
     end
     object cxLabel6: TcxLabel
-      Left = 609
+      Left = 603
       Top = 76
-      Anchors = [akTop, akRight]
       Caption = 'Sisa Piutang'
       ParentFont = False
       Style.Font.Charset = DEFAULT_CHARSET
@@ -228,10 +218,9 @@ inherited frmSalesInvoiceHistory: TfrmSalesInvoiceHistory
       Style.IsFontAssigned = True
     end
     object crRemain: TcxCurrencyEdit
-      Left = 704
+      Left = 698
       Top = 72
       TabStop = False
-      Anchors = [akTop, akRight]
       EditValue = 0.000000000000000000
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
@@ -342,8 +331,8 @@ inherited frmSalesInvoiceHistory: TfrmSalesInvoiceHistory
     end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 640
-    Top = 0
+    Left = 472
+    Top = 32
     PixelsPerInch = 96
   end
 end

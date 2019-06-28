@@ -1,18 +1,16 @@
 inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
   Caption = 'History Pembayaran Faktur Pembelian'
   ClientHeight = 525
-  ClientWidth = 934
-  FormStyle = fsStayOnTop
+  ClientWidth = 900
   Position = poDesktopCenter
-  Visible = False
-  WindowState = wsNormal
-  ExplicitWidth = 950
+  ExplicitLeft = -123
+  ExplicitWidth = 916
   ExplicitHeight = 564
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
     ExplicitWidth = 934
-    Width = 934
+    Width = 900
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
       AnchorY = 18
@@ -22,9 +20,9 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
     Top = 490
     ExplicitTop = 490
     ExplicitWidth = 934
-    Width = 934
+    Width = 900
     inherited btnTutup: TcxButton
-      Left = 854
+      Left = 820
       ExplicitLeft = 854
     end
     inherited btnExport: TcxButton
@@ -44,11 +42,9 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
     Align = alTop
     Caption = ' Report Parameter '
     TabOrder = 2
-    DesignSize = (
-      934
-      123)
+    ExplicitWidth = 934
     Height = 123
-    Width = 934
+    Width = 900
     object cxLabel1: TcxLabel
       Left = 38
       Top = 25
@@ -136,10 +132,9 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       Width = 70
     end
     object crAmount: TcxCurrencyEdit
-      Left = 730
+      Left = 694
       Top = 20
       TabStop = False
-      Anchors = [akTop, akRight]
       EditValue = 0.000000000000000000
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
@@ -156,9 +151,8 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       Width = 180
     end
     object cxLabel4: TcxLabel
-      Left = 655
+      Left = 619
       Top = 21
-      Anchors = [akTop, akRight]
       Caption = 'Nilai Faktur'
       ParentFont = False
       Style.Font.Charset = DEFAULT_CHARSET
@@ -169,9 +163,8 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       Style.IsFontAssigned = True
     end
     object cxLabel5: TcxLabel
-      Left = 627
+      Left = 591
       Top = 47
-      Anchors = [akTop, akRight]
       Caption = 'Total Terbayar'
       ParentFont = False
       Style.Font.Charset = DEFAULT_CHARSET
@@ -182,10 +175,9 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       Style.IsFontAssigned = True
     end
     object crPaid: TcxCurrencyEdit
-      Left = 730
+      Left = 694
       Top = 46
       TabStop = False
-      Anchors = [akTop, akRight]
       EditValue = 0.000000000000000000
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
@@ -202,9 +194,8 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       Width = 180
     end
     object cxLabel6: TcxLabel
-      Left = 635
+      Left = 599
       Top = 76
-      Anchors = [akTop, akRight]
       Caption = 'Sisa Hutang'
       ParentFont = False
       Style.Font.Charset = DEFAULT_CHARSET
@@ -215,10 +206,9 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       Style.IsFontAssigned = True
     end
     object crRemain: TcxCurrencyEdit
-      Left = 730
+      Left = 694
       Top = 72
       TabStop = False
-      Anchors = [akTop, akRight]
       EditValue = 0.000000000000000000
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
@@ -251,10 +241,11 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
     AlignWithMargins = True
     Left = 3
     Top = 164
-    Width = 928
+    Width = 894
     Height = 323
     Align = alClient
     TabOrder = 3
+    ExplicitWidth = 928
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -341,8 +332,8 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
     end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 424
-    Top = 65520
+    Left = 464
+    Top = 24
     PixelsPerInch = 96
   end
 end

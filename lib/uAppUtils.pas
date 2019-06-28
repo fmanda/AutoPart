@@ -129,6 +129,7 @@ var
   eiMain : TEXEVersionData;
 
 const
+  ApplicationRegName : String = 'AutoPart';
   START_KEY = 981; {Start default key}
   MULTI_KEY = 12674; {Mult default key}
   ADD_KEY = 35891;	{Add default key}
@@ -254,7 +255,7 @@ begin
   Registry.RootKey := HKEY_CURRENT_USER;
   {False because we do not want to create it if it doesnt exist}
   if Trim(aPath) = '' then
-    Registry.OpenKey('\Software\' + Application.Title, False)
+    Registry.OpenKey('\Software\' + ApplicationRegName, False)
   else
     Registry.OpenKey('\Software\' + aPath, False);
 
@@ -274,7 +275,7 @@ begin
   Registry.RootKey := HKEY_CURRENT_USER;
   {False because we do not want to create it if it doesnt exist}
   if Trim(aPath) = '' then
-    Registry.OpenKey('\Software\' + Application.Title, False)
+    Registry.OpenKey('\Software\' + ApplicationRegName, False)
   else
     Registry.OpenKey('\Software\' + aPath, False);
 
@@ -1009,7 +1010,7 @@ begin
       Reg.RootKey := HKEY_CURRENT_USER;
       if sAppName = '' then
       begin
-        if Reg.OpenKey('\Software\' + Application.Title, True) then
+        if Reg.OpenKey('\Software\' + ApplicationRegName, True) then
         begin
              Reg.WriteString(aName, aValue);
              Reg.CloseKey;

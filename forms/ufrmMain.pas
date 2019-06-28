@@ -166,6 +166,7 @@ type
     actSettingFee: TAction;
     dxBarButton72: TdxBarButton;
     dxBarButton73: TdxBarButton;
+    dxTabbedMDIManager: TdxTabbedMDIManager;
     procedure actCustomerExecute(Sender: TObject);
     procedure actItemExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -179,10 +180,12 @@ type
     procedure actPurchaseInvoiceHistoryExecute(Sender: TObject);
     procedure actPurchaseReturExecute(Sender: TObject);
     procedure actRekeningExecute(Sender: TObject);
+    procedure actSaldoKasExecute(Sender: TObject);
     procedure actSalesExecute(Sender: TObject);
     procedure actSettingFeeExecute(Sender: TObject);
     procedure actSalesInvoiceHistoryExecute(Sender: TObject);
     procedure actSalesmanExecute(Sender: TObject);
+    procedure actSalesReturExecute(Sender: TObject);
     procedure actServiceExecute(Sender: TObject);
     procedure actUOMExecute(Sender: TObject);
     procedure actSettingKoneksiExecute(Sender: TObject);
@@ -216,7 +219,7 @@ uses
   ufrmBrowsePurchaseRetur, ufrmBrowseTransferStock, ufrmLapStock,
   ufrmBrowseSalesman, ufrmBrowseMekanik, ufrmBrowseSalesInvoice, ufrmVariable,
   uVariable, ufrmSalesInvoiceHistory, ufrmPurchaseInvoiceHistory,
-  ufrmBrowseSettingFee;
+  ufrmBrowseSettingFee, ufrmSaldoRekening, ufrmBrowseSalesRetur;
 
 {$R *.dfm}
 
@@ -270,7 +273,7 @@ end;
 
 procedure TfrmMain.actKartuStockExecute(Sender: TObject);
 begin
-  ShowForm(TfrmKartuStock).ShowModal;
+  ShowForm(TfrmKartuStock);
 end;
 
 procedure TfrmMain.actLapStockExecute(Sender: TObject);
@@ -300,7 +303,7 @@ end;
 
 procedure TfrmMain.actPurchaseInvoiceHistoryExecute(Sender: TObject);
 begin
-  ShowForm(TfrmPurchaseInvoiceHistory).ShowModal;
+  ShowForm(TfrmPurchaseInvoiceHistory);
 end;
 
 procedure TfrmMain.actPurchaseReturExecute(Sender: TObject);
@@ -311,6 +314,11 @@ end;
 procedure TfrmMain.actRekeningExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseRekening);
+end;
+
+procedure TfrmMain.actSaldoKasExecute(Sender: TObject);
+begin
+  ShowForm(TfrmSaldoRekening);
 end;
 
 procedure TfrmMain.actSalesExecute(Sender: TObject);
@@ -325,12 +333,17 @@ end;
 
 procedure TfrmMain.actSalesInvoiceHistoryExecute(Sender: TObject);
 begin
-  ShowForm(TfrmSalesInvoiceHistory).ShowModal;
+  ShowForm(TfrmSalesInvoiceHistory); //.ShowModal;
 end;
 
 procedure TfrmMain.actSalesmanExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseSalesman)
+end;
+
+procedure TfrmMain.actSalesReturExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseSalesRetur);
 end;
 
 procedure TfrmMain.actServiceExecute(Sender: TObject);

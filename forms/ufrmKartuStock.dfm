@@ -2,17 +2,13 @@ inherited frmKartuStock: TfrmKartuStock
   Caption = 'Kartu Stock'
   ClientHeight = 611
   ClientWidth = 760
-  FormStyle = fsStayOnTop
   Position = poMainFormCenter
-  Visible = False
-  WindowState = wsNormal
   ExplicitWidth = 776
   ExplicitHeight = 650
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
     TabOrder = 2
-    Visible = False
     ExplicitWidth = 760
     Width = 760
     inherited lblTitle: TcxLabel
@@ -39,68 +35,68 @@ inherited frmKartuStock: TfrmKartuStock
     end
   end
   object cxGroupBox3: TcxGroupBox [2]
-    AlignWithMargins = True
     Left = 0
-    Top = 38
+    Top = 35
     Margins.Left = 0
     Margins.Right = 0
     Margins.Bottom = 0
     Align = alTop
-    Caption = ' Report Parameter '
+    Caption = ' Kartu Stock '
     TabOrder = 0
-    Height = 123
+    ExplicitTop = 38
+    Height = 104
     Width = 760
     object cxLabel1: TcxLabel
-      Left = 46
-      Top = 45
+      Left = 78
+      Top = 35
       Caption = 'Kode Barang'
     end
     object cxLabel2: TcxLabel
-      Left = 43
-      Top = 65
+      Left = 75
+      Top = 55
       Caption = 'Nama Barang'
     end
     object edNama: TcxTextEdit
-      Left = 112
-      Top = 64
+      Left = 144
+      Top = 54
       Properties.CharCase = ecUpperCase
       Properties.ReadOnly = True
       TabOrder = 4
       Width = 312
     end
     object cxLabel3: TcxLabel
-      Left = 45
-      Top = 24
+      Left = 77
+      Top = 14
       Caption = 'Periode Awal'
     end
     object cxLabel4: TcxLabel
-      Left = 70
-      Top = 85
+      Left = 102
+      Top = 75
       Caption = 'Gudang'
     end
     object cxLookupGudang: TcxExtLookupComboBox
-      Left = 112
-      Top = 84
+      Left = 144
+      Top = 74
       TabOrder = 5
       Width = 216
     end
     object dtStart: TcxDateEdit
-      Left = 112
-      Top = 23
+      Left = 144
+      Top = 13
       TabOrder = 0
       Width = 117
     end
     object chkAll: TcxCheckBox
-      Left = 328
-      Top = 84
+      Left = 360
+      Top = 74
       TabStop = False
       Caption = 'Semua Gudang'
       Properties.OnEditValueChanged = chkAllPropertiesEditValueChanged
       TabOrder = 6
     end
     object edKode: TcxButtonEdit
-      Left = 112
-      Top = 44
+      Left = 144
+      Top = 34
       Properties.Buttons = <
         item
           Default = True
@@ -114,38 +110,40 @@ inherited frmKartuStock: TfrmKartuStock
       Width = 135
     end
     object dtEnd: TcxDateEdit
-      Left = 307
-      Top = 23
+      Left = 339
+      Top = 13
       TabOrder = 1
       Width = 117
     end
     object cxLabel5: TcxLabel
-      Left = 240
-      Top = 24
+      Left = 272
+      Top = 14
       Caption = 'Periode Akhir'
     end
     object cxLookupUOM: TcxExtLookupComboBox
-      Left = 343
-      Top = 44
+      Left = 375
+      Top = 34
       Properties.OnCloseUp = cxLookupUOMPropertiesCloseUp
       Properties.OnInitPopup = cxLookupUOMPropertiesInitPopup
       TabOrder = 3
       Width = 81
     end
     object cxLabel6: TcxLabel
-      Left = 270
-      Top = 45
+      Left = 302
+      Top = 35
       Caption = 'Dalam Satuan'
     end
   end
   object cxGrid1: TcxGrid [3]
     AlignWithMargins = True
     Left = 3
-    Top = 164
+    Top = 142
     Width = 754
-    Height = 409
+    Height = 431
     Align = alClient
     TabOrder = 1
+    ExplicitTop = 164
+    ExplicitHeight = 409
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>

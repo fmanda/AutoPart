@@ -48,6 +48,7 @@ type
         var ErrorText: TCaption; var Error: Boolean);
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
+    procedure btnExportClick(Sender: TObject);
   private
     FCDS: TClientDataset;
     FItem: TItem;
@@ -68,6 +69,12 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmLapStock.btnExportClick(Sender: TObject);
+begin
+  inherited;
+  cxGrdMain.ExportToXLS();
+end;
 
 procedure TfrmLapStock.btnRefreshClick(Sender: TObject);
 begin

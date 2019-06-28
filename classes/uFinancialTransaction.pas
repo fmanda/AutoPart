@@ -137,6 +137,7 @@ type
     function GenerateNo: String;
     function GetHeaderFlag: Integer; override;
     class function CreateOrGetFromInv(aSalesInvoice: TSalesInvoice): TSalesPayment;
+    class function CreateOrGetFromRetur(aSalesRetur: TSalesRetur): TSalesPayment;
     function UpdateRemain(aIsRevert: Boolean = False): Boolean;
     property PaymentFlag: Integer read FPaymentFlag write FPaymentFlag;
   published
@@ -465,7 +466,7 @@ begin
   lItem.TransType     := Result.PaymentFlag;
   Result.Items.Add(lItem);
 
-  //credit
+  //credit piutang
   lItem               := TFinancialTransaction.Create;
   lItem.SalesInvoice  := TSalesInvoice.CreateID(aSalesInvoice.ID);
   lItem.CreditAmt     := aSalesInvoice.Amount;
@@ -478,6 +479,50 @@ begin
   Result.ModifiedBy   := UserLogin;
   Result.ModifiedDate := Now();
 
+end;
+
+class function TSalesPayment.CreateOrGetFromRetur(aSalesRetur: TSalesRetur):
+    TSalesPayment;
+var
+  lItem: TFinancialTransaction;
+begin
+  if aSalesRetur.ReturFlag <> ReturFlag_Cancel then
+  begin
+    raise Exception.Create('Hanya Retur Batal yang bisa dipotong langsung');
+  end;
+
+  if aSalesRetur.Invoice = nil then
+  begin
+    raise Exception.Create('[TSalesPayment.CreateOrGetFromRetur] PurchaseRetur.Invoice = nil');
+  end;
+
+//  if aSalesRetur.Rekening = nil then
+//    raise Exception.Create('aSalesRetur.Rekening = nil');
+  Result := TSalesPayment.Create;
+
+  //load from inv
+  Result.LoadByCode(aSalesRetur.Refno);
+  Result.Refno            := aSalesRetur.Refno;
+  Result.TransDate        := aSalesRetur.TransDate;
+  Result.DueDate          := Result.TransDate;
+  Result.Amount           := 0;
+  Result.PaymentFlag      := PaymentFlag_Cash;
+  Result.ReturAmount      := aSalesRetur.Amount;
+  Result.Items.Clear;
+
+  //credit piutang
+  lItem                   := TFinancialTransaction.Create;
+  lItem.SalesInvoice      := TSalesInvoice.CreateID(aSalesRetur.Invoice.ID);
+  lItem.DebetAmt          := 0;
+  lItem.Amount            := 0;
+  lItem.ReturAmt          := aSalesRetur.Amount;
+  lItem.SalesRetur        := TSalesRetur.CreateID(aSalesRetur.ID);
+  lItem.TransDate         := aSalesRetur.TransDate;
+  lItem.Notes             := 'Retur Batal No : ' + aSalesRetur.Refno;
+  lItem.TransType         := Result.PaymentFlag;
+  Result.Items.Add(lItem);
+
+  //debet retur penjualan : tidak perlu
 end;
 
 function TSalesPayment.GenerateNo: String;

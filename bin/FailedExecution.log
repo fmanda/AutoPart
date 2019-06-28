@@ -1,3 +1,4 @@
-Delete From TTransDetail where Header_flag = 100 AND Header_ID = 74;
-Delete From TTransDetail where ID = 96;
-Delete From TPurchaseInvoice where ID = 74;
+SET NOCOUNT ON
+Insert Into TCustomer(Kode,Nama,Alamat,Tempo,Telp,IsActive,ModifiedBy,ModifiedDate,CreditLimit,TipeHarga) values('C19.0001','TOKO','
+',0,'',1,'programmer','2019-06-28 09:10:17',0,0);
+Select Scope_Identity() as ID

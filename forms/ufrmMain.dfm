@@ -12,6 +12,7 @@ object frmMain: TfrmMain
   Font.Style = []
   FormStyle = fsMDIForm
   OldCreateOrder = False
+  WindowState = wsMaximized
   OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
@@ -68,7 +69,6 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxRTMaster: TdxRibbonTab
-      Active = True
       Caption = 'Master Data'
       Groups = <
         item
@@ -94,6 +94,7 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
+      Active = True
       Caption = 'Penjualan & Kas'
       Groups = <
         item
@@ -1078,6 +1079,7 @@ object frmMain: TfrmMain
       Category = 'Kasir & Penjualan'
       Caption = 'Retur Penjualan'
       ImageIndex = 11
+      OnExecute = actSalesReturExecute
     end
     object actCashIn: TAction
       Category = 'Kasir & Penjualan'
@@ -1103,6 +1105,7 @@ object frmMain: TfrmMain
       Category = 'Kasir & Penjualan'
       Caption = 'Saldo Kas'
       ImageIndex = 25
+      OnExecute = actSaldoKasExecute
     end
     object actLapCashOpname: TAction
       Category = 'Kasir & Penjualan'
@@ -2664,5 +2667,18 @@ object frmMain: TfrmMain
     LoginPrompt = False
     Left = 808
     Top = 184
+  end
+  object dxTabbedMDIManager: TdxTabbedMDIManager
+    Active = True
+    TabProperties.CloseButtonMode = cbmActiveTab
+    TabProperties.CustomButtons.Buttons = <>
+    TabProperties.HotTrack = True
+    TabProperties.NavigatorPosition = npLeftBottom
+    TabProperties.OwnerDraw = True
+    TabProperties.RaggedRight = True
+    TabProperties.TabPosition = tpBottom
+    Left = 56
+    Top = 256
+    PixelsPerInch = 96
   end
 end

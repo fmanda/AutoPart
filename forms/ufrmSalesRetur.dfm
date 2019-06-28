@@ -1,54 +1,43 @@
-inherited frmPurchaseRetur: TfrmPurchaseRetur
-  Caption = 'Retur Pembelian'
-  ClientHeight = 558
-  ClientWidth = 941
+inherited frmSalesRetur: TfrmSalesRetur
+  Caption = 'Retur Penjualan'
+  ClientHeight = 561
+  ClientWidth = 934
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
-  ExplicitWidth = 957
-  ExplicitHeight = 597
+  ExplicitWidth = 950
+  ExplicitHeight = 600
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
-    Top = 523
-    TabOrder = 2
-    ExplicitTop = 523
-    ExplicitWidth = 941
-    Width = 941
+    Top = 526
+    Width = 934
     inherited btnCancel: TcxButton
-      Left = 856
-      ExplicitLeft = 856
+      Left = 849
     end
     inherited btnPrint: TcxButton
-      Left = 770
-      ExplicitLeft = 770
+      Left = 763
     end
     inherited btnSave: TcxButton
-      Left = 684
+      Left = 677
       OnClick = btnSaveClick
-      ExplicitLeft = 684
     end
   end
   inherited Panel2: TPanel
-    Top = 502
-    Width = 941
-    TabOrder = 3
-    ExplicitTop = 502
-    ExplicitWidth = 941
+    Top = 505
+    Width = 934
+    ExplicitTop = 321
     inherited lbEscape: TLabel
-      Left = 861
+      Left = 854
       Height = 17
-      ExplicitLeft = 861
     end
     inherited lgndSave: TLabel
-      Left = 696
+      Left = 689
       Height = 17
-      ExplicitLeft = 696
     end
     inherited lgndPrint: TLabel
-      Left = 783
+      Left = 776
       Height = 17
-      ExplicitLeft = 783
     end
     object Label2: TLabel
       AlignWithMargins = True
@@ -94,19 +83,21 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     Top = 0
     Align = alTop
     Caption = '  Header Data [F1] '
-    TabOrder = 0
+    TabOrder = 2
+    ExplicitLeft = -7
+    ExplicitWidth = 941
     DesignSize = (
-      941
+      934
       147)
     Height = 147
-    Width = 941
+    Width = 934
     object cxLabel1: TcxLabel
-      Left = 182
+      Left = 174
       Top = 20
       Caption = 'No. Retur'
     end
     object edNoRetur: TcxTextEdit
-      Left = 235
+      Left = 227
       Top = 19
       TabStop = False
       Properties.CharCase = ecUpperCase
@@ -114,17 +105,17 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Width = 139
     end
     object cxLabel4: TcxLabel
-      Left = 191
+      Left = 175
       Top = 41
-      Caption = 'Supplier'
+      Caption = 'Customer'
     end
     object cxLabel6: TcxLabel
-      Left = 190
+      Left = 182
       Top = 102
       Caption = 'Catatan'
     end
     object edNotes: TcxMemo
-      Left = 235
+      Left = 227
       Top = 101
       TabOrder = 7
       OnKeyDown = edNotesKeyDown
@@ -132,7 +123,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Width = 298
     end
     object dtRetur: TcxDateEdit
-      Left = 430
+      Left = 422
       Top = 19
       TabStop = False
       Properties.ImmediatePost = True
@@ -142,12 +133,12 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Width = 103
     end
     object cxLabel8: TcxLabel
-      Left = 382
+      Left = 374
       Top = 20
       Caption = 'Tgl Retur'
     end
     object edInv: TcxButtonEdit
-      Left = 235
+      Left = 227
       Top = 60
       Properties.Buttons = <
         item
@@ -160,8 +151,8 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Width = 139
     end
     object crSubTotal: TcxCurrencyEdit
-      Left = 683
-      Top = 46
+      Left = 746
+      Top = 45
       TabStop = False
       Anchors = [akTop, akRight]
       EditValue = 0.000000000000000000
@@ -177,11 +168,11 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 8
-      Width = 241
+      Width = 180
     end
     object cxLabel2: TcxLabel
-      Left = 611
-      Top = 47
+      Left = 674
+      Top = 46
       Anchors = [akTop, akRight]
       Caption = 'Sub Total'
       ParentFont = False
@@ -193,8 +184,8 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Style.IsFontAssigned = True
     end
     object cxLabel3: TcxLabel
-      Left = 647
-      Top = 74
+      Left = 710
+      Top = 73
       Anchors = [akTop, akRight]
       Caption = 'PPN'
       ParentFont = False
@@ -206,8 +197,8 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Style.IsFontAssigned = True
     end
     object crPPN: TcxCurrencyEdit
-      Left = 683
-      Top = 73
+      Left = 746
+      Top = 72
       TabStop = False
       Anchors = [akTop, akRight]
       EditValue = 0.000000000000000000
@@ -223,11 +214,11 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 9
-      Width = 241
+      Width = 180
     end
     object cxLabel5: TcxLabel
-      Left = 624
-      Top = 102
+      Left = 687
+      Top = 101
       Anchors = [akTop, akRight]
       Caption = 'TOTAL'
       ParentFont = False
@@ -239,8 +230,8 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Style.IsFontAssigned = True
     end
     object crTotal: TcxCurrencyEdit
-      Left = 683
-      Top = 99
+      Left = 746
+      Top = 98
       TabStop = False
       Anchors = [akTop, akRight]
       EditValue = 0.000000000000000000
@@ -256,26 +247,26 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 10
-      Width = 241
+      Width = 180
     end
     object cxLabel7: TcxLabel
-      Left = 169
+      Left = 148
       Top = 82
-      Caption = 'Gudang Asal'
+      Caption = 'Gudang Tujuan'
     end
     object cxLookupGudang: TcxExtLookupComboBox
-      Left = 235
+      Left = 227
       Top = 80
       TabOrder = 6
       Width = 298
     end
     object cxLabel9: TcxLabel
-      Left = 178
+      Left = 170
       Top = 61
       Caption = 'No. Faktur'
     end
     object dtInvoice: TcxDateEdit
-      Left = 430
+      Left = 422
       Top = 60
       TabStop = False
       Properties.ImmediatePost = True
@@ -285,15 +276,15 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Width = 103
     end
     object cxLabel11: TcxLabel
-      Left = 378
+      Left = 370
       Top = 61
       Caption = 'Tgl Faktur'
     end
     object rbJenis: TcxRadioGroup
-      Left = 15
-      Top = 24
+      Left = 16
+      Top = 19
       Anchors = [akTop, akRight]
-      Caption = ' Jenis Retur Pembelian'
+      Caption = ' Jenis Retur Penjualan'
       Properties.Items = <
         item
           Caption = 'Retur Pembelian'
@@ -304,42 +295,70 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Properties.OnEditValueChanged = rbJenisPropertiesEditValueChanged
       ItemIndex = 0
       TabOrder = 0
-      Height = 77
-      Width = 136
+      Height = 82
+      Width = 124
     end
-    object edSupp: TcxButtonEdit
-      Left = 235
+    object edCustomer: TcxButtonEdit
+      Left = 227
       Top = 40
       Properties.Buttons = <
         item
           Default = True
           Kind = bkEllipsis
         end>
-      Properties.OnButtonClick = edSuppPropertiesButtonClick
+      Properties.OnButtonClick = edCustomerPropertiesButtonClick
       TabOrder = 3
-      OnKeyDown = edSuppKeyDown
+      OnKeyDown = edCustomerKeyDown
       Width = 298
     end
     object ckReferensiFaktur: TcxCheckBox
-      Left = 15
-      Top = 107
+      Left = 710
+      Top = 18
       Caption = 'Dengan Referensi Faktur'
       Properties.ImmediatePost = True
       Properties.OnEditValueChanged = ckReferensiFakturPropertiesEditValueChanged
       State = cbsChecked
       TabOrder = 21
+      Visible = False
+    end
+    object rbHarga: TcxRadioGroup
+      AlignWithMargins = True
+      Left = 533
+      Top = 34
+      Margins.Left = 10
+      Margins.Top = 0
+      Margins.Bottom = 4
+      Caption = ' Jenis Harga '
+      Enabled = False
+      Properties.ImmediatePost = True
+      Properties.Items = <
+        item
+          Caption = 'Umum'
+        end
+        item
+          Caption = 'Bengkel'
+        end
+        item
+          Caption = 'Grosir'
+        end
+        item
+          Caption = 'Keliling'
+        end>
+      ItemIndex = 0
+      TabOrder = 22
+      Height = 100
+      Width = 84
     end
   end
   object cxGrid1: TcxGrid
     Left = 0
     Top = 147
-    Width = 941
-    Height = 355
+    Width = 934
+    Height = 358
     Align = alClient
-    TabOrder = 1
+    TabOrder = 3
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitLeft = 15
-    ExplicitTop = 259
+    ExplicitTop = 146
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown
@@ -383,7 +402,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Options.Focusing = False
-        Width = 290
+        Width = 282
       end
       object colUOM: TcxGridDBColumn
         Caption = 'Satuan'
@@ -405,8 +424,8 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
         HeaderAlignmentHorz = taCenter
         Width = 53
       end
-      object colHrgBeli: TcxGridDBColumn
-        Caption = 'Harga Beli'
+      object colHrgJual: TcxGridDBColumn
+        Caption = 'Harga Jual'
         DataBinding.FieldName = 'Harga'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
