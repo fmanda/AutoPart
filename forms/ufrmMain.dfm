@@ -1116,6 +1116,7 @@ object frmMain: TfrmMain
       Category = 'Kasir & Penjualan'
       Caption = 'Mutasi Kas'
       ImageIndex = 18
+      OnExecute = actMutasiKasExecute
     end
     object actLapPenjualan: TAction
       Category = 'Kasir & Penjualan'

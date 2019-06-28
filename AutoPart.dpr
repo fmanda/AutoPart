@@ -73,7 +73,8 @@ uses
   uSalesFee in 'classes\uSalesFee.pas',
   ufrmSaldoRekening in 'forms\ufrmSaldoRekening.pas' {frmSaldoRekening},
   ufrmSalesRetur in 'forms\ufrmSalesRetur.pas' {frmSalesRetur},
-  ufrmBrowseSalesRetur in 'forms\ufrmBrowseSalesRetur.pas' {frmBrowseSalesRetur};
+  ufrmBrowseSalesRetur in 'forms\ufrmBrowseSalesRetur.pas' {frmBrowseSalesRetur},
+  ufrmMutasiRekening in 'forms\ufrmMutasiRekening.pas' {frmMutasiRekening};
 
 {$R *.res}
 

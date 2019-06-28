@@ -257,36 +257,41 @@ begin
   if not chkAll.Checked then
     iWarehouseID := VarToInt(cxLookupGudang.EditValue);
 
-  CDS.EmptyDataSet;
+  CDS.DisableControls;
+  Try
+    CDS.EmptyDataSet;
 
-  S := 'SELECT * FROM FN_KARTU_STOCK(' + IntToStr(Item.ID)
-      + ',' + TAppUtils.QuotD(dtStart.Date)
-      + ',' + TAppUtils.QuotD(dtEnd.Date)
-      + ',' + IntToStr(iWarehouseID) +')';
+    S := 'SELECT * FROM FN_KARTU_STOCK(' + IntToStr(Item.ID)
+        + ',' + TAppUtils.QuotD(dtStart.Date)
+        + ',' + TAppUtils.QuotD(dtEnd.Date)
+        + ',' + IntToStr(iWarehouseID) +')';
 
-  lSaldo := 0;
-  with TDBUtils.OpenQuery(S) do
-  begin
-    Try
-      while not eof do
-      begin
-        CDS.Append;
-        CDS.FieldByName('TransDate').AsDateTime := FieldByName('TransDate').AsDateTime;
-        CDS.FieldByName('Refno').AsString       := FieldByName('Refno').AsString;
-        CDS.FieldByName('Notes').AsString       := FieldByName('Notes').AsString;
-        CDS.FieldByName('Qty').AsFloat          := FieldByName('QtyPCS').AsFloat / iKonversi;
-        CDS.FieldByName('Satuan').AsString      := cxLookupUOM.Text;
+    lSaldo := 0;
+    with TDBUtils.OpenQuery(S) do
+    begin
+      Try
+        while not eof do
+        begin
+          CDS.Append;
+          CDS.FieldByName('TransDate').AsDateTime := FieldByName('TransDate').AsDateTime;
+          CDS.FieldByName('Refno').AsString       := FieldByName('Refno').AsString;
+          CDS.FieldByName('Notes').AsString       := FieldByName('Notes').AsString;
+          CDS.FieldByName('Qty').AsFloat          := FieldByName('QtyPCS').AsFloat / iKonversi;
+          CDS.FieldByName('Satuan').AsString      := cxLookupUOM.Text;
 
-        lSaldo := lSaldo + CDS.FieldByName('Qty').AsFloat;
+          lSaldo := lSaldo + CDS.FieldByName('Qty').AsFloat;
 
-        CDS.FieldByName('Saldo').AsFloat        := lSaldo;
-        CDS.Post;
-        next;
-      end;
-    Finally
-      Free;
-    End;
-  end;
+          CDS.FieldByName('Saldo').AsFloat        := lSaldo;
+          CDS.Post;
+          next;
+        end;
+      Finally
+        Free;
+      End;
+    end;
+  Finally
+    CDS.EnableControls;
+  End;
 
 end;
 

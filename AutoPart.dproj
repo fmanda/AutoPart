@@ -321,6 +321,10 @@
             <Form>frmBrowseSalesRetur</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="forms\ufrmMutasiRekening.pas">
+            <Form>frmMutasiRekening</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -1,31 +1,20 @@
-inherited frmKartuStock: TfrmKartuStock
-  Caption = 'Kartu Stock'
-  ClientHeight = 611
-  ClientWidth = 760
-  Position = poMainFormCenter
-  ExplicitWidth = 776
-  ExplicitHeight = 650
+inherited frmMutasiRekening: TfrmMutasiRekening
+  Caption = 'Laporan Mutasi Kas / Bank'
+  ClientWidth = 791
+  ExplicitWidth = 807
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
-    TabOrder = 2
-    ExplicitWidth = 760
-    Width = 760
+    Width = 791
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
       AnchorY = 18
     end
   end
   inherited cxGroupBox2: TcxGroupBox
-    Top = 576
-    TabOrder = 3
-    OnClick = cxGroupBox2Click
-    ExplicitTop = 576
-    ExplicitWidth = 760
-    Width = 760
+    Width = 791
     inherited btnTutup: TcxButton
-      Left = 680
-      ExplicitLeft = 680
+      Left = 711
     end
     inherited btnExport: TcxButton
       OnClick = btnExportClick
@@ -42,71 +31,31 @@ inherited frmKartuStock: TfrmKartuStock
     Margins.Bottom = 0
     Align = alTop
     Caption = ' Kartu Stock '
-    TabOrder = 0
-    Height = 104
-    Width = 760
-    object cxLabel1: TcxLabel
-      Left = 78
-      Top = 35
-      Caption = 'Kode Barang'
-    end
-    object cxLabel2: TcxLabel
-      Left = 75
-      Top = 55
-      Caption = 'Nama Barang'
-    end
-    object edNama: TcxTextEdit
-      Left = 144
-      Top = 54
-      Properties.CharCase = ecUpperCase
-      Properties.ReadOnly = True
-      TabOrder = 4
-      Width = 312
-    end
+    TabOrder = 2
+    ExplicitWidth = 639
+    Height = 70
+    Width = 791
     object cxLabel3: TcxLabel
       Left = 77
       Top = 14
       Caption = 'Periode Awal'
     end
     object cxLabel4: TcxLabel
-      Left = 102
-      Top = 75
-      Caption = 'Gudang'
+      Left = 95
+      Top = 35
+      Caption = 'Rekening'
     end
-    object cxLookupGudang: TcxExtLookupComboBox
+    object cxLookupRekening: TcxExtLookupComboBox
       Left = 144
-      Top = 74
-      TabOrder = 5
-      Width = 216
+      Top = 34
+      TabOrder = 2
+      Width = 312
     end
     object dtStart: TcxDateEdit
       Left = 144
       Top = 13
       TabOrder = 0
       Width = 117
-    end
-    object chkAll: TcxCheckBox
-      Left = 360
-      Top = 74
-      TabStop = False
-      Caption = 'Semua Gudang'
-      Properties.OnEditValueChanged = chkAllPropertiesEditValueChanged
-      TabOrder = 6
-    end
-    object edKode: TcxButtonEdit
-      Left = 144
-      Top = 34
-      Properties.Buttons = <
-        item
-          Default = True
-          Kind = bkEllipsis
-        end>
-      Properties.CharCase = ecUpperCase
-      Properties.OnButtonClick = edKodePropertiesButtonClick
-      Properties.OnValidate = edKodePropertiesValidate
-      TabOrder = 2
-      OnKeyDown = edKodeKeyDown
-      Width = 135
     end
     object dtEnd: TcxDateEdit
       Left = 339
@@ -121,28 +70,16 @@ inherited frmKartuStock: TfrmKartuStock
       Top = 14
       Caption = 'Periode Akhir'
     end
-    object cxLookupUOM: TcxExtLookupComboBox
-      Left = 375
-      Top = 34
-      Properties.OnCloseUp = cxLookupUOMPropertiesCloseUp
-      Properties.OnInitPopup = cxLookupUOMPropertiesInitPopup
-      TabOrder = 3
-      Width = 81
-    end
-    object cxLabel6: TcxLabel
-      Left = 302
-      Top = 35
-      Caption = 'Dalam Satuan'
-    end
   end
   object cxGrid1: TcxGrid [3]
     AlignWithMargins = True
     Left = 3
-    Top = 142
-    Width = 754
-    Height = 431
+    Top = 108
+    Width = 785
+    Height = 262
     Align = alClient
-    TabOrder = 1
+    TabOrder = 3
+    ExplicitLeft = -2
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -151,6 +88,10 @@ inherited frmKartuStock: TfrmKartuStock
           Format = ',0.##;(,0.##)'
           Kind = skSum
           Column = colQty
+        end
+        item
+          Kind = skSum
+          Column = colSaldo
         end>
       DataController.Summary.SummaryGroups = <>
       OptionsCustomize.ColumnFiltering = False
@@ -166,13 +107,18 @@ inherited frmKartuStock: TfrmKartuStock
       OptionsView.HeaderHeight = 30
       Styles.ContentOdd = styleOdd
       ConditionalFormatting = {
-        010000000A0000002E0000005400640078005300700072006500610064005300
+        020000000A0000002E0000005400640078005300700072006500610064005300
         680065006500740043006F006E0064006900740069006F006E0061006C004600
         6F0072006D0061007400740069006E006700520075006C006500490063006F00
-        6E005300650074006400000001000000000700000033004100720072006F0077
-        007300030000000000000003000000FFFFFF7F00020000000200000000000200
-        0000010000000500000000000000000000000000000100000001000000050000
-        00000000000000000100000000000000}
+        6E00530065007400560000000100000000000000000200000000000000020000
+        00FFFFFF7F000200000002000000000002000000010000000500000000000000
+        00000000000000FFFFFFFF010000000500000000000000000000010000000000
+        00002E0000005400640078005300700072006500610064005300680065006500
+        740043006F006E0064006900740069006F006E0061006C0046006F0072006D00
+        61007400740069006E006700520075006C006500490063006F006E0053006500
+        740044000000010000000000000000030000000000000003000000FFFFFF7F00
+        020000000200000000000000000002000000020000000000FFFFFFFF02000000
+        02000100000002000000}
       object colTransDate: TcxGridDBColumn
         Caption = 'Tanggal'
         DataBinding.FieldName = 'TransDate'
@@ -187,34 +133,36 @@ inherited frmKartuStock: TfrmKartuStock
         DataBinding.FieldName = 'RefNo'
         PropertiesClassName = 'TcxTextEditProperties'
         HeaderAlignmentHorz = taCenter
-        Width = 132
+        Width = 141
+      end
+      object colQty: TcxGridDBColumn
+        DataBinding.FieldName = 'Debet'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.DisplayFormat = ',0.##;(,0.##)'
+        HeaderAlignmentHorz = taCenter
+        Width = 86
+      end
+      object colSaldo: TcxGridDBColumn
+        DataBinding.FieldName = 'Credit'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.DisplayFormat = ',0.##;(,0.##)'
+        HeaderAlignmentHorz = taCenter
+        Width = 90
+      end
+      object colUOM: TcxGridDBColumn
+        Caption = 'Saldo'
+        DataBinding.FieldName = 'Balance'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.DisplayFormat = ',0.##;(,0.##)'
+        HeaderAlignmentHorz = taCenter
+        Width = 90
       end
       object colNotes: TcxGridDBColumn
-        Caption = 'Transaksi'
+        Caption = 'Deskripsi'
         DataBinding.FieldName = 'Notes'
         PropertiesClassName = 'TcxTextEditProperties'
         HeaderAlignmentHorz = taCenter
-        Width = 253
-      end
-      object colQty: TcxGridDBColumn
-        DataBinding.FieldName = 'Qty'
-        PropertiesClassName = 'TcxCurrencyEditProperties'
-        Properties.DisplayFormat = ',0.##;(,0.##)'
-        HeaderAlignmentHorz = taCenter
-        Width = 79
-      end
-      object colSaldo: TcxGridDBColumn
-        DataBinding.FieldName = 'Saldo'
-        PropertiesClassName = 'TcxCurrencyEditProperties'
-        Properties.DisplayFormat = ',0.##;(,0.##)'
-        HeaderAlignmentHorz = taCenter
-        Width = 87
-      end
-      object colUOM: TcxGridDBColumn
-        DataBinding.FieldName = 'Satuan'
-        PropertiesClassName = 'TcxTextEditProperties'
-        HeaderAlignmentHorz = taCenter
-        Width = 71
+        Width = 276
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -222,8 +170,8 @@ inherited frmKartuStock: TfrmKartuStock
     end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 416
-    Top = 65520
+    Left = 560
+    Top = 24
     PixelsPerInch = 96
   end
 end
