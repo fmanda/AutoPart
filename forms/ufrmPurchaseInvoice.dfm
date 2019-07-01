@@ -5,6 +5,7 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
+  ExplicitLeft = -211
   ExplicitWidth = 994
   ExplicitHeight = 626
   PixelsPerInch = 96
@@ -122,7 +123,7 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       EditValue = 0.000000000000000000
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0.##;(,0.##)'
       Properties.ReadOnly = True
       Style.Color = clCream
       Style.Font.Charset = DEFAULT_CHARSET
@@ -168,7 +169,7 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       EditValue = 0.000000000000000000
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0.##;(,0.##)'
       Properties.ReadOnly = True
       Style.Color = clCream
       Style.Font.Charset = DEFAULT_CHARSET
@@ -201,7 +202,7 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       EditValue = 0.000000000000000000
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0.##;(,0.##)'
       Properties.ReadOnly = True
       Style.Color = clMoneyGreen
       Style.Font.Charset = DEFAULT_CHARSET
@@ -231,6 +232,7 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       Properties.Items.Strings = (
         'CASH'
         'TEMPO')
+      Properties.OnEditValueChanged = cbBayarPropertiesEditValueChanged
       TabOrder = 1
       Text = 'CASH'
       Width = 73

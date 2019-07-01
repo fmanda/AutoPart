@@ -11,33 +11,42 @@ inherited frmSalesRetur: TfrmSalesRetur
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
     Top = 526
+    ExplicitTop = 526
+    ExplicitWidth = 934
     Width = 934
     inherited btnCancel: TcxButton
       Left = 849
+      ExplicitLeft = 849
     end
     inherited btnPrint: TcxButton
       Left = 763
+      ExplicitLeft = 763
     end
     inherited btnSave: TcxButton
       Left = 677
       OnClick = btnSaveClick
+      ExplicitLeft = 677
     end
   end
   inherited Panel2: TPanel
     Top = 505
     Width = 934
-    ExplicitTop = 321
+    ExplicitTop = 505
+    ExplicitWidth = 934
     inherited lbEscape: TLabel
       Left = 854
       Height = 17
+      ExplicitLeft = 854
     end
     inherited lgndSave: TLabel
       Left = 689
       Height = 17
+      ExplicitLeft = 689
     end
     inherited lgndPrint: TLabel
       Left = 776
       Height = 17
+      ExplicitLeft = 776
     end
     object Label2: TLabel
       AlignWithMargins = True
@@ -84,8 +93,6 @@ inherited frmSalesRetur: TfrmSalesRetur
     Align = alTop
     Caption = '  Header Data [F1] '
     TabOrder = 2
-    ExplicitLeft = -7
-    ExplicitWidth = 941
     DesignSize = (
       934
       147)
@@ -358,7 +365,6 @@ inherited frmSalesRetur: TfrmSalesRetur
     Align = alClient
     TabOrder = 3
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 146
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown

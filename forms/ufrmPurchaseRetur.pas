@@ -89,6 +89,7 @@ type
     FDisableEvent: Boolean;
     FPurchRetur: TPurchaseRetur;
     procedure CalculateAll;
+    procedure CDSAfterDelete(DataSet: TDataSet);
     procedure CDSAfterInsert(DataSet: TDataSet);
     function DC: TcxGridDBDataController;
     procedure FocusToGrid;
@@ -176,6 +177,12 @@ begin
     CDS.EnableControls;
 //    DisableTrigger := False;
   End;
+end;
+
+procedure TfrmPurchaseRetur.CDSAfterDelete(DataSet: TDataSet);
+begin
+  inherited;
+  CalculateAll;
 end;
 
 procedure TfrmPurchaseRetur.FormCreate(Sender: TObject);
@@ -465,6 +472,7 @@ begin
     FCDS.AddField('Nama',ftString);
     FCDS.AddField('SubTotal',ftFloat);
     FCDS.AfterInsert := CDSAfterInsert;
+    FCDS.AfterDelete := CDSAfterDelete;
 //    FCDS.AfterPost := CDSAfterPost;
 //    FCDS.AddField('ItemObject',ftInteger);
     FCDS.CreateDataSet;

@@ -76,6 +76,7 @@ type
     procedure btnSaveClick(Sender: TObject);
     procedure edSupplierPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
+    procedure cbBayarPropertiesEditValueChanged(Sender: TObject);
   private
     DisableTrigger: Boolean;
     FCDS: TClientDataset;
@@ -83,6 +84,7 @@ type
     FCDSUOM: TClientDataset;
     FPurchInv: TPurchaseInvoice;
     procedure CalculateAll;
+    procedure CDSAfterDelete(DataSet: TDataSet);
     procedure CDSAfterInsert(DataSet: TDataSet);
     function DC: TcxGridDBDataController;
     procedure FocusToGrid;
@@ -166,6 +168,13 @@ begin
     CDS.EnableControls;
     DisableTrigger := False;
   End;
+end;
+
+procedure TfrmPurchaseInvoice.cbBayarPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  cxLookupRekening.Enabled := cbBayar.ItemIndex = PaymentFlag_Cash
 end;
 
 procedure TfrmPurchaseInvoice.CDSAfterInsert(DataSet: TDataSet);
@@ -383,6 +392,7 @@ begin
     FCDS.AddField('Nama',ftString);
     FCDS.AddField('SubTotal',ftFloat);
     FCDS.AfterInsert := CDSAfterInsert;
+    FCDS.AfterDelete := CDSAfterDelete;
 //    FCDS.AfterPost := CDSAfterPost;
 //    FCDS.AddField('ItemObject',ftInteger);
     FCDS.CreateDataSet;
@@ -455,11 +465,12 @@ begin
     PurchInv.PaymentFlag := PaymentFlag_Credit;
     PurchInv.InvoiceNo := PurchInv.GenerateNo;
   end;
+  cbBayar.ItemIndex := PurchInv.PaymentFlag;
+  cbBayarPropertiesEditValueChanged(Self);
 
   edNoInv.Text := PurchInv.InvoiceNo;
   dtInvoice.Date := PurchInv.TransDate;
   dtJtTempo.Date := PurchInv.DueDate;
-  cbBayar.ItemIndex := PurchInv.PaymentFlag;
   crSubTotal.Value := PurchInv.SubTotal;
   crPPN.Value := PurchInv.PPN;
   crTotal.Value := PurchInv.Amount;
@@ -496,7 +507,6 @@ var
   s: string;
 //  sKey: string;
 begin
-
 //  sKey := '';
 //  if cxGrdMain.Controller.FocusedRecord <> nil then
 //    sKey := VarToStr(cxGrdMain.Controller.FocusedRecord.Values[colKode.Index]);
@@ -525,6 +535,12 @@ begin
   Finally
     FreeAndNil(lItem);
   End;
+end;
+
+procedure TfrmPurchaseInvoice.CDSAfterDelete(DataSet: TDataSet);
+begin
+  inherited;
+  CalculateAll;
 end;
 
 procedure TfrmPurchaseInvoice.LookupSupplier(sKey: string = '');

@@ -26,7 +26,10 @@ type
     procedure PrepareDetailObject(AObjItem: TCRUDObject); override;
   public
     destructor Destroy; override;
+    function GenerateNo: String; virtual; abstract;
     function GetHeaderFlag: Integer; virtual; abstract;
+    function SaveRepeat(aRepeatCount: Integer = 2; DoShowMsg: Boolean = True):
+        Boolean;
     property Items: TObjectList<TFinancialTransaction> read GetItems write FItems;
   published
     property Amount: Double read FAmount write FAmount;
@@ -65,8 +68,8 @@ type
     function GetSQLRetrieveDetails(Header_ID: Integer): String; override;
   public
     destructor Destroy; override;
-    procedure MakePositive;
-    procedure MakeNegative;
+    procedure SetToDebet;
+    procedure SetToCredit;
   published
     property DebetAmt: Double read FDebetAmt write FDebetAmt;
     property ReturAmt: Double read FReturAmt write FReturAmt;
@@ -95,7 +98,7 @@ type
   protected
   public
     destructor Destroy; override;
-    function GenerateNo: String;
+    function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
   published
   end;
@@ -105,7 +108,7 @@ type
   protected
   public
     destructor Destroy; override;
-    function GenerateNo: String;
+    function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
   published
   end;
@@ -115,7 +118,7 @@ type
   protected
   public
     destructor Destroy; override;
-    function GenerateNo: String;
+    function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
   published
   end;
@@ -134,10 +137,10 @@ type
     function BeforeSaveToDB: Boolean; override;
   public
     destructor Destroy; override;
-    function GenerateNo: String;
     function GetHeaderFlag: Integer; override;
     class function CreateOrGetFromInv(aSalesInvoice: TSalesInvoice): TSalesPayment;
     class function CreateOrGetFromRetur(aSalesRetur: TSalesRetur): TSalesPayment;
+    function GenerateNo: string; override;
     function UpdateRemain(aIsRevert: Boolean = False): Boolean;
     property PaymentFlag: Integer read FPaymentFlag write FPaymentFlag;
   published
@@ -154,6 +157,7 @@ type
     FMediaNo: string;
     FPaymentFlag: Integer;
     FRekening: TRekening;
+    FSupplier: TSupplier;
     FReturAmount: Double;
   protected
     function AfterSaveToDB: Boolean; override;
@@ -165,14 +169,15 @@ type
         TPurchasePayment;
     class function CreateOrGetFromRetur(aPurchaseRetur: TPurchaseRetur):
         TPurchasePayment;
-    function GenerateNo: String;
+    function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
     function UpdateRemain(aIsRevert: Boolean = False): Boolean;
-    property PaymentFlag: Integer read FPaymentFlag write FPaymentFlag;
   published
     property Media: Integer read FMedia write FMedia;
     property MediaNo: string read FMediaNo write FMediaNo;
+    property PaymentFlag: Integer read FPaymentFlag write FPaymentFlag;
     property Rekening: TRekening read FRekening write FRekening;
+    property Supplier: TSupplier read FSupplier write FSupplier;
     property ReturAmount: Double read FReturAmount write FReturAmount;
   end;
 
@@ -185,15 +190,14 @@ const
 
   Media_Cash : Integer = 0;
   Media_Tranfer : Integer = 1;
-  Media_BG : Integer = 2;
-  Media_Cek : Integer = 3;
+  Media_Cek : Integer = 2;
 
   
 
 implementation
 
 uses
-  System.StrUtils, System.Classes;
+  System.StrUtils, System.Classes, uAppUtils;
 
 destructor TCRUDFinance.Destroy;
 begin
@@ -228,6 +232,61 @@ begin
 //  begin
 //    TAvgCostUpdate(AObjItem).Header_Flag  := GetHeaderFlag;
 //  end;
+end;
+
+function TCRUDFinance.SaveRepeat(aRepeatCount: Integer = 2; DoShowMsg: Boolean
+    = True): Boolean;
+var
+  iRepeat: Integer;
+begin
+  Result := False;
+
+  if Self.ID > 0 then
+  begin
+    Result := Self.SaveToDB();
+    exit;
+  end else
+  begin
+    //hanya berlaku utk baru
+    iRepeat := 0;
+    while iRepeat <= aRepeatCount do
+    begin
+      Try
+        Self.RefNo := GenerateNo;
+        inc(iRepeat);
+        Result := Self.SaveToDB();
+
+        if Result then
+        begin
+          if DoShowMsg then
+            TAppUtils.Information('Data Berhasil Disimpan dengan nomor bukti : ' + Self.GetRefno);
+        end else
+        begin
+          TAppUtils.Error('SaveToDB Result = False without exception ???');
+        end;
+
+        exit; //sukses or error without exception we must exist
+      except
+        on E:Exception do
+        begin
+          if Pos('unique key', LowerCase(E.Message)) > 0 then
+          begin
+            if (iRepeat > aRepeatCount) or (not TAppUtils.Confirm('Terdeteksi Ada Nomor Bukti sudah terpakai, Otomatis Generate Baru dan Simpan?'
+              + #13 +'Percobaan Simpan ke : ' + IntToStr(iRepeat)
+              + #13#13 +'Pesan Error : '
+              + #13 + E.Message
+            ))
+            then
+            begin
+              E.Message := 'Gagal Mengulang Simpan ke- ' + IntToStr(iRepeat-1) + #13 + E.Message;
+              raise;
+            end;
+          end else
+            Raise;
+        end;
+      End;
+    end;
+  end;
 end;
 
 destructor TFinancialTransaction.Destroy;
@@ -270,18 +329,16 @@ begin
 //  Result := Result + lPO.GetHeaderField;
 end;
 
-procedure TFinancialTransaction.MakePositive;
+procedure TFinancialTransaction.SetToDebet;
 begin
-//  Self.Qty := Abs(Self.Qty);
-//  Self.Total := Abs(Self.Total);
-//  Self.PPN := Abs(Self.Total);
+  Self.DebetAmt := Self.Amount;
+  Self.CreditAmt := 0;
 end;
 
-procedure TFinancialTransaction.MakeNegative;
+procedure TFinancialTransaction.SetToCredit;
 begin
-//  Self.Qty := Abs(Self.Qty) * -1;
-//  Self.Total := Abs(Self.Total) * -1;
-//  Self.PPN := Abs(Self.Total) * -1;
+  Self.DebetAmt   := 0;
+  Self.CreditAmt  := Self.CreditAmt;
 end;
 
 destructor TCashPayment.Destroy;
@@ -525,7 +582,7 @@ begin
   //debet retur penjualan : tidak perlu
 end;
 
-function TSalesPayment.GenerateNo: String;
+function TSalesPayment.GenerateNo: string;
 var
   aDigitCount: Integer;
   aPrefix: string;
@@ -641,6 +698,13 @@ begin
   Result.PaymentFlag      := PaymentFlag_Cash;
   Result.ReturAmount      := 0;
   Result.Rekening         := TRekening.CreateID(aPurchaseInv.Rekening.ID);
+
+  if aPurchaseInv.Supplier <> nil then
+  begin
+    if Result.Supplier = nil then Result.Supplier := TSupplier.Create;
+    Result.Supplier.ID    := aPurchaseInv.Supplier.ID;
+  end;
+
   Result.Items.Clear;
 
   //debet hutang
@@ -693,6 +757,14 @@ begin
   Result.Amount           := 0;
   Result.PaymentFlag      := PaymentFlag_Cash;
   Result.ReturAmount      := aPurchaseRetur.Amount;
+
+  if aPurchaseRetur.Supplier <> nil then
+  begin
+    if Result.Supplier = nil then Result.Supplier := TSupplier.Create;
+    Result.Supplier.ID    := aPurchaseRetur.Supplier.ID;
+  end;
+
+
   Result.Items.Clear;
 
   //debet hutang
@@ -722,7 +794,7 @@ begin
   aPrefix := Cabang + '.PP.' + FormatDateTime('yymmdd',Now()) + '.';
 
 
-  S := 'SELECT MAX(InvoiceNo) FROM TPurchasePayment where Refno LIKE ' + QuotedStr(aPrefix + '%');
+  S := 'SELECT MAX(Refno) FROM TPurchasePayment where Refno LIKE ' + QuotedStr(aPrefix + '%');
 
   with TDBUtils.OpenQuery(S) do
   begin

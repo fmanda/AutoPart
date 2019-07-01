@@ -89,6 +89,7 @@ type
     FSalesRetur: TSalesRetur;
     procedure CalculateAll;
     procedure CDSAfterInsert(DataSet: TDataSet);
+    procedure CDSAfterDelete(DataSet: TDataSet);
     function DC: TcxGridDBDataController;
     procedure FocusToGrid;
     function GetCDS: TClientDataset;
@@ -181,6 +182,12 @@ procedure TfrmSalesRetur.CDSAfterInsert(DataSet: TDataSet);
 begin
   inherited;
   DataSet.FieldByName('Warehouse').AsInteger := VarToInt(cxLookupGudang.EditValue);
+end;
+
+procedure TfrmSalesRetur.CDSAfterDelete(DataSet: TDataSet);
+begin
+  inherited;
+  CalculateAll;
 end;
 
 procedure TfrmSalesRetur.ckReferensiFakturPropertiesEditValueChanged(Sender:
@@ -468,6 +475,7 @@ begin
     FCDS.AddField('Nama',ftString);
     FCDS.AddField('SubTotal',ftFloat);
     FCDS.AfterInsert := CDSAfterInsert;
+    FCDS.AfterDelete := CDSAfterDelete;
 //    FCDS.AfterPost := CDSAfterPost;
 //    FCDS.AddField('ItemObject',ftInteger);
     FCDS.CreateDataSet;

@@ -70,7 +70,7 @@ begin
     if lCDS.Locate('varname','Def_Rekening',[loCaseInsensitive]) then
       Def_Rekening := lCDS.FieldByName('VarValue').AsString;
     if lCDS.Locate('varname','Toleransi_Piutang',[loCaseInsensitive]) then
-      Def_Rekening := lCDS.FieldByName('Toleransi_Piutang').AsString;
+      Toleransi_Piutang := lCDS.FieldByName('VarValue').AsFloat;
   Finally
     lCDS.Free;
   End;
@@ -97,6 +97,7 @@ begin
       + QuotedStr(Def_Cust_Umum) + ');');
     SS.Add('insert into tvariable(varname, varvalue) values(''Def_Cust_Bengkel'','
       + QuotedStr(Def_Cust_Bengkel) + ');');
+
     SS.Add('insert into tvariable(varname, varvalue) values(''Def_Rekening'','
       + QuotedStr(Def_Rekening) + ');');
 

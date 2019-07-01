@@ -1569,6 +1569,11 @@ begin
       if not Assigned(TcxExtLookupComboBox(C).OnKeyDown) then
         TcxExtLookupComboBox(C).OnKeyDown:= OnKeyEnter;
     end
+    else if C is TcxComboBox then
+    begin
+      TcxComboBox(C).Properties.PostPopupValueOnTab := True;
+      TcxComboBox(C).OnKeyDown := OnKeyEnter;
+    end
     else If C.InheritsFrom(TcxCustomEdit) then  //for all devexpress
       If not Assigned(TcxCustomEdit(C).OnKeyDown) then
         TcxCustomEdit(C).OnKeyDown := OnKeyEnter;
@@ -1676,7 +1681,7 @@ procedure TFormHelper.OnKeyEnter(Sender: TObject; var Key: Word; Shift:
 begin
   if (Key = VK_RETURN) and (not (ssCtrl in Shift))  then
   begin
-    if Sender is TcxExtLookupComboBox then
+    if (Sender is TcxExtLookupComboBox) or (Sender is TcxComboBox) then
       Key := VK_TAB
     else
       SelectNext(Screen.ActiveControl, True, True);

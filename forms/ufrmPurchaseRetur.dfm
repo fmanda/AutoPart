@@ -338,8 +338,6 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitLeft = 15
-    ExplicitTop = 259
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown

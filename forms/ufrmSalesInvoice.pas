@@ -115,6 +115,7 @@ type
     FCDSMasterService: TClientDataset;
     FSalesInv: TSalesInvoice;
     procedure CalculateAll;
+    procedure CDSAfterDelete(DataSet: TDataSet);
     procedure CDSAfterInsert(DataSet: TDataSet);
     function DC: TcxGridDBDataController;
     function DCService: TcxGridDBDataController;
@@ -242,6 +243,12 @@ begin
   dtJtTempo.Enabled := cbBayar.ItemIndex = PaymentFlag_Credit;
   spTempo.Visible := cbBayar.ItemIndex = PaymentFlag_Credit;
 
+end;
+
+procedure TfrmSalesInvoice.CDSAfterDelete(DataSet: TDataSet);
+begin
+  inherited;
+  CalculateAll;
 end;
 
 procedure TfrmSalesInvoice.CDSAfterInsert(DataSet: TDataSet);
@@ -544,6 +551,7 @@ begin
     FCDS.AddField('Nama',ftString);
     FCDS.AddField('SubTotal',ftFloat);
     FCDS.AfterInsert := CDSAfterInsert;
+    FCDS.AfterDelete := CDSAfterDelete;
 //    FCDS.AfterPost := CDSAfterPost;
 //    FCDS.AddField('ItemObject',ftInteger);
     FCDS.CreateDataSet;
