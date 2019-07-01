@@ -369,8 +369,9 @@ inherited frmPurchasePayment: TfrmPurchasePayment
             Kind = bkEllipsis
           end>
         Properties.OnButtonClick = colInvoiceNoPropertiesButtonClick
+        Properties.OnValidate = colInvoiceNoPropertiesValidate
         HeaderAlignmentHorz = taCenter
-        Width = 181
+        Width = 146
       end
       object colInvoiceDate: TcxGridDBColumn
         Caption = 'Tgl Faktur'
@@ -380,7 +381,7 @@ inherited frmPurchasePayment: TfrmPurchasePayment
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Options.Focusing = False
-        Width = 79
+        Width = 70
       end
       object colInvoiceAmt: TcxGridDBColumn
         Caption = 'Nilai Faktur'
@@ -390,7 +391,7 @@ inherited frmPurchasePayment: TfrmPurchasePayment
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
         Options.Focusing = False
-        Width = 105
+        Width = 89
       end
       object colInvoiceRemain: TcxGridDBColumn
         Caption = 'Sisa Hutang'
@@ -400,7 +401,7 @@ inherited frmPurchasePayment: TfrmPurchasePayment
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
         Options.Focusing = False
-        Width = 108
+        Width = 90
       end
       object colPaidAmt: TcxGridDBColumn
         Caption = 'Nilai Bayar'
@@ -410,7 +411,7 @@ inherited frmPurchasePayment: TfrmPurchasePayment
         Properties.DisplayFormat = ',0.##;(,0.##)'
         Properties.OnEditValueChanged = colPaidAmtPropertiesEditValueChanged
         HeaderAlignmentHorz = taCenter
-        Width = 99
+        Width = 107
       end
       object colReturNo: TcxGridDBColumn
         Caption = 'No. Retur'
@@ -421,9 +422,22 @@ inherited frmPurchasePayment: TfrmPurchasePayment
             Default = True
             Kind = bkEllipsis
           end>
+        Properties.ReadOnly = False
+        Properties.OnButtonClick = colReturNoPropertiesButtonClick
+        Properties.OnValidate = colReturNoPropertiesValidate
+        HeaderAlignmentHorz = taCenter
+        Width = 71
+      end
+      object colReturRemain: TcxGridDBColumn
+        Caption = 'Sisa Retur'
+        DataBinding.FieldName = 'ReturRemain'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##;(,0.##)'
+        Properties.ReadOnly = True
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
-        Width = 177
+        Width = 93
       end
       object colReturAmt: TcxGridDBColumn
         Caption = 'Potong Retur'
@@ -434,22 +448,19 @@ inherited frmPurchasePayment: TfrmPurchasePayment
         Properties.ReadOnly = False
         Properties.OnEditValueChanged = colReturAmtPropertiesEditValueChanged
         HeaderAlignmentHorz = taCenter
-        Width = 100
+        Width = 81
       end
       object colInvoiceID: TcxGridDBColumn
         DataBinding.FieldName = 'PurchaseInvoice'
+        PropertiesClassName = 'TcxSpinEditProperties'
         Visible = False
         Options.Editing = False
       end
       object colReturID: TcxGridDBColumn
         DataBinding.FieldName = 'PurchaseRetur'
+        PropertiesClassName = 'TcxSpinEditProperties'
         Visible = False
         Options.Editing = False
-      end
-      object colReturRemain: TcxGridDBColumn
-        DataBinding.FieldName = 'ReturRemain'
-        PropertiesClassName = 'TcxCurrencyEditProperties'
-        Visible = False
       end
     end
     object cxGrdCost: TcxGridDBTableView

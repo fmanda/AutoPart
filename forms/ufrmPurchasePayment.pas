@@ -14,7 +14,7 @@ uses
   cxGridCustomView, cxGrid, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
   cxDropDownEdit, cxMaskEdit, cxMemo, cxTextEdit, cxLabel,
   uFinancialTransaction, Datasnap.DBClient, uTransDetail,
-  cxGridDBDataDefinitions, uItem, cxDataUtils, uAppUtils;
+  cxGridDBDataDefinitions, uItem, cxDataUtils, uAppUtils, cxSpinEdit;
 
 type
   TfrmPurchasePayment = class(TfrmDefaultInput)
@@ -77,6 +77,12 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure colCostAmountPropertiesEditValueChanged(Sender: TObject);
     procedure colReturAmtPropertiesEditValueChanged(Sender: TObject);
+    procedure colInvoiceNoPropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure colReturNoPropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure colReturNoPropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
   private
     FCDS: TClientDataset;
     FCDSCost: TClientDataset;
@@ -96,8 +102,10 @@ type
     function GetPayment: TPurchasePayment;
     procedure InitView;
     procedure LookupInvoice(sKey: string = '');
+    procedure LookupRetur(sKey: string = '');
     procedure LookupSupplier(sKey: string = '');
     procedure SetInvoiceToGrid(AInvoice: TPurchaseInvoice);
+    procedure SetReturToGrid(aRetur: TPurchaseRetur);
     procedure UpdateData;
     function ValidateData: Boolean;
     property CDS: TClientDataset read GetCDS write FCDS;
@@ -235,6 +243,21 @@ begin
   LookupInvoice;
 end;
 
+procedure TfrmPurchasePayment.colInvoiceNoPropertiesValidate(Sender: TObject;
+  var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+var
+  lPurch: TPurchaseInvoice;
+begin
+  inherited;
+  lPurch := TPurchaseInvoice.Create;
+  Try
+    lPurch.LoadByCode(VarToStr(DisplayValue));
+    SetInvoiceToGrid(lPurch);
+  Finally
+    lPurch.Free;
+  End;
+end;
+
 procedure TfrmPurchasePayment.colPaidAmtPropertiesEditValueChanged(
   Sender: TObject);
 begin
@@ -248,6 +271,28 @@ begin
   CalculateAll;
 end;
 
+
+procedure TfrmPurchasePayment.colReturNoPropertiesButtonClick(Sender: TObject;
+  AButtonIndex: Integer);
+begin
+  inherited;
+  LookupRetur();
+end;
+
+procedure TfrmPurchasePayment.colReturNoPropertiesValidate(Sender: TObject;
+  var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+var
+  lRet: TPurchaseRetur;
+begin
+  inherited;
+  lRet := TPurchaseRetur.Create;
+  Try
+    lRet.LoadByCode(VarToStr(DisplayValue));
+    SetReturToGrid(lRet);
+  Finally
+    lRet.Free;
+  End;
+end;
 
 procedure TfrmPurchasePayment.cxGrdMainEditKeyDown(Sender:
     TcxCustomGridTableView; AItem: TcxCustomGridTableItem; AEdit:
@@ -491,7 +536,7 @@ begin
           if lPurchaseRet.LoadByID(lItem.PurchaseRetur.ID) then
           begin
             CDS.FieldByName('ReturNo').AsString       := lPurchaseRet.Refno;
-            CDS.FieldByName('ReturRemain').AsDateTime := lPurchaseRet.Amount - lPurchaseRet.PaidAmount + lItem.ReturAmt;
+            CDS.FieldByName('ReturRemain').AsFloat    := lPurchaseRet.Amount - lPurchaseRet.PaidAmount + lItem.ReturAmt;
           end;
         end;
         CDS.Post;
@@ -556,6 +601,52 @@ begin
   End;
 end;
 
+procedure TfrmPurchasePayment.LookupRetur(sKey: string = '');
+var
+  cxLookup: TfrmCXServerLookup;
+  lRetur: TPurchaseRetur;
+  S: string;
+begin
+  if Payment.Supplier = nil then
+  begin
+    TAppUtils.Warning('Supplier Harus dipilih terlebih dahulu');
+    exit;
+  end;
+
+  if Payment.Supplier.ID = 0 then
+  begin
+    TAppUtils.Warning('Supplier Harus dipilih terlebih dahulu');
+    exit;
+  end;
+
+  S := 'SELECT A.ID, A.REFNO, A.TRANSDATE,  B.NAMA AS SUPPLIER,'
+      +' A.AMOUNT, A.PAIDAMOUNT, A.NOTES,'
+      +' (A.AMOUNT - A.PAIDAMOUNT) AS REMAIN'
+      +' FROM TPURCHASERETUR A'
+      +' INNER JOIN TSUPPLIER B ON A.SUPPLIER_ID = B.ID'
+      +' WHERE (A.AMOUNT - ISNULL(A.PAIDAMOUNT,0)) > '
+      + FloatToStr(AppVariable.Toleransi_Piutang)
+      +' AND A.SUPPLIER_ID = ' + IntToStr(Payment.Supplier.ID);
+
+
+  cxLookup := TfrmCXServerLookup.Execute(S, 'ID', StartOfTheMonth(Now()), EndOfTheMonth(Now()) );
+  Try
+    cxLookup.PreFilter('REFNO', sKey);
+    if cxLookup.ShowModal = mrOK then
+    begin
+      lRetur := TPurchaseRetur.Create;
+      Try
+        lRetur.LoadByID(VarToInt(cxLookup.FieldValue('ID')));
+        SetReturToGrid(lRetur);
+      Finally
+        lRetur.Free;
+      End;
+    end;
+  Finally
+    cxLookup.Free;
+  End;
+end;
+
 procedure TfrmPurchasePayment.LookupSupplier(sKey: string = '');
 var
   cxLookup: TfrmCXServerLookup;
@@ -592,6 +683,16 @@ begin
   DC.SetEditValue(colReturNo.Index, '', evsValue);
   DC.SetEditValue(colReturAmt.Index, 0, evsValue);
   DC.SetEditValue(colReturRemain.Index, 0, evsValue);
+  CalculateAll;
+end;
+
+procedure TfrmPurchasePayment.SetReturToGrid(aRetur: TPurchaseRetur);
+begin
+  if aRetur = nil then exit;
+  DC.SetEditValue(colReturID.Index, aRetur.ID, evsValue);
+  DC.SetEditValue(colReturNo.Index, aRetur.Refno, evsValue);
+  DC.SetEditValue(colReturRemain.Index, aRetur.Amount - aRetur.PaidAmount, evsValue);
+  DC.SetEditValue(colReturAmt.Index, aRetur.Amount - aRetur.PaidAmount, evsValue);
   CalculateAll;
 end;
 
@@ -713,7 +814,7 @@ begin
   CDS.First;
   while not CDS.Eof do
   begin
-    if (CDS.FieldByName('PurchaseRetur').AsInteger <> 0)
+    if (CDS.FieldByName('PurchaseRetur').AsInteger = 0)
       and (CDS.FieldByName('ReturAmt').AsFloat > 0) then
     begin
       TAppUtils.Warning('Nomor Retur kosong, tetapi ada nominal Retur');
