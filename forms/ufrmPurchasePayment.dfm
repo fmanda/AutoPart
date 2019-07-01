@@ -9,32 +9,41 @@ inherited frmPurchasePayment: TfrmPurchasePayment
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
     Top = 526
+    ExplicitTop = 526
+    ExplicitWidth = 866
     Width = 866
     inherited btnCancel: TcxButton
       Left = 781
+      ExplicitLeft = 781
     end
     inherited btnPrint: TcxButton
       Left = 695
+      ExplicitLeft = 695
     end
     inherited btnSave: TcxButton
       Left = 609
+      ExplicitLeft = 609
     end
   end
   inherited Panel2: TPanel
     Top = 505
     Width = 866
-    ExplicitTop = 321
+    ExplicitTop = 505
+    ExplicitWidth = 866
     inherited lbEscape: TLabel
       Left = 786
       Height = 17
+      ExplicitLeft = 786
     end
     inherited lgndSave: TLabel
       Left = 621
       Height = 17
+      ExplicitLeft = 621
     end
     inherited lgndPrint: TLabel
       Left = 708
       Height = 17
+      ExplicitLeft = 708
     end
   end
   object cxGroupBox1: TcxGroupBox
@@ -43,7 +52,6 @@ inherited frmPurchasePayment: TfrmPurchasePayment
     Align = alTop
     Caption = '  Header Invoice [F1] '
     TabOrder = 2
-    ExplicitWidth = 934
     DesignSize = (
       866
       121)
@@ -120,7 +128,7 @@ inherited frmPurchasePayment: TfrmPurchasePayment
       TabOrder = 2
       Width = 259
     end
-    object crSubTotal: TcxCurrencyEdit
+    object crRetur: TcxCurrencyEdit
       Left = 679
       Top = 57
       TabStop = False
@@ -138,7 +146,6 @@ inherited frmPurchasePayment: TfrmPurchasePayment
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 8
-      ExplicitLeft = 747
       Width = 170
     end
     object cxLabel2: TcxLabel
@@ -153,7 +160,8 @@ inherited frmPurchasePayment: TfrmPurchasePayment
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
-      ExplicitLeft = 708
+      Properties.Alignment.Horz = taRightJustify
+      AnchorX = 677
     end
     object cxLabel3: TcxLabel
       Left = 638
@@ -167,9 +175,10 @@ inherited frmPurchasePayment: TfrmPurchasePayment
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
-      ExplicitLeft = 706
+      Properties.Alignment.Horz = taRightJustify
+      AnchorX = 677
     end
-    object crPPN: TcxCurrencyEdit
+    object crTotal: TcxCurrencyEdit
       Left = 679
       Top = 83
       TabStop = False
@@ -187,7 +196,6 @@ inherited frmPurchasePayment: TfrmPurchasePayment
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 9
-      ExplicitLeft = 747
       Width = 170
     end
     object cxLabel5: TcxLabel
@@ -202,9 +210,10 @@ inherited frmPurchasePayment: TfrmPurchasePayment
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
-      ExplicitLeft = 705
+      Properties.Alignment.Horz = taRightJustify
+      AnchorX = 677
     end
-    object crTotal: TcxCurrencyEdit
+    object crCash: TcxCurrencyEdit
       Left = 679
       Top = 22
       TabStop = False
@@ -222,7 +231,6 @@ inherited frmPurchasePayment: TfrmPurchasePayment
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 10
-      ExplicitLeft = 747
       Width = 170
     end
     object cbMedia: TcxComboBox
@@ -230,10 +238,11 @@ inherited frmPurchasePayment: TfrmPurchasePayment
       Top = 27
       Properties.CharCase = ecUpperCase
       Properties.Items.Strings = (
-        'CASH'
-        'TEMPO')
+        'CASH / TUNAI'
+        'TRANSFER'
+        'CEK / BG')
       TabOrder = 4
-      Text = 'CASH'
+      Text = 'CASH / TUNAI'
       Width = 90
     end
     object cxLabel10: TcxLabel
@@ -274,10 +283,6 @@ inherited frmPurchasePayment: TfrmPurchasePayment
     Align = alClient
     TabOrder = 3
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitLeft = -94
-    ExplicitTop = 123
-    ExplicitWidth = 978
-    ExplicitHeight = 408
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>

@@ -28,12 +28,12 @@ type
     dtDueDate: TcxDateEdit;
     cxLabel9: TcxLabel;
     edSupplier: TcxButtonEdit;
-    crSubTotal: TcxCurrencyEdit;
+    crRetur: TcxCurrencyEdit;
     cxLabel2: TcxLabel;
     cxLabel3: TcxLabel;
-    crPPN: TcxCurrencyEdit;
-    cxLabel5: TcxLabel;
     crTotal: TcxCurrencyEdit;
+    cxLabel5: TcxLabel;
+    crCash: TcxCurrencyEdit;
     cbMedia: TcxComboBox;
     cxLabel10: TcxLabel;
     cxLabel13: TcxLabel;
@@ -56,13 +56,17 @@ type
   private
     FCDS: TClientDataset;
     FCDSClone: TClientDataset;
+    FPayment: TPurchasePayment;
     function GetCDS: TClientDataset;
     function GetCDSClone: TClientDataset;
+    function GetPayment: TPurchasePayment;
     procedure InitView;
     property CDS: TClientDataset read GetCDS write FCDS;
     property CDSClone: TClientDataset read GetCDSClone write FCDSClone;
     { Private declarations }
   public
+    procedure LoadByID(aID: Integer; IsReadOnly: Boolean = False);
+    property Payment: TPurchasePayment read GetPayment write FPayment;
     { Public declarations }
   end;
 
@@ -81,6 +85,7 @@ begin
   inherited;
   Self.AssignKeyDownEvent;
   InitView;
+  LoadByID(0);
 end;
 
 function TfrmPurchasePayment.GetCDS: TClientDataset;
@@ -107,11 +112,35 @@ begin
   Result := FCDSClone;
 end;
 
+function TfrmPurchasePayment.GetPayment: TPurchasePayment;
+begin
+  if FPayment = nil then
+    FPayment := TPurchasePayment.Create;
+  Result := FPayment;
+end;
+
 procedure TfrmPurchasePayment.InitView;
 begin
   cxGrdMain.PrepareFromCDS(CDS);
   cxLookupRekening.Properties.LoadFromSQL(Self,
     'select id, nama from trekening','nama');
+
+
+end;
+
+procedure TfrmPurchasePayment.LoadByID(aID: Integer; IsReadOnly: Boolean =
+    False);
+begin
+  if FPayment <> nil then
+    FreeAndNil(FPayment);
+
+  Payment.LoadByID(aID);
+
+  if aID = 0 then
+  begin
+    Payment.TransDate := Now();
+    Payment.Refno     := Payment.GenerateNo;
+  end;
 
 
 end;
