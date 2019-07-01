@@ -355,8 +355,8 @@ var
   S: string;
 begin
   lNum := 0;
-  aDigitCount := 4;
-  aPrefix := Cabang + '.CP.' + FormatDateTime('yymmdd',Now()) + '.';
+  aDigitCount := 5;
+  aPrefix := Cabang + '.CP' + FormatDateTime('yymm',Now()) + '.';
 
 
   S := 'SELECT MAX(RefNo) FROM TCashPayment where Refno LIKE ' + QuotedStr(aPrefix + '%');
@@ -372,7 +372,7 @@ begin
   end;
 
   inc(lNum);
-  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
+  Result := aPrefix + RightStr('00000' + IntToStr(lNum), aDigitCount);
 end;
 
 function TCashPayment.GetHeaderFlag: Integer;
@@ -394,8 +394,8 @@ var
   S: string;
 begin
   lNum := 0;
-  aDigitCount := 4;
-  aPrefix := Cabang + '.CR.' + FormatDateTime('yymmdd',Now()) + '.';
+  aDigitCount := 5;
+  aPrefix := Cabang + '.CR' + FormatDateTime('yymm',Now()) + '.';
 
 
   S := 'SELECT MAX(InvoiceNo) FROM TCashReceipt where Refno LIKE ' + QuotedStr(aPrefix + '%');
@@ -411,7 +411,7 @@ begin
   end;
 
   inc(lNum);
-  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
+  Result := aPrefix + RightStr('00000' + IntToStr(lNum), aDigitCount);
 end;
 
 function TCashReceipt.GetHeaderFlag: Integer;
@@ -433,8 +433,8 @@ var
   S: string;
 begin
   lNum := 0;
-  aDigitCount := 4;
-  aPrefix := Cabang + '.CT.' + FormatDateTime('yymmdd',Now()) + '.';
+  aDigitCount := 5;
+  aPrefix := Cabang + '.CT' + FormatDateTime('yymm',Now()) + '.';
 
 
   S := 'SELECT MAX(InvoiceNo) FROM TCashTransfer where Refno LIKE ' + QuotedStr(aPrefix + '%');
@@ -450,7 +450,7 @@ begin
   end;
 
   inc(lNum);
-  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
+  Result := aPrefix + RightStr('00000' + IntToStr(lNum), aDigitCount);
 end;
 
 function TCashTransfer.GetHeaderFlag: Integer;
@@ -590,8 +590,8 @@ var
   S: string;
 begin
   lNum := 0;
-  aDigitCount := 4;
-  aPrefix := Cabang + '.SP.' + FormatDateTime('yymmdd',Now()) + '.';
+  aDigitCount := 5;
+  aPrefix := Cabang + '.SP' + FormatDateTime('yymm',Now()) + '.';
 
 
   S := 'SELECT MAX(InvoiceNo) FROM TSalesPayment where Refno LIKE ' + QuotedStr(aPrefix + '%');
@@ -607,7 +607,7 @@ begin
   end;
 
   inc(lNum);
-  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
+  Result := aPrefix + RightStr('00000' + IntToStr(lNum), aDigitCount);
 end;
 
 function TSalesPayment.GetHeaderFlag: Integer;
@@ -790,8 +790,8 @@ var
   S: string;
 begin
   lNum := 0;
-  aDigitCount := 4;
-  aPrefix := Cabang + '.PP.' + FormatDateTime('yymmdd',Now()) + '.';
+  aDigitCount := 5;
+  aPrefix := Cabang + '.PP' + FormatDateTime('yymm',Now()) + '.';
 
 
   S := 'SELECT MAX(Refno) FROM TPurchasePayment where Refno LIKE ' + QuotedStr(aPrefix + '%');
@@ -807,7 +807,7 @@ begin
   end;
 
   inc(lNum);
-  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
+  Result := aPrefix + RightStr('00000' + IntToStr(lNum), aDigitCount);
 end;
 
 function TPurchasePayment.GetHeaderFlag: Integer;

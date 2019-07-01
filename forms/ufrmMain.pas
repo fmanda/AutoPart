@@ -222,7 +222,7 @@ uses
   ufrmBrowseSalesman, ufrmBrowseMekanik, ufrmBrowseSalesInvoice, ufrmVariable,
   uVariable, ufrmSalesInvoiceHistory, ufrmPurchaseInvoiceHistory,
   ufrmBrowseSettingFee, ufrmSaldoRekening, ufrmBrowseSalesRetur,
-  ufrmMutasiRekening, ufrmPurchasePayment;
+  ufrmMutasiRekening, ufrmBrowsePurchasePayment;
 
 {$R *.dfm}
 
@@ -336,7 +336,7 @@ end;
 
 procedure TfrmMain.actPurchPaymentExecute(Sender: TObject);
 begin
-  ShowForm(TfrmPurchasePayment).ShowModal;
+  ShowForm(TfrmBrowsePurchasePayment);
 end;
 
 procedure TfrmMain.actRekeningExecute(Sender: TObject);

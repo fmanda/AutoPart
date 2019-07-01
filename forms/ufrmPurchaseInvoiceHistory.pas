@@ -95,7 +95,8 @@ end;
 procedure TfrmPurchaseInvoiceHistory.btnRefreshClick(Sender: TObject);
 begin
   inherited;
-  LoadData;
+  PurchaseInvoice.ReLoad();
+  LoadPurchaseInvoice;
 end;
 
 procedure TfrmPurchaseInvoiceHistory.edInvoiceKeyDown(Sender: TObject; var Key:
@@ -239,16 +240,17 @@ end;
 
 procedure TfrmPurchaseInvoiceHistory.LoadPurchaseInvoice;
 begin
-  edInvoice.Text  := PurchaseInvoice.InvoiceNo;
-  dtInvoice.Date  := PurchaseInvoice.TransDate;
-  dtJtTempo.Date  := PurchaseInvoice.DueDate;
+  edInvoice.Text    := PurchaseInvoice.InvoiceNo;
+  dtInvoice.Date    := PurchaseInvoice.TransDate;
+  dtJtTempo.Date    := PurchaseInvoice.DueDate;
+  cbBayar.ItemIndex := PurchaseInvoice.PaymentFlag;
 
   edSupplier.Clear;
   cxLookupGudang.Clear;
 
-  crAmount.Value  := PurchaseInvoice.Amount;
-  crPaid.Value    := PurchaseInvoice.GetTotalBayar;
-  crRemain.Value  := PurchaseInvoice.GetRemain;
+  crAmount.Value    := PurchaseInvoice.Amount;
+  crPaid.Value      := PurchaseInvoice.GetTotalBayar;
+  crRemain.Value    := PurchaseInvoice.GetRemain;
 
   if PurchaseInvoice.Supplier <> nil then
   begin
@@ -261,7 +263,8 @@ begin
     cxLookupGudang.EditValue := PurchaseInvoice.Warehouse.ID;
   end;
 
-  btnRefreshClick(Self);
+  LoadData;
+//  btnRefreshClick(Self);
 end;
 
 procedure TfrmPurchaseInvoiceHistory.LookupInvoice(sKey: string = '');

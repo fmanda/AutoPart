@@ -5,7 +5,6 @@ inherited frmPurchasePayment: TfrmPurchasePayment
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
-  ExplicitTop = -199
   ExplicitWidth = 883
   ExplicitHeight = 600
   PixelsPerInch = 96
@@ -28,7 +27,6 @@ inherited frmPurchasePayment: TfrmPurchasePayment
       Left = 610
       OnClick = btnSaveClick
       ExplicitLeft = 610
-      ExplicitTop = 3
     end
   end
   inherited Panel2: TPanel
@@ -88,7 +86,6 @@ inherited frmPurchasePayment: TfrmPurchasePayment
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitLeft = 194
       ExplicitHeight = 16
     end
   end
@@ -340,7 +337,6 @@ inherited frmPurchasePayment: TfrmPurchasePayment
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 120
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown

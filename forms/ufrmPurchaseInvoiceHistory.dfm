@@ -3,13 +3,12 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
   ClientHeight = 525
   ClientWidth = 900
   Position = poDesktopCenter
-  ExplicitLeft = -123
   ExplicitWidth = 916
   ExplicitHeight = 564
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
-    ExplicitWidth = 934
+    ExplicitWidth = 900
     Width = 900
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
@@ -19,11 +18,11 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
   inherited cxGroupBox2: TcxGroupBox
     Top = 490
     ExplicitTop = 490
-    ExplicitWidth = 934
+    ExplicitWidth = 900
     Width = 900
     inherited btnTutup: TcxButton
       Left = 820
-      ExplicitLeft = 854
+      ExplicitLeft = 820
     end
     inherited btnExport: TcxButton
       OnClick = btnExportClick
@@ -42,7 +41,6 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
     Align = alTop
     Caption = ' Report Parameter '
     TabOrder = 2
-    ExplicitWidth = 934
     Height = 123
     Width = 900
     object cxLabel1: TcxLabel
@@ -138,7 +136,7 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       EditValue = 0.000000000000000000
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0.##;(,0.##)'
       Properties.ReadOnly = True
       Style.Color = clCream
       Style.Font.Charset = DEFAULT_CHARSET
@@ -181,7 +179,7 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       EditValue = 0.000000000000000000
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0.##;(,0.##)'
       Properties.ReadOnly = True
       Style.Color = clCream
       Style.Font.Charset = DEFAULT_CHARSET
@@ -212,7 +210,7 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       EditValue = 0.000000000000000000
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0.##;(,0.##)'
       Properties.ReadOnly = True
       Style.Color = clMoneyGreen
       Style.Font.Charset = DEFAULT_CHARSET
@@ -245,7 +243,6 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
     Height = 323
     Align = alClient
     TabOrder = 3
-    ExplicitWidth = 928
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>

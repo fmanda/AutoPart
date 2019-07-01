@@ -5,7 +5,6 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
-  ExplicitLeft = -211
   ExplicitWidth = 994
   ExplicitHeight = 626
   PixelsPerInch = 96

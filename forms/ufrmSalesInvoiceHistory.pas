@@ -93,7 +93,8 @@ end;
 procedure TfrmSalesInvoiceHistory.btnRefreshClick(Sender: TObject);
 begin
   inherited;
-  LoadData;
+  SalesInvoice.ReLoad();
+  LoadSalesInvoice;
 end;
 
 procedure TfrmSalesInvoiceHistory.edInvoiceKeyDown(Sender: TObject; var Key:
@@ -244,6 +245,7 @@ begin
   crAmount.Value  := SalesInvoice.Amount;
   crPaid.Value    := SalesInvoice.GetTotalBayar;
   crRemain.Value  := SalesInvoice.GetRemain;
+  cbBayar.ItemIndex := SalesInvoice.PaymentFlag;
 
   if SalesInvoice.Customer <> nil then
   begin
@@ -257,7 +259,8 @@ begin
     edSalesman.Text := SalesInvoice.Salesman.Nama;
   end;
 
-  btnRefreshClick(Self);
+  LoadData;
+//  btnRefreshClick(Self);
 end;
 
 procedure TfrmSalesInvoiceHistory.LookupInvoice(sKey: string = '');

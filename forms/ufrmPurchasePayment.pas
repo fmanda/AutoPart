@@ -414,6 +414,10 @@ end;
 
 procedure TfrmPurchasePayment.LoadByID(aID: Integer; IsReadOnly: Boolean =
     False);
+var
+  lItem: TFinancialTransaction;
+  lPurchaseInv: TPurchaseInvoice;
+  lPurchaseRet: TPurchaseRetur;
 begin
   if FPayment <> nil then
     FreeAndNil(FPayment);
@@ -432,12 +436,13 @@ begin
   cbMediaPropertiesEditValueChanged(Self);
 
   dtTransDate.Date    := Payment.TransDate;
-  if dtTransDate.Date <= 0 then
-    dtTransDate.Clear;
+
+  if dtTransDate.Date <= 0 then dtTransDate.Clear;
 
   edSupplier.Clear;
   if Payment.Supplier <> nil then
   begin
+    Payment.Supplier.ReLoad();
     edSupplier.Text   := Payment.Supplier.Nama;
   end;
 
@@ -452,7 +457,57 @@ begin
   end;
 
   CDS.EmptyDataSet;
+  CDSCost.EmptyDataSet;
+  CDS.DisableControls;
+  CDSCost.DisableControls;
 
+  lPurchaseInv := TPurchaseInvoice.Create;
+  lPurchaseRet := TPurchaseRetur.Create;
+  Try
+    for lItem in Payment.Items do
+    begin
+      if lItem.CreditAmt > 0 then continue;
+      if lItem.PurchaseInvoice = nil then
+      begin
+        CDSCost.Append;
+        lItem.UpdateToDataset(CDSCost);
+        CDSCost.Post;
+      end else
+      begin
+        CDS.Append;
+        lItem.UpdateToDataset(CDS);
+        if lItem.PurchaseInvoice <> nil then
+        begin
+          if lPurchaseInv.LoadByID(lItem.PurchaseInvoice.ID) then
+          begin
+            CDS.FieldByName('InvoiceNo').AsString     := lPurchaseInv.InvoiceNo;
+            CDS.FieldByName('InvoiceDate').AsDateTime := lPurchaseInv.TransDate;
+            CDS.FieldByName('InvoiceAmt').AsFloat     := lPurchaseInv.Amount;
+            CDS.FieldByName('InvoiceRemain').AsFloat  := lPurchaseInv.GetRemain + lItem.Amount + lItem.ReturAmt;
+          end;
+        end;
+        if lItem.PurchaseRetur <> nil then
+        begin
+          if lPurchaseRet.LoadByID(lItem.PurchaseRetur.ID) then
+          begin
+            CDS.FieldByName('ReturNo').AsString       := lPurchaseRet.Refno;
+            CDS.FieldByName('ReturRemain').AsDateTime := lPurchaseRet.Amount - lPurchaseRet.PaidAmount + lItem.ReturAmt;
+          end;
+        end;
+        CDS.Post;
+      end;
+    end;
+    CalculateAll;
+  Finally
+    CDS.EnableControls;
+    CDSCost.EnableControls;
+    FreeAndNil(lPurchaseInv);
+    FreeAndNil(lPurchaseRet);
+  End;
+
+
+
+  btnSave.Enabled := not IsReadOnly;
 end;
 
 procedure TfrmPurchasePayment.LookupInvoice(sKey: string = '');
@@ -512,6 +567,7 @@ begin
     cxLookup.PreFilter('Nama', sKey);
     if cxLookup.ShowModal = mrOK then
     begin
+      CDS.EmptyDataSet;
       if Payment.Supplier = nil then
         Payment.Supplier := TSupplier.Create;
       Payment.Supplier.LoadByID(cxLookup.FieldValue('id'));
@@ -673,8 +729,10 @@ begin
       exit;
     end;
 
-    if (CDS.FieldByName('Amount').AsFloat + CDS.FieldByName('ReturAmt').AsFloat +1)
-      > CDS.FieldByName('InvoiceRemain').AsFloat then
+    if (CDS.FieldByName('Amount').AsFloat
+      + CDS.FieldByName('ReturAmt').AsFloat
+      - CDS.FieldByName('InvoiceRemain').AsFloat) > 1
+    then
     begin
       TAppUtils.Warning('Nilai Pembayaran melebihi Sisa Hutang'
         + #13 + 'Baris : ' +IntTostr(CDS.RecNo)

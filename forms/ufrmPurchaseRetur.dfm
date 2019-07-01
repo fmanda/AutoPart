@@ -167,7 +167,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       EditValue = 0.000000000000000000
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0.##;(,0.##)'
       Properties.ReadOnly = True
       Style.Color = clCream
       Style.Font.Charset = DEFAULT_CHARSET
@@ -213,7 +213,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       EditValue = 0.000000000000000000
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0.##;(,0.##)'
       Properties.ReadOnly = True
       Style.Color = clCream
       Style.Font.Charset = DEFAULT_CHARSET
@@ -246,7 +246,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       EditValue = 0.000000000000000000
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.00;(,0.00)'
+      Properties.DisplayFormat = ',0.##;(,0.##)'
       Properties.ReadOnly = True
       Style.Color = clMoneyGreen
       Style.Font.Charset = DEFAULT_CHARSET
