@@ -1,14 +1,12 @@
-inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
-  Caption = 'History Pembayaran Faktur Pembelian'
-  ClientHeight = 525
+inherited frmPurchaseReturHistory: TfrmPurchaseReturHistory
+  Caption = 'History Pemotongan Retur Pembelian'
+  ClientHeight = 528
   ClientWidth = 900
-  Position = poDesktopCenter
   ExplicitWidth = 916
-  ExplicitHeight = 564
+  ExplicitHeight = 567
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
-    ExplicitWidth = 900
     Width = 900
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
@@ -16,13 +14,10 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
     end
   end
   inherited cxGroupBox2: TcxGroupBox
-    Top = 490
-    ExplicitTop = 490
-    ExplicitWidth = 900
+    Top = 493
     Width = 900
     inherited btnTutup: TcxButton
       Left = 820
-      ExplicitLeft = 820
     end
     inherited btnExport: TcxButton
       OnClick = btnExportClick
@@ -44,14 +39,18 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
     Height = 123
     Width = 900
     object cxLabel1: TcxLabel
-      Left = 38
-      Top = 25
-      Caption = 'No. Faktur'
+      Left = 42
+      Top = 26
+      Caption = 'No. Retur'
+      Properties.Alignment.Horz = taRightJustify
+      AnchorX = 93
     end
     object cxLabel2: TcxLabel
-      Left = 49
+      Left = 51
       Top = 66
       Caption = 'Supplier'
+      Properties.Alignment.Horz = taRightJustify
+      AnchorX = 93
     end
     object edSupplier: TcxTextEdit
       Left = 93
@@ -62,7 +61,7 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       TabOrder = 1
       Width = 312
     end
-    object edInvoice: TcxButtonEdit
+    object edReturNo: TcxButtonEdit
       Left = 93
       Top = 25
       Properties.Buttons = <
@@ -71,20 +70,22 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
           Kind = bkEllipsis
         end>
       Properties.CharCase = ecUpperCase
-      Properties.OnButtonClick = edInvoicePropertiesButtonClick
-      Properties.OnValidate = edInvoicePropertiesValidate
+      Properties.OnButtonClick = edReturNoPropertiesButtonClick
+      Properties.OnValidate = edReturNoPropertiesValidate
       TabOrder = 0
-      OnKeyDown = edInvoiceKeyDown
+      OnKeyDown = edReturNoKeyDown
       Width = 164
     end
     object cxLabel8: TcxLabel
-      Left = 37
-      Top = 45
-      Caption = 'Tgl Invoice'
+      Left = 263
+      Top = 25
+      Caption = 'Tanggal'
+      Properties.Alignment.Horz = taRightJustify
+      AnchorX = 305
     end
-    object dtInvoice: TcxDateEdit
-      Left = 93
-      Top = 45
+    object dtTransdate: TcxDateEdit
+      Left = 305
+      Top = 25
       TabStop = False
       Properties.ImmediatePost = True
       Properties.ReadOnly = True
@@ -93,44 +94,8 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       TabOrder = 5
       Width = 100
     end
-    object cxLabel9: TcxLabel
-      Left = 237
-      Top = 46
-      Caption = 'Jatuh Tempo'
-    end
-    object dtJtTempo: TcxDateEdit
-      Left = 305
-      Top = 45
-      TabStop = False
-      Properties.ImmediatePost = True
-      Properties.ReadOnly = True
-      Properties.SaveTime = False
-      Properties.ShowTime = False
-      TabOrder = 7
-      Width = 100
-    end
-    object cxLabel10: TcxLabel
-      Left = 273
-      Top = 25
-      Caption = 'Cara Bayar'
-    end
-    object cbBayar: TcxComboBox
-      Left = 335
-      Top = 25
-      TabStop = False
-      Properties.CharCase = ecUpperCase
-      Properties.DropDownListStyle = lsFixedList
-      Properties.ImmediatePost = True
-      Properties.Items.Strings = (
-        'CASH'
-        'TEMPO')
-      Properties.ReadOnly = True
-      TabOrder = 9
-      Text = 'CASH'
-      Width = 70
-    end
     object crAmount: TcxCurrencyEdit
-      Left = 694
+      Left = 643
       Top = 20
       TabStop = False
       EditValue = 0.000000000000000000
@@ -145,13 +110,13 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       Style.Font.Name = 'Consolas'
       Style.Font.Style = []
       Style.IsFontAssigned = True
-      TabOrder = 10
+      TabOrder = 6
       Width = 180
     end
     object cxLabel4: TcxLabel
-      Left = 619
+      Left = 574
       Top = 21
-      Caption = 'Nilai Faktur'
+      Caption = 'Nilai Retur'
       ParentFont = False
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
@@ -159,11 +124,13 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
+      Properties.Alignment.Horz = taRightJustify
+      AnchorX = 642
     end
     object cxLabel5: TcxLabel
-      Left = 591
+      Left = 530
       Top = 47
-      Caption = 'Total Terbayar'
+      Caption = 'Retur Terpotong'
       ParentFont = False
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
@@ -171,9 +138,11 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
+      Properties.Alignment.Horz = taRightJustify
+      AnchorX = 642
     end
     object crPaid: TcxCurrencyEdit
-      Left = 694
+      Left = 643
       Top = 46
       TabStop = False
       EditValue = 0.000000000000000000
@@ -188,13 +157,13 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       Style.Font.Name = 'Consolas'
       Style.Font.Style = []
       Style.IsFontAssigned = True
-      TabOrder = 13
+      TabOrder = 9
       Width = 180
     end
     object cxLabel6: TcxLabel
-      Left = 599
+      Left = 560
       Top = 76
-      Caption = 'Sisa Hutang'
+      Caption = 'Sisa Retur'
       ParentFont = False
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
@@ -202,9 +171,11 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
+      Properties.Alignment.Horz = taRightJustify
+      AnchorX = 640
     end
     object crRemain: TcxCurrencyEdit
-      Left = 694
+      Left = 643
       Top = 72
       TabStop = False
       EditValue = 0.000000000000000000
@@ -219,20 +190,38 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
       Style.Font.Name = 'Consolas'
       Style.Font.Style = []
       Style.IsFontAssigned = True
-      TabOrder = 15
+      TabOrder = 11
       Width = 180
     end
     object cxLabel7: TcxLabel
-      Left = 16
+      Left = 29
       Top = 86
-      Caption = 'Gudang Tujuan'
+      Caption = 'Gudang Asal'
+      Properties.Alignment.Horz = taRightJustify
+      AnchorX = 93
     end
     object cxLookupGudang: TcxExtLookupComboBox
       Left = 93
-      Top = 86
+      Top = 85
       Properties.ReadOnly = True
-      TabOrder = 17
+      TabOrder = 13
       Width = 312
+    end
+    object edInvoiceNo: TcxTextEdit
+      Left = 93
+      Top = 45
+      TabStop = False
+      Properties.CharCase = ecUpperCase
+      Properties.ReadOnly = True
+      TabOrder = 14
+      Width = 312
+    end
+    object cxLabel3: TcxLabel
+      Left = 34
+      Top = 46
+      Caption = 'Ref. Faktur'
+      Properties.Alignment.Horz = taRightJustify
+      AnchorX = 93
     end
   end
   object cxGrid1: TcxGrid [3]
@@ -240,9 +229,10 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
     Left = 3
     Top = 164
     Width = 894
-    Height = 323
+    Height = 326
     Align = alClient
     TabOrder = 3
+    ExplicitHeight = 323
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -250,7 +240,6 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
         item
           Format = ',0.##;(,0.##)'
           Kind = skSum
-          Column = colAmount
         end
         item
           Format = ',0.##;(,0.##)'
@@ -277,51 +266,45 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
         Properties.SaveTime = False
         Properties.ShowTime = False
         HeaderAlignmentHorz = taCenter
-        Width = 95
+        Width = 92
       end
       object colRefNo: TcxGridDBColumn
         Caption = 'No. Ref'
         DataBinding.FieldName = 'RefNo'
         PropertiesClassName = 'TcxTextEditProperties'
         HeaderAlignmentHorz = taCenter
-        Width = 112
+        Width = 143
       end
       object colReturNo: TcxGridDBColumn
-        Caption = 'No. Retur'
-        DataBinding.FieldName = 'ReturNo'
+        Caption = 'Potong Faktur'
+        DataBinding.FieldName = 'InvoiceNo'
         PropertiesClassName = 'TcxTextEditProperties'
         HeaderAlignmentHorz = taCenter
-        Width = 114
+        Width = 129
       end
       object colNotes: TcxGridDBColumn
         Caption = 'Deskripsi'
         DataBinding.FieldName = 'Notes'
         PropertiesClassName = 'TcxTextEditProperties'
         HeaderAlignmentHorz = taCenter
-        Width = 248
-      end
-      object colAmount: TcxGridDBColumn
-        Caption = 'Terbayar'
-        DataBinding.FieldName = 'Amount'
-        PropertiesClassName = 'TcxCurrencyEditProperties'
-        Properties.DisplayFormat = ',0.##;(,0.##)'
-        HeaderAlignmentHorz = taCenter
-        Width = 103
+        Width = 271
       end
       object colReturAmt: TcxGridDBColumn
-        Caption = 'Retur'
+        Caption = 'Retur Terpotong'
         DataBinding.FieldName = 'ReturAmt'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
-        Width = 91
+        Width = 127
       end
       object colSaldo: TcxGridDBColumn
+        Caption = 'Saldo Retur'
         DataBinding.FieldName = 'Saldo'
         PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
-        Width = 107
+        Width = 117
       end
     end
     object cxGrid1Level1: TcxGridLevel
@@ -329,8 +312,8 @@ inherited frmPurchaseInvoiceHistory: TfrmPurchaseInvoiceHistory
     end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 592
-    Top = 0
+    Left = 616
+    Top = 8
     PixelsPerInch = 96
   end
 end

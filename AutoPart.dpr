@@ -76,7 +76,8 @@ uses
   ufrmBrowseSalesRetur in 'forms\ufrmBrowseSalesRetur.pas' {frmBrowseSalesRetur},
   ufrmMutasiRekening in 'forms\ufrmMutasiRekening.pas' {frmMutasiRekening},
   ufrmPurchasePayment in 'forms\ufrmPurchasePayment.pas' {frmPurchasePayment},
-  ufrmBrowsePurchasePayment in 'forms\ufrmBrowsePurchasePayment.pas' {frmBrowsePurchasePayment};
+  ufrmBrowsePurchasePayment in 'forms\ufrmBrowsePurchasePayment.pas' {frmBrowsePurchasePayment},
+  ufrmPurchaseReturHistory in 'forms\ufrmPurchaseReturHistory.pas' {frmPurchaseReturHistory};
 
 {$R *.res}
 

@@ -170,6 +170,7 @@ type
     procedure ClearSupplier;
     function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
+    function GetRemain: Double;
     procedure SetGenerateNo; override;
     function UpdateRemain(AddedPaidAmt: Double = 0): Boolean;
   published
@@ -937,6 +938,11 @@ end;
 function TPurchaseRetur.GetRefno: String;
 begin
   Result := Refno;
+end;
+
+function TPurchaseRetur.GetRemain: Double;
+begin
+  Result := Self.Amount - Self.PaidAmount;
 end;
 
 procedure TPurchaseRetur.SetGenerateNo;

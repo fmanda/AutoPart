@@ -333,6 +333,10 @@
             <Form>frmBrowsePurchasePayment</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="forms\ufrmPurchaseReturHistory.pas">
+            <Form>frmPurchaseReturHistory</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

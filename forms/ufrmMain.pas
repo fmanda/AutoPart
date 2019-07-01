@@ -167,6 +167,8 @@ type
     dxBarButton72: TdxBarButton;
     dxBarButton73: TdxBarButton;
     dxTabbedMDIManager: TdxTabbedMDIManager;
+    actPurchaseReturHistory: TAction;
+    dxBarButton74: TdxBarButton;
     procedure actCustomerExecute(Sender: TObject);
     procedure actItemExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -180,6 +182,7 @@ type
     procedure actPurchaseInvoiceExecute(Sender: TObject);
     procedure actPurchaseInvoiceHistoryExecute(Sender: TObject);
     procedure actPurchaseReturExecute(Sender: TObject);
+    procedure actPurchaseReturHistoryExecute(Sender: TObject);
     procedure actPurchPaymentExecute(Sender: TObject);
     procedure actRekeningExecute(Sender: TObject);
     procedure actSaldoKasExecute(Sender: TObject);
@@ -222,7 +225,7 @@ uses
   ufrmBrowseSalesman, ufrmBrowseMekanik, ufrmBrowseSalesInvoice, ufrmVariable,
   uVariable, ufrmSalesInvoiceHistory, ufrmPurchaseInvoiceHistory,
   ufrmBrowseSettingFee, ufrmSaldoRekening, ufrmBrowseSalesRetur,
-  ufrmMutasiRekening, ufrmBrowsePurchasePayment;
+  ufrmMutasiRekening, ufrmBrowsePurchasePayment, ufrmPurchaseReturHistory;
 
 {$R *.dfm}
 
@@ -332,6 +335,11 @@ end;
 procedure TfrmMain.actPurchaseReturExecute(Sender: TObject);
 begin
   Showform(TfrmBrowsePurchaseRetur);
+end;
+
+procedure TfrmMain.actPurchaseReturHistoryExecute(Sender: TObject);
+begin
+  ShowForm(TfrmPurchaseReturHistory);
 end;
 
 procedure TfrmMain.actPurchPaymentExecute(Sender: TObject);

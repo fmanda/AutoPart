@@ -513,6 +513,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton67'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton74'
         end>
       OneOnRow = False
       Row = 0
@@ -917,6 +921,10 @@ object frmMain: TfrmMain
       Action = actSettingFee
       Category = 0
     end
+    object dxBarButton74: TdxBarButton
+      Action = actPurchaseReturHistory
+      Category = 0
+    end
   end
   object ActionManager: TActionManager
     Images = ImageList
@@ -1168,6 +1176,12 @@ object frmMain: TfrmMain
       Caption = 'Komisi / Fee Salesman'
       ImageIndex = 14
       OnExecute = actSettingFeeExecute
+    end
+    object actPurchaseReturHistory: TAction
+      Category = 'Hutang Piutang'
+      Caption = 'History Retur Pembelian'
+      ImageIndex = 5
+      OnExecute = actPurchaseReturHistoryExecute
     end
   end
   object ImageList: TcxImageList
