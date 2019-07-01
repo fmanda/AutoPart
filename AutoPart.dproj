@@ -337,6 +337,10 @@
             <Form>frmPurchaseReturHistory</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="forms\ufrmLapHutang.pas">
+            <Form>frmLapHutang</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

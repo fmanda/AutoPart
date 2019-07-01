@@ -77,7 +77,8 @@ uses
   ufrmMutasiRekening in 'forms\ufrmMutasiRekening.pas' {frmMutasiRekening},
   ufrmPurchasePayment in 'forms\ufrmPurchasePayment.pas' {frmPurchasePayment},
   ufrmBrowsePurchasePayment in 'forms\ufrmBrowsePurchasePayment.pas' {frmBrowsePurchasePayment},
-  ufrmPurchaseReturHistory in 'forms\ufrmPurchaseReturHistory.pas' {frmPurchaseReturHistory};
+  ufrmPurchaseReturHistory in 'forms\ufrmPurchaseReturHistory.pas' {frmPurchaseReturHistory},
+  ufrmLapHutang in 'forms\ufrmLapHutang.pas' {frmLapHutang};
 
 {$R *.res}
 
@@ -87,5 +88,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmLapHutang, frmLapHutang);
   Application.Run;
 end.
