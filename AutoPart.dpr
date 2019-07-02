@@ -80,7 +80,8 @@ uses
   ufrmPurchaseReturHistory in 'forms\ufrmPurchaseReturHistory.pas' {frmPurchaseReturHistory},
   ufrmLapHutang in 'forms\ufrmLapHutang.pas' {frmLapHutang},
   ufrmSalesPayment in 'forms\ufrmSalesPayment.pas' {frmSalesPayment},
-  ufrmBrowseSalesPayment in 'forms\ufrmBrowseSalesPayment.pas' {frmBrowseSalesPayment};
+  ufrmBrowseSalesPayment in 'forms\ufrmBrowseSalesPayment.pas' {frmBrowseSalesPayment},
+  ufrmSalesReturHistory in 'forms\ufrmSalesReturHistory.pas' {frmSalesReturHistory};
 
 {$R *.res}
 

@@ -169,6 +169,8 @@ type
     dxTabbedMDIManager: TdxTabbedMDIManager;
     actPurchaseReturHistory: TAction;
     dxBarButton74: TdxBarButton;
+    actSalesReturHistory: TAction;
+    dxBarButton75: TdxBarButton;
     procedure actCustomerExecute(Sender: TObject);
     procedure actItemExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -192,6 +194,7 @@ type
     procedure actSalesmanExecute(Sender: TObject);
     procedure actSalesPaymentExecute(Sender: TObject);
     procedure actSalesReturExecute(Sender: TObject);
+    procedure actSalesReturHistoryExecute(Sender: TObject);
     procedure actServiceExecute(Sender: TObject);
     procedure actUOMExecute(Sender: TObject);
     procedure actSettingKoneksiExecute(Sender: TObject);
@@ -227,7 +230,7 @@ uses
   uVariable, ufrmSalesInvoiceHistory, ufrmPurchaseInvoiceHistory,
   ufrmBrowseSettingFee, ufrmSaldoRekening, ufrmBrowseSalesRetur,
   ufrmMutasiRekening, ufrmBrowsePurchasePayment, ufrmPurchaseReturHistory,
-  ufrmBrowseSalesPayment;
+  ufrmBrowseSalesPayment, ufrmSalesReturHistory;
 
 {$R *.dfm}
 
@@ -387,6 +390,11 @@ end;
 procedure TfrmMain.actSalesReturExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseSalesRetur);
+end;
+
+procedure TfrmMain.actSalesReturHistoryExecute(Sender: TObject);
+begin
+  ShowForm(TfrmSalesReturHistory);
 end;
 
 procedure TfrmMain.actServiceExecute(Sender: TObject);
