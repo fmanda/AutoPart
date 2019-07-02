@@ -190,6 +190,7 @@ type
     procedure actSettingFeeExecute(Sender: TObject);
     procedure actSalesInvoiceHistoryExecute(Sender: TObject);
     procedure actSalesmanExecute(Sender: TObject);
+    procedure actSalesPaymentExecute(Sender: TObject);
     procedure actSalesReturExecute(Sender: TObject);
     procedure actServiceExecute(Sender: TObject);
     procedure actUOMExecute(Sender: TObject);
@@ -225,7 +226,8 @@ uses
   ufrmBrowseSalesman, ufrmBrowseMekanik, ufrmBrowseSalesInvoice, ufrmVariable,
   uVariable, ufrmSalesInvoiceHistory, ufrmPurchaseInvoiceHistory,
   ufrmBrowseSettingFee, ufrmSaldoRekening, ufrmBrowseSalesRetur,
-  ufrmMutasiRekening, ufrmBrowsePurchasePayment, ufrmPurchaseReturHistory;
+  ufrmMutasiRekening, ufrmBrowsePurchasePayment, ufrmPurchaseReturHistory,
+  ufrmSalesPayment;
 
 {$R *.dfm}
 
@@ -375,6 +377,11 @@ end;
 procedure TfrmMain.actSalesmanExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseSalesman)
+end;
+
+procedure TfrmMain.actSalesPaymentExecute(Sender: TObject);
+begin
+  ShowForm(TfrmSalesPayment).ShowModal;
 end;
 
 procedure TfrmMain.actSalesReturExecute(Sender: TObject);

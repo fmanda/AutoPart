@@ -1146,6 +1146,7 @@ object frmMain: TfrmMain
       Category = 'Hutang Piutang'
       Caption = 'Pembayaran Piutang'
       ImageIndex = 13
+      OnExecute = actSalesPaymentExecute
     end
     object actSaldoHutang: TAction
       Category = 'Hutang Piutang'
