@@ -227,7 +227,7 @@ uses
   uVariable, ufrmSalesInvoiceHistory, ufrmPurchaseInvoiceHistory,
   ufrmBrowseSettingFee, ufrmSaldoRekening, ufrmBrowseSalesRetur,
   ufrmMutasiRekening, ufrmBrowsePurchasePayment, ufrmPurchaseReturHistory,
-  ufrmSalesPayment;
+  ufrmBrowseSalesPayment;
 
 {$R *.dfm}
 
@@ -381,7 +381,7 @@ end;
 
 procedure TfrmMain.actSalesPaymentExecute(Sender: TObject);
 begin
-  ShowForm(TfrmSalesPayment).ShowModal;
+  ShowForm(TfrmBrowseSalesPayment);
 end;
 
 procedure TfrmMain.actSalesReturExecute(Sender: TObject);

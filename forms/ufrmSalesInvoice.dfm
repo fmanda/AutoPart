@@ -5,6 +5,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
+  ExplicitTop = -2
   ExplicitWidth = 1000
   ExplicitHeight = 700
   PixelsPerInch = 96
@@ -29,6 +30,17 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       OnClick = btnSaveClick
       ExplicitLeft = 707
       ExplicitWidth = 100
+    end
+    object btnGenerate: TcxButton
+      AlignWithMargins = True
+      Left = 5
+      Top = 5
+      Width = 124
+      Height = 25
+      Align = alLeft
+      Caption = 'Generate Dummy '
+      TabOrder = 3
+      OnClick = btnGenerateClick
     end
   end
   inherited Panel2: TPanel

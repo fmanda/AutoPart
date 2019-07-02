@@ -4,7 +4,6 @@ inherited frmSalesPayment: TfrmSalesPayment
   ClientWidth = 984
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
-  ExplicitLeft = -217
   ExplicitWidth = 1000
   ExplicitHeight = 600
   PixelsPerInch = 96
@@ -12,33 +11,43 @@ inherited frmSalesPayment: TfrmSalesPayment
   inherited cxGroupBox2: TcxGroupBox
     Top = 526
     TabOrder = 2
+    ExplicitTop = 526
+    ExplicitWidth = 984
     Width = 984
     inherited btnCancel: TcxButton
       Left = 899
+      ExplicitLeft = 899
     end
     inherited btnPrint: TcxButton
       Left = 813
+      ExplicitLeft = 813
     end
     inherited btnSave: TcxButton
       Left = 727
+      OnClick = btnSaveClick
+      ExplicitLeft = 727
     end
   end
   inherited Panel2: TPanel
     Top = 505
     Width = 984
     TabOrder = 3
-    ExplicitTop = 321
+    ExplicitTop = 505
+    ExplicitWidth = 984
     inherited lbEscape: TLabel
       Left = 904
       Height = 17
+      ExplicitLeft = 904
     end
     inherited lgndSave: TLabel
       Left = 739
       Height = 17
+      ExplicitLeft = 739
     end
     inherited lgndPrint: TLabel
       Left = 826
       Height = 17
+      ExplicitLeft = 826
     end
     object Label1: TLabel
       AlignWithMargins = True
@@ -176,7 +185,6 @@ inherited frmSalesPayment: TfrmSalesPayment
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 8
-      ExplicitLeft = 679
       Width = 170
     end
     object cxLabel2: TcxLabel
@@ -192,7 +200,6 @@ inherited frmSalesPayment: TfrmSalesPayment
       Style.Font.Style = []
       Style.IsFontAssigned = True
       Properties.Alignment.Horz = taRightJustify
-      ExplicitLeft = 640
       AnchorX = 797
     end
     object cxLabel3: TcxLabel
@@ -208,7 +215,6 @@ inherited frmSalesPayment: TfrmSalesPayment
       Style.Font.Style = []
       Style.IsFontAssigned = True
       Properties.Alignment.Horz = taRightJustify
-      ExplicitLeft = 638
       AnchorX = 797
     end
     object crTotal: TcxCurrencyEdit
@@ -229,7 +235,6 @@ inherited frmSalesPayment: TfrmSalesPayment
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 9
-      ExplicitLeft = 679
       Width = 170
     end
     object cxLabel5: TcxLabel
@@ -245,7 +250,6 @@ inherited frmSalesPayment: TfrmSalesPayment
       Style.Font.Style = []
       Style.IsFontAssigned = True
       Properties.Alignment.Horz = taRightJustify
-      ExplicitLeft = 637
       AnchorX = 797
     end
     object crCash: TcxCurrencyEdit
@@ -266,7 +270,6 @@ inherited frmSalesPayment: TfrmSalesPayment
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 10
-      ExplicitLeft = 679
       Width = 170
     end
     object cbMedia: TcxComboBox
@@ -341,10 +344,7 @@ inherited frmSalesPayment: TfrmSalesPayment
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitLeft = -83
-    ExplicitTop = 121
-    ExplicitWidth = 867
-    ExplicitHeight = 384
+    ExplicitTop = 126
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown
@@ -464,13 +464,13 @@ inherited frmSalesPayment: TfrmSalesPayment
         Width = 81
       end
       object colInvoiceID: TcxGridDBColumn
-        DataBinding.FieldName = 'PurchaseInvoice'
+        DataBinding.FieldName = 'SalesInvoice'
         PropertiesClassName = 'TcxSpinEditProperties'
         Visible = False
         Options.Editing = False
       end
       object colReturID: TcxGridDBColumn
-        DataBinding.FieldName = 'PurchaseRetur'
+        DataBinding.FieldName = 'SalesRetur'
         PropertiesClassName = 'TcxSpinEditProperties'
         Visible = False
         Options.Editing = False

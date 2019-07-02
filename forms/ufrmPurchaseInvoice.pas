@@ -57,6 +57,7 @@ type
     Label1: TLabel;
     cxLabel13: TcxLabel;
     cxLookupRekening: TcxExtLookupComboBox;
+    btnGenerate: TcxButton;
     procedure cxGrdMainEditKeyDown(Sender: TcxCustomGridTableView; AItem:
         TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Word; Shift:
         TShiftState);
@@ -77,6 +78,7 @@ type
     procedure edSupplierPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
     procedure cbBayarPropertiesEditValueChanged(Sender: TObject);
+    procedure btnGenerateClick(Sender: TObject);
   private
     DisableTrigger: Boolean;
     FCDS: TClientDataset;
@@ -88,6 +90,7 @@ type
     procedure CDSAfterInsert(DataSet: TDataSet);
     function DC: TcxGridDBDataController;
     procedure FocusToGrid;
+    procedure GenerateDummy;
     function GetCDS: TClientDataset;
     function GetCDSClone: TClientDataset;
     function GetCDSUOM: TClientDataset;
@@ -120,6 +123,12 @@ uses
   uFinancialTransaction, uAccount, uVariable;
 
 {$R *.dfm}
+
+procedure TfrmPurchaseInvoice.btnGenerateClick(Sender: TObject);
+begin
+  inherited;
+  GenerateDummy;
+end;
 
 procedure TfrmPurchaseInvoice.btnSaveClick(Sender: TObject);
 begin
@@ -541,6 +550,56 @@ procedure TfrmPurchaseInvoice.CDSAfterDelete(DataSet: TDataSet);
 begin
   inherited;
   CalculateAll;
+end;
+
+procedure TfrmPurchaseInvoice.GenerateDummy;
+var
+  i: Integer;
+  iCount: Integer;
+  lItem: TItem;
+begin
+  LoadByID(0, False);
+  cbBayar.ItemIndex := PaymentFlag_Credit;
+  dtInvoice.Date := Now() + (Random(60) - 30);         
+
+  if PurchInv.Supplier = nil then
+    PurchInv.Supplier := TSupplier.Create;
+  while true do
+  begin
+    if PurchInv.Supplier.LoadByID(Random(126)) then
+      break;
+  end;        
+  edSupplier.Text := PurchInv.Supplier.Nama;        
+  dtJtTempo.Date := dtInvoice.Date + Random(14);
+  cxLookupGudang.SetDefaultValue();
+  cxLookupRekening.SetDefaultValue();
+  edNotes.Text := 'Dummy Data';
+
+  iCount := Random(15)+3;
+  lItem := TItem.Create;
+  Try
+    for i := 0 to iCount do
+    begin
+//      DC.FocusedRecordIndex := DC.AppendRecord;
+      DC.Append;
+      while true do
+      begin
+        if lItem.LoadByID(Random(23091)) then break;
+      end;                                                           
+      SetItemToGrid(lItem);
+      DC.SetEditValue(colQty.Index, Random(9) + 1, evsValue);
+      CalculateAll;
+      DC.Post;
+    end;
+  Finally
+    lItem.Free;
+  End;
+
+//  if not TAppUtils.Confirm('Is it Okay?') then exit;
+  if not ValidateData then exit;
+  UpdateData;
+  PurchInv.SaveRepeat();        
+
 end;
 
 procedure TfrmPurchaseInvoice.LookupSupplier(sKey: string = '');

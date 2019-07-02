@@ -52,3 +52,9 @@ from MOTOROLI2017.dbo.tblservice
 insert into AUTOPART.dbo.TSUPPLIER(kode, nama, ALAMAT, TELP, TEMPO,  MODIFIEDDATE )
 select KdSupplier, NamaSupplier, Alamat,'', 0, getdate()
 from MOTOROLI2017.dbo.TblSupplier
+
+insert into AUTOPART.dbo.TCUSTOMER(kode, nama, ALAMAT, TELP, TEMPO,  MODIFIEDDATE, CREDITLIMIT )
+select a.KdPel, a.NamaPelanggan, a.Alamat,'', 0, getdate(), a.maxhutang
+from MOTOROLI2017.dbo.TblPelanggan a
+left join AUTOPART.dbo.TCUSTOMER b on a.KdPel = b.KODE
+where b.KODE is null

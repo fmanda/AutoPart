@@ -28,6 +28,17 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       OnClick = btnSaveClick
       ExplicitLeft = 721
     end
+    object btnGenerate: TcxButton
+      AlignWithMargins = True
+      Left = 5
+      Top = 5
+      Width = 124
+      Height = 25
+      Align = alLeft
+      Caption = 'Generate Dummy '
+      TabOrder = 3
+      OnClick = btnGenerateClick
+    end
   end
   object cxGroupBox1: TcxGroupBox [1]
     Left = 0

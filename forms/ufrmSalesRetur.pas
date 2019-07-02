@@ -712,7 +712,7 @@ begin
         +' LEFT JOIN TMERK C ON A.MERK_ID = C.ID';
 
     if ckReferensiFaktur.Checked then
-      S := S +' INNER JOIN TTRANSDETAIL D ON D.HEADER_FLAG = ' + IntToStr(HeaderFlag_PurchaseInvoice)
+      S := S +' INNER JOIN TTRANSDETAIL D ON D.HEADER_FLAG = ' + IntToStr(HeaderFlag_SalesInvoice)
         +' AND D.ITEM_ID = A.ID AND D.HEADER_ID = ' + IntToStr(SalesRetur.Invoice.ID);
 
     cxLookup := TfrmCXServerLookup.Execute(S,'ID');

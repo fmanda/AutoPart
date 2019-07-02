@@ -596,7 +596,7 @@ begin
   aPrefix := Cabang + '.SP' + FormatDateTime('yymm',Now()) + '.';
 
 
-  S := 'SELECT MAX(InvoiceNo) FROM TSalesPayment where Refno LIKE ' + QuotedStr(aPrefix + '%');
+  S := 'SELECT MAX(Refno) FROM TSalesPayment where Refno LIKE ' + QuotedStr(aPrefix + '%');
 
   with TDBUtils.OpenQuery(S) do
   begin

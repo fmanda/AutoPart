@@ -345,6 +345,10 @@
             <Form>frmSalesPayment</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="forms\ufrmBrowseSalesPayment.pas">
+            <Form>frmBrowseSalesPayment</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

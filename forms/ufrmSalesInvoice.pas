@@ -77,6 +77,7 @@ type
     cxLookupFee: TcxExtLookupComboBox;
     cxLabel14: TcxLabel;
     spTempo: TcxSpinEdit;
+    btnGenerate: TcxButton;
     procedure edCustomerKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edNotesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -105,6 +106,7 @@ type
     procedure colSrvQtyPropertiesEditValueChanged(Sender: TObject);
     procedure spTempoPropertiesEditValueChanged(Sender: TObject);
     procedure dtInvoicePropertiesEditValueChanged(Sender: TObject);
+    procedure btnGenerateClick(Sender: TObject);
   private
     DisableTrigger: Boolean;
     FCDS: TClientDataset;
@@ -121,6 +123,7 @@ type
     function DCService: TcxGridDBDataController;
     procedure FocusToGrid;
     procedure FocusToService;
+    procedure GenerateDummy;
     function GetCDS: TClientDataset;
     function GetCDSService: TClientDataset;
     function GetCDSClone: TClientDataset;
@@ -161,6 +164,12 @@ uses
   uWarehouse, uMekanik, uSalesman, uVariable, uAccount, uSettingFee;
 
 {$R *.dfm}
+
+procedure TfrmSalesInvoice.btnGenerateClick(Sender: TObject);
+begin
+  inherited;
+  GenerateDummy;
+end;
 
 procedure TfrmSalesInvoice.btnSaveClick(Sender: TObject);
 begin
@@ -539,6 +548,61 @@ begin
     else
       cxSplitter.OpenSplitter;
   end;
+
+end;
+
+procedure TfrmSalesInvoice.GenerateDummy;
+var
+  i: Integer;
+  iCount: Integer;
+  lItem: TItem;
+begin
+  LoadByID(0, False);
+  rbHarga.ItemIndex := Random(4);
+  cxLookupSalesman.SetDefaultValue();
+  cxLookupFee.SetDefaultValue();
+  cxLookupMekanik.SetDefaultValue();
+
+  cbBayar.ItemIndex := PaymentFlag_Credit;
+  dtInvoice.Date := Now() + (Random(60) - 30);
+
+  if SalesInv.Customer = nil then
+    SalesInv.Customer := TCustomer.Create;
+  while true do
+  begin
+    if SalesInv.Customer.LoadByID(Random(409)) then
+      break;
+  end;
+  edCustomer.Text := SalesInv.Customer.Nama;
+  dtJtTempo.Date := dtInvoice.Date + Random(14);
+  cxLookupGudang.SetDefaultValue();
+  cxLookupRekening.SetDefaultValue();
+  edNotes.Text := 'Dummy Data';
+
+  iCount := Random(15)+3;
+  lItem := TItem.Create;
+  Try
+    for i := 0 to iCount do
+    begin
+//      DC.FocusedRecordIndex := DC.AppendRecord;
+      DC.Append;
+      while true do
+      begin
+        if lItem.LoadByID(Random(23091)) then break;
+      end;
+      SetItemToGrid(lItem);
+      DC.SetEditValue(colQty.Index, Random(9) + 1, evsValue);
+      CalculateAll;
+      DC.Post;
+    end;
+  Finally
+    lItem.Free;
+  End;
+
+//  if not TAppUtils.Confirm('Is it Okay?') then exit;
+  if not ValidateData then exit;
+  UpdateData;
+  SalesInv.SaveRepeat();
 
 end;
 
