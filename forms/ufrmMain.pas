@@ -187,7 +187,9 @@ type
     procedure actPurchaseReturHistoryExecute(Sender: TObject);
     procedure actPurchPaymentExecute(Sender: TObject);
     procedure actRekeningExecute(Sender: TObject);
+    procedure actSaldoHutangExecute(Sender: TObject);
     procedure actSaldoKasExecute(Sender: TObject);
+    procedure actSaldoPiutangExecute(Sender: TObject);
     procedure actSalesExecute(Sender: TObject);
     procedure actSettingFeeExecute(Sender: TObject);
     procedure actSalesInvoiceHistoryExecute(Sender: TObject);
@@ -230,7 +232,7 @@ uses
   uVariable, ufrmSalesInvoiceHistory, ufrmPurchaseInvoiceHistory,
   ufrmBrowseSettingFee, ufrmSaldoRekening, ufrmBrowseSalesRetur,
   ufrmMutasiRekening, ufrmBrowsePurchasePayment, ufrmPurchaseReturHistory,
-  ufrmBrowseSalesPayment, ufrmSalesReturHistory;
+  ufrmBrowseSalesPayment, ufrmSalesReturHistory, ufrmLapHutang, ufrmLapPiutang;
 
 {$R *.dfm}
 
@@ -357,9 +359,19 @@ begin
   ShowForm(TfrmBrowseRekening);
 end;
 
+procedure TfrmMain.actSaldoHutangExecute(Sender: TObject);
+begin
+  ShowForm(TfrmLapHutang);
+end;
+
 procedure TfrmMain.actSaldoKasExecute(Sender: TObject);
 begin
   ShowForm(TfrmSaldoRekening);
+end;
+
+procedure TfrmMain.actSaldoPiutangExecute(Sender: TObject);
+begin
+  ShowForm(TfrmLapPiutang);
 end;
 
 procedure TfrmMain.actSalesExecute(Sender: TObject);

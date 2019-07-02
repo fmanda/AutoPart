@@ -1159,6 +1159,8 @@ object frmMain: TfrmMain
     object actSaldoHutang: TAction
       Category = 'Hutang Piutang'
       Caption = 'Saldo Hutang'
+      ImageIndex = 8
+      OnExecute = actSaldoHutangExecute
     end
     object actPurchaseInvoiceHistory: TAction
       Category = 'Hutang Piutang'
@@ -1169,6 +1171,8 @@ object frmMain: TfrmMain
     object actSaldoPiutang: TAction
       Category = 'Hutang Piutang'
       Caption = 'Saldo Piutang'
+      ImageIndex = 13
+      OnExecute = actSaldoPiutangExecute
     end
     object actSalesInvoiceHistory: TAction
       Category = 'Hutang Piutang'

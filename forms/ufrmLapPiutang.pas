@@ -1,4 +1,4 @@
-unit ufrmLapHutang;
+unit ufrmLapPiutang;
 
 interface
 
@@ -15,7 +15,7 @@ uses
   cxDropDownEdit, cxCalendar, Datasnap.DBClient;
 
 type
-  TfrmLapHutang = class(TfrmDefaultReport)
+  TfrmLapPiutang = class(TfrmDefaultReport)
     cxGroupBox3: TcxGroupBox;
     cxLabel3: TcxLabel;
     dtRefDate: TcxDateEdit;
@@ -26,8 +26,8 @@ type
     cxGrdMain: TcxGridDBTableView;
     cxGrid1Level1: TcxGridLevel;
     procedure FormCreate(Sender: TObject);
-    procedure btnRefreshClick(Sender: TObject);
     procedure btnExportClick(Sender: TObject);
+    procedure btnRefreshClick(Sender: TObject);
   private
     CDS: TClientDataset;
     { Private declarations }
@@ -36,7 +36,7 @@ type
   end;
 
 var
-  frmLapHutang: TfrmLapHutang;
+  frmLapPiutang: TfrmLapPiutang;
 
 implementation
 
@@ -45,31 +45,31 @@ uses
 
 {$R *.dfm}
 
-procedure TfrmLapHutang.FormCreate(Sender: TObject);
-begin
-  inherited;
-  dtRefDate.Date := EndOfTheMonth(Now());
-end;
-
-procedure TfrmLapHutang.btnExportClick(Sender: TObject);
+procedure TfrmLapPiutang.btnExportClick(Sender: TObject);
 begin
   inherited;
   cxGrdMain.ExportToXLS();
 end;
 
-procedure TfrmLapHutang.btnRefreshClick(Sender: TObject);
+procedure TfrmLapPiutang.btnRefreshClick(Sender: TObject);
 var
   S: string;
 begin
   inherited;
-  S := 'SELECT * FROM FN_AP_OUTSTANDING(' + TAppUtils.QuotD(dtRefDate.Date) +')';
+  S := 'SELECT * FROM FN_AR_OUTSTANDING(' + TAppUtils.QuotD(dtRefDate.Date) +')';
   if CDS <> nil then
     FreeAndNil(CDS);
 
   CDS := TDBUtils.OpenDataset(S, Self);
   cxGrdMain.LoadFromCDS(CDS);
-  cxGrdMain.SetVisibleColumns(['PURCHASEINVOICE_ID','HEADERREMAIN'],False);
+  cxGrdMain.SetVisibleColumns(['SALESINVOICE_ID','HEADERREMAIN'],False);
   cxGrdMain.SetSummaryByColumns(['REMAIN']);
+end;
+
+procedure TfrmLapPiutang.FormCreate(Sender: TObject);
+begin
+  inherited;
+  dtRefDate.Date := EndOfTheMonth(Now());
 end;
 
 end.

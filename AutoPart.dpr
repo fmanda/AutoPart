@@ -81,7 +81,8 @@ uses
   ufrmLapHutang in 'forms\ufrmLapHutang.pas' {frmLapHutang},
   ufrmSalesPayment in 'forms\ufrmSalesPayment.pas' {frmSalesPayment},
   ufrmBrowseSalesPayment in 'forms\ufrmBrowseSalesPayment.pas' {frmBrowseSalesPayment},
-  ufrmSalesReturHistory in 'forms\ufrmSalesReturHistory.pas' {frmSalesReturHistory};
+  ufrmSalesReturHistory in 'forms\ufrmSalesReturHistory.pas' {frmSalesReturHistory},
+  ufrmLapPiutang in 'forms\ufrmLapPiutang.pas' {frmLapPiutang};
 
 {$R *.res}
 

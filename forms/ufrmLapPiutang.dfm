@@ -1,30 +1,27 @@
-inherited frmLapHutang: TfrmLapHutang
-  Caption = 'Laporan Hutang'
-  ClientHeight = 589
-  ClientWidth = 873
-  ExplicitWidth = 889
-  ExplicitHeight = 628
+inherited frmLapPiutang: TfrmLapPiutang
+  Caption = 'Laporan Piutang'
+  ClientHeight = 494
+  ClientWidth = 792
+  ExplicitWidth = 808
+  ExplicitHeight = 533
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
-    ExplicitWidth = 873
-    Width = 873
+    Width = 792
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
       AnchorY = 18
     end
   end
   inherited cxGroupBox2: TcxGroupBox
-    Top = 554
-    ExplicitTop = 554
-    ExplicitWidth = 873
-    Width = 873
+    Top = 459
+    Width = 792
     inherited btnTutup: TcxButton
-      Left = 793
-      ExplicitLeft = 793
+      Left = 712
     end
     inherited btnExport: TcxButton
       OnClick = btnExportClick
+      ExplicitTop = 7
     end
     inherited btnRefresh: TcxButton
       OnClick = btnRefreshClick
@@ -40,12 +37,14 @@ inherited frmLapHutang: TfrmLapHutang
     Align = alTop
     Caption = ' Report Parameter '
     TabOrder = 2
+    ExplicitLeft = -234
+    ExplicitWidth = 873
     Height = 59
-    Width = 873
+    Width = 792
     object cxLabel3: TcxLabel
       Left = 38
       Top = 24
-      Caption = 'Hutang Per Tanggal'
+      Caption = 'Piutang Per Tanggal'
     end
     object dtRefDate: TcxDateEdit
       Left = 140
@@ -92,13 +91,15 @@ inherited frmLapHutang: TfrmLapHutang
     AlignWithMargins = True
     Left = 3
     Top = 100
-    Width = 867
-    Height = 451
+    Width = 786
+    Height = 356
     Align = alClient
     TabOrder = 3
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 124
-    ExplicitHeight = 427
+    ExplicitLeft = -228
+    ExplicitTop = -43
+    ExplicitWidth = 867
+    ExplicitHeight = 451
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -125,8 +126,6 @@ inherited frmLapHutang: TfrmLapHutang
     end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 792
-    Top = 48
     PixelsPerInch = 96
   end
 end
