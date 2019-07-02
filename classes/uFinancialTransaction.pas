@@ -131,6 +131,7 @@ type
     FReturAmount: Double;
     FPaymentFlag: Integer;
     FRekening: TRekening;
+    FSalesman: TSalesman;
   protected
     function AfterSaveToDB: Boolean; override;
     function BeforeDeleteFromDB: Boolean; override;
@@ -147,6 +148,7 @@ type
     property Media: Integer read FMedia write FMedia;
     property MediaNo: string read FMediaNo write FMediaNo;
     property Rekening: TRekening read FRekening write FRekening;
+    property Salesman: TSalesman read FSalesman write FSalesman;
     property ReturAmount: Double read FReturAmount write FReturAmount;
   end;
 

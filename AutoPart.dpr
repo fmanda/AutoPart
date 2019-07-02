@@ -78,7 +78,8 @@ uses
   ufrmPurchasePayment in 'forms\ufrmPurchasePayment.pas' {frmPurchasePayment},
   ufrmBrowsePurchasePayment in 'forms\ufrmBrowsePurchasePayment.pas' {frmBrowsePurchasePayment},
   ufrmPurchaseReturHistory in 'forms\ufrmPurchaseReturHistory.pas' {frmPurchaseReturHistory},
-  ufrmLapHutang in 'forms\ufrmLapHutang.pas' {frmLapHutang};
+  ufrmLapHutang in 'forms\ufrmLapHutang.pas' {frmLapHutang},
+  ufrmSalesPayment in 'forms\ufrmSalesPayment.pas' {frmSalesPayment};
 
 {$R *.res}
 
@@ -88,6 +89,5 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmLapHutang, frmLapHutang);
   Application.Run;
 end.
