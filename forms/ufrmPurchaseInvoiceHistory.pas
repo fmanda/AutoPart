@@ -180,7 +180,7 @@ procedure TfrmPurchaseInvoiceHistory.InitView;
 begin
   cxGrdMain.PrepareFromCDS(CDS);
   cxLookupGudang.Properties.LoadFromSQL(Self,
-    'select id, nama from twarehouse','nama');
+    'select id, nama from twarehouse where is_external = 0','nama');
 end;
 
 procedure TfrmPurchaseInvoiceHistory.LoadData;

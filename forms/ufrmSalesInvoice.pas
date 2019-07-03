@@ -107,6 +107,7 @@ type
     procedure spTempoPropertiesEditValueChanged(Sender: TObject);
     procedure dtInvoicePropertiesEditValueChanged(Sender: TObject);
     procedure btnGenerateClick(Sender: TObject);
+    procedure btnPrintClick(Sender: TObject);
   private
     DisableTrigger: Boolean;
     FCDS: TClientDataset;
@@ -149,7 +150,8 @@ type
     property SalesInv: TSalesInvoice read GetSalesInv write FSalesInv;
     { Private declarations }
   public
-    procedure LoadByID(aID: Integer; IsReadOnly: Boolean = True);
+    procedure LoadByID(aID: Integer; SalesType: Integer = 0; IsReadOnly: Boolean =
+        True);
     { Public declarations }
   published
   end;
@@ -161,7 +163,8 @@ implementation
 
 uses
   uDXUtils, uDBUtils, uAppUtils, ufrmCXServerLookup, uCustomer, cxDataUtils,
-  uWarehouse, uMekanik, uSalesman, uVariable, uAccount, uSettingFee;
+  uWarehouse, uMekanik, uSalesman, uVariable, uAccount, uSettingFee,
+  ufrmDialogPayment;
 
 {$R *.dfm}
 
@@ -169,6 +172,12 @@ procedure TfrmSalesInvoice.btnGenerateClick(Sender: TObject);
 begin
   inherited;
   GenerateDummy;
+end;
+
+procedure TfrmSalesInvoice.btnPrintClick(Sender: TObject);
+begin
+  inherited;
+  LoadbyID(0);
 end;
 
 procedure TfrmSalesInvoice.btnSaveClick(Sender: TObject);
@@ -179,7 +188,8 @@ begin
   if SalesInv.SaveRepeat then
   begin
 //    TAppUtils.InformationBerhasilSimpan;
-    Self.ModalResult := mrOK;
+//    Self.ModalResult := mrOK;
+    LoadByID(0, rbHarga.ItemIndex, False);
   end;
 end;
 
@@ -523,7 +533,7 @@ begin
   inherited;
   InitView;
   Self.AssignKeyDownEvent;
-  LoadByID(0, False);
+  LoadByID(0, 0, False);
 end;
 
 procedure TfrmSalesInvoice.FormKeyDown(Sender: TObject; var Key: Word; Shift:
@@ -531,7 +541,7 @@ procedure TfrmSalesInvoice.FormKeyDown(Sender: TObject; var Key: Word; Shift:
 begin
   inherited;
   if Key = VK_F1 then
-    edNoInv.SetFocus;
+    dtInvoice.SetFocus;
 
   if Key = VK_F2 then
   begin
@@ -557,7 +567,7 @@ var
   iCount: Integer;
   lItem: TItem;
 begin
-  LoadByID(0, False);
+  LoadByID(0, 0, False);
   rbHarga.ItemIndex := Random(4);
   cxLookupSalesman.SetDefaultValue();
   cxLookupFee.SetDefaultValue();
@@ -600,9 +610,9 @@ begin
   End;
 
 //  if not TAppUtils.Confirm('Is it Okay?') then exit;
-  if not ValidateData then exit;
-  UpdateData;
-  SalesInv.SaveRepeat();
+//  if not ValidateData then exit;
+//  UpdateData;
+//  SalesInv.SaveRepeat();
 
 end;
 
@@ -687,10 +697,10 @@ begin
   TcxExtLookup(colSrvName.Properties).LoadFromCDS(CDSMasterService,'id','nama',['id','kode'], Self);
 
   TcxExtLookup(colWarehouse.Properties).LoadFromSQL(Self,
-    'select id, nama from twarehouse','nama');
+    'select id, nama from twarehouse where is_external = 0','nama');
   TcxExtLookup(colUOM.Properties).LoadFromCDS(CDSUOM, 'id', 'uom', ['id'], Self);
   cxLookupGudang.Properties.LoadFromSQL(Self,
-    'select id, nama from twarehouse','nama');
+    'select id, nama from twarehouse where is_external = 0','nama');
 
   cxLookupGudang.SetDefaultValue();
 
@@ -715,7 +725,8 @@ begin
   cxLookupRekening.EditValue := SalesInv.Rekening.ID;
 end;
 
-procedure TfrmSalesInvoice.LoadByID(aID: Integer; IsReadOnly: Boolean = True);
+procedure TfrmSalesInvoice.LoadByID(aID: Integer; SalesType: Integer = 0;
+    IsReadOnly: Boolean = True);
 var
   lItem: TTransDetail;
   lService: TServiceDetail;
@@ -724,6 +735,8 @@ begin
     FreeAndNil(FSalesInv);
 
   SalesInv.LoadByID(aID);
+  CDS.EmptyDataSet;
+  CDSService.EmptyDataSet;
 
   //def uom
   if aID = 0 then
@@ -736,12 +749,15 @@ begin
 
   edNoInv.Text := SalesInv.InvoiceNo;
 
-  DisableTrigger := True;
+  if aID <> 0 then DisableTrigger := True;
   Try
     cbBayar.ItemIndex := SalesInv.PaymentFlag;
     cbBayarPropertiesEditValueChanged(Self);
 
-    rbHarga.ItemIndex := SalesInv.SalesType;
+    if SalesType = 0 then
+      SalesType := SalesInv.SalesType;
+
+    rbHarga.ItemIndex := SalesType;
     rbHargaPropertiesEditValueChanged(Self);
   Finally
     DisableTrigger := False;
@@ -756,27 +772,28 @@ begin
   crTotal.Value := SalesInv.Amount;
   edNotes.Text := SalesInv.Notes;
 
+//  edCustomer.Clear;
   if SalesInv.Customer <> nil then
   begin
     SalesInv.Customer.ReLoad(False);
     edCustomer.Text := SalesInv.Customer.Nama;
   end;
 
+//  cxLookupGudang.Clear;
   if SalesInv.Warehouse <> nil then
     cxLookupGudang.EditValue := SalesInv.Warehouse.ID;
 
+  cxLookupSalesman.Clear;
   if SalesInv.Salesman <> nil then
     cxLookupSalesman.EditValue := SalesInv.Salesman.ID;
 
+  cxLookupMekanik.Clear;
   if SalesInv.Mekanik <> nil then
      cxLookupMekanik.EditValue := SalesInv.Mekanik.ID;
 
+  cxLookupFee.Clear;
   if SalesInv.SettingFee <> nil then
      cxLookupFee.EditValue := SalesInv.SettingFee.ID;
-
-
-  CDS.EmptyDataSet;
-  CDSService.EmptyDataSet;
 
   for lItem in SalesInv.Items do
   begin
@@ -798,6 +815,15 @@ begin
 
   CalculateAll;
   btnSave.Enabled := not IsReadOnly;
+
+  if Self.Visible then
+  begin
+    if rbHarga.ItemIndex in [0,1] then
+      FocusToGrid
+    else
+      dtInvoice.SetFocus;
+  end;
+
 end;
 
 procedure TfrmSalesInvoice.LookupItem(aKey: string = '');
@@ -841,8 +867,6 @@ end;
 procedure TfrmSalesInvoice.rbHargaPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
-
-  
   if CDS.RecordCount > 0 then
   begin
     if SalesInv.SalesType <> rbHarga.ItemIndex then
@@ -1130,11 +1154,11 @@ begin
 
 //  if CDS.State in [dsInsert, dsEdit] then CDS.Post;
 
-  if CDS.RecordCount = 0 then
-  begin
-    TAppUtils.Warning('Data Item tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
-    exit;
-  end;
+//  if CDS.RecordCount = 0 then
+//  begin
+//    TAppUtils.Warning('Data Item tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
+//    exit;
+//  end;
 
   if CDS.Locate('Item', null, []) or CDS.Locate('Item', 0, []) then
   begin
@@ -1160,7 +1184,10 @@ begin
     exit;
   end;
 
-  Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
+  if cbBayar.ItemIndex = PaymentFlag_Cash then
+    Result := TfrmDialogPayment.ShowPayment(crTotal.Value)
+  else
+    Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
 
 end;
 

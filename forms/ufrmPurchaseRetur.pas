@@ -525,10 +525,10 @@ procedure TfrmPurchaseRetur.InitView;
 begin
   cxGrdMain.PrepareFromCDS(CDS);
   TcxExtLookup(colWarehouse.Properties).LoadFromSQL(Self,
-    'select id, nama from twarehouse','nama');
+    'select id, nama from twarehouse where is_external = 0','nama');
   TcxExtLookup(colUOM.Properties).LoadFromCDS(CDSUOM, 'id', 'uom', ['id'], Self);
   cxLookupGudang.Properties.LoadFromSQL(Self,
-    'select id, nama from twarehouse','nama');
+    'select id, nama from twarehouse where is_external = 0','nama');
 
   cxLookupGudang.SetDefaultValue();
 end;

@@ -71,7 +71,13 @@ inherited frmVariable: TfrmVariable
     end
     object colKodePusat: TcxEditorRow
       Properties.Caption = 'Kode Pusat'
-      Properties.EditPropertiesClassName = 'TcxTextEditProperties'
+      Properties.EditPropertiesClassName = 'TcxButtonEditProperties'
+      Properties.EditProperties.Buttons = <
+        item
+          Default = True
+          Kind = bkEllipsis
+        end>
+      Properties.EditProperties.OnButtonClick = colKodePusatEditPropertiesButtonClick
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
       ID = 1
@@ -81,7 +87,13 @@ inherited frmVariable: TfrmVariable
     end
     object colKodeCabang: TcxEditorRow
       Properties.Caption = 'Kode Cabang'
-      Properties.EditPropertiesClassName = 'TcxTextEditProperties'
+      Properties.EditPropertiesClassName = 'TcxButtonEditProperties'
+      Properties.EditProperties.Buttons = <
+        item
+          Default = True
+          Kind = bkEllipsis
+        end>
+      Properties.EditProperties.OnButtonClick = colKodeCabangEditPropertiesButtonClick
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
       ID = 2

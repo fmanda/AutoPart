@@ -5,7 +5,6 @@ inherited frmSalesInvoice: TfrmSalesInvoice
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
-  ExplicitTop = -2
   ExplicitWidth = 1000
   ExplicitHeight = 700
   PixelsPerInch = 96
@@ -22,6 +21,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     end
     inherited btnPrint: TcxButton
       Left = 813
+      OnClick = btnPrintClick
       ExplicitLeft = 813
     end
     inherited btnSave: TcxButton
@@ -29,6 +29,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       Width = 100
       OnClick = btnSaveClick
       ExplicitLeft = 707
+      ExplicitTop = 3
       ExplicitWidth = 100
     end
     object btnGenerate: TcxButton

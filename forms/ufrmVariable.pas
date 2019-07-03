@@ -31,10 +31,15 @@ type
       AButtonIndex: Integer);
     procedure colDefRekeningEditPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
+    procedure colKodePusatEditPropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
+    procedure colKodeCabangEditPropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
   private
     procedure LoadVariable;
     procedure LookupCustomer(AEditor: TcxEditorRow);
     procedure LookupRekening(AEditor: TcxEditorRow);
+    procedure LookupCabang(AEditor: TcxEditorRow);
     { Private declarations }
   public
     { Public declarations }
@@ -69,6 +74,20 @@ procedure TfrmVariable.colDefRekeningEditPropertiesButtonClick(Sender: TObject;
 begin
   inherited;
   LookupRekening(colDefRekening);
+end;
+
+procedure TfrmVariable.colKodeCabangEditPropertiesButtonClick(Sender: TObject;
+  AButtonIndex: Integer);
+begin
+  inherited;
+  LookupCabang(colKodeCabang);
+end;
+
+procedure TfrmVariable.colKodePusatEditPropertiesButtonClick(Sender: TObject;
+  AButtonIndex: Integer);
+begin
+  inherited;
+  LookupCabang(colKodePusat);
 end;
 
 procedure TfrmVariable.FormCreate(Sender: TObject);
@@ -140,6 +159,25 @@ begin
     if cxLookup.ShowModal = mrOK then
     begin
       AEditor.Properties.Value := cxLookup.FieldValue('Kode');
+      Keybd_event(VK_RETURN, 0, 0, 0);
+    end;
+  Finally
+    cxLookup.Free;
+  End;
+end;
+
+procedure TfrmVariable.LookupCabang(AEditor: TcxEditorRow);
+var
+  cxLookup: TfrmCXServerLookup;
+  S: string;
+begin
+  S := 'select * from TProject';
+  cxLookup := TfrmCXServerLookup.Execute(S, 'ID');
+  Try
+//    cxLookup.PreFilter('Nama', '');
+    if cxLookup.ShowModal = mrOK then
+    begin
+      AEditor.Properties.Value := cxLookup.FieldValue('Project_Code');
       Keybd_event(VK_RETURN, 0, 0, 0);
     end;
   Finally

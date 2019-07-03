@@ -82,7 +82,9 @@ uses
   ufrmSalesPayment in 'forms\ufrmSalesPayment.pas' {frmSalesPayment},
   ufrmBrowseSalesPayment in 'forms\ufrmBrowseSalesPayment.pas' {frmBrowseSalesPayment},
   ufrmSalesReturHistory in 'forms\ufrmSalesReturHistory.pas' {frmSalesReturHistory},
-  ufrmLapPiutang in 'forms\ufrmLapPiutang.pas' {frmLapPiutang};
+  ufrmLapPiutang in 'forms\ufrmLapPiutang.pas' {frmLapPiutang},
+  ufrmDialogPayment in 'forms\ufrmDialogPayment.pas' {frmDialogPayment},
+  ufrmCashTransfer in 'forms\ufrmCashTransfer.pas' {frmCashTransfer};
 
 {$R *.res}
 

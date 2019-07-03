@@ -7,6 +7,7 @@ inherited frmSalesReturHistory: TfrmSalesReturHistory
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
+    ExplicitWidth = 911
     Width = 911
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
@@ -15,9 +16,12 @@ inherited frmSalesReturHistory: TfrmSalesReturHistory
   end
   inherited cxGroupBox2: TcxGroupBox
     Top = 493
+    ExplicitTop = 493
+    ExplicitWidth = 911
     Width = 911
     inherited btnTutup: TcxButton
       Left = 831
+      ExplicitLeft = 831
     end
     inherited btnRefresh: TcxButton
       OnClick = btnRefreshClick
@@ -33,8 +37,6 @@ inherited frmSalesReturHistory: TfrmSalesReturHistory
     Align = alTop
     Caption = ' Report Parameter '
     TabOrder = 2
-    ExplicitLeft = -261
-    ExplicitWidth = 900
     Height = 123
     Width = 911
     object cxLabel1: TcxLabel

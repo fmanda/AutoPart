@@ -2,7 +2,6 @@ inherited frmLapStock: TfrmLapStock
   Caption = 'Laporan Stock'
   ClientHeight = 557
   ClientWidth = 1009
-  ExplicitTop = -157
   ExplicitWidth = 1025
   ExplicitHeight = 596
   PixelsPerInch = 96

@@ -14,7 +14,7 @@ uses
   cxButtonEdit, cxCurrencyEdit, cxGridLevel, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxClasses, cxGridCustomView, cxGrid,
   uTransDetail, uDBUtils, uDXUtils, Datasnap.DBClient, uItem,
-  ufrmCXServerLookup, cxGridDBDataDefinitions, uWarehouse;
+  ufrmCXServerLookup, cxGridDBDataDefinitions, uWarehouse, cxRadioGroup;
 
 type
   TfrmTransferStock = class(TfrmDefaultInput)
@@ -38,6 +38,7 @@ type
     colItemID: TcxGridDBColumn;
     colKonversi: TcxGridDBColumn;
     cxGrid1Level1: TcxGridLevel;
+    rbTransfer: TcxRadioGroup;
     procedure FormCreate(Sender: TObject);
     procedure colKodePropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
@@ -52,6 +53,7 @@ type
     procedure colUOMPropertiesEditValueChanged(Sender: TObject);
     procedure colUOMPropertiesInitPopup(Sender: TObject);
     procedure edNotesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure rbTransferPropertiesEditValueChanged(Sender: TObject);
   private
     FCDS: TClientDataset;
     FCDSUOM: TClientDataset;
@@ -64,6 +66,7 @@ type
     procedure InitView;
     procedure LookupItem(aKey: string = '');
     procedure SetItemToGrid(aItem: TItem);
+    procedure TranferTypeChanged;
     procedure UpdateData;
     function ValidateData: Boolean;
     property CDS: TClientDataset read GetCDS write FCDS;
@@ -278,13 +281,21 @@ begin
 end;
 
 procedure TfrmTransferStock.InitView;
+var
+  s: string;
 begin
   cxGrdMain.PrepareFromCDS(CDS);
   TcxExtLookup(colUOM.Properties).LoadFromCDS(CDSUOM, 'id', 'uom', ['id'], Self);
-  cxLookupWHAsal.Properties.LoadFromSQL(Self,
-    'select id, nama from twarehouse','nama');
-  cxLookupWHTujuan.Properties.LoadFromSQL(Self,
-    'select id, nama from twarehouse','nama');
+
+  s := 'SELECT A.ID, A.KODE, A.NAMA, B.PROJECT_NAME AS CABANG, A.IS_EXTERNAL'
+      +' FROM TWAREHOUSE A'
+      +' LEFT JOIN PROJECT B ON A.PROJECT_CODE = B.PROJECT_CODE';
+
+  cxLookupWHAsal.Properties.LoadFromSQL(Self,s,'nama');
+  cxLookupWHTujuan.Properties.LoadFromSQL(Self,s,'nama');
+
+  cxLookupWHAsal.CDS.Filtered := True;
+  cxLookupWHTujuan.CDS.Filtered := True;
 end;
 
 procedure TfrmTransferStock.LoadByID(aID: Integer; IsReadOnly: Boolean = True);
@@ -306,6 +317,8 @@ begin
   edRefno.Text := Transfer.RefNo;
   dtTransfer.Date := Transfer.TransDate;
   edNotes.Text := Transfer.Notes;
+  rbTransfer.ItemIndex := Transfer.TransferType;
+  rbTransferPropertiesEditValueChanged(Self);
 
   if Transfer.WH_Asal <> nil then
     cxLookupWHAsal.EditValue := Transfer.WH_Asal.ID;
@@ -313,12 +326,20 @@ begin
     cxLookupWHTujuan.EditValue := Transfer.WH_Tujuan.ID;
 
   CDS.EmptyDataSet;
-  Transfer.DeleteTrfOut;
+
+
+  Transfer.DeleteOutExceptExternal; //delete external
+
   for lItem in Transfer.Items do
   begin
     CDS.Append;
+
+    if Transfer.TransferType = Transfer_External_Out then
+      lItem.Qty := Abs(lItem.Qty);
+
     lItem.UpdateToDataset(CDS);
     lItem.Item.ReLoad(False);
+
     CDS.FieldByName('Kode').AsString := lItem.Item.Kode;
     CDS.FieldByName('Nama').AsString := lItem.Item.Nama;
     CDS.Post;
@@ -358,6 +379,13 @@ begin
   End;
 end;
 
+procedure TfrmTransferStock.rbTransferPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  TranferTypeChanged;
+end;
+
 procedure TfrmTransferStock.SetItemToGrid(aItem: TItem);
 var
   lItemUOM: TItemUOM;
@@ -390,16 +418,38 @@ begin
   end;
 end;
 
+procedure TfrmTransferStock.TranferTypeChanged;
+begin
+  if rbTransfer.ItemIndex = Transfer_Internal then
+  begin
+    cxLookupWHAsal.CDS.Filter   := 'Is_External = 0';
+    cxLookupWHTujuan.CDS.Filter := 'Is_External = 0';
+  end else
+  if rbTransfer.ItemIndex = Transfer_External_Out then
+  begin
+    cxLookupWHAsal.CDS.Filter   := 'Is_External = 0';
+    cxLookupWHTujuan.CDS.Filter := 'Is_External = 1';
+  end else
+  if rbTransfer.ItemIndex = Transfer_External_In then
+  begin
+    cxLookupWHAsal.CDS.Filter   := 'Is_External = 1';
+    cxLookupWHTujuan.CDS.Filter := 'Is_External = 0';
+  end;
+  cxLookupWHAsal.Clear;
+  cxLookupWHTujuan.Clear
+end;
+
 procedure TfrmTransferStock.UpdateData;
 var
+//  lFactor: Integer;
   lItem: TTransDetail;
 begin
-
   Transfer.RefNo := edRefno.Text;
   Transfer.TransDate := dtTransfer.Date;
   Transfer.Notes := edNotes.Text;
   Transfer.ModifiedDate := Now();
   Transfer.ModifiedBy := UserLogin;
+  Transfer.TransferType := rbTransfer.ItemIndex;
 
   if Transfer.WH_Asal = nil then
     Transfer.WH_Asal := TWarehouse.Create;
@@ -410,11 +460,18 @@ begin
   Transfer.WH_Tujuan.LoadByID(VarToInt(cxLookupWHTujuan.EditValue));
   Transfer.Items.Clear;
 
+//  lFactor := 1;
+
+//  if Transfer.TransferType = Transfer_External_Out then
+//    lFactor := -1;
+
   CDS.First;
   while not CDS.Eof do
   begin
     lItem := TTransDetail.Create;
     lItem.SetFromDataset(CDS);
+//    lItem.Qty := lFactor * lItem.Qty;
+
     Transfer.Items.Add(lItem);
     CDS.Next;
   end;

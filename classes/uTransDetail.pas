@@ -231,13 +231,14 @@ type
     FNotes: string;
     FWH_Asal: TWarehouse;
     FRefNo: string;
+    FTransferType: Integer;
     FWH_Tujuan: TWarehouse;
   protected
     function BeforeSaveToDB: Boolean; override;
     function GetRefno: String; override;
   public
     destructor Destroy; override;
-    procedure DeleteTrfOut;
+    procedure DeleteOutExceptExternal;
     function GenerateNo: String; override;
     procedure GenerateTrfOut;
     function GetHeaderFlag: Integer; override;
@@ -247,6 +248,7 @@ type
     property WH_Asal: TWarehouse read FWH_Asal write FWH_Asal;
     [AttributeOfCode]
     property RefNo: string read FRefNo write FRefNo;
+    property TransferType: Integer read FTransferType write FTransferType;
     property WH_Tujuan: TWarehouse read FWH_Tujuan write FWH_Tujuan;
   end;
 
@@ -397,6 +399,10 @@ const
 
   ReturFlag_Reguler : Integer = 0;
   ReturFlag_Cancel : Integer = 1;
+
+  Transfer_Internal : Integer = 0;
+  Transfer_External_Out : Integer = 1;
+  Transfer_External_In : Integer = 2;
 
 implementation
 
@@ -1094,20 +1100,36 @@ end;
 
 function TTransferStock.BeforeSaveToDB: Boolean;
 var
-  litem: TTransDetail;
+  lItem: TTransDetail;
 begin
-  GenerateTrfOut;
+  if Self.TransferType = Transfer_Internal then
+    GenerateTrfOut; //2 sisi
 
   for lItem in Self.Items do
+  begin
     lItem.SetAvgCost;
+
+    if Self.TransferType = Transfer_External_Out then
+    begin
+      lItem.Warehouse := TWarehouse.CreateID(Self.WH_Asal.ID);
+      lItem.Qty := -1 * lItem.Qty;
+    end else
+    if Self.TransferType = Transfer_External_In then
+    begin
+      lItem.Warehouse := TWarehouse.CreateID(Self.WH_Tujuan.ID);
+      lItem.Qty := Abs(lItem.Qty);
+    end;
+  end;
 
   Result := True;
 end;
 
-procedure TTransferStock.DeleteTrfOut;
+procedure TTransferStock.DeleteOutExceptExternal;
 var
   i: Integer;
 begin
+  if Self.TransferType <> Transfer_Internal then exit;
+
   for i := Self.Items.Count-1 downto 0 do
   begin
     if Self.Items[i].Qty < 0 then
@@ -1150,7 +1172,7 @@ var
 begin
 
   //delete all trf out first
-  DeleteTrfOut;
+  DeleteOutExceptExternal;
 
   for i := 0 to Self.Items.Count-1 do
   begin

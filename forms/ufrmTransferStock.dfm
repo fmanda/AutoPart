@@ -1,50 +1,52 @@
 inherited frmTransferStock: TfrmTransferStock
   Caption = 'Transfer Stock Antar Gudang'
   ClientHeight = 535
-  ClientWidth = 747
+  ClientWidth = 753
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
-  ExplicitWidth = 763
+  ExplicitWidth = 769
   ExplicitHeight = 574
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
     Top = 500
+    TabOrder = 2
     ExplicitTop = 500
     ExplicitWidth = 747
-    Width = 747
+    Width = 753
     inherited btnCancel: TcxButton
-      Left = 662
+      Left = 668
       ExplicitLeft = 662
     end
     inherited btnPrint: TcxButton
-      Left = 576
+      Left = 582
       ExplicitLeft = 576
     end
     inherited btnSave: TcxButton
-      Left = 490
+      Left = 496
       OnClick = btnSaveClick
       ExplicitLeft = 490
     end
   end
   inherited Panel2: TPanel
     Top = 479
-    Width = 747
+    Width = 753
+    TabOrder = 3
     ExplicitTop = 479
     ExplicitWidth = 747
     inherited lbEscape: TLabel
-      Left = 667
+      Left = 673
       Height = 17
       ExplicitLeft = 667
     end
     inherited lgndSave: TLabel
-      Left = 502
+      Left = 508
       Height = 17
       ExplicitLeft = 502
     end
     inherited lgndPrint: TLabel
-      Left = 589
+      Left = 595
       Height = 17
       ExplicitLeft = 589
     end
@@ -54,81 +56,103 @@ inherited frmTransferStock: TfrmTransferStock
     Top = 0
     Align = alTop
     Caption = '  Header Transfer [F1] '
-    TabOrder = 2
-    Height = 129
-    Width = 747
+    TabOrder = 0
+    ExplicitWidth = 774
+    Height = 133
+    Width = 753
     object cxLabel1: TcxLabel
-      Left = 63
-      Top = 21
+      Left = 223
+      Top = 23
       Caption = 'No. Bukti'
     end
     object edRefno: TcxTextEdit
-      Left = 114
-      Top = 20
+      Left = 272
+      Top = 22
       TabStop = False
       Properties.CharCase = ecUpperCase
-      TabOrder = 0
+      TabOrder = 1
       Width = 155
     end
     object cxLabel6: TcxLabel
-      Left = 67
-      Top = 84
+      Left = 227
+      Top = 86
       Caption = 'Catatan'
     end
     object edNotes: TcxMemo
-      Left = 114
-      Top = 83
-      TabOrder = 4
+      Left = 272
+      Top = 85
+      TabOrder = 5
       OnKeyDown = edNotesKeyDown
       Height = 35
       Width = 335
     end
     object dtTransfer: TcxDateEdit
-      Left = 341
-      Top = 20
+      Left = 499
+      Top = 22
       TabStop = False
       Properties.ImmediatePost = True
       Properties.SaveTime = False
       Properties.ShowTime = False
-      TabOrder = 1
+      TabOrder = 2
       Width = 108
     end
     object cxLabel8: TcxLabel
-      Left = 296
-      Top = 20
+      Left = 454
+      Top = 22
       Caption = 'Tanggal'
     end
     object cxLabel7: TcxLabel
-      Left = 46
-      Top = 42
+      Left = 206
+      Top = 44
       Caption = 'Gudang Asal'
     end
     object cxLookupWHAsal: TcxExtLookupComboBox
-      Left = 114
-      Top = 41
-      TabOrder = 2
-      Width = 335
-    end
-    object cxLookupWHTujuan: TcxExtLookupComboBox
-      Left = 114
-      Top = 62
+      Left = 272
+      Top = 43
       TabOrder = 3
       Width = 335
     end
+    object cxLookupWHTujuan: TcxExtLookupComboBox
+      Left = 272
+      Top = 64
+      TabOrder = 4
+      Width = 335
+    end
     object cxLabel4: TcxLabel
-      Left = 33
-      Top = 63
+      Left = 193
+      Top = 65
       Caption = 'Gudang Tujuan'
+    end
+    object rbTransfer: TcxRadioGroup
+      Left = 22
+      Top = 21
+      Caption = ' Jenis Transfer'
+      Properties.Items = <
+        item
+          Caption = 'Antar Gudang Internal'
+        end
+        item
+          Caption = 'Kirim Ke Cabang Lain'
+        end
+        item
+          Caption = 'Terima Dari Cabang Lain'
+        end>
+      Properties.OnEditValueChanged = rbTransferPropertiesEditValueChanged
+      ItemIndex = 0
+      TabOrder = 0
+      Height = 91
+      Width = 159
     end
   end
   object cxGrid1: TcxGrid
     Left = 0
-    Top = 129
-    Width = 747
-    Height = 350
+    Top = 133
+    Width = 753
+    Height = 346
     Align = alClient
-    TabOrder = 3
+    TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
+    ExplicitTop = 139
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown

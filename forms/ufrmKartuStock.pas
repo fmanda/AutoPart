@@ -229,7 +229,7 @@ begin
   cxLookupUOM.Properties.LoadFromSQL(Self,
     'select id, uom from tuom','uom');
   cxLookupGudang.Properties.LoadFromSQL(Self,
-    'select id, nama from twarehouse','nama');
+    'select id, nama from twarehouse where is_external = 0','nama');
   cxLookupGudang.SetDefaultValue();
 end;
 

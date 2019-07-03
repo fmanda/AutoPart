@@ -62,7 +62,7 @@ begin
   inherited;
   with TfrmSalesInvoice.Create(Application) do
   begin
-    LoadByID(Self.cxGrdMain.GetID, False);
+    LoadByID(Self.cxGrdMain.GetID, 0, False);
     Try
       if ShowModal = mrOK then
         RefreshData;
@@ -94,7 +94,7 @@ begin
   inherited;
   with TfrmSalesInvoice.Create(Application) do
   begin
-    LoadByID(Self.cxGrdMain.GetID, True);
+    LoadByID(Self.cxGrdMain.GetID, 0, True);
     Try
       ShowModal;
     Finally

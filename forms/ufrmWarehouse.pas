@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmDefaultInput, cxGraphics,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   Vcl.Menus, Vcl.StdCtrls, cxButtons, cxGroupBox, cxRadioGroup, cxCheckBox,
-  cxTextEdit, cxLabel, uSupplier, uWarehouse, Vcl.ExtCtrls;
+  cxTextEdit, cxLabel, uSupplier, uWarehouse, Vcl.ExtCtrls, cxMaskEdit,
+  cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox;
 
 type
   TfrmWarehouse = class(TfrmDefaultInput)
@@ -17,8 +18,12 @@ type
     edNama: TcxTextEdit;
     chkActive: TcxCheckBox;
     rbJenis: TcxRadioGroup;
+    ckExternal: TcxCheckBox;
+    cxLookupCabang: TcxExtLookupComboBox;
+    cxLabel3: TcxLabel;
     procedure btnSaveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure ckExternalPropertiesEditValueChanged(Sender: TObject);
   private
     FWarehouse: TWarehouse;
     function GetWarehouse: TWarehouse;
@@ -53,9 +58,18 @@ begin
   end;
 end;
 
+procedure TfrmWarehouse.ckExternalPropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  cxLookupCabang.Enabled := ckExternal.Checked;
+  if not ckExternal.Checked then
+    cxLookupCabang.Clear;
+end;
+
 procedure TfrmWarehouse.FormCreate(Sender: TObject);
 begin
   inherited;
+  cxLookupCabang.LoadFromSQL('select * from project','project_code','project_name', Self);
   Self.AssignKeyDownEvent;
   LoadByID(0);
 end;
@@ -71,18 +85,19 @@ end;
 procedure TfrmWarehouse.LoadByID(aID: Integer; IsReadOnly: Boolean = False);
 begin
   if FWarehouse <> nil then FreeAndNil(FWarehouse);
-
   Warehouse.LoadByID(aID);
   if aID = 0 then
   begin
     Warehouse.IsActive := 1;
   end;
 
-  edKode.Text       := Warehouse.Kode;
-  edNama.Text       := Warehouse.Nama;
-  rbJenis.ItemIndex := Warehouse.Jenis;
-  chkActive.Checked := Warehouse.IsActive = 1;
-  btnSave.Enabled   := not IsReadOnly;
+  edKode.Text               := Warehouse.Kode;
+  edNama.Text               := Warehouse.Nama;
+  rbJenis.ItemIndex         := Warehouse.Jenis;
+  chkActive.Checked         := Warehouse.IsActive = 1;
+  ckExternal.Checked        := Warehouse.Is_External = 1;
+  cxLookupCabang.EditValue  := Warehouse.Project_Code;
+  btnSave.Enabled           := not IsReadOnly;
 
 end;
 
@@ -91,6 +106,8 @@ begin
   Warehouse.Kode          := edKode.Text;
   Warehouse.Nama          := edNama.Text;
   Warehouse.Jenis         := rbJenis.ItemIndex;
+  Warehouse.Is_External   := TApputils.BoolToInt(ckExternal.Checked);
+  Warehouse.Project_Code  := VartoStr(cxLookupCabang.EditValue);
   Warehouse.IsActive      := 1;
   if not chkActive.Checked then Warehouse.IsActive := 0;
 end;

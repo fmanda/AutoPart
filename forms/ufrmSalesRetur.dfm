@@ -35,17 +35,14 @@ inherited frmSalesRetur: TfrmSalesRetur
     ExplicitWidth = 934
     inherited lbEscape: TLabel
       Left = 854
-      Height = 17
       ExplicitLeft = 854
     end
     inherited lgndSave: TLabel
       Left = 689
-      Height = 17
       ExplicitLeft = 689
     end
     inherited lgndPrint: TLabel
       Left = 776
-      Height = 17
       ExplicitLeft = 776
     end
     object Label2: TLabel
@@ -53,7 +50,7 @@ inherited frmSalesRetur: TfrmSalesRetur
       Left = 165
       Top = 1
       Width = 84
-      Height = 17
+      Height = 16
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -65,14 +62,13 @@ inherited frmSalesRetur: TfrmSalesRetur
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitHeight = 16
     end
     object Label1: TLabel
       AlignWithMargins = True
       Left = 3
       Top = 1
       Width = 146
-      Height = 17
+      Height = 16
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -84,7 +80,6 @@ inherited frmSalesRetur: TfrmSalesRetur
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitHeight = 16
     end
   end
   object cxGroupBox1: TcxGroupBox

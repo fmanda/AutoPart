@@ -7,6 +7,7 @@ inherited frmPurchaseReturHistory: TfrmPurchaseReturHistory
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
+    ExplicitWidth = 900
     Width = 900
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
@@ -15,9 +16,12 @@ inherited frmPurchaseReturHistory: TfrmPurchaseReturHistory
   end
   inherited cxGroupBox2: TcxGroupBox
     Top = 493
+    ExplicitTop = 493
+    ExplicitWidth = 900
     Width = 900
     inherited btnTutup: TcxButton
       Left = 820
+      ExplicitLeft = 820
     end
     inherited btnExport: TcxButton
       OnClick = btnExportClick
