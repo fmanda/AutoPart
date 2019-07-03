@@ -95,12 +95,14 @@ type
 
   TCashTransfer = class(TCRUDFinance)
   private
+    FRekening: TRekening;
   protected
   public
     destructor Destroy; override;
     function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
   published
+    property Rekening: TRekening read FRekening write FRekening;
   end;
 
   TCashReceipt = class(TCRUDFinance)
@@ -400,7 +402,7 @@ begin
   aPrefix := Cabang + '.CR' + FormatDateTime('yymm',Now()) + '.';
 
 
-  S := 'SELECT MAX(InvoiceNo) FROM TCashReceipt where Refno LIKE ' + QuotedStr(aPrefix + '%');
+  S := 'SELECT MAX(Refno) FROM TCashReceipt where Refno LIKE ' + QuotedStr(aPrefix + '%');
 
   with TDBUtils.OpenQuery(S) do
   begin
@@ -439,7 +441,7 @@ begin
   aPrefix := Cabang + '.CT' + FormatDateTime('yymm',Now()) + '.';
 
 
-  S := 'SELECT MAX(InvoiceNo) FROM TCashTransfer where Refno LIKE ' + QuotedStr(aPrefix + '%');
+  S := 'SELECT MAX(Refno) FROM TCashTransfer where Refno LIKE ' + QuotedStr(aPrefix + '%');
 
   with TDBUtils.OpenQuery(S) do
   begin

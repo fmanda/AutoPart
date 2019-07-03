@@ -3,38 +3,53 @@ inherited frmCashTransfer: TfrmCashTransfer
   ClientHeight = 515
   ClientWidth = 760
   KeyPreview = True
+  OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
   ExplicitWidth = 776
   ExplicitHeight = 554
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
     Top = 480
+    TabOrder = 2
+    ExplicitTop = 480
+    ExplicitWidth = 760
     Width = 760
     inherited btnCancel: TcxButton
       Left = 675
+      ExplicitLeft = 675
     end
     inherited btnPrint: TcxButton
       Left = 589
+      ExplicitLeft = 589
     end
     inherited btnSave: TcxButton
       Left = 503
+      OnClick = btnSaveClick
+      ExplicitLeft = 503
+      ExplicitTop = 6
     end
   end
   inherited Panel2: TPanel
     Top = 459
     Width = 760
-    ExplicitTop = 321
+    TabOrder = 3
+    ExplicitTop = 459
+    ExplicitWidth = 760
     inherited lbEscape: TLabel
       Left = 680
       Height = 17
+      ExplicitLeft = 680
     end
     inherited lgndSave: TLabel
       Left = 515
       Height = 17
+      ExplicitLeft = 515
     end
     inherited lgndPrint: TLabel
       Left = 602
       Height = 17
+      ExplicitLeft = 602
     end
   end
   object cxGroupBox1: TcxGroupBox
@@ -42,8 +57,7 @@ inherited frmCashTransfer: TfrmCashTransfer
     Top = 0
     Align = alTop
     Caption = '  Header Transfer [F1] '
-    TabOrder = 2
-    ExplicitWidth = 823
+    TabOrder = 0
     Height = 115
     Width = 760
     object cxLabel1: TcxLabel
@@ -67,7 +81,8 @@ inherited frmCashTransfer: TfrmCashTransfer
     object edNotes: TcxMemo
       Left = 99
       Top = 62
-      TabOrder = 2
+      TabOrder = 3
+      OnKeyDown = edNotesKeyDown
       Height = 40
       Width = 259
     end
@@ -100,7 +115,7 @@ inherited frmCashTransfer: TfrmCashTransfer
       Properties.Alignment.Horz = taRightJustify
       AnchorX = 497
     end
-    object crCash: TcxCurrencyEdit
+    object crTotal: TcxCurrencyEdit
       Left = 499
       Top = 22
       TabStop = False
@@ -130,7 +145,7 @@ inherited frmCashTransfer: TfrmCashTransfer
       Left = 99
       Top = 42
       Properties.ImmediatePost = True
-      TabOrder = 3
+      TabOrder = 2
       Width = 259
     end
   end
@@ -140,9 +155,8 @@ inherited frmCashTransfer: TfrmCashTransfer
     Width = 760
     Height = 344
     Align = alClient
-    TabOrder = 3
+    TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 114
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -157,7 +171,7 @@ inherited frmCashTransfer: TfrmCashTransfer
       OptionsView.HeaderHeight = 30
       object colRekening: TcxGridDBColumn
         Caption = 'Rekening Tujuan'
-        DataBinding.FieldName = 'Account'
+        DataBinding.FieldName = 'Rekening'
         PropertiesClassName = 'TcxExtLookupComboBoxProperties'
         HeaderAlignmentHorz = taCenter
         Width = 178
@@ -174,12 +188,13 @@ inherited frmCashTransfer: TfrmCashTransfer
         DataBinding.FieldName = 'Amount'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.DisplayFormat = ',0.00;(,0.00)'
+        Properties.OnEditValueChanged = colDebetPropertiesEditValueChanged
         HeaderAlignmentHorz = taCenter
         Width = 115
       end
     end
-    object cxGrid1Level2: TcxGridLevel
-      Caption = 'Detail Tranfer [F3]'
+    object cxGrid1Level1: TcxGridLevel
+      Caption = 'Detail Transfer [F2]'
       GridView = cxGrdMain
     end
   end

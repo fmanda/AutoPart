@@ -94,6 +94,7 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
+      Active = True
       Caption = 'Penjualan & Kas'
       Groups = <
         item
@@ -105,7 +106,6 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxRTARAP: TdxRibbonTab
-      Active = True
       Caption = 'Hutang - Piutang'
       Groups = <
         item
@@ -423,7 +423,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar10: TdxBar
       Caption = 'Lap Keuangan'
       CaptionButtons = <>
-      DockedLeft = 255
+      DockedLeft = 276
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8
@@ -845,6 +845,7 @@ object frmMain: TfrmMain
     end
     object dxBarButton56: TdxBarButton
       Action = actInternalTransfer
+      Caption = 'Transfer Antar Kas/Bank'
       Category = 0
     end
     object dxBarButton57: TdxBarButton
@@ -1111,6 +1112,7 @@ object frmMain: TfrmMain
       Category = 'Kasir & Penjualan'
       Caption = 'Internal Transfer'
       ImageIndex = 5
+      OnExecute = actInternalTransferExecute
     end
     object actCashOpname: TAction
       Category = 'Kasir & Penjualan'

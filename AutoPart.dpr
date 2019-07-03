@@ -84,7 +84,8 @@ uses
   ufrmSalesReturHistory in 'forms\ufrmSalesReturHistory.pas' {frmSalesReturHistory},
   ufrmLapPiutang in 'forms\ufrmLapPiutang.pas' {frmLapPiutang},
   ufrmDialogPayment in 'forms\ufrmDialogPayment.pas' {frmDialogPayment},
-  ufrmCashTransfer in 'forms\ufrmCashTransfer.pas' {frmCashTransfer};
+  ufrmCashTransfer in 'forms\ufrmCashTransfer.pas' {frmCashTransfer},
+  ufrmBrowseCashTransfer in 'forms\ufrmBrowseCashTransfer.pas' {frmBrowseCashTransfer};
 
 {$R *.res}
 

@@ -1,4 +1,4 @@
 SET NOCOUNT ON
-Insert Into TCustomer(Kode,Nama,Alamat,Tempo,Telp,IsActive,ModifiedBy,ModifiedDate,CreditLimit,TipeHarga) values('C19.0001','TOKO','
-',0,'',1,'programmer','2019-06-28 09:10:17',0,0);
+Insert Into TCashTransfer(Amount,TransDate,Closed,ModifiedBy,ModifiedDate,Refno,DueDate,Notes) values(10000,'2019-07-04 00:47:43',0,'programmer','2019-07-04 00:48:03','01.CT1907.00001',NULL,'TEST
+');
 Select Scope_Identity() as ID

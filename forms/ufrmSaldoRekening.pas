@@ -81,6 +81,7 @@ begin
   Self.AssignKeyDownEvent;
   InitView;
   dtSaldo.Date  := Now();
+  ckRekeningPropertiesEditValueChanged(Self);
 end;
 
 procedure TfrmSaldoRekening.InitView;
@@ -90,7 +91,7 @@ begin
 //    'select id, uom from tuom','uom');
   cxLookupRekening.Properties.LoadFromSQL(Self,
     'select id, nama from trekening','nama');
-  cxLookupRekening.SetDefaultValue();
+//  cxLookupRekening.SetDefaultValue();
 end;
 
 procedure TfrmSaldoRekening.LoadData;

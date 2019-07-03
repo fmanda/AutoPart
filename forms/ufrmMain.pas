@@ -172,6 +172,7 @@ type
     actSalesReturHistory: TAction;
     dxBarButton75: TdxBarButton;
     procedure actCustomerExecute(Sender: TObject);
+    procedure actInternalTransferExecute(Sender: TObject);
     procedure actItemExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actItemGroupExecute(Sender: TObject);
@@ -232,7 +233,8 @@ uses
   uVariable, ufrmSalesInvoiceHistory, ufrmPurchaseInvoiceHistory,
   ufrmBrowseSettingFee, ufrmSaldoRekening, ufrmBrowseSalesRetur,
   ufrmMutasiRekening, ufrmBrowsePurchasePayment, ufrmPurchaseReturHistory,
-  ufrmBrowseSalesPayment, ufrmSalesReturHistory, ufrmLapHutang, ufrmLapPiutang;
+  ufrmBrowseSalesPayment, ufrmSalesReturHistory, ufrmLapHutang, ufrmLapPiutang,
+  ufrmBrowseCashTransfer;
 
 {$R *.dfm}
 
@@ -261,6 +263,11 @@ end;
 procedure TfrmMain.actCustomerExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseCustomer);
+end;
+
+procedure TfrmMain.actInternalTransferExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseCashTransfer);
 end;
 
 procedure TfrmMain.actItemExecute(Sender: TObject);

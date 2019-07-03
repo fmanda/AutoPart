@@ -80,8 +80,6 @@ inherited frmSaldoRekening: TfrmSaldoRekening
     Height = 310
     Align = alClient
     TabOrder = 3
-    ExplicitTop = 124
-    ExplicitHeight = 299
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
