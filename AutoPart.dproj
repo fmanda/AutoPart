@@ -259,7 +259,7 @@
             <Form>frmLapStock</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="classes\uQuotation.pas"/>
+        <DCCReference Include="classes\uPriceQuotation.pas"/>
         <DCCReference Include="classes\uMekanik.pas"/>
         <DCCReference Include="forms\ufrmSalesman.pas">
             <Form>frmSalesman</Form>
@@ -367,6 +367,10 @@
         </DCCReference>
         <DCCReference Include="forms\ufrmBrowseCashTransfer.pas">
             <Form>frmBrowseCashTransfer</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmPriceQuotation.pas">
+            <Form>frmPriceQuotation</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">

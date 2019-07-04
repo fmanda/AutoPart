@@ -54,7 +54,7 @@ uses
   ufrmTransferStock in 'forms\ufrmTransferStock.pas' {frmTransferStock},
   ufrmBrowseTransferStock in 'forms\ufrmBrowseTransferStock.pas' {frmBrowseTransferStock},
   ufrmLapStock in 'forms\ufrmLapStock.pas' {frmLapStock},
-  uQuotation in 'classes\uQuotation.pas',
+  uPriceQuotation in 'classes\uPriceQuotation.pas',
   uMekanik in 'classes\uMekanik.pas',
   ufrmSalesman in 'forms\ufrmSalesman.pas' {frmSalesman},
   ufrmMekanik in 'forms\ufrmMekanik.pas' {frmMekanik},
@@ -85,7 +85,8 @@ uses
   ufrmLapPiutang in 'forms\ufrmLapPiutang.pas' {frmLapPiutang},
   ufrmDialogPayment in 'forms\ufrmDialogPayment.pas' {frmDialogPayment},
   ufrmCashTransfer in 'forms\ufrmCashTransfer.pas' {frmCashTransfer},
-  ufrmBrowseCashTransfer in 'forms\ufrmBrowseCashTransfer.pas' {frmBrowseCashTransfer};
+  ufrmBrowseCashTransfer in 'forms\ufrmBrowseCashTransfer.pas' {frmBrowseCashTransfer},
+  ufrmPriceQuotation in 'forms\ufrmPriceQuotation.pas' {frmPriceQuotation};
 
 {$R *.res}
 

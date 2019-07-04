@@ -103,6 +103,7 @@ type
     destructor Destroy; override;
     function GetHarga(aTipeHarga: Integer): Double;
     class function GetItemUOM(aItemID, aUOMID: Integer): TItemUOM;
+    function GetMargin(aPriceIndex: Integer): Double;
     function UpdateHargaAvg(aNewAvg: Double): Boolean;
   published
     [AttributeOfHeader]
@@ -336,6 +337,20 @@ begin
   Finally
     lQ.Free;
   End;
+end;
+
+function TItemUOM.GetMargin(aPriceIndex: Integer): Double;
+begin
+  Result := 0;
+  if Self.HargaBeli = 0 then
+    exit;
+
+  case aPriceIndex of
+    1 : Result := (Self.HargaJual1 - Self.HargaBeli) / Self.HargaBeli * 100;
+    2 : Result := (Self.HargaJual2 - Self.HargaBeli) / Self.HargaBeli * 100;
+    3 : Result := (Self.HargaJual3 - Self.HargaBeli) / Self.HargaBeli * 100;
+    4 : Result := (Self.HargaJual4 - Self.HargaBeli) / Self.HargaBeli * 100;
+  end;
 end;
 
 function TItemUOM.UpdateHargaAvg(aNewAvg: Double): Boolean;

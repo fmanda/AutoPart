@@ -69,6 +69,7 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxRTMaster: TdxRibbonTab
+      Active = True
       Caption = 'Master Data'
       Groups = <
         item
@@ -94,7 +95,6 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
-      Active = True
       Caption = 'Penjualan & Kas'
       Groups = <
         item
@@ -982,6 +982,7 @@ object frmMain: TfrmMain
       Category = 'Master'
       Caption = 'Price Quotation'
       ImageIndex = 14
+      OnExecute = actQuotationExecute
     end
     object actService: TAction
       Category = 'Master'

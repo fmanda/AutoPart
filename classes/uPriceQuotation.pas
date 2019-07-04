@@ -1,4 +1,4 @@
-unit uQuotation;
+unit uPriceQuotation;
 
 interface
 
@@ -6,30 +6,33 @@ uses
   CRUDObject, uItem, System.Generics.Collections;
 
 type
-  TQuotationItem = class;
+  TPriceQuotationItem = class;
 
-  TQuotation = class(TCRUDObject)
+  TPriceQuotation = class(TCRUDObject)
   private
     FRefno: String;
-    FRefDate: TDatetime;
+    FTransDate: TDatetime;
     FIsActive: Integer;
     FDateActivated: TDatetime;
-    FItems: TObjectList<TQuotationItem>;
+    FItems: TObjectList<TPriceQuotationItem>;
     FDescription: String;
-    function GetItems: TObjectList<TQuotationItem>;
+    FModifiedBy: String;
+    FModifiedDate: TDateTime;
+    function GetItems: TObjectList<TPriceQuotationItem>;
   public
-    constructor Create;
     destructor Destroy; override;
-    property Items: TObjectList<TQuotationItem> read GetItems write FItems;
+    property Items: TObjectList<TPriceQuotationItem> read GetItems write FItems;
   published
     property Refno: String read FRefno write FRefno;
-    property RefDate: TDatetime read FRefDate write FRefDate;
+    property TransDate: TDatetime read FTransDate write FTransDate;
     property IsActive: Integer read FIsActive write FIsActive;
     property DateActivated: TDatetime read FDateActivated write FDateActivated;
     property Description: String read FDescription write FDescription;
+    property ModifiedBy: String read FModifiedBy write FModifiedBy;
+    property ModifiedDate: TDateTime read FModifiedDate write FModifiedDate;
   end;
 
-  TQuotationItem = class(TCRUDObject)
+  TPriceQuotationItem = class(TCRUDObject)
   private
     FItem: TItem;
     FUOM: TUOM;
@@ -39,7 +42,7 @@ type
     FHargaJual2: Double;
     FHargaJual3: Double;
     FHargaJual4: Double;
-    FQuotation: TQuotation;
+    FQuotation: TPriceQuotation;
     FModifiedDate: TDateTime;
     FModifiedBy: String;
   public
@@ -54,33 +57,27 @@ type
     property HargaJual3: Double read FHargaJual3 write FHargaJual3;  //harga grosir
     property HargaJual4: Double read FHargaJual4 write FHargaJual4;  //harga keliling
     [AttributeOfHeader]
-    property Quotation: TQuotation read FQuotation write FQuotation;
+    property Quotation: TPriceQuotation read FQuotation write FQuotation;
     property ModifiedDate: TDateTime read FModifiedDate write FModifiedDate;
     property ModifiedBy: String read FModifiedBy write FModifiedBy;
   end;
 
 implementation
 
-constructor TQuotation.Create;
-begin
-  inherited;
-  IsActive := 1;
-end;
-
-destructor TQuotation.Destroy;
+destructor TPriceQuotation.Destroy;
 begin
   inherited;
   if FItems <> nil then FItems.Free;
 end;
 
-function TQuotation.GetItems: TObjectList<TQuotationItem>;
+function TPriceQuotation.GetItems: TObjectList<TPriceQuotationItem>;
 begin
   if FItems = nil then
-    FItems := TObjectList<TQuotationItem>.Create();
+    FItems := TObjectList<TPriceQuotationItem>.Create();
   Result := FItems;
 end;
 
-destructor TQuotationItem.Destroy;
+destructor TPriceQuotationItem.Destroy;
 begin
   inherited;
   if FUOM <> nil then FUOM.Free;
