@@ -1,3 +1,1 @@
-SET NOCOUNT ON
-Insert Into TAccount(Kode,Nama,Parent_ID,Jenis,IsActive,IsDetail,IsCredit) values('5200','Operasional Kantor',11,0,1,0,0);
-Select Scope_Identity() as ID
+Delete From TAccount where ID = 13;

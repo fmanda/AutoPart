@@ -27,7 +27,6 @@ inherited frmPurchasePayment: TfrmPurchasePayment
       Left = 610
       OnClick = btnSaveClick
       ExplicitLeft = 610
-      ExplicitTop = 6
     end
   end
   inherited Panel2: TPanel
