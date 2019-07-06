@@ -69,7 +69,6 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxRTMaster: TdxRibbonTab
-      Active = True
       Caption = 'Master Data'
       Groups = <
         item
@@ -95,6 +94,7 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
+      Active = True
       Caption = 'Penjualan & Kas'
       Groups = <
         item
@@ -1160,11 +1160,13 @@ object frmMain: TfrmMain
       Category = 'Kasir & Penjualan'
       Caption = 'Penerimaan Kas'
       ImageIndex = 0
+      OnExecute = actCashInExecute
     end
     object actCashOut: TAction
       Category = 'Kasir & Penjualan'
       Caption = 'Pengeluaran Kas'
       ImageIndex = 6
+      OnExecute = actCashOutExecute
     end
     object actInternalTransfer: TAction
       Category = 'Kasir & Penjualan'

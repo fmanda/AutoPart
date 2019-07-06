@@ -89,7 +89,11 @@ uses
   ufrmPriceQuotation in 'forms\ufrmPriceQuotation.pas' {frmPriceQuotation},
   ufrmBrowsePriceQuotation in 'forms\ufrmBrowsePriceQuotation.pas' {frmBrowsePriceQuotation},
   ufrmAccount in 'forms\ufrmAccount.pas' {frmAccount},
-  ufrmBrowseAccount in 'forms\ufrmBrowseAccount.pas' {frmBrowseAccount};
+  ufrmBrowseAccount in 'forms\ufrmBrowseAccount.pas' {frmBrowseAccount},
+  ufrmCashPayment in 'classes\ufrmCashPayment.pas' {frmCashPayment},
+  ufrmBrowseCashPayment in 'forms\ufrmBrowseCashPayment.pas' {frmBrowseCashPayment},
+  ufrmCashReceipt in 'forms\ufrmCashReceipt.pas' {frmCashReceipt},
+  ufrmBrowseCashReceipt in 'forms\ufrmBrowseCashReceipt.pas' {frmBrowseCashReceipt};
 
 {$R *.res}
 
@@ -99,6 +103,5 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmAccount, frmAccount);
   Application.Run;
 end.

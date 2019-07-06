@@ -3,7 +3,7 @@ unit uVariable;
 interface
 
 uses
-  System.Classes, uCustomer, System.SysUtils, Datasnap.DBClient;
+  System.Classes, uCustomer, System.SysUtils, Datasnap.DBClient, uAccount;
 
 type
   TVariable = class(TComponent)
@@ -20,6 +20,8 @@ type
     FAccount_OtherIncome: string;
     FToleransi_Piutang: Double;
   public
+    function GetAccountExpense: TAccount;
+    function GetAccountOthIncome: TAccount;
     procedure LoadVariable;
     function UpdateVariable: Boolean;
     property Def_Cust_Bengkel: string read FDef_Cust_Bengkel write
@@ -46,6 +48,26 @@ implementation
 
 uses
   uDBUtils, Data.DB, Vcl.Forms;
+
+function TVariable.GetAccountExpense: TAccount;
+begin
+//  Result := nil;
+  if Account_Expense = '' then
+    raise Exception.Create('Account Expense belum diset');
+
+  Result := TAccount.Create;
+  Result.LoadByCode(Account_Expense);
+end;
+
+function TVariable.GetAccountOthIncome: TAccount;
+begin
+//  Result := nil;
+  if Account_OtherIncome = '' then
+    raise Exception.Create('Account Other Income belum diset');
+
+  Result := TAccount.Create;
+  Result.LoadByCode(Account_OtherIncome);
+end;
 
 procedure TVariable.LoadVariable;
 var

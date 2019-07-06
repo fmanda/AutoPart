@@ -107,22 +107,26 @@ type
 
   TCashReceipt = class(TCRUDFinance)
   private
+    FRekening: TRekening;
   protected
   public
     destructor Destroy; override;
     function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
   published
+    property Rekening: TRekening read FRekening write FRekening;
   end;
 
   TCashPayment = class(TCRUDFinance)
   private
+    FRekening: TRekening;
   protected
   public
     destructor Destroy; override;
     function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
   published
+    property Rekening: TRekening read FRekening write FRekening;
   end;
 
 type
@@ -360,7 +364,7 @@ var
 begin
   lNum := 0;
   aDigitCount := 5;
-  aPrefix := Cabang + '.CP' + FormatDateTime('yymm',Now()) + '.';
+  aPrefix := Cabang + '.KK' + FormatDateTime('yymm',Now()) + '.';
 
 
   S := 'SELECT MAX(RefNo) FROM TCashPayment where Refno LIKE ' + QuotedStr(aPrefix + '%');
@@ -399,7 +403,7 @@ var
 begin
   lNum := 0;
   aDigitCount := 5;
-  aPrefix := Cabang + '.CR' + FormatDateTime('yymm',Now()) + '.';
+  aPrefix := Cabang + '.KM' + FormatDateTime('yymm',Now()) + '.';
 
 
   S := 'SELECT MAX(Refno) FROM TCashReceipt where Refno LIKE ' + QuotedStr(aPrefix + '%');
@@ -438,7 +442,7 @@ var
 begin
   lNum := 0;
   aDigitCount := 5;
-  aPrefix := Cabang + '.CT' + FormatDateTime('yymm',Now()) + '.';
+  aPrefix := Cabang + '.TK' + FormatDateTime('yymm',Now()) + '.';
 
 
   S := 'SELECT MAX(Refno) FROM TCashTransfer where Refno LIKE ' + QuotedStr(aPrefix + '%');

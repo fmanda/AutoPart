@@ -186,6 +186,8 @@ type
     dxBarButton81: TdxBarButton;
     dxBarButton82: TdxBarButton;
     procedure actAccountExecute(Sender: TObject);
+    procedure actCashInExecute(Sender: TObject);
+    procedure actCashOutExecute(Sender: TObject);
     procedure actCustomerExecute(Sender: TObject);
     procedure actInternalTransferExecute(Sender: TObject);
     procedure actItemExecute(Sender: TObject);
@@ -250,7 +252,8 @@ uses
   ufrmBrowseSettingFee, ufrmSaldoRekening, ufrmBrowseSalesRetur,
   ufrmMutasiRekening, ufrmBrowsePurchasePayment, ufrmPurchaseReturHistory,
   ufrmBrowseSalesPayment, ufrmSalesReturHistory, ufrmLapHutang, ufrmLapPiutang,
-  ufrmBrowseCashTransfer, ufrmBrowsePriceQuotation, ufrmBrowseAccount;
+  ufrmBrowseCashTransfer, ufrmBrowsePriceQuotation, ufrmBrowseAccount,
+  ufrmBrowseCashPayment, ufrmBrowseCashReceipt;
 
 {$R *.dfm}
 
@@ -279,6 +282,16 @@ end;
 procedure TfrmMain.actAccountExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseAccount);
+end;
+
+procedure TfrmMain.actCashInExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseCashReceipt);
+end;
+
+procedure TfrmMain.actCashOutExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseCashPayment);
 end;
 
 procedure TfrmMain.actCustomerExecute(Sender: TObject);
