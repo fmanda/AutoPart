@@ -1,4 +1,4 @@
 SET NOCOUNT ON
-Insert Into TCashTransfer(Amount,TransDate,Closed,ModifiedBy,ModifiedDate,Refno,DueDate,Notes) values(10000,'2019-07-04 00:47:43',0,'programmer','2019-07-04 00:48:03','01.CT1907.00001',NULL,'TEST
-');
+Insert Into TPriceQuotation(Refno,TransDate,IsActive,DateActivated,Notes,ModifiedBy,ModifiedDate) values('01.PQ1907.00001','2019-07-06 08:01:21',1,NULL,'
+','programmer','2019-07-06 08:02:06');
 Select Scope_Identity() as ID

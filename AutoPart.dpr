@@ -86,7 +86,8 @@ uses
   ufrmDialogPayment in 'forms\ufrmDialogPayment.pas' {frmDialogPayment},
   ufrmCashTransfer in 'forms\ufrmCashTransfer.pas' {frmCashTransfer},
   ufrmBrowseCashTransfer in 'forms\ufrmBrowseCashTransfer.pas' {frmBrowseCashTransfer},
-  ufrmPriceQuotation in 'forms\ufrmPriceQuotation.pas' {frmPriceQuotation};
+  ufrmPriceQuotation in 'forms\ufrmPriceQuotation.pas' {frmPriceQuotation},
+  ufrmBrowsePriceQuotation in 'forms\ufrmBrowsePriceQuotation.pas' {frmBrowsePriceQuotation};
 
 {$R *.res}
 

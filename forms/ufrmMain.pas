@@ -235,7 +235,7 @@ uses
   ufrmBrowseSettingFee, ufrmSaldoRekening, ufrmBrowseSalesRetur,
   ufrmMutasiRekening, ufrmBrowsePurchasePayment, ufrmPurchaseReturHistory,
   ufrmBrowseSalesPayment, ufrmSalesReturHistory, ufrmLapHutang, ufrmLapPiutang,
-  ufrmBrowseCashTransfer, ufrmPriceQuotation;
+  ufrmBrowseCashTransfer, ufrmBrowsePriceQuotation;
 
 {$R *.dfm}
 
@@ -364,7 +364,7 @@ end;
 
 procedure TfrmMain.actQuotationExecute(Sender: TObject);
 begin
-  ShowForm(TfrmPriceQuotation).ShowModal;
+  ShowForm(TfrmBrowsePriceQuotation);
 end;
 
 procedure TfrmMain.actRekeningExecute(Sender: TObject);

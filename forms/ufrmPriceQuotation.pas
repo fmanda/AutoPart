@@ -68,6 +68,7 @@ type
     procedure colHrgJual2PropertiesEditValueChanged(Sender: TObject);
     procedure colHrgJual3PropertiesEditValueChanged(Sender: TObject);
     procedure colHrgJual4PropertiesEditValueChanged(Sender: TObject);
+    procedure btnSaveClick(Sender: TObject);
   private
     FCDS: TClientDataset;
     FCDSClone: TClientDataset;
@@ -81,15 +82,18 @@ type
     function GetCDSUOM: TClientDataset;
     function GetPriceQuot: TPriceQuotation;
     procedure InitView;
-    procedure LoadByID(aID: Integer; IsReadOnly: Boolean = False);
     procedure LookupItem(aKey: string = '');
     procedure SetItemToGrid(aItem: TItem);
+    procedure UpdateData;
+    function ValidateData: Boolean;
     property CDS: TClientDataset read GetCDS write FCDS;
     property CDSClone: TClientDataset read GetCDSClone write FCDSClone;
     property CDSUOM: TClientDataset read GetCDSUOM write FCDSUOM;
     property PriceQuot: TPriceQuotation read GetPriceQuot write FPriceQuot;
     { Private declarations }
+  protected
   public
+    procedure LoadByID(aID: Integer; IsReadOnly: Boolean = False);
     { Public declarations }
   published
   end;
@@ -100,9 +104,22 @@ var
 implementation
 
 uses
-  uDXUtils, Dateutils, uDBUtils, ufrmCXServerLookup, cxDataUtils;
+  uDXUtils, Dateutils, uDBUtils, ufrmCXServerLookup, cxDataUtils, uAppUtils,
+  Strutils;
 
 {$R *.dfm}
+
+procedure TfrmPriceQuotation.btnSaveClick(Sender: TObject);
+begin
+  inherited;
+  if not ValidateData then exit;
+  UpdateData;
+  if PriceQuot.SaveToDB then
+  begin
+    TAppUtils.InformationBerhasilSimpan;
+    Self.ModalResult := mrOK;
+  end;
+end;
 
 procedure TfrmPriceQuotation.CalcSellPrice(aIndexPrice: Integer; IsMargin:
     Boolean);
@@ -264,7 +281,8 @@ procedure TfrmPriceQuotation.edNotesKeyDown(Sender: TObject; var Key: Word;
     Shift: TShiftState);
 begin
   inherited;
-  FocusToGrid;
+  if Key = VK_Return then
+    FocusToGrid;
 end;
 
 procedure TfrmPriceQuotation.FocusToGrid;
@@ -348,17 +366,52 @@ end;
 
 procedure TfrmPriceQuotation.LoadByID(aID: Integer; IsReadOnly: Boolean =
     False);
+var
+  lItem: TPriceQuotationItem;
 begin
   if FPriceQuot <> nil then
     FreeAndNil(FPriceQuot);
 
-//  PriceQuot.LoadByID(0);
   if aID = 0 then
   begin
     PriceQuot.TransDate := Now();
+    PriceQuot.Refno := PriceQuot.GenerateNo;
+    PriceQuot.IsActive := 1;
+  end else
+    PriceQuot.LoadByID(aID);
+
+  edRefno.Text := PriceQuot.Refno;
+  dtQuot.Date := PriceQuot.TransDate;
+  edNotes.Text := PriceQuot.Notes;
+  dtModified.Date := PriceQuot.ModifiedDate;
+  edModifiedBy.Text := PriceQuot.ModifiedBy;
+  chkActive.Checked := PriceQuot.IsActive = 1;
+
+  CDS.EmptyDataSet;
+  for lItem in PriceQuot.Items do
+  begin
+    CDS.Append;
+    lItem.UpdateToDataset(CDS);
+
+    lItem.Item.ReLoad();
+    CDS.FieldByName('ItemCode').AsString := lItem.Item.Kode;
+    CDS.FieldByName('ItemName').AsString := lItem.Item.Nama;
+    if lItem.HargaBeli = 0 then
+    begin
+      CDS.FieldByName('Margin1').AsFloat := 0;
+      CDS.FieldByName('Margin2').AsFloat := 0;
+      CDS.FieldByName('Margin3').AsFloat := 0;
+      CDS.FieldByName('Margin4').AsFloat := 0;
+    end else
+    begin
+      CDS.FieldByName('Margin1').AsFloat := (lItem.HargaJual1 - lItem.HargaBeli) / lItem.HargaBeli * 100;
+      CDS.FieldByName('Margin2').AsFloat := (lItem.HargaJual2 - lItem.HargaBeli) / lItem.HargaBeli * 100;
+      CDS.FieldByName('Margin3').AsFloat := (lItem.HargaJual3 - lItem.HargaBeli) / lItem.HargaBeli * 100;
+      CDS.FieldByName('Margin4').AsFloat := (lItem.HargaJual4 - lItem.HargaBeli) / lItem.HargaBeli * 100;
+    end;
+    CDS.Post;
   end;
 
-  dtQuot.Date := PriceQuot.TransDate;
 end;
 
 procedure TfrmPriceQuotation.LookupItem(aKey: string = '');
@@ -458,6 +511,43 @@ begin
 //  colHrgBeli.Focus
 //  if iOriginRec <= DC.RecordCount then
 //    DC.FocusedRecordIndex := iOriginRec;
+
+end;
+
+procedure TfrmPriceQuotation.UpdateData;
+var
+  lItem: TPriceQuotationItem;
+begin
+  PriceQuot.Refno := edRefno.Text;
+  PriceQuot.TransDate := dtQuot.Date;
+  PriceQuot.Notes := edNotes.Text;
+  PriceQuot.ModifiedDate := Now();
+  PriceQuot.ModifiedBy := UserLogin;
+  PriceQuot.IsActive := TAppUtils.BoolToInt(chkActive.Checked);
+
+  PriceQuot.Items.Clear;
+  CDS.First;
+  while not CDS.Eof do
+  begin
+    lItem := TPriceQuotationItem.Create;
+    lItem.SetFromDataset(CDS);
+    PriceQuot.Items.Add(lItem);
+    CDS.Next;
+  end;
+
+end;
+
+function TfrmPriceQuotation.ValidateData: Boolean;
+begin
+  Result := False;
+
+  if CDS.RecordCount = 0 then
+  begin
+    TAppUtils.Warning('Data Item tidak boleh kosong');
+    exit;
+  end;
+
+  Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
 
 end;
 
