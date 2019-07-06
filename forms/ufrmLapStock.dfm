@@ -104,7 +104,6 @@ inherited frmLapStock: TfrmLapStock
       TabStop = False
       Caption = 'Tampilkan Stock 0'
       Properties.Alignment = taLeftJustify
-      State = cbsChecked
       TabOrder = 7
     end
     object ckShowAvgCost: TcxCheckBox
@@ -113,7 +112,6 @@ inherited frmLapStock: TfrmLapStock
       TabStop = False
       Caption = 'Tampilkan Harga Avg && Total'
       Properties.Alignment = taLeftJustify
-      State = cbsChecked
       TabOrder = 8
     end
     object ckGrupMerk: TcxCheckBox
@@ -136,6 +134,7 @@ inherited frmLapStock: TfrmLapStock
     TabOrder = 3
     RootLevelOptions.DetailTabsPosition = dtpTop
     object cxGrdMain: TcxGridDBTableView
+      PopupMenu = pmMain
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <
@@ -195,6 +194,7 @@ inherited frmLapStock: TfrmLapStock
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
+        Visible = False
         HeaderAlignmentHorz = taCenter
         Width = 71
       end
@@ -213,30 +213,27 @@ inherited frmLapStock: TfrmLapStock
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taCenter
         Properties.DisplayFormat = ',0.##;(,0.##)'
+        Visible = False
         HeaderAlignmentHorz = taCenter
         Width = 103
       end
     end
-    object cxGrdSrv: TcxGridServerModeTableView
-      Navigator.Buttons.CustomButtons = <>
-      DataController.Summary.DefaultGroupSummaryItems = <>
-      DataController.Summary.FooterSummaryItems = <>
-      DataController.Summary.SummaryGroups = <>
-      OptionsView.GroupByBox = False
-    end
     object cxGrid1Level1: TcxGridLevel
       Caption = 'Data Stock'
       GridView = cxGrdMain
-    end
-    object cxGrid1Level2: TcxGridLevel
-      Caption = 'Data Stock'
-      GridView = cxGrdSrv
-      Visible = False
     end
   end
   inherited styleRepo: TcxStyleRepository
     Left = 600
     Top = 65528
     PixelsPerInch = 96
+  end
+  object pmMain: TPopupMenu
+    Left = 256
+    Top = 344
+    object LihatKartuStock1: TMenuItem
+      Caption = 'Lihat Kartu Stock'
+      OnClick = LihatKartuStock1Click
+    end
   end
 end

@@ -352,6 +352,7 @@ begin
   inherited;
   Self.AssignKeyDownEvent;
   InitView;
+  cxGrid1.FocusedView := cxGrdMain;
   LoadByID(0);
 end;
 
@@ -434,6 +435,8 @@ begin
     'select id, nama from trekening','nama');
   cxLookupSalesman.Properties.LoadFromSQL(Self,
     'select id, nama from tsalesman','nama');
+  TcxExtLookup(colCostAccount.Properties).LoadFromSQL(Self,
+    'select id, kode + '' - '' + nama as nama from taccount where isdetail = 1','nama');
 end;
 
 procedure TfrmSalesPayment.LoadByID(aID: Integer; IsReadOnly: Boolean = False);

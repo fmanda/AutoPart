@@ -64,6 +64,7 @@ type
     property Item: TItem read GetItem write FItem;
     { Private declarations }
   public
+    procedure LoadByID(aItemID, aGudangID: Integer);
     { Public declarations }
   end;
 
@@ -231,6 +232,23 @@ begin
   cxLookupGudang.Properties.LoadFromSQL(Self,
     'select id, nama from twarehouse where is_external = 0','nama');
   cxLookupGudang.SetDefaultValue();
+end;
+
+procedure TfrmKartuStock.LoadByID(aItemID, aGudangID: Integer);
+begin
+  dtStart.Date := StartOfTheMonth(Now());
+  dtEnd.Date := EndOfTheMonth(Now());
+  Item.LoadByID(aItemID);
+  edKode.Text := Item.Kode;
+  edNama.Text := Item.Nama;
+
+  if Item.StockUOM <> nil then
+    cxLookupUOM.EditValue := Item.StockUOM.ID;
+
+  chkAll.Checked := aGudangID = 0;
+  cxLookupGudang.EditValue := aGudangID;
+
+  LoadData;
 end;
 
 procedure TfrmKartuStock.LoadData;

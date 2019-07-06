@@ -40,8 +40,8 @@ type
     colMerk: TcxGridDBColumn;
     ckShowAvgCost: TcxCheckBox;
     ckGrupMerk: TcxCheckBox;
-    cxGrid1Level2: TcxGridLevel;
-    cxGrdSrv: TcxGridServerModeTableView;
+    pmMain: TPopupMenu;
+    LihatKartuStock1: TMenuItem;
     procedure edKodeKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edKodePropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
     procedure edKodePropertiesValidate(Sender: TObject; var DisplayValue: Variant;
@@ -49,6 +49,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnExportClick(Sender: TObject);
+    procedure LihatKartuStock1Click(Sender: TObject);
   private
     FCDS: TClientDataset;
     FItem: TItem;
@@ -67,6 +68,9 @@ var
   frmLapStock: TfrmLapStock;
 
 implementation
+
+uses
+  ufrmKartuStock;
 
 {$R *.dfm}
 
@@ -155,6 +159,27 @@ begin
   cxLookupGudang.Properties.LoadFromSQL(Self,
     'select id, nama from twarehouse where is_external = 0','nama');
   cxLookupGudang.SetDefaultValue();
+end;
+
+procedure TfrmLapStock.LihatKartuStock1Click(Sender: TObject);
+var
+  iGudangID: Integer;
+  lfrm : TfrmKartuStock;
+begin
+  inherited;
+  if FCDS = nil then
+    exit;
+
+  lfrm := TfrmKartuStock.Create(Application);
+//  Try
+  iGudangID := 0;
+  if ckGudang.Checked then
+    iGudangID := VarToInt(cxLookupGudang.EditValue);
+
+  lfrm.LoadByID(CDS.FieldByName('ID').AsInteger,iGudangID);
+//  Finally
+//    FreeAndNil(lfrm);
+//  End;
 end;
 
 procedure TfrmLapStock.LoadData;

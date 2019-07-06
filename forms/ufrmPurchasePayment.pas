@@ -377,6 +377,7 @@ begin
   inherited;
   Self.AssignKeyDownEvent;
   InitView;
+  cxGrid1.FocusedView := cxGrdMain;
   LoadByID(0);
 end;
 
