@@ -353,6 +353,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton45'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton76'
         end>
       OneOnRow = False
       Row = 0
@@ -465,7 +469,31 @@ object frmMain: TfrmMain
       FloatTop = 8
       FloatClientWidth = 0
       FloatClientHeight = 0
-      ItemLinks = <>
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarButton77'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton78'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton79'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton80'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton81'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton82'
+        end>
       OneOnRow = False
       Row = 0
       UseOwnFont = False
@@ -934,6 +962,34 @@ object frmMain: TfrmMain
       Action = actSalesReturHistory
       Category = 0
     end
+    object dxBarButton76: TdxBarButton
+      Action = actSuggestionOrder
+      Category = 0
+    end
+    object dxBarButton77: TdxBarButton
+      Action = actSalesAnalysis
+      Category = 0
+    end
+    object dxBarButton78: TdxBarButton
+      Action = actLabaRugi
+      Category = 0
+    end
+    object dxBarButton79: TdxBarButton
+      Action = actInventoryMov
+      Category = 0
+    end
+    object dxBarButton80: TdxBarButton
+      Action = actAgingStock
+      Category = 0
+    end
+    object dxBarButton81: TdxBarButton
+      Action = actAgingAR
+      Category = 0
+    end
+    object dxBarButton82: TdxBarButton
+      Action = actCashFlow
+      Category = 0
+    end
   end
   object ActionManager: TActionManager
     Images = ImageList
@@ -1075,6 +1131,7 @@ object frmMain: TfrmMain
       Category = 'Master'
       Caption = 'Account'
       ImageIndex = 13
+      OnExecute = actAccountExecute
     end
     object actVariable: TAction
       Category = 'Application'
@@ -1187,6 +1244,10 @@ object frmMain: TfrmMain
       Category = 'Manajemen'
       Caption = 'Closing Harian'
     end
+    object actSalesAnalysis: TAction
+      Category = 'Manajemen'
+      Caption = 'Analisa Penjualan'
+    end
     object actSettingFee: TAction
       Category = 'Master'
       Caption = 'Komisi / Fee Salesman'
@@ -1204,6 +1265,30 @@ object frmMain: TfrmMain
       Caption = 'History Retur Penjualan'
       ImageIndex = 5
       OnExecute = actSalesReturHistoryExecute
+    end
+    object actAgingStock: TAction
+      Category = 'Manajemen'
+      Caption = 'Aging Stock'
+    end
+    object actLabaRugi: TAction
+      Category = 'Manajemen'
+      Caption = 'Laba Rugi Usaha'
+    end
+    object actInventoryMov: TAction
+      Category = 'Manajemen'
+      Caption = 'Inventory Movement'
+    end
+    object actAgingAR: TAction
+      Category = 'Manajemen'
+      Caption = 'Aging AR'
+    end
+    object actCashFlow: TAction
+      Category = 'Manajemen'
+      Caption = 'Cash FLow'
+    end
+    object actSuggestionOrder: TAction
+      Category = 'Inventory'
+      Caption = 'Suggestion Order'
     end
   end
   object ImageList: TcxImageList

@@ -869,7 +869,11 @@ begin
   Self.DataController.DataSource.DataSet := ACDS;
   Self.DataController.KeyField           := AKey;
   Self.DataController.ParentField        := AParentKey;
-  If DoCreateAllItem then Self.CreateAllItems;
+  If DoCreateAllItem then
+  begin
+    Self.DeleteAllColumns;
+    Self.CreateAllItems;
+  end;
 end;
 
 procedure TcxDBTreeHelper.SetVisibleColumns(ColumnIndexes: Array Of Integer;

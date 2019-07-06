@@ -1,4 +1,3 @@
 SET NOCOUNT ON
-Insert Into TPriceQuotation(Refno,TransDate,IsActive,DateActivated,Notes,ModifiedBy,ModifiedDate) values('01.PQ1907.00001','2019-07-06 08:01:21',1,NULL,'
-','programmer','2019-07-06 08:02:06');
+Insert Into TAccount(Kode,Nama,Parent_ID,Jenis,IsActive,IsDetail,IsCredit) values('5200','Operasional Kantor',11,0,1,0,0);
 Select Scope_Identity() as ID

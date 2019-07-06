@@ -27,16 +27,22 @@ type
   private
     FKode: String;
     FNama: String;
+    FParent: TAccount;
     FJenis: Integer;
     FIsActive: Integer;
+    FIsDetail: Integer;
+    FIsCredit: Integer;
   public
     constructor Create;
   published
     [AttributeOfCode]
     property Kode: String read FKode write FKode;
     property Nama: String read FNama write FNama;
-    property Jenis: Integer read FJenis write FJenis;  //0 : Gdg Baik, Gd Rusak, Gd Promosi
+    property Parent: TAccount read FParent write FParent;
+    property Jenis: Integer read FJenis write FJenis;
     property IsActive: Integer read FIsActive write FIsActive;
+    property IsDetail: Integer read FIsDetail write FIsDetail;
+    property IsCredit: Integer read FIsCredit write FIsCredit;
   end;
 
 implementation

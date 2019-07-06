@@ -171,6 +171,21 @@ type
     dxBarButton74: TdxBarButton;
     actSalesReturHistory: TAction;
     dxBarButton75: TdxBarButton;
+    actAgingStock: TAction;
+    actLabaRugi: TAction;
+    actInventoryMov: TAction;
+    actAgingAR: TAction;
+    actCashFlow: TAction;
+    actSalesAnalysis: TAction;
+    actSuggestionOrder: TAction;
+    dxBarButton76: TdxBarButton;
+    dxBarButton77: TdxBarButton;
+    dxBarButton78: TdxBarButton;
+    dxBarButton79: TdxBarButton;
+    dxBarButton80: TdxBarButton;
+    dxBarButton81: TdxBarButton;
+    dxBarButton82: TdxBarButton;
+    procedure actAccountExecute(Sender: TObject);
     procedure actCustomerExecute(Sender: TObject);
     procedure actInternalTransferExecute(Sender: TObject);
     procedure actItemExecute(Sender: TObject);
@@ -235,7 +250,7 @@ uses
   ufrmBrowseSettingFee, ufrmSaldoRekening, ufrmBrowseSalesRetur,
   ufrmMutasiRekening, ufrmBrowsePurchasePayment, ufrmPurchaseReturHistory,
   ufrmBrowseSalesPayment, ufrmSalesReturHistory, ufrmLapHutang, ufrmLapPiutang,
-  ufrmBrowseCashTransfer, ufrmBrowsePriceQuotation;
+  ufrmBrowseCashTransfer, ufrmBrowsePriceQuotation, ufrmBrowseAccount;
 
 {$R *.dfm}
 
@@ -260,6 +275,11 @@ begin
   end;
 end;
 
+
+procedure TfrmMain.actAccountExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseAccount);
+end;
 
 procedure TfrmMain.actCustomerExecute(Sender: TObject);
 begin

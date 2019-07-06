@@ -87,7 +87,9 @@ uses
   ufrmCashTransfer in 'forms\ufrmCashTransfer.pas' {frmCashTransfer},
   ufrmBrowseCashTransfer in 'forms\ufrmBrowseCashTransfer.pas' {frmBrowseCashTransfer},
   ufrmPriceQuotation in 'forms\ufrmPriceQuotation.pas' {frmPriceQuotation},
-  ufrmBrowsePriceQuotation in 'forms\ufrmBrowsePriceQuotation.pas' {frmBrowsePriceQuotation};
+  ufrmBrowsePriceQuotation in 'forms\ufrmBrowsePriceQuotation.pas' {frmBrowsePriceQuotation},
+  ufrmAccount in 'forms\ufrmAccount.pas' {frmAccount},
+  ufrmBrowseAccount in 'forms\ufrmBrowseAccount.pas' {frmBrowseAccount};
 
 {$R *.res}
 
@@ -97,5 +99,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmAccount, frmAccount);
   Application.Run;
 end.
