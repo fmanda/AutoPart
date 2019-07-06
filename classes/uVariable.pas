@@ -16,6 +16,8 @@ type
     FDef_Cust_Umum: string;
     FTelp: string;
     FDef_Rekening: string;
+    FAccount_Expense: string;
+    FAccount_OtherIncome: string;
     FToleransi_Piutang: Double;
   public
     procedure LoadVariable;
@@ -29,6 +31,9 @@ type
     property Def_Cust_Umum: string read FDef_Cust_Umum write FDef_Cust_Umum;
     property Telp: string read FTelp write FTelp;
     property Def_Rekening: string read FDef_Rekening write FDef_Rekening;
+    property Account_Expense: string read FAccount_Expense write FAccount_Expense;
+    property Account_OtherIncome: string read FAccount_OtherIncome write
+        FAccount_OtherIncome;
     property Toleransi_Piutang: Double read FToleransi_Piutang write
         FToleransi_Piutang;
   end;
@@ -71,6 +76,10 @@ begin
       Def_Rekening := lCDS.FieldByName('VarValue').AsString;
     if lCDS.Locate('varname','Toleransi_Piutang',[loCaseInsensitive]) then
       Toleransi_Piutang := lCDS.FieldByName('VarValue').AsFloat;
+    if lCDS.Locate('varname','Account_Expense',[loCaseInsensitive]) then
+      Account_Expense := lCDS.FieldByName('VarValue').AsString;
+    if lCDS.Locate('varname','Account_OtherIncome',[loCaseInsensitive]) then
+      Account_OtherIncome := lCDS.FieldByName('VarValue').AsString;
   Finally
     lCDS.Free;
   End;
@@ -104,6 +113,11 @@ begin
 
     SS.Add('insert into tvariable(varname, varvalue) values(''Toleransi_Piutang'','
       + FloatToStr(Toleransi_Piutang) + ');');
+
+    SS.Add('insert into tvariable(varname, varvalue) values(''Account_Expense'','
+      + QuotedStr(Account_Expense) + ');');
+    SS.Add('insert into tvariable(varname, varvalue) values(''Account_OtherIncome'','
+      + QuotedStr(Account_OtherIncome) + ');');
 
     Result := TDBUtils.ExecuteSQL(SS);
   Finally

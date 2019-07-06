@@ -489,7 +489,7 @@ begin
   Try
     for lItem in Payment.Items do
     begin
-      if lItem.CreditAmt > 0 then continue;
+      if lItem.DebetAmt > 0 then continue;
       if lItem.SalesInvoice = nil then
       begin
         CDSCost.Append;
@@ -716,7 +716,7 @@ begin
     lItem.SetToCredit; //pembayaran biaya (sebagai pendapatan)
     lItem.TransType     := Payment.PaymentFlag;
     lItem.TransDate     := Payment.TransDate;
-    lItem.Notes         := 'Sales Payment : ' + Payment.Refno;
+//    lItem.Notes         := 'Sales Payment : ' + Payment.Refno;
     Payment.Items.Add(lItem);
     CDSCost.Next;
   end;

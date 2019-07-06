@@ -19,9 +19,6 @@ inherited frmBrowseAccount: TfrmBrowseAccount
     Style.LookAndFeel.NativeStyle = False
     StyleDisabled.LookAndFeel.NativeStyle = False
     TabOrder = 0
-    ExplicitLeft = -114
-    ExplicitTop = 368
-    ExplicitWidth = 641
     Height = 35
     Width = 747
     object btnTutup: TcxButton
@@ -35,7 +32,6 @@ inherited frmBrowseAccount: TfrmBrowseAccount
       OptionsImage.ImageIndex = 32
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
-      ExplicitLeft = 561
     end
     object btnExport: TcxButton
       AlignWithMargins = True
@@ -48,7 +44,6 @@ inherited frmBrowseAccount: TfrmBrowseAccount
       OptionsImage.ImageIndex = 31
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 1
-      ExplicitLeft = 415
     end
     object btnHapus: TcxButton
       AlignWithMargins = True
@@ -62,7 +57,6 @@ inherited frmBrowseAccount: TfrmBrowseAccount
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 2
       OnClick = btnHapusClick
-      ExplicitLeft = 334
     end
     object btnEdit: TcxButton
       AlignWithMargins = True
@@ -76,7 +70,6 @@ inherited frmBrowseAccount: TfrmBrowseAccount
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 3
       OnClick = btnEditClick
-      ExplicitLeft = 253
     end
     object btnLihat: TcxButton
       AlignWithMargins = True
@@ -115,7 +108,6 @@ inherited frmBrowseAccount: TfrmBrowseAccount
     Style.LookAndFeel.NativeStyle = False
     StyleDisabled.LookAndFeel.NativeStyle = False
     TabOrder = 1
-    ExplicitWidth = 641
     Height = 35
     Width = 747
     object btnRefresh: TcxButton
@@ -130,7 +122,6 @@ inherited frmBrowseAccount: TfrmBrowseAccount
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
       OnClick = btnRefreshClick
-      ExplicitLeft = 561
     end
     object lblTitle: TcxLabel
       AlignWithMargins = True
@@ -161,11 +152,8 @@ inherited frmBrowseAccount: TfrmBrowseAccount
     OptionsBehavior.ExpandOnIncSearch = True
     OptionsData.Editing = False
     OptionsData.Deleting = False
+    OptionsView.Headers = False
     RootValue = -1
     TabOrder = 2
-    ExplicitLeft = 120
-    ExplicitTop = 120
-    ExplicitWidth = 25
-    ExplicitHeight = 9
   end
 end

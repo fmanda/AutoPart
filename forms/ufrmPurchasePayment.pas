@@ -753,7 +753,7 @@ begin
     lItem.SetToDebet; //pembayaran biaya
     lItem.TransType     := Payment.PaymentFlag;
     lItem.TransDate     := Payment.TransDate;
-    lItem.Notes         := 'Purchase Payment : ' + Payment.Refno;
+//    lItem.Notes         := 'Purchase Payment : ' + Payment.Refno;
     Payment.Items.Add(lItem);
     CDSCost.Next;
   end;

@@ -58,3 +58,47 @@ select a.KdPel, a.NamaPelanggan, a.Alamat,'', 0, getdate(), a.maxhutang
 from MOTOROLI2017.dbo.TblPelanggan a
 left join AUTOPART.dbo.TCUSTOMER b on a.KdPel = b.KODE
 where b.KODE is null
+
+
+delete from TACCOUNT
+DBCC CHECKIDENT ('TACCOUNT', RESEED, 0)  
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('1000','Asset',NULL,1,0);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('1100','Aktiva Lancar',1,1,0);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('1110','Kas / Bank',2,1,0);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('1120','Piutang Dagang',2,1,0);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('1150','Persediaan Barang Dagang',2,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('1200','Aktiva Tetap',1,1,0);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('1210','Bangunan',6,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('1220','Tanah',6,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('1230','Kendaraan',6,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('1240','Perlengkapan',6,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('2000','Kewajiban',NULL,1,0);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('2100','Hutang Usaha',11,1,0);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('2200','Hutang Pihak Ketiga',11,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('3000','Ekuitas',NULL,1,0);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('3100','Modal',14,1,0);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('3200','Prive',14,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('3300','Laba Tahun Berjalan',14,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('4000','Pendapatan',NULL,1,0);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('4100','Penjualan',18,1,0);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('4200','Potongan Penjualan',18,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('5000','Harga Penjualan Pokok / COGS',NULL,1,0);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('5100','Harga Pokok Penjualan',21,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('5200','Harga Pokok Adjustment',21,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('6000','Biaya / Expense',NULL,1,0);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('6100','Biaya Pemasaran',24,1,0);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('6101','Komisi Salesman',25,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('6200','Biaya Operasional',24,1,0);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('6201','Gaji Karyawan',27,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('6202','Uang Lembur',27,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('6203','Uang Makan',27,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('6204','Uang Transport',27,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('6205','Perawatan Kendaraan',27,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('6206','Alat dan Bahan',27,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('6207','Pajak',27,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('6208','BBM',27,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('6299','Biaya Lain-lain',27,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('7000','Pendapatan Lain',NULL,1,0);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('7001','Pendapatan Bunga',37,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('7002','Penghasilan Sewa',37,1,1);
+insert into taccount(kode,nama, parent_id, isactive, isdetail) values('7099','Penghasilan Lain',37,1,0);

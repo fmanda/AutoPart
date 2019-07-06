@@ -23,6 +23,8 @@ type
     colDefCustBengkel: TcxEditorRow;
     colDefCustUmum: TcxEditorRow;
     colDefRekening: TcxEditorRow;
+    colCOAPengeluaran: TcxEditorRow;
+    colCOAPendapatan: TcxEditorRow;
     procedure FormCreate(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
     procedure colDefCustUmumEditPropertiesButtonClick(Sender: TObject;
@@ -35,11 +37,16 @@ type
       AButtonIndex: Integer);
     procedure colKodeCabangEditPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
+    procedure colCOAPengeluaranEditPropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
+    procedure colCOAPendapatanEditPropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
   private
     procedure LoadVariable;
     procedure LookupCustomer(AEditor: TcxEditorRow);
     procedure LookupRekening(AEditor: TcxEditorRow);
     procedure LookupCabang(AEditor: TcxEditorRow);
+    procedure LookupAccount(AEditor: TcxEditorRow);
     { Private declarations }
   public
     { Public declarations }
@@ -54,6 +61,20 @@ uses
   uAppUtils, uDXUtils, ufrmCXServerLookup;
 
 {$R *.dfm}
+
+procedure TfrmVariable.colCOAPendapatanEditPropertiesButtonClick(
+  Sender: TObject; AButtonIndex: Integer);
+begin
+  inherited;
+  LookupAccount(colCOAPendapatan);
+end;
+
+procedure TfrmVariable.colCOAPengeluaranEditPropertiesButtonClick(
+  Sender: TObject; AButtonIndex: Integer);
+begin
+  inherited;
+  LookupAccount(colCOAPengeluaran);
+end;
 
 procedure TfrmVariable.colDefCustBengkelEditPropertiesButtonClick(
   Sender: TObject; AButtonIndex: Integer);
@@ -109,6 +130,8 @@ begin
   AppVariable.Def_Cust_Umum := colDefCustUmum.Properties.Value;
   AppVariable.Def_Cust_Bengkel := colDefCustBengkel.Properties.Value;
   AppVariable.Def_Rekening := colDefRekening.Properties.Value;
+  AppVariable.Account_Expense := colCOAPengeluaran.Properties.Value;
+  AppVariable.Account_OtherIncome := colCOAPendapatan.Properties.Value;
 
   if AppVariable.UpdateVariable then
     TAppUtils.Information('Variable Berhasil Diupdate');
@@ -124,6 +147,9 @@ begin
   colDefCustUmum.Properties.Value := AppVariable.Def_Cust_Umum;
   colDefCustBengkel.Properties.Value := AppVariable.Def_Cust_Bengkel;
   colDefRekening.Properties.Value := AppVariable.Def_Rekening;
+
+  colCOAPengeluaran.Properties.Value := AppVariable.Account_Expense;
+  colCOAPendapatan.Properties.Value := AppVariable.Account_OtherIncome;
 end;
 
 procedure TfrmVariable.LookupCustomer(AEditor: TcxEditorRow);
@@ -178,6 +204,25 @@ begin
     if cxLookup.ShowModal = mrOK then
     begin
       AEditor.Properties.Value := cxLookup.FieldValue('Project_Code');
+      Keybd_event(VK_RETURN, 0, 0, 0);
+    end;
+  Finally
+    cxLookup.Free;
+  End;
+end;
+
+procedure TfrmVariable.LookupAccount(AEditor: TcxEditorRow);
+var
+  cxLookup: TfrmCXServerLookup;
+  S: string;
+begin
+  S := 'select * from taccount';
+  cxLookup := TfrmCXServerLookup.Execute(S, 'ID');
+  Try
+    cxLookup.PreFilter('Nama', '');
+    if cxLookup.ShowModal = mrOK then
+    begin
+      AEditor.Properties.Value := cxLookup.FieldValue('Kode');
       Keybd_event(VK_RETURN, 0, 0, 0);
     end;
   Finally

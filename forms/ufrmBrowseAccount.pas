@@ -134,7 +134,7 @@ begin
   if FCDS <> nil then
     FreeAndNil(FCDS);
 
-  FCDS := TDBUtils.OpenDataset('select * from taccount', self);
+  FCDS := TDBUtils.OpenDataset('select id, parent_id, kode + '' - '' + nama as nama from taccount', self);
   cxTreeView.LoadFromCDS(CDS,'id','parent_id', True);
   cxTreeView.SetVisibleColumns(['id','parent_id'],false);
   cxTreeView.FullExpand;

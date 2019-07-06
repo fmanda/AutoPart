@@ -94,7 +94,7 @@ begin
   Account.LoadByID(aID);
   edKode.Text           := Account.Kode;
   edNama.Text           := Account.Nama;
-  rbJenis.ItemIndex     := Account.Jenis;
+//  rbJenis.ItemIndex     := Account.Jenis;
   chkActive.Checked     := Account.IsActive = 1;
   chkIsDetail.Checked   := Account.IsDetail = 1;
   chkCredit.Checked     := Account.IsCredit = 1;
@@ -108,7 +108,7 @@ procedure TfrmAccount.UpdateData;
 begin
   Account.Kode        := edKode.Text;
   Account.Nama        := edNama.Text;
-  Account.Jenis       := rbJenis.ItemIndex;
+//  Account.Jenis       := rbJenis.ItemIndex;
   Account.IsActive    := TAppUtils.BoolToInt(chkActive.Checked);
   Account.IsDetail    := TAppUtils.BoolToInt(chkIsDetail.Checked);
   Account.IsCredit    := TAppUtils.BoolToInt(chkCredit.Checked);

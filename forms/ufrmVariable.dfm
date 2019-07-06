@@ -55,7 +55,7 @@ inherited frmVariable: TfrmVariable
     Align = alClient
     OptionsView.CellAutoHeight = True
     OptionsView.CategoryExplorerStyle = True
-    OptionsView.RowHeaderWidth = 208
+    OptionsView.RowHeaderWidth = 234
     OptionsView.ShowEmptyRowImage = True
     OptionsBehavior.GoToNextCellOnEnter = True
     OptionsBehavior.GoToNextCellOnTab = True
@@ -184,6 +184,38 @@ inherited frmVariable: TfrmVariable
       ID = 9
       ParentID = 6
       Index = 2
+      Version = 1
+    end
+    object colCOAPengeluaran: TcxEditorRow
+      Properties.Caption = 'Induk Akun Biaya / Expense'
+      Properties.EditPropertiesClassName = 'TcxButtonEditProperties'
+      Properties.EditProperties.Buttons = <
+        item
+          Default = True
+          Kind = bkEllipsis
+        end>
+      Properties.EditProperties.OnButtonClick = colCOAPengeluaranEditPropertiesButtonClick
+      Properties.DataBinding.ValueType = 'String'
+      Properties.Value = Null
+      ID = 10
+      ParentID = 6
+      Index = 3
+      Version = 1
+    end
+    object colCOAPendapatan: TcxEditorRow
+      Properties.Caption = 'Induk Akun Pendapatan Lain'
+      Properties.EditPropertiesClassName = 'TcxButtonEditProperties'
+      Properties.EditProperties.Buttons = <
+        item
+          Default = True
+          Kind = bkEllipsis
+        end>
+      Properties.EditProperties.OnButtonClick = colCOAPendapatanEditPropertiesButtonClick
+      Properties.DataBinding.ValueType = 'String'
+      Properties.Value = Null
+      ID = 11
+      ParentID = 6
+      Index = 4
       Version = 1
     end
   end
