@@ -358,7 +358,7 @@ begin
   cxLookupGroup.LoadFromSQL('select id, nama from titemgroup','id','nama',Self);
   cxLookupMerk.LoadFromSQL('select id, nama from tmerk','id','nama',Self);
   TcxExtLookup(colSatuan.Properties).LoadFromCDS(CDSUOM, 'id','uom', Self);
-  cxLookUpUOM.LoadFromSQL('select id, uom from tuom','id','uom', self);
+  cxLookUpUOM.LoadFromSQL('select id, uom from tuom order by id','id','uom', self);
   cxLookUpUOM.SetDefaultValue();
   pgcMain.ActivePage := tsUOM;
   LoadByID(0, False);

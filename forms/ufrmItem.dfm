@@ -470,6 +470,9 @@ inherited frmItem: TfrmItem
       Caption = 'History Perubahan Harga'
       ImageIndex = 1
       TabVisible = False
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
     end
     object tsAvgCost: TcxTabSheet
       Caption = 'History Harga Pokok Penjualan / Harga Average'
@@ -506,6 +509,7 @@ inherited frmItem: TfrmItem
           Properties.SaveTime = False
           Properties.ShowTime = False
           TabOrder = 1
+          ExplicitHeight = 21
           Width = 100
         end
         object StartDate: TcxDateEdit
@@ -516,6 +520,7 @@ inherited frmItem: TfrmItem
           Properties.SaveTime = False
           Properties.ShowTime = False
           TabOrder = 2
+          ExplicitHeight = 21
           Width = 100
         end
         object cxLabel9: TcxLabel
@@ -524,6 +529,7 @@ inherited frmItem: TfrmItem
           Align = alRight
           Caption = 'Filter Periode'
           Properties.Alignment.Vert = taVCenter
+          ExplicitLeft = 201
           AnchorY = 18
         end
         object cxLabel10: TcxLabel
@@ -532,6 +538,7 @@ inherited frmItem: TfrmItem
           Align = alRight
           Caption = 's/d'
           Properties.Alignment.Vert = taVCenter
+          ExplicitLeft = 428
           AnchorY = 18
         end
       end

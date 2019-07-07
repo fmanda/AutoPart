@@ -1,6 +1,5 @@
 inherited frmBrowseSalesRetur: TfrmBrowseSalesRetur
   Caption = 'Browse Retur Penjualan'
-  ExplicitTop = -23
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox

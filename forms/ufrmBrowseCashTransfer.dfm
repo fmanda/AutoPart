@@ -17,8 +17,6 @@ inherited frmBrowseCashTransfer: TfrmBrowseCashTransfer
     end
   end
   inherited cxGroupBox1: TcxGroupBox
-    ExplicitLeft = 224
-    ExplicitTop = 8
     inherited EndDate: TcxDateEdit
       Visible = True
       ExplicitHeight = 25
