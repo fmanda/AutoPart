@@ -32,6 +32,7 @@ inherited frmBrowseAccount: TfrmBrowseAccount
       OptionsImage.ImageIndex = 32
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
+      OnClick = btnTutupClick
     end
     object btnExport: TcxButton
       AlignWithMargins = True
@@ -44,6 +45,7 @@ inherited frmBrowseAccount: TfrmBrowseAccount
       OptionsImage.ImageIndex = 31
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 1
+      Visible = False
     end
     object btnHapus: TcxButton
       AlignWithMargins = True

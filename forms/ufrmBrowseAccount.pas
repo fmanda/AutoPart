@@ -31,6 +31,7 @@ type
     procedure btnLihatClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure btnTutupClick(Sender: TObject);
   private
     FCDS: TClientDataset;
     procedure RefreshData;
@@ -114,6 +115,12 @@ procedure TfrmBrowseAccount.btnRefreshClick(Sender: TObject);
 begin
   inherited;
   RefreshData;
+end;
+
+procedure TfrmBrowseAccount.btnTutupClick(Sender: TObject);
+begin
+  inherited;
+  Self.Close;
 end;
 
 procedure TfrmBrowseAccount.FormClose(Sender: TObject; var Action:
