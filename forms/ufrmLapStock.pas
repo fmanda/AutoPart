@@ -224,8 +224,7 @@ begin
     S := S + ' AND A.WAREHOUSE_ID = ' + IntToStr(VarToInt(cxLookupGudang.EditValue));
 
   S := S +' GROUP BY I.ID, I.KODE, I.NAMA, L.UOM,'
-      +' I.ISACTIVE, J.KONVERSI, M.NAMA ,N.NAMA , J.HARGAAVG,'
-      +' J.KONVERSI,J.HARGAAVG';
+      +' I.ISACTIVE, J.KONVERSI, M.NAMA ,N.NAMA , J.HARGAAVG';
 
   FCDS := TDBUtils.OpenDataset(S);
   cxGrdMain.PrepareFromCDS(CDS);

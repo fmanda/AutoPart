@@ -12,6 +12,8 @@ type
   TPurchaseInvoice = class;
   TAvgCostUpdate = class;
   TServiceDetail = class;
+  TStockOpname = class;
+  TStockOpnameItem = class;
 
   TCRUDTransDetail = class(TCRUDObject)
   private
@@ -381,6 +383,89 @@ type
     property SalesInvoice: TSalesInvoice read FSalesInvoice write FSalesInvoice;
   end;
 
+  TStockOpname = class(TCRUDObject)
+  private
+    FClosed: Integer;
+    FItems: TObjectList<TStockOpnameItem>;
+    FModifiedBy: String;
+    FModifiedDate: TDateTime;
+    FTransDate: TDateTime;
+    FRefNo: string;
+    FNotes: string;
+    FTranstype: Integer;
+    FWarehouse: TWarehouse;
+    function GetItems: TObjectList<TStockOpnameItem>;
+  protected
+    function BeforeSaveToDB: Boolean; override;
+  public
+    function GenerateNo: String;
+    property Items: TObjectList<TStockOpnameItem> read GetItems write FItems;
+  published
+    property Closed: Integer read FClosed write FClosed;
+    property ModifiedBy: String read FModifiedBy write FModifiedBy;
+    property ModifiedDate: TDateTime read FModifiedDate write FModifiedDate;
+    property TransDate: TDateTime read FTransDate write FTransDate;
+    [AttributeOfHeader]
+    property RefNo: string read FRefNo write FRefNo;
+    property Notes: string read FNotes write FNotes;
+    property Transtype: Integer read FTranstype write FTranstype;
+    property Warehouse: TWarehouse read FWarehouse write FWarehouse;
+  end;
+
+
+  TStockOpnameItem = class(TCRUDObject)
+  private
+    FHargaAvg: Double;
+    FItem: TItem;
+    FStockOpname: TStockOpname;
+    FKonversi: Double;
+    FLastCost: Double;
+    FQty: Double;
+    FVariant: Double;
+    FQtySys: Double;
+    FUOM: TUOM;
+    FWarehouse: TWarehouse;
+  public
+    procedure SetAvgCost;
+  published
+    property HargaAvg: Double read FHargaAvg write FHargaAvg;
+    property Item: TItem read FItem write FItem;
+    [AttributeOfHeader]
+    property StockOpname: TStockOpname read FStockOpname write FStockOpname;
+    property Konversi: Double read FKonversi write FKonversi;
+    property LastCost: Double read FLastCost write FLastCost;
+    property Qty: Double read FQty write FQty;
+    property Variant: Double read FVariant write FVariant;
+    property QtySys: Double read FQtySys write FQtySys;
+    property UOM: TUOM read FUOM write FUOM;
+    property Warehouse: TWarehouse read FWarehouse write FWarehouse;
+  end;
+
+type
+  TStockAdjustment = class(TCRUDTransDetail)
+  private
+    FNotes: string;
+    FWarehouse: TWarehouse;
+    FRefNo: string;
+    FTransType: Integer;
+    FStockOpname: TStockOpname;
+  protected
+    function BeforeSaveToDB: Boolean; override;
+    function GetRefno: String; override;
+  public
+    destructor Destroy; override;
+    function GenerateNo: String; override;
+    function GetHeaderFlag: Integer; override;
+    procedure SetGenerateNo; override;
+  published
+    property Notes: string read FNotes write FNotes;
+    property Warehouse: TWarehouse read FWarehouse write FWarehouse;
+    [AttributeOfCode]
+    property RefNo: string read FRefNo write FRefNo;
+    property TransType: Integer read FTransType write FTransType;
+    property StockOpname: TStockOpname read FStockOpname write FStockOpname;
+  end;
+
 const
   HeaderFlag_PurchaseInvoice : Integer = 100;
   HeaderFlag_PurchaseRetur : Integer = 150;
@@ -403,6 +488,12 @@ const
   Transfer_Internal : Integer = 0;
   Transfer_External_Out : Integer = 1;
   Transfer_External_In : Integer = 2;
+
+  StockOpname_Parsial : Integer = 0;
+  StockOpname_Warehouse : Integer = 1;
+
+  StockAdjustment_Direct : Integer = 0;
+  StockAdjustment_FromSO : Integer = 1;
 
 implementation
 
@@ -1557,6 +1648,126 @@ destructor TServiceDetail.Destroy;
 begin
   inherited;
   if FService <> nil then FreeAndNil(FService);
+end;
+
+function TStockOpname.BeforeSaveToDB: Boolean;
+var
+  litem: TStockOpnameItem;
+begin
+  Result := True;
+  for lItem in Self.Items do
+    lItem.SetAvgCost;
+end;
+
+function TStockOpname.GenerateNo: String;
+var
+  aDigitCount: Integer;
+  aPrefix: string;
+  lNum: Integer;
+  S: string;
+begin
+  lNum := 0;
+  aDigitCount := 5;
+  aPrefix := Cabang + '.SO' + FormatDateTime('yymm',Now()) + '.';
+
+
+  S := 'SELECT MAX(RefNo) FROM TStockOpname where RefNo LIKE ' + QuotedStr(aPrefix + '%');
+
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        TryStrToInt(RightStr(Fields[0].AsString, aDigitCount), lNum);
+    Finally
+      Free;
+    End;
+  end;
+
+  inc(lNum);
+  Result := aPrefix + RightStr('00000' + IntToStr(lNum), aDigitCount);
+end;
+
+function TStockOpname.GetItems: TObjectList<TStockOpnameItem>;
+begin
+  if FItems = nil then
+  begin
+    FItems := TObjectList<TStockOpnameItem>.Create();
+  end;
+  Result := FItems;
+end;
+
+destructor TStockAdjustment.Destroy;
+begin
+  inherited;
+  if FWarehouse <> nil then FreeAndNil(FWarehouse);
+end;
+
+function TStockAdjustment.BeforeSaveToDB: Boolean;
+var
+  lItem: TTransDetail;
+begin
+  for lItem in Self.Items do
+  begin
+    lItem.SetAvgCost;
+  end;
+
+  Result := True;
+end;
+
+function TStockAdjustment.GenerateNo: String;
+var
+  aDigitCount: Integer;
+  aPrefix: string;
+  lNum: Integer;
+  S: string;
+begin
+  lNum := 0;
+  aDigitCount := 5;
+  aPrefix := Cabang + '.SA' + FormatDateTime('yymm',Now()) + '.';
+
+
+  S := 'SELECT MAX(Refno) FROM TStockAdjustment where Refno LIKE ' + QuotedStr(aPrefix + '%');
+
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        TryStrToInt(RightStr(Fields[0].AsString, aDigitCount), lNum);
+    Finally
+      Free;
+    End;
+  end;
+
+  inc(lNum);
+  Result := aPrefix + RightStr('00000' + IntToStr(lNum), aDigitCount);
+end;
+
+function TStockAdjustment.GetHeaderFlag: Integer;
+begin
+  Result := HeaderFlag_StockAdjustment;
+end;
+
+function TStockAdjustment.GetRefno: String;
+begin
+  Result := Refno;
+end;
+
+procedure TStockAdjustment.SetGenerateNo;
+begin
+  if Self.ID = 0 then Self.RefNo := Self.GenerateNo;
+end;
+
+procedure TStockOpnameItem.SetAvgCost;
+var
+  lItemUOM: TItemUOM;
+begin
+  lItemUOM := TItemUOM.GetItemUOM(Self.Item.ID, Self.UOM.ID);
+  Try
+    Self.HargaAvg := lItemUOM.HargaAvg;
+    Self.LastCost := lItemUOM.HargaBeli;
+  Finally
+    lItemUOM.Free;
+  End;
 end;
 
 end.

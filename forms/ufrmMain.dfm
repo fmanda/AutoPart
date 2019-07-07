@@ -83,6 +83,7 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxRTInventory: TdxRibbonTab
+      Active = True
       Caption = 'Inventory'
       Groups = <
         item
@@ -94,7 +95,6 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
-      Active = True
       Caption = 'Penjualan & Kas'
       Groups = <
         item
@@ -1092,6 +1092,7 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = 'Stock Opname'
       ImageIndex = 8
+      OnExecute = actStockOpnameExecute
     end
     object actStockAdjustment: TAction
       Category = 'Inventory'

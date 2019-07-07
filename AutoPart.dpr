@@ -93,7 +93,9 @@ uses
   ufrmCashPayment in 'classes\ufrmCashPayment.pas' {frmCashPayment},
   ufrmBrowseCashPayment in 'forms\ufrmBrowseCashPayment.pas' {frmBrowseCashPayment},
   ufrmCashReceipt in 'forms\ufrmCashReceipt.pas' {frmCashReceipt},
-  ufrmBrowseCashReceipt in 'forms\ufrmBrowseCashReceipt.pas' {frmBrowseCashReceipt};
+  ufrmBrowseCashReceipt in 'forms\ufrmBrowseCashReceipt.pas' {frmBrowseCashReceipt},
+  ufrmStockOpname in 'forms\ufrmStockOpname.pas' {frmStockOpname},
+  ufrmBrowseStockOpname in 'forms\ufrmBrowseStockOpname.pas' {frmBrowseStockOpname};
 
 {$R *.res}
 
