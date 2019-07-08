@@ -1,4 +1,4 @@
-unit ufrmBrowseStockOpname;
+unit ufrmBrowseStockAdjustment;
 
 interface
 
@@ -11,10 +11,10 @@ uses
   Vcl.Menus, Vcl.ComCtrls, dxCore, cxDateUtils, cxClasses, cxLabel, cxTextEdit,
   cxMaskEdit, cxDropDownEdit, cxCalendar, Vcl.StdCtrls, cxButtons, cxGroupBox,
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridServerModeTableView, cxGrid;
+  cxGridServerModeTableView, cxGrid, System.DateUtils, ufrmStockAdjustment;
 
 type
-  TfrmBrowseStockOpname = class(TfrmDefaultServerBrowse)
+  TfrmBrowseStockAdjustment = class(TfrmDefaultServerBrowse)
     procedure btnBaruClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnHapusClick(Sender: TObject);
@@ -30,19 +30,19 @@ type
   end;
 
 var
-  frmBrowseStockOpname: TfrmBrowseStockOpname;
+  frmBrowseStockAdjustment: TfrmBrowseStockAdjustment;
 
 implementation
 
 uses
-  ufrmStockOpname, uDXUtils, uAppUtils, uDBUtils, uTransDetail, Dateutils;
+  uAppUtils, uDXUtils, uTransDetail;
 
 {$R *.dfm}
 
-procedure TfrmBrowseStockOpname.btnBaruClick(Sender: TObject);
+procedure TfrmBrowseStockAdjustment.btnBaruClick(Sender: TObject);
 begin
   inherited;
-  with TfrmStockOpname.Create(Application) do
+  with TfrmStockAdjustment.Create(Application) do
   begin
     Try
       if ShowModal = mrOK then
@@ -53,27 +53,27 @@ begin
   end;
 end;
 
-procedure TfrmBrowseStockOpname.btnEditClick(Sender: TObject);
+procedure TfrmBrowseStockAdjustment.btnEditClick(Sender: TObject);
 begin
   inherited;
-  with TfrmStockOpname.Create(Application) do
-  begin
-    LoadByID(Self.cxGrdMain.GetID, False);
-    Try
-      if ShowModal = mrOK then
-        RefreshData;
-    Finally
-      Free;
-    End;
-  end;
+//  with TfrmStockAdjustment.Create(Application) do
+//  begin
+//    LoadByID(Self.cxGrdMain.GetID, False);
+//    Try
+//      if ShowModal = mrOK then
+//        RefreshData;
+//    Finally
+//      Free;
+//    End;
+//  end;
 end;
 
-procedure TfrmBrowseStockOpname.btnHapusClick(Sender: TObject);
+procedure TfrmBrowseStockAdjustment.btnHapusClick(Sender: TObject);
 begin
   inherited;
   if not TAppUtils.Confirm('Anda yakin menghapus data ini?') then exit;
 
-  with TStockOpname.Create do
+  with TStockAdjustment.Create do
   begin
     if LoadByID(Self.cxGrdMain.GetID) then
       if DeleteFromDB then
@@ -85,10 +85,10 @@ begin
   end;
 end;
 
-procedure TfrmBrowseStockOpname.btnLihatClick(Sender: TObject);
+procedure TfrmBrowseStockAdjustment.btnLihatClick(Sender: TObject);
 begin
   inherited;
-  with TfrmStockOpname.Create(Application) do
+  with TfrmStockAdjustment.Create(Application) do
   begin
     LoadByID(Self.cxGrdMain.GetID, True);
     Try
@@ -99,24 +99,23 @@ begin
   end;
 end;
 
-procedure TfrmBrowseStockOpname.FormCreate(Sender: TObject);
+procedure TfrmBrowseStockAdjustment.FormCreate(Sender: TObject);
 begin
   StartDate.Date := StartOfTheMonth(Now());
   EndDate.Date := EndOfTheMonth(Now());
   inherited;
 end;
 
-function TfrmBrowseStockOpname.GetKeyField: string;
+function TfrmBrowseStockAdjustment.GetKeyField: string;
 begin
   Result := 'id';
 end;
 
-function TfrmBrowseStockOpname.GetSQL: string;
+function TfrmBrowseStockAdjustment.GetSQL: string;
 begin
   Result := 'SELECT A.ID, A.REFNO, A.TRANSDATE, B.NAMA AS GUDANG, A.NOTES, A.CLOSED,'
-           +' CASE WHEN A.TRANSTYPE = 1 THEN ''FULL'' ELSE ''PARSIAL'' END AS JENIS,'
            +' A.MODIFIEDDATE, A.MODIFIEDBY'
-           +' FROM TSTOCKOPNAME A'
+           +' FROM TSTOCKADJUSTMENT A'
            +' INNER JOIN TWAREHOUSE B ON A.WAREHOUSE_ID =B.ID'
            +' WHERE A.TRANSDATE BETWEEN ' + TAppUtils.QuotD(StartDate.Date)
            +' AND ' + TAppUtils.QuotD(EndDate.Date);

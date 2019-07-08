@@ -95,7 +95,9 @@ uses
   ufrmCashReceipt in 'forms\ufrmCashReceipt.pas' {frmCashReceipt},
   ufrmBrowseCashReceipt in 'forms\ufrmBrowseCashReceipt.pas' {frmBrowseCashReceipt},
   ufrmStockOpname in 'forms\ufrmStockOpname.pas' {frmStockOpname},
-  ufrmBrowseStockOpname in 'forms\ufrmBrowseStockOpname.pas' {frmBrowseStockOpname};
+  ufrmBrowseStockOpname in 'forms\ufrmBrowseStockOpname.pas' {frmBrowseStockOpname},
+  ufrmStockAdjustment in 'forms\ufrmStockAdjustment.pas' {frmStockAdjustment},
+  ufrmBrowseStockAdjustment in 'forms\ufrmBrowseStockAdjustment.pas' {frmBrowseStockAdjustment};
 
 {$R *.res}
 

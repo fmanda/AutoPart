@@ -18,6 +18,7 @@ type
     procedure btnBaruClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnHapusClick(Sender: TObject);
+    procedure btnLihatClick(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -82,6 +83,21 @@ begin
     Free;
   end;
 
+end;
+
+procedure TfrmBrowseCustomer.btnLihatClick(Sender: TObject);
+begin
+  inherited;
+  with TfrmCustomer.Create(Application) do
+  begin
+    LoadByID(cxGrdMain.GetID, True);
+    Try
+      if ShowModal = mrOK then
+        RefreshData;
+    Finally
+      Free;
+    End;
+  end;
 end;
 
 function TfrmBrowseCustomer.GetKeyField: string;

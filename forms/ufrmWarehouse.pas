@@ -69,7 +69,7 @@ end;
 procedure TfrmWarehouse.FormCreate(Sender: TObject);
 begin
   inherited;
-  cxLookupCabang.LoadFromSQL('select * from project','project_code','project_name', Self);
+  cxLookupCabang.LoadFromSQL('select * from tproject','project_code','project_name', Self);
   Self.AssignKeyDownEvent;
   LoadByID(0);
 end;

@@ -448,7 +448,7 @@ begin
   S := S +' GROUP BY I.ID, I.KODE, I.NAMA, L.UOM,I.STOCKUOM_ID, '
       +' I.ISACTIVE, J.KONVERSI, J.HARGAAVG';
 
-  S := S +' HAVING ISNULL(SUM(A.QTYPCS) / J.KONVERSI, 0) > 0';
+  S := S +' HAVING ISNULL(SUM(A.QTYPCS) / J.KONVERSI, 0) <> 0';
 
   Result := TDBUtils.OpenDataset(S, Self);
 end;
@@ -462,7 +462,7 @@ begin
 
   s := 'SELECT A.ID, A.KODE, A.NAMA, B.PROJECT_NAME AS CABANG, A.IS_EXTERNAL'
       +' FROM TWAREHOUSE A'
-      +' LEFT JOIN PROJECT B ON A.PROJECT_CODE = B.PROJECT_CODE'
+      +' LEFT JOIN TPROJECT B ON A.PROJECT_CODE = B.PROJECT_CODE'
       +' WHERE ISNULL(A.IS_EXTERNAL,0) = 0';
 
   cxLookupWH.Properties.LoadFromSQL(Self,s,'nama');

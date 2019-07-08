@@ -6,23 +6,18 @@ inherited frmBrowseRekening: TfrmBrowseRekening
     inherited btnHapus: TcxButton
       OnClick = btnHapusClick
     end
+    inherited btnLihat: TcxButton
+      OnClick = btnLihatClick
+    end
     inherited btnBaru: TcxButton
       OnClick = btnBaruClick
     end
   end
   inherited cxGroupBox1: TcxGroupBox
-    inherited EndDate: TcxDateEdit
-      ExplicitHeight = 25
-    end
-    inherited StartDate: TcxDateEdit
-      ExplicitHeight = 25
-    end
     inherited cxLabel1: TcxLabel
-      ExplicitLeft = 260
       AnchorY = 18
     end
     inherited cxLabel2: TcxLabel
-      ExplicitLeft = 433
       AnchorY = 18
     end
     inherited lblTitle: TcxLabel

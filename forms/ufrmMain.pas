@@ -219,6 +219,7 @@ type
     procedure actServiceExecute(Sender: TObject);
     procedure actUOMExecute(Sender: TObject);
     procedure actSettingKoneksiExecute(Sender: TObject);
+    procedure actStockAdjustmentExecute(Sender: TObject);
     procedure actStockOpnameExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
     procedure actTransferStockExecute(Sender: TObject);
@@ -254,7 +255,8 @@ uses
   ufrmMutasiRekening, ufrmBrowsePurchasePayment, ufrmPurchaseReturHistory,
   ufrmBrowseSalesPayment, ufrmSalesReturHistory, ufrmLapHutang, ufrmLapPiutang,
   ufrmBrowseCashTransfer, ufrmBrowsePriceQuotation, ufrmBrowseAccount,
-  ufrmBrowseCashPayment, ufrmBrowseCashReceipt, ufrmBrowseStockOpname;
+  ufrmBrowseCashPayment, ufrmBrowseCashReceipt, ufrmBrowseStockOpname,
+  ufrmBrowseStockAdjustment;
 
 {$R *.dfm}
 
@@ -472,6 +474,11 @@ begin
   begin
     ShowModal;
   end;
+end;
+
+procedure TfrmMain.actStockAdjustmentExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseStockAdjustment);
 end;
 
 procedure TfrmMain.actStockOpnameExecute(Sender: TObject);

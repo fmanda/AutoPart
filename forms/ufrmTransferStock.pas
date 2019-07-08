@@ -289,7 +289,7 @@ begin
 
   s := 'SELECT A.ID, A.KODE, A.NAMA, B.PROJECT_NAME AS CABANG, A.IS_EXTERNAL'
       +' FROM TWAREHOUSE A'
-      +' LEFT JOIN PROJECT B ON A.PROJECT_CODE = B.PROJECT_CODE';
+      +' LEFT JOIN TPROJECT B ON A.PROJECT_CODE = B.PROJECT_CODE';
 
   cxLookupWHAsal.Properties.LoadFromSQL(Self,s,'nama');
   cxLookupWHTujuan.Properties.LoadFromSQL(Self,s,'nama');

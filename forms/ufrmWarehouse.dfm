@@ -10,8 +10,8 @@ inherited frmWarehouse: TfrmWarehouse
   inherited cxGroupBox2: TcxGroupBox
     Top = 338
     TabOrder = 9
-    ExplicitTop = 238
-    ExplicitWidth = 502
+    ExplicitTop = 338
+    ExplicitWidth = 495
     Width = 495
     inherited btnCancel: TcxButton
       Left = 410
@@ -89,18 +89,15 @@ inherited frmWarehouse: TfrmWarehouse
     ExplicitWidth = 502
     inherited lbEscape: TLabel
       Left = 415
-      Height = 17
-      ExplicitLeft = 422
+      ExplicitLeft = 415
     end
     inherited lgndSave: TLabel
       Left = 250
-      Height = 17
-      ExplicitLeft = 257
+      ExplicitLeft = 250
     end
     inherited lgndPrint: TLabel
       Left = 337
-      Height = 17
-      ExplicitLeft = 344
+      ExplicitLeft = 337
     end
   end
   object ckExternal: TcxCheckBox

@@ -1098,6 +1098,7 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = 'Stock Adjustment'
       ImageIndex = 12
+      OnExecute = actStockAdjustmentExecute
     end
     object actKartuStock: TAction
       Category = 'Inventory'

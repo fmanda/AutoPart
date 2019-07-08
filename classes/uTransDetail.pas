@@ -454,6 +454,7 @@ type
     function GetRefno: String; override;
   public
     destructor Destroy; override;
+    procedure ClearStockOname;
     function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
     procedure SetGenerateNo; override;
@@ -1700,6 +1701,7 @@ destructor TStockAdjustment.Destroy;
 begin
   inherited;
   if FWarehouse <> nil then FreeAndNil(FWarehouse);
+  if FStockOpname <> nil then FreeAndNil(FStockOpname);
 end;
 
 function TStockAdjustment.BeforeSaveToDB: Boolean;
@@ -1712,6 +1714,12 @@ begin
   end;
 
   Result := True;
+end;
+
+procedure TStockAdjustment.ClearStockOname;
+begin
+  if FWarehouse <> nil then FreeAndNil(FWarehouse);
+  if FStockOpname <> nil then FreeAndNil(FStockOpname);
 end;
 
 function TStockAdjustment.GenerateNo: String;

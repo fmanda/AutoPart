@@ -13,7 +13,7 @@ inherited frmTransferStock: TfrmTransferStock
     Top = 500
     TabOrder = 2
     ExplicitTop = 500
-    ExplicitWidth = 747
+    ExplicitWidth = 753
     Width = 753
     inherited btnCancel: TcxButton
       Left = 668
@@ -37,18 +37,15 @@ inherited frmTransferStock: TfrmTransferStock
     ExplicitWidth = 747
     inherited lbEscape: TLabel
       Left = 673
-      Height = 17
-      ExplicitLeft = 667
+      ExplicitLeft = 673
     end
     inherited lgndSave: TLabel
       Left = 508
-      Height = 17
-      ExplicitLeft = 502
+      ExplicitLeft = 508
     end
     inherited lgndPrint: TLabel
       Left = 595
-      Height = 17
-      ExplicitLeft = 589
+      ExplicitLeft = 595
     end
   end
   object cxGroupBox1: TcxGroupBox
@@ -57,7 +54,6 @@ inherited frmTransferStock: TfrmTransferStock
     Align = alTop
     Caption = '  Header Transfer [F1] '
     TabOrder = 0
-    ExplicitWidth = 774
     Height = 133
     Width = 753
     object cxLabel1: TcxLabel
