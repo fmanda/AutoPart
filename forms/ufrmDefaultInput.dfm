@@ -16,6 +16,7 @@ inherited frmDefaultInput: TfrmDefaultInput
     Style.LookAndFeel.NativeStyle = False
     StyleDisabled.LookAndFeel.NativeStyle = False
     TabOrder = 0
+    ExplicitTop = 345
     Height = 35
     Width = 577
     object btnCancel: TcxButton
@@ -68,7 +69,6 @@ inherited frmDefaultInput: TfrmDefaultInput
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 1
-    ExplicitTop = 294
     object lbEscape: TLabel
       AlignWithMargins = True
       Left = 497
@@ -86,7 +86,6 @@ inherited frmDefaultInput: TfrmDefaultInput
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitLeft = 515
       ExplicitHeight = 16
     end
     object lgndSave: TLabel
@@ -106,8 +105,7 @@ inherited frmDefaultInput: TfrmDefaultInput
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitLeft = 285
-      ExplicitTop = 3
+      ExplicitHeight = 16
     end
     object lgndPrint: TLabel
       AlignWithMargins = True
@@ -127,8 +125,16 @@ inherited frmDefaultInput: TfrmDefaultInput
       Font.Style = []
       ParentFont = False
       Visible = False
-      ExplicitLeft = 3
       ExplicitHeight = 16
+    end
+  end
+  object styleRepo: TcxStyleRepository
+    Left = 544
+    Top = 336
+    PixelsPerInch = 96
+    object styleOdd: TcxStyle
+      AssignedValues = [svColor]
+      Color = clInfoBk
     end
   end
 end

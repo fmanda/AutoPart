@@ -36,17 +36,14 @@ inherited frmSalesPayment: TfrmSalesPayment
     ExplicitWidth = 984
     inherited lbEscape: TLabel
       Left = 904
-      Height = 17
       ExplicitLeft = 904
     end
     inherited lgndSave: TLabel
       Left = 739
-      Height = 17
       ExplicitLeft = 739
     end
     inherited lgndPrint: TLabel
       Left = 826
-      Height = 17
       ExplicitLeft = 826
     end
     object Label1: TLabel
@@ -88,7 +85,7 @@ inherited frmSalesPayment: TfrmSalesPayment
       ExplicitHeight = 16
     end
   end
-  object cxGroupBox1: TcxGroupBox
+  object cxGroupBox1: TcxGroupBox [2]
     Left = 0
     Top = 0
     Align = alTop
@@ -336,7 +333,7 @@ inherited frmSalesPayment: TfrmSalesPayment
       TabOrder = 22
     end
   end
-  object cxGrid1: TcxGrid
+  object cxGrid1: TcxGrid [3]
     Left = 0
     Top = 127
     Width = 984
@@ -366,6 +363,7 @@ inherited frmSalesPayment: TfrmSalesPayment
       OptionsView.Footer = True
       OptionsView.GroupByBox = False
       OptionsView.HeaderHeight = 30
+      Styles.ContentOdd = styleOdd
       object colInvoiceNo: TcxGridDBColumn
         Caption = 'No. Faktur'
         DataBinding.FieldName = 'InvoiceNo'
@@ -491,6 +489,7 @@ inherited frmSalesPayment: TfrmSalesPayment
       OptionsData.Appending = True
       OptionsView.GroupByBox = False
       OptionsView.HeaderHeight = 30
+      Styles.ContentOdd = styleOdd
       object colCostAccount: TcxGridDBColumn
         DataBinding.FieldName = 'Account'
         PropertiesClassName = 'TcxExtLookupComboBoxProperties'
@@ -522,5 +521,8 @@ inherited frmSalesPayment: TfrmSalesPayment
       Caption = 'Biaya Lain [F3]'
       GridView = cxGrdCost
     end
+  end
+  inherited styleRepo: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end

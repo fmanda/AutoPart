@@ -17,16 +17,16 @@ inherited frmTransferStock: TfrmTransferStock
     Width = 753
     inherited btnCancel: TcxButton
       Left = 668
-      ExplicitLeft = 662
+      ExplicitLeft = 668
     end
     inherited btnPrint: TcxButton
       Left = 582
-      ExplicitLeft = 576
+      ExplicitLeft = 582
     end
     inherited btnSave: TcxButton
       Left = 496
       OnClick = btnSaveClick
-      ExplicitLeft = 490
+      ExplicitLeft = 496
     end
   end
   inherited Panel2: TPanel
@@ -34,7 +34,7 @@ inherited frmTransferStock: TfrmTransferStock
     Width = 753
     TabOrder = 3
     ExplicitTop = 479
-    ExplicitWidth = 747
+    ExplicitWidth = 753
     inherited lbEscape: TLabel
       Left = 673
       ExplicitLeft = 673
@@ -48,7 +48,7 @@ inherited frmTransferStock: TfrmTransferStock
       ExplicitLeft = 595
     end
   end
-  object cxGroupBox1: TcxGroupBox
+  object cxGroupBox1: TcxGroupBox [2]
     Left = 0
     Top = 0
     Align = alTop
@@ -140,7 +140,7 @@ inherited frmTransferStock: TfrmTransferStock
       Width = 159
     end
   end
-  object cxGrid1: TcxGrid
+  object cxGrid1: TcxGrid [3]
     Left = 0
     Top = 133
     Width = 753
@@ -148,7 +148,6 @@ inherited frmTransferStock: TfrmTransferStock
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 139
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown
@@ -170,6 +169,7 @@ inherited frmTransferStock: TfrmTransferStock
       OptionsView.Footer = True
       OptionsView.GroupByBox = False
       OptionsView.HeaderHeight = 30
+      Styles.ContentOdd = styleOdd
       object colKode: TcxGridDBColumn
         Caption = 'Kode Barang'
         DataBinding.FieldName = 'Kode'
@@ -227,5 +227,8 @@ inherited frmTransferStock: TfrmTransferStock
       Caption = 'Detail Transaksi [F2]'
       GridView = cxGrdMain
     end
+  end
+  inherited styleRepo: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end

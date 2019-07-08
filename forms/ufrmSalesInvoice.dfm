@@ -29,7 +29,6 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       Width = 100
       OnClick = btnSaveClick
       ExplicitLeft = 707
-      ExplicitTop = 3
       ExplicitWidth = 100
     end
     object btnGenerate: TcxButton
@@ -52,18 +51,15 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     ExplicitWidth = 984
     inherited lbEscape: TLabel
       Left = 904
-      Height = 17
       ExplicitLeft = 904
     end
     inherited lgndSave: TLabel
       Left = 729
-      Height = 17
       Margins.Right = 25
       ExplicitLeft = 729
     end
     inherited lgndPrint: TLabel
       Left = 826
-      Height = 17
       ExplicitLeft = 826
     end
     object Label1: TLabel
@@ -103,7 +99,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       ExplicitHeight = 16
     end
   end
-  object cxGroupBox1: TcxGroupBox
+  object cxGroupBox1: TcxGroupBox [2]
     Left = 0
     Top = 0
     Align = alTop
@@ -406,7 +402,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       Width = 42
     end
   end
-  object cxGridItem: TcxGrid
+  object cxGridItem: TcxGrid [3]
     Left = 0
     Top = 131
     Width = 984
@@ -435,6 +431,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       OptionsData.Appending = True
       OptionsView.GroupByBox = False
       OptionsView.HeaderHeight = 30
+      Styles.ContentOdd = styleOdd
       object colKode: TcxGridDBColumn
         Caption = 'Kode Barang'
         DataBinding.FieldName = 'Kode'
@@ -537,7 +534,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       GridView = cxGrdItem
     end
   end
-  object cxSplitter: TcxSplitter
+  object cxSplitter: TcxSplitter [4]
     Left = 0
     Top = 397
     Width = 984
@@ -545,7 +542,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     HotZoneClassName = 'TcxXPTaskBarStyle'
     AlignSplitter = salBottom
   end
-  object cxGridService: TcxGrid
+  object cxGridService: TcxGrid [5]
     Left = 0
     Top = 405
     Width = 984
@@ -646,5 +643,8 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       Caption = 'Detail Jasa / Service [F3]'
       GridView = cxGrdService
     end
+  end
+  inherited styleRepo: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end

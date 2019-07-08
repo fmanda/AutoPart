@@ -50,21 +50,18 @@ inherited frmStockOpname: TfrmStockOpname
     ExplicitWidth = 870
     inherited lbEscape: TLabel
       Left = 790
-      Height = 17
       ExplicitLeft = 790
     end
     inherited lgndSave: TLabel
       Left = 625
-      Height = 17
       ExplicitLeft = 625
     end
     inherited lgndPrint: TLabel
       Left = 712
-      Height = 17
       ExplicitLeft = 712
     end
   end
-  object cxGroupBox1: TcxGroupBox
+  object cxGroupBox1: TcxGroupBox [2]
     Left = 0
     Top = 0
     Align = alTop
@@ -151,7 +148,7 @@ inherited frmStockOpname: TfrmStockOpname
       Style.TextColor = clMaroon
     end
   end
-  object cxGrid1: TcxGrid
+  object cxGrid1: TcxGrid [3]
     Left = 0
     Top = 130
     Width = 870
@@ -181,6 +178,7 @@ inherited frmStockOpname: TfrmStockOpname
       OptionsView.Footer = True
       OptionsView.GroupByBox = False
       OptionsView.HeaderHeight = 30
+      Styles.ContentOdd = styleOdd
       object colKode: TcxGridDBColumn
         Caption = 'Kode Barang'
         DataBinding.FieldName = 'Kode'
@@ -270,5 +268,8 @@ inherited frmStockOpname: TfrmStockOpname
       Caption = 'Detail Transaksi [F2]'
       GridView = cxGrdMain
     end
+  end
+  inherited styleRepo: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end

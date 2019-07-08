@@ -12,37 +12,43 @@ inherited frmStockAdjustment: TfrmStockAdjustment
   inherited cxGroupBox2: TcxGroupBox
     Top = 540
     TabOrder = 1
+    ExplicitTop = 540
+    ExplicitWidth = 890
     Width = 890
     inherited btnCancel: TcxButton
       Left = 805
+      ExplicitLeft = 805
     end
     inherited btnPrint: TcxButton
       Left = 719
+      ExplicitLeft = 719
     end
     inherited btnSave: TcxButton
       Left = 633
       OnClick = btnSaveClick
+      ExplicitLeft = 633
     end
   end
   inherited Panel2: TPanel
     Top = 519
     Width = 890
     TabOrder = 3
-    ExplicitTop = 321
+    ExplicitTop = 519
+    ExplicitWidth = 890
     inherited lbEscape: TLabel
       Left = 810
-      Height = 17
+      ExplicitLeft = 810
     end
     inherited lgndSave: TLabel
       Left = 645
-      Height = 17
+      ExplicitLeft = 645
     end
     inherited lgndPrint: TLabel
       Left = 732
-      Height = 17
+      ExplicitLeft = 732
     end
   end
-  object cxGroupBox1: TcxGroupBox
+  object cxGroupBox1: TcxGroupBox [2]
     Left = 0
     Top = 0
     Align = alTop
@@ -127,7 +133,7 @@ inherited frmStockAdjustment: TfrmStockAdjustment
       Width = 146
     end
   end
-  object cxGrid1: TcxGrid
+  object cxGrid1: TcxGrid [3]
     Left = 0
     Top = 105
     Width = 890
@@ -135,9 +141,6 @@ inherited frmStockAdjustment: TfrmStockAdjustment
     Align = alClient
     TabOrder = 2
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 130
-    ExplicitWidth = 870
-    ExplicitHeight = 394
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -163,6 +166,7 @@ inherited frmStockAdjustment: TfrmStockAdjustment
       OptionsView.Footer = True
       OptionsView.GroupByBox = False
       OptionsView.HeaderHeight = 30
+      Styles.ContentOdd = styleOdd
       object colKode: TcxGridDBColumn
         Caption = 'Kode Barang'
         DataBinding.FieldName = 'Kode'
@@ -247,5 +251,8 @@ inherited frmStockAdjustment: TfrmStockAdjustment
       Caption = 'Detail Adjustment'
       GridView = cxGrdMain
     end
+  end
+  inherited styleRepo: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end

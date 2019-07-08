@@ -37,17 +37,14 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     ExplicitWidth = 941
     inherited lbEscape: TLabel
       Left = 861
-      Height = 17
       ExplicitLeft = 861
     end
     inherited lgndSave: TLabel
       Left = 696
-      Height = 17
       ExplicitLeft = 696
     end
     inherited lgndPrint: TLabel
       Left = 783
-      Height = 17
       ExplicitLeft = 783
     end
     object Label2: TLabel
@@ -89,7 +86,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       ExplicitHeight = 16
     end
   end
-  object cxGroupBox1: TcxGroupBox
+  object cxGroupBox1: TcxGroupBox [2]
     Left = 0
     Top = 0
     Align = alTop
@@ -330,7 +327,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       TabOrder = 21
     end
   end
-  object cxGrid1: TcxGrid
+  object cxGrid1: TcxGrid [3]
     Left = 0
     Top = 147
     Width = 941
@@ -360,6 +357,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       OptionsView.Footer = True
       OptionsView.GroupByBox = False
       OptionsView.HeaderHeight = 30
+      Styles.ContentOdd = styleOdd
       object colKode: TcxGridDBColumn
         Caption = 'Kode Barang'
         DataBinding.FieldName = 'Kode'
@@ -461,5 +459,8 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Caption = 'Detail Transaksi [F2]'
       GridView = cxGrdMain
     end
+  end
+  inherited styleRepo: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end

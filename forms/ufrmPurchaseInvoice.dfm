@@ -294,6 +294,7 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       OptionsView.Footer = True
       OptionsView.GroupByBox = False
       OptionsView.HeaderHeight = 30
+      Styles.ContentOdd = styleOdd
       object colKode: TcxGridDBColumn
         Caption = 'Kode Barang'
         DataBinding.FieldName = 'Kode'
@@ -404,17 +405,14 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
     ExplicitWidth = 978
     inherited lbEscape: TLabel
       Left = 898
-      Height = 17
       ExplicitLeft = 898
     end
     inherited lgndSave: TLabel
       Left = 733
-      Height = 17
       ExplicitLeft = 733
     end
     inherited lgndPrint: TLabel
       Left = 820
-      Height = 17
       ExplicitLeft = 820
     end
     object Label2: TLabel
@@ -455,5 +453,8 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       ParentFont = False
       ExplicitHeight = 16
     end
+  end
+  inherited styleRepo: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end

@@ -50,7 +50,7 @@ inherited frmSalesRetur: TfrmSalesRetur
       Left = 165
       Top = 1
       Width = 84
-      Height = 16
+      Height = 17
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -62,13 +62,14 @@ inherited frmSalesRetur: TfrmSalesRetur
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      ExplicitHeight = 16
     end
     object Label1: TLabel
       AlignWithMargins = True
       Left = 3
       Top = 1
       Width = 146
-      Height = 16
+      Height = 17
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -80,9 +81,10 @@ inherited frmSalesRetur: TfrmSalesRetur
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      ExplicitHeight = 16
     end
   end
-  object cxGroupBox1: TcxGroupBox
+  object cxGroupBox1: TcxGroupBox [2]
     Left = 0
     Top = 0
     Align = alTop
@@ -352,7 +354,7 @@ inherited frmSalesRetur: TfrmSalesRetur
       Width = 84
     end
   end
-  object cxGrid1: TcxGrid
+  object cxGrid1: TcxGrid [3]
     Left = 0
     Top = 147
     Width = 934
@@ -382,6 +384,7 @@ inherited frmSalesRetur: TfrmSalesRetur
       OptionsView.Footer = True
       OptionsView.GroupByBox = False
       OptionsView.HeaderHeight = 30
+      Styles.ContentOdd = styleOdd
       object colKode: TcxGridDBColumn
         Caption = 'Kode Barang'
         DataBinding.FieldName = 'Kode'
@@ -483,5 +486,8 @@ inherited frmSalesRetur: TfrmSalesRetur
       Caption = 'Detail Transaksi [F2]'
       GridView = cxGrdMain
     end
+  end
+  inherited styleRepo: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end
