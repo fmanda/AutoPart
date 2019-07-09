@@ -99,7 +99,8 @@ uses
   ufrmStockAdjustment in 'forms\ufrmStockAdjustment.pas' {frmStockAdjustment},
   ufrmBrowseStockAdjustment in 'forms\ufrmBrowseStockAdjustment.pas' {frmBrowseStockAdjustment},
   uEndOfDay in 'classes\uEndOfDay.pas',
-  ufrmEndOfDay in 'forms\ufrmEndOfDay.pas' {frmEndOfDay};
+  ufrmEndOfDay in 'forms\ufrmEndOfDay.pas' {frmEndOfDay},
+  ufrmLapCashOpname in 'forms\ufrmLapCashOpname.pas' {frmLapCashOpname};
 
 {$R *.res}
 
