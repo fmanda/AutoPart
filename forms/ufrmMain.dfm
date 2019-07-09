@@ -83,7 +83,6 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxRTInventory: TdxRibbonTab
-      Active = True
       Caption = 'Inventory'
       Groups = <
         item
@@ -95,6 +94,7 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
+      Active = True
       Caption = 'Penjualan & Kas'
       Groups = <
         item
@@ -403,6 +403,7 @@ object frmMain: TfrmMain
           ItemName = 'dxBarButton53'
         end
         item
+          BeginGroup = True
           Visible = True
           ItemName = 'dxBarButton56'
         end
@@ -413,13 +414,9 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton55'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton57'
         end>
-      OneOnRow = False
-      Row = 0
+      OneOnRow = True
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -427,7 +424,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar10: TdxBar
       Caption = 'Lap Keuangan'
       CaptionButtons = <>
-      DockedLeft = 276
+      DockedLeft = 302
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8
@@ -454,7 +451,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxBarButton62'
         end>
-      OneOnRow = False
+      OneOnRow = True
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -463,7 +460,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar11: TdxBar
       Caption = 'Lap Manajemen'
       CaptionButtons = <>
-      DockedLeft = 95
+      DockedLeft = 76
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8
@@ -879,6 +876,7 @@ object frmMain: TfrmMain
     object dxBarButton57: TdxBarButton
       Action = actCashOpname
       Category = 0
+      Visible = ivNever
     end
     object dxBarButton58: TdxBarButton
       Action = actLapPenjualan
@@ -939,7 +937,7 @@ object frmMain: TfrmMain
       Category = 0
     end
     object dxBarButton70: TdxBarButton
-      Action = actClosingHarian
+      Action = actEndOfDay
       Category = 0
     end
     object dxBarButton71: TdxBarButton
@@ -1244,9 +1242,10 @@ object frmMain: TfrmMain
       ImageIndex = 15
       OnExecute = actSalesInvoiceHistoryExecute
     end
-    object actClosingHarian: TAction
+    object actEndOfDay: TAction
       Category = 'Manajemen'
-      Caption = 'Closing Harian'
+      Caption = 'End Of Day'
+      OnExecute = actEndOfDayExecute
     end
     object actSalesAnalysis: TAction
       Category = 'Manajemen'

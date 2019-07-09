@@ -1,1 +1,3 @@
-Delete From TAccount where ID = 13;
+SET NOCOUNT ON
+Insert Into TCashOpname(ModifiedBy,ModifiedDate,EndOfDay_ID,Notes,RefNo,TransDate) values('programmer','2019-07-09 21:15:16',3,'End Of Day Tanggal : 6/30/2019','','2019-06-30 00:00:00');
+Select Scope_Identity() as ID

@@ -97,7 +97,9 @@ uses
   ufrmStockOpname in 'forms\ufrmStockOpname.pas' {frmStockOpname},
   ufrmBrowseStockOpname in 'forms\ufrmBrowseStockOpname.pas' {frmBrowseStockOpname},
   ufrmStockAdjustment in 'forms\ufrmStockAdjustment.pas' {frmStockAdjustment},
-  ufrmBrowseStockAdjustment in 'forms\ufrmBrowseStockAdjustment.pas' {frmBrowseStockAdjustment};
+  ufrmBrowseStockAdjustment in 'forms\ufrmBrowseStockAdjustment.pas' {frmBrowseStockAdjustment},
+  uEndOfDay in 'classes\uEndOfDay.pas',
+  ufrmEndOfDay in 'forms\ufrmEndOfDay.pas' {frmEndOfDay};
 
 {$R *.res}
 

@@ -60,11 +60,13 @@ type
     class function GetUserLogin: String;
   end;
 
+function Cabang: string;
+
 var
   FDConnection  : TFDConnection;
   FDTransaction : TFDTransaction;
   UserLogin : String;
-  Cabang : String = '01';
+//  Cabang : String = '01';
   DebugSS : TStrings;
 
 const
@@ -78,7 +80,12 @@ const
 implementation
 
 uses
-  System.Win.ComObj, uAppUtils;
+  System.Win.ComObj, uAppUtils, uVariable;
+
+function Cabang: string;
+begin
+  Result := AppVariable.Kode_Cabang;
+end;
 
 class procedure TDBUtils.Commit;
 begin

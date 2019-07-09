@@ -159,7 +159,7 @@ type
     dxBarButton67: TdxBarButton;
     dxBarButton68: TdxBarButton;
     dxBarButton69: TdxBarButton;
-    actClosingHarian: TAction;
+    actEndOfDay: TAction;
     dxBarButton70: TdxBarButton;
     dxBarManagerBar8: TdxBar;
     dxBarButton71: TdxBarButton;
@@ -189,6 +189,7 @@ type
     procedure actCashInExecute(Sender: TObject);
     procedure actCashOutExecute(Sender: TObject);
     procedure actCustomerExecute(Sender: TObject);
+    procedure actEndOfDayExecute(Sender: TObject);
     procedure actInternalTransferExecute(Sender: TObject);
     procedure actItemExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -256,7 +257,7 @@ uses
   ufrmBrowseSalesPayment, ufrmSalesReturHistory, ufrmLapHutang, ufrmLapPiutang,
   ufrmBrowseCashTransfer, ufrmBrowsePriceQuotation, ufrmBrowseAccount,
   ufrmBrowseCashPayment, ufrmBrowseCashReceipt, ufrmBrowseStockOpname,
-  ufrmBrowseStockAdjustment;
+  ufrmBrowseStockAdjustment, ufrmEndOfDay;
 
 {$R *.dfm}
 
@@ -300,6 +301,15 @@ end;
 procedure TfrmMain.actCustomerExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseCustomer);
+end;
+
+procedure TfrmMain.actEndOfDayExecute(Sender: TObject);
+var
+  lfrm: TfrmEndOfDay;
+begin
+  lfrm := ShowForm(TfrmEndOfDay) as TfrmEndOfDay;
+  if lfrm <> nil then
+    lfrm.ShowModal;
 end;
 
 procedure TfrmMain.actInternalTransferExecute(Sender: TObject);
