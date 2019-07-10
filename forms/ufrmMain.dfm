@@ -94,7 +94,6 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
-      Active = True
       Caption = 'Penjualan & Kas'
       Groups = <
         item
@@ -120,6 +119,7 @@ object frmMain: TfrmMain
       Index = 4
     end
     object dxRTManagement: TdxRibbonTab
+      Active = True
       Caption = 'Manajemen'
       Groups = <
         item
@@ -415,8 +415,8 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxBarButton55'
         end>
-      OneOnRow = True
-      Row = 1
+      OneOnRow = False
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -451,7 +451,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxBarButton62'
         end>
-      OneOnRow = True
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -1251,6 +1251,7 @@ object frmMain: TfrmMain
     object actSalesAnalysis: TAction
       Category = 'Manajemen'
       Caption = 'Analisa Penjualan'
+      OnExecute = actSalesAnalysisExecute
     end
     object actSettingFee: TAction
       Category = 'Master'

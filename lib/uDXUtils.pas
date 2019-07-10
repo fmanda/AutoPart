@@ -942,8 +942,10 @@ begin
   If ReCreateAllItem then
   begin
     Self.DeleteAllFields;
-    Self.CreateAllFields;
   end;
+
+  if Self.FieldCount = 0 then
+    Self.CreateAllFields;
 
   for i:=0 to Self.FieldCount-1 do
   begin
