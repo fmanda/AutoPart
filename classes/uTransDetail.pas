@@ -925,6 +925,8 @@ begin
   Try
     Self.HargaAvg := lItemUOM.HargaAvg;
     Self.LastCost := lItemUOM.HargaBeli;
+    if Self.HargaAvg <= 0 then
+      Self.HargaAvg := Self.LastCost;
   Finally
     lItemUOM.Free;
   End;

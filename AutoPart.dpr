@@ -101,7 +101,8 @@ uses
   uEndOfDay in 'classes\uEndOfDay.pas',
   ufrmEndOfDay in 'forms\ufrmEndOfDay.pas' {frmEndOfDay},
   ufrmLapCashOpname in 'forms\ufrmLapCashOpname.pas' {frmLapCashOpname},
-  ufrmSalesAnalysis in 'forms\ufrmSalesAnalysis.pas' {frmSalesAnalysis};
+  ufrmSalesAnalysis in 'forms\ufrmSalesAnalysis.pas' {frmSalesAnalysis},
+  ufrmProfitLoss in 'forms\ufrmProfitLoss.pas' {frmProfitLoss};
 
 {$R *.res}
 
@@ -111,5 +112,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmProfitLoss, frmProfitLoss);
   Application.Run;
 end.
