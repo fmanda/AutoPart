@@ -204,7 +204,7 @@ inherited frmProfitLoss: TfrmProfitLoss
     end
     object styleGrossProfit: TcxStyle
       AssignedValues = [svColor, svFont, svTextColor]
-      Color = 12177710
+      Color = 9742117
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
@@ -214,7 +214,7 @@ inherited frmProfitLoss: TfrmProfitLoss
     end
     object styleNetProfit: TcxStyle
       AssignedValues = [svColor, svFont, svTextColor]
-      Color = 682229
+      Color = 679902
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
