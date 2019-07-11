@@ -31,7 +31,7 @@ type
   private
     { Private declarations }
   public
-    class function ShowPayment(ATotal: Double): Boolean;
+    class function ShowPayment(ATotal: Double; var ACashAmt: Double): Boolean;
     { Public declarations }
   end;
 
@@ -94,7 +94,8 @@ begin
     Self.ModalResult := mrCancel;
 end;
 
-class function TfrmDialogPayment.ShowPayment(ATotal: Double): Boolean;
+class function TfrmDialogPayment.ShowPayment(ATotal: Double; var ACashAmt:
+    Double): Boolean;
 var
   lfrm: TfrmDialogPayment;
 begin
@@ -104,7 +105,10 @@ begin
   Try
     lfrm.crTotal.Value := ATotal;
     if lfrm.ShowModal = mrOk then
+    begin
+      ACashAmt := lfrm.crBayar.Value;
       Result := True;
+    end;
   Finally
     lfrm.Free;
   End;

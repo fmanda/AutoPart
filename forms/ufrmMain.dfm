@@ -1278,6 +1278,7 @@ object frmMain: TfrmMain
     object actLabaRugi: TAction
       Category = 'Manajemen'
       Caption = 'Laba Rugi Usaha'
+      OnExecute = actLabaRugiExecute
     end
     object actInventoryMov: TAction
       Category = 'Manajemen'

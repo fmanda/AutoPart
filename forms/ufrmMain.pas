@@ -195,6 +195,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure actItemGroupExecute(Sender: TObject);
     procedure actKartuStockExecute(Sender: TObject);
+    procedure actLabaRugiExecute(Sender: TObject);
     procedure actLapCashOpnameExecute(Sender: TObject);
     procedure actLapStockExecute(Sender: TObject);
     procedure actLoginExecute(Sender: TObject);
@@ -259,7 +260,8 @@ uses
   ufrmBrowseSalesPayment, ufrmSalesReturHistory, ufrmLapHutang, ufrmLapPiutang,
   ufrmBrowseCashTransfer, ufrmBrowsePriceQuotation, ufrmBrowseAccount,
   ufrmBrowseCashPayment, ufrmBrowseCashReceipt, ufrmBrowseStockOpname,
-  ufrmBrowseStockAdjustment, ufrmEndOfDay, ufrmLapCashOpname, ufrmSalesAnalysis;
+  ufrmBrowseStockAdjustment, ufrmEndOfDay, ufrmLapCashOpname,
+  ufrmSalesAnalysis, ufrmProfitLoss;
 
 {$R *.dfm}
 
@@ -358,6 +360,11 @@ end;
 procedure TfrmMain.actKartuStockExecute(Sender: TObject);
 begin
   ShowForm(TfrmKartuStock);
+end;
+
+procedure TfrmMain.actLabaRugiExecute(Sender: TObject);
+begin
+  ShowForm(TfrmProfitLoss);
 end;
 
 procedure TfrmMain.actLapCashOpnameExecute(Sender: TObject);

@@ -24,7 +24,6 @@ inherited frmDialogPayment: TfrmDialogPayment
     Style.Font.Name = 'Tahoma'
     Style.Font.Style = []
     Style.IsFontAssigned = True
-    ExplicitLeft = 24
   end
   object cxLabel5: TcxLabel
     Left = 82
@@ -39,7 +38,6 @@ inherited frmDialogPayment: TfrmDialogPayment
     Style.Font.Style = []
     Style.IsFontAssigned = True
     Properties.Alignment.Horz = taRightJustify
-    ExplicitLeft = 66
     AnchorX = 186
   end
   object crBayar: TcxCurrencyEdit
@@ -61,7 +59,6 @@ inherited frmDialogPayment: TfrmDialogPayment
     Style.Font.Style = []
     Style.IsFontAssigned = True
     TabOrder = 1
-    ExplicitLeft = 176
     Width = 274
   end
   object cxGroupBox1: TcxGroupBox
@@ -73,8 +70,6 @@ inherited frmDialogPayment: TfrmDialogPayment
     Style.LookAndFeel.NativeStyle = False
     StyleDisabled.LookAndFeel.NativeStyle = False
     TabOrder = 3
-    ExplicitTop = 450
-    ExplicitWidth = 618
     Height = 53
     Width = 477
     object btnCancel: TcxButton
@@ -90,7 +85,6 @@ inherited frmDialogPayment: TfrmDialogPayment
       TabOrder = 1
       TabStop = False
       OnClick = btnCancelClick
-      ExplicitLeft = 533
     end
     object btnSave: TcxButton
       AlignWithMargins = True
@@ -104,7 +98,6 @@ inherited frmDialogPayment: TfrmDialogPayment
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
       OnClick = btnSaveClick
-      ExplicitLeft = 408
     end
   end
   object crTotal: TcxCurrencyEdit
@@ -128,7 +121,6 @@ inherited frmDialogPayment: TfrmDialogPayment
     StyleDisabled.Color = clInfoBk
     StyleDisabled.TextColor = clDefault
     TabOrder = 0
-    ExplicitLeft = 176
     Width = 274
   end
   object cxLabel1: TcxLabel
@@ -144,7 +136,6 @@ inherited frmDialogPayment: TfrmDialogPayment
     Style.Font.Style = []
     Style.IsFontAssigned = True
     Properties.Alignment.Horz = taRightJustify
-    ExplicitLeft = 89
     AnchorX = 186
   end
   object crKembali: TcxCurrencyEdit
@@ -168,7 +159,6 @@ inherited frmDialogPayment: TfrmDialogPayment
     StyleDisabled.Color = clInfoBk
     StyleDisabled.TextColor = clDefault
     TabOrder = 2
-    ExplicitLeft = 176
     Width = 274
   end
   object cxGroupBox2: TcxGroupBox
@@ -180,7 +170,6 @@ inherited frmDialogPayment: TfrmDialogPayment
     Style.LookAndFeel.NativeStyle = False
     StyleDisabled.LookAndFeel.NativeStyle = False
     TabOrder = 7
-    ExplicitWidth = 461
     Height = 41
     Width = 477
     object cxLabel4: TcxLabel
@@ -197,9 +186,6 @@ inherited frmDialogPayment: TfrmDialogPayment
       Style.IsFontAssigned = True
       Properties.Alignment.Horz = taCenter
       Properties.Alignment.Vert = taVCenter
-      ExplicitLeft = 305
-      ExplicitWidth = 37
-      ExplicitHeight = 20
       AnchorX = 239
       AnchorY = 21
     end

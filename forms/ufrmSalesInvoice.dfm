@@ -5,6 +5,8 @@ inherited frmSalesInvoice: TfrmSalesInvoice
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
+  ExplicitLeft = -172
+  ExplicitTop = -261
   ExplicitWidth = 1000
   ExplicitHeight = 700
   PixelsPerInch = 96
@@ -21,6 +23,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     end
     inherited btnPrint: TcxButton
       Left = 813
+      Visible = True
       OnClick = btnPrintClick
       ExplicitLeft = 813
     end
@@ -51,15 +54,19 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     ExplicitWidth = 984
     inherited lbEscape: TLabel
       Left = 904
+      Height = 17
       ExplicitLeft = 904
     end
     inherited lgndSave: TLabel
       Left = 729
+      Height = 17
       Margins.Right = 25
       ExplicitLeft = 729
     end
     inherited lgndPrint: TLabel
       Left = 826
+      Height = 17
+      Visible = True
       ExplicitLeft = 826
     end
     object Label1: TLabel

@@ -164,7 +164,7 @@ implementation
 uses
   uDXUtils, uDBUtils, uAppUtils, ufrmCXServerLookup, uCustomer, cxDataUtils,
   uWarehouse, uMekanik, uSalesman, uVariable, uAccount, uSettingFee,
-  ufrmDialogPayment;
+  ufrmDialogPayment, uPrintStruk;
 
 {$R *.dfm}
 
@@ -177,7 +177,10 @@ end;
 procedure TfrmSalesInvoice.btnPrintClick(Sender: TObject);
 begin
   inherited;
-  LoadbyID(0);
+  if SalesInv.PaymentFlag = PaymentFlag_Cash then
+  begin
+    TPrintStruk.Print(SalesInv);
+  end;
 end;
 
 procedure TfrmSalesInvoice.btnSaveClick(Sender: TObject);
@@ -189,6 +192,7 @@ begin
   begin
 //    TAppUtils.InformationBerhasilSimpan;
 //    Self.ModalResult := mrOK;
+    btnPrint.Click;
     LoadByID(0, rbHarga.ItemIndex, False);
   end;
 end;
@@ -1089,6 +1093,8 @@ begin
 end;
 
 function TfrmSalesInvoice.ValidateData: Boolean;
+var
+  lCashAmt: Double;
 begin
   Result := False;
 
@@ -1184,8 +1190,13 @@ begin
     exit;
   end;
 
+  lCashAmt := 0;
+
   if cbBayar.ItemIndex = PaymentFlag_Cash then
-    Result := TfrmDialogPayment.ShowPayment(crTotal.Value)
+  begin
+    Result := TfrmDialogPayment.ShowPayment(crTotal.Value, lCashAmt);
+    SalesInv.CashAmount := lCashAmt;
+  end
   else
     Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
 

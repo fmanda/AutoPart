@@ -273,6 +273,7 @@ type
     FRekening: TRekening;
     FSalesman: TSalesman;
     FMekanik: TMekanik;
+    FCashAmount: Double;
     FSettingFee: TSettingFee;
     FSalesType: Integer;
     FWarehouse: TWarehouse;
@@ -312,6 +313,7 @@ type
     property Rekening: TRekening read FRekening write FRekening;
     property Salesman: TSalesman read FSalesman write FSalesman;
     property Mekanik: TMekanik read FMekanik write FMekanik;
+    property CashAmount: Double read FCashAmount write FCashAmount;
     property SettingFee: TSettingFee read FSettingFee write FSettingFee;
     property SalesType: Integer read FSalesType write FSalesType;
     property Warehouse: TWarehouse read FWarehouse write FWarehouse;
