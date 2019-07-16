@@ -330,8 +330,8 @@ inherited frmAgingStock: TfrmAgingStock
     Width = 984
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 288
-    Top = 65520
+    Left = 280
+    Top = 24
     PixelsPerInch = 96
   end
 end
