@@ -75,6 +75,7 @@ var
   lDetail: TTransDetail;
   lFileName: string;
   lSS: TStrings;
+  sDir: string;
   sReportPath: string;
   sTemp: string;
 begin
@@ -85,7 +86,7 @@ begin
     lSS.LoadFromFile(sReportPath + 'reports\' + FILE_HEADER);
 
     // baris cetul
-    iCetul := lSS.Count + 3;
+//    iCetul := lSS.Count + 3;
 
     Result.AddStrings(lSS);
     Result.Add('User Kasir  : ' + UserLogin);
@@ -175,8 +176,10 @@ begin
     lFileName := StringReplace( lFileName,'/','',[rfReplaceAll]);
     lFileName := lFileName + '.txt';
 //    if Reprint then lFileName := ModTransaksi.TRANS_NO + '_R.txt';
-    Result.SaveToFile(TAppUtils.GetAppPath + lFileName);
-    Result.Delete(iCetul);
+    sDir := TAppUtils.GetAppPath + 'print\';
+    if not DirectoryExists(sDir) then CreateDir(sDir);
+    Result.SaveToFile(sDir + lFileName);
+//    Result.Delete(iCetul);
   finally
     lSS.Free;
   end;

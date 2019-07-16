@@ -250,15 +250,6 @@ inherited frmAgingStock: TfrmAgingStock
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
       end
-      object colQty: TcxGridDBColumn
-        Caption = 'Total'
-        DataBinding.FieldName = 'TotalQty'
-        PropertiesClassName = 'TcxCurrencyEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0.##;(,0.##)'
-        HeaderAlignmentHorz = taCenter
-        Width = 67
-      end
       object colValue1: TcxGridDBColumn
         Caption = '0 - 30'
         DataBinding.FieldName = 'ValueRange1'
@@ -298,6 +289,15 @@ inherited frmAgingStock: TfrmAgingStock
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
+      end
+      object colQty: TcxGridDBColumn
+        Caption = 'Total'
+        DataBinding.FieldName = 'TotalQty'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##;(,0.##)'
+        HeaderAlignmentHorz = taCenter
+        Width = 67
       end
       object colValue: TcxGridDBColumn
         Caption = 'Total'
