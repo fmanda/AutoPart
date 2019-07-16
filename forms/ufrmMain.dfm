@@ -94,6 +94,7 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
+      Active = True
       Caption = 'Penjualan & Kas'
       Groups = <
         item
@@ -119,7 +120,6 @@ object frmMain: TfrmMain
       Index = 4
     end
     object dxRTManagement: TdxRibbonTab
-      Active = True
       Caption = 'Manajemen'
       Groups = <
         item
@@ -1274,6 +1274,7 @@ object frmMain: TfrmMain
     object actAgingStock: TAction
       Category = 'Manajemen'
       Caption = 'Aging Stock'
+      OnExecute = actAgingStockExecute
     end
     object actLabaRugi: TAction
       Category = 'Manajemen'

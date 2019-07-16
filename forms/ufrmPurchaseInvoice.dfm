@@ -405,14 +405,17 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
     ExplicitWidth = 978
     inherited lbEscape: TLabel
       Left = 898
+      Height = 17
       ExplicitLeft = 898
     end
     inherited lgndSave: TLabel
       Left = 733
+      Height = 17
       ExplicitLeft = 733
     end
     inherited lgndPrint: TLabel
       Left = 820
+      Height = 17
       ExplicitLeft = 820
     end
     object Label2: TLabel

@@ -435,6 +435,14 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="classes\uPrintStruk.pas"/>
+        <DCCReference Include="forms\ufrmAgingStock.pas">
+            <Form>frmAgingStock</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmAuthUser.pas">
+            <Form>frmAuthUser</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

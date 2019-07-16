@@ -108,6 +108,10 @@ type
     procedure dtInvoicePropertiesEditValueChanged(Sender: TObject);
     procedure btnGenerateClick(Sender: TObject);
     procedure btnPrintClick(Sender: TObject);
+    procedure colDiscPropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure colSrvDiscPropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
   private
     DisableTrigger: Boolean;
     FCDS: TClientDataset;
@@ -164,7 +168,7 @@ implementation
 uses
   uDXUtils, uDBUtils, uAppUtils, ufrmCXServerLookup, uCustomer, cxDataUtils,
   uWarehouse, uMekanik, uSalesman, uVariable, uAccount, uSettingFee,
-  ufrmDialogPayment, uPrintStruk;
+  ufrmDialogPayment, uPrintStruk, ufrmAuthUser;
 
 {$R *.dfm}
 
@@ -202,6 +206,7 @@ var
   dPPN: Double;
   dSubTotal: Double;
 begin
+  DisableTrigger := True;
   if CDS.State in [dsInsert, dsEdit] then
     CDS.Post;
 
@@ -210,7 +215,7 @@ begin
 
   CDS.DisableControls;
   CDSService.DisableControls;
-  DisableTrigger := True;
+
   Try
     dSubTotal := 0;
     dPPN := 0;
@@ -286,6 +291,25 @@ begin
   CalculateAll;
 end;
 
+procedure TfrmSalesInvoice.colDiscPropertiesValidate(Sender: TObject;
+  var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+begin
+  inherited;
+  if DisableTrigger then exit;
+
+  if VarToFloat(DisplayValue) = 0 then exit;
+
+  if not TfrmAuthUser.Authorize then
+  begin
+    ErrorText := 'User tidak mendapatkan autorisasi diskon';
+    Error := True;
+  end else
+  begin
+    Error := False;
+  end;
+
+end;
+
 procedure TfrmSalesInvoice.colKodePropertiesButtonClick(Sender: TObject;
   AButtonIndex: Integer);
 var
@@ -322,6 +346,19 @@ procedure TfrmSalesInvoice.colQtyPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
   CalculateAll;
+end;
+
+procedure TfrmSalesInvoice.colSrvDiscPropertiesValidate(Sender: TObject;
+  var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+begin
+  inherited;
+  if VarToFloat(DisplayValue) = 0 then exit;
+
+  if not TfrmAuthUser.Authorize then
+  begin
+    ErrorText := 'User tidak mendapatkan autorisasi diskon';
+    Error := True;
+  end;
 end;
 
 procedure TfrmSalesInvoice.colSrvKodePropertiesEditValueChanged(
@@ -599,15 +636,20 @@ begin
     for i := 0 to iCount do
     begin
 //      DC.FocusedRecordIndex := DC.AppendRecord;
-      DC.Append;
+
+
       while true do
       begin
         if lItem.LoadByID(Random(23091)) then break;
       end;
+
+      if i>0 then DC.Append;
+
       SetItemToGrid(lItem);
       DC.SetEditValue(colQty.Index, Random(9) + 1, evsValue);
       CalculateAll;
       DC.Post;
+
     end;
   Finally
     lItem.Free;
@@ -1175,6 +1217,12 @@ begin
   if CDS.Locate('UOM', null, []) or CDS.Locate('UOM', 0, []) then
   begin
     TAppUtils.Warning('Satuan tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
+    exit;
+  end;
+
+  if CDS.Locate('Harga', 0, []) then
+  begin
+    TAppUtils.Warning('Harga tidak boleh 0' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
     exit;
   end;
 

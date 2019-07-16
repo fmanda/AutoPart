@@ -5,8 +5,6 @@ inherited frmSalesInvoice: TfrmSalesInvoice
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
-  ExplicitLeft = -172
-  ExplicitTop = -261
   ExplicitWidth = 1000
   ExplicitHeight = 700
   PixelsPerInch = 96
@@ -498,8 +496,9 @@ inherited frmSalesInvoice: TfrmSalesInvoice
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
-        Properties.ReadOnly = True
+        Properties.ReadOnly = False
         Properties.OnEditValueChanged = colDiscPropertiesEditValueChanged
+        Properties.OnValidate = colDiscPropertiesValidate
         HeaderAlignmentHorz = taCenter
         Width = 70
       end
@@ -621,6 +620,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         Properties.ReadOnly = True
+        Properties.OnValidate = colSrvDiscPropertiesValidate
         HeaderAlignmentHorz = taCenter
         Width = 79
       end
