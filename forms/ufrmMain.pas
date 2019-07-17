@@ -186,6 +186,7 @@ type
     dxBarButton81: TdxBarButton;
     dxBarButton82: TdxBarButton;
     procedure actAccountExecute(Sender: TObject);
+    procedure actAgingStockExecute(Sender: TObject);
     procedure actCashInExecute(Sender: TObject);
     procedure actCashOutExecute(Sender: TObject);
     procedure actCustomerExecute(Sender: TObject);
@@ -249,7 +250,7 @@ implementation
 uses
   uDBUtils, uApputils, uDXUtils, ufrmLogin, ufrmSetKoneksi, ufrmTest,
   ufrmBrowseUOM, ufrmBrowseItemGroup, ufrmBrowseMerk, uItem, ufrmBrowseItem,
-  ufrmBrowseService, ufrmBrowseCustomer, ufrmBrowseSupplier,
+  ufrmBrowseService, ufrmBrowseCustomer, ufrmBrowseSupplier, ufrmAgingStock,
   ufrmBrowseWarehouse, ufrmBrowseRekening, ufrmCXServerLookup,
   ufrmBrowsePurchaseInvoice, uTransDetail, ufrmKartuStock,
   ufrmBrowsePurchaseRetur, ufrmBrowseTransferStock, ufrmLapStock,
@@ -290,6 +291,11 @@ end;
 procedure TfrmMain.actAccountExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseAccount);
+end;
+
+procedure TfrmMain.actAgingStockExecute(Sender: TObject);
+begin
+  ShowForm(TfrmAgingStock);
 end;
 
 procedure TfrmMain.actCashInExecute(Sender: TObject);

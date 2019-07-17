@@ -578,14 +578,18 @@ begin
   iCount := Random(15)+3;
   lItem := TItem.Create;
   Try
+    DC.RecordCount := 0;
     for i := 0 to iCount do
     begin
 //      DC.FocusedRecordIndex := DC.AppendRecord;
-      DC.Append;
+
       while true do
       begin
         if lItem.LoadByID(Random(23091)) then break;
-      end;                                                           
+      end;
+
+      if i>0 then DC.Append;
+
       SetItemToGrid(lItem);
       DC.SetEditValue(colQty.Index, Random(9) + 1, evsValue);
       CalculateAll;
@@ -755,6 +759,12 @@ begin
   if CDS.Locate('Qty', 0, []) then
   begin
     TAppUtils.Warning('Qty tidak boleh 0' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
+    exit;
+  end;
+
+  if CDS.Locate('Harga', 0, []) then
+  begin
+    TAppUtils.Warning('Harga tidak boleh 0' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
     exit;
   end;
 

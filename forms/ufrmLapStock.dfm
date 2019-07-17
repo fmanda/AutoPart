@@ -64,6 +64,8 @@ inherited frmLapStock: TfrmLapStock
     object dtStock: TcxDateEdit
       Left = 134
       Top = 23
+      Properties.SaveTime = False
+      Properties.ShowTime = False
       TabOrder = 0
       Width = 130
     end

@@ -103,7 +103,9 @@ uses
   ufrmLapCashOpname in 'forms\ufrmLapCashOpname.pas' {frmLapCashOpname},
   ufrmSalesAnalysis in 'forms\ufrmSalesAnalysis.pas' {frmSalesAnalysis},
   ufrmProfitLoss in 'forms\ufrmProfitLoss.pas' {frmProfitLoss},
-  uPrintStruk in 'classes\uPrintStruk.pas';
+  uPrintStruk in 'classes\uPrintStruk.pas',
+  ufrmAgingStock in 'forms\ufrmAgingStock.pas' {frmAgingStock},
+  ufrmAuthUser in 'forms\ufrmAuthUser.pas' {frmAuthUser};
 
 {$R *.res}
 
@@ -113,5 +115,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmAuthUser, frmAuthUser);
   Application.Run;
 end.
