@@ -112,8 +112,8 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     TabOrder = 0
     DesignSize = (
       984
-      131)
-    Height = 131
+      153)
+    Height = 153
     Width = 984
     object cxLabel1: TcxLabel
       Left = 112
@@ -165,7 +165,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     end
     object dtJtTempo: TcxDateEdit
       Left = 330
-      Top = 60
+      Top = 81
       TabStop = False
       Properties.ImmediatePost = True
       Properties.ReadOnly = True
@@ -176,7 +176,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     end
     object cxLabel9: TcxLabel
       Left = 282
-      Top = 60
+      Top = 81
       Caption = 'Jt Tempo'
     end
     object edCustomer: TcxButtonEdit
@@ -294,7 +294,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     end
     object cxLabel7: TcxLabel
       Left = 126
-      Top = 102
+      Top = 122
       Caption = 'Gudang'
     end
     object cxLookupSalesman: TcxExtLookupComboBox
@@ -329,12 +329,15 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       Properties.OnEditValueChanged = rbHargaPropertiesEditValueChanged
       ItemIndex = 0
       TabOrder = 0
-      Height = 107
+      ExplicitLeft = 10
+      ExplicitTop = 17
+      ExplicitHeight = 123
+      Height = 129
       Width = 85
     end
     object cxLookupGudang: TcxExtLookupComboBox
       Left = 168
-      Top = 101
+      Top = 121
       TabOrder = 7
       Width = 247
     end
@@ -356,7 +359,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     end
     object cbBayar: TcxComboBox
       Left = 168
-      Top = 60
+      Top = 81
       Properties.CharCase = ecUpperCase
       Properties.DropDownListStyle = lsFixedList
       Properties.ImmediatePost = True
@@ -372,17 +375,17 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     end
     object cxLabel10: TcxLabel
       Left = 109
-      Top = 61
+      Top = 82
       Caption = 'Cara Bayar'
     end
     object cxLabel13: TcxLabel
       Left = 119
-      Top = 82
+      Top = 102
       Caption = 'Rekening'
     end
     object cxLookupRekening: TcxExtLookupComboBox
       Left = 168
-      Top = 81
+      Top = 101
       TabStop = False
       TabOrder = 6
       Width = 247
@@ -400,21 +403,53 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     end
     object spTempo: TcxSpinEdit
       Left = 235
-      Top = 60
+      Top = 81
       Properties.ImmediatePost = True
       Properties.OnEditValueChanged = spTempoPropertiesEditValueChanged
       TabOrder = 4
       Width = 42
     end
+    object cxLabel15: TcxLabel
+      Left = 110
+      Top = 61
+      Caption = 'Credit Limit'
+    end
+    object crCreditLimit: TcxCurrencyEdit
+      Left = 168
+      Top = 60
+      TabStop = False
+      Enabled = False
+      Properties.DisplayFormat = ',0.##;(,0.##)'
+      StyleDisabled.Color = clInfoBk
+      TabOrder = 31
+      Width = 108
+    end
+    object crCreditUsed: TcxCurrencyEdit
+      Left = 330
+      Top = 60
+      TabStop = False
+      Enabled = False
+      Properties.DisplayFormat = ',0.##;(,0.##)'
+      StyleDisabled.Color = clInfoBk
+      TabOrder = 32
+      Width = 85
+    end
+    object cxLabel16: TcxLabel
+      Left = 285
+      Top = 61
+      Caption = 'Terpakai'
+    end
   end
   object cxGridItem: TcxGrid [3]
     Left = 0
-    Top = 131
+    Top = 153
     Width = 984
-    Height = 266
+    Height = 244
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
+    ExplicitTop = 152
+    ExplicitHeight = 246
     object cxGrdItem: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdItemEditKeyDown

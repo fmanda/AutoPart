@@ -78,6 +78,10 @@ type
     cxLabel14: TcxLabel;
     spTempo: TcxSpinEdit;
     btnGenerate: TcxButton;
+    cxLabel15: TcxLabel;
+    crCreditLimit: TcxCurrencyEdit;
+    crCreditUsed: TcxCurrencyEdit;
+    cxLabel16: TcxLabel;
     procedure edCustomerKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edNotesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -138,7 +142,8 @@ type
     function GetCDSMasterService: TClientDataset;
     function GetSalesInv: TSalesInvoice;
     procedure InitView;
-    procedure LoadCreditLimitUsed(ResetCreditLimit: Boolean = False);
+    procedure LoadCreditLimitUsed(ResetCreditLimit: Boolean = False; AEditedValue:
+        Double = 0);
     procedure LookupItem(aKey: string = '');
     procedure LookupCustomer(sKey: string = '');
     procedure SetDefaultValueTipeHarga;
@@ -288,12 +293,30 @@ begin
 end;
 
 function TfrmSalesInvoice.CheckCreditLimit: Boolean;
+var
+  lRemain: Double;
 begin
+  Result := cbBayar.ItemIndex = PaymentFlag_Cash;
+  if Result then exit;
+
   Result := SalesInv.Customer.CreditLimit = 0;
   if Result then exit;
 
-  if not Result then
-    Result := True; //temporary
+  lRemain := crCreditLimit.Value - crCreditUsed.Value;
+  lRemain := lRemain - crTotal.Value;
+
+  if lRemain < -1 then
+  begin
+    Result := TAppUtils.Confirm('Nilai Faktur melebihi Sisa Credit Limit'
+      +#13 +'Anda yakin melanjutkan simpan?'
+    );
+
+    if Result then
+    begin
+      Result := TfrmAuthUser.Authorize;
+    end;
+    
+  end;
 end;
 
 procedure TfrmSalesInvoice.colDiscPropertiesEditValueChanged(Sender: TObject);
@@ -786,6 +809,7 @@ end;
 procedure TfrmSalesInvoice.LoadByID(aID: Integer; SalesType: Integer = 0;
     IsReadOnly: Boolean = True);
 var
+  lEditedVal: Double;
   lItem: TTransDetail;
   lService: TServiceDetail;
 begin
@@ -835,6 +859,12 @@ begin
   begin
     SalesInv.Customer.ReLoad(False);
     edCustomer.Text := SalesInv.Customer.Nama;
+
+    lEditedVal := 0;
+    if SalesInv.PaymentFlag = PaymentFlag_Credit then
+      lEditedVal := SalesInv.Amount;
+
+    LoadCreditLimitUsed(False, lEditedVal);
   end;
 
 //  cxLookupGudang.Clear;
@@ -885,27 +915,34 @@ begin
 end;
 
 procedure TfrmSalesInvoice.LoadCreditLimitUsed(ResetCreditLimit: Boolean =
-    False);
+    False; AEditedValue: Double = 0);
 var
   S: string;
 begin
   if ResetCreditLimit then
   begin
-
+    crCreditLimit.Value := 0;
+    crCreditUsed.Value  := 0;
   end else
   begin
+    crCreditLimit.Value := 0;
+    crCreditUsed.Value  := 0;
+
     S := 'SELECT * FROM FN_GETCREDITLIMIT(' + IntToStr(SalesInv.Customer.ID)+')';
     with TDBUtils.OpenQuery(S) do
     begin
       Try
         if not eof then
         begin
-
+          crCreditLimit.Value := FieldByName('CREDITLIMIT').AsFloat;
+          crCreditUsed.Value  := FieldByName('CREDITUSED').AsFloat;
         end;
       Finally
         Free;
       End;
     end;
+
+    crCreditUsed.Value := crCreditUsed.Value - AEditedValue;
   end;
 end;
 
