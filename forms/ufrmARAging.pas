@@ -41,6 +41,21 @@ type
     procedure btnRefreshClick(Sender: TObject);
     procedure cxGrdMainDataControllerDetailExpanded(
       ADataController: TcxCustomDataController; ARecordIndex: Integer);
+    procedure colCurrentStylesGetContentStyle(Sender: TcxCustomGridTableView;
+      ARecord: TcxCustomGridRecord; AItem: TcxCustomGridTableItem;
+      var AStyle: TcxStyle);
+    procedure colRange1StylesGetContentStyle(Sender: TcxCustomGridTableView;
+      ARecord: TcxCustomGridRecord; AItem: TcxCustomGridTableItem;
+      var AStyle: TcxStyle);
+    procedure colRange2StylesGetContentStyle(Sender: TcxCustomGridTableView;
+      ARecord: TcxCustomGridRecord; AItem: TcxCustomGridTableItem;
+      var AStyle: TcxStyle);
+    procedure colRange3StylesGetContentStyle(Sender: TcxCustomGridTableView;
+      ARecord: TcxCustomGridRecord; AItem: TcxCustomGridTableItem;
+      var AStyle: TcxStyle);
+    procedure colRange4StylesGetContentStyle(Sender: TcxCustomGridTableView;
+      ARecord: TcxCustomGridRecord; AItem: TcxCustomGridTableItem;
+      var AStyle: TcxStyle);
   private
     FCDSDetail: TClientDataset;
     FCDSMain: TClientDataset;
@@ -62,6 +77,56 @@ uses
   uDXUtils, uDBUtils, uAppUtils;
 
 {$R *.dfm}
+
+procedure TfrmARAging.colCurrentStylesGetContentStyle(
+  Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
+  AItem: TcxCustomGridTableItem; var AStyle: TcxStyle);
+begin
+  inherited;
+  if ARecord <> nil then
+    if VarToFloat(ARecord.Values[colCurrent.Index])>0 then
+      AStyle := styleCurrent;
+end;
+
+procedure TfrmARAging.colRange1StylesGetContentStyle(
+  Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
+  AItem: TcxCustomGridTableItem; var AStyle: TcxStyle);
+begin
+  inherited;
+  if ARecord <> nil then
+    if VarToFloat(ARecord.Values[colRange1.Index])>0 then
+      AStyle := styleRange1;
+end;
+
+procedure TfrmARAging.colRange2StylesGetContentStyle(
+  Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
+  AItem: TcxCustomGridTableItem; var AStyle: TcxStyle);
+begin
+  inherited;
+  if ARecord <> nil then
+    if VarToFloat(ARecord.Values[colRange2.Index])>0 then
+      AStyle := styleRange2;
+end;
+
+procedure TfrmARAging.colRange3StylesGetContentStyle(
+  Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
+  AItem: TcxCustomGridTableItem; var AStyle: TcxStyle);
+begin
+  inherited;
+  if ARecord <> nil then
+    if VarToFloat(ARecord.Values[colRange3.Index])>0 then
+      AStyle := styleRange3;
+end;
+
+procedure TfrmARAging.colRange4StylesGetContentStyle(
+  Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
+  AItem: TcxCustomGridTableItem; var AStyle: TcxStyle);
+begin
+  inherited;
+  if ARecord <> nil then
+    if VarToFloat(ARecord.Values[colRange4.Index])>0 then
+      AStyle := styleRange4;
+end;
 
 procedure TfrmARAging.cxGrdMainDataControllerDetailExpanded(
   ADataController: TcxCustomDataController; ARecordIndex: Integer);

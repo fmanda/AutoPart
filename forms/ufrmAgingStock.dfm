@@ -2,7 +2,6 @@ inherited frmAgingStock: TfrmAgingStock
   Caption = 'Aging Stock / Umur Stock'
   ClientHeight = 608
   ClientWidth = 984
-  ExplicitLeft = -88
   ExplicitWidth = 1000
   ExplicitHeight = 647
   PixelsPerInch = 96
@@ -96,9 +95,6 @@ inherited frmAgingStock: TfrmAgingStock
         '** Aging stock akan di reset setiap awal tahun / End Of Year')
       StyleDisabled.TextColor = clBlack
       TabOrder = 4
-      ExplicitLeft = 568
-      ExplicitTop = 18
-      ExplicitHeight = 47
       Height = 41
       Width = 414
     end
@@ -111,7 +107,6 @@ inherited frmAgingStock: TfrmAgingStock
     Height = 462
     Align = alClient
     TabOrder = 3
-    ExplicitLeft = 8
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -236,7 +231,7 @@ inherited frmAgingStock: TfrmAgingStock
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
-        Styles.Content = styleCurrent
+        Styles.OnGetContentStyle = colRange1StylesGetContentStyle
         Width = 75
       end
       object colRange2: TcxGridDBColumn
@@ -246,7 +241,7 @@ inherited frmAgingStock: TfrmAgingStock
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
-        Styles.Content = styleRange1
+        Styles.OnGetContentStyle = colRange2StylesGetContentStyle
         Width = 75
       end
       object colRange3: TcxGridDBColumn
@@ -256,7 +251,7 @@ inherited frmAgingStock: TfrmAgingStock
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
-        Styles.Content = styleRange2
+        Styles.OnGetContentStyle = colRange3StylesGetContentStyle
         Width = 75
       end
       object colRange4: TcxGridDBColumn
@@ -266,7 +261,7 @@ inherited frmAgingStock: TfrmAgingStock
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
-        Styles.Content = styleRange3
+        Styles.OnGetContentStyle = colRange4StylesGetContentStyle
         Width = 75
       end
       object colRange5: TcxGridDBColumn
@@ -276,7 +271,7 @@ inherited frmAgingStock: TfrmAgingStock
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
-        Styles.Content = styleRange4
+        Styles.OnGetContentStyle = colRange5StylesGetContentStyle
         Width = 75
       end
       object colValue1: TcxGridDBColumn
@@ -286,7 +281,7 @@ inherited frmAgingStock: TfrmAgingStock
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
-        Styles.Content = styleCurrent
+        Styles.OnGetContentStyle = colValue1StylesGetContentStyle
         Width = 75
       end
       object colValue2: TcxGridDBColumn
@@ -296,7 +291,7 @@ inherited frmAgingStock: TfrmAgingStock
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
-        Styles.Content = styleRange1
+        Styles.OnGetContentStyle = colValue2StylesGetContentStyle
         Width = 75
       end
       object colValue3: TcxGridDBColumn
@@ -306,7 +301,7 @@ inherited frmAgingStock: TfrmAgingStock
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
-        Styles.Content = styleRange2
+        Styles.OnGetContentStyle = colValue3StylesGetContentStyle
         Width = 75
       end
       object colValue4: TcxGridDBColumn
@@ -316,7 +311,7 @@ inherited frmAgingStock: TfrmAgingStock
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
-        Styles.Content = styleRange3
+        Styles.OnGetContentStyle = colValue4StylesGetContentStyle
         Width = 75
       end
       object colValue5: TcxGridDBColumn
@@ -326,7 +321,7 @@ inherited frmAgingStock: TfrmAgingStock
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
-        Styles.Content = styleRange4
+        Styles.OnGetContentStyle = colValue5StylesGetContentStyle
         Width = 75
       end
       object colQty: TcxGridDBColumn
@@ -353,28 +348,30 @@ inherited frmAgingStock: TfrmAgingStock
     end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 512
-    Top = 24
+    Left = 336
+    Top = 304
     PixelsPerInch = 96
-    object styleCurrent: TcxStyle
+    object styleRange1: TcxStyle
       AssignedValues = [svColor]
       Color = 12320699
     end
-    object styleRange1: TcxStyle
+    object styleRange2: TcxStyle
       AssignedValues = [svColor]
       Color = 8454143
     end
-    object styleRange2: TcxStyle
+    object styleRange3: TcxStyle
       AssignedValues = [svColor]
       Color = 8432127
     end
-    object styleRange3: TcxStyle
+    object styleRange4: TcxStyle
       AssignedValues = [svColor]
       Color = 8421631
     end
-    object styleRange4: TcxStyle
+    object styleRange5: TcxStyle
       AssignedValues = [svColor]
       Color = 5197823
+    end
+    object cxStyle1: TcxStyle
     end
   end
 end

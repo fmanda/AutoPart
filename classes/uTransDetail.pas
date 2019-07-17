@@ -33,7 +33,7 @@ type
     function GetHeaderFlag: Integer; virtual; abstract;
     function GetTotalCost(UseLastCost: Boolean = False; IncludePPN: Boolean =
         False): Double;
-    function SaveRepeat(aRepeatCount: Integer = 2; DoShowMsg: Boolean = True):
+    function SaveRepeat(DoShowMsg: Boolean = True; aRepeatCount: Integer = 2):
         Boolean;
     property Items: TObjectList<TTransDetail> read GetItems write FItems;
   published
@@ -560,8 +560,8 @@ begin
   end;
 end;
 
-function TCRUDTransDetail.SaveRepeat(aRepeatCount: Integer = 2; DoShowMsg:
-    Boolean = True): Boolean;
+function TCRUDTransDetail.SaveRepeat(DoShowMsg: Boolean = True; aRepeatCount:
+    Integer = 2): Boolean;
 var
   iRepeat: Integer;
 begin

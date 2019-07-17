@@ -10,9 +10,11 @@ object DMReport: TDMReport
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   WindowState = wsMaximized
   OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
   OnMouseWheel = FormMouseWheel
   OnMouseWheelDown = FormMouseWheelDown
   OnMouseWheelUp = FormMouseWheelUp

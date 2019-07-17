@@ -170,6 +170,7 @@ inherited frmARAging: TfrmARAging
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
+        Styles.OnGetContentStyle = colCurrentStylesGetContentStyle
         Width = 110
       end
       object colRange1: TcxGridDBColumn
@@ -179,7 +180,7 @@ inherited frmARAging: TfrmARAging
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
-        Styles.Content = styleCurrent
+        Styles.OnGetContentStyle = colRange1StylesGetContentStyle
         Width = 110
       end
       object colRange2: TcxGridDBColumn
@@ -189,7 +190,7 @@ inherited frmARAging: TfrmARAging
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
-        Styles.Content = styleRange1
+        Styles.OnGetContentStyle = colRange2StylesGetContentStyle
         Width = 110
       end
       object colRange3: TcxGridDBColumn
@@ -199,7 +200,7 @@ inherited frmARAging: TfrmARAging
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
-        Styles.Content = styleRange2
+        Styles.OnGetContentStyle = colRange3StylesGetContentStyle
         Width = 110
       end
       object colRange4: TcxGridDBColumn
@@ -209,7 +210,7 @@ inherited frmARAging: TfrmARAging
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
-        Styles.Content = styleRange4
+        Styles.OnGetContentStyle = colRange4StylesGetContentStyle
         Width = 110
       end
       object colRange5: TcxGridDBColumn

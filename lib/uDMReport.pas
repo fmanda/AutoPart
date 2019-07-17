@@ -75,6 +75,7 @@ type
     procedure btnZoomOutClick(Sender: TObject);
     procedure cbZoomPropertiesChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta:
         Integer; MousePos: TPoint; var Handled: Boolean);
     procedure FormMouseWheelDown(Sender: TObject; Shift: TShiftState; MousePos:
@@ -442,6 +443,13 @@ procedure TDMReport.FormCreate(Sender: TObject);
 begin
   BisaDesignReport := True;
   ReportPath := TAppUtils.GetAppPath + 'Reports';
+end;
+
+procedure TDMReport.FormKeyDown(Sender: TObject; var Key: Word; Shift:
+    TShiftState);
+begin
+  if Key = VK_ESCAPE then
+    Close;
 end;
 
 procedure TDMReport.FormMouseWheel(Sender: TObject; Shift: TShiftState;

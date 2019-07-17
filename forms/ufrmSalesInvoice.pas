@@ -189,9 +189,9 @@ procedure TfrmSalesInvoice.btnPrintClick(Sender: TObject);
 begin
   inherited;
   if SalesInv.PaymentFlag = PaymentFlag_Cash then
-  begin
-    TPrintStruk.Print(SalesInv);
-  end;
+    TPrintStruk.Print(SalesInv)
+  else
+    TSalesInvoice.PrintData(SalesInv.ID);
 end;
 
 procedure TfrmSalesInvoice.btnSaveClick(Sender: TObject);
@@ -199,7 +199,7 @@ begin
   inherited;
   if not ValidateData then exit;
   UpdateData;
-  if SalesInv.SaveRepeat then
+  if SalesInv.SaveRepeat(False) then
   begin
 //    TAppUtils.InformationBerhasilSimpan;
 //    Self.ModalResult := mrOK;
@@ -316,7 +316,8 @@ begin
       Result := TfrmAuthUser.Authorize;
     end;
     
-  end;
+  end else
+    Result := True;
 end;
 
 procedure TfrmSalesInvoice.colDiscPropertiesEditValueChanged(Sender: TObject);

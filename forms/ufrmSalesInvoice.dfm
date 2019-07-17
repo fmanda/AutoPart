@@ -52,18 +52,15 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     ExplicitWidth = 984
     inherited lbEscape: TLabel
       Left = 904
-      Height = 17
       ExplicitLeft = 904
     end
     inherited lgndSave: TLabel
       Left = 729
-      Height = 17
       Margins.Right = 25
       ExplicitLeft = 729
     end
     inherited lgndPrint: TLabel
       Left = 826
-      Height = 17
       Visible = True
       ExplicitLeft = 826
     end
@@ -329,9 +326,6 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       Properties.OnEditValueChanged = rbHargaPropertiesEditValueChanged
       ItemIndex = 0
       TabOrder = 0
-      ExplicitLeft = 10
-      ExplicitTop = 17
-      ExplicitHeight = 123
       Height = 129
       Width = 85
     end
@@ -448,8 +442,6 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 152
-    ExplicitHeight = 246
     object cxGrdItem: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdItemEditKeyDown
