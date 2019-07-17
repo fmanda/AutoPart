@@ -71,7 +71,7 @@ end;
 
 class function TPrintStruk.GenerateStruk(ASalesInv: TSalesInvoice): TStrings;
 var
-  iCetul: Integer;
+//  iCetul: Integer;
   lDetail: TTransDetail;
   lFileName: string;
   lSS: TStrings;

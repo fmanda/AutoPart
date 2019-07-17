@@ -186,6 +186,7 @@ type
     dxBarButton81: TdxBarButton;
     dxBarButton82: TdxBarButton;
     procedure actAccountExecute(Sender: TObject);
+    procedure actAgingARExecute(Sender: TObject);
     procedure actAgingStockExecute(Sender: TObject);
     procedure actCashInExecute(Sender: TObject);
     procedure actCashOutExecute(Sender: TObject);
@@ -262,7 +263,7 @@ uses
   ufrmBrowseCashTransfer, ufrmBrowsePriceQuotation, ufrmBrowseAccount,
   ufrmBrowseCashPayment, ufrmBrowseCashReceipt, ufrmBrowseStockOpname,
   ufrmBrowseStockAdjustment, ufrmEndOfDay, ufrmLapCashOpname,
-  ufrmSalesAnalysis, ufrmProfitLoss;
+  ufrmSalesAnalysis, ufrmProfitLoss, ufrmARAging;
 
 {$R *.dfm}
 
@@ -291,6 +292,11 @@ end;
 procedure TfrmMain.actAccountExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseAccount);
+end;
+
+procedure TfrmMain.actAgingARExecute(Sender: TObject);
+begin
+  ShowForm(TfrmARAging);
 end;
 
 procedure TfrmMain.actAgingStockExecute(Sender: TObject);

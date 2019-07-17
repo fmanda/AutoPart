@@ -96,8 +96,6 @@ object frmAuthUser: TfrmAuthUser
     Style.BorderStyle = ebsNone
     TabOrder = 0
     Transparent = True
-    ExplicitTop = 3
-    ExplicitHeight = 175
     Height = 132
     Width = 62
   end
@@ -109,10 +107,6 @@ object frmAuthUser: TfrmAuthUser
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitLeft = 175
-    ExplicitTop = -8
-    ExplicitWidth = 385
-    ExplicitHeight = 289
     object cxLabel1: TcxLabel
       AlignWithMargins = True
       Left = 5
@@ -131,9 +125,6 @@ object frmAuthUser: TfrmAuthUser
       Style.Font.Style = []
       Style.IsFontAssigned = True
       Properties.Alignment.Vert = taVCenter
-      ExplicitLeft = 8
-      ExplicitTop = 190
-      ExplicitWidth = 375
       AnchorY = 14
     end
     object txtUser: TcxTextEdit
@@ -156,9 +147,6 @@ object frmAuthUser: TfrmAuthUser
       Style.IsFontAssigned = True
       TabOrder = 0
       Text = 'admin'
-      ExplicitLeft = 8
-      ExplicitTop = 202
-      ExplicitWidth = 375
       Width = 306
     end
     object cxLabel2: TcxLabel
@@ -179,8 +167,6 @@ object frmAuthUser: TfrmAuthUser
       Style.Font.Style = []
       Style.IsFontAssigned = True
       Properties.Alignment.Vert = taVCenter
-      ExplicitTop = 194
-      ExplicitWidth = 375
       AnchorY = 66
     end
     object txtPassword: TcxTextEdit
@@ -205,8 +191,6 @@ object frmAuthUser: TfrmAuthUser
       Style.IsFontAssigned = True
       TabOrder = 1
       Text = 'admin'
-      ExplicitTop = 211
-      ExplicitWidth = 375
       Width = 306
     end
     object cxGroupBox2: TcxGroupBox
@@ -219,8 +203,6 @@ object frmAuthUser: TfrmAuthUser
       StyleDisabled.BorderStyle = ebsNone
       StyleDisabled.LookAndFeel.NativeStyle = False
       TabOrder = 2
-      ExplicitTop = 253
-      ExplicitWidth = 385
       Height = 43
       Width = 316
       object btnCancel: TcxButton
@@ -235,7 +217,6 @@ object frmAuthUser: TfrmAuthUser
         OptionsImage.Images = frmMain.ImageList
         TabOrder = 1
         OnClick = btnCancelClick
-        ExplicitLeft = 253
       end
       object btnLogin: TcxButton
         AlignWithMargins = True
@@ -249,7 +230,6 @@ object frmAuthUser: TfrmAuthUser
         OptionsImage.Images = frmMain.ImageList
         TabOrder = 0
         OnClick = btnLoginClick
-        ExplicitWidth = 242
       end
     end
   end
@@ -262,9 +242,6 @@ object frmAuthUser: TfrmAuthUser
     Style.LookAndFeel.NativeStyle = False
     StyleDisabled.LookAndFeel.NativeStyle = False
     TabOrder = 2
-    Visible = False
-    ExplicitTop = -14
-    ExplicitWidth = 456
     Height = 35
     Width = 384
     object lblTitle: TcxLabel
@@ -282,7 +259,6 @@ object frmAuthUser: TfrmAuthUser
       Style.IsFontAssigned = True
       Properties.Alignment.Horz = taCenter
       Properties.Alignment.Vert = taVCenter
-      ExplicitWidth = 446
       AnchorX = 192
       AnchorY = 14
     end

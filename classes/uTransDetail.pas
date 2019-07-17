@@ -290,6 +290,7 @@ type
     function GetHeaderFlag: Integer; override;
     function GetRemain: Double;
     function GetTotalBayar: Double;
+    class procedure PrintData(aSalesInvoiceID: Integer);
     procedure SetGenerateNo; override;
     function UpdateRemain(aPaymentDate: TDateTime; AddedPaidAmt: Double = 0;
         AddedReturAmt: Double = 0): Boolean;
@@ -501,7 +502,7 @@ const
 implementation
 
 uses
-  System.StrUtils, uFinancialTransaction, uAppUtils, uSalesFee;
+  System.StrUtils, uFinancialTransaction, uAppUtils, uSalesFee, uDMReport;
 
 destructor TCRUDTransDetail.Destroy;
 begin
@@ -1468,6 +1469,14 @@ end;
 function TSalesInvoice.GetTotalBayar: Double;
 begin
   Result := Self.PaidAmount + Self.ReturAmount;
+end;
+
+class procedure TSalesInvoice.PrintData(aSalesInvoiceID: Integer);
+var
+  S: string;
+begin
+  S := 'SELECT * FROM FN_SLIP_SALESINVOICE(' + IntToStr(aSalesInvoiceID) + ')';
+  DMReport.ExecuteReport('SlipSalesInvoice', S);
 end;
 
 procedure TSalesInvoice.SetGenerateNo;

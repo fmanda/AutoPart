@@ -41,8 +41,8 @@ type
     pnStatusBar: TdxStatusBar;
     frxReport1: TfrxReport;
     frxReport2: TfrxReport;
-    IBQ1: TfrxDBDataset;
-    IBQ2: TfrxDBDataset;
+    FDS1: TfrxDBDataset;
+    FDS2: TfrxDBDataset;
     exExcel: TfrxXLSExport;
     exEmail: TfrxMailExport;
     exHTML: TfrxHTMLExport;
@@ -58,7 +58,7 @@ type
     FDMemTable2: TFDMemTable;
     FDStanStorageBinLink1: TFDStanStorageBinLink;
     FDStanStorageJSONLink1: TFDStanStorageJSONLink;
-    IBQ3: TfrxDBDataset;
+    FDS3: TfrxDBDataset;
     FDMemTable3: TFDMemTable;
     exPDF: TfrxPDFExport;
     pdfSaveDlg: TSaveDialog;
@@ -128,7 +128,7 @@ var
 implementation
 
 uses
-  uAppUtils, Data.SqlExpr, System.StrUtils, uDBUtils;
+  uAppUtils, Data.SqlExpr, System.StrUtils, uDBUtils, uVariable;
 
 
 {$R *.dfm}
@@ -271,22 +271,22 @@ begin
 
   if Length(ANamaQuery) = 0 then
   begin
-    IBQ1.UserName := 'IBQ1';
-    IBQ2.UserName := 'IBQ2';
-    IBQ3.UserName := 'IBQ3';
+    FDS1.UserName := 'FDS1';
+    FDS2.UserName := 'FDS2';
+    FDS3.UserName := 'FDS3';
   end else begin
     if Length(ANamaQuery) = 3 then
     begin
-      IBQ1.UserName := ANamaQuery[0];
-      IBQ2.UserName := ANamaQuery[1];
-      IBQ3.UserName := ANamaQuery[2];
+      FDS1.UserName := ANamaQuery[0];
+      FDS2.UserName := ANamaQuery[1];
+      FDS3.UserName := ANamaQuery[2];
     end else if Length(ANamaQuery) = 2 then
     begin
-      IBQ1.UserName := ANamaQuery[0];
-      IBQ2.UserName := ANamaQuery[1];
+      FDS1.UserName := ANamaQuery[0];
+      FDS2.UserName := ANamaQuery[1];
     end  else if Length(ANamaQuery) = 1 then
     begin
-      IBQ1.UserName := ANamaQuery[0];
+      FDS1.UserName := ANamaQuery[0];
     end;
   end;
 //    ANamaQuery := TStringArray.Create('IBQ1', 'IBQ2', 'IBQ3');
@@ -319,7 +319,7 @@ begin
   if (not frxReport1.LoadFromFile(sReportFile)) and (not AisTextReport) then
   begin
     If frxReport1.DataSets.Count=0 then
-      frxReport1.DataSets.Add(Self.ibq1);
+      frxReport1.DataSets.Add(Self.FDS1);
     frxReport2.ShowReport;
     pgcReport.ActivePage := tsDotMatrix;
     ShowModal;
@@ -328,7 +328,7 @@ begin
     frxReport2.LoadFromFile(frxReport2.FileName);
 
     If frxReport1.DataSets.Count=0 then
-      frxReport1.DataSets.Add(Self.ibq1);
+      frxReport1.DataSets.Add(Self.FDS1);
 
     frxReport1.PrepareReport;
     frxReport2.PrepareReport;
@@ -360,19 +360,18 @@ begin
 //  Filter2 := '';
 
   FReportName := aReportName;
+  InitVariables;
   sDir        := ExtractFileDir(Self.ReportPath);
   if RightStr(sDIR,1) <> '\' then sDir := sDir + '\';
   sReportFile :=  sDir + FReportName + '.fr3';
   sTextReportFile := sDir + FReportName + '_txt.fr3';
 //  sReportFile     := StringReplace(sReportFile,'\\','\',[rfReplaceAll]);
 //  sTextReportFile := StringReplace(sTextReportFile,'\\','\', [rfReplaceAll]);
-
-  InitVariables;
-  IBQ1.DataSet    := aDataSet1;
-  IBQ2.DataSet    := aDataSet2;
-  IBQ1.UserName   := 'IBQ1';
-  IBQ2.UserName   := 'IBQ2';
-  IBQ3.UserName   := 'IBQ3';
+  FDS1.DataSet    := aDataSet1;
+  FDS2.DataSet    := aDataSet2;
+  FDS1.UserName   := 'FDS1';
+  FDS2.UserName   := 'FDS2';
+  FDS3.UserName   := 'FDS3';
 
   frxReport1.FileName := sReportFile;
   frxReport2.FileName := sTextReportFile;
@@ -387,16 +386,16 @@ begin
   if (not frxReport1.LoadFromFile(sReportFile)) and (not AisTextReport) then
   begin
     If frxReport1.DataSets.Count=0 then
-      frxReport1.DataSets.Add(Self.ibq1);
+      frxReport1.DataSets.Add(Self.FDS1);
     frxReport2.ShowReport;
-    pgcReport.ActivePage := tsDotMatrix;
+    pgcReport.ActivePage := tsGraphic;
     ShowModal;
 //    frxReport1.DesignReport;
   end else begin
     frxReport2.LoadFromFile(frxReport2.FileName);
 
     If frxReport1.DataSets.Count=0 then
-      frxReport1.DataSets.Add(Self.ibq1);
+      frxReport1.DataSets.Add(Self.FDS1);
 
     frxReport1.PrepareReport;
     frxReport2.PrepareReport;
@@ -442,7 +441,7 @@ end;
 procedure TDMReport.FormCreate(Sender: TObject);
 begin
   BisaDesignReport := True;
-  ReportPath := TAppUtils.GetAppPath;
+  ReportPath := TAppUtils.GetAppPath + 'Reports';
 end;
 
 procedure TDMReport.FormMouseWheel(Sender: TObject; Shift: TShiftState;
@@ -496,16 +495,21 @@ end;
 procedure TDMReport.InitVariables(DataFromRest: Boolean = True);
 begin
   //tambahakan variabel report disini, sementara hardcoded dulu
-  frxGlobalVariables['COMP']        := 'Goro Assalaam';
-  frxGlobalVariables['USERNAME']    := UserName;
-  frxGlobalVariables['REALNAME']    := RealName;
-  frxGlobalVariables['TGLCETAK']    := FormatDateTime('yyyy/mm/dd hh:mm:ss',Now());
+  frxGlobalVariables['Nama_Cabang'] := AppVariable.Nama_Cabang;
+  frxGlobalVariables['Alamat_1']    := AppVariable.Alamat_1;
+  frxGlobalVariables['Alamat_2']    := AppVariable.Alamat_2;
+  frxGlobalVariables['Telp']        := AppVariable.Telp;
+  frxGlobalVariables['USERPRINT']   := UserLogin;
+  frxGlobalVariables['PRINTDATE']   := FormatDateTime('yyyy/mm/dd hh:mm:ss',Now());
   if DataFromRest then
   begin
-    IBQ1.DataSet  := FDMemTable1;
-    IBQ2.DataSet  := FDMemTable2;
-    IBQ3.DataSet  := FDMemTable3;
+    FDS1.DataSet  := FDMemTable1;
+    FDS2.DataSet  := FDMemTable2;
+    FDS3.DataSet  := FDMemTable3;
   end;
+
+//  if ReportPath = '' then
+//    ReportPath := 'Reports';
 end;
 
 function TDMReport.IsBisaDesignReport: Boolean;

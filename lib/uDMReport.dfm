@@ -279,7 +279,6 @@ object DMReport: TDMReport
       StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 4
       Text = 'PDF'
-      ExplicitHeight = 21
       Width = 78
     end
     object btnPrev: TcxButton
@@ -653,7 +652,6 @@ object DMReport: TDMReport
       StyleHot.LookAndFeel.NativeStyle = False
       TabOrder = 10
       Text = '100%'
-      ExplicitHeight = 21
       Width = 60
     end
     object btnFastPrint: TcxButton
@@ -814,7 +812,7 @@ object DMReport: TDMReport
     Top = 87
     Datasets = <
       item
-        DataSet = IBQ1
+        DataSet = FDS1
         DataSetName = 'IBQ1'
       end>
     Variables = <>
@@ -846,7 +844,7 @@ object DMReport: TDMReport
         ParentFont = False
         Top = 187.000000000000000000
         Width = 1574.400000000000000000
-        DataSet = IBQ1
+        DataSet = FDS1
         DataSetName = 'IBQ1'
         RowCount = 0
         object DMPMemo3: TfrxDMPMemoView
@@ -1010,7 +1008,7 @@ object DMReport: TDMReport
           Left = 9.600000000000000000
           Width = 240.000000000000000000
           Height = 17.000000000000000000
-          DataSet = IBQ1
+          DataSet = FDS1
           DataSetName = 'IBQ1'
           FontStyle = []
           Frame.Typ = []
@@ -1025,7 +1023,7 @@ object DMReport: TDMReport
           Top = 102.000000000000000000
           Width = 1545.600000000000000000
           Height = 17.000000000000000000
-          DataSet = IBQ1
+          DataSet = FDS1
           DataSetName = 'IBQ1'
           FontStyle = []
           Frame.Style = fsDash
@@ -1045,7 +1043,7 @@ object DMReport: TDMReport
           Top = 34.000000000000000000
           Width = 1545.600000000000000000
           Height = 51.000000000000000000
-          DataSet = IBQ1
+          DataSet = FDS1
           DataSetName = 'IBQ1'
           FontStyle = []
           Frame.Style = fsDash
@@ -1202,7 +1200,7 @@ object DMReport: TDMReport
           Top = 85.000000000000000000
           Width = 115.200000000000000000
           Height = 17.000000000000000000
-          DataSet = IBQ1
+          DataSet = FDS1
           DataSetName = 'IBQ1'
           FontStyle = []
           Frame.Style = fsDash
@@ -1232,7 +1230,7 @@ object DMReport: TDMReport
           Top = 136.000000000000000000
           Width = 1545.600000000000000000
           Height = 17.000000000000000000
-          DataSet = IBQ1
+          DataSet = FDS1
           DataSetName = 'IBQ1'
           FontStyle = [fsx12cpi]
           Frame.Style = fsDash
@@ -1252,7 +1250,7 @@ object DMReport: TDMReport
           Top = 68.000000000000000000
           Width = 115.200000000000000000
           Height = 17.000000000000000000
-          DataSet = IBQ1
+          DataSet = FDS1
           DataSetName = 'IBQ1'
           FontStyle = []
           Frame.Style = fsDash
@@ -1269,7 +1267,7 @@ object DMReport: TDMReport
           Top = 68.000000000000000000
           Width = 480.000000000000000000
           Height = 17.000000000000000000
-          DataSet = IBQ1
+          DataSet = FDS1
           DataSetName = 'IBQ1'
           FontStyle = []
           Frame.Style = fsDash
@@ -1291,7 +1289,7 @@ object DMReport: TDMReport
           Top = 85.000000000000000000
           Width = 374.400000000000000000
           Height = 17.000000000000000000
-          DataSet = IBQ1
+          DataSet = FDS1
           DataSetName = 'IBQ1'
           FontStyle = []
           Frame.Style = fsDash
@@ -1308,7 +1306,7 @@ object DMReport: TDMReport
           Top = 85.000000000000000000
           Width = 115.200000000000000000
           Height = 17.000000000000000000
-          DataSet = IBQ1
+          DataSet = FDS1
           DataSetName = 'IBQ1'
           FontStyle = []
           Frame.Style = fsDash
@@ -1325,7 +1323,7 @@ object DMReport: TDMReport
           Top = 85.000000000000000000
           Width = 96.000000000000000000
           Height = 17.000000000000000000
-          DataSet = IBQ1
+          DataSet = FDS1
           DataSetName = 'IBQ1'
           FontStyle = []
           Frame.Style = fsDash
@@ -1363,7 +1361,7 @@ object DMReport: TDMReport
           Top = 17.000000000000000000
           Width = 240.000000000000000000
           Height = 17.000000000000000000
-          DataSet = IBQ1
+          DataSet = FDS1
           DataSetName = 'IBQ1'
           Frame.Style = fsDash
           Frame.Typ = []
@@ -1378,7 +1376,7 @@ object DMReport: TDMReport
           Top = 17.000000000000000000
           Width = 288.000000000000000000
           Height = 17.000000000000000000
-          DataSet = IBQ1
+          DataSet = FDS1
           DataSetName = 'IBQ1'
           FontStyle = [fsx12cpi]
           Frame.Style = fsDash
@@ -1420,7 +1418,7 @@ object DMReport: TDMReport
           Left = 9.600000000000000000
           Width = 1555.200000000000000000
           Height = 17.000000000000000000
-          DataSet = IBQ1
+          DataSet = FDS1
           DataSetName = 'IBQ1'
           FontStyle = [fsx12cpi]
           Frame.Style = fsDash
@@ -1476,7 +1474,7 @@ object DMReport: TDMReport
       FontStyle = []
     end
   end
-  object IBQ1: TfrxDBDataset
+  object FDS1: TfrxDBDataset
     UserName = 'IBQ1'
     CloseDataSource = False
     DataSet = FDMemTable1
@@ -1484,7 +1482,7 @@ object DMReport: TDMReport
     Left = 136
     Top = 152
   end
-  object IBQ2: TfrxDBDataset
+  object FDS2: TfrxDBDataset
     UserName = 'IBQ2'
     CloseDataSource = False
     DataSet = FDMemTable2
@@ -1632,7 +1630,7 @@ object DMReport: TDMReport
     Left = 728
     Top = 251
   end
-  object IBQ3: TfrxDBDataset
+  object FDS3: TfrxDBDataset
     UserName = 'IBQ3'
     CloseDataSource = False
     DataSet = FDMemTable3

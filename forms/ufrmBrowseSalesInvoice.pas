@@ -23,6 +23,7 @@ type
         ARecord: TcxCustomGridRecord; AItem: TcxCustomGridTableItem; var AStyle:
         TcxStyle);
     procedure FormCreate(Sender: TObject);
+    procedure btnPrintClick(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -39,7 +40,7 @@ implementation
 
 uses
   uDXUtils, uDBUtils, uAppUtils, ufrmSalesInvoice, System.DateUtils,
-  uTransDetail;
+  uTransDetail, uPrintStruk;
 
 {$R *.dfm}
 
@@ -100,6 +101,27 @@ begin
     Finally
       Free;
     End;
+  end;
+end;
+
+procedure TfrmBrowseSalesInvoice.btnPrintClick(Sender: TObject);
+var
+  lInv: TSalesInvoice;
+begin
+  inherited;
+  lInv := TSalesInvoice.Create;
+  Try
+    if lInv.LoadByID(Self.cxGrdMain.GetID) then
+    begin
+      if lInv.PaymentFlag = PaymentFlag_Cash then
+        TPrintStruk.Print(lInv);
+
+      if lInv.PaymentFlag = PaymentFlag_Credit then
+        TSalesInvoice.PrintData(lInv.ID);
+
+    end;
+  finally
+    lInv.Free;
   end;
 end;
 

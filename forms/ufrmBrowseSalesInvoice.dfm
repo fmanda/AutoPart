@@ -1,5 +1,6 @@
 inherited frmBrowseSalesInvoice: TfrmBrowseSalesInvoice
   Caption = 'Browse SalesInvoice'
+  ExplicitTop = -23
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
@@ -10,11 +11,14 @@ inherited frmBrowseSalesInvoice: TfrmBrowseSalesInvoice
       OnClick = btnEditClick
     end
     inherited btnLihat: TcxButton
-      Visible = True
       OnClick = btnLihatClick
     end
     inherited btnBaru: TcxButton
       OnClick = btnBaruClick
+    end
+    inherited btnPrint: TcxButton
+      Visible = True
+      OnClick = btnPrintClick
     end
   end
   inherited cxGroupBox1: TcxGroupBox

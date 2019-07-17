@@ -1,31 +1,23 @@
-inherited frmAgingStock: TfrmAgingStock
-  Caption = 'Aging Stock / Umur Stock'
-  ClientHeight = 608
-  ClientWidth = 984
-  ExplicitLeft = -88
-  ExplicitWidth = 1000
-  ExplicitHeight = 647
+inherited frmARAging: TfrmARAging
+  Caption = 'Aging AR / Umur Piutang'
+  ClientWidth = 712
+  ExplicitWidth = 728
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
-    ExplicitWidth = 984
-    Width = 984
+    ExplicitWidth = 712
+    Width = 712
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
       AnchorY = 18
     end
   end
   inherited cxGroupBox2: TcxGroupBox
-    Top = 573
-    ExplicitTop = 573
-    ExplicitWidth = 984
-    Width = 984
+    ExplicitWidth = 712
+    Width = 712
     inherited btnTutup: TcxButton
-      Left = 904
-      ExplicitLeft = 904
-    end
-    inherited btnExport: TcxButton
-      OnClick = btnExportClick
+      Left = 632
+      ExplicitLeft = 632
     end
     inherited btnRefresh: TcxButton
       OnClick = btnRefreshClick
@@ -41,77 +33,47 @@ inherited frmAgingStock: TfrmAgingStock
     Align = alTop
     Caption = ' Report Parameter '
     TabOrder = 2
-    Height = 67
-    Width = 984
+    Height = 60
+    Width = 712
     object cxLabel3: TcxLabel
-      Left = 40
-      Top = 28
-      Caption = 'Stock Per Tanggal'
+      Left = 24
+      Top = 25
+      Caption = 'Per Tanggal'
     end
-    object dtStock: TcxDateEdit
-      Left = 134
-      Top = 27
+    object dtRefDate: TcxDateEdit
+      Left = 86
+      Top = 25
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 0
       Width = 123
     end
-    object ckGrupMerk: TcxCheckBox
-      Left = 497
-      Top = 30
-      TabStop = False
-      Caption = 'Tampilkan Merk && Group Barang'
-      Properties.Alignment = taLeftJustify
-      State = cbsChecked
-      TabOrder = 2
-    end
     object rbJenis: TcxRadioGroup
-      Left = 286
-      Top = 12
+      Left = 233
+      Top = 10
       Caption = ' Jenis Report '
       Properties.Columns = 2
       Properties.Items = <
         item
-          Caption = 'Qty Stock'
+          Caption = 'Per Customer'
         end
         item
-          Caption = 'Nilai Stock'
+          Caption = 'Per Salesman'
         end>
-      Properties.OnEditValueChanged = rbJenisPropertiesEditValueChanged
       ItemIndex = 0
-      TabOrder = 3
+      TabOrder = 2
       Height = 43
-      Width = 185
-    end
-    object cxMemo1: TcxMemo
-      AlignWithMargins = True
-      Left = 565
-      Top = 21
-      Align = alRight
-      Enabled = False
-      Lines.Strings = (
-        
-          '** Aging stock memetakan umur stock dalam range hari dengan asum' +
-          'si FIFO'
-        '** Aging stock akan di reset setiap awal tahun / End Of Year')
-      StyleDisabled.TextColor = clBlack
-      TabOrder = 4
-      ExplicitLeft = 568
-      ExplicitTop = 18
-      ExplicitHeight = 47
-      Height = 41
-      Width = 414
+      Width = 203
     end
   end
   object cxGrid1: TcxGrid [3]
     AlignWithMargins = True
     Left = 3
-    Top = 108
-    Width = 978
-    Height = 462
+    Top = 101
+    Width = 706
+    Height = 269
     Align = alClient
     TabOrder = 3
-    ExplicitLeft = 8
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -123,12 +85,10 @@ inherited frmAgingStock: TfrmAgingStock
         item
           Format = ',0.##;(,0.##)'
           Kind = skSum
-          Column = colQty
         end
         item
           Format = ',0.##;(,0.##)'
           Kind = skSum
-          Column = colValue
         end
         item
           Format = ',0.##;(,0.##)'
@@ -158,29 +118,25 @@ inherited frmAgingStock: TfrmAgingStock
         item
           Format = ',0.##;(,0.##)'
           Kind = skSum
-          Column = colValue1
         end
         item
           Format = ',0.##;(,0.##)'
           Kind = skSum
-          Column = colValue2
         end
         item
           Format = ',0.##;(,0.##)'
           Kind = skSum
-          Column = colValue3
         end
         item
           Format = ',0.##;(,0.##)'
           Kind = skSum
-          Column = colValue4
         end
         item
           Format = ',0.##;(,0.##)'
           Kind = skSum
-          Column = colValue5
         end>
       DataController.Summary.SummaryGroups = <>
+      DataController.OnDetailExpanded = cxGrdMainDataControllerDetailExpanded
       FilterRow.Visible = True
       OptionsData.CancelOnExit = False
       OptionsData.Deleting = False
@@ -193,41 +149,28 @@ inherited frmAgingStock: TfrmAgingStock
       OptionsView.GroupByBox = False
       OptionsView.HeaderHeight = 30
       Styles.ContentOdd = styleOdd
-      object colGroup: TcxGridDBColumn
-        Caption = 'Group'
-        DataBinding.FieldName = 'ItemGroup'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Visible = False
-        HeaderAlignmentHorz = taCenter
-        Width = 125
-      end
-      object colMerk: TcxGridDBColumn
-        DataBinding.FieldName = 'Merk'
-        PropertiesClassName = 'TcxTextEditProperties'
-        Visible = False
-        HeaderAlignmentHorz = taCenter
-        Width = 114
-      end
       object colKode: TcxGridDBColumn
-        Caption = 'Kode Barang'
-        DataBinding.FieldName = 'Kode'
+        DataBinding.FieldName = 'Salesman'
         PropertiesClassName = 'TcxTextEditProperties'
+        Visible = False
         HeaderAlignmentHorz = taCenter
-        Width = 98
+        Width = 243
       end
       object colNotes: TcxGridDBColumn
-        Caption = 'Nama Barang'
-        DataBinding.FieldName = 'Nama'
+        DataBinding.FieldName = 'Customer'
         PropertiesClassName = 'TcxTextEditProperties'
+        Visible = False
         HeaderAlignmentHorz = taCenter
-        Width = 309
+        Width = 324
       end
-      object colUOM: TcxGridDBColumn
-        Caption = 'Satuan'
-        DataBinding.FieldName = 'UOM'
-        PropertiesClassName = 'TcxTextEditProperties'
+      object colCurrent: TcxGridDBColumn
+        Caption = 'Belum Jt Tempo'
+        DataBinding.FieldName = 'Current'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
-        Width = 51
+        Width = 110
       end
       object colRange1: TcxGridDBColumn
         Caption = '0 - 30 Hari'
@@ -237,7 +180,7 @@ inherited frmAgingStock: TfrmAgingStock
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
         Styles.Content = styleCurrent
-        Width = 75
+        Width = 110
       end
       object colRange2: TcxGridDBColumn
         Caption = '31 - 60 Hari'
@@ -247,7 +190,7 @@ inherited frmAgingStock: TfrmAgingStock
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
         Styles.Content = styleRange1
-        Width = 75
+        Width = 110
       end
       object colRange3: TcxGridDBColumn
         Caption = '61 - 90 Hari'
@@ -257,104 +200,45 @@ inherited frmAgingStock: TfrmAgingStock
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
         Styles.Content = styleRange2
-        Width = 75
+        Width = 110
       end
       object colRange4: TcxGridDBColumn
-        Caption = '91 - 120 Hari'
+        Caption = '> 90 Hari'
         DataBinding.FieldName = 'Range4'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
-        Styles.Content = styleRange3
-        Width = 75
+        Styles.Content = styleRange4
+        Width = 110
       end
       object colRange5: TcxGridDBColumn
-        Caption = '> 120 Hari'
-        DataBinding.FieldName = 'Range5'
+        DataBinding.FieldName = 'Total'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
-        Styles.Content = styleRange4
-        Width = 75
+        Width = 110
       end
-      object colValue1: TcxGridDBColumn
-        Caption = '0 - 30 Hari'
-        DataBinding.FieldName = 'ValueRange1'
-        PropertiesClassName = 'TcxCurrencyEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0.##;(,0.##)'
-        HeaderAlignmentHorz = taCenter
-        Styles.Content = styleCurrent
-        Width = 75
-      end
-      object colValue2: TcxGridDBColumn
-        Caption = '31 - 60 Hari'
-        DataBinding.FieldName = 'ValueRange2'
-        PropertiesClassName = 'TcxCurrencyEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0.##;(,0.##)'
-        HeaderAlignmentHorz = taCenter
-        Styles.Content = styleRange1
-        Width = 75
-      end
-      object colValue3: TcxGridDBColumn
-        Caption = '61 - 90 Hari'
-        DataBinding.FieldName = 'ValueRange3'
-        PropertiesClassName = 'TcxCurrencyEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0.##;(,0.##)'
-        HeaderAlignmentHorz = taCenter
-        Styles.Content = styleRange2
-        Width = 75
-      end
-      object colValue4: TcxGridDBColumn
-        Caption = '91 - 120 Hari'
-        DataBinding.FieldName = 'ValueRange4'
-        PropertiesClassName = 'TcxCurrencyEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0.##;(,0.##)'
-        HeaderAlignmentHorz = taCenter
-        Styles.Content = styleRange3
-        Width = 75
-      end
-      object colValue5: TcxGridDBColumn
-        Caption = '> 120 Hari'
-        DataBinding.FieldName = 'ValueRange5'
-        PropertiesClassName = 'TcxCurrencyEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0.##;(,0.##)'
-        HeaderAlignmentHorz = taCenter
-        Styles.Content = styleRange4
-        Width = 75
-      end
-      object colQty: TcxGridDBColumn
-        Caption = 'Total'
-        DataBinding.FieldName = 'TotalQty'
-        PropertiesClassName = 'TcxCurrencyEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0.##;(,0.##)'
-        HeaderAlignmentHorz = taCenter
-        Width = 67
-      end
-      object colValue: TcxGridDBColumn
-        Caption = 'Total'
-        DataBinding.FieldName = 'TotalValue'
-        PropertiesClassName = 'TcxCurrencyEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0.##;(,0.##)'
-        HeaderAlignmentHorz = taCenter
-      end
+    end
+    object cxGrdDetail: TcxGridDBTableView
+      Navigator.Buttons.CustomButtons = <>
+      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.FooterSummaryItems = <>
+      DataController.Summary.SummaryGroups = <>
+      OptionsView.GroupByBox = False
     end
     object cxGrid1Level1: TcxGridLevel
       Caption = 'Data Stock'
       GridView = cxGrdMain
+      object cxGrid1Level2: TcxGridLevel
+        GridView = cxGrdDetail
+      end
     end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 512
-    Top = 24
+    Left = 528
+    Top = 0
     PixelsPerInch = 96
     object styleCurrent: TcxStyle
       AssignedValues = [svColor]
@@ -374,7 +258,7 @@ inherited frmAgingStock: TfrmAgingStock
     end
     object styleRange4: TcxStyle
       AssignedValues = [svColor]
-      Color = 5197823
+      Color = clRed
     end
   end
 end

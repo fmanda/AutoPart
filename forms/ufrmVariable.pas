@@ -8,7 +8,7 @@ uses
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   Vcl.Menus, cxStyles, cxDataControllerConditionalFormattingRulesManagerDialog,
   cxVGrid, cxInplaceContainer, Vcl.StdCtrls, Vcl.ExtCtrls, cxButtons, cxGroupBox,
-  cxTextEdit, cxDBExtLookupComboBox, cxButtonEdit, uVariable;
+  cxTextEdit, cxDBExtLookupComboBox, cxButtonEdit, uVariable, cxClasses;
 
 type
   TfrmVariable = class(TfrmDefaultInput)
@@ -25,6 +25,7 @@ type
     colDefRekening: TcxEditorRow;
     colCOAPengeluaran: TcxEditorRow;
     colCOAPendapatan: TcxEditorRow;
+    colNamaCabang: TcxEditorRow;
     procedure FormCreate(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
     procedure colDefCustUmumEditPropertiesButtonClick(Sender: TObject;
@@ -132,6 +133,7 @@ begin
   AppVariable.Def_Rekening := colDefRekening.Properties.Value;
   AppVariable.Account_Expense := colCOAPengeluaran.Properties.Value;
   AppVariable.Account_OtherIncome := colCOAPendapatan.Properties.Value;
+  AppVariable.Nama_Cabang := colNamaCabang.Properties.Value;
 
   if AppVariable.UpdateVariable then
     TAppUtils.Information('Variable Berhasil Diupdate');
@@ -139,6 +141,7 @@ end;
 
 procedure TfrmVariable.LoadVariable;
 begin
+  colNamaCabang.Properties.Value := AppVariable.Nama_Cabang;
   colKodePusat.Properties.Value := AppVariable.Kode_Pusat;
   colKodeCabang.Properties.Value := AppVariable.Kode_Cabang;
   colAlamat1.Properties.Value := AppVariable.Alamat_1;
@@ -147,7 +150,6 @@ begin
   colDefCustUmum.Properties.Value := AppVariable.Def_Cust_Umum;
   colDefCustBengkel.Properties.Value := AppVariable.Def_Cust_Bengkel;
   colDefRekening.Properties.Value := AppVariable.Def_Rekening;
-
   colCOAPengeluaran.Properties.Value := AppVariable.Account_Expense;
   colCOAPendapatan.Properties.Value := AppVariable.Account_OtherIncome;
 end;

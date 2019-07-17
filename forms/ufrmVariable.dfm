@@ -47,7 +47,7 @@ inherited frmVariable: TfrmVariable
       ExplicitLeft = 426
     end
   end
-  object cxVertGrid: TcxVerticalGrid
+  object cxVertGrid: TcxVerticalGrid [2]
     Left = 0
     Top = 0
     Width = 584
@@ -55,7 +55,7 @@ inherited frmVariable: TfrmVariable
     Align = alClient
     OptionsView.CellAutoHeight = True
     OptionsView.CategoryExplorerStyle = True
-    OptionsView.RowHeaderWidth = 234
+    OptionsView.RowHeaderWidth = 108
     OptionsView.ShowEmptyRowImage = True
     OptionsBehavior.GoToNextCellOnEnter = True
     OptionsBehavior.GoToNextCellOnTab = True
@@ -66,6 +66,16 @@ inherited frmVariable: TfrmVariable
       Properties.Caption = 'Informasi Perusahaan'
       ID = 0
       ParentID = -1
+      Index = 0
+      Version = 1
+    end
+    object colNamaCabang: TcxEditorRow
+      Properties.Caption = 'Nama Cabang'
+      Properties.EditPropertiesClassName = 'TcxTextEditProperties'
+      Properties.DataBinding.ValueType = 'String'
+      Properties.Value = Null
+      ID = 12
+      ParentID = 0
       Index = 0
       Version = 1
     end
@@ -82,7 +92,7 @@ inherited frmVariable: TfrmVariable
       Properties.Value = Null
       ID = 1
       ParentID = 0
-      Index = 0
+      Index = 1
       Version = 1
     end
     object colKodeCabang: TcxEditorRow
@@ -98,7 +108,7 @@ inherited frmVariable: TfrmVariable
       Properties.Value = Null
       ID = 2
       ParentID = 0
-      Index = 1
+      Index = 2
       Version = 1
     end
     object colTelpCabang: TcxEditorRow
@@ -108,7 +118,7 @@ inherited frmVariable: TfrmVariable
       Properties.Value = Null
       ID = 3
       ParentID = 0
-      Index = 2
+      Index = 3
       Version = 1
     end
     object colAlamat1: TcxEditorRow
@@ -118,7 +128,7 @@ inherited frmVariable: TfrmVariable
       Properties.Value = Null
       ID = 4
       ParentID = 0
-      Index = 3
+      Index = 4
       Version = 1
     end
     object colAlamat2: TcxEditorRow
@@ -128,7 +138,7 @@ inherited frmVariable: TfrmVariable
       Properties.Value = Null
       ID = 5
       ParentID = 0
-      Index = 4
+      Index = 5
       Version = 1
     end
     object cxVertGridCategoryRow2: TcxCategoryRow
@@ -218,5 +228,8 @@ inherited frmVariable: TfrmVariable
       Index = 4
       Version = 1
     end
+  end
+  inherited styleRepo: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end

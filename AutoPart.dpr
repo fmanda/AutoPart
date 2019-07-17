@@ -105,7 +105,8 @@ uses
   ufrmProfitLoss in 'forms\ufrmProfitLoss.pas' {frmProfitLoss},
   uPrintStruk in 'classes\uPrintStruk.pas',
   ufrmAgingStock in 'forms\ufrmAgingStock.pas' {frmAgingStock},
-  ufrmAuthUser in 'forms\ufrmAuthUser.pas' {frmAuthUser};
+  ufrmAuthUser in 'forms\ufrmAuthUser.pas' {frmAuthUser},
+  ufrmARAging in 'forms\ufrmARAging.pas' {frmARAging};
 
 {$R *.res}
 
@@ -115,6 +116,5 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmAuthUser, frmAuthUser);
   Application.Run;
 end.

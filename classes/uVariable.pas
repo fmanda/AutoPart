@@ -18,6 +18,7 @@ type
     FDef_Rekening: string;
     FAccount_Expense: string;
     FAccount_OtherIncome: string;
+    FNama_Cabang: string;
     FToleransi_Piutang: Double;
   public
     function GetAccountExpense: TAccount;
@@ -36,6 +37,7 @@ type
     property Account_Expense: string read FAccount_Expense write FAccount_Expense;
     property Account_OtherIncome: string read FAccount_OtherIncome write
         FAccount_OtherIncome;
+    property Nama_Cabang: string read FNama_Cabang write FNama_Cabang;
     property Toleransi_Piutang: Double read FToleransi_Piutang write
         FToleransi_Piutang;
   end;
@@ -102,6 +104,8 @@ begin
       Account_Expense := lCDS.FieldByName('VarValue').AsString;
     if lCDS.Locate('varname','Account_OtherIncome',[loCaseInsensitive]) then
       Account_OtherIncome := lCDS.FieldByName('VarValue').AsString;
+    if lCDS.Locate('varname','Nama_Cabang',[loCaseInsensitive]) then
+      Nama_Cabang := lCDS.FieldByName('VarValue').AsString;
   Finally
     lCDS.Free;
   End;
@@ -140,6 +144,8 @@ begin
       + QuotedStr(Account_Expense) + ');');
     SS.Add('insert into tvariable(varname, varvalue) values(''Account_OtherIncome'','
       + QuotedStr(Account_OtherIncome) + ');');
+    SS.Add('insert into tvariable(varname, varvalue) values(''Nama_Cabang'','
+      + QuotedStr(Nama_Cabang) + ');');
 
     Result := TDBUtils.ExecuteSQL(SS);
   Finally
