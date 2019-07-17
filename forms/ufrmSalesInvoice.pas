@@ -124,6 +124,7 @@ type
     procedure CalculateAll;
     procedure CDSAfterDelete(DataSet: TDataSet);
     procedure CDSAfterInsert(DataSet: TDataSet);
+    function CheckCreditLimit: Boolean;
     function DC: TcxGridDBDataController;
     function DCService: TcxGridDBDataController;
     procedure FocusToGrid;
@@ -137,6 +138,7 @@ type
     function GetCDSMasterService: TClientDataset;
     function GetSalesInv: TSalesInvoice;
     procedure InitView;
+    procedure LoadCreditLimitUsed(ResetCreditLimit: Boolean = False);
     procedure LookupItem(aKey: string = '');
     procedure LookupCustomer(sKey: string = '');
     procedure SetDefaultValueTipeHarga;
@@ -283,6 +285,15 @@ procedure TfrmSalesInvoice.CDSAfterInsert(DataSet: TDataSet);
 begin
   inherited;
   DataSet.FieldByName('Warehouse').AsInteger := VarToInt(cxLookupGudang.EditValue);
+end;
+
+function TfrmSalesInvoice.CheckCreditLimit: Boolean;
+begin
+  Result := SalesInv.Customer.CreditLimit = 0;
+  if Result then exit;
+
+  if not Result then
+    Result := True; //temporary
 end;
 
 procedure TfrmSalesInvoice.colDiscPropertiesEditValueChanged(Sender: TObject);
@@ -534,6 +545,7 @@ begin
   if SalesInv.Customer = nil then
     SalesInv.Customer := TCustomer.Create;
   SalesInv.Customer.LoadByCode(VarToStr(DisplayValue));
+  LoadCreditLimitUsed;
   edCustomer.Text := SalesInv.Customer.Nama;
 end;
 
@@ -872,6 +884,31 @@ begin
 
 end;
 
+procedure TfrmSalesInvoice.LoadCreditLimitUsed(ResetCreditLimit: Boolean =
+    False);
+var
+  S: string;
+begin
+  if ResetCreditLimit then
+  begin
+
+  end else
+  begin
+    S := 'SELECT * FROM FN_GETCREDITLIMIT(' + IntToStr(SalesInv.Customer.ID)+')';
+    with TDBUtils.OpenQuery(S) do
+    begin
+      Try
+        if not eof then
+        begin
+
+        end;
+      Finally
+        Free;
+      End;
+    end;
+  end;
+end;
+
 procedure TfrmSalesInvoice.LookupItem(aKey: string = '');
 var
   cxLookup: TfrmCXServerLookup;
@@ -970,6 +1007,7 @@ begin
       if SalesInv.Customer = nil then
         SalesInv.Customer := TCustomer.Create;
       SalesInv.Customer.LoadByID(cxLookup.FieldValue('id'));
+      LoadCreditLimitUsed;
       edCustomer.Text := SalesInv.Customer.Nama;
     end;
   Finally
@@ -986,6 +1024,7 @@ begin
     0 :
     begin
       SalesInv.Customer.LoadByCode(AppVariable.Def_Cust_Umum);
+      LoadCreditLimitUsed(True);
       edCustomer.Text := SalesInv.Customer.Nama;
       cbBayar.ItemIndex := PaymentFlag_Cash;
 //      cxLookupFee.Clear;
@@ -994,6 +1033,7 @@ begin
     1 :
     begin
       SalesInv.Customer.LoadByCode(AppVariable.Def_Cust_Bengkel);
+      LoadCreditLimitUsed(True);
       edCustomer.Text := SalesInv.Customer.Nama;
       cbBayar.ItemIndex := PaymentFlag_Cash;
     end;
@@ -1151,6 +1191,13 @@ begin
   begin
     TAppUtils.Warning('Customer belum dipilih');
     edCustomer.SetFocus;
+    exit;
+  end;
+
+  if not CheckCreditLimit then
+  begin
+//    TAppUtils.Warning('Credit Limit Customer tidak cukup');
+//    edCustomer.SetFocus;
     exit;
   end;
 
