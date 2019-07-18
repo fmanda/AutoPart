@@ -56,6 +56,7 @@ type
     FModifiedDate: TDateTime;
     FModifiedBy: String;
     FIsActive: Integer;
+    FLeadTime: Integer;
     FRak: String;
     FPPN: Double;
     FNotes: String;
@@ -80,6 +81,7 @@ type
     property ModifiedDate: TDateTime read FModifiedDate write FModifiedDate;
     property ModifiedBy: String read FModifiedBy write FModifiedBy;
     property IsActive: Integer read FIsActive write FIsActive;
+    property LeadTime: Integer read FLeadTime write FLeadTime;
     property Rak: String read FRak write FRak;
     property PPN: Double read FPPN write FPPN;
     property Notes: String read FNotes write FNotes;

@@ -79,12 +79,14 @@ inherited frmItem: TfrmItem
       ExplicitLeft = 659
     end
   end
-  object cxGroupBox1: TcxGroupBox
+  object cxGroupBox1: TcxGroupBox [2]
     Left = 0
     Top = 0
     Align = alTop
     Caption = ' Informasi Barang [F1] '
     TabOrder = 0
+    ExplicitLeft = -80
+    ExplicitTop = -40
     Height = 177
     Width = 738
     object cxLabel1: TcxLabel
@@ -178,27 +180,27 @@ inherited frmItem: TfrmItem
     end
     object lbModifiedBy: TcxLabel
       Left = 420
-      Top = 106
+      Top = 140
       Caption = 'Modified By'
     end
     object edModifiedBy: TcxTextEdit
       Left = 481
-      Top = 106
+      Top = 140
       TabStop = False
       Properties.CharCase = ecUpperCase
-      TabOrder = 9
+      TabOrder = 10
       Width = 201
     end
     object lbModified: TcxLabel
       Left = 409
-      Top = 85
+      Top = 119
       Caption = 'Date Modified'
     end
     object dtModified: TcxDateEdit
       Left = 481
-      Top = 84
+      Top = 118
       TabStop = False
-      TabOrder = 8
+      TabOrder = 9
       Width = 133
     end
     object chkActive: TcxCheckBox
@@ -207,7 +209,7 @@ inherited frmItem: TfrmItem
       TabStop = False
       Caption = 'Active'
       State = cbsChecked
-      TabOrder = 19
+      TabOrder = 20
     end
     object cxLookUpUOM: TcxExtLookupComboBox
       Left = 481
@@ -220,8 +222,27 @@ inherited frmItem: TfrmItem
       Top = 22
       Caption = 'Satuan Stock'
     end
+    object cxLabel11: TcxLabel
+      Left = 425
+      Top = 86
+      Caption = 'Lead Time'
+    end
+    object spLeadTime: TcxSpinEdit
+      Left = 481
+      Top = 85
+      Properties.Alignment.Horz = taRightJustify
+      Properties.MinValue = 1.000000000000000000
+      TabOrder = 8
+      Value = 1
+      Width = 69
+    end
+    object cxLabel12: TcxLabel
+      Left = 553
+      Top = 86
+      Caption = 'Hari'
+    end
   end
-  object pgcMain: TcxPageControl
+  object pgcMain: TcxPageControl [3]
     Left = 0
     Top = 177
     Width = 738
@@ -470,9 +491,6 @@ inherited frmItem: TfrmItem
       Caption = 'History Perubahan Harga'
       ImageIndex = 1
       TabVisible = False
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
     end
     object tsAvgCost: TcxTabSheet
       Caption = 'History Harga Pokok Penjualan / Harga Average'
@@ -509,7 +527,6 @@ inherited frmItem: TfrmItem
           Properties.SaveTime = False
           Properties.ShowTime = False
           TabOrder = 1
-          ExplicitHeight = 21
           Width = 100
         end
         object StartDate: TcxDateEdit
@@ -520,7 +537,6 @@ inherited frmItem: TfrmItem
           Properties.SaveTime = False
           Properties.ShowTime = False
           TabOrder = 2
-          ExplicitHeight = 21
           Width = 100
         end
         object cxLabel9: TcxLabel
@@ -529,7 +545,6 @@ inherited frmItem: TfrmItem
           Align = alRight
           Caption = 'Filter Periode'
           Properties.Alignment.Vert = taVCenter
-          ExplicitLeft = 201
           AnchorY = 18
         end
         object cxLabel10: TcxLabel
@@ -538,7 +553,6 @@ inherited frmItem: TfrmItem
           Align = alRight
           Caption = 's/d'
           Properties.Alignment.Vert = taVCenter
-          ExplicitLeft = 428
           AnchorY = 18
         end
       end
@@ -569,6 +583,9 @@ inherited frmItem: TfrmItem
         end
       end
     end
+  end
+  inherited styleRepo: TcxStyleRepository
+    PixelsPerInch = 96
   end
   object cxStyleRepository1: TcxStyleRepository
     Left = 688

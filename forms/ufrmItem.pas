@@ -14,7 +14,7 @@ uses
   cxGrid, cxMemo, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
   cxDBExtLookupComboBox, cxTextEdit, cxLabel, cxCurrencyEdit, dxBarBuiltInMenu,
   cxPC, Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, Datasnap.DBClient, uItem,
-  cxCheckBox, Vcl.ExtCtrls, cxGridServerModeTableView;
+  cxCheckBox, Vcl.ExtCtrls, cxGridServerModeTableView, cxSpinEdit;
 
 type
   TfrmItem = class(TfrmDefaultInput)
@@ -72,6 +72,9 @@ type
     cxGrid: TcxGrid;
     cxGrdAvg: TcxGridServerModeTableView;
     cxGridLevel1: TcxGridLevel;
+    cxLabel11: TcxLabel;
+    spLeadTime: TcxSpinEdit;
+    cxLabel12: TcxLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnDelClick(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
@@ -386,12 +389,14 @@ begin
     end;
 
     Item.IsActive := 1;
+    Item.LeadTime := 1;
   end;
 
   edKode.Text   := Item.Kode;
   edNama.Text   := Item.Nama;
   edNotes.Text  := Item.Notes;
   edRak.Text    := Item.Rak;
+  spLeadTime.Value := Item.LeadTime;
 
   if Item.Merk <> nil then
     cxLookupMerk.EditValue := Item.Merk.Id;
@@ -443,6 +448,7 @@ begin
   Item.Group.Free;
   Item.Merk.Free;
   Item.Rak  := edRak.Text;
+  Item.LeadTime := spLeadTime.Value;
 
   if not VarIsNull(cxLookupGroup.EditValue) then
     Item.Group := TItemGroup.CreateID(VarToInt(cxLookupGroup.EditValue));
