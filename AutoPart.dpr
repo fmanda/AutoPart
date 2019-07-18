@@ -117,6 +117,5 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmSuggestionOrder, frmSuggestionOrder);
   Application.Run;
 end.

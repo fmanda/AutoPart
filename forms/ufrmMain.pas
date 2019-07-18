@@ -227,6 +227,7 @@ type
     procedure actSettingKoneksiExecute(Sender: TObject);
     procedure actStockAdjustmentExecute(Sender: TObject);
     procedure actStockOpnameExecute(Sender: TObject);
+    procedure actSuggestionOrderExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
     procedure actTransferStockExecute(Sender: TObject);
     procedure actVariableExecute(Sender: TObject);
@@ -263,7 +264,7 @@ uses
   ufrmBrowseCashTransfer, ufrmBrowsePriceQuotation, ufrmBrowseAccount,
   ufrmBrowseCashPayment, ufrmBrowseCashReceipt, ufrmBrowseStockOpname,
   ufrmBrowseStockAdjustment, ufrmEndOfDay, ufrmLapCashOpname,
-  ufrmSalesAnalysis, ufrmProfitLoss, ufrmARAging;
+  ufrmSalesAnalysis, ufrmProfitLoss, ufrmARAging, ufrmSuggestionOrder;
 
 {$R *.dfm}
 
@@ -525,6 +526,11 @@ end;
 procedure TfrmMain.actStockOpnameExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseStockOpname);
+end;
+
+procedure TfrmMain.actSuggestionOrderExecute(Sender: TObject);
+begin
+  ShowForm(TfrmSuggestionOrder);
 end;
 
 procedure TfrmMain.actSupplierExecute(Sender: TObject);

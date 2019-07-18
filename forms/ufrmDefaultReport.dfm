@@ -19,7 +19,6 @@ inherited frmDefaultReport: TfrmDefaultReport
     Style.LookAndFeel.NativeStyle = False
     StyleDisabled.LookAndFeel.NativeStyle = False
     TabOrder = 0
-    Visible = False
     Height = 35
     Width = 639
     object lblTitle: TcxLabel
