@@ -7,6 +7,7 @@ inherited frmAgingStock: TfrmAgingStock
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
+    Visible = False
     ExplicitWidth = 984
     Width = 984
     inherited lblTitle: TcxLabel
@@ -38,7 +39,8 @@ inherited frmAgingStock: TfrmAgingStock
     Margins.Right = 0
     Margins.Bottom = 0
     Align = alTop
-    Caption = ' Report Parameter '
+    Caption = ' Aging Stock / Umur Stock '
+    Style.TextStyle = [fsBold]
     TabOrder = 2
     Height = 67
     Width = 984

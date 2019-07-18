@@ -1297,6 +1297,7 @@ object frmMain: TfrmMain
     object actSuggestionOrder: TAction
       Category = 'Inventory'
       Caption = 'Suggestion Order'
+      OnExecute = actSuggestionOrderExecute
     end
   end
   object ImageList: TcxImageList

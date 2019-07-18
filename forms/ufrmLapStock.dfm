@@ -7,6 +7,8 @@ inherited frmLapStock: TfrmLapStock
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
+    Visible = False
+    ExplicitTop = -3
     ExplicitWidth = 1009
     Width = 1009
     inherited lblTitle: TcxLabel
@@ -38,7 +40,8 @@ inherited frmLapStock: TfrmLapStock
     Margins.Right = 0
     Margins.Bottom = 0
     Align = alTop
-    Caption = ' Report Parameter '
+    Caption = ' Laporan Stock '
+    Style.TextStyle = [fsBold]
     TabOrder = 2
     Height = 123
     Width = 1009

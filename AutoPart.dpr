@@ -106,7 +106,8 @@ uses
   uPrintStruk in 'classes\uPrintStruk.pas',
   ufrmAgingStock in 'forms\ufrmAgingStock.pas' {frmAgingStock},
   ufrmAuthUser in 'forms\ufrmAuthUser.pas' {frmAuthUser},
-  ufrmARAging in 'forms\ufrmARAging.pas' {frmARAging};
+  ufrmARAging in 'forms\ufrmARAging.pas' {frmARAging},
+  ufrmSuggestionOrder in 'forms\ufrmSuggestionOrder.pas' {frmSuggestionOrder};
 
 {$R *.res}
 
