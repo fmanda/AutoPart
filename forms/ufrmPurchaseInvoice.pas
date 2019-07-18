@@ -84,6 +84,7 @@ type
     FCDS: TClientDataset;
     FCDSClone: TClientDataset;
     FCDSUOM: TClientDataset;
+    FCDSDummy: TClientDataset;
     FPurchInv: TPurchaseInvoice;
     procedure CalculateAll;
     procedure CDSAfterDelete(DataSet: TDataSet);
@@ -94,6 +95,7 @@ type
     function GetCDS: TClientDataset;
     function GetCDSClone: TClientDataset;
     function GetCDSUOM: TClientDataset;
+    function GetCDSDummy: TClientDataset;
     function GetPurchInv: TPurchaseInvoice;
     procedure InitView;
     procedure LookupItem(aKey: string = '');
@@ -104,6 +106,7 @@ type
     property CDS: TClientDataset read GetCDS write FCDS;
     property CDSClone: TClientDataset read GetCDSClone write FCDSClone;
     property CDSUOM: TClientDataset read GetCDSUOM write FCDSUOM;
+    property CDSDummy: TClientDataset read GetCDSDummy write FCDSDummy;
     property PurchInv: TPurchaseInvoice read GetPurchInv write FPurchInv;
     { Private declarations }
   protected
@@ -575,18 +578,16 @@ begin
   cxLookupRekening.SetDefaultValue();
   edNotes.Text := 'Dummy Data';
 
-  iCount := Random(15)+3;
+  iCount := 50; //Random(15)+3;
   lItem := TItem.Create;
   Try
     DC.RecordCount := 0;
+    CDSDummy.First;
     for i := 0 to iCount do
     begin
-//      DC.FocusedRecordIndex := DC.AppendRecord;
 
-      while true do
-      begin
-        if lItem.LoadByID(Random(23091)) then break;
-      end;
+      if lItem.LoadByID(CDSDummy.FieldByName('ID').AsInteger) then continue;
+
 
       if i>0 then DC.Append;
 
@@ -594,6 +595,8 @@ begin
       DC.SetEditValue(colQty.Index, Random(9) + 1, evsValue);
       CalculateAll;
       DC.Post;
+
+      CDSDummy.Next;
     end;
   Finally
     lItem.Free;
@@ -604,6 +607,15 @@ begin
   UpdateData;
   PurchInv.SaveRepeat();        
 
+end;
+
+function TfrmPurchaseInvoice.GetCDSDummy: TClientDataset;
+begin
+  if FCDSDummy = nil then
+  begin
+    FCDSDummy := TDBUtils.OpenDataset('select * from titem where nama like ''oli%'' ',Self);
+  end;
+  Result := FCDSDummy;
 end;
 
 procedure TfrmPurchaseInvoice.LookupSupplier(sKey: string = '');
