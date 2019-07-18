@@ -52,15 +52,18 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     ExplicitWidth = 984
     inherited lbEscape: TLabel
       Left = 904
+      Height = 17
       ExplicitLeft = 904
     end
     inherited lgndSave: TLabel
       Left = 729
+      Height = 17
       Margins.Right = 25
       ExplicitLeft = 729
     end
     inherited lgndPrint: TLabel
       Left = 826
+      Height = 17
       Visible = True
       ExplicitLeft = 826
     end

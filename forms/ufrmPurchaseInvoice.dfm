@@ -21,6 +21,7 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
     end
     inherited btnPrint: TcxButton
       Left = 807
+      OnClick = btnPrintClick
       ExplicitLeft = 807
     end
     inherited btnSave: TcxButton

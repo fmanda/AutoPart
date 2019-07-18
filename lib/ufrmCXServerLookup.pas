@@ -223,15 +223,18 @@ begin
 end;
 
 procedure TfrmCXServerLookup.RefreshData;
+var
+  newSQL: string;
 begin
   //process SQL
+  newSQL := SQL;
   if StartDate.Visible then
   begin
-    SQL := StringReplace(SQL, _startdateparam, TAppUtils.QuotD(StartDate.Date) ,[rfReplaceAll,rfIgnoreCase]);
-    SQL := StringReplace(SQL, _enddateparam, TAppUtils.QuotD(EndDate.Date) ,[rfReplaceAll,rfIgnoreCase] );
+    newSQL := StringReplace(SQL, _startdateparam, TAppUtils.QuotD(StartDate.Date) ,[rfReplaceAll,rfIgnoreCase]);
+    newSQL := StringReplace(newSQL, _enddateparam, TAppUtils.QuotD(EndDate.Date) ,[rfReplaceAll,rfIgnoreCase] );
   end;
 
-  cxGrdMain.LoadFromSQL(SQL, KeyName);
+  cxGrdMain.LoadFromSQL(newSQL, KeyName);
   cxGrdMain.EnableFiltering(True);
 end;
 

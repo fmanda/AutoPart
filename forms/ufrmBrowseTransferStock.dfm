@@ -10,7 +10,6 @@ inherited frmBrowseTransferStock: TfrmBrowseTransferStock
       OnClick = btnEditClick
     end
     inherited btnLihat: TcxButton
-      Visible = True
       OnClick = btnLihatClick
     end
     inherited btnBaru: TcxButton
@@ -19,17 +18,17 @@ inherited frmBrowseTransferStock: TfrmBrowseTransferStock
   end
   inherited cxGroupBox1: TcxGroupBox
     inherited EndDate: TcxDateEdit
-      ExplicitHeight = 25
+      Visible = True
     end
     inherited StartDate: TcxDateEdit
-      ExplicitHeight = 25
+      Visible = True
     end
     inherited cxLabel1: TcxLabel
-      ExplicitLeft = 260
+      Visible = True
       AnchorY = 18
     end
     inherited cxLabel2: TcxLabel
-      ExplicitLeft = 433
+      Visible = True
       AnchorY = 18
     end
     inherited lblTitle: TcxLabel

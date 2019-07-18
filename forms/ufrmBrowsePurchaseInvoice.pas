@@ -23,6 +23,7 @@ type
     procedure cxGrdMainStylesGetContentStyle(Sender: TcxCustomGridTableView;
         ARecord: TcxCustomGridRecord; AItem: TcxCustomGridTableItem; var AStyle:
         TcxStyle);
+    procedure btnPrintClick(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -107,6 +108,22 @@ begin
     Finally
       Free;
     End;
+  end;
+end;
+
+procedure TfrmBrowsePurchaseInvoice.btnPrintClick(Sender: TObject);
+var
+  lInv: TPurchaseInvoice;
+begin
+  inherited;
+  lInv := TPurchaseInvoice.Create;
+  Try
+    if lInv.LoadByID(Self.cxGrdMain.GetID) then
+    begin
+      TPurchaseInvoice.PrintData(lInv.ID);
+    end;
+  finally
+    lInv.Free;
   end;
 end;
 

@@ -973,7 +973,7 @@ begin
 
   for lItem in SalesRetur.Invoice.Items do
   begin
-    if not CDSValidate.Locate('ItemID',CDSClone.FieldByName('Item').AsInteger,[]) then
+    if not CDSValidate.Locate('ItemID',lItem.Item.ID,[]) then
       continue;
 
     CDSValidate.Edit;

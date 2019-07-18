@@ -124,6 +124,7 @@ type
     function GetHeaderFlag: Integer; override;
     function GetRemain: Double;
     function GetTotalBayar: Double;
+    class procedure PrintData(aInvoiceID: Integer);
     procedure SetGenerateNo; override;
     function UpdateRemain(aDate: TDateTime = 0; AddedPaidAmt: Double = 0;
         AddedReturAmt: Double = 0): Boolean;
@@ -838,6 +839,14 @@ end;
 function TPurchaseInvoice.GetTotalBayar: Double;
 begin
   Result := Self.PaidAmount + Self.ReturAmount;
+end;
+
+class procedure TPurchaseInvoice.PrintData(aInvoiceID: Integer);
+var
+  S: string;
+begin
+  S := 'SELECT * FROM FN_SLIP_PURCHASEINVOICE(' + IntToStr(aInvoiceID) + ')';
+  DMReport.ExecuteReport('SlipPurchaseInvoice', S);
 end;
 
 procedure TPurchaseInvoice.SetGenerateNo;

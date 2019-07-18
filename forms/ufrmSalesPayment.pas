@@ -566,7 +566,7 @@ begin
   if ckFilterSalesman.Checked then
     S := S + ' and a.salesman_id = ' + IntToStr(VarToInt(cxLookupSalesman.EditValue));
 
-  cxLookup := TfrmCXServerLookup.Execute(S, 'ID', StartOfTheMonth(Now()), EndOfTheMonth(Now()) );
+  cxLookup := TfrmCXServerLookup.Execute(S, 'ID', 0, 0 );
   Try
     cxLookup.PreFilter('INVOICENO', sKey);
     if cxLookup.ShowModal = mrOK then

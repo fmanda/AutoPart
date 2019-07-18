@@ -10,11 +10,14 @@ inherited frmBrowsePurchaseInvoice: TfrmBrowsePurchaseInvoice
       OnClick = btnEditClick
     end
     inherited btnLihat: TcxButton
-      Visible = True
       OnClick = btnLihatClick
     end
     inherited btnBaru: TcxButton
       OnClick = btnBaruClick
+    end
+    inherited btnPrint: TcxButton
+      Visible = True
+      OnClick = btnPrintClick
     end
   end
   inherited cxGroupBox1: TcxGroupBox

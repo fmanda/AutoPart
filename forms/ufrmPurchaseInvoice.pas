@@ -79,6 +79,7 @@ type
       AButtonIndex: Integer);
     procedure cbBayarPropertiesEditValueChanged(Sender: TObject);
     procedure btnGenerateClick(Sender: TObject);
+    procedure btnPrintClick(Sender: TObject);
   private
     DisableTrigger: Boolean;
     FCDS: TClientDataset;
@@ -133,13 +134,20 @@ begin
   GenerateDummy;
 end;
 
+procedure TfrmPurchaseInvoice.btnPrintClick(Sender: TObject);
+begin
+  inherited;
+  TPurchaseInvoice.PrintData(PurchInv.ID);
+end;
+
 procedure TfrmPurchaseInvoice.btnSaveClick(Sender: TObject);
 begin
   inherited;
   if not ValidateData then exit;
   UpdateData;
-  if PurchInv.SaveRepeat() then
+  if PurchInv.SaveRepeat(False) then
   begin
+    btnPrint.Click;
 //    TAppUtils.InformationBerhasilSimpan;
     Self.ModalResult := mrOK;
   end;
@@ -563,7 +571,7 @@ var
 begin
   LoadByID(0, False);
   cbBayar.ItemIndex := PaymentFlag_Credit;
-  dtInvoice.Date := Now() + (Random(60) - 30);         
+  dtInvoice.Date := Now() - (Random(90));
 
   if PurchInv.Supplier = nil then
     PurchInv.Supplier := TSupplier.Create;
@@ -586,13 +594,14 @@ begin
     for i := 0 to iCount do
     begin
 
-      if lItem.LoadByID(CDSDummy.FieldByName('ID').AsInteger) then continue;
+      if not lItem.LoadByID(CDSDummy.FieldByName('ID').AsInteger) then continue;
+      if lItem.ItemUOMs[0].HargaBeli = 0 then continue;
 
 
       if i>0 then DC.Append;
 
       SetItemToGrid(lItem);
-      DC.SetEditValue(colQty.Index, Random(9) + 1, evsValue);
+      DC.SetEditValue(colQty.Index, 10*Random(9)+5 , evsValue);
       CalculateAll;
       DC.Post;
 
@@ -603,9 +612,9 @@ begin
   End;
 
 //  if not TAppUtils.Confirm('Is it Okay?') then exit;
-  if not ValidateData then exit;
-  UpdateData;
-  PurchInv.SaveRepeat();        
+//  if not ValidateData then exit;
+//  UpdateData;
+//  PurchInv.SaveRepeat();
 
 end;
 

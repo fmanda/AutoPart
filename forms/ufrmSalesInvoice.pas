@@ -122,8 +122,10 @@ type
     FCDSService: TClientDataset;
     FCDSClone: TClientDataset;
     FCDSCloneServ: TClientDataset;
+    FCDSDummy: TClientDataset;
     FCDSUOM: TClientDataset;
     FCDSMasterService: TClientDataset;
+    FCDSValidate: TClientDataset;
     FSalesInv: TSalesInvoice;
     procedure CalculateAll;
     procedure CDSAfterDelete(DataSet: TDataSet);
@@ -138,6 +140,7 @@ type
     function GetCDSService: TClientDataset;
     function GetCDSClone: TClientDataset;
     function GetCDSCloneServ: TClientDataset;
+    function GetCDSDummy: TClientDataset;
     function GetCDSUOM: TClientDataset;
     function GetCDSMasterService: TClientDataset;
     function GetSalesInv: TSalesInvoice;
@@ -146,20 +149,25 @@ type
         Double = 0);
     procedure LookupItem(aKey: string = '');
     procedure LookupCustomer(sKey: string = '');
+    procedure SetCDSValidate(const Value: TClientDataset);
     procedure SetDefaultValueTipeHarga;
     procedure SetItemToGrid(aItem: TItem);
     procedure UpdateData;
     procedure UpdateHarga;
     function ValidateData: Boolean;
+    function ValidateStock: Boolean;
     property CDS: TClientDataset read GetCDS write FCDS;
     property CDSService: TClientDataset read GetCDSService write FCDSService;
     property CDSClone: TClientDataset read GetCDSClone write FCDSClone;
     property CDSCloneServ: TClientDataset read GetCDSCloneServ write FCDSCloneServ;
+    property CDSDummy: TClientDataset read GetCDSDummy write FCDSDummy;
     property CDSUOM: TClientDataset read GetCDSUOM write FCDSUOM;
     property CDSMasterService: TClientDataset read GetCDSMasterService write
         FCDSMasterService;
     property SalesInv: TSalesInvoice read GetSalesInv write FSalesInv;
     { Private declarations }
+  protected
+    property CDSValidate: TClientDataset read FCDSValidate write SetCDSValidate;
   public
     procedure LoadByID(aID: Integer; SalesType: Integer = 0; IsReadOnly: Boolean =
         True);
@@ -651,7 +659,7 @@ begin
   cxLookupMekanik.SetDefaultValue();
 
   cbBayar.ItemIndex := PaymentFlag_Credit;
-  dtInvoice.Date := Now() + (Random(60) - 30);
+  dtInvoice.Date := Now() - (Random(60));
 
   if SalesInv.Customer = nil then
     SalesInv.Customer := TCustomer.Create;
@@ -669,15 +677,14 @@ begin
   iCount := Random(15)+3;
   lItem := TItem.Create;
   Try
+    CDSDummy.First;
     for i := 0 to iCount do
     begin
 //      DC.FocusedRecordIndex := DC.AppendRecord;
 
 
-      while true do
-      begin
-        if lItem.LoadByID(Random(23091)) then break;
-      end;
+      if not lItem.LoadByID(CDSDummy.FieldByName('ID').AsInteger) then continue;
+      if lItem.ItemUOMs[0].HargaBeli = 0 then continue;
 
       if i>0 then DC.Append;
 
@@ -686,6 +693,7 @@ begin
       CalculateAll;
       DC.Post;
 
+      CDSDummy.Next;
     end;
   Finally
     lItem.Free;
@@ -743,6 +751,15 @@ begin
     FCDSCloneServ := CDSService.ClonedDataset(Self);
   end;
   Result := FCDSCloneServ;
+end;
+
+function TfrmSalesInvoice.GetCDSDummy: TClientDataset;
+begin
+  if FCDSDummy = nil then
+  begin
+    FCDSDummy := TDBUtils.OpenDataset('select * from titem where nama like ''oli%'' ',Self);
+  end;
+  Result := FCDSDummy;
 end;
 
 function TfrmSalesInvoice.GetCDSUOM: TClientDataset;
@@ -1053,6 +1070,23 @@ begin
   End;
 end;
 
+procedure TfrmSalesInvoice.SetCDSValidate(const Value: TClientDataset);
+begin
+  if FCDSValidate = nil then
+  begin
+    FCDSValidate := TClientDataset.Create(Self);
+    FCDSValidate.AddField('Item_ID', ftInteger);
+    FCDSValidate.AddField('Kode', ftString);
+    FCDSValidate.AddField('Nama', ftString);
+    FCDSValidate.AddField('UOM', ftString);
+    FCDSValidate.AddField('Stock', ftFloat);
+    FCDSValidate.AddField('OnHand', ftFloat);
+    FCDSValidate.AddField('Qty', ftFloat);
+    FCDSValidate.CreateDataSet;
+  end;
+  FCDSValidate := Value;
+end;
+
 procedure TfrmSalesInvoice.SetDefaultValueTipeHarga;
 begin
   if SalesInv.Customer = nil then
@@ -1323,6 +1357,8 @@ begin
     exit;
   end;
 
+  if not ValidateStock then exit;  
+
   lCashAmt := 0;
 
   if cbBayar.ItemIndex = PaymentFlag_Cash then
@@ -1333,6 +1369,14 @@ begin
   else
     Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
 
+end;
+
+function TfrmSalesInvoice.ValidateStock: Boolean;
+begin
+  Result := True;
+//  CDSValidate.EmptyDataSet;
+//  if not Result then
+//    Result := True;
 end;
 
 end.
