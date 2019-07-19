@@ -60,6 +60,13 @@ type
         Boolean = False);
     procedure SetChecked(CheckState: Boolean);
     procedure SetWarningLabel;
+    class function ShowMessage(ListMessage: WideString; CDSInput: TClientDataset;
+        HideCols: Array Of String; AllowSaveExcel: Boolean = False): TfrmCXMsgInfo;
+        overload;
+    class function ShowMessage(ListMessage: WideString; CDSInput: TClientDataset;
+        Buttons: TMsgDlgButtons; HideCols, EditableCols: Array Of String;
+        ShowChecked: Boolean = False; AllowSaveExcel: Boolean = False):
+        TfrmCXMsgInfo; overload;
     class function ShowMsgGrid(ListMessage: WideString; CDSInput: TClientDataset;
         Buttons: TMsgDlgButtons; HideCols, EditableCols: Array Of String;
         ShowChecked: Boolean = False; AllowSaveExcel: Boolean = False):
@@ -68,7 +75,8 @@ type
         HiddenCols: Array Of String; ShowModal: Boolean = True): TfrmCXMsgInfo;
         overload;
     class function ShowWarning(ListMessage: WideString; CDSInput: TClientDataset;
-        HideCols: Array Of String): TfrmCXMsgInfo; overload;
+        HideCols: Array Of String; AllowSaveExcel: Boolean = False): TfrmCXMsgInfo;
+        overload;
     property CDSResult: TClientDataset read FCDSResult write FCDSResult;
     { Public declarations }
   end;
@@ -297,6 +305,30 @@ begin
 //  mmPesan.Style.TextColor := clRed;
 end;
 
+class function TfrmCXMsgInfo.ShowMessage(ListMessage: WideString; CDSInput:
+    TClientDataset; HideCols: Array Of String; AllowSaveExcel: Boolean =
+    False): TfrmCXMsgInfo;
+begin
+  Result := TfrmCXMsgInfo.ShowMessage(ListMessage, CDSInput,[mbOK], HideCols, [], False, True);
+  Result.btnSaveExcel.Visible := AllowSaveExcel;
+  Result.AutoFreeForm := True;
+//  Result.SetWarningLabel;
+  Result.ShowModal;
+end;
+
+class function TfrmCXMsgInfo.ShowMessage(ListMessage: WideString; CDSInput:
+    TClientDataset; Buttons: TMsgDlgButtons; HideCols, EditableCols: Array Of
+    String; ShowChecked: Boolean = False; AllowSaveExcel: Boolean = False):
+    TfrmCXMsgInfo;
+begin
+  Result := TfrmCXMsgInfo.Create(Application);
+  Result.AutoFreeForm := False;
+  Result.mmPesan.Text := ListMessage;
+  Result.PrepareButtons(Buttons, AllowSaveExcel);
+  Result.PrepareDataSetFrom(CDSInput, ShowChecked);
+  Result.PrepareGrid(HideCols, EditableCols, ShowChecked);
+end;
+
 class function TfrmCXMsgInfo.ShowMsgGrid(ListMessage: WideString; CDSInput:
     TClientDataset; Buttons: TMsgDlgButtons; HideCols, EditableCols: Array Of
     String; ShowChecked: Boolean = False; AllowSaveExcel: Boolean = False):
@@ -325,9 +357,11 @@ begin
 end;
 
 class function TfrmCXMsgInfo.ShowWarning(ListMessage: WideString; CDSInput:
-    TClientDataset; HideCols: Array Of String): TfrmCXMsgInfo;
+    TClientDataset; HideCols: Array Of String; AllowSaveExcel: Boolean =
+    False): TfrmCXMsgInfo;
 begin
-  Result := TfrmCXMsgInfo.ShowMsgGrid(ListMessage, CDSInput,[mbOK], HideCols, [], False, True);
+  Result := TfrmCXMsgInfo.ShowMessage(ListMessage, CDSInput,[mbOK], HideCols, [], False, True);
+  Result.btnSaveExcel.Visible := AllowSaveExcel;
   Result.AutoFreeForm := True;
   Result.SetWarningLabel;
   Result.ShowModal;

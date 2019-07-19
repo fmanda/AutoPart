@@ -157,6 +157,7 @@ begin
   if FItemUOMS <> nil then FItemUOMS.Free;
   if FMerk <> nil then FMerk.Free;
   if FGroup <> nil then FGroup.Free;
+  if FStockUOM <> nil then FStockUOM.Free;  
 end;
 
 function TItem.BeforeSaveToDB: Boolean;

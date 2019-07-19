@@ -33,6 +33,7 @@ object frmCXMsgInfo: TfrmCXMsgInfo
       Left = 2
       Top = 2
       Align = alClient
+      Enabled = False
       Lines.Strings = (
         'Your Message Here , ex : List Of Failed Transaction :')
       ParentFont = False
@@ -51,6 +52,7 @@ object frmCXMsgInfo: TfrmCXMsgInfo
       Style.TextStyle = [fsBold]
       Style.IsFontAssigned = True
       StyleDisabled.LookAndFeel.Kind = lfUltraFlat
+      StyleDisabled.TextColor = clInfoText
       StyleFocused.LookAndFeel.Kind = lfUltraFlat
       StyleHot.LookAndFeel.Kind = lfUltraFlat
       TabOrder = 0

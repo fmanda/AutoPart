@@ -155,7 +155,6 @@ type
     procedure UpdateData;
     procedure UpdateHarga;
     function ValidateData: Boolean;
-    function ValidateStock: Boolean;
     property CDS: TClientDataset read GetCDS write FCDS;
     property CDSService: TClientDataset read GetCDSService write FCDSService;
     property CDSClone: TClientDataset read GetCDSClone write FCDSClone;
@@ -167,6 +166,7 @@ type
     property SalesInv: TSalesInvoice read GetSalesInv write FSalesInv;
     { Private declarations }
   protected
+    function CheckStock: Boolean;
     property CDSValidate: TClientDataset read FCDSValidate write SetCDSValidate;
   public
     procedure LoadByID(aID: Integer; SalesType: Integer = 0; IsReadOnly: Boolean =
@@ -183,7 +183,7 @@ implementation
 uses
   uDXUtils, uDBUtils, uAppUtils, ufrmCXServerLookup, uCustomer, cxDataUtils,
   uWarehouse, uMekanik, uSalesman, uVariable, uAccount, uSettingFee,
-  ufrmDialogPayment, uPrintStruk, ufrmAuthUser;
+  ufrmDialogPayment, uPrintStruk, ufrmAuthUser, uStockCheck;
 
 {$R *.dfm}
 
@@ -326,6 +326,54 @@ begin
     
   end else
     Result := True;
+end;
+
+function TfrmSalesInvoice.CheckStock: Boolean;
+var
+  lCalc: TStockCheck;
+  lCDS: TClientDataSet;
+  lItem: TTransDetail;
+  lOldSalesInv: TSalesInvoice;
+  QTYPCS: Integer;
+begin
+  lCalc := TStockCheck.Create(dtInvoice.Date);
+  lOldSalesInv := TSalesInvoice.Create;
+  Application.ProcessMessages;
+
+  lCDS := TClientDataSet.Create(Self);
+  Try
+    lCDS.CloneCursor(CDS, True);
+    lCDS.First;
+    while not lCDS.Eof do
+    begin
+      QTYPCS   := lCDS.FieldByName('QTY').AsInteger * lCDS.FieldByName('Konversi').AsInteger;
+      lCalc.AddCalcItem(
+        lCDS.FieldByName('Item').AsInteger,
+        lCDS.FieldByName('Warehouse').AsInteger,
+        QTYPCS
+      );
+      lCDS.Next;
+    end;
+
+    //apabila edit
+    If SalesInv.ID <> 0 then
+    begin
+      lOldSalesInv.LoadByID(SalesInv.ID);
+      for lItem in lOldSalesInv.Items do
+      begin
+        lCalc.AddOnHandPCS(
+            lItem.Item.ID,
+            lItem.Warehouse.ID,
+            lItem.Qty * lItem.Konversi
+          );
+      end;
+    end;
+    Result := lCalc.CheckStockIgnore(True);
+  finally
+    lCDS.Free;
+    lOldSalesInv.Free;
+    lCalc.Free;
+  End;
 end;
 
 procedure TfrmSalesInvoice.colDiscPropertiesEditValueChanged(Sender: TObject);
@@ -1357,7 +1405,7 @@ begin
     exit;
   end;
 
-  if not ValidateStock then exit;  
+  if not CheckStock then exit;
 
   lCashAmt := 0;
 
@@ -1369,14 +1417,6 @@ begin
   else
     Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
 
-end;
-
-function TfrmSalesInvoice.ValidateStock: Boolean;
-begin
-  Result := True;
-//  CDSValidate.EmptyDataSet;
-//  if not Result then
-//    Result := True;
 end;
 
 end.
