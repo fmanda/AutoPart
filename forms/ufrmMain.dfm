@@ -83,7 +83,6 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxRTInventory: TdxRibbonTab
-      Active = True
       Caption = 'Inventory'
       Groups = <
         item
@@ -95,6 +94,7 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
+      Active = True
       Caption = 'Penjualan & Kas'
       Groups = <
         item
@@ -422,7 +422,7 @@ object frmMain: TfrmMain
       WholeRow = False
     end
     object dxBarManagerBar10: TdxBar
-      Caption = 'Lap Keuangan'
+      Caption = 'Laporan'
       CaptionButtons = <>
       DockedLeft = 302
       DockedTop = 0
@@ -450,6 +450,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton62'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton83'
         end>
       OneOnRow = False
       Row = 0
@@ -988,6 +992,10 @@ object frmMain: TfrmMain
       Action = actCashFlow
       Category = 0
     end
+    object dxBarButton83: TdxBarButton
+      Action = actLapFeeSalesman
+      Category = 0
+    end
   end
   object ActionManager: TActionManager
     Images = ImageList
@@ -1298,6 +1306,11 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = 'Suggestion Order'
       OnExecute = actSuggestionOrderExecute
+    end
+    object actLapFeeSalesman: TAction
+      Category = 'Kasir & Penjualan'
+      Caption = 'Laporan Fee Salesman'
+      OnExecute = actLapFeeSalesmanExecute
     end
   end
   object ImageList: TcxImageList

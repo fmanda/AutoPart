@@ -108,7 +108,8 @@ uses
   ufrmAuthUser in 'forms\ufrmAuthUser.pas' {frmAuthUser},
   ufrmARAging in 'forms\ufrmARAging.pas' {frmARAging},
   ufrmSuggestionOrder in 'forms\ufrmSuggestionOrder.pas' {frmSuggestionOrder},
-  uStockCheck in 'classes\uStockCheck.pas';
+  uStockCheck in 'classes\uStockCheck.pas',
+  ufrmLapFeeSalesman in 'forms\ufrmLapFeeSalesman.pas' {frmLapFeeSalesman};
 
 {$R *.res}
 

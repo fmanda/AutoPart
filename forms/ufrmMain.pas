@@ -185,6 +185,8 @@ type
     dxBarButton80: TdxBarButton;
     dxBarButton81: TdxBarButton;
     dxBarButton82: TdxBarButton;
+    actLapFeeSalesman: TAction;
+    dxBarButton83: TdxBarButton;
     procedure actAccountExecute(Sender: TObject);
     procedure actAgingARExecute(Sender: TObject);
     procedure actAgingStockExecute(Sender: TObject);
@@ -199,6 +201,7 @@ type
     procedure actKartuStockExecute(Sender: TObject);
     procedure actLabaRugiExecute(Sender: TObject);
     procedure actLapCashOpnameExecute(Sender: TObject);
+    procedure actLapFeeSalesmanExecute(Sender: TObject);
     procedure actLapStockExecute(Sender: TObject);
     procedure actLoginExecute(Sender: TObject);
     procedure actMekanikExecute(Sender: TObject);
@@ -264,7 +267,8 @@ uses
   ufrmBrowseCashTransfer, ufrmBrowsePriceQuotation, ufrmBrowseAccount,
   ufrmBrowseCashPayment, ufrmBrowseCashReceipt, ufrmBrowseStockOpname,
   ufrmBrowseStockAdjustment, ufrmEndOfDay, ufrmLapCashOpname,
-  ufrmSalesAnalysis, ufrmProfitLoss, ufrmARAging, ufrmSuggestionOrder;
+  ufrmSalesAnalysis, ufrmProfitLoss, ufrmARAging, ufrmSuggestionOrder,
+  ufrmLapFeeSalesman;
 
 {$R *.dfm}
 
@@ -383,6 +387,11 @@ end;
 procedure TfrmMain.actLapCashOpnameExecute(Sender: TObject);
 begin
   ShowForm(TfrmLapCashOpname);
+end;
+
+procedure TfrmMain.actLapFeeSalesmanExecute(Sender: TObject);
+begin
+  ShowForm(TfrmLapFeeSalesman);
 end;
 
 procedure TfrmMain.actLapStockExecute(Sender: TObject);
