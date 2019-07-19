@@ -36,14 +36,18 @@ type
     cxLabel5: TcxLabel;
     cxGrid1DBChartView1: TcxGridDBChartView;
     cxPivotGridChartConnection1: TcxPivotGridChartConnection;
+    cbTemplate: TcxComboBox;
+    cxLabel1: TcxLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnExportClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure cxPivotGridChartConnection1GetDataCells(Sender:
         TcxPivotGridChartConnection; ACol, ARow: Integer; ACell:
         TcxPivotGridCrossCellSummary; var AUseInCalculations: Boolean);
+    procedure cbTemplatePropertiesEditValueChanged(Sender: TObject);
   private
     CDS: TClientDataset;
+    procedure SetPivotTemplate;
     { Private declarations }
   public
     procedure RefreshData;
@@ -73,6 +77,14 @@ procedure TfrmSalesAnalysis.btnRefreshClick(Sender: TObject);
 begin
   inherited;
   RefreshData;
+//  SetPivotTemplate;
+end;
+
+procedure TfrmSalesAnalysis.cbTemplatePropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  SetPivotTemplate;
 end;
 
 procedure TfrmSalesAnalysis.cxPivotGridChartConnection1GetDataCells(Sender:
@@ -111,6 +123,36 @@ begin
   CDS := TDBUtils.OpenDataset(S, Self);
   cxGrdPivot.LoadFromCDS(CDS, True, False);
   cxGrdRaw.LoadFromCDS(CDS);
+end;
+
+procedure TfrmSalesAnalysis.SetPivotTemplate;
+begin
+  cxGrdPivot.ResetColumns;
+  cxGrdPivot.SetDataColumns(['NetSales','GrossProfit']);
+
+  case cbTemplate.ItemIndex of
+    0 :
+    begin
+      cxGrdPivot.SetRowColumns(['Jenis']);
+    end;
+    1 :
+    begin
+      cxGrdPivot.SetRowColumns(['MonthPeriod']);
+    end;
+    2:
+    begin
+      cxGrdPivot.SetRowColumns(['Salesman']);
+    end;
+    3:
+    begin
+      cxGrdPivot.SetRowColumns(['ItemName']);
+    end;
+    4:
+    begin
+      cxGrdPivot.SetRowColumns(['Customer']);
+    end;
+  end;
+
 end;
 
 end.

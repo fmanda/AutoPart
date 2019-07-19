@@ -1,14 +1,21 @@
 inherited frmSalesAnalysis: TfrmSalesAnalysis
   Caption = 'Analisa Penjualan'
+  ClientWidth = 809
+  ExplicitWidth = 825
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
+    Width = 809
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
       AnchorY = 18
     end
   end
   inherited cxGroupBox2: TcxGroupBox
+    Width = 809
+    inherited btnTutup: TcxButton
+      Left = 729
+    end
     inherited btnExport: TcxButton
       OnClick = btnExportClick
     end
@@ -19,22 +26,24 @@ inherited frmSalesAnalysis: TfrmSalesAnalysis
   object pgcMain: TcxPageControl [2]
     Left = 0
     Top = 74
-    Width = 639
+    Width = 809
     Height = 299
     Align = alClient
     TabOrder = 2
     Properties.ActivePage = tsPivot
     Properties.CustomButtons.Buttons = <>
+    ExplicitWidth = 639
     ClientRectBottom = 299
-    ClientRectRight = 639
+    ClientRectRight = 809
     ClientRectTop = 24
     object tsPivot: TcxTabSheet
       Caption = 'Pivot Data'
       ImageIndex = 0
+      ExplicitWidth = 639
       object cxGrdPivot: TcxDBPivotGrid
         Left = 0
         Top = 0
-        Width = 639
+        Width = 809
         Height = 275
         Align = alClient
         Groups = <>
@@ -42,6 +51,7 @@ inherited frmSalesAnalysis: TfrmSalesAnalysis
         OptionsView.RowTotalsLocation = rtlTree
         OptionsView.TotalsForSingleValues = True
         TabOrder = 0
+        ExplicitWidth = 639
       end
     end
     object tsChart: TcxTabSheet
@@ -50,7 +60,7 @@ inherited frmSalesAnalysis: TfrmSalesAnalysis
       object cxGrid1: TcxGrid
         Left = 0
         Top = 0
-        Width = 639
+        Width = 809
         Height = 275
         Align = alClient
         TabOrder = 0
@@ -76,7 +86,7 @@ inherited frmSalesAnalysis: TfrmSalesAnalysis
       object cxGrid2: TcxGrid
         Left = 0
         Top = 0
-        Width = 639
+        Width = 809
         Height = 275
         Align = alClient
         TabOrder = 0
@@ -103,8 +113,9 @@ inherited frmSalesAnalysis: TfrmSalesAnalysis
     PanelStyle.Active = True
     Style.BorderStyle = ebsNone
     TabOrder = 3
+    ExplicitWidth = 639
     Height = 39
-    Width = 639
+    Width = 809
     object cxLabel3: TcxLabel
       Left = 14
       Top = 8
@@ -129,10 +140,29 @@ inherited frmSalesAnalysis: TfrmSalesAnalysis
       Top = 8
       Caption = 'Periode Akhir'
     end
+    object cbTemplate: TcxComboBox
+      Left = 516
+      Top = 7
+      Properties.DropDownListStyle = lsFixedList
+      Properties.Items.Strings = (
+        '1. Per Jenis Penjualan'
+        '2. Per Periode'
+        '3. Per Salesman'
+        '4. Per Item'
+        '5. Per Customer')
+      Properties.OnEditValueChanged = cbTemplatePropertiesEditValueChanged
+      TabOrder = 4
+      Width = 157
+    end
+    object cxLabel1: TcxLabel
+      Left = 438
+      Top = 8
+      Caption = 'Template Pivot '
+    end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 624
-    Top = 32
+    Left = 728
+    Top = 8
     PixelsPerInch = 96
   end
   object cxPivotGridChartConnection1: TcxPivotGridChartConnection

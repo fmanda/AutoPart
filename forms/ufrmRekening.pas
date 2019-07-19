@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmDefaultInput, cxGraphics,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   Vcl.Menus, Vcl.StdCtrls, cxButtons, cxGroupBox, cxRadioGroup, cxCheckBox,
-  cxTextEdit, cxLabel, uCustomer, uAccount, Vcl.ExtCtrls;
+  cxTextEdit, cxLabel, uCustomer, uAccount, Vcl.ExtCtrls, cxStyles, cxClasses;
 
 type
   TfrmRekening = class(TfrmDefaultInput)

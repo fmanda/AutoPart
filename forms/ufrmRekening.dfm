@@ -10,7 +10,7 @@ inherited frmRekening: TfrmRekening
   inherited cxGroupBox2: TcxGroupBox
     Top = 202
     TabOrder = 4
-    ExplicitTop = 181
+    ExplicitTop = 202
     ExplicitWidth = 450
     Width = 450
     inherited btnCancel: TcxButton
@@ -31,49 +31,46 @@ inherited frmRekening: TfrmRekening
     Top = 181
     Width = 450
     TabOrder = 5
-    ExplicitLeft = -8
-    ExplicitTop = 169
+    ExplicitTop = 181
     ExplicitWidth = 450
     inherited lbEscape: TLabel
       Left = 370
-      ExplicitLeft = 497
+      Height = 17
     end
     inherited lgndSave: TLabel
       Left = 205
-      ExplicitLeft = 332
-      ExplicitTop = 1
-      ExplicitHeight = 16
+      Height = 17
     end
     inherited lgndPrint: TLabel
       Left = 292
-      ExplicitLeft = 419
+      Height = 17
     end
   end
-  object cxLabel1: TcxLabel
+  object cxLabel1: TcxLabel [2]
     Left = 31
     Top = 21
     Caption = 'Kode Rekening'
   end
-  object edKode: TcxTextEdit
+  object edKode: TcxTextEdit [3]
     Left = 109
     Top = 21
     Properties.CharCase = ecUpperCase
     TabOrder = 0
     Width = 232
   end
-  object cxLabel2: TcxLabel
+  object cxLabel2: TcxLabel [4]
     Left = 28
     Top = 42
     Caption = 'Nama Rekening'
   end
-  object edNama: TcxTextEdit
+  object edNama: TcxTextEdit [5]
     Left = 109
     Top = 42
     Properties.CharCase = ecUpperCase
     TabOrder = 2
     Width = 292
   end
-  object chkActive: TcxCheckBox
+  object chkActive: TcxCheckBox [6]
     Left = 347
     Top = 22
     TabStop = False
@@ -81,7 +78,7 @@ inherited frmRekening: TfrmRekening
     State = cbsChecked
     TabOrder = 1
   end
-  object rbJenis: TcxRadioGroup
+  object rbJenis: TcxRadioGroup [7]
     Left = 56
     Top = 69
     Caption = ' Jenis Rekening '
@@ -99,5 +96,8 @@ inherited frmRekening: TfrmRekening
     TabOrder = 3
     Height = 94
     Width = 345
+  end
+  inherited styleRepo: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end

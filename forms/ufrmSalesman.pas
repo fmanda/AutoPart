@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmDefaultInput, cxGraphics,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   Vcl.Menus, Vcl.StdCtrls, Vcl.ExtCtrls, cxButtons, cxGroupBox, cxCheckBox,
-  cxMemo, cxTextEdit, cxLabel, uCustomer, uSalesman, System.DateUtils;
+  cxMemo, cxTextEdit, cxLabel, uCustomer, uSalesman, System.DateUtils, cxStyles,
+  cxClasses;
 
 type
   TfrmSalesman = class(TfrmDefaultInput)

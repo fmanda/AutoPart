@@ -1023,7 +1023,9 @@ begin
   for i := Low(ColumnSets) to High(ColumnSets) do
   begin
     If Assigned(Self.GetFieldByName(ColumnSets[i])) then
+    begin
       Self.GetFieldByName(ColumnSets[i]).Area := faRow;
+    end;
   end;
 end;
 
