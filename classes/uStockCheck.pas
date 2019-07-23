@@ -342,7 +342,7 @@ begin
       CustomCaption := CustomCaption + #13 + ' Anda bisa melanjutkan Simpan dengan menekean tombo Ignore';
 
     lButtons := [mbOK];
-    if CanIgnore then lButtons := [mbOK, mbIgnore];
+    if CanIgnore then lButtons := [mbIgnore, mbCancel];
     lCxMsg := TfrmCXMsgInfo.ShowMessage(CustomCaption, CDS, lButtons, ['ITEM_ID','WAREHOUSE_ID'], [], False, True);
     Try
       lCXmsg.SetWarningLabel;

@@ -205,7 +205,7 @@ const
 implementation
 
 uses
-  System.StrUtils, System.Classes, uAppUtils;
+  System.StrUtils, System.Classes, uAppUtils, System.DateUtils;
 
 destructor TCRUDFinance.Destroy;
 begin

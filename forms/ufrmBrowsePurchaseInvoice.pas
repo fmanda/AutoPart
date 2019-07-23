@@ -88,11 +88,15 @@ begin
   with TPurchaseInvoice.Create do
   begin
     if LoadByID(Self.cxGrdMain.GetID) then
+    begin
+      if not IsValidTransDate(TransDate) then exit;
+
       if DeleteFromDB then
       begin
         TAppUtils.Information('Berhasil menghapus data');
         RefreshData;
       end;
+    end;
     Free;
   end;
 end;

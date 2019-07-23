@@ -5,8 +5,6 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
-  ExplicitLeft = -211
-  ExplicitTop = -164
   ExplicitWidth = 994
   ExplicitHeight = 626
   PixelsPerInch = 96
@@ -309,7 +307,6 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 120
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown
@@ -443,17 +440,14 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
     ExplicitWidth = 978
     inherited lbEscape: TLabel
       Left = 898
-      Height = 17
       ExplicitLeft = 898
     end
     inherited lgndSave: TLabel
       Left = 733
-      Height = 17
       ExplicitLeft = 733
     end
     inherited lgndPrint: TLabel
       Left = 820
-      Height = 17
       ExplicitLeft = 820
     end
     object Label2: TLabel
@@ -461,7 +455,7 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       Left = 194
       Top = 1
       Width = 84
-      Height = 17
+      Height = 16
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -473,14 +467,13 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitHeight = 16
     end
     object Label1: TLabel
       AlignWithMargins = True
       Left = 3
       Top = 1
       Width = 175
-      Height = 17
+      Height = 16
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -492,7 +485,6 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitHeight = 16
     end
   end
   inherited styleRepo: TcxStyleRepository

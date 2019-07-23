@@ -62,6 +62,8 @@ type
 
 function Cabang: string;
 
+function IsValidTransDate(aDate: TDatetime): Boolean;
+
 var
   FDConnection  : TFDConnection;
   FDTransaction : TFDTransaction;
@@ -80,11 +82,55 @@ const
 implementation
 
 uses
-  System.Win.ComObj, uAppUtils, uVariable;
+  System.Win.ComObj, uAppUtils, uVariable, System.DateUtils;
 
 function Cabang: string;
 begin
   Result := AppVariable.Kode_Cabang;
+end;
+
+function IsValidTransDate(aDate: TDatetime): Boolean;
+var
+  lLastEOD: TDatetime;
+  lLastYear: TDatetime;
+  S: string;
+begin
+  aDate := EncodeDateTime(YearOf(aDate), MonthOf(aDate), DayOf(aDate), 0,0,0, 0);
+  Result := False;
+  lLastEOD := 0;
+  S := 'SELECT MAX(TRANSDATE) FROM TENDOFDAY';
+  With TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        lLastEOD := EncodeDateTime(YearOf(Fields[0].AsDateTime), MonthOf(Fields[0].AsDateTime), DayOf(Fields[0].AsDateTime), 0,0,0, 0);
+    Finally
+      free;
+    End;
+  end;
+
+  //jika sudah EOD
+  if aDate <= lLastEOD then
+  begin
+    TAppUtils.Warning('Tanggal : ' + DateToStr(aDate) + ' sudah dilakukan End Of Day'
+      +#13 + 'EOD Terakhir : ' + DateToStr(lLastEOD)
+    );
+    exit;
+  end;
+
+  //jika lompat tahun
+  if YearOf(aDate) > YearOf(lLastEOD) then
+  begin
+    lLastYear := EncodeDateTime(YearOf(aDate)-1, 12, 31, 0,0,0, 0);
+    if lLastEOD < lLastYear then
+    begin
+      TAppUtils.Warning('End Of Year tahun sebelumnya belum dilakukan');
+      exit;
+    end
+  end;
+
+  Result := True;
+
 end;
 
 class procedure TDBUtils.Commit;

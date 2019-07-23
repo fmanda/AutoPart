@@ -1314,13 +1314,6 @@ begin
     exit;
   end;
 
-  if not CheckCreditLimit then
-  begin
-//    TAppUtils.Warning('Credit Limit Customer tidak cukup');
-//    edCustomer.SetFocus;
-    exit;
-  end;
-
   if crTotal.Value <= 0 then
   begin
     TAppUtils.Warning('Total <= 0');
@@ -1405,7 +1398,17 @@ begin
     exit;
   end;
 
+  if not IsValidTransDate(dtInvoice.Date) then exit;
+
+
   if not CheckStock then exit;
+
+  if not CheckCreditLimit then
+  begin
+//    TAppUtils.Warning('Credit Limit Customer tidak cukup');
+//    edCustomer.SetFocus;
+    exit;
+  end;
 
   lCashAmt := 0;
 

@@ -492,6 +492,13 @@ begin
 
   PurchInv.LoadByID(aID);
 
+
+  if (aID <> 0) and (not IsReadOnly) then
+  begin
+    if not IsValidTransDate(PurchInv.TransDate) then
+      IsReadOnly := True;
+  end;
+
   //def uom
   if aID = 0 then
   begin
@@ -825,6 +832,8 @@ begin
     TAppUtils.Warning('Referensi tidak boleh kosong');
     exit;
   end;
+
+  if not IsValidTransDate(dtInvoice.Date) then exit;
 
   Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
 
