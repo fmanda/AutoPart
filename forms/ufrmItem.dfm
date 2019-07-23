@@ -85,8 +85,6 @@ inherited frmItem: TfrmItem
     Align = alTop
     Caption = ' Informasi Barang [F1] '
     TabOrder = 0
-    ExplicitLeft = -80
-    ExplicitTop = -40
     Height = 177
     Width = 738
     object cxLabel1: TcxLabel
@@ -491,6 +489,9 @@ inherited frmItem: TfrmItem
       Caption = 'History Perubahan Harga'
       ImageIndex = 1
       TabVisible = False
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
     end
     object tsAvgCost: TcxTabSheet
       Caption = 'History Harga Pokok Penjualan / Harga Average'

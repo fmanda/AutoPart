@@ -79,7 +79,8 @@ begin
     lDayNum := 30;
 
   S := 'SELECT * FROM FN_SUGGESTIONORDER(' + TAppUtils.QuotD(dtStock.Date)
-    +',' + IntToStr(lDayNum) + ')';
+    +',' + IntToStr(lDayNum) + ')'
+    +' ORDER BY (STOCK - ROP)';
 
   if CDS <> nil then
     FreeAndNil(CDS);

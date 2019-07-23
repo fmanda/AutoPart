@@ -69,7 +69,7 @@ end;
 procedure TfrmLapPiutang.FormCreate(Sender: TObject);
 begin
   inherited;
-  dtRefDate.Date := EndOfTheMonth(Now());
+  dtRefDate.Date := (Now());
 end;
 
 end.

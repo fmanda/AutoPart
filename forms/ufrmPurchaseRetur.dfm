@@ -5,6 +5,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
+  ExplicitTop = -139
   ExplicitWidth = 957
   ExplicitHeight = 597
   PixelsPerInch = 96
@@ -334,10 +335,11 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     Left = 0
     Top = 147
     Width = 941
-    Height = 355
+    Height = 311
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
+    ExplicitHeight = 355
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown
@@ -462,6 +464,29 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Caption = 'Detail Transaksi [F2]'
       GridView = cxGrdMain
     end
+  end
+  object cxMemo1: TcxMemo [4]
+    AlignWithMargins = True
+    Left = 3
+    Top = 461
+    Align = alBottom
+    Enabled = False
+    Lines.Strings = (
+      
+        '** Retur Pembelian = Mengeluarkan barang pembelian dari stock, T' +
+        'idak otomatis memotong Faktur Pembelian (Lakukan pemotongan retu' +
+        'r dengan fitur Pembayaran)'
+      
+        '** Pembatalan Retur = Mengeluarkan semua barang pembelian dari s' +
+        'tock dan memotong hutang faktur tsb. (Hanya bisa apabila faktur ' +
+        'yg dipanggil belum ada pembayaran)')
+    StyleDisabled.TextColor = clBlack
+    TabOrder = 4
+    Visible = False
+    ExplicitTop = 464
+    ExplicitWidth = 928
+    Height = 38
+    Width = 935
   end
   inherited styleRepo: TcxStyleRepository
     PixelsPerInch = 96

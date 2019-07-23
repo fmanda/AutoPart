@@ -58,6 +58,7 @@ type
     Label2: TLabel;
     Label1: TLabel;
     rbHarga: TcxRadioGroup;
+    cxMemo1: TcxMemo;
     procedure btnSaveClick(Sender: TObject);
     procedure ckReferensiFakturPropertiesEditValueChanged(Sender: TObject);
     procedure colDiscPropertiesEditValueChanged(Sender: TObject);

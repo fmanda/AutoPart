@@ -480,6 +480,8 @@ begin
 end;
 
 function TfrmItem.ValidateData: Boolean;
+var
+  bWarningHJ: Boolean;
 begin
   Result := False;
 
@@ -538,12 +540,31 @@ begin
       TAppUtils.Warning('Konversi tidak boleh <= 0');
       exit;
     end;
-
     CDS.Next;
   end;
 
+  //warning
+  bWarningHJ := False;
+  CDS.First;
+  while not CDS.Eof do
+  begin
+    if (CDS.FieldByName('HargaJual1').AsFloat < CDS.FieldByName('HargaBeli').AsFloat)
+      or (CDS.FieldByName('HargaJual2').AsFloat < CDS.FieldByName('HargaBeli').AsFloat)
+      or (CDS.FieldByName('HargaJual3').AsFloat < CDS.FieldByName('HargaBeli').AsFloat)
+      or (CDS.FieldByName('HargaJual4').AsFloat < CDS.FieldByName('HargaBeli').AsFloat)
+    then
+    begin
+      bWarningHJ := True;
+      break;
+    end;
+    CDS.Next;
+  end;
 
-
+  if bWarningHJ then
+  begin
+    if not TAppUtils.Confirm('Ada harga jual yang < harga beli, Apakah anda yakin lanjut simpan? ') then
+      exit;
+  end;
 
   Result := True;
 

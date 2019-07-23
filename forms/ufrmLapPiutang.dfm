@@ -7,6 +7,7 @@ inherited frmLapPiutang: TfrmLapPiutang
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
+    ExplicitWidth = 792
     Width = 792
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
@@ -15,13 +16,15 @@ inherited frmLapPiutang: TfrmLapPiutang
   end
   inherited cxGroupBox2: TcxGroupBox
     Top = 459
+    ExplicitTop = 459
+    ExplicitWidth = 792
     Width = 792
     inherited btnTutup: TcxButton
       Left = 712
+      ExplicitLeft = 712
     end
     inherited btnExport: TcxButton
       OnClick = btnExportClick
-      ExplicitTop = 7
     end
     inherited btnRefresh: TcxButton
       OnClick = btnRefreshClick
@@ -37,8 +40,6 @@ inherited frmLapPiutang: TfrmLapPiutang
     Align = alTop
     Caption = ' Report Parameter '
     TabOrder = 2
-    ExplicitLeft = -234
-    ExplicitWidth = 873
     Height = 59
     Width = 792
     object cxLabel3: TcxLabel
@@ -96,10 +97,6 @@ inherited frmLapPiutang: TfrmLapPiutang
     Align = alClient
     TabOrder = 3
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitLeft = -228
-    ExplicitTop = -43
-    ExplicitWidth = 867
-    ExplicitHeight = 451
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>

@@ -1,3 +1,4 @@
 SET NOCOUNT ON
-Insert Into TCashOpname(ModifiedBy,ModifiedDate,EndOfDay_ID,Notes,RefNo,TransDate) values('programmer','2019-07-09 21:15:16',3,'End Of Day Tanggal : 6/30/2019','','2019-06-30 00:00:00');
+Insert Into TPurchaseInvoice(SubTotal,PPN,Supplier_ID,InvoiceNo,DueDate,Amount,PaidOff,Notes,Referensi,PaidAmount,PaidOffDate,PaymentFlag,Rekening_ID,ReturAmount,Status,Warehouse_ID,TransDate,Closed,ModifiedBy,ModifiedDate) values(297728,0,3,'01.FB1907.00008','2019-08-02 17:07:44',297728,0,'
+','TEST',0,NULL,1,NULL,0,0,1,'2019-07-23 17:07:44',0,'programmer','2019-07-23 17:08:11');
 Select Scope_Identity() as ID

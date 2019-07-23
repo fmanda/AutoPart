@@ -7,6 +7,7 @@ inherited frmLapHutang: TfrmLapHutang
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
+    Visible = False
     ExplicitWidth = 873
     Width = 873
     inherited lblTitle: TcxLabel
@@ -38,9 +39,10 @@ inherited frmLapHutang: TfrmLapHutang
     Margins.Right = 0
     Margins.Bottom = 0
     Align = alTop
-    Caption = ' Report Parameter '
+    Caption = ' Laporan Hutang Ke Supplier '
+    Style.TextStyle = [fsBold]
     TabOrder = 2
-    Height = 59
+    Height = 52
     Width = 873
     object cxLabel3: TcxLabel
       Left = 38
@@ -78,8 +80,8 @@ inherited frmLapHutang: TfrmLapHutang
       Visible = False
     end
     object ckDueDate: TcxCheckBox
-      Left = 513
-      Top = 20
+      Left = 409
+      Top = 3
       TabStop = False
       Caption = 'Hanya tampilkan yang sudah jatuh tempo'
       Properties.Alignment = taLeftJustify
@@ -91,14 +93,14 @@ inherited frmLapHutang: TfrmLapHutang
   object cxGrid1: TcxGrid [3]
     AlignWithMargins = True
     Left = 3
-    Top = 100
+    Top = 93
     Width = 867
-    Height = 451
+    Height = 458
     Align = alClient
     TabOrder = 3
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 124
-    ExplicitHeight = 427
+    ExplicitTop = 100
+    ExplicitHeight = 451
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -118,6 +120,7 @@ inherited frmLapHutang: TfrmLapHutang
       OptionsView.GroupByBox = False
       OptionsView.HeaderHeight = 30
       Styles.ContentOdd = styleOdd
+      Styles.OnGetContentStyle = cxGrdMainStylesGetContentStyle
     end
     object cxGrid1Level1: TcxGridLevel
       Caption = 'Data Hutang'
@@ -128,5 +131,9 @@ inherited frmLapHutang: TfrmLapHutang
     Left = 792
     Top = 48
     PixelsPerInch = 96
+    object styleRed: TcxStyle
+      AssignedValues = [svColor]
+      Color = 8421631
+    end
   end
 end

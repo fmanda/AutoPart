@@ -57,6 +57,7 @@ type
     rbJenis: TcxRadioGroup;
     edSupp: TcxButtonEdit;
     ckReferensiFaktur: TcxCheckBox;
+    cxMemo1: TcxMemo;
     procedure edInvKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
     procedure edInvPropertiesButtonClick(Sender: TObject;

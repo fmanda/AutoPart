@@ -55,7 +55,7 @@ inherited frmVariable: TfrmVariable
     Align = alClient
     OptionsView.CellAutoHeight = True
     OptionsView.CategoryExplorerStyle = True
-    OptionsView.RowHeaderWidth = 108
+    OptionsView.RowHeaderWidth = 202
     OptionsView.ShowEmptyRowImage = True
     OptionsBehavior.GoToNextCellOnEnter = True
     OptionsBehavior.GoToNextCellOnTab = True
@@ -74,7 +74,7 @@ inherited frmVariable: TfrmVariable
       Properties.EditPropertiesClassName = 'TcxTextEditProperties'
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
-      ID = 12
+      ID = 1
       ParentID = 0
       Index = 0
       Version = 1
@@ -90,7 +90,7 @@ inherited frmVariable: TfrmVariable
       Properties.EditProperties.OnButtonClick = colKodePusatEditPropertiesButtonClick
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
-      ID = 1
+      ID = 2
       ParentID = 0
       Index = 1
       Version = 1
@@ -106,7 +106,7 @@ inherited frmVariable: TfrmVariable
       Properties.EditProperties.OnButtonClick = colKodeCabangEditPropertiesButtonClick
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
-      ID = 2
+      ID = 3
       ParentID = 0
       Index = 2
       Version = 1
@@ -116,7 +116,7 @@ inherited frmVariable: TfrmVariable
       Properties.EditPropertiesClassName = 'TcxTextEditProperties'
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
-      ID = 3
+      ID = 4
       ParentID = 0
       Index = 3
       Version = 1
@@ -126,7 +126,7 @@ inherited frmVariable: TfrmVariable
       Properties.EditPropertiesClassName = 'TcxTextEditProperties'
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
-      ID = 4
+      ID = 5
       ParentID = 0
       Index = 4
       Version = 1
@@ -136,14 +136,14 @@ inherited frmVariable: TfrmVariable
       Properties.EditPropertiesClassName = 'TcxTextEditProperties'
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
-      ID = 5
+      ID = 6
       ParentID = 0
       Index = 5
       Version = 1
     end
     object cxVertGridCategoryRow2: TcxCategoryRow
       Properties.Caption = 'Setting Transaksi'
-      ID = 6
+      ID = 7
       ParentID = -1
       Index = 1
       Version = 1
@@ -159,8 +159,8 @@ inherited frmVariable: TfrmVariable
       Properties.EditProperties.OnButtonClick = colDefRekeningEditPropertiesButtonClick
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = ''
-      ID = 7
-      ParentID = 6
+      ID = 8
+      ParentID = 7
       Index = 0
       Version = 1
     end
@@ -175,8 +175,8 @@ inherited frmVariable: TfrmVariable
       Properties.EditProperties.OnButtonClick = colDefCustUmumEditPropertiesButtonClick
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
-      ID = 8
-      ParentID = 6
+      ID = 9
+      ParentID = 7
       Index = 1
       Version = 1
     end
@@ -191,8 +191,8 @@ inherited frmVariable: TfrmVariable
       Properties.EditProperties.OnButtonClick = colDefCustBengkelEditPropertiesButtonClick
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
-      ID = 9
-      ParentID = 6
+      ID = 10
+      ParentID = 7
       Index = 2
       Version = 1
     end
@@ -207,8 +207,8 @@ inherited frmVariable: TfrmVariable
       Properties.EditProperties.OnButtonClick = colCOAPengeluaranEditPropertiesButtonClick
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
-      ID = 10
-      ParentID = 6
+      ID = 11
+      ParentID = 7
       Index = 3
       Version = 1
     end
@@ -223,9 +223,20 @@ inherited frmVariable: TfrmVariable
       Properties.EditProperties.OnButtonClick = colCOAPendapatanEditPropertiesButtonClick
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
-      ID = 11
-      ParentID = 6
+      ID = 12
+      ParentID = 7
       Index = 4
+      Version = 1
+    end
+    object colToleransiPiutang: TcxEditorRow
+      Properties.Caption = 'Toleransi Sisa Piutang'
+      Properties.EditPropertiesClassName = 'TcxCurrencyEditProperties'
+      Properties.EditProperties.DisplayFormat = ',0.##;(,0.##)'
+      Properties.DataBinding.ValueType = 'String'
+      Properties.Value = Null
+      ID = 13
+      ParentID = 7
+      Index = 5
       Version = 1
     end
   end

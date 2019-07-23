@@ -102,6 +102,7 @@ type
     FAvgCostItems: TObjectList<TAvgCostUpdate>;
     FPaidOff: Integer;
     FNotes: string;
+    FReferensi: string;
     FPaidAmount: Double;
     FPaidOffDate: TDatetime;
     FPaymentFlag: Integer;
@@ -140,6 +141,7 @@ type
     property Amount: Double read FAmount write FAmount;
     property PaidOff: Integer read FPaidOff write FPaidOff;
     property Notes: string read FNotes write FNotes;
+    property Referensi: string read FReferensi write FReferensi;
     property PaidAmount: Double read FPaidAmount write FPaidAmount;
     property PaidOffDate: TDatetime read FPaidOffDate write FPaidOffDate;
     property PaymentFlag: Integer read FPaymentFlag write FPaymentFlag;

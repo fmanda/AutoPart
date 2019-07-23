@@ -201,6 +201,9 @@ begin
     Payment.Rekening.LoadByCode(AppVariable.Def_Rekening);
     cxLookupRekening.EditValue := Payment.Rekening.ID;
 
+    cxLookupRekening.CDS.Filtered := True;
+    cxLookupRekening.CDS.Filter := 'Jenis = 0';
+
   end;
   if cbMedia.ItemIndex = Media_Tranfer then
   begin
@@ -210,6 +213,9 @@ begin
     dtDueDate.Clear;
     lbNoMedia.Caption := 'No Referensi';
     lbRekening.Caption := 'Rekening Asal';
+
+    cxLookupRekening.CDS.Filtered := True;
+    cxLookupRekening.CDS.Filter := 'Jenis = 1';
   end;
   if cbMedia.ItemIndex = Media_Cek then
   begin
@@ -219,6 +225,9 @@ begin
     dtDueDate.Clear;
     lbNoMedia.Caption := 'No BG/Cek';
     lbRekening.Caption := 'Bank';
+
+    cxLookupRekening.CDS.Filtered := True;
+    cxLookupRekening.CDS.Filter := 'Jenis = 1';
   end;
 end;
 
@@ -453,7 +462,7 @@ begin
   cxGrdMain.PrepareFromCDS(CDS);
   cxGrdCost.PrepareFromCDS(CDSCost);
   cxLookupRekening.Properties.LoadFromSQL(Self,
-    'select id, nama from trekening','nama');
+    'select id, nama, jenis from trekening','nama');
 
   TcxExtLookup(colCostAccount.Properties).LoadFromSQL(Self,
     'select id, kode + '' - '' + nama as nama from taccount where isdetail = 1','nama');
@@ -576,7 +585,7 @@ begin
     exit;
   end;
 
-  S := 'SELECT A.ID, A.INVOICENO, A.TRANSDATE, A.DUEDATE, B.NAMA AS SUPPLIER,'
+  S := 'SELECT A.ID, A.INVOICENO, A.REFERENSI, A.TRANSDATE, A.DUEDATE, B.NAMA AS SUPPLIER,'
       +' A.AMOUNT, A.PAIDAMOUNT, A.RETURAMOUNT, A.NOTES,'
       +' (A.AMOUNT - A.PAIDAMOUNT - A.RETURAMOUNT) AS REMAIN'
       +' FROM TPURCHASEINVOICE A'
@@ -835,11 +844,12 @@ begin
 
     if (CDS.FieldByName('Amount').AsFloat
       + CDS.FieldByName('ReturAmt').AsFloat
-      - CDS.FieldByName('InvoiceRemain').AsFloat) > 1
+      - CDS.FieldByName('InvoiceRemain').AsFloat) > AppVariable.Toleransi_Piutang
     then
     begin
       TAppUtils.Warning('Nilai Pembayaran melebihi Sisa Hutang'
         + #13 + 'Baris : ' +IntTostr(CDS.RecNo)
+        + #13 + 'Setting Toleransi Sisa Hutang / Piutang : ' +FloatToStr(AppVariable.Toleransi_Piutang)
       );
       exit;
     end;

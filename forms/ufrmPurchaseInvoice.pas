@@ -14,7 +14,7 @@ uses
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridLevel,
   cxClasses, cxGridCustomView, cxGrid, cxLookupEdit, cxDBLookupEdit,
   cxDBExtLookupComboBox, Vcl.ExtCtrls, uTransDetail, uDBUtils, uItem,
-  cxGridDBDataDefinitions;
+  cxGridDBDataDefinitions, cxSpinEdit;
 
 type
   TfrmPurchaseInvoice = class(TfrmDefaultInput)
@@ -58,6 +58,10 @@ type
     cxLabel13: TcxLabel;
     cxLookupRekening: TcxExtLookupComboBox;
     btnGenerate: TcxButton;
+    spTempo: TcxSpinEdit;
+    cxLabel11: TcxLabel;
+    edReferensi: TcxTextEdit;
+    cxLabel12: TcxLabel;
     procedure cxGrdMainEditKeyDown(Sender: TcxCustomGridTableView; AItem:
         TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Word; Shift:
         TShiftState);
@@ -80,6 +84,7 @@ type
     procedure cbBayarPropertiesEditValueChanged(Sender: TObject);
     procedure btnGenerateClick(Sender: TObject);
     procedure btnPrintClick(Sender: TObject);
+    procedure spTempoPropertiesEditValueChanged(Sender: TObject);
   private
     DisableTrigger: Boolean;
     FCDS: TClientDataset;
@@ -194,6 +199,16 @@ procedure TfrmPurchaseInvoice.cbBayarPropertiesEditValueChanged(
   Sender: TObject);
 begin
   inherited;
+  if cbBayar.ItemIndex = PaymentFlag_Cash then
+  begin
+    spTempo.Value   := 0;
+    dtJtTempo.Date  := dtInvoice.Date;
+  end;
+
+  cxLookupRekening.Enabled := cbBayar.ItemIndex = PaymentFlag_Cash;
+  dtJtTempo.Enabled := cbBayar.ItemIndex = PaymentFlag_Credit;
+  spTempo.Visible := cbBayar.ItemIndex = PaymentFlag_Credit;
+
   cxLookupRekening.Enabled := cbBayar.ItemIndex = PaymentFlag_Cash
 end;
 
@@ -491,10 +506,13 @@ begin
   edNoInv.Text := PurchInv.InvoiceNo;
   dtInvoice.Date := PurchInv.TransDate;
   dtJtTempo.Date := PurchInv.DueDate;
+  spTempo.Value := PurchInv.DueDate - PurchInv.TransDate;
+
   crSubTotal.Value := PurchInv.SubTotal;
   crPPN.Value := PurchInv.PPN;
   crTotal.Value := PurchInv.Amount;
   edNotes.Text := PurchInv.Notes;
+  edReferensi.Text := PurchInv.Referensi;
 
   if PurchInv.Supplier <> nil then
   begin
@@ -685,11 +703,17 @@ begin
   end;
 end;
 
+procedure TfrmPurchaseInvoice.spTempoPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  dtJtTempo.Date := dtInvoice.Date + spTempo.Value;
+end;
+
 procedure TfrmPurchaseInvoice.UpdateData;
 var
   lItem: TTransDetail;
 begin
-
   PurchInv.InvoiceNo := edNoInv.Text;
   PurchInv.TransDate := dtInvoice.Date;
   PurchInv.DueDate  := dtJtTempo.Date;
@@ -700,6 +724,7 @@ begin
   PurchInv.Amount := crTotal.Value;
   PurchInv.ModifiedDate := Now();
   PurchInv.ModifiedBy := UserLogin;
+  PurchInv.Referensi  := edReferensi.Text;
 
   if PurchInv.Warehouse = nil then
     PurchInv.Warehouse := TWarehouse.Create;
@@ -792,6 +817,12 @@ begin
   if CDS.Locate('Warehouse', 0, []) or CDS.Locate('Warehouse', null, []) then
   begin
     TAppUtils.Warning('Warehouse tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
+    exit;
+  end;
+
+  if edReferensi.Text = '' then
+  begin
+    TAppUtils.Warning('Referensi tidak boleh kosong');
     exit;
   end;
 

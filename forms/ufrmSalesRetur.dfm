@@ -5,6 +5,7 @@ inherited frmSalesRetur: TfrmSalesRetur
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
+  ExplicitTop = -161
   ExplicitWidth = 950
   ExplicitHeight = 600
   PixelsPerInch = 96
@@ -93,6 +94,7 @@ inherited frmSalesRetur: TfrmSalesRetur
     Align = alTop
     Caption = '  Header Data [F1] '
     TabOrder = 2
+    ExplicitTop = -6
     DesignSize = (
       934
       147)
@@ -294,7 +296,7 @@ inherited frmSalesRetur: TfrmSalesRetur
       Caption = ' Jenis Retur Penjualan'
       Properties.Items = <
         item
-          Caption = 'Retur Pembelian'
+          Caption = 'Retur Penjualan'
         end
         item
           Caption = 'Pembatalan Faktur'
@@ -361,10 +363,11 @@ inherited frmSalesRetur: TfrmSalesRetur
     Left = 0
     Top = 147
     Width = 934
-    Height = 358
+    Height = 314
     Align = alClient
     TabOrder = 3
     RootLevelOptions.DetailTabsPosition = dtpTop
+    ExplicitHeight = 358
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown
@@ -489,6 +492,27 @@ inherited frmSalesRetur: TfrmSalesRetur
       Caption = 'Detail Transaksi [F2]'
       GridView = cxGrdMain
     end
+  end
+  object cxMemo1: TcxMemo [4]
+    AlignWithMargins = True
+    Left = 3
+    Top = 464
+    Align = alBottom
+    Enabled = False
+    Lines.Strings = (
+      
+        '** Retur Penjualan = Mengembalikan barang penjualan ke Stock, Ti' +
+        'dak otomatis memotong Faktur Penjualan (Lakukan pemotongan retur' +
+        ' dengan fitur Pembayaran)'
+      
+        '** Pembatalan Retur = Mengembalikan semua barang penjualan ke St' +
+        'ock dan memotong piutang faktur tsb. (Hanya bisa apabila faktur ' +
+        'yg dipanggil belum ada pembayaran)')
+    StyleDisabled.TextColor = clBlack
+    TabOrder = 4
+    Visible = False
+    Height = 38
+    Width = 928
   end
   inherited styleRepo: TcxStyleRepository
     PixelsPerInch = 96

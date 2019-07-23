@@ -17,6 +17,7 @@ inherited frmSuggestionOrder: TfrmSuggestionOrder
   end
   inherited cxGroupBox2: TcxGroupBox
     Top = 441
+    ExplicitTop = 441
     ExplicitWidth = 782
     Width = 782
     inherited btnTutup: TcxButton
@@ -112,10 +113,6 @@ inherited frmSuggestionOrder: TfrmSuggestionOrder
     Height = 246
     Align = alClient
     TabOrder = 3
-    ExplicitLeft = -196
-    ExplicitTop = -54
-    ExplicitWidth = 978
-    ExplicitHeight = 462
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -272,7 +269,6 @@ inherited frmSuggestionOrder: TfrmSuggestionOrder
     StyleDisabled.TextColor = clBlack
     TabOrder = 4
     Visible = False
-    ExplicitTop = 360
     Height = 78
     Width = 776
   end

@@ -233,8 +233,6 @@ inherited frmSalesReturHistory: TfrmSalesReturHistory
     Height = 326
     Align = alClient
     TabOrder = 3
-    ExplicitLeft = -19
-    ExplicitWidth = 894
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>

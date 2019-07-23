@@ -25,9 +25,13 @@ type
     cxGrid1: TcxGrid;
     cxGrdMain: TcxGridDBTableView;
     cxGrid1Level1: TcxGridLevel;
+    styleRed: TcxStyle;
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnExportClick(Sender: TObject);
+    procedure cxGrdMainStylesGetContentStyle(Sender: TcxCustomGridTableView;
+      ARecord: TcxCustomGridRecord; AItem: TcxCustomGridTableItem;
+      var AStyle: TcxStyle);
   private
     CDS: TClientDataset;
     { Private declarations }
@@ -48,7 +52,7 @@ uses
 procedure TfrmLapHutang.FormCreate(Sender: TObject);
 begin
   inherited;
-  dtRefDate.Date := EndOfTheMonth(Now());
+  dtRefDate.Date := (Now());
 end;
 
 procedure TfrmLapHutang.btnExportClick(Sender: TObject);
@@ -62,7 +66,8 @@ var
   S: string;
 begin
   inherited;
-  S := 'SELECT * FROM FN_AP_OUTSTANDING(' + TAppUtils.QuotD(dtRefDate.Date) +')';
+  S := 'SELECT * FROM FN_AP_OUTSTANDING(' + TAppUtils.QuotD(dtRefDate.Date) +')'
+      +' ORDER BY OVERDUE DESC, TRANSDATE ASC';
   if CDS <> nil then
     FreeAndNil(CDS);
 
@@ -70,6 +75,21 @@ begin
   cxGrdMain.LoadFromCDS(CDS);
   cxGrdMain.SetVisibleColumns(['PURCHASEINVOICE_ID','HEADERREMAIN'],False);
   cxGrdMain.SetSummaryByColumns(['REMAIN']);
+end;
+
+procedure TfrmLapHutang.cxGrdMainStylesGetContentStyle(
+  Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
+  AItem: TcxCustomGridTableItem; var AStyle: TcxStyle);
+var
+  iIndex: Integer;
+begin
+  inherited;
+  if ARecord = nil then exit;
+  if cxGrdMain.GetColumnByFieldName('OverDue') = nil then exit;
+  iIndex := cxGrdMain.GetColumnByFieldName('OverDue').Index;
+  if VarToInt(ARecord.Values[iIndex]) > 0
+  then
+    AStyle := styleRed;
 end;
 
 end.
