@@ -12,6 +12,7 @@ object frmDefault: TfrmDefault
   Font.Style = []
   OldCreateOrder = False
   OnClose = FormClose
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
 end
