@@ -125,7 +125,7 @@ begin
 
         Result.Add(LeftStr(lDetail.Item.Nama,40));
         sTemp :=
-              TAppUtils.StrPadLeftCut(FormatFloat('#,###.000',Abs(lDetail.Qty)),10,' ') + ' '
+              TAppUtils.StrPadLeftCut(FloatToStr(Abs(lDetail.Qty)),10,' ') + ' '
             + TAppUtils.StrPadRight(lDetail.UOM.UOM,5,' ') + 'x'
             + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',lDetail.Harga),10,' ')
             + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Abs(lDetail.Qty*lDetail.Harga)),13,' ');

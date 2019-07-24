@@ -4,14 +4,14 @@ inherited frmSalesRetur: TfrmSalesRetur
   ClientWidth = 934
   KeyPreview = True
   OnKeyDown = FormKeyDown
-  ExplicitLeft = -125
-  ExplicitTop = -130
+  ExplicitTop = -161
   ExplicitWidth = 950
   ExplicitHeight = 600
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
     Top = 526
+    TabOrder = 1
     ExplicitTop = 526
     ExplicitWidth = 934
     Width = 934
@@ -32,6 +32,7 @@ inherited frmSalesRetur: TfrmSalesRetur
   inherited Panel2: TPanel
     Top = 505
     Width = 934
+    TabOrder = 2
     ExplicitTop = 504
     ExplicitWidth = 934
     inherited lbEscape: TLabel
@@ -177,7 +178,7 @@ inherited frmSalesRetur: TfrmSalesRetur
     Top = 0
     Align = alTop
     Caption = '  Header Data [F1] '
-    TabOrder = 2
+    TabOrder = 0
     DesignSize = (
       934
       147)

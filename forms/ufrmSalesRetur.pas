@@ -705,6 +705,7 @@ begin
 //      if SalesRetur.Supplier = nil then
 //        SalesRetur.Supplier := TSupplier.Create;
 
+
       SalesRetur.Invoice.LoadByID(cxLookup.FieldValue('id'));
 //      SalesRetur.Supplier.LoadByID(SalesRetur.Invoice.Supplier.ID);
 
@@ -712,7 +713,9 @@ begin
       dtInvoice.Date := SalesRetur.Invoice.TransDate;
 //      edSupp.Text := SalesRetur.Supplier.Nama;
       cxLookupGudang.EditValue := SalesRetur.Invoice.Warehouse.ID;
-//      rbHarga.ItemIndex := SalesRetur.Invoice.SalesType;
+
+      if SalesRetur.Invoice.Items.Count > 0 then
+        rbHarga.ItemIndex := SalesRetur.Invoice.Items[0].PriceType;
 
       CDS.EmptyDataSet;
 
