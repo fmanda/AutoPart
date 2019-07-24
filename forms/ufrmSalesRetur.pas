@@ -59,6 +59,21 @@ type
     Label1: TLabel;
     rbHarga: TcxRadioGroup;
     cxMemo1: TcxMemo;
+    pmMain: TPopupMenu;
+    UpdateKeHargaUmum1: TMenuItem;
+    UpdatekeHargaGrosir1: TMenuItem;
+    UpdatekeHargaGrosir2: TMenuItem;
+    UpdatekeHargaKeliling1: TMenuItem;
+    cxStyleRepository1: TcxStyleRepository;
+    styleUmum: TcxStyle;
+    styleBengkel: TcxStyle;
+    styleGrosir: TcxStyle;
+    styleKeliling: TcxStyle;
+    colPriceType: TcxGridDBColumn;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
     procedure btnSaveClick(Sender: TObject);
     procedure ckReferensiFakturPropertiesEditValueChanged(Sender: TObject);
     procedure colDiscPropertiesEditValueChanged(Sender: TObject);
@@ -81,6 +96,14 @@ type
     procedure rbJenisPropertiesEditValueChanged(Sender: TObject);
     procedure edCustomerPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
+    procedure rbHargaOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure colHrgJualStylesGetContentStyle(Sender: TcxCustomGridTableView;
+      ARecord: TcxCustomGridRecord; AItem: TcxCustomGridTableItem;
+      var AStyle: TcxStyle);
+    procedure UpdatekeHargaGrosir1Click(Sender: TObject);
+    procedure UpdatekeHargaGrosir2Click(Sender: TObject);
+    procedure UpdatekeHargaKeliling1Click(Sender: TObject);
+    procedure UpdateKeHargaUmum1Click(Sender: TObject);
   private
     FCDS: TClientDataset;
     FCDSClone: TClientDataset;
@@ -105,6 +128,7 @@ type
     procedure LookupCustomer(sKey: string = '');
     procedure SetItemToGrid(aItem: TItem);
     procedure UpdateData;
+    procedure UpdateHarga(aPriceType: Integer);
     function ValidateData: Boolean;
     function ValidateItem: Boolean;
     property CDS: TClientDataset read GetCDS write FCDS;
@@ -212,6 +236,25 @@ procedure TfrmSalesRetur.colDiscPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
   CalculateAll;
+end;
+
+procedure TfrmSalesRetur.colHrgJualStylesGetContentStyle(
+  Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
+  AItem: TcxCustomGridTableItem; var AStyle: TcxStyle);
+var
+  iPriceType: Integer;
+begin
+  inherited;
+  if ARecord = nil then exit;
+//  if AItem = nil then exit;
+  iPriceType := VarToInt(ARecord.Values[colPriceType.Index]);
+
+  case iPriceType of
+    0 : AStyle := styleUmum;
+    1 : AStyle := styleBengkel;
+    2 : AStyle := styleGrosir;
+    3 : AStyle := styleKeliling;
+  end;
 end;
 
 procedure TfrmSalesRetur.colKodePropertiesButtonClick(Sender: TObject;
@@ -535,6 +578,7 @@ begin
     'select id, nama from twarehouse where is_external = 0','nama');
 
   cxLookupGudang.SetDefaultValue();
+  rbHarga.OnKeyDown := rbHargaOnKeyDown;
 end;
 
 procedure TfrmSalesRetur.LoadAllInvoiceItem;
@@ -595,7 +639,7 @@ begin
     SalesRetur.Invoice.ReLoad(False);
     edInv.Text      := SalesRetur.Invoice.InvoiceNo;
     dtInvoice.Date  := SalesRetur.Invoice.TransDate;
-    rbHarga.ItemIndex := SalesRetur.Invoice.SalesType;
+//    rbHarga.ItemIndex := SalesRetur.Invoice.SalesType;
   end;
 
   if SalesRetur.Customer <> nil then
@@ -668,7 +712,7 @@ begin
       dtInvoice.Date := SalesRetur.Invoice.TransDate;
 //      edSupp.Text := SalesRetur.Supplier.Nama;
       cxLookupGudang.EditValue := SalesRetur.Invoice.Warehouse.ID;
-      rbHarga.ItemIndex := SalesRetur.Invoice.SalesType;
+//      rbHarga.ItemIndex := SalesRetur.Invoice.SalesType;
 
       CDS.EmptyDataSet;
 
@@ -762,6 +806,16 @@ begin
   End;
 end;
 
+procedure TfrmSalesRetur.rbHargaOnKeyDown(Sender: TObject; var Key: Word;
+    Shift: TShiftState);
+begin
+  inherited;
+  if Key = VK_RETURN then
+  begin
+    FocusToGrid;
+  end;
+end;
+
 procedure TfrmSalesRetur.rbJenisPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
@@ -822,8 +876,9 @@ begin
     if lItemUOM = nil then exit;
     Try
       DC.SetEditValue(colKonversi.Index, lItemUOM.Konversi, evsValue);
-      DC.SetEditValue(colHrgJual.Index, lItemUOM.GetHarga(SalesRetur.Invoice.SalesType)
+      DC.SetEditValue(colHrgJual.Index, lItemUOM.GetHarga(rbHarga.ItemIndex)
         , evsValue);
+      DC.SetEditValue(colPriceType.Index, rbHarga.ItemIndex, evsValue);
     Finally
       FreeAndNil(lItemUOM);
     End;
@@ -861,6 +916,56 @@ begin
     SalesRetur.Items.Add(lItem);
     CDS.Next;
   end;
+end;
+
+procedure TfrmSalesRetur.UpdateHarga(aPriceType: Integer);
+var
+  lItemUOM: TItemUOM;
+begin
+  if CDS.Eof then exit;
+  if CDS.State in [dsInsert, dsEdit] then CDS.Post;
+
+  lItemUOM := TItemUOM.GetItemUOM(
+    CDS.FieldByName('Item').AsInteger,
+    CDS.FieldByName('UOM').AsInteger
+  );
+  if lItemUOM <> nil then
+  begin
+    Try
+      CDS.Edit;
+      CDS.FieldByName('Harga').AsFloat := lItemUOM.GetHarga(aPriceType);
+      CDS.FieldByName('PriceType').AsInteger := aPriceType;
+      CDS.Post;
+    Finally
+      FreeAndNil(lItemUOM);
+    End;
+  end;
+
+  CalculateAll;
+end;
+
+procedure TfrmSalesRetur.UpdatekeHargaGrosir1Click(Sender: TObject);
+begin
+  inherited;
+  UpdateHarga(1);
+end;
+
+procedure TfrmSalesRetur.UpdatekeHargaGrosir2Click(Sender: TObject);
+begin
+  inherited;
+  UpdateHarga(2);
+end;
+
+procedure TfrmSalesRetur.UpdatekeHargaKeliling1Click(Sender: TObject);
+begin
+  inherited;
+  UpdateHarga(3);
+end;
+
+procedure TfrmSalesRetur.UpdateKeHargaUmum1Click(Sender: TObject);
+begin
+  inherited;
+  UpdateHarga(0);
 end;
 
 function TfrmSalesRetur.ValidateData: Boolean;

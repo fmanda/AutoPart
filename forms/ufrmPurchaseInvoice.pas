@@ -62,6 +62,7 @@ type
     cxLabel11: TcxLabel;
     edReferensi: TcxTextEdit;
     cxLabel12: TcxLabel;
+    cxGrdMainColumn1: TcxGridDBColumn;
     procedure cxGrdMainEditKeyDown(Sender: TcxCustomGridTableView; AItem:
         TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Word; Shift:
         TShiftState);
@@ -84,6 +85,8 @@ type
     procedure cbBayarPropertiesEditValueChanged(Sender: TObject);
     procedure btnGenerateClick(Sender: TObject);
     procedure btnPrintClick(Sender: TObject);
+    procedure cxGrdMainColumn1GetDisplayText(Sender: TcxCustomGridTableItem;
+        ARecord: TcxCustomGridRecord; var AText: string);
     procedure spTempoPropertiesEditValueChanged(Sender: TObject);
   private
     DisableTrigger: Boolean;
@@ -586,6 +589,14 @@ procedure TfrmPurchaseInvoice.CDSAfterDelete(DataSet: TDataSet);
 begin
   inherited;
   CalculateAll;
+end;
+
+procedure TfrmPurchaseInvoice.cxGrdMainColumn1GetDisplayText(Sender:
+    TcxCustomGridTableItem; ARecord: TcxCustomGridRecord; var AText: string);
+begin
+  inherited;
+  if ARecord = nil then exit;
+  AText := VarToStr(ARecord.RecordIndex + 1);
 end;
 
 procedure TfrmPurchaseInvoice.GenerateDummy;

@@ -62,6 +62,7 @@ type
     FRefno: string;
     FTransType: Integer;
     FTransDef: string;
+    FPriceType: Integer;
   protected
     function GetSQLDeleteDetails(Header_ID: Integer): String; override;
     function GetSQLRetrieveDetails(Header_ID: Integer): String; override;
@@ -89,6 +90,7 @@ type
     property Refno: string read FRefno write FRefno;
     property TransType: Integer read FTransType write FTransType;
     property TransDef: string read FTransDef write FTransDef;
+    property PriceType: Integer read FPriceType write FPriceType;
   end;
 
   TPurchaseInvoice = class(TCRUDTransDetail)
@@ -501,6 +503,10 @@ const
 
   StockAdjustment_Direct : Integer = 0;
   StockAdjustment_FromSO : Integer = 1;
+
+  SalesType_FrontEnd : Integer = 0;
+  SalesType_Salesman : Integer = 1;
+
 
 implementation
 

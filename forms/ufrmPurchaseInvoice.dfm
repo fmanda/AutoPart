@@ -3,7 +3,6 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
   ClientHeight = 587
   ClientWidth = 978
   KeyPreview = True
-  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   ExplicitWidth = 994
   ExplicitHeight = 626
@@ -325,11 +324,20 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       OptionsBehavior.FocusFirstCellOnNewRecord = True
       OptionsBehavior.GoToNextCellOnEnter = True
       OptionsBehavior.FocusCellOnCycle = True
+      OptionsCustomize.ColumnSorting = False
       OptionsData.Appending = True
       OptionsView.Footer = True
       OptionsView.GroupByBox = False
       OptionsView.HeaderHeight = 30
       Styles.ContentOdd = styleOdd
+      object cxGrdMainColumn1: TcxGridDBColumn
+        Caption = 'No.'
+        OnGetDisplayText = cxGrdMainColumn1GetDisplayText
+        HeaderAlignmentHorz = taCenter
+        Options.Editing = False
+        Options.Focusing = False
+        Width = 41
+      end
       object colKode: TcxGridDBColumn
         Caption = 'Kode Barang'
         DataBinding.FieldName = 'Kode'
@@ -440,14 +448,17 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
     ExplicitWidth = 978
     inherited lbEscape: TLabel
       Left = 898
+      Height = 17
       ExplicitLeft = 898
     end
     inherited lgndSave: TLabel
       Left = 733
+      Height = 17
       ExplicitLeft = 733
     end
     inherited lgndPrint: TLabel
       Left = 820
+      Height = 17
       ExplicitLeft = 820
     end
     object Label2: TLabel
@@ -455,7 +466,7 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       Left = 194
       Top = 1
       Width = 84
-      Height = 16
+      Height = 17
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -467,13 +478,14 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      ExplicitHeight = 16
     end
     object Label1: TLabel
       AlignWithMargins = True
       Left = 3
       Top = 1
       Width = 175
-      Height = 16
+      Height = 17
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -485,6 +497,7 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      ExplicitHeight = 16
     end
   end
   inherited styleRepo: TcxStyleRepository

@@ -3,9 +3,8 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
   ClientHeight = 558
   ClientWidth = 941
   KeyPreview = True
-  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
-  ExplicitTop = -139
+  ExplicitTop = -158
   ExplicitWidth = 957
   ExplicitHeight = 597
   PixelsPerInch = 96
@@ -161,8 +160,8 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Width = 139
     end
     object crSubTotal: TcxCurrencyEdit
-      Left = 683
-      Top = 46
+      Left = 746
+      Top = 47
       TabStop = False
       Anchors = [akTop, akRight]
       EditValue = 0.000000000000000000
@@ -178,11 +177,11 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 8
-      Width = 241
+      Width = 180
     end
     object cxLabel2: TcxLabel
-      Left = 611
-      Top = 47
+      Left = 674
+      Top = 48
       Anchors = [akTop, akRight]
       Caption = 'Sub Total'
       ParentFont = False
@@ -194,8 +193,8 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Style.IsFontAssigned = True
     end
     object cxLabel3: TcxLabel
-      Left = 647
-      Top = 74
+      Left = 710
+      Top = 75
       Anchors = [akTop, akRight]
       Caption = 'PPN'
       ParentFont = False
@@ -207,8 +206,8 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Style.IsFontAssigned = True
     end
     object crPPN: TcxCurrencyEdit
-      Left = 683
-      Top = 73
+      Left = 746
+      Top = 74
       TabStop = False
       Anchors = [akTop, akRight]
       EditValue = 0.000000000000000000
@@ -224,11 +223,11 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 9
-      Width = 241
+      Width = 180
     end
     object cxLabel5: TcxLabel
-      Left = 624
-      Top = 102
+      Left = 687
+      Top = 103
       Anchors = [akTop, akRight]
       Caption = 'TOTAL'
       ParentFont = False
@@ -240,8 +239,8 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Style.IsFontAssigned = True
     end
     object crTotal: TcxCurrencyEdit
-      Left = 683
-      Top = 99
+      Left = 746
+      Top = 100
       TabStop = False
       Anchors = [akTop, akRight]
       EditValue = 0.000000000000000000
@@ -257,7 +256,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 10
-      Width = 241
+      Width = 180
     end
     object cxLabel7: TcxLabel
       Left = 169
@@ -339,7 +338,6 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitHeight = 355
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown
@@ -358,11 +356,19 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       OptionsBehavior.FocusFirstCellOnNewRecord = True
       OptionsBehavior.GoToNextCellOnEnter = True
       OptionsBehavior.FocusCellOnCycle = True
+      OptionsCustomize.ColumnSorting = False
       OptionsData.Appending = True
       OptionsView.Footer = True
       OptionsView.GroupByBox = False
       OptionsView.HeaderHeight = 30
       Styles.ContentOdd = styleOdd
+      object colNo: TcxGridDBColumn
+        Caption = 'No.'
+        OnGetDisplayText = colNoGetDisplayText
+        HeaderAlignmentHorz = taCenter
+        Options.Focusing = False
+        Width = 39
+      end
       object colKode: TcxGridDBColumn
         Caption = 'Kode Barang'
         DataBinding.FieldName = 'Kode'
@@ -483,8 +489,6 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     StyleDisabled.TextColor = clBlack
     TabOrder = 4
     Visible = False
-    ExplicitTop = 464
-    ExplicitWidth = 928
     Height = 38
     Width = 935
   end

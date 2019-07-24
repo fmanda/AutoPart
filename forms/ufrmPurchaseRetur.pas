@@ -58,6 +58,7 @@ type
     edSupp: TcxButtonEdit;
     ckReferensiFaktur: TcxCheckBox;
     cxMemo1: TcxMemo;
+    colNo: TcxGridDBColumn;
     procedure edInvKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
     procedure edInvPropertiesButtonClick(Sender: TObject;
@@ -82,6 +83,8 @@ type
     procedure edSuppPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
     procedure ckReferensiFakturPropertiesEditValueChanged(Sender: TObject);
+    procedure colNoGetDisplayText(Sender: TcxCustomGridTableItem; ARecord:
+        TcxCustomGridRecord; var AText: string);
   private
     FCDS: TClientDataset;
     FCDSValidate: TClientDataset;
@@ -293,6 +296,14 @@ begin
   End;
 end;
 
+procedure TfrmPurchaseRetur.colNoGetDisplayText(Sender: TcxCustomGridTableItem;
+    ARecord: TcxCustomGridRecord; var AText: string);
+begin
+  inherited;
+  if ARecord = nil then exit;
+  AText := VarToStr(ARecord.RecordIndex + 1);
+end;
+
 procedure TfrmPurchaseRetur.colQtyPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
@@ -447,6 +458,7 @@ begin
   if CDS.RecordCount = 0 then
   begin
     CDS.Append;
+    colKode.FocusWithSelection;
     cxGrdMain.Controller.EditingController.ShowEdit;
   end;
 end;

@@ -39,12 +39,15 @@ type
     colKonversi: TcxGridDBColumn;
     cxGrid1Level1: TcxGridLevel;
     rbTransfer: TcxRadioGroup;
+    colNo: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure colKodePropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
     procedure btnSaveClick(Sender: TObject);
     procedure colKodePropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure colNoGetDisplayText(Sender: TcxCustomGridTableItem; ARecord:
+        TcxCustomGridRecord; var AText: string);
     procedure cxGrdMainEditKeyDown(Sender: TcxCustomGridTableView; AItem:
         TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Word; Shift:
         TShiftState);
@@ -138,6 +141,14 @@ begin
   Finally
     lItem.Free;
   End;
+end;
+
+procedure TfrmTransferStock.colNoGetDisplayText(Sender: TcxCustomGridTableItem;
+    ARecord: TcxCustomGridRecord; var AText: string);
+begin
+  inherited;
+  if ARecord = nil then exit;
+  AText := VarToStr(ARecord.RecordIndex + 1);
 end;
 
 procedure TfrmTransferStock.colUOMPropertiesCloseUp(Sender: TObject);

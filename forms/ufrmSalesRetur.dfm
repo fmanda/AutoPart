@@ -3,9 +3,9 @@ inherited frmSalesRetur: TfrmSalesRetur
   ClientHeight = 561
   ClientWidth = 934
   KeyPreview = True
-  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
-  ExplicitTop = -161
+  ExplicitLeft = -125
+  ExplicitTop = -130
   ExplicitWidth = 950
   ExplicitHeight = 600
   PixelsPerInch = 96
@@ -32,7 +32,7 @@ inherited frmSalesRetur: TfrmSalesRetur
   inherited Panel2: TPanel
     Top = 505
     Width = 934
-    ExplicitTop = 505
+    ExplicitTop = 504
     ExplicitWidth = 934
     inherited lbEscape: TLabel
       Left = 854
@@ -87,6 +87,90 @@ inherited frmSalesRetur: TfrmSalesRetur
       ParentFont = False
       ExplicitHeight = 16
     end
+    object Label3: TLabel
+      AlignWithMargins = True
+      Left = 265
+      Top = 1
+      Width = 62
+      Height = 17
+      Margins.Top = 1
+      Margins.Bottom = 1
+      Align = alLeft
+      Caption = 'Harga Umum'
+      Color = clMoneyGreen
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = False
+      ExplicitHeight = 16
+    end
+    object Label4: TLabel
+      AlignWithMargins = True
+      Left = 333
+      Top = 1
+      Width = 71
+      Height = 17
+      Margins.Top = 1
+      Margins.Bottom = 1
+      Align = alLeft
+      Caption = 'Harga Bengkel'
+      Color = clSkyBlue
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = False
+      ExplicitHeight = 16
+    end
+    object Label5: TLabel
+      AlignWithMargins = True
+      Left = 410
+      Top = 1
+      Width = 64
+      Height = 17
+      Margins.Top = 1
+      Margins.Bottom = 1
+      Align = alLeft
+      Caption = 'Harga Grosir'
+      Color = 9877758
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = False
+      ExplicitHeight = 16
+    end
+    object Label6: TLabel
+      AlignWithMargins = True
+      Left = 480
+      Top = 1
+      Width = 67
+      Height = 17
+      Margins.Top = 1
+      Margins.Bottom = 1
+      Align = alLeft
+      Caption = 'Harga Keliling'
+      Color = 6612733
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+      Transparent = False
+      ExplicitHeight = 16
+    end
   end
   object cxGroupBox1: TcxGroupBox [2]
     Left = 0
@@ -94,7 +178,6 @@ inherited frmSalesRetur: TfrmSalesRetur
     Align = alTop
     Caption = '  Header Data [F1] '
     TabOrder = 2
-    ExplicitTop = -6
     DesignSize = (
       934
       147)
@@ -332,13 +415,12 @@ inherited frmSalesRetur: TfrmSalesRetur
     end
     object rbHarga: TcxRadioGroup
       AlignWithMargins = True
-      Left = 533
-      Top = 34
+      Left = 538
+      Top = 20
       Margins.Left = 10
       Margins.Top = 0
       Margins.Bottom = 4
       Caption = ' Jenis Harga '
-      Enabled = False
       Properties.ImmediatePost = True
       Properties.Items = <
         item
@@ -367,8 +449,8 @@ inherited frmSalesRetur: TfrmSalesRetur
     Align = alClient
     TabOrder = 3
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitHeight = 358
     object cxGrdMain: TcxGridDBTableView
+      PopupMenu = pmMain
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -387,6 +469,8 @@ inherited frmSalesRetur: TfrmSalesRetur
       OptionsBehavior.GoToNextCellOnEnter = True
       OptionsBehavior.FocusCellOnCycle = True
       OptionsData.Appending = True
+      OptionsSelection.HideSelection = True
+      OptionsSelection.InvertSelect = False
       OptionsView.Footer = True
       OptionsView.GroupByBox = False
       OptionsView.HeaderHeight = 30
@@ -443,6 +527,7 @@ inherited frmSalesRetur: TfrmSalesRetur
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Options.Focusing = False
+        Styles.OnGetContentStyle = colHrgJualStylesGetContentStyle
         Width = 90
       end
       object colDisc: TcxGridDBColumn
@@ -487,6 +572,10 @@ inherited frmSalesRetur: TfrmSalesRetur
         DataBinding.FieldName = 'PPN'
         Visible = False
       end
+      object colPriceType: TcxGridDBColumn
+        DataBinding.FieldName = 'PriceType'
+        Visible = False
+      end
     end
     object cxGrid1Level1: TcxGridLevel
       Caption = 'Detail Transaksi [F2]'
@@ -516,5 +605,46 @@ inherited frmSalesRetur: TfrmSalesRetur
   end
   inherited styleRepo: TcxStyleRepository
     PixelsPerInch = 96
+  end
+  object pmMain: TPopupMenu
+    Left = 256
+    Top = 328
+    object UpdateKeHargaUmum1: TMenuItem
+      Caption = 'Update ke Harga Umum'
+      OnClick = UpdateKeHargaUmum1Click
+    end
+    object UpdatekeHargaGrosir1: TMenuItem
+      Caption = 'Update ke Harga Bengkel'
+      OnClick = UpdatekeHargaGrosir1Click
+    end
+    object UpdatekeHargaGrosir2: TMenuItem
+      Caption = 'Update ke Harga Grosir'
+      OnClick = UpdatekeHargaGrosir2Click
+    end
+    object UpdatekeHargaKeliling1: TMenuItem
+      Caption = 'Update ke Harga Keliling'
+      OnClick = UpdatekeHargaKeliling1Click
+    end
+  end
+  object cxStyleRepository1: TcxStyleRepository
+    Left = 104
+    Top = 408
+    PixelsPerInch = 96
+    object styleUmum: TcxStyle
+      AssignedValues = [svColor]
+      Color = clMoneyGreen
+    end
+    object styleBengkel: TcxStyle
+      AssignedValues = [svColor]
+      Color = clSkyBlue
+    end
+    object styleGrosir: TcxStyle
+      AssignedValues = [svColor]
+      Color = 9877758
+    end
+    object styleKeliling: TcxStyle
+      AssignedValues = [svColor]
+      Color = 6612733
+    end
   end
 end

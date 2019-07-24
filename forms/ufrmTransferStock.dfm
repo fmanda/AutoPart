@@ -3,8 +3,8 @@ inherited frmTransferStock: TfrmTransferStock
   ClientHeight = 535
   ClientWidth = 753
   KeyPreview = True
-  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
+  ExplicitTop = -118
   ExplicitWidth = 769
   ExplicitHeight = 574
   PixelsPerInch = 96
@@ -37,14 +37,17 @@ inherited frmTransferStock: TfrmTransferStock
     ExplicitWidth = 753
     inherited lbEscape: TLabel
       Left = 673
+      Height = 17
       ExplicitLeft = 673
     end
     inherited lgndSave: TLabel
       Left = 508
+      Height = 17
       ExplicitLeft = 508
     end
     inherited lgndPrint: TLabel
       Left = 595
+      Height = 17
       ExplicitLeft = 595
     end
   end
@@ -165,11 +168,20 @@ inherited frmTransferStock: TfrmTransferStock
       OptionsBehavior.FocusFirstCellOnNewRecord = True
       OptionsBehavior.GoToNextCellOnEnter = True
       OptionsBehavior.FocusCellOnCycle = True
+      OptionsCustomize.ColumnSorting = False
       OptionsData.Appending = True
       OptionsView.Footer = True
       OptionsView.GroupByBox = False
       OptionsView.HeaderHeight = 30
       Styles.ContentOdd = styleOdd
+      object colNo: TcxGridDBColumn
+        Caption = 'No.'
+        OnGetDisplayText = colNoGetDisplayText
+        HeaderAlignmentHorz = taCenter
+        Options.Editing = False
+        Options.Focusing = False
+        Width = 44
+      end
       object colKode: TcxGridDBColumn
         Caption = 'Kode Barang'
         DataBinding.FieldName = 'Kode'

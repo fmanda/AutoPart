@@ -529,7 +529,7 @@ end;
 
 procedure TfrmMain.actStockAdjustmentExecute(Sender: TObject);
 begin
-  ShowForm(TfrmBrowseStockAdjustment);
+  ShowForm(TfrmBrowseStockAdjustment)
 end;
 
 procedure TfrmMain.actStockOpnameExecute(Sender: TObject);

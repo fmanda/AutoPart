@@ -24,6 +24,7 @@ type
   public
     constructor Create;
     destructor Destroy; override;
+    function NetSales: Double;
     class function UpdateFromInv(aSalesInvoice: TSalesInvoice): TSalesFee;
   published
     property SalesInvoice: TSalesInvoice read FSalesInvoice write FSalesInvoice;
@@ -70,6 +71,11 @@ begin
 
   if FSettingFee <> nil then
     FreeAndNil(FSettingFee);
+end;
+
+function TSalesFee.NetSales: Double;
+begin
+  Result := Self.SalesAmt - Self.ReturAmt;
 end;
 
 class function TSalesFee.UpdateFromInv(aSalesInvoice: TSalesInvoice): TSalesFee;
@@ -135,11 +141,11 @@ begin
     Result.PaidOffDate := aSalesInvoice.PaidOffDate;   //real fee
     lDay := aSalesInvoice.PaidOffDate - aSalesInvoice.TransDate;
     if lDay <= Result.SettingFee.MaxTempo_3 then
-      Result.Fee := Result.SettingFee.Fee_3/100 * Result.NetProfit;
+      Result.Fee := Result.SettingFee.Fee_3/100 * Result.NetSales;
     if lDay <= Result.SettingFee.MaxTempo_2 then
-      Result.Fee := Result.SettingFee.Fee_2/100 * Result.NetProfit;
+      Result.Fee := Result.SettingFee.Fee_2/100 * Result.NetSales;
     if lDay <= Result.SettingFee.MaxTempo_1 then
-      Result.Fee := Result.SettingFee.Fee_1/100 * Result.NetProfit;
+      Result.Fee := Result.SettingFee.Fee_1/100 * Result.NetSales;
 
     if Result.Fee > 0 then  Result.Status := SalesFee_Process;
     if lDay > Result.SettingFee.MaxTempo_3 then
@@ -154,11 +160,11 @@ begin
     Result.Status := SalesFee_Open;
     lDay := aSalesInvoice.DueDate - aSalesInvoice.TransDate;
     if lDay <= Result.SettingFee.MaxTempo_3 then
-      Result.Fee := Result.SettingFee.Fee_3/100 * Result.NetProfit;
+      Result.Fee := Result.SettingFee.Fee_3/100 * Result.NetSales;
     if lDay <= Result.SettingFee.MaxTempo_2 then
-      Result.Fee := Result.SettingFee.Fee_2/100 * Result.NetProfit;
+      Result.Fee := Result.SettingFee.Fee_2/100 * Result.NetSales;
     if lDay <= Result.SettingFee.MaxTempo_1 then
-      Result.Fee := Result.SettingFee.Fee_1/100 * Result.NetProfit;
+      Result.Fee := Result.SettingFee.Fee_1/100 * Result.NetSales;
 
     if lDay > Result.SettingFee.MaxTempo_3 then
     begin
