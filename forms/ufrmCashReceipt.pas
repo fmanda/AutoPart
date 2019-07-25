@@ -55,6 +55,7 @@ type
     property CDSClone: TClientDataset read GetCDSClone write FCDSClone;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = False);
     property CashReceipt: TCashReceipt read GetCashReceipt write FCashReceipt;
     { Public declarations }
@@ -180,6 +181,11 @@ begin
   Result := FCDSClone;
 end;
 
+function TfrmCashReceipt.GetGroupName: string;
+begin
+  Result := 'Penjualan & Kas';
+end;
+
 procedure TfrmCashReceipt.InitView;
 var
   S: string;
@@ -208,6 +214,11 @@ begin
     CashReceipt.TransDate := Now();
     CashReceipt.Refno     := CashReceipt.GenerateNo;
   end;
+  if (aID <> 0) and (not IsReadOnly) then
+  begin
+    IsReadOnly := not IsValidTransDate(CashReceipt.TransDate);
+  end;
+
   edRefno.Text        := CashReceipt.Refno;
   dtTransDate.Date    := CashReceipt.TransDate;
   if dtTransDate.Date <= 0 then dtTransDate.Clear;
@@ -298,6 +309,8 @@ begin
     TAppUtils.Warning('Detail penerimaan kosong');
     exit;
   end;
+
+  if not IsValidTransDate(dtTransDate.Date) then exit;
 
   Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
 end;

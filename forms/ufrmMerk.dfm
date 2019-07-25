@@ -2,14 +2,13 @@ inherited frmMerk: TfrmMerk
   Caption = 'Update Merk'
   ClientHeight = 144
   ClientWidth = 439
-  OnCreate = FormCreate
   ExplicitWidth = 455
   ExplicitHeight = 183
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
     Top = 109
-    ExplicitTop = 88
+    ExplicitTop = 109
     ExplicitWidth = 439
     Width = 439
     inherited btnCancel: TcxButton
@@ -29,46 +28,46 @@ inherited frmMerk: TfrmMerk
   inherited Panel2: TPanel
     Top = 88
     Width = 439
-    ExplicitLeft = 8
-    ExplicitTop = 76
+    ExplicitTop = 88
     ExplicitWidth = 439
     inherited lbEscape: TLabel
       Left = 359
-      ExplicitLeft = 497
+      Height = 17
     end
     inherited lgndSave: TLabel
       Left = 194
-      ExplicitLeft = 332
-      ExplicitTop = 1
-      ExplicitHeight = 16
+      Height = 17
     end
     inherited lgndPrint: TLabel
       Left = 281
-      ExplicitLeft = 419
+      Height = 17
     end
   end
-  object cxLabel1: TcxLabel
+  object cxLabel1: TcxLabel [2]
     Left = 34
     Top = 26
     Caption = 'Kode'
   end
-  object edKode: TcxTextEdit
+  object edKode: TcxTextEdit [3]
     Left = 68
     Top = 25
     Properties.CharCase = ecUpperCase
     TabOrder = 2
     Width = 77
   end
-  object cxLabel2: TcxLabel
+  object cxLabel2: TcxLabel [4]
     Left = 31
     Top = 53
     Caption = 'Nama'
   end
-  object edNama: TcxTextEdit
+  object edNama: TcxTextEdit [5]
     Left = 68
     Top = 52
     Properties.CharCase = ecUpperCase
     TabOrder = 4
     Width = 293
+  end
+  inherited styleRepo: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end

@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmDefaultInput, cxGraphics,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   Vcl.Menus, Vcl.StdCtrls, Vcl.ExtCtrls, cxButtons, cxGroupBox, cxCheckBox,
-  cxMemo, cxTextEdit, cxLabel, uCustomer, uMekanik;
+  cxMemo, cxTextEdit, cxLabel, uCustomer, uMekanik, cxStyles, cxClasses;
 
 type
   TfrmMekanik = class(TfrmDefaultInput)
@@ -30,6 +30,7 @@ type
     property Mekanik: TMekanik read GetMekanik write FMekanik;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = False);
     { Public declarations }
   end;
@@ -61,6 +62,11 @@ begin
   inherited;
   Self.AssignKeyDownEvent;
   LoadByID(0);
+end;
+
+function TfrmMekanik.GetGroupName: string;
+begin
+  Result := 'Master Data';
 end;
 
 function TfrmMekanik.GetMekanik: TMekanik;

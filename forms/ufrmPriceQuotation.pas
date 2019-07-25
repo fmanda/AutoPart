@@ -93,6 +93,7 @@ type
     { Private declarations }
   protected
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = False);
     { Public declarations }
   published
@@ -349,6 +350,11 @@ begin
         'select id, uom from tuom', Self
       );
   Result := FCDSUOM;
+end;
+
+function TfrmPriceQuotation.GetGroupName: string;
+begin
+  Result := 'Master Data';
 end;
 
 function TfrmPriceQuotation.GetPriceQuot: TPriceQuotation;

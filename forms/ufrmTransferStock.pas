@@ -78,6 +78,7 @@ type
     property Transfer: TTransferStock read GetTransfer write FTransfer;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = True);
     { Public declarations }
   end;
@@ -292,6 +293,11 @@ begin
   Result := FCDSUOM;
 end;
 
+function TfrmTransferStock.GetGroupName: string;
+begin
+  Result := 'Inventory';
+end;
+
 function TfrmTransferStock.GetTransfer: TTransferStock;
 begin
   if FTransfer = nil then
@@ -331,6 +337,11 @@ begin
   begin
     Transfer.TransDate := Now();
     Transfer.RefNo := Transfer.GenerateNo;
+  end;
+
+  if (aID <> 0) and (not IsReadOnly) then
+  begin
+    IsReadOnly := not IsValidTransDate(Transfer.TransDate);
   end;
 
   edRefno.Text := Transfer.RefNo;
@@ -544,6 +555,8 @@ begin
     TAppUtils.Warning('Qty tidak boleh 0' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
     exit;
   end;
+
+  if not IsValidTransDate(dtTransfer.Date) then exit;
 
   Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
 

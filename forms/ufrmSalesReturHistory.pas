@@ -66,6 +66,7 @@ type
   protected
     procedure ValidatePaidAmount;
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -155,6 +156,11 @@ begin
     FCDS.CreateDataSet;
   end;
   Result := FCDS;
+end;
+
+function TfrmSalesReturHistory.GetGroupName: string;
+begin
+  Result := 'Hutang & Piutang';
 end;
 
 function TfrmSalesReturHistory.GetSalesRetur: TSalesRetur;

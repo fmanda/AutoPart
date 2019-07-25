@@ -61,6 +61,7 @@ type
     property Item: TItem read GetItem write FItem;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -142,6 +143,11 @@ begin
   Self.AssignKeyDownEvent;
   InitView;
   dtStock.Date  := Now();
+end;
+
+function TfrmLapStock.GetGroupName: string;
+begin
+  Result := 'Inventory';
 end;
 
 function TfrmLapStock.GetItem: TItem;

@@ -42,6 +42,7 @@ type
     CDS: TClientDataset;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -135,6 +136,11 @@ procedure TfrmLapFeeSalesman.btnExportClick(Sender: TObject);
 begin
   inherited;
   cxGrdMain.ExportToXLS();
+end;
+
+function TfrmLapFeeSalesman.GetGroupName: string;
+begin
+  Result := 'Penjualan & Kas';
 end;
 
 end.

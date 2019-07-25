@@ -4,7 +4,6 @@ inherited frmTransferStock: TfrmTransferStock
   ClientWidth = 753
   KeyPreview = True
   OnKeyDown = FormKeyDown
-  ExplicitTop = -149
   ExplicitWidth = 769
   ExplicitHeight = 574
   PixelsPerInch = 96

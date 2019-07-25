@@ -31,6 +31,7 @@ type
     property Salesman: TSalesman read GetSalesman write FSalesman;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = False);
     { Public declarations }
   end;
@@ -62,6 +63,11 @@ begin
   inherited;
   Self.AssignKeyDownEvent;
   LoadByID(0);
+end;
+
+function TfrmSalesman.GetGroupName: string;
+begin
+  Result := 'Master Data';
 end;
 
 function TfrmSalesman.GetSalesman: TSalesman;

@@ -3,7 +3,6 @@ inherited frmItem: TfrmItem
   ClientHeight = 545
   ClientWidth = 738
   KeyPreview = True
-  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   ExplicitWidth = 754
   ExplicitHeight = 584
@@ -528,6 +527,7 @@ inherited frmItem: TfrmItem
           Properties.SaveTime = False
           Properties.ShowTime = False
           TabOrder = 1
+          ExplicitHeight = 21
           Width = 100
         end
         object StartDate: TcxDateEdit
@@ -538,6 +538,7 @@ inherited frmItem: TfrmItem
           Properties.SaveTime = False
           Properties.ShowTime = False
           TabOrder = 2
+          ExplicitHeight = 21
           Width = 100
         end
         object cxLabel9: TcxLabel
@@ -546,6 +547,7 @@ inherited frmItem: TfrmItem
           Align = alRight
           Caption = 'Filter Periode'
           Properties.Alignment.Vert = taVCenter
+          ExplicitLeft = 201
           AnchorY = 18
         end
         object cxLabel10: TcxLabel
@@ -554,6 +556,7 @@ inherited frmItem: TfrmItem
           Align = alRight
           Caption = 's/d'
           Properties.Alignment.Vert = taVCenter
+          ExplicitLeft = 428
           AnchorY = 18
         end
       end

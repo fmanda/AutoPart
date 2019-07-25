@@ -120,6 +120,7 @@ type
     property PurchRetur: TPurchaseRetur read GetPurchRetur write FPurchRetur;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean);
     { Public declarations }
   end;
@@ -535,6 +536,11 @@ begin
   Result := FCDSUOM;
 end;
 
+function TfrmPurchaseRetur.GetGroupName: string;
+begin
+  Result := 'Inventory';
+end;
+
 function TfrmPurchaseRetur.GetPurchRetur: TPurchaseRetur;
 begin
   if FPurchRetur = nil then
@@ -585,6 +591,11 @@ begin
     PurchRetur.TransDate  := Now();
     PurchRetur.ReturFlag  := 0;
     PurchRetur.Refno      := PurchRetur.GenerateNo;
+  end;
+
+  if (aID <> 0) and (not IsReadOnly) then
+  begin
+    IsReadOnly := not IsValidTransDate(PurchRetur.TransDate);
   end;
 
   edNoRetur.Text  := PurchRetur.Refno;
@@ -939,6 +950,8 @@ begin
       exit;
     end;
   end;
+
+  if not IsValidTransDate(dtRetur.Date) then exit;
 
   Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
 

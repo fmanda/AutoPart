@@ -9,7 +9,7 @@ uses
   Vcl.Menus, Vcl.StdCtrls, cxButtons, cxGroupBox, Vcl.ComCtrls, dxCore,
   cxDateUtils, cxRadioGroup, cxCheckBox, cxMaskEdit, cxDropDownEdit, cxCalendar,
   cxCurrencyEdit, cxMemo, cxTextEdit, cxLabel, uItem, uCustomer, cxSpinEdit,
-  Vcl.ExtCtrls;
+  Vcl.ExtCtrls, cxStyles, cxClasses;
 
 type
   TfrmCustomer = class(TfrmDefaultInput)
@@ -43,6 +43,7 @@ type
     property Customer: TCustomer read GetCustomer write FCustomer;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = False);
     { Public declarations }
   end;
@@ -93,6 +94,11 @@ begin
     FCustomer := TCustomer.Create;
 
   Result := FCustomer;
+end;
+
+function TfrmCustomer.GetGroupName: string;
+begin
+  Result := 'Master Data';
 end;
 
 procedure TfrmCustomer.LoadByID(aID: Integer; IsReadOnly: Boolean = False);

@@ -14,15 +14,21 @@ type
     FUserName: String;
     FNama: String;
     FPassword: String;
+    FSuperUser: Integer;
     FTasks: TObjectList<TUserTask>;
     function GetTasks: TObjectList<TUserTask>;
   public
     destructor Destroy; override;
+    procedure Clear;
+    function HasAccess(aTaskCode: string): Boolean;
+    procedure ReloadAll;
     property Tasks: TObjectList<TUserTask> read GetTasks write FTasks;
   published
+    [AttributeOfCode]
     property UserName: String read FUserName write FUserName;
     property Nama: String read FNama write FNama;
     property Password: String read FPassword write FPassword;
+    property SuperUser: Integer read FSuperUser write FSuperUser;
   end;
 
   TTask = class(TCRUDObject)
@@ -60,6 +66,10 @@ type
     property Task: TTask read FTask write FTask;
   end;
 
+
+var
+  User : TUser;
+
 implementation
 
 uses
@@ -72,11 +82,52 @@ begin
     FreeAndNil(FTasks);
 end;
 
+procedure TUser.Clear;
+begin
+  ID := 0;
+  Nama := '';
+  Password := '';
+  SuperUser := 0;
+  Tasks.Clear;
+end;
+
 function TUser.GetTasks: TObjectList<TUserTask>;
 begin
   if FTasks = nil then
     FTasks := TObjectList<TUserTask>.Create();
   Result := FTasks;
+end;
+
+function TUser.HasAccess(aTaskCode: string): Boolean;
+var
+  lTask: TUserTask;
+begin
+  Result := False;
+  for lTask in Self.Tasks do
+  begin
+    if lTask.Task <> nil then
+    begin
+      if UpperCase(lTask.Task.TaskCode) = (aTaskCode) then
+      begin
+        if lTask.DoAccess = 1 then
+        begin
+          Result := True;
+          exit;
+        end;
+      end;
+    end;
+  end;
+end;
+
+procedure TUser.ReloadAll;
+var
+  lTask: TUserTask;
+begin
+  for lTask in Self.Tasks do
+  begin
+    if lTask.Task <> nil then
+      lTask.Reload;
+  end;
 end;
 
 destructor TUserTask.Destroy;
@@ -92,9 +143,18 @@ var
 begin
   lTask := TTask.Create();
   Try
-    if lTask.LoadByCode(aTaskCode) then exit;
+    if lTask.LoadByCode(aTaskCode) then  //exit;
+    begin
+      if (lTask.TaskCode = aTaskCode)
+        and (lTask.TaskName = aTaskName)
+        and (lTask.GroupName = aGroupName)
+      then
+        exit;
+    end;
+
     lTask.TaskCode  := aTaskCode;
     lTask.TaskName  := aTaskName;
+    lTask.GroupName := aGroupName;
     lTask.SaveToDB(True);
   Finally
     lTask.Free;

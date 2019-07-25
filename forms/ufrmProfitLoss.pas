@@ -51,6 +51,7 @@ type
     procedure UpdatePeriode;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -138,6 +139,11 @@ begin
     and (not VarIsNull(ARecord.Values[colReportval.Index]))
   then
     AStyle := styleNetProfit;
+end;
+
+function TfrmProfitLoss.GetGroupName: string;
+begin
+  Result := 'Manajemen';
 end;
 
 procedure TfrmProfitLoss.LoadData;

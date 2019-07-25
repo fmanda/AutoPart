@@ -38,6 +38,7 @@ type
     property CDS: TClientDataset read FCDS write FCDS;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -134,6 +135,11 @@ procedure TfrmBrowseAccount.FormShow(Sender: TObject);
 begin
   inherited;
   RefreshData;
+end;
+
+function TfrmBrowseAccount.GetGroupName: string;
+begin
+  Result := 'Master Data';
 end;
 
 procedure TfrmBrowseAccount.RefreshData;

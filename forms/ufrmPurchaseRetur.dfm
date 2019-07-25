@@ -4,8 +4,6 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
   ClientWidth = 941
   KeyPreview = True
   OnKeyDown = FormKeyDown
-  ExplicitLeft = -143
-  ExplicitTop = -189
   ExplicitWidth = 957
   ExplicitHeight = 597
   PixelsPerInch = 96

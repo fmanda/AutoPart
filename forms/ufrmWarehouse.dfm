@@ -2,7 +2,6 @@ inherited frmWarehouse: TfrmWarehouse
   Caption = 'Update Data Gudang / Warehouse'
   ClientHeight = 373
   ClientWidth = 495
-  OnCreate = FormCreate
   ExplicitWidth = 511
   ExplicitHeight = 412
   PixelsPerInch = 96
@@ -15,16 +14,16 @@ inherited frmWarehouse: TfrmWarehouse
     Width = 495
     inherited btnCancel: TcxButton
       Left = 410
-      ExplicitLeft = 417
+      ExplicitLeft = 410
     end
     inherited btnPrint: TcxButton
       Left = 324
-      ExplicitLeft = 331
+      ExplicitLeft = 324
     end
     inherited btnSave: TcxButton
       Left = 238
       OnClick = btnSaveClick
-      ExplicitLeft = 245
+      ExplicitLeft = 238
     end
   end
   object cxLabel1: TcxLabel [1]
@@ -85,22 +84,25 @@ inherited frmWarehouse: TfrmWarehouse
     Top = 317
     Width = 495
     TabOrder = 6
-    ExplicitTop = 217
-    ExplicitWidth = 502
+    ExplicitTop = 317
+    ExplicitWidth = 495
     inherited lbEscape: TLabel
       Left = 415
+      Height = 17
       ExplicitLeft = 415
     end
     inherited lgndSave: TLabel
       Left = 250
+      Height = 17
       ExplicitLeft = 250
     end
     inherited lgndPrint: TLabel
       Left = 337
+      Height = 17
       ExplicitLeft = 337
     end
   end
-  object ckExternal: TcxCheckBox
+  object ckExternal: TcxCheckBox [8]
     Left = 35
     Top = 221
     TabStop = False
@@ -109,15 +111,18 @@ inherited frmWarehouse: TfrmWarehouse
     State = cbsChecked
     TabOrder = 3
   end
-  object cxLookupCabang: TcxExtLookupComboBox
+  object cxLookupCabang: TcxExtLookupComboBox [9]
     Left = 109
     Top = 248
     TabOrder = 4
     Width = 292
   end
-  object cxLabel3: TcxLabel
+  object cxLabel3: TcxLabel [10]
     Left = 65
     Top = 249
     Caption = 'Cabang'
+  end
+  inherited styleRepo: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end

@@ -233,6 +233,7 @@ type
     procedure actSuggestionOrderExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
     procedure actTransferStockExecute(Sender: TObject);
+    procedure actUserExecute(Sender: TObject);
     procedure actVariableExecute(Sender: TObject);
     procedure actWarehouseExecute(Sender: TObject);
     procedure cxButton1Click(Sender: TObject);
@@ -268,7 +269,7 @@ uses
   ufrmBrowseCashPayment, ufrmBrowseCashReceipt, ufrmBrowseStockOpname,
   ufrmBrowseStockAdjustment, ufrmEndOfDay, ufrmLapCashOpname,
   ufrmSalesAnalysis, ufrmProfitLoss, ufrmARAging, ufrmSuggestionOrder,
-  ufrmLapFeeSalesman;
+  ufrmLapFeeSalesman, ufrmBrowseUser, uUser;
 
 {$R *.dfm}
 
@@ -351,7 +352,14 @@ begin
   begin
     with TfrmSetKoneksi.Create(Self) do
     begin
-      ShowModal;
+      if ShowModal = mrOK then
+      begin
+        AppVariable := TVariable.Create(Application);
+        AppVariable.LoadVariable;
+        DoLogin;
+      end
+      else
+        Application.Terminate;
 //      EnableDisableAction(False);
     end;
   end else
@@ -552,6 +560,11 @@ begin
   ShowForm(TfrmBrowseTransferStock);
 end;
 
+procedure TfrmMain.actUserExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseUser);
+end;
+
 procedure TfrmMain.actVariableExecute(Sender: TObject);
 begin
   ShowForm(TfrmVariable).ShowModal;
@@ -623,22 +636,19 @@ end;
 
 procedure TfrmMain.DoLogin;
 begin
-  TDBUtils.SetUserLogin('programmer');
-  dxStatusBar.Panels[2].Text := 'UserLogin : ' + UserLogin;
-  exit;
   with TfrmLogin.Create(Self) do
   begin
     Try
       if ShowModal = mrOK then
       begin
-
-//        EnableDisableAction(True);
-//        SetPrivileges(User);
-//        dxRTTrans.Active := True;
-        dxStatusBar.Panels[2].Text := 'UserLogin : ' + UserLogin;
+        if User <> nil then
+        begin
+          TDBUtils.SetUserLogin(User.UserName);
+          dxStatusBar.Panels[2].Text := 'UserLogin : ' + UserLogin;
+        end;
       end else
       begin
-//        EnableDisableAction(False);
+        Application.Terminate;
       end;
     Finally
       Free;

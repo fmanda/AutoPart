@@ -5,6 +5,7 @@ inherited frmMutasiRekening: TfrmMutasiRekening
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
+    ExplicitWidth = 791
     Width = 791
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
@@ -12,9 +13,11 @@ inherited frmMutasiRekening: TfrmMutasiRekening
     end
   end
   inherited cxGroupBox2: TcxGroupBox
+    ExplicitWidth = 791
     Width = 791
     inherited btnTutup: TcxButton
       Left = 711
+      ExplicitLeft = 711
     end
     inherited btnExport: TcxButton
       OnClick = btnExportClick
@@ -32,7 +35,6 @@ inherited frmMutasiRekening: TfrmMutasiRekening
     Align = alTop
     Caption = ' Kartu Stock '
     TabOrder = 2
-    ExplicitWidth = 639
     Height = 70
     Width = 791
     object cxLabel3: TcxLabel
@@ -79,7 +81,6 @@ inherited frmMutasiRekening: TfrmMutasiRekening
     Height = 262
     Align = alClient
     TabOrder = 3
-    ExplicitLeft = -2
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>

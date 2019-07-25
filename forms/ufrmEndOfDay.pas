@@ -58,6 +58,7 @@ type
     property CashOpname: TCashOpname read GetCashOpname write FCashOpname;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -210,6 +211,11 @@ begin
   if FCashOpname = nil then
     FCashOpname := TCashOpname.Create;
   Result := FCashOpname;
+end;
+
+function TfrmEndOfDay.GetGroupName: string;
+begin
+  Result := 'Manajemen';
 end;
 
 procedure TfrmEndOfDay.InitState;

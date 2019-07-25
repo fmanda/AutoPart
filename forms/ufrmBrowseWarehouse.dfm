@@ -21,11 +21,9 @@ inherited frmBrowseWarehouse: TfrmBrowseWarehouse
       ExplicitHeight = 25
     end
     inherited cxLabel1: TcxLabel
-      ExplicitLeft = 260
       AnchorY = 18
     end
     inherited cxLabel2: TcxLabel
-      ExplicitLeft = 433
       AnchorY = 18
     end
     inherited lblTitle: TcxLabel

@@ -5,6 +5,7 @@ inherited frmSalesAnalysis: TfrmSalesAnalysis
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
+    ExplicitWidth = 809
     Width = 809
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
@@ -12,9 +13,11 @@ inherited frmSalesAnalysis: TfrmSalesAnalysis
     end
   end
   inherited cxGroupBox2: TcxGroupBox
+    ExplicitWidth = 809
     Width = 809
     inherited btnTutup: TcxButton
       Left = 729
+      ExplicitLeft = 729
     end
     inherited btnExport: TcxButton
       OnClick = btnExportClick
@@ -32,14 +35,12 @@ inherited frmSalesAnalysis: TfrmSalesAnalysis
     TabOrder = 2
     Properties.ActivePage = tsPivot
     Properties.CustomButtons.Buttons = <>
-    ExplicitWidth = 639
     ClientRectBottom = 299
     ClientRectRight = 809
     ClientRectTop = 24
     object tsPivot: TcxTabSheet
       Caption = 'Pivot Data'
       ImageIndex = 0
-      ExplicitWidth = 639
       object cxGrdPivot: TcxDBPivotGrid
         Left = 0
         Top = 0
@@ -51,12 +52,14 @@ inherited frmSalesAnalysis: TfrmSalesAnalysis
         OptionsView.RowTotalsLocation = rtlTree
         OptionsView.TotalsForSingleValues = True
         TabOrder = 0
-        ExplicitWidth = 639
       end
     end
     object tsChart: TcxTabSheet
       Caption = 'Grafis / Chart'
       ImageIndex = 1
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object cxGrid1: TcxGrid
         Left = 0
         Top = 0
@@ -83,6 +86,9 @@ inherited frmSalesAnalysis: TfrmSalesAnalysis
     object tsRaw: TcxTabSheet
       Caption = 'Data Mentah'
       ImageIndex = 2
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object cxGrid2: TcxGrid
         Left = 0
         Top = 0
@@ -113,7 +119,6 @@ inherited frmSalesAnalysis: TfrmSalesAnalysis
     PanelStyle.Active = True
     Style.BorderStyle = ebsNone
     TabOrder = 3
-    ExplicitWidth = 639
     Height = 39
     Width = 809
     object cxLabel3: TcxLabel

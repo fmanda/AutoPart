@@ -10,7 +10,7 @@ inherited frmLogin: TfrmLogin
   object cxLabel1: TcxLabel
     AlignWithMargins = True
     Left = 5
-    Top = 160
+    Top = 154
     Margins.Left = 5
     Margins.Top = 5
     Margins.Right = 5
@@ -25,13 +25,13 @@ inherited frmLogin: TfrmLogin
     Style.Font.Style = []
     Style.IsFontAssigned = True
     Properties.Alignment.Vert = taVCenter
-    ExplicitTop = 154
-    AnchorY = 169
+    ExplicitTop = 160
+    AnchorY = 163
   end
   object txtUser: TcxTextEdit
     AlignWithMargins = True
     Left = 5
-    Top = 178
+    Top = 172
     Margins.Left = 5
     Margins.Top = 0
     Margins.Right = 5
@@ -48,12 +48,13 @@ inherited frmLogin: TfrmLogin
     Style.IsFontAssigned = True
     TabOrder = 1
     Text = 'admin'
+    ExplicitTop = 178
     Width = 258
   end
   object cxLabel2: TcxLabel
     AlignWithMargins = True
     Left = 5
-    Top = 209
+    Top = 206
     Margins.Left = 5
     Margins.Top = 5
     Margins.Right = 5
@@ -68,13 +69,13 @@ inherited frmLogin: TfrmLogin
     Style.Font.Style = []
     Style.IsFontAssigned = True
     Properties.Alignment.Vert = taVCenter
-    ExplicitTop = 206
-    AnchorY = 218
+    ExplicitTop = 209
+    AnchorY = 215
   end
   object txtPassword: TcxTextEdit
     AlignWithMargins = True
     Left = 5
-    Top = 227
+    Top = 224
     Margins.Left = 5
     Margins.Top = 0
     Margins.Right = 5
@@ -93,6 +94,7 @@ inherited frmLogin: TfrmLogin
     Style.IsFontAssigned = True
     TabOrder = 3
     Text = 'admin'
+    ExplicitTop = 227
     Width = 258
   end
   object cxGroupBox2: TcxGroupBox
@@ -369,8 +371,7 @@ inherited frmLogin: TfrmLogin
     Style.BorderStyle = ebsNone
     TabOrder = 5
     Transparent = True
-    ExplicitHeight = 149
-    Height = 155
+    Height = 149
     Width = 268
   end
 end

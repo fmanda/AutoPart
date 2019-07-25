@@ -9,7 +9,7 @@ uses
   Vcl.Menus, Vcl.StdCtrls, cxButtons, cxGroupBox, Vcl.ComCtrls, dxCore,
   cxDateUtils, cxCheckBox, cxDropDownEdit, cxCalendar, cxCurrencyEdit, cxMemo,
   cxMaskEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox, cxTextEdit,
-  cxLabel, uItem, Datasnap.DBClient, Vcl.ExtCtrls;
+  cxLabel, uItem, Datasnap.DBClient, Vcl.ExtCtrls, cxStyles, cxClasses;
 
 type
   TfrmService = class(TfrmDefaultInput)
@@ -42,6 +42,7 @@ type
     property Service: TService read GetService write FService;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = True);
     { Public declarations }
   end;
@@ -82,6 +83,11 @@ begin
         'select id, uom from tuom', Self
       );
   Result := FCDSUOM;
+end;
+
+function TfrmService.GetGroupName: string;
+begin
+  Result := 'Master Data';
 end;
 
 function TfrmService.GetService: TService;

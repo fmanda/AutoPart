@@ -121,6 +121,7 @@ type
   protected
     procedure CDSAfterPost(DataSet: TDataSet);
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = True);
     { Public declarations }
   end;
@@ -661,6 +662,11 @@ begin
     FCDSDummy := TDBUtils.OpenDataset('select * from titem where nama like ''oli%'' ',Self);
   end;
   Result := FCDSDummy;
+end;
+
+function TfrmPurchaseInvoice.GetGroupName: string;
+begin
+  Result := 'Inventory';
 end;
 
 procedure TfrmPurchaseInvoice.LookupSupplier(sKey: string = '');

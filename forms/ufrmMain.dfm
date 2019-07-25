@@ -61,6 +61,7 @@ object frmMain: TfrmMain
     TabOrder = 1
     TabStop = False
     object dxRTApp: TdxRibbonTab
+      Active = True
       Caption = 'Aplikasi'
       Groups = <
         item
@@ -94,7 +95,6 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
-      Active = True
       Caption = 'Penjualan & Kas'
       Groups = <
         item
@@ -1151,6 +1151,7 @@ object frmMain: TfrmMain
       Category = 'Application'
       Caption = 'Manajemen User'
       ImageIndex = 16
+      OnExecute = actUserExecute
     end
     object actSales: TAction
       Category = 'Kasir & Penjualan'

@@ -2,7 +2,6 @@ inherited frmRekening: TfrmRekening
   Caption = 'Update Data Rekening'
   ClientHeight = 237
   ClientWidth = 450
-  OnCreate = FormCreate
   ExplicitWidth = 466
   ExplicitHeight = 276
   PixelsPerInch = 96
@@ -36,14 +35,17 @@ inherited frmRekening: TfrmRekening
     inherited lbEscape: TLabel
       Left = 370
       Height = 17
+      ExplicitLeft = 370
     end
     inherited lgndSave: TLabel
       Left = 205
       Height = 17
+      ExplicitLeft = 205
     end
     inherited lgndPrint: TLabel
       Left = 292
       Height = 17
+      ExplicitLeft = 292
     end
   end
   object cxLabel1: TcxLabel [2]

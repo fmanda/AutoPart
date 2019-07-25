@@ -293,7 +293,7 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-    function GenerateNo(aSalesType: Integer): String;
+    function GenerateNo(aSalesType: Integer): String; reintroduce;
     function GetHeaderFlag: Integer; override;
     function GetRemain: Double;
     function GetTotalBayar: Double;

@@ -2,7 +2,6 @@ inherited frmEndOfDay: TfrmEndOfDay
   Caption = 'End Of Day'
   ClientHeight = 512
   ClientWidth = 804
-  OnCreate = FormCreate
   ExplicitWidth = 820
   ExplicitHeight = 551
   PixelsPerInch = 96
@@ -10,33 +9,43 @@ inherited frmEndOfDay: TfrmEndOfDay
   inherited cxGroupBox2: TcxGroupBox
     Top = 477
     TabOrder = 1
+    ExplicitTop = 477
+    ExplicitWidth = 804
     Width = 804
     inherited btnCancel: TcxButton
       Left = 719
+      ExplicitLeft = 719
     end
     inherited btnPrint: TcxButton
       Left = 633
+      ExplicitLeft = 633
     end
     inherited btnSave: TcxButton
       Left = 547
       OnClick = btnSaveClick
+      ExplicitLeft = 547
     end
   end
   inherited Panel2: TPanel
     Top = 456
     Width = 804
     TabOrder = 2
+    ExplicitTop = 456
+    ExplicitWidth = 804
     inherited lbEscape: TLabel
       Left = 724
       Height = 17
+      ExplicitLeft = 724
     end
     inherited lgndSave: TLabel
       Left = 559
       Height = 17
+      ExplicitLeft = 559
     end
     inherited lgndPrint: TLabel
       Left = 646
       Height = 17
+      ExplicitLeft = 646
     end
   end
   object cxGroupBox1: TcxGroupBox [2]
@@ -110,18 +119,12 @@ inherited frmEndOfDay: TfrmEndOfDay
     TabOrder = 3
     Properties.ActivePage = tsCashOpname
     Properties.CustomButtons.Buttons = <>
-    ExplicitLeft = 64
-    ExplicitTop = 96
-    ExplicitWidth = 289
-    ExplicitHeight = 193
     ClientRectBottom = 415
     ClientRectRight = 804
     ClientRectTop = 24
     object tsCashOpname: TcxTabSheet
       Caption = 'Cash Opname'
       ImageIndex = 0
-      ExplicitWidth = 289
-      ExplicitHeight = 169
       object cxGrid1: TcxGrid
         Left = 0
         Top = 0
@@ -132,9 +135,6 @@ inherited frmEndOfDay: TfrmEndOfDay
         BevelOuter = bvNone
         BorderStyle = cxcbsNone
         TabOrder = 0
-        ExplicitTop = 115
-        ExplicitWidth = 760
-        ExplicitHeight = 344
         object cxGrdMain: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>

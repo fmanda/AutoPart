@@ -3,7 +3,6 @@ inherited frmPriceQuotation: TfrmPriceQuotation
   ClientHeight = 611
   ClientWidth = 984
   KeyPreview = True
-  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   ExplicitWidth = 1000
   ExplicitHeight = 650
@@ -89,7 +88,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
       ExplicitHeight = 16
     end
   end
-  object cxGroupBox1: TcxGroupBox
+  object cxGroupBox1: TcxGroupBox [2]
     Left = 0
     Top = 0
     Align = alTop
@@ -174,7 +173,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
       Width = 133
     end
   end
-  object cxGrid1: TcxGrid
+  object cxGrid1: TcxGrid [3]
     AlignWithMargins = True
     Left = 3
     Top = 84
@@ -440,5 +439,8 @@ inherited frmPriceQuotation: TfrmPriceQuotation
       Caption = 'Detail Item'
       GridView = cxGrdMain
     end
+  end
+  inherited styleRepo: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end

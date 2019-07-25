@@ -8,7 +8,7 @@ uses
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   Vcl.Menus, Vcl.StdCtrls, Vcl.ExtCtrls, cxButtons, cxGroupBox, cxRadioGroup,
   cxCheckBox, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
-  cxDBExtLookupComboBox, cxTextEdit, cxLabel, uAccount;
+  cxDBExtLookupComboBox, cxTextEdit, cxLabel, uAccount, cxStyles, cxClasses;
 
 type
   TfrmAccount = class(TfrmDefaultInput)
@@ -33,6 +33,7 @@ type
     property Account: TAccount read GetAccount write FAccount;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = False);
     { Public declarations }
   end;
@@ -85,6 +86,11 @@ begin
     FAccount := TAccount.Create;
 
   Result := FAccount;
+end;
+
+function TfrmAccount.GetGroupName: string;
+begin
+  Result := 'Master Data';
 end;
 
 procedure TfrmAccount.LoadByID(aID: Integer; IsReadOnly: Boolean = False);

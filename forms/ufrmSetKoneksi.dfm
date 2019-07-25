@@ -3,7 +3,6 @@ inherited frmSetKoneksi: TfrmSetKoneksi
   ClientHeight = 198
   ClientWidth = 389
   Position = poDesktopCenter
-  OnCreate = FormCreate
   ExplicitWidth = 405
   ExplicitHeight = 237
   PixelsPerInch = 96
@@ -17,8 +16,6 @@ inherited frmSetKoneksi: TfrmSetKoneksi
     Style.LookAndFeel.NativeStyle = False
     StyleDisabled.LookAndFeel.NativeStyle = False
     TabOrder = 0
-    ExplicitTop = 198
-    ExplicitWidth = 397
     Height = 35
     Width = 389
     object btnTutup: TcxButton
@@ -33,7 +30,6 @@ inherited frmSetKoneksi: TfrmSetKoneksi
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
       OnClick = btnTutupClick
-      ExplicitLeft = 317
     end
     object btnTest: TcxButton
       AlignWithMargins = True
@@ -60,7 +56,6 @@ inherited frmSetKoneksi: TfrmSetKoneksi
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 2
       OnClick = btnSaveClick
-      ExplicitLeft = 131
     end
   end
   object cxLabel1: TcxLabel

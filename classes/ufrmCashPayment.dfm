@@ -3,7 +3,6 @@ inherited frmCashPayment: TfrmCashPayment
   ClientHeight = 523
   ClientWidth = 737
   KeyPreview = True
-  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   ExplicitWidth = 753
   ExplicitHeight = 562
@@ -12,43 +11,51 @@ inherited frmCashPayment: TfrmCashPayment
   inherited cxGroupBox2: TcxGroupBox
     Top = 488
     TabOrder = 2
+    ExplicitTop = 488
+    ExplicitWidth = 737
     Width = 737
     inherited btnCancel: TcxButton
       Left = 652
+      ExplicitLeft = 652
     end
     inherited btnPrint: TcxButton
       Left = 566
+      ExplicitLeft = 566
     end
     inherited btnSave: TcxButton
       Left = 480
       OnClick = btnSaveClick
+      ExplicitLeft = 480
     end
   end
   inherited Panel2: TPanel
     Top = 467
     Width = 737
     TabOrder = 3
-    ExplicitTop = 321
+    ExplicitTop = 467
+    ExplicitWidth = 737
     inherited lbEscape: TLabel
       Left = 657
       Height = 17
+      ExplicitLeft = 657
     end
     inherited lgndSave: TLabel
       Left = 492
       Height = 17
+      ExplicitLeft = 492
     end
     inherited lgndPrint: TLabel
       Left = 579
       Height = 17
+      ExplicitLeft = 579
     end
   end
-  object cxGroupBox1: TcxGroupBox
+  object cxGroupBox1: TcxGroupBox [2]
     Left = 0
     Top = 0
     Align = alTop
     Caption = '  Header Invoice [F1] '
     TabOrder = 0
-    ExplicitWidth = 910
     DesignSize = (
       737
       115)
@@ -127,7 +134,6 @@ inherited frmCashPayment: TfrmCashPayment
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 4
-      ExplicitLeft = 680
       Width = 170
     end
     object lbRekening: TcxLabel
@@ -145,7 +151,7 @@ inherited frmCashPayment: TfrmCashPayment
       Width = 259
     end
   end
-  object cxGrid1: TcxGrid
+  object cxGrid1: TcxGrid [3]
     Left = 0
     Top = 115
     Width = 737
@@ -153,10 +159,6 @@ inherited frmCashPayment: TfrmCashPayment
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitLeft = -8
-    ExplicitTop = 109
-    ExplicitWidth = 910
-    ExplicitHeight = 389
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -196,5 +198,8 @@ inherited frmCashPayment: TfrmCashPayment
       Caption = 'Detail Pengeluaran [F2]'
       GridView = cxGrdMain
     end
+  end
+  inherited styleRepo: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end

@@ -64,6 +64,7 @@ type
     property Item: TItem read GetItem write FItem;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aItemID, aGudangID: Integer);
     { Public declarations }
   end;
@@ -215,6 +216,11 @@ begin
     FCDS.CreateDataSet;
   end;
   Result := FCDS;
+end;
+
+function TfrmKartuStock.GetGroupName: string;
+begin
+  Result := 'Inventory';
 end;
 
 function TfrmKartuStock.GetItem: TItem;

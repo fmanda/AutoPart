@@ -27,6 +27,7 @@ type
     property Rekening: TRekening read GetRekening write FRekening;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = False);
     { Public declarations }
   end;
@@ -58,6 +59,11 @@ begin
   inherited;
   Self.AssignKeyDownEvent;
   LoadByID(0);
+end;
+
+function TfrmRekening.GetGroupName: string;
+begin
+  Result := 'Master Data';
 end;
 
 function TfrmRekening.GetRekening: TRekening;

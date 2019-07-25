@@ -3,7 +3,6 @@ inherited frmCashTransfer: TfrmCashTransfer
   ClientHeight = 515
   ClientWidth = 760
   KeyPreview = True
-  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   ExplicitWidth = 776
   ExplicitHeight = 554
@@ -27,7 +26,6 @@ inherited frmCashTransfer: TfrmCashTransfer
       Left = 503
       OnClick = btnSaveClick
       ExplicitLeft = 503
-      ExplicitTop = 6
     end
   end
   inherited Panel2: TPanel
@@ -52,7 +50,7 @@ inherited frmCashTransfer: TfrmCashTransfer
       ExplicitLeft = 602
     end
   end
-  object cxGroupBox1: TcxGroupBox
+  object cxGroupBox1: TcxGroupBox [2]
     Left = 0
     Top = 0
     Align = alTop
@@ -149,7 +147,7 @@ inherited frmCashTransfer: TfrmCashTransfer
       Width = 259
     end
   end
-  object cxGrid1: TcxGrid
+  object cxGrid1: TcxGrid [3]
     Left = 0
     Top = 115
     Width = 760
@@ -197,5 +195,8 @@ inherited frmCashTransfer: TfrmCashTransfer
       Caption = 'Detail Transfer [F2]'
       GridView = cxGrdMain
     end
+  end
+  inherited styleRepo: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end

@@ -49,6 +49,7 @@ type
     CDS: TClientDataset;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -122,6 +123,11 @@ begin
   inherited;
   dtStock.Date := Now();
 
+end;
+
+function TfrmSuggestionOrder.GetGroupName: string;
+begin
+  Result := 'Inventory';
 end;
 
 end.

@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmDefaultInput, cxGraphics,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   Vcl.Menus, Vcl.StdCtrls, cxButtons, cxLabel, cxGroupBox, cxTextEdit, uItem,
-  uAppUtils, uDXUtils, Vcl.ExtCtrls;
+  uAppUtils, uDXUtils, Vcl.ExtCtrls, cxStyles, cxClasses;
 
 type
   TfrmUOM = class(TfrmDefaultInput)
@@ -25,6 +25,7 @@ type
     property UOM: TUOM read GetUOM write FUOM;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     procedure LoadByID(AID: Integer);
     { Public declarations }
   end;
@@ -52,6 +53,11 @@ begin
     TAppUtils.InformationBerhasilSimpan;
     Self.ModalResult := mrOK;
   end;
+end;
+
+function TfrmUOM.GetGroupName: string;
+begin
+  Result := 'Master Data';
 end;
 
 function TfrmUOM.GetUOM: TUOM;

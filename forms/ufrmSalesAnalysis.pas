@@ -50,6 +50,7 @@ type
     procedure SetPivotTemplate;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     procedure RefreshData;
     { Public declarations }
   end;
@@ -108,6 +109,11 @@ begin
   dtStart.Date  := StartOfTheYear(Now());
   dtEnd.Date    := EndOfTheMonth(Now());
   pgcMain.ActivePage := tsPivot;
+end;
+
+function TfrmSalesAnalysis.GetGroupName: string;
+begin
+  Result := 'Manajemen';
 end;
 
 procedure TfrmSalesAnalysis.RefreshData;

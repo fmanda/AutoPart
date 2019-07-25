@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmDefault, cxGraphics, cxControls,
   cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit, Vcl.Menus,
   dxGDIPlusClasses, cxImage, Vcl.StdCtrls, cxButtons, cxGroupBox, cxTextEdit,
-  cxLabel;
+  cxLabel, uUser;
 
 type
   TfrmLogin = class(TfrmDefault)
@@ -25,6 +25,7 @@ type
     { Private declarations }
   protected
   public
+    function IsRegistered: Boolean; dynamic;
     { Public declarations }
   end;
 
@@ -45,38 +46,25 @@ begin
 end;
 
 procedure TfrmLogin.btnLoginClick(Sender: TObject);
-//var
-//  S: string;
 begin
   inherited;
-  if (LowerCase(txtUser.Text) = 'admin') and (LowerCase(txtPassword.Text) = 'admin') then
+  if User = nil then User := TUser.Create;
+  User.LoadByCode(txtUser.Text);
+
+  if UpperCase(txtPassword.Text) = UpperCase(User.Password) then
   begin
-//    User.ID := 0;
-//    User.UserName := 'admin';
-//    User.Nama     := 'admin';
-//    User.Jabatan  := 'admin';
+    User.ReloadAll;
     Self.ModalResult := mrOK;
     exit;
   end;
-//
-//  S := 'select * from temployee where username = '+ QuotedStr(txtUser.Text)
-//      +' and password = ' + QuotedStr(txtPassword.Text);
-//
-//  with TDBUtils.OpenQuery(S) do
-//  begin
-//    Try
-//      if not eof then
-//      begin
-////        User.LoadByID(FieldByName('ID').AsInteger);
-//        Self.ModalResult := mrOK;
-//        exit;
-//      end;
-//    Finally
-//      Free;
-//    End;
-//  end;
 
+  User.Clear;
   TAppUtils.Warning('User dan Password tidak ditemukan di database');
+end;
+
+function TfrmLogin.IsRegistered: Boolean;
+begin
+  Result := False;
 end;
 
 

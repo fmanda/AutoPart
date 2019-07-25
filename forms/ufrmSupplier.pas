@@ -8,7 +8,8 @@ uses
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   Vcl.Menus, Vcl.StdCtrls, cxButtons, cxGroupBox, Vcl.ComCtrls, dxCore,
   cxDateUtils, cxSpinEdit, cxCheckBox, cxMaskEdit, cxDropDownEdit, cxCalendar,
-  cxMemo, cxTextEdit, cxLabel, uCustomer, uSupplier, Vcl.ExtCtrls;
+  cxMemo, cxTextEdit, cxLabel, uCustomer, uSupplier, Vcl.ExtCtrls, cxStyles,
+  cxClasses;
 
 type
   TfrmSupplier = class(TfrmDefaultInput)
@@ -39,6 +40,7 @@ type
     property Supplier: TSupplier read GetSupplier write FSupplier;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = False);
     { Public declarations }
   end;
@@ -81,6 +83,11 @@ begin
     if Supplier.ID = 0 then
       edKode.Text := Supplier.GenerateNo;
   end;
+end;
+
+function TfrmSupplier.GetGroupName: string;
+begin
+  Result := 'Master Data';
 end;
 
 function TfrmSupplier.GetSupplier: TSupplier;

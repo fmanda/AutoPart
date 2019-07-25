@@ -2,49 +2,48 @@ inherited frmVariable: TfrmVariable
   Caption = 'Update Variable'
   ClientHeight = 461
   ClientWidth = 555
-  ExplicitTop = -3
   ExplicitWidth = 571
   ExplicitHeight = 500
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
     Top = 426
-    ExplicitTop = 626
-    ExplicitWidth = 584
+    ExplicitTop = 426
+    ExplicitWidth = 555
     Width = 555
     inherited btnCancel: TcxButton
       Left = 470
-      ExplicitLeft = 499
+      ExplicitLeft = 470
     end
     inherited btnPrint: TcxButton
       Left = 384
-      ExplicitLeft = 413
+      ExplicitLeft = 384
     end
     inherited btnSave: TcxButton
       Left = 298
       OnClick = btnSaveClick
-      ExplicitLeft = 327
+      ExplicitLeft = 298
     end
   end
   inherited Panel2: TPanel
     Top = 405
     Width = 555
-    ExplicitTop = 605
-    ExplicitWidth = 584
+    ExplicitTop = 405
+    ExplicitWidth = 555
     inherited lbEscape: TLabel
       Left = 475
       Height = 17
-      ExplicitLeft = 504
+      ExplicitLeft = 475
     end
     inherited lgndSave: TLabel
       Left = 310
       Height = 17
-      ExplicitLeft = 339
+      ExplicitLeft = 310
     end
     inherited lgndPrint: TLabel
       Left = 397
       Height = 17
-      ExplicitLeft = 426
+      ExplicitLeft = 397
     end
   end
   object cxVertGrid: TcxVerticalGrid [2]
@@ -61,8 +60,6 @@ inherited frmVariable: TfrmVariable
     OptionsBehavior.GoToNextCellOnTab = True
     OptionsBehavior.FocusCellOnCycle = True
     TabOrder = 2
-    ExplicitTop = -1
-    ExplicitHeight = 605
     Version = 1
     object cxVertGridCategoryRow1: TcxCategoryRow
       Properties.Caption = 'Informasi Perusahaan'

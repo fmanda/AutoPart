@@ -140,6 +140,7 @@ type
     property SalesRetur: TSalesRetur read GetSalesRetur write FSalesRetur;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean);
     { Public declarations }
   end;
@@ -569,6 +570,11 @@ begin
   Result := FCDSValidate;
 end;
 
+function TfrmSalesRetur.GetGroupName: string;
+begin
+  Result := 'Penjualan & Kas';
+end;
+
 function TfrmSalesRetur.GetSalesRetur: TSalesRetur;
 begin
   if FSalesRetur = nil then
@@ -621,6 +627,11 @@ begin
     SalesRetur.TransDate  := Now();
     SalesRetur.ReturFlag  := 0;
     SalesRetur.Refno      := SalesRetur.GenerateNo;
+  end;
+
+  if (aID <> 0) and (not IsReadOnly) then
+  begin
+    IsReadOnly := not IsValidTransDate(SalesRetur.TransDate);
   end;
 
   edNoRetur.Text  := SalesRetur.Refno;
@@ -1047,6 +1058,8 @@ begin
       exit;
     end;
 //  end;
+
+  if not IsValidTransDate(dtRetur.Date) then exit;
 
   Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
 

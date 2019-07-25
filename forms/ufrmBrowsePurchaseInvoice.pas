@@ -30,6 +30,7 @@ type
     function GetKeyField: string; override;
     function GetSQL: string; override;
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -145,6 +146,11 @@ begin
 //  if VarToInt(ARecord.Values[iCol]) = 0 then
 //    AStyle := styleNonActive;
 
+end;
+
+function TfrmBrowsePurchaseInvoice.GetGroupName: string;
+begin
+  Result := 'Inventory';
 end;
 
 function TfrmBrowsePurchaseInvoice.GetKeyField: string;

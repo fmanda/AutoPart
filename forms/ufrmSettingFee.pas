@@ -8,7 +8,7 @@ uses
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   Vcl.Menus, Vcl.StdCtrls, Vcl.ExtCtrls, cxButtons, cxGroupBox, cxMaskEdit,
   cxSpinEdit, cxCurrencyEdit, cxCheckBox, cxLabel, cxTextEdit, uCustomer,
-  uSettingFee;
+  uSettingFee, cxStyles, cxClasses;
 
 type
   TfrmSettingFee = class(TfrmDefaultInput)
@@ -41,6 +41,7 @@ type
     property SettingFee: TSettingFee read GetSettingFee write FSettingFee;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = False);
     { Public declarations }
   end;
@@ -72,6 +73,11 @@ begin
   inherited;
   Self.AssignKeyDownEvent;
   LoadByID(0);
+end;
+
+function TfrmSettingFee.GetGroupName: string;
+begin
+  Result := 'Master Data';
 end;
 
 function TfrmSettingFee.GetSettingFee: TSettingFee;

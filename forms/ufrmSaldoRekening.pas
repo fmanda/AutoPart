@@ -41,6 +41,7 @@ type
     property CDS: TClientDataset read FCDS write FCDS;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -82,6 +83,11 @@ begin
   InitView;
   dtSaldo.Date  := Now();
   ckRekeningPropertiesEditValueChanged(Self);
+end;
+
+function TfrmSaldoRekening.GetGroupName: string;
+begin
+  Result := 'Penjualan & Kas';
 end;
 
 procedure TfrmSaldoRekening.InitView;

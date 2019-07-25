@@ -50,6 +50,7 @@ type
 
 var
   AppVariable  : TVariable;
+//  User : TUser;
 
 implementation
 

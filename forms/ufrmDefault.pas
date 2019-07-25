@@ -17,6 +17,7 @@ type
     function GetFormName: string; dynamic;
     function GetFormCaption: string; dynamic;
     function GetGroupName: string; dynamic;
+    function ValidateUser: Boolean;
     { Public declarations }
   end;
 
@@ -42,6 +43,12 @@ begin
       Self.GetFormCaption,
       Self.GetGroupName
     );
+
+    if not ValidateUser then
+    begin
+      TAppUtils.Warning('Anda tidak memiliki hak akses atas form ini');
+      Self.Close;
+    end;
 
   except
   End;
@@ -70,6 +77,20 @@ end;
 function TfrmDefault.GetGroupName: string;
 begin
   Result := 'UNGROUP'; //override this
+end;
+
+function TfrmDefault.ValidateUser: Boolean;
+begin
+  Result := False;
+
+  if User <> nil then
+  begin
+    if User.HasAccess(GetFormName) then
+    begin
+      Result := True;
+      exit;
+    end;
+  end;
 end;
 
 end.

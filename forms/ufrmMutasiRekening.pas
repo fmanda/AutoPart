@@ -44,6 +44,7 @@ type
     property CDS: TClientDataset read GetCDS write FCDS;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -92,6 +93,11 @@ begin
     FCDS.CreateDataSet;
   end;
   Result := FCDS;
+end;
+
+function TfrmMutasiRekening.GetGroupName: string;
+begin
+  Result := 'Penjualan & Kas';
 end;
 
 procedure TfrmMutasiRekening.InitView;

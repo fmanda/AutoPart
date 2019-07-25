@@ -1,4 +1,4 @@
-unit ufrmBrowseItemGroup;
+unit ufrmBrowseUser;
 
 interface
 
@@ -11,13 +11,13 @@ uses
   Vcl.Menus, Vcl.ComCtrls, dxCore, cxDateUtils, cxClasses, cxLabel, cxTextEdit,
   cxMaskEdit, cxDropDownEdit, cxCalendar, Vcl.StdCtrls, cxButtons, cxGroupBox,
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridServerModeTableView, cxGrid, ufrmItemGroup, uDXUtils, uAppUtils;
+  cxGridServerModeTableView, cxGrid;
 
 type
-  TfrmBrowseItemGroup = class(TfrmDefaultServerBrowse)
+  TfrmBrowseUser = class(TfrmDefaultServerBrowse)
     procedure btnBaruClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
-    procedure btnHapusClick(Sender: TObject);
+    procedure btnLihatClick(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -29,19 +29,19 @@ type
   end;
 
 var
-  frmBrowseItemGroup: TfrmBrowseItemGroup;
+  frmBrowseUser: TfrmBrowseUser;
 
 implementation
 
 uses
-  uItem;
+  uDXUtils, ufrmUser;
 
 {$R *.dfm}
 
-procedure TfrmBrowseItemGroup.btnBaruClick(Sender: TObject);
+procedure TfrmBrowseUser.btnBaruClick(Sender: TObject);
 begin
   inherited;
-  with TfrmItemGroup.Create(Application) do
+  with TfrmUser.Create(Application) do
   begin
     Try
       if ShowModal = mrOK then
@@ -52,12 +52,12 @@ begin
   end;
 end;
 
-procedure TfrmBrowseItemGroup.btnEditClick(Sender: TObject);
+procedure TfrmBrowseUser.btnEditClick(Sender: TObject);
 begin
   inherited;
-  with TfrmItemGroup.Create(Application) do
+  with TfrmUser.Create(Application) do
   begin
-    LoadByID(cxGrdMain.GetID);
+    LoadByID(Self.cxGrdMain.GetID, False);
     Try
       if ShowModal = mrOK then
         RefreshData;
@@ -67,37 +67,34 @@ begin
   end;
 end;
 
-procedure TfrmBrowseItemGroup.btnHapusClick(Sender: TObject);
+procedure TfrmBrowseUser.btnLihatClick(Sender: TObject);
 begin
   inherited;
-  if not TAppUtils.Confirm('Anda yakin menghapus data ini?') then exit;
-  
-  with TItemGroup.Create do
+  with TfrmUser.Create(Application) do
   begin
-    if LoadByID(cxGrdMain.GetID) then
-      if DeleteFromDB then
-      begin
-        TAppUtils.Information('Berhasil menghapus data');
+    LoadByID(Self.cxGrdMain.GetID);
+    Try
+      if ShowModal = mrOK then
         RefreshData;
-      end;
-    Free;
+    Finally
+      Free;
+    End;
   end;
-
 end;
 
-function TfrmBrowseItemGroup.GetGroupName: string;
+function TfrmBrowseUser.GetGroupName: string;
 begin
-  Result := 'Master Data';
+  Result := 'Aplikasi';
 end;
 
-function TfrmBrowseItemGroup.GetKeyField: string;
+function TfrmBrowseUser.GetKeyField: string;
 begin
   Result := 'id';
 end;
 
-function TfrmBrowseItemGroup.GetSQL: string;
+function TfrmBrowseUser.GetSQL: string;
 begin
-  Result := 'select * from titemgroup';
+  Result := 'select id, username, nama from tuser where isnull(superuser,0) = 0';
 end;
 
 end.

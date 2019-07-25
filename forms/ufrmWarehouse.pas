@@ -8,7 +8,8 @@ uses
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   Vcl.Menus, Vcl.StdCtrls, cxButtons, cxGroupBox, cxRadioGroup, cxCheckBox,
   cxTextEdit, cxLabel, uSupplier, uWarehouse, Vcl.ExtCtrls, cxMaskEdit,
-  cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox;
+  cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox, cxStyles,
+  cxClasses;
 
 type
   TfrmWarehouse = class(TfrmDefaultInput)
@@ -32,6 +33,7 @@ type
     property Warehouse: TWarehouse read GetWarehouse write FWarehouse;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = False);
     { Public declarations }
   end;
@@ -72,6 +74,11 @@ begin
   cxLookupCabang.LoadFromSQL('select * from tproject','project_code','project_name', Self);
   Self.AssignKeyDownEvent;
   LoadByID(0);
+end;
+
+function TfrmWarehouse.GetGroupName: string;
+begin
+  Result := 'Master Data';
 end;
 
 function TfrmWarehouse.GetWarehouse: TWarehouse;

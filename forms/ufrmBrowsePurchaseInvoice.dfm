@@ -8,7 +8,6 @@ inherited frmBrowsePurchaseInvoice: TfrmBrowsePurchaseInvoice
     end
     inherited btnEdit: TcxButton
       OnClick = btnEditClick
-      ExplicitTop = 3
     end
     inherited btnLihat: TcxButton
       OnClick = btnLihatClick

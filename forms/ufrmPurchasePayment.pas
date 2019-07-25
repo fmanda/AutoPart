@@ -114,6 +114,7 @@ type
     property CDSCloneCost: TClientDataset read GetCDSCloneCost write FCDSCloneCost;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = False);
     property Payment: TPurchasePayment read GetPayment write FPayment;
     { Public declarations }
@@ -450,6 +451,11 @@ begin
   Result := FCDSCloneCost;
 end;
 
+function TfrmPurchasePayment.GetGroupName: string;
+begin
+  Result := 'Hutang & Piutang';
+end;
+
 function TfrmPurchasePayment.GetPayment: TPurchasePayment;
 begin
   if FPayment = nil then
@@ -486,6 +492,11 @@ begin
     Payment.TransDate := Now();
     Payment.Refno     := Payment.GenerateNo;
     Payment.Media     := -1;
+  end;
+
+  if (aID <> 0) and (not IsReadOnly) then
+  begin
+    IsReadOnly := not IsValidTransDate(Payment.TransDate);
   end;
 
   edRefno.Text        := Payment.Refno;
@@ -882,6 +893,8 @@ begin
 
     CDS.Next;
   end;
+
+  if not IsValidTransDate(dtTransDate.Date) then exit;
 
   Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
 end;

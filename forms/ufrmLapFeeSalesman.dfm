@@ -106,8 +106,6 @@ inherited frmLapFeeSalesman: TfrmLapFeeSalesman
     Height = 375
     Align = alClient
     TabOrder = 3
-    ExplicitTop = 116
-    ExplicitHeight = 383
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>

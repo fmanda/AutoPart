@@ -37,6 +37,7 @@ type
     procedure LoadData;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -61,6 +62,11 @@ begin
   inherited;
   dtStart.Date := StartOfTheMonth(Now());
   dtEnd.Date := Now();
+end;
+
+function TfrmLapCashOpname.GetGroupName: string;
+begin
+  Result := 'Penjualan & Kas';
 end;
 
 procedure TfrmLapCashOpname.LoadData;

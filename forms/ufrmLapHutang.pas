@@ -36,6 +36,7 @@ type
     CDS: TClientDataset;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -90,6 +91,11 @@ begin
   if VarToInt(ARecord.Values[iIndex]) > 0
   then
     AStyle := styleRed;
+end;
+
+function TfrmLapHutang.GetGroupName: string;
+begin
+  Result := 'Hutang & Piutang';
 end;
 
 end.

@@ -110,6 +110,7 @@ type
     { Private declarations }
   public
     procedure CalcSellPrice(aIndexPrice: Integer; IsMargin: Boolean);
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = True);
     { Public declarations }
   end;
@@ -345,6 +346,11 @@ begin
         'select id, uom from tuom', Self
       );
   Result := FCDSUOM;
+end;
+
+function TfrmItem.GetGroupName: string;
+begin
+  Result := 'Master Data';
 end;
 
 function TfrmItem.GetItem: TItem;

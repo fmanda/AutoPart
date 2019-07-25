@@ -26,6 +26,7 @@ type
     function GetKeyField: string; override;
     function GetSQL: string; override;
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -35,7 +36,7 @@ var
 implementation
 
 uses
-  uAppUtils, uDXUtils, uTransDetail;
+  uAppUtils, uDXUtils, uTransDetail, uDBUtils;
 
 {$R *.dfm}
 
@@ -76,11 +77,14 @@ begin
   with TStockAdjustment.Create do
   begin
     if LoadByID(Self.cxGrdMain.GetID) then
+    begin
+      if not IsValidTransDate(TransDate) then exit;
       if DeleteFromDB then
       begin
         TAppUtils.Information('Berhasil menghapus data');
         RefreshData;
       end;
+    end;
     Free;
   end;
 end;
@@ -104,6 +108,11 @@ begin
   StartDate.Date := StartOfTheMonth(Now());
   EndDate.Date := EndOfTheMonth(Now());
   inherited;
+end;
+
+function TfrmBrowseStockAdjustment.GetGroupName: string;
+begin
+  Result := 'Inventory';
 end;
 
 function TfrmBrowseStockAdjustment.GetKeyField: string;

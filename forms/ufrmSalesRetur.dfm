@@ -4,8 +4,6 @@ inherited frmSalesRetur: TfrmSalesRetur
   ClientWidth = 934
   KeyPreview = True
   OnKeyDown = FormKeyDown
-  ExplicitLeft = -136
-  ExplicitTop = -192
   ExplicitWidth = 950
   ExplicitHeight = 600
   PixelsPerInch = 96

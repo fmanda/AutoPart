@@ -24,6 +24,7 @@ type
     function GetKeyField: string; override;
     function GetSQL: string; override;
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -61,6 +62,11 @@ begin
       Free;
     End;
   end;
+end;
+
+function TfrmBrowseMerk.GetGroupName: string;
+begin
+  Result := 'Master Data';
 end;
 
 function TfrmBrowseMerk.GetKeyField: string;

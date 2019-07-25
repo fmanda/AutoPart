@@ -2,7 +2,6 @@ inherited frmSettingFee: TfrmSettingFee
   Caption = 'Update Komisi / Fee Salesman'
   ClientHeight = 211
   ClientWidth = 364
-  OnCreate = FormCreate
   ExplicitWidth = 380
   ExplicitHeight = 250
   PixelsPerInch = 96
@@ -49,19 +48,19 @@ inherited frmSettingFee: TfrmSettingFee
       ExplicitLeft = 206
     end
   end
-  object edNama: TcxTextEdit
+  object edNama: TcxTextEdit [2]
     Left = 62
     Top = 21
     Properties.CharCase = ecUpperCase
     TabOrder = 0
     Width = 219
   end
-  object cxLabel2: TcxLabel
+  object cxLabel2: TcxLabel [3]
     Left = 29
     Top = 22
     Caption = 'Nama'
   end
-  object chkActive: TcxCheckBox
+  object chkActive: TcxCheckBox [4]
     Left = 283
     Top = 21
     TabStop = False
@@ -69,7 +68,7 @@ inherited frmSettingFee: TfrmSettingFee
     State = cbsChecked
     TabOrder = 1
   end
-  object crFee1: TcxCurrencyEdit
+  object crFee1: TcxCurrencyEdit [5]
     Left = 62
     Top = 43
     EditValue = 0.000000000000000000
@@ -79,28 +78,28 @@ inherited frmSettingFee: TfrmSettingFee
     TabOrder = 2
     Width = 59
   end
-  object cxLabel5: TcxLabel
+  object cxLabel5: TcxLabel [6]
     Left = 29
     Top = 44
     Caption = 'Fee 1'
   end
-  object spTempo1: TcxSpinEdit
+  object spTempo1: TcxSpinEdit [7]
     Left = 213
     Top = 43
     TabOrder = 3
     Width = 68
   end
-  object cxLabel7: TcxLabel
+  object cxLabel7: TcxLabel [8]
     Left = 152
     Top = 44
     Caption = 'Max Tempo'
   end
-  object cxLabel1: TcxLabel
+  object cxLabel1: TcxLabel [9]
     Left = 123
     Top = 44
     Caption = '%'
   end
-  object crFee2: TcxCurrencyEdit
+  object crFee2: TcxCurrencyEdit [10]
     Left = 62
     Top = 64
     EditValue = 0.000000000000000000
@@ -110,28 +109,28 @@ inherited frmSettingFee: TfrmSettingFee
     TabOrder = 4
     Width = 59
   end
-  object cxLabel3: TcxLabel
+  object cxLabel3: TcxLabel [11]
     Left = 29
     Top = 65
     Caption = 'Fee 2'
   end
-  object spTempo2: TcxSpinEdit
+  object spTempo2: TcxSpinEdit [12]
     Left = 213
     Top = 64
     TabOrder = 5
     Width = 68
   end
-  object cxLabel4: TcxLabel
+  object cxLabel4: TcxLabel [13]
     Left = 152
     Top = 65
     Caption = 'Max Tempo'
   end
-  object cxLabel6: TcxLabel
+  object cxLabel6: TcxLabel [14]
     Left = 123
     Top = 65
     Caption = '%'
   end
-  object crFee3: TcxCurrencyEdit
+  object crFee3: TcxCurrencyEdit [15]
     Left = 62
     Top = 85
     EditValue = 0.000000000000000000
@@ -141,28 +140,28 @@ inherited frmSettingFee: TfrmSettingFee
     TabOrder = 6
     Width = 59
   end
-  object cxLabel8: TcxLabel
+  object cxLabel8: TcxLabel [16]
     Left = 29
     Top = 86
     Caption = 'Fee 3'
   end
-  object spTempo3: TcxSpinEdit
+  object spTempo3: TcxSpinEdit [17]
     Left = 213
     Top = 85
     TabOrder = 7
     Width = 68
   end
-  object cxLabel9: TcxLabel
+  object cxLabel9: TcxLabel [18]
     Left = 152
     Top = 86
     Caption = 'Max Tempo'
   end
-  object cxLabel10: TcxLabel
+  object cxLabel10: TcxLabel [19]
     Left = 123
     Top = 86
     Caption = '%'
   end
-  object cxLabel11: TcxLabel
+  object cxLabel11: TcxLabel [20]
     Left = 0
     Top = 135
     Anchors = [akLeft, akBottom]
@@ -170,5 +169,8 @@ inherited frmSettingFee: TfrmSettingFee
       '* ctt : Pelunasan melebihi tempo maksimal akan menyebabkan fee h' +
       'angus'
     Style.TextStyle = [fsItalic]
+  end
+  inherited styleRepo: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end

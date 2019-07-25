@@ -3,7 +3,6 @@ inherited frmStockAdjustment: TfrmStockAdjustment
   ClientHeight = 575
   ClientWidth = 890
   KeyPreview = True
-  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   ExplicitWidth = 906
   ExplicitHeight = 614
@@ -37,14 +36,17 @@ inherited frmStockAdjustment: TfrmStockAdjustment
     ExplicitWidth = 890
     inherited lbEscape: TLabel
       Left = 810
+      Height = 17
       ExplicitLeft = 810
     end
     inherited lgndSave: TLabel
       Left = 645
+      Height = 17
       ExplicitLeft = 645
     end
     inherited lgndPrint: TLabel
       Left = 732
+      Height = 17
       ExplicitLeft = 732
     end
   end

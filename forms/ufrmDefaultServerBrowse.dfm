@@ -169,6 +169,7 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Properties.ShowTime = False
       TabOrder = 1
       Visible = False
+      ExplicitHeight = 21
       Width = 100
     end
     object StartDate: TcxDateEdit
@@ -180,6 +181,7 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Properties.ShowTime = False
       TabOrder = 2
       Visible = False
+      ExplicitHeight = 21
       Width = 100
     end
     object cxLabel1: TcxLabel
@@ -189,6 +191,7 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Caption = 'Filter Periode'
       Properties.Alignment.Vert = taVCenter
       Visible = False
+      ExplicitLeft = 104
       AnchorY = 18
     end
     object cxLabel2: TcxLabel
@@ -198,6 +201,7 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Caption = 's/d'
       Properties.Alignment.Vert = taVCenter
       Visible = False
+      ExplicitLeft = 331
       AnchorY = 18
     end
     object lblTitle: TcxLabel

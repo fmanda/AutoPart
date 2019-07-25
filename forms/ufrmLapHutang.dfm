@@ -99,8 +99,6 @@ inherited frmLapHutang: TfrmLapHutang
     Align = alClient
     TabOrder = 3
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 100
-    ExplicitHeight = 451
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>

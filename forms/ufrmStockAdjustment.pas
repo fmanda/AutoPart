@@ -65,6 +65,7 @@ type
   protected
     function GetStockByItem(aItemID: Integer): Double;
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = True);
     { Public declarations }
   end;
@@ -142,6 +143,11 @@ begin
     FCDSUOM := TDBUtils.OpenDataset('select id, uom from tuom',Self);
   end;
   Result := FCDSUOM;
+end;
+
+function TfrmStockAdjustment.GetGroupName: string;
+begin
+  Result := 'Inventory';
 end;
 
 function TfrmStockAdjustment.GetSA: TStockAdjustment;

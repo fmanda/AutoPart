@@ -3,7 +3,6 @@ inherited frmCustomer: TfrmCustomer
   ClientHeight = 352
   ClientWidth = 491
   KeyPreview = True
-  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   ExplicitWidth = 507
   ExplicitHeight = 391
@@ -60,36 +59,36 @@ inherited frmCustomer: TfrmCustomer
       ExplicitLeft = 333
     end
   end
-  object cxLabel1: TcxLabel
+  object cxLabel1: TcxLabel [2]
     Left = 31
     Top = 21
     Caption = 'Kode Customer'
   end
-  object edKode: TcxTextEdit
+  object edKode: TcxTextEdit [3]
     Left = 109
     Top = 21
     Properties.CharCase = ecUpperCase
     TabOrder = 0
     Width = 116
   end
-  object cxLabel2: TcxLabel
+  object cxLabel2: TcxLabel [4]
     Left = 28
     Top = 42
     Caption = 'Nama Customer'
   end
-  object edNama: TcxTextEdit
+  object edNama: TcxTextEdit [5]
     Left = 109
     Top = 42
     Properties.CharCase = ecUpperCase
     TabOrder = 1
     Width = 292
   end
-  object cxLabel6: TcxLabel
+  object cxLabel6: TcxLabel [6]
     Left = 28
     Top = 63
     Caption = 'Alamat Lengkap'
   end
-  object edAlamat: TcxMemo
+  object edAlamat: TcxMemo [7]
     Left = 109
     Top = 63
     Properties.CharCase = ecUpperCase
@@ -97,17 +96,17 @@ inherited frmCustomer: TfrmCustomer
     Height = 55
     Width = 292
   end
-  object cxLabel7: TcxLabel
+  object cxLabel7: TcxLabel [8]
     Left = 42
     Top = 140
     Caption = 'Tempo (Hari)'
   end
-  object lbModifiedBy: TcxLabel
+  object lbModifiedBy: TcxLabel [9]
     Left = 49
     Top = 229
     Caption = 'Modified By'
   end
-  object edModifiedBy: TcxTextEdit
+  object edModifiedBy: TcxTextEdit [10]
     Left = 109
     Top = 229
     TabStop = False
@@ -115,19 +114,19 @@ inherited frmCustomer: TfrmCustomer
     TabOrder = 8
     Width = 292
   end
-  object lbModified: TcxLabel
+  object lbModified: TcxLabel [11]
     Left = 38
     Top = 208
     Caption = 'Date Modified'
   end
-  object dtModified: TcxDateEdit
+  object dtModified: TcxDateEdit [12]
     Left = 109
     Top = 208
     TabStop = False
     TabOrder = 7
     Width = 292
   end
-  object chkActive: TcxCheckBox
+  object chkActive: TcxCheckBox [13]
     Left = 347
     Top = 22
     TabStop = False
@@ -135,19 +134,19 @@ inherited frmCustomer: TfrmCustomer
     State = cbsChecked
     TabOrder = 16
   end
-  object cxLabel4: TcxLabel
+  object cxLabel4: TcxLabel [14]
     Left = 46
     Top = 118
     Caption = 'No. Telepon'
   end
-  object edTelp: TcxTextEdit
+  object edTelp: TcxTextEdit [15]
     Left = 109
     Top = 118
     Properties.CharCase = ecUpperCase
     TabOrder = 3
     Width = 133
   end
-  object rbHarga: TcxRadioGroup
+  object rbHarga: TcxRadioGroup [16]
     Left = 109
     Top = 160
     Caption = ' Default Harga '
@@ -170,13 +169,13 @@ inherited frmCustomer: TfrmCustomer
     Height = 44
     Width = 292
   end
-  object crTempo: TcxSpinEdit
+  object crTempo: TcxSpinEdit [17]
     Left = 109
     Top = 139
     TabOrder = 4
     Width = 84
   end
-  object crCreditLimit: TcxCurrencyEdit
+  object crCreditLimit: TcxCurrencyEdit [18]
     Left = 294
     Top = 139
     EditValue = 0.000000000000000000
@@ -186,9 +185,12 @@ inherited frmCustomer: TfrmCustomer
     TabOrder = 5
     Width = 107
   end
-  object cxLabel5: TcxLabel
+  object cxLabel5: TcxLabel [19]
     Left = 234
     Top = 140
     Caption = 'Credit Limit'
+  end
+  inherited styleRepo: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end

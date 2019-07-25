@@ -3,7 +3,6 @@ inherited frmPurchasePayment: TfrmPurchasePayment
   ClientHeight = 561
   ClientWidth = 867
   KeyPreview = True
-  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   ExplicitWidth = 883
   ExplicitHeight = 600

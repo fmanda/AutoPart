@@ -2,7 +2,6 @@ inherited frmUOM: TfrmUOM
   Caption = 'Update Data Satuan / UOM'
   ClientHeight = 189
   ClientWidth = 417
-  OnCreate = FormCreate
   ExplicitWidth = 433
   ExplicitHeight = 228
   PixelsPerInch = 96
@@ -34,6 +33,7 @@ inherited frmUOM: TfrmUOM
   inherited cxGroupBox2: TcxGroupBox
     Top = 154
     TabOrder = 5
+    ExplicitTop = 154
     ExplicitWidth = 417
     Width = 417
     inherited btnCancel: TcxButton
@@ -52,20 +52,26 @@ inherited frmUOM: TfrmUOM
   inherited Panel2: TPanel
     Top = 133
     Width = 417
-    TabOrder = 4
+    TabOrder = 3
+    ExplicitTop = 133
+    ExplicitWidth = 417
     inherited lbEscape: TLabel
       Left = 337
+      Height = 17
       ExplicitLeft = 337
     end
     inherited lgndSave: TLabel
       Left = 172
+      Height = 17
       ExplicitLeft = 172
-      ExplicitTop = 1
-      ExplicitHeight = 16
     end
     inherited lgndPrint: TLabel
       Left = 259
+      Height = 17
       ExplicitLeft = 259
     end
+  end
+  inherited styleRepo: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end

@@ -113,6 +113,7 @@ begin
   if aDate <= lLastEOD then
   begin
     TAppUtils.Warning('Tanggal : ' + DateToStr(aDate) + ' sudah dilakukan End Of Day'
+      +#13 + 'Tidak bisa simpan, ubah, hapus Transaki di tanggal tersebut'
       +#13 + 'EOD Terakhir : ' + DateToStr(lLastEOD)
     );
     exit;

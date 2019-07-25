@@ -1,11 +1,8 @@
-inherited frmBrowsePriceQuotation: TfrmBrowsePriceQuotation
-  Caption = 'Browse Price Quotation'
+inherited frmBrowseUser: TfrmBrowseUser
+  Caption = 'Browse User'
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
-    inherited btnHapus: TcxButton
-      OnClick = btnHapusClick
-    end
     inherited btnEdit: TcxButton
       OnClick = btnEditClick
     end
@@ -24,9 +21,11 @@ inherited frmBrowsePriceQuotation: TfrmBrowsePriceQuotation
       ExplicitHeight = 25
     end
     inherited cxLabel1: TcxLabel
+      ExplicitLeft = 260
       AnchorY = 18
     end
     inherited cxLabel2: TcxLabel
+      ExplicitLeft = 433
       AnchorY = 18
     end
     inherited lblTitle: TcxLabel
@@ -36,9 +35,5 @@ inherited frmBrowsePriceQuotation: TfrmBrowsePriceQuotation
   end
   inherited styleRepo: TcxStyleRepository
     PixelsPerInch = 96
-    object styleActive: TcxStyle
-      AssignedValues = [svColor]
-      Color = clMoneyGreen
-    end
   end
 end

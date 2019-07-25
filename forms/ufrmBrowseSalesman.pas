@@ -25,6 +25,7 @@ type
     function GetKeyField: string; override;
     function GetSQL: string; override;
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -34,7 +35,7 @@ var
 implementation
 
 uses
-  uAppUtils, ufrmSalesman, uSalesman, uDXUtils;
+  uAppUtils, ufrmSalesman, uSalesman, uDXUtils, uDBUtils;
 
 {$R *.dfm}
 
@@ -75,11 +76,13 @@ begin
   with TSalesman.Create do
   begin
     if LoadByID(cxGrdMain.GetID) then
+    begin
       if DeleteFromDB then
       begin
         TAppUtils.Information('Berhasil menghapus data');
         RefreshData;
       end;
+    end;
     Free;
   end;
 
@@ -98,6 +101,11 @@ begin
       Free;
     End;
   end;
+end;
+
+function TfrmBrowseSalesman.GetGroupName: string;
+begin
+  Result := 'Master Data';
 end;
 
 function TfrmBrowseSalesman.GetKeyField: string;

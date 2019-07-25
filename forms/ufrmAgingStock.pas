@@ -86,6 +86,7 @@ type
     CDS: TClientDataset;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -242,6 +243,11 @@ begin
   inherited;
   dtStock.Date := Now();
   rbJenisPropertiesEditValueChanged(Self);
+end;
+
+function TfrmAgingStock.GetGroupName: string;
+begin
+  Result := 'Manajemen';
 end;
 
 procedure TfrmAgingStock.rbJenisPropertiesEditValueChanged(Sender: TObject);

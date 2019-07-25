@@ -196,6 +196,7 @@ type
   protected
     property CDSValidate: TClientDataset read FCDSValidate write SetCDSValidate;
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; SalesType: Integer = -1; IsReadOnly: Boolean =
         True);
     { Public declarations }
@@ -900,6 +901,11 @@ begin
   Result := FCDSMasterService;
 end;
 
+function TfrmSalesInvoice.GetGroupName: string;
+begin
+  Result := 'Penjualan & Kas';
+end;
+
 function TfrmSalesInvoice.GetSalesInv: TSalesInvoice;
 begin
   if FSalesInv = nil then
@@ -972,6 +978,11 @@ begin
 
     rbJenis.ItemIndex     := SalesType;
     rbJenisPropertiesEditValueChanged(Self);
+  end;
+
+  if (aID <> 0) and (not IsReadOnly) then
+  begin
+    IsReadOnly := not IsValidTransDate(SalesInv.TransDate);
   end;
 
   edNoInv.Text := SalesInv.InvoiceNo;

@@ -2,7 +2,6 @@ inherited frmAccount: TfrmAccount
   Caption = 'Data Account COA'
   ClientHeight = 237
   ClientWidth = 475
-  OnCreate = FormCreate
   ExplicitWidth = 491
   ExplicitHeight = 276
   PixelsPerInch = 96
@@ -10,7 +9,7 @@ inherited frmAccount: TfrmAccount
   inherited cxGroupBox2: TcxGroupBox
     Top = 202
     TabOrder = 7
-    ExplicitTop = 307
+    ExplicitTop = 202
     ExplicitWidth = 475
     Width = 475
     inherited btnCancel: TcxButton
@@ -31,7 +30,7 @@ inherited frmAccount: TfrmAccount
     Top = 181
     Width = 475
     TabOrder = 8
-    ExplicitTop = 286
+    ExplicitTop = 181
     ExplicitWidth = 475
     inherited lbEscape: TLabel
       Left = 395
@@ -49,41 +48,41 @@ inherited frmAccount: TfrmAccount
       ExplicitLeft = 317
     end
   end
-  object cxLabel1: TcxLabel
+  object cxLabel1: TcxLabel [2]
     Left = 45
     Top = 43
     Caption = 'Kode'
   end
-  object edKode: TcxTextEdit
+  object edKode: TcxTextEdit [3]
     Left = 77
     Top = 42
     Properties.CharCase = ecUpperCase
     TabOrder = 1
     Width = 145
   end
-  object cxLabel2: TcxLabel
+  object cxLabel2: TcxLabel [4]
     Left = 42
     Top = 64
     Caption = 'Nama'
   end
-  object edNama: TcxTextEdit
+  object edNama: TcxTextEdit [5]
     Left = 77
     Top = 63
     TabOrder = 3
     Width = 292
   end
-  object cxLookupAccount: TcxExtLookupComboBox
+  object cxLookupAccount: TcxExtLookupComboBox [6]
     Left = 77
     Top = 21
     TabOrder = 0
     Width = 292
   end
-  object cxLabel3: TcxLabel
+  object cxLabel3: TcxLabel [7]
     Left = 42
     Top = 22
     Caption = 'Induk'
   end
-  object chkActive: TcxCheckBox
+  object chkActive: TcxCheckBox [8]
     Left = 228
     Top = 42
     TabStop = False
@@ -91,21 +90,21 @@ inherited frmAccount: TfrmAccount
     State = cbsChecked
     TabOrder = 2
   end
-  object chkCredit: TcxCheckBox
+  object chkCredit: TcxCheckBox [9]
     Left = 77
     Top = 90
     TabStop = False
     Caption = 'Saldo Normal Credit'
     TabOrder = 4
   end
-  object chkIsDetail: TcxCheckBox
+  object chkIsDetail: TcxCheckBox [10]
     Left = 291
     Top = 90
     TabStop = False
     Caption = 'Akun Detail'
     TabOrder = 5
   end
-  object rbJenis: TcxRadioGroup
+  object rbJenis: TcxRadioGroup [11]
     Left = 77
     Top = 133
     Caption = ' Tipe Akun '
@@ -127,5 +126,8 @@ inherited frmAccount: TfrmAccount
     Visible = False
     Height = 36
     Width = 292
+  end
+  inherited styleRepo: TcxStyleRepository
+    PixelsPerInch = 96
   end
 end

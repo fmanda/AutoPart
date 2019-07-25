@@ -54,6 +54,7 @@ type
     procedure LookupAccount(AEditor: TcxEditorRow);
     { Private declarations }
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -144,6 +145,11 @@ begin
 
   if AppVariable.UpdateVariable then
     TAppUtils.Information('Variable Berhasil Diupdate');
+end;
+
+function TfrmVariable.GetGroupName: string;
+begin
+  Result := 'Aplikasi';
 end;
 
 procedure TfrmVariable.LoadVariable;

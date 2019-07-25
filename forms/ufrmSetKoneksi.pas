@@ -29,6 +29,7 @@ type
   private
     { Private declarations }
   public
+    function IsRegistered: Boolean; dynamic;
     { Public declarations }
   end;
 
@@ -60,6 +61,7 @@ begin
   TAppUtils.TulisRegistry('password', txtPassword.Text);
 
   TAppUtils.Information('Informasi Koneksi berhasil diudpate');
+  Self.ModalResult := mrOK;
 end;
 
 procedure TfrmSetKoneksi.btnTestClick(Sender: TObject);
@@ -75,7 +77,12 @@ end;
 procedure TfrmSetKoneksi.btnTutupClick(Sender: TObject);
 begin
   inherited;
-  Self.Close;
+  Self.ModalResult := mrCancel;
+end;
+
+function TfrmSetKoneksi.IsRegistered: Boolean;
+begin
+  Result := False;
 end;
 
 end.

@@ -8,7 +8,6 @@ inherited frmSaldoRekening: TfrmSaldoRekening
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
-    Visible = True
     ExplicitWidth = 684
     Width = 684
     inherited lblTitle: TcxLabel

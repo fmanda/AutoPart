@@ -152,6 +152,7 @@ type
     procedure AutoFormatBoolean;
     function DS: TDataset;
     function CDS: TClientDataSet;
+    procedure EnableFiltering(ContainsMode: Boolean = True);
     procedure ExportToXLS(sFileName: String = ''; DoShowInfo: Boolean = True);
     function GetFooterSummary(sFieldName : String): Variant; overload;
     function GetFooterSummary(aColumn: TcxGridDBColumn): Variant; overload;
@@ -1167,6 +1168,19 @@ begin
   begin
     Self.Columns[i].Caption := StringReplace(Self.Columns[i].Caption,'_',' ', [rfReplaceAll]);
     Self.Columns[i].HeaderAlignmentHorz := taCenter;
+  end;
+end;
+
+procedure TcxDBGridHelper.EnableFiltering(ContainsMode: Boolean = True);
+var
+  i: Integer;
+begin
+  Self.FilterRow.Visible := True;
+  if ContainsMode then
+  begin
+    Self.FilterRow.OperatorCustomization := True;
+    for i := 0 to Self.ColumnCount-1 do
+      Self.Columns[i].Options.FilterRowOperator := foContains;
   end;
 end;
 

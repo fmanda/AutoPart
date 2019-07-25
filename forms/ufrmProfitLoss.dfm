@@ -7,7 +7,6 @@ inherited frmProfitLoss: TfrmProfitLoss
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
-    Visible = True
     ExplicitWidth = 700
     Width = 700
     inherited lblTitle: TcxLabel

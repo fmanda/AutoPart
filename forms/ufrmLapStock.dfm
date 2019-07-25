@@ -8,7 +8,6 @@ inherited frmLapStock: TfrmLapStock
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
     Visible = False
-    ExplicitTop = -3
     ExplicitWidth = 1009
     Width = 1009
     inherited lblTitle: TcxLabel

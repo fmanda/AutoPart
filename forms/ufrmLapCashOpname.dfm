@@ -7,7 +7,6 @@ inherited frmLapCashOpname: TfrmLapCashOpname
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
-    ExplicitTop = -6
     ExplicitWidth = 985
     Width = 985
     inherited lblTitle: TcxLabel
@@ -17,13 +16,15 @@ inherited frmLapCashOpname: TfrmLapCashOpname
   end
   inherited cxGroupBox2: TcxGroupBox
     Top = 587
+    ExplicitTop = 587
+    ExplicitWidth = 985
     Width = 985
     inherited btnTutup: TcxButton
       Left = 905
+      ExplicitLeft = 905
     end
     inherited btnRefresh: TcxButton
       OnClick = btnRefreshClick
-      ExplicitTop = 7
     end
   end
   object cxGroupBox3: TcxGroupBox [2]
@@ -36,7 +37,6 @@ inherited frmLapCashOpname: TfrmLapCashOpname
     PanelStyle.Active = True
     Style.BorderStyle = ebsNone
     TabOrder = 2
-    ExplicitWidth = 792
     Height = 46
     Width = 985
     object cxLabel3: TcxLabel
@@ -72,9 +72,6 @@ inherited frmLapCashOpname: TfrmLapCashOpname
     Height = 500
     Align = alClient
     TabOrder = 3
-    ExplicitTop = 142
-    ExplicitWidth = 754
-    ExplicitHeight = 431
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>

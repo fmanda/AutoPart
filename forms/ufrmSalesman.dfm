@@ -2,7 +2,6 @@ inherited frmSalesman: TfrmSalesman
   Caption = 'Update Data Salesman'
   ClientHeight = 239
   ClientWidth = 477
-  OnCreate = FormCreate
   ExplicitWidth = 493
   ExplicitHeight = 278
   PixelsPerInch = 96
@@ -31,6 +30,7 @@ inherited frmSalesman: TfrmSalesman
     Top = 183
     Width = 477
     TabOrder = 6
+    ExplicitTop = 183
     ExplicitWidth = 477
     inherited lbEscape: TLabel
       Left = 397

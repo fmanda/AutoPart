@@ -30,6 +30,7 @@ type
     function GetKeyField: string; override;
     function GetSQL: string; override;
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -124,6 +125,11 @@ begin
   StartDate.Date := StartOfTheMonth(Now());
   EndDate.Date := EndOfTheMonth(Now());
   inherited;
+end;
+
+function TfrmBrowsePriceQuotation.GetGroupName: string;
+begin
+  Result := 'Master Data';
 end;
 
 function TfrmBrowsePriceQuotation.GetKeyField: string;

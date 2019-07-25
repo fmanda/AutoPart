@@ -26,6 +26,7 @@ type
     function GetKeyField: string; override;
     function GetSQL: string; override;
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -104,6 +105,11 @@ begin
   StartDate.Date := StartOfTheMonth(Now());
   EndDate.Date := EndOfTheMonth(Now());
   inherited;
+end;
+
+function TfrmBrowseStockOpname.GetGroupName: string;
+begin
+  Result := 'Inventory';
 end;
 
 function TfrmBrowseStockOpname.GetKeyField: string;

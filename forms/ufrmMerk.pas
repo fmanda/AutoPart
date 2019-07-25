@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmDefaultInput, cxGraphics,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   Vcl.Menus, Vcl.StdCtrls, cxButtons, cxGroupBox, cxTextEdit, cxLabel, uItem,
-  uAppUtils, uDXUtils, Vcl.ExtCtrls;
+  uAppUtils, uDXUtils, Vcl.ExtCtrls, cxStyles, cxClasses;
 
 type
   TfrmMerk = class(TfrmDefaultInput)
@@ -25,6 +25,7 @@ type
     property Merk: TMerk read GetMerk write FMerk;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     procedure LoadByID(AID: Integer);
     { Public declarations }
   end;
@@ -52,6 +53,11 @@ procedure TfrmMerk.FormCreate(Sender: TObject);
 begin
   inherited;
   Self.AssignKeyDownEvent;
+end;
+
+function TfrmMerk.GetGroupName: string;
+begin
+  Result := 'Master Data';
 end;
 
 function TfrmMerk.GetMerk: TMerk;

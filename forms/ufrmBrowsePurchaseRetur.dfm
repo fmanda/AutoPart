@@ -10,7 +10,6 @@ inherited frmBrowsePurchaseRetur: TfrmBrowsePurchaseRetur
       OnClick = btnEditClick
     end
     inherited btnLihat: TcxButton
-      Visible = True
       OnClick = btnLihatClick
     end
     inherited btnBaru: TcxButton
@@ -28,12 +27,10 @@ inherited frmBrowsePurchaseRetur: TfrmBrowsePurchaseRetur
     end
     inherited cxLabel1: TcxLabel
       Visible = True
-      ExplicitLeft = 260
       AnchorY = 18
     end
     inherited cxLabel2: TcxLabel
       Visible = True
-      ExplicitLeft = 433
       AnchorY = 18
     end
     inherited lblTitle: TcxLabel

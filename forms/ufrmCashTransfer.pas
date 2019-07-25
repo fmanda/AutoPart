@@ -54,6 +54,7 @@ type
     property CDS: TClientDataset read GetCDS write FCDS;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = False);
     property CashTransfer: TCashTransfer read GetCashTransfer write FCashTransfer;
     { Public declarations }
@@ -174,6 +175,11 @@ begin
   Result := FCashTransfer;
 end;
 
+function TfrmCashTransfer.GetGroupName: string;
+begin
+  Result := 'Penjualan & Kas';
+end;
+
 procedure TfrmCashTransfer.InitView;
 begin
   cxGrdMain.PrepareFromCDS(CDS);
@@ -198,6 +204,10 @@ begin
   begin
     CashTransfer.TransDate := Now();
     CashTransfer.Refno     := CashTransfer.GenerateNo;
+  end;
+  if (aID <> 0) and (not IsReadOnly) then
+  begin
+    IsReadOnly := not IsValidTransDate(CashTransfer.TransDate);
   end;
 
   edRefno.Text        := CashTransfer.Refno;
@@ -298,6 +308,7 @@ begin
     exit;
   end;
 
+  if not IsValidTransDate(dtTransDate.Date) then exit;
 
   Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
 end;

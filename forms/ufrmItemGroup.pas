@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmDefaultInput, cxGraphics,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   Vcl.Menus, Vcl.StdCtrls, cxButtons, cxGroupBox, uItem, uAppUtils, uDXUtils,
-  cxTextEdit, cxLabel, Vcl.ExtCtrls;
+  cxTextEdit, cxLabel, Vcl.ExtCtrls, cxStyles, cxClasses;
 
 type
   TfrmItemGroup = class(TfrmDefaultInput)
@@ -25,6 +25,7 @@ type
     property ItemGroup: TItemGroup read GetItemGroup write FItemGroup;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     procedure LoadByID(AID: Integer);
     { Public declarations }
   end;
@@ -52,6 +53,11 @@ procedure TfrmItemGroup.FormCreate(Sender: TObject);
 begin
   inherited;
   Self.AssignKeyDownEvent;
+end;
+
+function TfrmItemGroup.GetGroupName: string;
+begin
+  Result := 'Master Data';
 end;
 
 function TfrmItemGroup.GetItemGroup: TItemGroup;

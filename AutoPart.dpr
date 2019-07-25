@@ -110,7 +110,9 @@ uses
   ufrmSuggestionOrder in 'forms\ufrmSuggestionOrder.pas' {frmSuggestionOrder},
   uStockCheck in 'classes\uStockCheck.pas',
   ufrmLapFeeSalesman in 'forms\ufrmLapFeeSalesman.pas' {frmLapFeeSalesman},
-  uUser in 'classes\uUser.pas';
+  uUser in 'classes\uUser.pas',
+  ufrmUser in 'forms\ufrmUser.pas' {frmUser},
+  ufrmBrowseUser in 'forms\ufrmBrowseUser.pas' {frmBrowseUser};
 
 {$R *.res}
 

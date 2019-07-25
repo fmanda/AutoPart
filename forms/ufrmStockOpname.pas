@@ -84,6 +84,7 @@ type
   protected
     function GetStockByItem(aItemID: Integer): Double;
   public
+    function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = True);
     { Public declarations }
   end;
@@ -451,6 +452,11 @@ begin
   S := S +' HAVING ISNULL(SUM(A.QTYPCS) / J.KONVERSI, 0) <> 0';
 
   Result := TDBUtils.OpenDataset(S, Self);
+end;
+
+function TfrmStockOpname.GetGroupName: string;
+begin
+  Result := 'Inventory';
 end;
 
 procedure TfrmStockOpname.InitView;

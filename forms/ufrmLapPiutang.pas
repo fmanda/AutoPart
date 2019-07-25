@@ -32,6 +32,7 @@ type
     CDS: TClientDataset;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -70,6 +71,11 @@ procedure TfrmLapPiutang.FormCreate(Sender: TObject);
 begin
   inherited;
   dtRefDate.Date := (Now());
+end;
+
+function TfrmLapPiutang.GetGroupName: string;
+begin
+  Result := 'Hutang & Piutang';
 end;
 
 end.

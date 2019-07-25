@@ -65,6 +65,7 @@ type
     property CDSMain: TClientDataset read GetCDSMain write FCDSMain;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -168,6 +169,11 @@ begin
     FCDSMain.CreateDataSet;
   end;
   Result := FCDSMain;
+end;
+
+function TfrmARAging.GetGroupName: string;
+begin
+  Result := 'Manajemen';
 end;
 
 procedure TfrmARAging.RefreshData;
