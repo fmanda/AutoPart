@@ -102,12 +102,14 @@ function TUser.HasAccess(aTaskCode: string): Boolean;
 var
   lTask: TUserTask;
 begin
-  Result := False;
+  Result := Self.SuperUser = 1;
+  if Result then exit;
+  
   for lTask in Self.Tasks do
   begin
     if lTask.Task <> nil then
     begin
-      if UpperCase(lTask.Task.TaskCode) = (aTaskCode) then
+      if UpperCase(lTask.Task.TaskCode) = UpperCase(aTaskCode) then
       begin
         if lTask.DoAccess = 1 then
         begin
@@ -126,7 +128,7 @@ begin
   for lTask in Self.Tasks do
   begin
     if lTask.Task <> nil then
-      lTask.Reload;
+      lTask.Task.Reload;
   end;
 end;
 

@@ -38,6 +38,7 @@ inherited frmLogin: TfrmLogin
     Margins.Bottom = 5
     Align = alBottom
     ParentFont = False
+    Properties.CharCase = ecUpperCase
     Style.BorderStyle = ebsFlat
     Style.Color = clInfoBk
     Style.Font.Charset = DEFAULT_CHARSET
@@ -46,8 +47,8 @@ inherited frmLogin: TfrmLogin
     Style.Font.Name = 'Tahoma'
     Style.Font.Style = []
     Style.IsFontAssigned = True
-    TabOrder = 1
-    Text = 'admin'
+    TabOrder = 0
+    Text = 'FMANDA'
     ExplicitTop = 178
     Width = 258
   end
@@ -92,8 +93,8 @@ inherited frmLogin: TfrmLogin
     Style.Font.Name = 'Tahoma'
     Style.Font.Style = []
     Style.IsFontAssigned = True
-    TabOrder = 3
-    Text = 'admin'
+    TabOrder = 1
+    Text = 'fmanda'
     ExplicitTop = 227
     Width = 258
   end
@@ -105,7 +106,8 @@ inherited frmLogin: TfrmLogin
     Style.BorderStyle = ebsFlat
     Style.LookAndFeel.NativeStyle = False
     StyleDisabled.LookAndFeel.NativeStyle = False
-    TabOrder = 4
+    TabOrder = 2
+    ExplicitTop = 256
     Height = 43
     Width = 268
     object btnCancel: TcxButton
@@ -118,7 +120,7 @@ inherited frmLogin: TfrmLogin
       Caption = 'Batal'
       OptionsImage.ImageIndex = 2
       OptionsImage.Images = frmMain.ImageList
-      TabOrder = 0
+      TabOrder = 1
       OnClick = btnCancelClick
     end
     object btnLogin: TcxButton
@@ -131,13 +133,14 @@ inherited frmLogin: TfrmLogin
       Caption = '&Login'
       OptionsImage.ImageIndex = 1
       OptionsImage.Images = frmMain.ImageList
-      TabOrder = 1
+      TabOrder = 0
       OnClick = btnLoginClick
     end
   end
   object cxImage1: TcxImage
     Left = 0
     Top = 0
+    TabStop = False
     Align = alClient
     Picture.Data = {
       0B546478504E47496D61676589504E470D0A1A0A0000000D4948445200000096

@@ -6,7 +6,6 @@ inherited frmDialogPayment: TfrmDialogPayment
   FormStyle = fsStayOnTop
   KeyPreview = True
   Position = poDesktopCenter
-  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   ExplicitWidth = 477
   ExplicitHeight = 243

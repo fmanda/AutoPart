@@ -16,7 +16,6 @@ inherited frmDefaultInput: TfrmDefaultInput
     Style.LookAndFeel.NativeStyle = False
     StyleDisabled.LookAndFeel.NativeStyle = False
     TabOrder = 0
-    ExplicitTop = 345
     Height = 35
     Width = 577
     object btnCancel: TcxButton

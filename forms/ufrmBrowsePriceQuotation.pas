@@ -50,7 +50,7 @@ begin
   with TfrmPriceQuotation.Create(Application) do
   begin
     Try
-      if ShowModal = mrOK then
+      if ShowModalDlg = mrOK then
         RefreshData;
     Finally
       Free;
@@ -65,7 +65,7 @@ begin
   begin
     LoadByID(Self.cxGrdMain.GetID, False);
     Try
-      if ShowModal = mrOK then
+      if ShowModalDlg = mrOK then
         RefreshData;
     Finally
       Free;
@@ -97,7 +97,7 @@ begin
   begin
     LoadByID(Self.cxGrdMain.GetID, True);
     Try
-      ShowModal;
+      ShowModalDlg;
     Finally
       Free;
     End;

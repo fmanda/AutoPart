@@ -33,6 +33,9 @@ var
 
 implementation
 
+uses
+  uAppUtils, uDBUtils;
+
 {$R *.dfm}
 
 procedure TfrmDefaultInput.btnCancelClick(Sender: TObject);

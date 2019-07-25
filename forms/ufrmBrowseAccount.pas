@@ -58,7 +58,7 @@ begin
   with TfrmAccount.Create(Application) do
   begin
     Try
-      if ShowModal = mrOK then
+      if ShowModalDlg = mrOK then
         RefreshData;
     Finally
       Free;
@@ -73,7 +73,7 @@ begin
   begin
     LoadByID(CDS.FieldByName('id').AsInteger, False);
     Try
-      if ShowModal = mrOK then
+      if ShowModalDlg = mrOK then
         RefreshData;
     Finally
       Free;
@@ -105,7 +105,7 @@ begin
   begin
     LoadByID(CDS.FieldByName('id').AsInteger, True);
     Try
-      ShowModal;
+      ShowModalDlg;
     Finally
       Free;
     End;

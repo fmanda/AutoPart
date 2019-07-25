@@ -19,13 +19,14 @@ type
     btnCancel: TcxButton;
     btnLogin: TcxButton;
     cxImage1: TcxImage;
+    procedure FormCreate(Sender: TObject);
     procedure btnLoginClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
   private
     { Private declarations }
   protected
   public
-    function IsRegistered: Boolean; dynamic;
+    function IsRegistered: Boolean; override;
     { Public declarations }
   end;
 
@@ -35,9 +36,15 @@ var
 implementation
 
 uses
-  uAppUtils, uDBUtils;
+  uAppUtils, uDBUtils, uDXUtils;
 
 {$R *.dfm}
+
+procedure TfrmLogin.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Self.AssignKeyDownEvent;
+end;
 
 procedure TfrmLogin.btnCancelClick(Sender: TObject);
 begin
@@ -49,14 +56,13 @@ procedure TfrmLogin.btnLoginClick(Sender: TObject);
 begin
   inherited;
   if User = nil then User := TUser.Create;
-  User.LoadByCode(txtUser.Text);
-
-  if UpperCase(txtPassword.Text) = UpperCase(User.Password) then
-  begin
-    User.ReloadAll;
-    Self.ModalResult := mrOK;
-    exit;
-  end;
+  if User.LoadByCode(txtUser.Text) then
+    if UpperCase(txtPassword.Text) = UpperCase(User.Password) then
+    begin
+      User.ReloadAll;
+      Self.ModalResult := mrOK;
+      exit;
+    end;
 
   User.Clear;
   TAppUtils.Warning('User dan Password tidak ditemukan di database');

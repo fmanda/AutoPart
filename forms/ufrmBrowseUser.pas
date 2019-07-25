@@ -44,7 +44,7 @@ begin
   with TfrmUser.Create(Application) do
   begin
     Try
-      if ShowModal = mrOK then
+      if ShowModalDlg = mrOK then
         RefreshData;
     Finally
       Free;
@@ -59,7 +59,7 @@ begin
   begin
     LoadByID(Self.cxGrdMain.GetID, False);
     Try
-      if ShowModal = mrOK then
+      if ShowModalDlg = mrOK then
         RefreshData;
     Finally
       Free;
@@ -74,7 +74,7 @@ begin
   begin
     LoadByID(Self.cxGrdMain.GetID);
     Try
-      if ShowModal = mrOK then
+      if ShowModalDlg = mrOK then
         RefreshData;
     Finally
       Free;

@@ -31,6 +31,7 @@ type
   private
     { Private declarations }
   public
+    function IsRegistered: Boolean; override;
     class function ShowPayment(ATotal: Double; var ACashAmt: Double): Boolean;
     { Public declarations }
   end;
@@ -92,6 +93,11 @@ begin
   inherited;
   if Key = VK_ESCAPE then
     Self.ModalResult := mrCancel;
+end;
+
+function TfrmDialogPayment.IsRegistered: Boolean;
+begin
+  Result := False;
 end;
 
 class function TfrmDialogPayment.ShowPayment(ATotal: Double; var ACashAmt:

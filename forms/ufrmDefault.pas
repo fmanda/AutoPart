@@ -17,6 +17,7 @@ type
     function GetFormName: string; dynamic;
     function GetFormCaption: string; dynamic;
     function GetGroupName: string; dynamic;
+    function ShowModalDlg: TModalResult;
     function ValidateUser: Boolean;
     { Public declarations }
   end;
@@ -43,15 +44,22 @@ begin
       Self.GetFormCaption,
       Self.GetGroupName
     );
-
-    if not ValidateUser then
-    begin
-      TAppUtils.Warning('Anda tidak memiliki hak akses atas form ini');
-      Self.Close;
-    end;
-
   except
   End;
+
+  if Self.FormStyle = fsMDIChild then   //selain form dialog
+  begin
+    if not ValidateUser then
+    begin
+      TAppUtils.Warning(
+        'Anda tidak memiliki hak akses atas form ini'
+        +#13 + 'User : ' + UserLogin
+        +#13 + 'TaskName : ' + GetFormCaption
+        +#13 + 'TaskCode : ' + GetFormName
+      );
+      Self.Close;
+    end;
+  end;
 end;
 
 procedure TfrmDefault.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -77,6 +85,24 @@ end;
 function TfrmDefault.GetGroupName: string;
 begin
   Result := 'UNGROUP'; //override this
+end;
+
+function TfrmDefault.ShowModalDlg: TModalResult;
+begin
+  if IsRegistered then
+    if not ValidateUser then
+    begin
+      TAppUtils.Warning(
+        'Anda tidak memiliki hak akses atas form ini'
+        +#13 + 'User : ' + UserLogin
+        +#13 + 'TaskName : ' + GetFormCaption
+        +#13 + 'TaskCode : ' + GetFormName
+      );
+      Result := mrNo;
+      exit;
+    end;
+
+  Result := Self.ShowModal;
 end;
 
 function TfrmDefault.ValidateUser: Boolean;

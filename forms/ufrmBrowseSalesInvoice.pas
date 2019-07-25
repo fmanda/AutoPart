@@ -51,7 +51,7 @@ begin
   with TfrmSalesInvoice.Create(Application) do
   begin
     Try
-      if ShowModal = mrOK then
+      if ShowModalDlg = mrOK then
         RefreshData;
     Finally
       Free;
@@ -66,7 +66,7 @@ begin
   begin
     LoadByID(Self.cxGrdMain.GetID, 0, False);
     Try
-      if ShowModal = mrOK then
+      if ShowModalDlg = mrOK then
         RefreshData;
     Finally
       Free;
@@ -101,7 +101,7 @@ begin
   begin
     LoadByID(Self.cxGrdMain.GetID, 0, True);
     Try
-      ShowModal;
+      ShowModalDlg;
     Finally
       Free;
     End;

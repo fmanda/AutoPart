@@ -45,7 +45,7 @@ begin
   with TfrmRekening.Create(Application) do
   begin
     Try
-      if ShowModal = mrOK then
+      if ShowModalDlg = mrOK then
         RefreshData;
     Finally
       Free;
@@ -60,7 +60,7 @@ begin
   begin
     LoadByID(cxGrdMain.GetID);
     Try
-      if ShowModal = mrOK then
+      if ShowModalDlg = mrOK then
         RefreshData;
     Finally
       Free;
@@ -93,7 +93,7 @@ begin
   begin
     LoadByID(cxGrdMain.GetID, True);
     Try
-      if ShowModal = mrOK then
+      if ShowModalDlg = mrOK then
         RefreshData;
     Finally
       Free;
