@@ -979,6 +979,11 @@ begin
     rbJenis.ItemIndex     := SalesType;
     rbJenisPropertiesEditValueChanged(Self);
   end;
+//  else
+//  begin
+//    rbJenis.ItemIndex     := SalesInv.SalesType;
+//    rbJenisPropertiesEditValueChanged(Self);
+//  end;
 
   if (aID <> 0) and (not IsReadOnly) then
   begin
@@ -992,7 +997,7 @@ begin
     cbBayar.ItemIndex := SalesInv.PaymentFlag;
     cbBayarPropertiesEditValueChanged(Self);
 
-    if SalesType = -1 then
+//    if SalesType = -1 then
       SalesType := SalesInv.SalesType;
 
     rbJenis.ItemIndex := SalesType;

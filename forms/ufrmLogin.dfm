@@ -3,6 +3,7 @@ inherited frmLogin: TfrmLogin
   ClientHeight = 296
   ClientWidth = 268
   Position = poDesktopCenter
+  OnShow = FormShow
   ExplicitWidth = 284
   ExplicitHeight = 335
   PixelsPerInch = 96
@@ -48,7 +49,6 @@ inherited frmLogin: TfrmLogin
     Style.Font.Style = []
     Style.IsFontAssigned = True
     TabOrder = 0
-    Text = 'FMANDA'
     ExplicitTop = 178
     Width = 258
   end
@@ -94,7 +94,6 @@ inherited frmLogin: TfrmLogin
     Style.Font.Style = []
     Style.IsFontAssigned = True
     TabOrder = 1
-    Text = 'fmanda'
     ExplicitTop = 227
     Width = 258
   end
@@ -107,7 +106,6 @@ inherited frmLogin: TfrmLogin
     Style.LookAndFeel.NativeStyle = False
     StyleDisabled.LookAndFeel.NativeStyle = False
     TabOrder = 2
-    ExplicitTop = 256
     Height = 43
     Width = 268
     object btnCancel: TcxButton

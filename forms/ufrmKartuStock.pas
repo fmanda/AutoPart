@@ -88,6 +88,11 @@ end;
 procedure TfrmKartuStock.btnRefreshClick(Sender: TObject);
 begin
   inherited;
+  if YearOf(dtStart.Date) <> YearOf(dtEnd.Date) then
+  begin
+    TAppUtils.Warning('Tidak bisa lintas tahun');
+    exit;
+  end;
   LoadData;
 end;
 

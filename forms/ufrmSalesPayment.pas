@@ -312,6 +312,10 @@ begin
   begin
     LookupInvoice(VarToStr(AEdit.EditingValue));
   end;
+  if (Key = VK_F5) and (aItem = colReturNo) then
+  begin
+    LookupRetur();
+  end;
 end;
 
 function TfrmSalesPayment.DC: TcxGridDBDataController;

@@ -22,6 +22,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnLoginClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -44,6 +45,9 @@ procedure TfrmLogin.FormCreate(Sender: TObject);
 begin
   inherited;
   Self.AssignKeyDownEvent;
+
+  txtUser.Text    := TAppUtils.BacaRegistry('devuser');
+  txtPassword.Text  := TAppUtils.BacaRegistry('devpassword');
 end;
 
 procedure TfrmLogin.btnCancelClick(Sender: TObject);
@@ -66,6 +70,13 @@ begin
 
   User.Clear;
   TAppUtils.Warning('User dan Password tidak ditemukan di database');
+end;
+
+procedure TfrmLogin.FormShow(Sender: TObject);
+begin
+  inherited;
+  if (txtUser.Text <> '') and (txtPassword.Text <> '') then
+    btnLogin.SetFocus;
 end;
 
 function TfrmLogin.IsRegistered: Boolean;

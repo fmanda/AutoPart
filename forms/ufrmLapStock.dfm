@@ -158,19 +158,6 @@ inherited frmLapStock: TfrmLapStock
       OptionsView.GroupByBox = False
       OptionsView.HeaderHeight = 30
       Styles.ContentOdd = styleOdd
-      object colGroup: TcxGridDBColumn
-        Caption = 'Group'
-        DataBinding.FieldName = 'ItemGroup'
-        PropertiesClassName = 'TcxTextEditProperties'
-        HeaderAlignmentHorz = taCenter
-        Width = 125
-      end
-      object colMerk: TcxGridDBColumn
-        DataBinding.FieldName = 'Merk'
-        PropertiesClassName = 'TcxTextEditProperties'
-        HeaderAlignmentHorz = taCenter
-        Width = 114
-      end
       object colKode: TcxGridDBColumn
         Caption = 'Kode Barang'
         DataBinding.FieldName = 'Kode'
@@ -184,6 +171,19 @@ inherited frmLapStock: TfrmLapStock
         PropertiesClassName = 'TcxTextEditProperties'
         HeaderAlignmentHorz = taCenter
         Width = 352
+      end
+      object colGroup: TcxGridDBColumn
+        Caption = 'Group'
+        DataBinding.FieldName = 'ItemGroup'
+        PropertiesClassName = 'TcxTextEditProperties'
+        HeaderAlignmentHorz = taCenter
+        Width = 125
+      end
+      object colMerk: TcxGridDBColumn
+        DataBinding.FieldName = 'Merk'
+        PropertiesClassName = 'TcxTextEditProperties'
+        HeaderAlignmentHorz = taCenter
+        Width = 114
       end
       object colUOM: TcxGridDBColumn
         Caption = 'Satuan'

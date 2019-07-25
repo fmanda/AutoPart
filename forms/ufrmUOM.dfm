@@ -46,13 +46,14 @@ inherited frmUOM: TfrmUOM
     end
     inherited btnSave: TcxButton
       Left = 160
+      OnClick = btnSaveClick
       ExplicitLeft = 160
     end
   end
   inherited Panel2: TPanel
     Top = 133
     Width = 417
-    TabOrder = 3
+    TabOrder = 2
     ExplicitTop = 133
     ExplicitWidth = 417
     inherited lbEscape: TLabel

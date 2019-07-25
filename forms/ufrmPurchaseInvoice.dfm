@@ -37,7 +37,6 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       Align = alLeft
       Caption = 'Generate Dummy '
       TabOrder = 3
-      Visible = False
       OnClick = btnGenerateClick
     end
   end

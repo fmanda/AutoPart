@@ -343,8 +343,9 @@ function TfrmItem.GetCDSUOM: TClientDataset;
 begin
   if FCDSUOM = nil then
     FCDSUOM := TDBUtils.OpenDataset(
-        'select id, uom from tuom', Self
-      );
+      'select id, uom from tuom order by id', Self
+    );
+
   Result := FCDSUOM;
 end;
 
