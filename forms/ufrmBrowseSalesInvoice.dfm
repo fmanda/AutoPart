@@ -1,6 +1,5 @@
 inherited frmBrowseSalesInvoice: TfrmBrowseSalesInvoice
   Caption = 'Browse SalesInvoice'
-  ExplicitTop = -23
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
@@ -32,12 +31,10 @@ inherited frmBrowseSalesInvoice: TfrmBrowseSalesInvoice
     end
     inherited cxLabel1: TcxLabel
       Visible = True
-      ExplicitLeft = 260
       AnchorY = 18
     end
     inherited cxLabel2: TcxLabel
       Visible = True
-      ExplicitLeft = 433
       AnchorY = 18
     end
     inherited lblTitle: TcxLabel
