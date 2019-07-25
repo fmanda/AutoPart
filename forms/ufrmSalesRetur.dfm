@@ -4,7 +4,8 @@ inherited frmSalesRetur: TfrmSalesRetur
   ClientWidth = 934
   KeyPreview = True
   OnKeyDown = FormKeyDown
-  ExplicitTop = -161
+  ExplicitLeft = -136
+  ExplicitTop = -192
   ExplicitWidth = 950
   ExplicitHeight = 600
   PixelsPerInch = 96
@@ -21,6 +22,8 @@ inherited frmSalesRetur: TfrmSalesRetur
     end
     inherited btnPrint: TcxButton
       Left = 763
+      Visible = True
+      OnClick = btnPrintClick
       ExplicitLeft = 763
     end
     inherited btnSave: TcxButton
@@ -33,7 +36,7 @@ inherited frmSalesRetur: TfrmSalesRetur
     Top = 505
     Width = 934
     TabOrder = 2
-    ExplicitTop = 504
+    ExplicitTop = 505
     ExplicitWidth = 934
     inherited lbEscape: TLabel
       Left = 854
@@ -48,6 +51,7 @@ inherited frmSalesRetur: TfrmSalesRetur
     inherited lgndPrint: TLabel
       Left = 776
       Height = 17
+      Visible = True
       ExplicitLeft = 776
     end
     object Label2: TLabel

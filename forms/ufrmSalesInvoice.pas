@@ -158,6 +158,7 @@ type
     procedure CDSAfterDelete(DataSet: TDataSet);
     procedure CDSAfterInsert(DataSet: TDataSet);
     function CheckCreditLimit: Boolean;
+    function CheckStock: Boolean;
     function DC: TcxGridDBDataController;
     function DCService: TcxGridDBDataController;
     procedure FocusToGrid;
@@ -193,7 +194,6 @@ type
     property SalesInv: TSalesInvoice read GetSalesInv write FSalesInv;
     { Private declarations }
   protected
-    function CheckStock: Boolean;
     property CDSValidate: TClientDataset read FCDSValidate write SetCDSValidate;
   public
     procedure LoadByID(aID: Integer; SalesType: Integer = -1; IsReadOnly: Boolean =
@@ -331,6 +331,9 @@ function TfrmSalesInvoice.CheckCreditLimit: Boolean;
 var
   lRemain: Double;
 begin
+  Result := AppVariable.Check_CreditLimit <> 1;
+  if Result then exit;
+
   Result := cbBayar.ItemIndex = PaymentFlag_Cash;
   if Result then exit;
 
@@ -346,11 +349,11 @@ begin
 //      +#13 +'Anda yakin melanjutkan simpan?'
 //    );
 
-    if Result then
-    begin
-      Result := TfrmAuthUser.Authorize;
-    end;
-    
+//    if Result then
+//    begin
+      Result := TfrmAuthUser.Authorize('Autorisasi Credit Limit');
+//    end;
+
   end else
     Result := True;
 end;
@@ -363,6 +366,9 @@ var
   lOldSalesInv: TSalesInvoice;
   QTYPCS: Integer;
 begin
+  Result := AppVariable.Check_Stock <> 1;
+  if Result then exit;
+
   lCalc := TStockCheck.Create(dtInvoice.Date);
   lOldSalesInv := TSalesInvoice.Create;
   Application.ProcessMessages;
@@ -959,7 +965,7 @@ begin
     SalesInv.TransDate    := Now();
     SalesInv.DueDate      := Now();
     SalesInv.PaymentFlag  := 0;
-    SalesInv.InvoiceNo    := SalesInv.GenerateNo;
+    SalesInv.InvoiceNo    := SalesInv.GenerateNo(rbJenis.ItemIndex);
 
     if SalesType = -1 then
       SalesType := SalesType_FrontEnd;
@@ -1226,12 +1232,14 @@ begin
       LoadCreditLimitUsed(True);
       edCustomer.Text := SalesInv.Customer.Nama;
       cbBayar.ItemIndex := PaymentFlag_Cash;
+      rbHarga.ItemIndex := 0;
 //      cxLookupFee.Clear;
 //      cxLookupSalesman.Clear;
     end;
     1 :
     begin
       cbBayar.ItemIndex := PaymentFlag_Credit;
+      rbHarga.ItemIndex := 3;
 //      SalesInv.Customer.LoadByCode(AppVariable.Def_Cust_Bengkel);
 //      LoadCreditLimitUsed(True);
 //      edCustomer.Text := SalesInv.Customer.Nama;

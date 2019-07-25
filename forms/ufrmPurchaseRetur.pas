@@ -85,6 +85,7 @@ type
     procedure ckReferensiFakturPropertiesEditValueChanged(Sender: TObject);
     procedure colNoGetDisplayText(Sender: TcxCustomGridTableItem; ARecord:
         TcxCustomGridRecord; var AText: string);
+    procedure btnPrintClick(Sender: TObject);
   private
     FCDS: TClientDataset;
     FCDSValidate: TClientDataset;
@@ -134,13 +135,20 @@ uses
 
 {$R *.dfm}
 
+procedure TfrmPurchaseRetur.btnPrintClick(Sender: TObject);
+begin
+  inherited;
+  TPurchaseRetur.PrintData(PurchRetur.ID);
+end;
+
 procedure TfrmPurchaseRetur.btnSaveClick(Sender: TObject);
 begin
   inherited;
   if not ValidateData then exit;
   UpdateData;
-  if PurchRetur.SaveRepeat then
+  if PurchRetur.SaveRepeat(False) then
   begin
+    btnPrint.Click;
 //    TAppUtils.InformationBerhasilSimpan;
     Self.ModalResult := mrOK;
   end;

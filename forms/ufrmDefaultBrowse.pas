@@ -68,8 +68,11 @@ procedure TfrmDefaultBrowse.FormCreate(Sender: TObject);
 begin
   inherited;
   lblTitle.Caption := Self.Caption;
-  StartDate.Date  := StartOfTheYear(Now());
-  EndDate.Date    := EndOfTheMonth(Now());
+//  StartDate.Date  := StartOfTheYear(Now());
+//  EndDate.Date    := EndOfTheMonth(Now());
+
+  StartDate.Date  := (Now());
+  EndDate.Date    := (Now());
   if AutoRefresh then RefreshData;  
 end;
 

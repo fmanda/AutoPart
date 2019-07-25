@@ -104,6 +104,7 @@ type
     procedure UpdatekeHargaGrosir2Click(Sender: TObject);
     procedure UpdatekeHargaKeliling1Click(Sender: TObject);
     procedure UpdateKeHargaUmum1Click(Sender: TObject);
+    procedure btnPrintClick(Sender: TObject);
   private
     FCDS: TClientDataset;
     FCDSClone: TClientDataset;
@@ -154,13 +155,20 @@ uses
 
 {$R *.dfm}
 
+procedure TfrmSalesRetur.btnPrintClick(Sender: TObject);
+begin
+  inherited;
+  TSalesRetur.PrintData(SalesRetur.ID);
+end;
+
 procedure TfrmSalesRetur.btnSaveClick(Sender: TObject);
 begin
   inherited;
   if not ValidateData then exit;
   UpdateData;
-  if SalesRetur.SaveRepeat then
+  if SalesRetur.SaveRepeat(False) then
   begin
+    btnPrint.Click;
 //    TAppUtils.InformationBerhasilSimpan;
     Self.ModalResult := mrOK;
   end;

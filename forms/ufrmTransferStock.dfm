@@ -4,7 +4,7 @@ inherited frmTransferStock: TfrmTransferStock
   ClientWidth = 753
   KeyPreview = True
   OnKeyDown = FormKeyDown
-  ExplicitTop = -118
+  ExplicitTop = -149
   ExplicitWidth = 769
   ExplicitHeight = 574
   PixelsPerInch = 96
@@ -21,6 +21,8 @@ inherited frmTransferStock: TfrmTransferStock
     end
     inherited btnPrint: TcxButton
       Left = 582
+      Visible = True
+      OnClick = btnPrintClick
       ExplicitLeft = 582
     end
     inherited btnSave: TcxButton
@@ -48,6 +50,7 @@ inherited frmTransferStock: TfrmTransferStock
     inherited lgndPrint: TLabel
       Left = 595
       Height = 17
+      Visible = True
       ExplicitLeft = 595
     end
   end

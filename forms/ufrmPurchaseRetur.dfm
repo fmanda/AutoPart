@@ -4,7 +4,8 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
   ClientWidth = 941
   KeyPreview = True
   OnKeyDown = FormKeyDown
-  ExplicitTop = -158
+  ExplicitLeft = -143
+  ExplicitTop = -189
   ExplicitWidth = 957
   ExplicitHeight = 597
   PixelsPerInch = 96
@@ -21,6 +22,8 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     end
     inherited btnPrint: TcxButton
       Left = 770
+      Visible = True
+      OnClick = btnPrintClick
       ExplicitLeft = 770
     end
     inherited btnSave: TcxButton
@@ -48,6 +51,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     inherited lgndPrint: TLabel
       Left = 783
       Height = 17
+      Visible = True
       ExplicitLeft = 783
     end
     object Label2: TLabel

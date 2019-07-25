@@ -7,6 +7,7 @@ inherited frmLapFeeSalesman: TfrmLapFeeSalesman
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
+    ExplicitWidth = 704
     Width = 704
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
@@ -15,9 +16,12 @@ inherited frmLapFeeSalesman: TfrmLapFeeSalesman
   end
   inherited cxGroupBox2: TcxGroupBox
     Top = 502
+    ExplicitTop = 502
+    ExplicitWidth = 704
     Width = 704
     inherited btnTutup: TcxButton
       Left = 624
+      ExplicitLeft = 624
     end
     inherited btnExport: TcxButton
       OnClick = btnExportClick
@@ -36,22 +40,22 @@ inherited frmLapFeeSalesman: TfrmLapFeeSalesman
     Align = alTop
     Caption = ' Report Parameter '
     TabOrder = 2
-    Height = 75
+    Height = 83
     Width = 704
     object cxLabel3: TcxLabel
       Left = 49
-      Top = 20
+      Top = 22
       Caption = 'Periode Awal'
     end
     object dtStart: TcxDateEdit
       Left = 118
-      Top = 19
+      Top = 21
       TabOrder = 1
       Width = 117
     end
     object dtEnd: TcxDateEdit
       Left = 313
-      Top = 19
+      Top = 21
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 2
@@ -59,12 +63,12 @@ inherited frmLapFeeSalesman: TfrmLapFeeSalesman
     end
     object cxLabel5: TcxLabel
       Left = 246
-      Top = 20
+      Top = 22
       Caption = 'Periode Akhir'
     end
     object ckSalesman: TcxCheckBox
       Left = 20
-      Top = 42
+      Top = 44
       TabStop = False
       Caption = 'Filter Salesman'
       Properties.Alignment = taLeftJustify
@@ -73,21 +77,37 @@ inherited frmLapFeeSalesman: TfrmLapFeeSalesman
     end
     object cxLookupSalesman: TcxExtLookupComboBox
       Left = 118
-      Top = 42
+      Top = 44
       TabOrder = 5
       Width = 312
+    end
+    object rbPeriode: TcxRadioGroup
+      Left = 439
+      Top = 12
+      Caption = ' Filter Periode '
+      Properties.Items = <
+        item
+          Caption = 'Tanggal Pelunasan'
+        end
+        item
+          Caption = 'Tanggal Faktur'
+        end>
+      ItemIndex = 0
+      TabOrder = 6
+      Height = 56
+      Width = 138
     end
   end
   object cxGrid1: TcxGrid [3]
     AlignWithMargins = True
     Left = 3
-    Top = 116
+    Top = 124
     Width = 698
-    Height = 383
+    Height = 375
     Align = alClient
     TabOrder = 3
-    ExplicitLeft = 35
-    ExplicitTop = 107
+    ExplicitTop = 116
+    ExplicitHeight = 383
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -116,8 +136,8 @@ inherited frmLapFeeSalesman: TfrmLapFeeSalesman
     end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 520
-    Top = 16
+    Left = 576
+    Top = 8
     PixelsPerInch = 96
     object styleCancel: TcxStyle
       AssignedValues = [svColor]

@@ -20,6 +20,8 @@ type
     FAccount_OtherIncome: string;
     FNama_Cabang: string;
     FToleransi_Piutang: Double;
+    FCheck_Stock: Integer;
+    FCheck_CreditLimit: Integer;
   public
     function GetAccountExpense: TAccount;
     function GetAccountOthIncome: TAccount;
@@ -40,6 +42,9 @@ type
     property Nama_Cabang: string read FNama_Cabang write FNama_Cabang;
     property Toleransi_Piutang: Double read FToleransi_Piutang write
         FToleransi_Piutang;
+    property Check_Stock: Integer read FCheck_Stock write FCheck_Stock;
+    property Check_CreditLimit: Integer read FCheck_CreditLimit write
+        FCheck_CreditLimit;
   end;
 
 
@@ -94,8 +99,8 @@ begin
       Telp := lCDS.FieldByName('VarValue').AsString;
     if lCDS.Locate('varname','Def_Cust_Umum',[loCaseInsensitive]) then
       Def_Cust_Umum := lCDS.FieldByName('VarValue').AsString;
-    if lCDS.Locate('varname','Def_Cust_Bengkel',[loCaseInsensitive]) then
-      Def_Cust_Bengkel := lCDS.FieldByName('VarValue').AsString;
+//    if lCDS.Locate('varname','Def_Cust_Bengkel',[loCaseInsensitive]) then
+//      Def_Cust_Bengkel := lCDS.FieldByName('VarValue').AsString;
     if lCDS.Locate('varname','Def_Rekening',[loCaseInsensitive]) then
       Def_Rekening := lCDS.FieldByName('VarValue').AsString;
     if lCDS.Locate('varname','Toleransi_Piutang',[loCaseInsensitive]) then
@@ -106,6 +111,12 @@ begin
       Account_OtherIncome := lCDS.FieldByName('VarValue').AsString;
     if lCDS.Locate('varname','Nama_Cabang',[loCaseInsensitive]) then
       Nama_Cabang := lCDS.FieldByName('VarValue').AsString;
+
+    if lCDS.Locate('varname','Check_Stock',[loCaseInsensitive]) then
+      Check_Stock := lCDS.FieldByName('VarValue').AsInteger;
+
+    if lCDS.Locate('varname','Check_CreditLimit',[loCaseInsensitive]) then
+      Check_CreditLimit := lCDS.FieldByName('VarValue').AsInteger;
   Finally
     lCDS.Free;
   End;
@@ -130,12 +141,11 @@ begin
       + QuotedStr(Telp) + ');');
     SS.Add('insert into tvariable(varname, varvalue) values(''Def_Cust_Umum'','
       + QuotedStr(Def_Cust_Umum) + ');');
-    SS.Add('insert into tvariable(varname, varvalue) values(''Def_Cust_Bengkel'','
-      + QuotedStr(Def_Cust_Bengkel) + ');');
+//    SS.Add('insert into tvariable(varname, varvalue) values(''Def_Cust_Bengkel'','
+//      + QuotedStr(Def_Cust_Bengkel) + ');');
 
     SS.Add('insert into tvariable(varname, varvalue) values(''Def_Rekening'','
       + QuotedStr(Def_Rekening) + ');');
-
 
     SS.Add('insert into tvariable(varname, varvalue) values(''Toleransi_Piutang'','
       + FloatToStr(Toleransi_Piutang) + ');');
@@ -146,6 +156,12 @@ begin
       + QuotedStr(Account_OtherIncome) + ');');
     SS.Add('insert into tvariable(varname, varvalue) values(''Nama_Cabang'','
       + QuotedStr(Nama_Cabang) + ');');
+
+    SS.Add('insert into tvariable(varname, varvalue) values(''Check_Stock'','
+      + IntToStr(Check_Stock) + ');');
+
+    SS.Add('insert into tvariable(varname, varvalue) values(''Check_CreditLimit'','
+      + IntToStr(Check_CreditLimit) + ');');
 
     Result := TDBUtils.ExecuteSQL(SS);
   Finally

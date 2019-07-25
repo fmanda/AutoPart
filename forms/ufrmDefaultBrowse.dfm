@@ -5,7 +5,6 @@ inherited frmDefaultBrowse: TfrmDefaultBrowse
   FormStyle = fsMDIChild
   Visible = True
   WindowState = wsMaximized
-  OnCreate = FormCreate
   ExplicitWidth = 627
   ExplicitHeight = 422
   PixelsPerInch = 96

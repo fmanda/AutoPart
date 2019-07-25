@@ -13,7 +13,7 @@ uses
   cxCalendar, cxGridLevel, cxGridCustomView, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGrid, uDXUtils, uDButils, uAppUtils,
   cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox, cxCheckBox,
-  Datasnap.DBClient;
+  Datasnap.DBClient, cxRadioGroup;
 
 type
   TfrmLapFeeSalesman = class(TfrmDefaultReport)
@@ -30,6 +30,7 @@ type
     styleCancel: TcxStyle;
     styleProcess: TcxStyle;
     stylePaid: TcxStyle;
+    rbPeriode: TcxRadioGroup;
     procedure FormCreate(Sender: TObject);
     procedure btnExportClick(Sender: TObject);
     procedure ckSalesmanPropertiesEditValueChanged(Sender: TObject);
@@ -59,18 +60,23 @@ var
   S: string;
 begin
   inherited;
-  S := 'SELECT A.REFNO, A.TRANSDATE, B.NAMA AS SALESMAN, E.NAMA AS CUSTOMER,'
-      +' A.SALESAMT, A.RETURAMT, A.SALESCOST, A.RETURCOST, A.NETPROFIT,'
-      +' D.PAIDOFFDATE AS TGLFAKTURLUNAS, C.NAMA AS SETTINGFEE,'
+  S := 'SELECT A.REFNO, A.TRANSDATE AS TGL_FAKTUR, B.NAMA AS SALESMAN, E.NAMA AS CUSTOMER,'
+      +' A.SALESAMT, A.RETURAMT, (A.SALESAMT - A.RETURAMT) AS NETSALES, ' // A.SALESCOST, A.RETURCOST, A.NETPROFIT,'
+      +' D.PAIDOFFDATE AS TGL_PELUNASAN, C.NAMA AS SETTINGFEE,'
       +' CASE WHEN A.STATUS = 1 THEN ''PROSES'' WHEN A.STATUS = 2 THEN ''TERBAYAR'' '
       +' WHEN A.STATUS = 3 THEN ''HANGUS'' ELSE ''OPEN'' END AS STATUS, A.FEE'
       +' FROM TSALESFEE A'
       +' INNER JOIN TSALESMAN B ON A.SALESMAN_ID = B.ID'
       +' LEFT JOIN TSETTINGFEE C ON A.SETTINGFEE_ID = C.ID'
       +' LEFT JOIN TSALESINVOICE D ON A.SALESINVOICE_ID = D.ID'
-      +' LEFT JOIN TCUSTOMER E ON D.CUSTOMER_ID = E.ID '
-      +' WHERE A.TRANSDATE BETWEEN ' + TAppUtils.QuotD(dtStart.Date)
-      +' AND ' + TAppUtils.QuotD(dtEnd.Date);
+      +' LEFT JOIN TCUSTOMER E ON D.CUSTOMER_ID = E.ID ';
+
+  if rbPeriode.ItemIndex = 0 then
+    S := S +' WHERE D.PAIDOFFDATE BETWEEN ' + TAppUtils.QuotD(dtStart.Date)
+           +' AND ' + TAppUtils.QuotD(dtEnd.Date)
+  else
+    S := S +' WHERE A.TRANSDATE BETWEEN ' + TAppUtils.QuotD(dtStart.Date)
+           +' AND ' + TAppUtils.QuotD(dtEnd.Date);
 
   if ckSalesman.Checked then
     S := S + ' AND A.SALESMAN_ID = ' + IntToStr(VarToInt(cxLookupSalesman.EditValue));
@@ -78,7 +84,7 @@ begin
   if CDS <> nil then FreeAndNil(CDS);
   CDS := TDBUtils.OpenDataset(S, Self);
   cxGrdMain.LoadFromCDS(CDS);
-  cxGrdMain.SetSummaryByColumns(['SalesAmt','ReturAmt','SalesCost','ReturCost','NetProfit','Fee']);
+  cxGrdMain.SetSummaryByColumns(['SalesAmt','ReturAmt', 'NetSales','Fee']);
 end;
 
 procedure TfrmLapFeeSalesman.ckSalesmanPropertiesEditValueChanged(

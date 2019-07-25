@@ -50,7 +50,7 @@ begin
   lfrm := TfrmAuthUser.Create(Application);
   Try
     if aCaption <> '' then
-      lfrm.lblTitle.Caption
+      lfrm.lblTitle.Caption := aCaption;
     Result := lfrm.ShowModal = mrOK;
   Finally
     lfrm.Free;

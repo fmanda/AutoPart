@@ -178,6 +178,7 @@ type
     function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
     function GetRemain: Double;
+    class procedure PrintData(aReturID: Integer);
     procedure SetGenerateNo; override;
     function UpdateRemain(AddedPaidAmt: Double = 0): Boolean;
   published
@@ -249,6 +250,7 @@ type
     function GenerateNo: String; override;
     procedure GenerateTrfOut;
     function GetHeaderFlag: Integer; override;
+    class procedure PrintData(aID: Integer);
     procedure SetGenerateNo; override;
   published
     property Notes: string read FNotes write FNotes;
@@ -291,7 +293,7 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-    function GenerateNo: String; override;
+    function GenerateNo(aSalesType: Integer): String;
     function GetHeaderFlag: Integer; override;
     function GetRemain: Double;
     function GetTotalBayar: Double;
@@ -351,6 +353,7 @@ type
     function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
     function GetRemain: Double;
+    class procedure PrintData(aReturID: Integer);
     procedure SetGenerateNo; override;
     function UpdateRemain(AddedPaidAmt: Double = 0): Boolean;
   published
@@ -1066,6 +1069,14 @@ begin
   Result := Self.Amount - Self.PaidAmount;
 end;
 
+class procedure TPurchaseRetur.PrintData(aReturID: Integer);
+var
+  S: string;
+begin
+  S := 'SELECT * FROM FN_SLIP_PURCHASERETUR(' + IntToStr(aReturID) + ')';
+  DMReport.ExecuteReport('SlipPurchaseRetur', S);
+end;
+
 procedure TPurchaseRetur.SetGenerateNo;
 begin
   if Self.ID = 0 then Self.Refno := Self.GenerateNo;
@@ -1332,6 +1343,27 @@ begin
   Result := Refno;
 end;
 
+class procedure TTransferStock.PrintData(aID: Integer);
+var
+  S: string;
+begin
+  S := 'SELECT A.ID, A.REFNO, A.TRANSDATE, A.NOTES,'
+      +' B.NAMA AS WH_ASAL, C.NAMA AS WH_TUJUAN,'
+      +' CASE WHEN A.TRANSFERTYPE = 1 THEN ''KIRIM KE CABANG LAIN'' '
+      +' WHEN A.TRANSFERTYPE = 2 THEN ''TERIMA DARI CABANG LAIN'' '
+      +' ELSE ''ANTAR GUDANG INTERNAL'' END AS JENIS_TRANSFER,'
+      +' E.KODE, E.NAMA, F.UOM, ABS(D.QTY) AS QTY'
+      +' FROM TTRANSFERSTOCK A'
+      +' LEFT JOIN TWAREHOUSE B ON A.WH_ASAL_ID = B.ID'
+      +' LEFT JOIN TWAREHOUSE C ON A.WH_TUJUAN_ID = C.ID'
+      +' INNER JOIN TTRANSDETAIL D ON A.ID = D.HEADER_ID AND D.HEADER_FLAG = 400'
+      +' INNER JOIN TITEM E ON D.ITEM_ID = E.ID'
+      +' INNER JOIN TUOM F ON D.UOM_ID = F.ID'
+      +' WHERE A.TRANSFERTYPE <> 0 OR D.QTY > 0'
+      +' AND A.ID = ' + IntToStr(aID) ;
+  DMReport.ExecuteReport('SlipTransferStock', S);
+end;
+
 procedure TTransferStock.SetGenerateNo;
 begin
   if Self.ID = 0 then Self.RefNo := Self.GenerateNo;
@@ -1431,20 +1463,21 @@ begin
   End;
 end;
 
-function TSalesInvoice.GenerateNo: String;
+function TSalesInvoice.GenerateNo(aSalesType: Integer): String;
 var
   aDigitCount: Integer;
   aPrefix: string;
+  fPrefix: string;
   lNum: Integer;
   S: string;
 begin
   lNum := 0;
   aDigitCount := 5;
-  aPrefix := Cabang + '.FP' + FormatDateTime('yymm',Now()) + '.';
+  fPrefix := 'FT';
+  if aSalesType = 1 then fPrefix := 'FK';
 
-
+  aPrefix := Cabang + '.' + fPrefix + FormatDateTime('yymm',Now()) + '.';
   S := 'SELECT MAX(InvoiceNo) FROM TSalesInvoice where InvoiceNo LIKE ' + QuotedStr(aPrefix + '%');
-
   with TDBUtils.OpenQuery(S) do
   begin
     Try
@@ -1498,7 +1531,7 @@ end;
 
 procedure TSalesInvoice.SetGenerateNo;
 begin
-  if Self.ID = 0 then Self.InvoiceNo := Self.GenerateNo;
+  if Self.ID = 0 then Self.InvoiceNo := Self.GenerateNo(Self.SalesType);
 end;
 
 function TSalesInvoice.UpdateRemain(aPaymentDate: TDateTime; AddedPaidAmt:
@@ -1656,6 +1689,14 @@ end;
 function TSalesRetur.GetRemain: Double;
 begin
   Result := Self.Amount - Self.PaidAmount;
+end;
+
+class procedure TSalesRetur.PrintData(aReturID: Integer);
+var
+  S: string;
+begin
+  S := 'SELECT * FROM FN_SLIP_SALESRETUR(' + IntToStr(aReturID) + ')';
+  DMReport.ExecuteReport('SlipSalesRetur', S);
 end;
 
 procedure TSalesRetur.SetGenerateNo;

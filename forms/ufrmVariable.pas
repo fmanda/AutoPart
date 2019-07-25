@@ -9,7 +9,7 @@ uses
   Vcl.Menus, cxStyles, cxDataControllerConditionalFormattingRulesManagerDialog,
   cxVGrid, cxInplaceContainer, Vcl.StdCtrls, Vcl.ExtCtrls, cxButtons, cxGroupBox,
   cxTextEdit, cxDBExtLookupComboBox, cxButtonEdit, uVariable, cxClasses,
-  cxCurrencyEdit;
+  cxCurrencyEdit, cxRadioGroup;
 
 type
   TfrmVariable = class(TfrmDefaultInput)
@@ -28,6 +28,8 @@ type
     colCOAPendapatan: TcxEditorRow;
     colNamaCabang: TcxEditorRow;
     colToleransiPiutang: TcxEditorRow;
+    colCheckStock: TcxEditorRow;
+    colCheckCreditLimit: TcxEditorRow;
     procedure FormCreate(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
     procedure colDefCustUmumEditPropertiesButtonClick(Sender: TObject;
@@ -137,6 +139,8 @@ begin
   AppVariable.Account_OtherIncome := colCOAPendapatan.Properties.Value;
   AppVariable.Nama_Cabang := colNamaCabang.Properties.Value;
   AppVariable.Toleransi_Piutang := colToleransiPiutang.Properties.Value;
+  AppVariable.Check_Stock := colCheckStock.Properties.Value;
+  AppVariable.Check_CreditLimit := colCheckCreditLimit.Properties.Value;
 
   if AppVariable.UpdateVariable then
     TAppUtils.Information('Variable Berhasil Diupdate');
@@ -156,6 +160,9 @@ begin
   colCOAPengeluaran.Properties.Value := AppVariable.Account_Expense;
   colCOAPendapatan.Properties.Value := AppVariable.Account_OtherIncome;
   colToleransiPiutang.Properties.Value := AppVariable.Toleransi_Piutang;
+
+  colCheckStock.Properties.Value := AppVariable.Check_Stock;
+  colCheckCreditLimit.Properties.Value := AppVariable.Check_CreditLimit;
 end;
 
 procedure TfrmVariable.LookupCustomer(AEditor: TcxEditorRow);

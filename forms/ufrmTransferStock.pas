@@ -57,6 +57,7 @@ type
     procedure colUOMPropertiesInitPopup(Sender: TObject);
     procedure edNotesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure rbTransferPropertiesEditValueChanged(Sender: TObject);
+    procedure btnPrintClick(Sender: TObject);
   private
     FCDS: TClientDataset;
     FCDSUOM: TClientDataset;
@@ -99,13 +100,20 @@ begin
   LoadByID(0, False);
 end;
 
+procedure TfrmTransferStock.btnPrintClick(Sender: TObject);
+begin
+  inherited;
+  TTransferStock.PrintData(Transfer.ID);
+end;
+
 procedure TfrmTransferStock.btnSaveClick(Sender: TObject);
 begin
   inherited;
   if not ValidateData then exit;
   UpdateData;
-  if Transfer.SaveRepeat then
+  if Transfer.SaveRepeat(False) then
   begin
+    btnPrint.Click;
 //    TAppUtils.InformationBerhasilSimpan;
     Self.ModalResult := mrOK;
   end;

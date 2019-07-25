@@ -1,48 +1,48 @@
 inherited frmVariable: TfrmVariable
   Caption = 'Update Variable'
-  ClientHeight = 661
-  ClientWidth = 584
-  OnCreate = FormCreate
-  ExplicitWidth = 600
-  ExplicitHeight = 700
+  ClientHeight = 461
+  ClientWidth = 555
+  ExplicitTop = -3
+  ExplicitWidth = 571
+  ExplicitHeight = 500
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
-    Top = 626
+    Top = 426
     ExplicitTop = 626
     ExplicitWidth = 584
-    Width = 584
+    Width = 555
     inherited btnCancel: TcxButton
-      Left = 499
+      Left = 470
       ExplicitLeft = 499
     end
     inherited btnPrint: TcxButton
-      Left = 413
+      Left = 384
       ExplicitLeft = 413
     end
     inherited btnSave: TcxButton
-      Left = 327
+      Left = 298
       OnClick = btnSaveClick
       ExplicitLeft = 327
     end
   end
   inherited Panel2: TPanel
-    Top = 605
-    Width = 584
+    Top = 405
+    Width = 555
     ExplicitTop = 605
     ExplicitWidth = 584
     inherited lbEscape: TLabel
-      Left = 504
+      Left = 475
       Height = 17
       ExplicitLeft = 504
     end
     inherited lgndSave: TLabel
-      Left = 339
+      Left = 310
       Height = 17
       ExplicitLeft = 339
     end
     inherited lgndPrint: TLabel
-      Left = 426
+      Left = 397
       Height = 17
       ExplicitLeft = 426
     end
@@ -50,17 +50,19 @@ inherited frmVariable: TfrmVariable
   object cxVertGrid: TcxVerticalGrid [2]
     Left = 0
     Top = 0
-    Width = 584
-    Height = 605
+    Width = 555
+    Height = 405
     Align = alClient
     OptionsView.CellAutoHeight = True
     OptionsView.CategoryExplorerStyle = True
-    OptionsView.RowHeaderWidth = 202
+    OptionsView.RowHeaderWidth = 197
     OptionsView.ShowEmptyRowImage = True
     OptionsBehavior.GoToNextCellOnEnter = True
     OptionsBehavior.GoToNextCellOnTab = True
     OptionsBehavior.FocusCellOnCycle = True
     TabOrder = 2
+    ExplicitTop = -1
+    ExplicitHeight = 605
     Version = 1
     object cxVertGridCategoryRow1: TcxCategoryRow
       Properties.Caption = 'Informasi Perusahaan'
@@ -191,6 +193,7 @@ inherited frmVariable: TfrmVariable
       Properties.EditProperties.OnButtonClick = colDefCustBengkelEditPropertiesButtonClick
       Properties.DataBinding.ValueType = 'String'
       Properties.Value = Null
+      Visible = False
       ID = 10
       ParentID = 7
       Index = 2
@@ -237,6 +240,48 @@ inherited frmVariable: TfrmVariable
       ID = 13
       ParentID = 7
       Index = 5
+      Version = 1
+    end
+    object colCheckStock: TcxEditorRow
+      Properties.Caption = 'Check Stock'
+      Properties.EditPropertiesClassName = 'TcxRadioGroupProperties'
+      Properties.EditProperties.Columns = 2
+      Properties.EditProperties.ImmediatePost = True
+      Properties.EditProperties.Items = <
+        item
+          Caption = 'Aktif'
+          Value = 1
+        end
+        item
+          Caption = 'Non Aktif'
+          Value = 0
+        end>
+      Properties.DataBinding.ValueType = 'String'
+      Properties.Value = '0'
+      ID = 14
+      ParentID = 7
+      Index = 6
+      Version = 1
+    end
+    object colCheckCreditLimit: TcxEditorRow
+      Properties.Caption = 'Check CreditLimit'
+      Properties.EditPropertiesClassName = 'TcxRadioGroupProperties'
+      Properties.EditProperties.Columns = 2
+      Properties.EditProperties.ImmediatePost = True
+      Properties.EditProperties.Items = <
+        item
+          Caption = 'Aktif'
+          Value = 1
+        end
+        item
+          Caption = 'Non Aktif'
+          Value = 0
+        end>
+      Properties.DataBinding.ValueType = 'String'
+      Properties.Value = '0'
+      ID = 15
+      ParentID = 7
+      Index = 7
       Version = 1
     end
   end

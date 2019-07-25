@@ -152,7 +152,7 @@ object frmAuthUser: TfrmAuthUser
     object cxLabel2: TcxLabel
       AlignWithMargins = True
       Left = 5
-      Top = 57
+      Top = 54
       Margins.Left = 5
       Margins.Top = 5
       Margins.Right = 5
@@ -167,12 +167,12 @@ object frmAuthUser: TfrmAuthUser
       Style.Font.Style = []
       Style.IsFontAssigned = True
       Properties.Alignment.Vert = taVCenter
-      AnchorY = 66
+      AnchorY = 63
     end
     object txtPassword: TcxTextEdit
       AlignWithMargins = True
       Left = 5
-      Top = 75
+      Top = 72
       Margins.Left = 5
       Margins.Top = 0
       Margins.Right = 5
@@ -191,6 +191,7 @@ object frmAuthUser: TfrmAuthUser
       Style.IsFontAssigned = True
       TabOrder = 1
       Text = 'admin'
+      ExplicitTop = 75
       Width = 306
     end
     object cxGroupBox2: TcxGroupBox

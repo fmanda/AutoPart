@@ -27,12 +27,10 @@ inherited frmBrowseSalesPayment: TfrmBrowseSalesPayment
     end
     inherited cxLabel1: TcxLabel
       Visible = True
-      ExplicitLeft = 260
       AnchorY = 18
     end
     inherited cxLabel2: TcxLabel
       Visible = True
-      ExplicitLeft = 433
       AnchorY = 18
     end
     inherited lblTitle: TcxLabel

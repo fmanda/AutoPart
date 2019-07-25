@@ -120,8 +120,8 @@ end;
 
 procedure TfrmBrowseSalesRetur.FormCreate(Sender: TObject);
 begin
-  StartDate.Date := StartOfTheMonth(Now());
-  EndDate.Date := EndOfTheMonth(Now());
+//  StartDate.Date := StartOfTheMonth(Now());
+//  EndDate.Date := EndOfTheMonth(Now());
   inherited;
 end;
 
