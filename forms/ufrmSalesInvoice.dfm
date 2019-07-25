@@ -82,7 +82,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitTop = 2
+      ExplicitHeight = 16
     end
     object Label2: TLabel
       AlignWithMargins = True
@@ -142,8 +142,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       ParentColor = False
       ParentFont = False
       Transparent = False
-      ExplicitLeft = 369
-      ExplicitTop = 2
+      ExplicitHeight = 16
     end
     object Label5: TLabel
       AlignWithMargins = True
@@ -185,7 +184,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       ParentColor = False
       ParentFont = False
       Transparent = False
-      ExplicitTop = 2
+      ExplicitHeight = 16
     end
   end
   object cxGroupBox1: TcxGroupBox [2]
@@ -551,7 +550,6 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 150
     object cxGrdItem: TcxGridDBTableView
       PopupMenu = pmMain
       Navigator.Buttons.CustomButtons = <>
@@ -712,7 +710,6 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     Align = alBottom
     TabOrder = 2
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 404
     object cxGrdService: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>

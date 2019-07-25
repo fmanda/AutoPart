@@ -342,9 +342,9 @@ begin
 
   if lRemain < -1 then
   begin
-    Result := TAppUtils.Confirm('Nilai Faktur melebihi Sisa Credit Limit'
-      +#13 +'Anda yakin melanjutkan simpan?'
-    );
+//    Result := TAppUtils.Confirm('Nilai Faktur melebihi Sisa Credit Limit'
+//      +#13 +'Anda yakin melanjutkan simpan?'
+//    );
 
     if Result then
     begin

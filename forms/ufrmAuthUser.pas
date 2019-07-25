@@ -29,7 +29,7 @@ type
   private
     { Private declarations }
   public
-    class function Authorize: Boolean;
+    class function Authorize(aCaption: String = ''): Boolean;
     { Public declarations }
   end;
 
@@ -43,12 +43,14 @@ uses
 
 {$R *.dfm}
 
-class function TfrmAuthUser.Authorize: Boolean;
+class function TfrmAuthUser.Authorize(aCaption: String = ''): Boolean;
 var
   lfrm: TfrmAuthUser;
 begin
   lfrm := TfrmAuthUser.Create(Application);
   Try
+    if aCaption <> '' then
+      lfrm.lblTitle.Caption
     Result := lfrm.ShowModal = mrOK;
   Finally
     lfrm.Free;
