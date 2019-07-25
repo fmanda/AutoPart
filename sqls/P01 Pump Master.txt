@@ -1,6 +1,6 @@
 
-insert into AUTOPART.dbo.TITEMGROUP
-select top 245 kdjenis, NamJenis from MOTOROLI2017.dbo.TblJenis
+insert into MOTOROLI_01.dbo.TITEMGROUP
+select top 245 kdjenis, NamJenis from Motoroli.dbo.TblJenis
 
 
 insert into AUTOPART.dbo.TMerk
@@ -12,15 +12,34 @@ alter table TITEM add kdjenis varchar(30)
 alter table TITEMUOM add kdBar varchar(30)
 
 
-
+--OLD
 insert into AUTOPART.dbo.TItem(KODE, NAMA, RAK, PPN, ISACTIVE, KDMERK, KDJENIS, STOCKUOM)
 select KDBAR, NamaBarang, RAK, 0, 1, KdMerk, KdJenis, 1
 from MOTOROLI2017.dbo.TblStok
 
+-- update
+insert into MOTOROLI_01.dbo.TItem(KODE, NAMA, RAK, PPN, ISACTIVE, KDMERK, KDJENIS, STOCKUOM_ID, LEADTIME)
+SELECT DISTINCT
+c.KDBAR, c.NamaBarang, c.RAK, 0, 1, c.KdMerk, c.KdJenis, 1,2
+FROM Motoroli.dbo.TblMJual A
+INNER JOIN Motoroli.dbo.TblDJual B ON A.NoPenjualan = B.NoPenjualan
+INNER JOIN Motoroli.dbo.TblStok C ON B.KdBarang = C.KdBar
+WHERE A.Tgl >= '2018-01-01'
 
+
+--OLD
 insert into AUTOPART.dbo.TITEMUOM(UOM_ID, KONVERSI, HARGABELI, HARGAJUAL1, HARGAJUAL2, HARGAJUAL3, HARGAJUAL4, KDBAR)
 select 1, 1, HargaPokok, HargaUmum, HargaBengkel, HargaGrosir, HargaKeliling, KdBar
 from MOTOROLI2017.dbo.TblStok
+
+--UPDATE
+insert into MOTOROLI_01.dbo.TITEMUOM(UOM_ID, KONVERSI, HARGABELI, HARGAJUAL1, HARGAJUAL2, HARGAJUAL3, HARGAJUAL4, KDBAR)
+select distinct 1, 1, C.HargaPokok, C.HargaUmum, C.HargaBengkel, C.HargaGrosir, C.HargaKeliling, C.KdBar
+FROM Motoroli.dbo.TblMJual A
+INNER JOIN Motoroli.dbo.TblDJual B ON A.NoPenjualan = B.NoPenjualan
+INNER JOIN Motoroli.dbo.TblStok C ON B.KdBarang = C.KdBar
+WHERE A.Tgl >= '2018-01-01'
+
 
 
 UPDATE A SET GROUP_ID = B.ID
@@ -43,25 +62,23 @@ alter table TITEMUOM DROP COLUMN kdBar
 
 
 
-
-insert into AUTOPART.dbo.TSERVICE(UOM_ID, kode, nama, biaya, ppn, modifieddate, isactive )
+insert into MOTOROLI_01.dbo.TSERVICE(UOM_ID, kode, nama, biaya, ppn, modifieddate, isactive )
 select 1, KdService, NamaService, Biaya, 0, getdate(), 1
-from MOTOROLI2017.dbo.tblservice
+from Motoroli.dbo.tblservice
 
 
-insert into AUTOPART.dbo.TSUPPLIER(kode, nama, ALAMAT, TELP, TEMPO,  MODIFIEDDATE )
+insert into MOTOROLI_01.dbo.TSUPPLIER(kode, nama, ALAMAT, TELP, TEMPO,  MODIFIEDDATE )
 select KdSupplier, NamaSupplier, Alamat,'', 0, getdate()
-from MOTOROLI2017.dbo.TblSupplier
+from Motoroli.dbo.TblSupplier
 
-insert into AUTOPART.dbo.TCUSTOMER(kode, nama, ALAMAT, TELP, TEMPO,  MODIFIEDDATE, CREDITLIMIT )
+insert into MOTOROLI_01.dbo.TCUSTOMER(kode, nama, ALAMAT, TELP, TEMPO,  MODIFIEDDATE, CREDITLIMIT )
 select a.KdPel, a.NamaPelanggan, a.Alamat,'', 0, getdate(), a.maxhutang
-from MOTOROLI2017.dbo.TblPelanggan a
-left join AUTOPART.dbo.TCUSTOMER b on a.KdPel = b.KODE
+from Motoroli.dbo.TblPelanggan a
+left join MOTOROLI_01.dbo.TCUSTOMER b on a.KdPel = b.KODE
 where b.KODE is null
 
 
 delete from TACCOUNT
-DBCC CHECKIDENT ('TACCOUNT', RESEED, 0)  
 insert into taccount(kode,nama, parent_id, isactive, isdetail) values('1000','Asset',NULL,1,0);
 insert into taccount(kode,nama, parent_id, isactive, isdetail) values('1100','Aktiva Lancar',1,1,0);
 insert into taccount(kode,nama, parent_id, isactive, isdetail) values('1110','Kas / Bank',2,1,0);

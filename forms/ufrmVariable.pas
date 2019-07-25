@@ -210,7 +210,7 @@ var
   cxLookup: TfrmCXServerLookup;
   S: string;
 begin
-  S := 'select * from TProject';
+  S := 'select Project_Code as ID,  Project_Code, Project_Name from TProject';
   cxLookup := TfrmCXServerLookup.Execute(S, 'ID');
   Try
 //    cxLookup.PreFilter('Nama', '');
