@@ -795,7 +795,7 @@ begin
   cxLookupRekening.SetDefaultValue();
   edNotes.Text := 'Dummy Data';
 
-  iCount := Random(15)+3;
+  iCount := 10;
   lItem := TItem.Create;
   Try
     CDSDummy.First;

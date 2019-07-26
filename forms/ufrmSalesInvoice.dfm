@@ -1,15 +1,16 @@
 inherited frmSalesInvoice: TfrmSalesInvoice
   Caption = 'Transaksi Penjualan'
-  ClientHeight = 661
+  ClientHeight = 641
   ClientWidth = 984
   KeyPreview = True
   OnKeyDown = FormKeyDown
+  ExplicitTop = -229
   ExplicitWidth = 1000
-  ExplicitHeight = 700
+  ExplicitHeight = 680
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
-    Top = 626
+    Top = 606
     TabOrder = 3
     ExplicitTop = 626
     ExplicitWidth = 984
@@ -41,12 +42,10 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       Caption = 'Generate Dummy '
       TabOrder = 3
       OnClick = btnGenerateClick
-      ExplicitLeft = 3
-      ExplicitTop = 6
     end
   end
   inherited Panel2: TPanel
-    Top = 605
+    Top = 585
     Width = 984
     TabOrder = 4
     ExplicitTop = 605
@@ -547,10 +546,11 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     Left = 0
     Top = 151
     Width = 984
-    Height = 246
+    Height = 276
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
+    ExplicitHeight = 246
     object cxGrdItem: TcxGridDBTableView
       PopupMenu = pmMain
       Navigator.Buttons.CustomButtons = <>
@@ -697,20 +697,22 @@ inherited frmSalesInvoice: TfrmSalesInvoice
   end
   object cxSplitter: TcxSplitter [4]
     Left = 0
-    Top = 397
+    Top = 427
     Width = 984
     Height = 8
     HotZoneClassName = 'TcxXPTaskBarStyle'
     AlignSplitter = salBottom
+    ExplicitTop = 397
   end
   object cxGridService: TcxGrid [5]
     Left = 0
-    Top = 405
+    Top = 435
     Width = 984
-    Height = 200
+    Height = 150
     Align = alBottom
     TabOrder = 2
     RootLevelOptions.DetailTabsPosition = dtpTop
+    ExplicitTop = 405
     object cxGrdService: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>

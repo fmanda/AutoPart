@@ -623,7 +623,7 @@ begin
   cxLookupRekening.SetDefaultValue();
   edNotes.Text := 'Dummy Data';
 
-  iCount := 50; //Random(15)+3;
+  iCount := 20; //Random(15)+3;
   lItem := TItem.Create;
   Try
     DC.RecordCount := 0;

@@ -2,7 +2,7 @@ inherited frmDefaultInput: TfrmDefaultInput
   Caption = 'frmDefaultInput'
   ClientHeight = 377
   ClientWidth = 577
-  Position = poDesktopCenter
+  Position = poMainFormCenter
   ExplicitWidth = 593
   ExplicitHeight = 416
   PixelsPerInch = 96
