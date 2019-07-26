@@ -119,3 +119,33 @@ insert into taccount(kode,nama, parent_id, isactive, isdetail) values('7000','Pe
 insert into taccount(kode,nama, parent_id, isactive, isdetail) values('7001','Pendapatan Bunga',37,1,1);
 insert into taccount(kode,nama, parent_id, isactive, isdetail) values('7002','Penghasilan Sewa',37,1,1);
 insert into taccount(kode,nama, parent_id, isactive, isdetail) values('7099','Penghasilan Lain',37,1,0);
+
+
+
+
+
+
+
+
+
+
+insert into Motoroli_01.dbo.TPURCHASEINVOICE(
+INVOICENO, REFERENSI, TRANSDATE, SUPPLIER_ID, DUEDATE, PAYMENTFLAG, NOTES, SUBTOTAL, AMOUNT)
+select a.NoHutang, a.NoPembelian, a.Tanggal, b.ID, a.Tempo, 1, 'SALDO AWAL HUTANG', 
+a.SisaHutang, a.SisaHutang
+from MOTOROLI2017.dbo.TblHutang a
+left join Motoroli_01.dbo.TSUPPLIER b on a.KdSupplier = b.KODE
+where isnull(a.Lunas,0) = 0
+and a.SisaHutang > 1000
+
+
+
+insert into Motoroli_01.dbo.TSALESINVOICE(
+INVOICENO, NOTES, TRANSDATE, CUSTOMER_ID, DUEDATE, PAYMENTFLAG,  SUBTOTAL, AMOUNT, SALESMAN_ID)
+select a.NoPiutang, a.NoPenjualan, a.Tanggal, b.ID, a.Tempo, 1, a.SisaHutang, a.SisaHutang, d.ID
+from MOTOROLI2017.dbo.TblPiutang a
+Left join MOTOROLI2017.dbo.TblMJual c on a.NoPenjualan = c.NoPenjualan
+left join Motoroli_01.dbo.TCUSTOMER b on a.KdPelanggan = b.KODE
+left join Motoroli_01.dbo.TSALESMAN d on c.KdSales = d.KODE
+where isnull(a.Lunas,0) = 0
+and a.SisaHutang > 1000
