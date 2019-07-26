@@ -112,7 +112,8 @@ uses
   ufrmLapFeeSalesman in 'forms\ufrmLapFeeSalesman.pas' {frmLapFeeSalesman},
   uUser in 'classes\uUser.pas',
   ufrmUser in 'forms\ufrmUser.pas' {frmUser},
-  ufrmBrowseUser in 'forms\ufrmBrowseUser.pas' {frmBrowseUser};
+  ufrmBrowseUser in 'forms\ufrmBrowseUser.pas' {frmBrowseUser},
+  ufrmLapPembelian in 'forms\ufrmLapPembelian.pas' {frmLapPembelian};
 
 {$R *.res}
 
