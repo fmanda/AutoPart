@@ -9,6 +9,14 @@ inherited frmLapPembelian: TfrmLapPembelian
       AnchorY = 18
     end
   end
+  inherited cxGroupBox2: TcxGroupBox
+    inherited btnExport: TcxButton
+      OnClick = btnExportClick
+    end
+    inherited btnRefresh: TcxButton
+      OnClick = btnRefreshClick
+    end
+  end
   object cxGroupBox3: TcxGroupBox [2]
     AlignWithMargins = True
     Left = 0
@@ -57,10 +65,6 @@ inherited frmLapPembelian: TfrmLapPembelian
     Height = 275
     Align = alClient
     TabOrder = 3
-    ExplicitLeft = -228
-    ExplicitTop = -50
-    ExplicitWidth = 867
-    ExplicitHeight = 458
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -77,7 +81,6 @@ inherited frmLapPembelian: TfrmLapPembelian
       OptionsData.Editing = False
       OptionsData.Inserting = False
       OptionsView.Footer = True
-      OptionsView.GroupByBox = False
       OptionsView.HeaderHeight = 30
       Styles.ContentOdd = styleOdd
     end

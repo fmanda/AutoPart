@@ -231,9 +231,9 @@ begin
       CDSMain.FieldByName('Range4').AsFloat :=
         CDSMain.FieldByName('Range4').AsFloat + CDSDetail.FieldByName('Range4').AsFloat;
       CDSMain.FieldByName('Total').AsFloat :=
-        CDSMain.FieldByName('Current').AsFloat  + CDSDetail.FieldByName('Range1').AsFloat
-        + CDSDetail.FieldByName('Range2').AsFloat + CDSDetail.FieldByName('Range3').AsFloat
-        + CDSDetail.FieldByName('Range4').AsFloat;
+        CDSMain.FieldByName('Total').AsFloat + CDSDetail.FieldByName('Current').AsFloat
+        + CDSDetail.FieldByName('Range1').AsFloat  + CDSDetail.FieldByName('Range2').AsFloat
+        + CDSDetail.FieldByName('Range3').AsFloat  + CDSDetail.FieldByName('Range4').AsFloat;
 
       CDSMain.Post;
 
