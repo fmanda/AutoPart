@@ -149,3 +149,15 @@ left join Motoroli_01.dbo.TCUSTOMER b on a.KdPelanggan = b.KODE
 left join Motoroli_01.dbo.TSALESMAN d on c.KdSales = d.KODE
 where isnull(a.Lunas,0) = 0
 and a.SisaHutang > 1000
+
+
+
+INSERT INTO Motoroli_01.dbo.TTRANSDETAIL(
+TRANSDATE, header_id, header_flag, item_id, uom_id, qty, KONVERSI, 
+WAREHOUSE_ID,  harga, HARGAAVG, LASTCOST, refno)
+select '2019-07-01',0,0,B.ID AS ITEM_ID, 1 AS UOM_ID, A.JmlPcs,
+1 AS KONVERSI, 1 AS WAREHOUSE_ID, C.HARGABELI, C.HARGABELI,c.HARGABELI, 'SALDO_AWAL'
+from MOTOROLI2017.dbo.TblStok a
+inner join Motoroli_01.dbo.TITEM b on a.KdBar = b.KODE
+inner join Motoroli_01.dbo.TITEMUOM C on B.ID = C.ITEM_ID AND C.UOM_ID=1
+where a.JmlPcs > 0
