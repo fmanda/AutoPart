@@ -131,12 +131,7 @@ end;
 
 function TfrmBrowseItem.GetSQL: string;
 begin
-  Result := 'SELECT A.ID, A.KODE, A.NAMA, B.NAMA AS MERK, '
-          +' C.NAMA AS GROUP_BARANG, A.PPN, A.RAK,'
-          +' A.MODIFIEDDATE, A.MODIFIEDBY, A.ISACTIVE, A.NOTES AS CATATAN'
-          +' FROM TITEM A'
-          +' LEFT JOIN TMERK B ON A.MERK_ID = B.ID'
-          +' LEFT JOIN TITEMGROUP C ON A.GROUP_ID = C.ID';
+  Result := 'SELECT * FROM V_ITEM';
 end;
 
 end.

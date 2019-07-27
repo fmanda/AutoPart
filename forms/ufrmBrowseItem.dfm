@@ -48,12 +48,12 @@ inherited frmBrowseItem: TfrmBrowseItem
     end
     inherited cxLabel1: TcxLabel
       Left = 325
-      ExplicitLeft = 169
+      ExplicitLeft = 325
       AnchorY = 18
     end
     inherited cxLabel2: TcxLabel
       Left = 498
-      ExplicitLeft = 396
+      ExplicitLeft = 498
       AnchorY = 18
     end
     inherited lblTitle: TcxLabel
