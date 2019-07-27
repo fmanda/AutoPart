@@ -111,31 +111,36 @@ var
   S: string;
 begin
   inherited;
-  if CDS <> nil then
-    FreeAndNil(CDS);
+  Self.Cursor := crHourGlass;
+  Try
+    if CDS <> nil then
+      FreeAndNil(CDS);
 
-  S := 'select a.ITEM_ID, b.KODE, b.NAMA, e.NAMA as ITEMGROUP, F.NAMA AS MERK,'
-      +' D.UOM AS UOM, C.KONVERSI, ISNULL(C.HARGAAVG, C.HARGABELI) AS HARGAAVG,'
-      +' A.TOTALPCS/C.KONVERSI AS TOTALQTY,'
-      +' ISNULL(C.HARGAAVG, C.HARGABELI)*A.TOTALPCS/C.KONVERSI AS TOTALVALUE,'
-      +' A.RANGE1/C.KONVERSI AS RANGE1, A.RANGE2/C.KONVERSI AS RANGE2,'
-      +' A.RANGE3/C.KONVERSI AS RANGE3, A.RANGE4/C.KONVERSI AS RANGE4,'
-      +' A.RANGE5/C.KONVERSI AS RANGE5,'
-      +' ISNULL(C.HARGAAVG, C.HARGABELI)*A.RANGE1/C.KONVERSI AS VALUERANGE1,'
-      +' ISNULL(C.HARGAAVG, C.HARGABELI)*A.RANGE2/C.KONVERSI AS VALUERANGE2,'
-      +' ISNULL(C.HARGAAVG, C.HARGABELI)*A.RANGE3/C.KONVERSI AS VALUERANGE3,'
-      +' ISNULL(C.HARGAAVG, C.HARGABELI)*A.RANGE4/C.KONVERSI AS VALUERANGE4,'
-      +' ISNULL(C.HARGAAVG, C.HARGABELI)*A.RANGE5/C.KONVERSI AS VALUERANGE5'
-      +' from FN_AGINGSTOCK(' + TAppUtils.QuotD(dtStock.Date) + ') a'
-      +' inner join TITEM b on a.ITEM_ID = b.id'
-      +' inner join TITEMUOM c on c.ITEM_ID = b.id and c.UOM_ID = b.STOCKUOM_ID'
-      +' inner join TUOM d on c.UOM_ID = d.id'
-      +' left join TITEMGROUP e on b.GROUP_ID = e.id'
-      +' left join TMERK f on b.MERK_ID = f.ID';
+    S := 'select a.ITEM_ID, b.KODE, b.NAMA, e.NAMA as ITEMGROUP, F.NAMA AS MERK,'
+        +' D.UOM AS UOM, C.KONVERSI, ISNULL(C.HARGAAVG, C.HARGABELI) AS HARGAAVG,'
+        +' A.TOTALPCS/C.KONVERSI AS TOTALQTY,'
+        +' ISNULL(C.HARGAAVG, C.HARGABELI)*A.TOTALPCS/C.KONVERSI AS TOTALVALUE,'
+        +' A.RANGE1/C.KONVERSI AS RANGE1, A.RANGE2/C.KONVERSI AS RANGE2,'
+        +' A.RANGE3/C.KONVERSI AS RANGE3, A.RANGE4/C.KONVERSI AS RANGE4,'
+        +' A.RANGE5/C.KONVERSI AS RANGE5,'
+        +' ISNULL(C.HARGAAVG, C.HARGABELI)*A.RANGE1/C.KONVERSI AS VALUERANGE1,'
+        +' ISNULL(C.HARGAAVG, C.HARGABELI)*A.RANGE2/C.KONVERSI AS VALUERANGE2,'
+        +' ISNULL(C.HARGAAVG, C.HARGABELI)*A.RANGE3/C.KONVERSI AS VALUERANGE3,'
+        +' ISNULL(C.HARGAAVG, C.HARGABELI)*A.RANGE4/C.KONVERSI AS VALUERANGE4,'
+        +' ISNULL(C.HARGAAVG, C.HARGABELI)*A.RANGE5/C.KONVERSI AS VALUERANGE5'
+        +' from FN_AGINGSTOCK(' + TAppUtils.QuotD(dtStock.Date) + ') a'
+        +' inner join TITEM b on a.ITEM_ID = b.id'
+        +' inner join TITEMUOM c on c.ITEM_ID = b.id and c.UOM_ID = b.STOCKUOM_ID'
+        +' inner join TUOM d on c.UOM_ID = d.id'
+        +' left join TITEMGROUP e on b.GROUP_ID = e.id'
+        +' left join TMERK f on b.MERK_ID = f.ID';
 
-  CDS := TDBUtils.OpenDataset(S, Self);
-  cxGrdMain.PrepareFromCDS(CDS);;
-  cxGrdMain.ApplyBestFit();
+    CDS := TDBUtils.OpenDataset(S, Self);
+    cxGrdMain.PrepareFromCDS(CDS);;
+    cxGrdMain.ApplyBestFit();
+  Finally
+    Self.Cursor := crDefault;
+  End;
 end;
 
 procedure TfrmAgingStock.colRange1StylesGetContentStyle(
@@ -263,6 +268,8 @@ begin
   colValue3.Visible := rbJenis.ItemIndex = 1;
   colValue4.Visible := rbJenis.ItemIndex = 1;
   colValue5.Visible := rbJenis.ItemIndex = 1;
+  colValue.Visible  := rbJenis.ItemIndex = 1;
+  colQty.Visible    := rbJenis.ItemIndex = 0;
 end;
 
 end.
