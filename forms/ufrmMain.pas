@@ -138,7 +138,7 @@ type
     actSaldoKas: TAction;
     actLapCashOpname: TAction;
     actMutasiKas: TAction;
-    actLapPenjualan: TAction;
+    actDetPenjualan: TAction;
     actBiaya: TAction;
     dxBarButton58: TdxBarButton;
     dxBarButton59: TdxBarButton;
@@ -189,13 +189,17 @@ type
     dxBarButton83: TdxBarButton;
     actLapPembelian: TAction;
     dxBarButton84: TdxBarButton;
+    actGantiPass: TAction;
+    dxBarButton85: TdxBarButton;
     procedure actAccountExecute(Sender: TObject);
     procedure actAgingARExecute(Sender: TObject);
     procedure actAgingStockExecute(Sender: TObject);
     procedure actCashInExecute(Sender: TObject);
     procedure actCashOutExecute(Sender: TObject);
     procedure actCustomerExecute(Sender: TObject);
+    procedure actDetPenjualanExecute(Sender: TObject);
     procedure actEndOfDayExecute(Sender: TObject);
+    procedure actGantiPassExecute(Sender: TObject);
     procedure actInternalTransferExecute(Sender: TObject);
     procedure actItemExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -272,7 +276,8 @@ uses
   ufrmBrowseCashPayment, ufrmBrowseCashReceipt, ufrmBrowseStockOpname,
   ufrmBrowseStockAdjustment, ufrmEndOfDay, ufrmLapCashOpname,
   ufrmSalesAnalysis, ufrmProfitLoss, ufrmARAging, ufrmSuggestionOrder,
-  ufrmLapFeeSalesman, ufrmBrowseUser, uUser, ufrmLapPembelian;
+  ufrmLapFeeSalesman, ufrmBrowseUser, uUser, ufrmLapPembelian,
+  ufrmLapPenjualan, ufrmGantiPassword;
 
 {$R *.dfm}
 
@@ -328,6 +333,11 @@ begin
   ShowForm(TfrmBrowseCustomer);
 end;
 
+procedure TfrmMain.actDetPenjualanExecute(Sender: TObject);
+begin
+  ShowForm(TfrmLapPenjualan);
+end;
+
 procedure TfrmMain.actEndOfDayExecute(Sender: TObject);
 var
   lfrm: TfrmEndOfDay;
@@ -335,6 +345,11 @@ begin
   lfrm := ShowForm(TfrmEndOfDay) as TfrmEndOfDay;
   if lfrm <> nil then
     lfrm.ShowModal;
+end;
+
+procedure TfrmMain.actGantiPassExecute(Sender: TObject);
+begin
+  ShowForm(TfrmGantiPassword).ShowModal;
 end;
 
 procedure TfrmMain.actInternalTransferExecute(Sender: TObject);

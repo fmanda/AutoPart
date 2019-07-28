@@ -75,6 +75,9 @@ type
     cxLabel11: TcxLabel;
     spLeadTime: TcxSpinEdit;
     cxLabel12: TcxLabel;
+    cxMemo1: TcxMemo;
+    colMarginBeli: TcxGridDBBandedColumn;
+    colPriceList: TcxGridDBBandedColumn;
     procedure FormCreate(Sender: TObject);
     procedure btnDelClick(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
@@ -94,6 +97,8 @@ type
     procedure colHrgBeliPropertiesEditValueChanged(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnRefreshClick(Sender: TObject);
+    procedure colMarginBeliPropertiesEditValueChanged(Sender: TObject);
+    procedure colPriceListPropertiesEditValueChanged(Sender: TObject);
   private
     FCDS: TClientDataset;
     FCDSUOM: TClientDataset;
@@ -171,39 +176,43 @@ end;
 procedure TfrmItem.CalcSellPrice(aIndexPrice: Integer; IsMargin: Boolean);
 var
   iRec: TcxCustomGridRecord;
-  lBuyPrice: Double;
+  lPriceList: Double;
 begin
   cxGrdUOM.DataController.Post();
   iRec      := cxGrdUOM.Controller.FocusedRecord;
   if iRec = nil then exit;
 
-  lBuyPrice := iRec.Values[colHrgBeli.Index];
+  lPriceList := iRec.Values[colPriceList.Index];
 
   if IsMargin then
   begin
     case aIndexPrice of
+      0 : cxGrdUOM.DataController.SetEditValue(colHrgBeli.Index,
+          lPriceList * (1 - (iRec.Values[colMarginBeli.Index] /100)),  evsValue);
       1 : cxGrdUOM.DataController.SetEditValue(colHrgJual1.Index,
-          lBuyPrice * (1 + (iRec.Values[colMargin1.Index] /100)),  evsValue);
+          lPriceList * (1 - (iRec.Values[colMargin1.Index] /100)),  evsValue);
       2 : cxGrdUOM.DataController.SetEditValue(colHrgJual2.Index,
-          lBuyPrice * (1 + (iRec.Values[colMargin2.Index] /100)),  evsValue);
+          lPriceList * (1 - (iRec.Values[colMargin2.Index] /100)),  evsValue);
       3 : cxGrdUOM.DataController.SetEditValue(colHrgJual3.Index,
-          lBuyPrice * (1 + (iRec.Values[colMargin3.Index] /100)),  evsValue);
+          lPriceList * (1 - (iRec.Values[colMargin3.Index] /100)),  evsValue);
       4 : cxGrdUOM.DataController.SetEditValue(colHrgJual4.Index,
-          lBuyPrice * (1 + (iRec.Values[colMargin4.Index] /100)),  evsValue);
+          lPriceList * (1 - (iRec.Values[colMargin4.Index] /100)),  evsValue);
     end;
   end else
   begin
-    if lBuyPrice = 0 then exit;
+    if lPriceList = 0 then exit;
 
     case aIndexPrice of
+      0 : cxGrdUOM.DataController.SetEditValue(colMarginBeli.Index,
+          (lPriceList - iRec.Values[colHrgBeli.Index]) / lPriceList * 100,  evsValue);
       1 : cxGrdUOM.DataController.SetEditValue(colMargin1.Index,
-          (iRec.Values[colHrgJual1.Index] - lBuyPrice) / lBuyPrice * 100,  evsValue);
+          (lPriceList - iRec.Values[colHrgJual1.Index]) / lPriceList * 100,  evsValue);
       2 : cxGrdUOM.DataController.SetEditValue(colMargin2.Index,
-          (iRec.Values[colHrgJual2.Index] - lBuyPrice) / lBuyPrice * 100,  evsValue);
+          (lPriceList - iRec.Values[colHrgJual2.Index]) / lPriceList * 100,  evsValue);
       3 : cxGrdUOM.DataController.SetEditValue(colMargin3.Index,
-          (iRec.Values[colHrgJual3.Index] - lBuyPrice) / lBuyPrice * 100,  evsValue);
+          (lPriceList - iRec.Values[colHrgJual3.Index]) / lPriceList * 100,  evsValue);
       4 : cxGrdUOM.DataController.SetEditValue(colMargin4.Index,
-          (iRec.Values[colHrgJual4.Index] - lBuyPrice) / lBuyPrice * 100,  evsValue);
+          (lPriceList - iRec.Values[colHrgJual4.Index]) / lPriceList * 100,  evsValue);
     end;
   end;
 
@@ -212,10 +221,7 @@ end;
 procedure TfrmItem.colHrgBeliPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
-  CalcSellPrice(1, False);
-  CalcSellPrice(2, False);
-  CalcSellPrice(3, False);
-  CalcSellPrice(4, False);
+  CalcSellPrice(0, False);
 end;
 
 procedure TfrmItem.colHrgJual1PropertiesEditValueChanged(Sender: TObject);
@@ -266,6 +272,22 @@ begin
   CalcSellPrice(4, True);
 end;
 
+procedure TfrmItem.colMarginBeliPropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalcSellPrice(0, True);
+end;
+
+procedure TfrmItem.colPriceListPropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalcSellPrice(0, True);
+  CalcSellPrice(1, True);
+  CalcSellPrice(2, True);
+  CalcSellPrice(3, True);
+  CalcSellPrice(4, True);
+end;
+
 procedure TfrmItem.cxLookupGroupKeyDown(Sender: TObject; var Key: Word; Shift:
     TShiftState);
 begin
@@ -305,6 +327,7 @@ end;
 procedure TfrmItem.FormCreate(Sender: TObject);
 begin
   inherited;
+  cxGrdUOM.OptionsView.Header := False;
   Self.AssignKeyDownEvent;
   initView;
   StartDate.Date  := StartOfTheYear(Now());
@@ -330,6 +353,7 @@ begin
   if FCDS = nil then
   begin
     FCDS := TItemUOM.CreateDataSet(Self, False);
+    FCDS.AddField('MarginBeli',ftFloat);
     FCDS.AddField('Margin1',ftFloat);
     FCDS.AddField('Margin2',ftFloat);
     FCDS.AddField('Margin3',ftFloat);
@@ -420,18 +444,20 @@ begin
     CDS.Append;
     lItemUOM.UpdateToDataset(CDS);
 
-    if lItemUOM.HargaBeli = 0 then
+    if lItemUOM.PriceList = 0 then
     begin
+      CDS.FieldByName('MarginBeli').AsFloat := 0;
       CDS.FieldByName('Margin1').AsFloat := 0;
       CDS.FieldByName('Margin2').AsFloat := 0;
       CDS.FieldByName('Margin3').AsFloat := 0;
       CDS.FieldByName('Margin4').AsFloat := 0;
     end else
     begin
-      CDS.FieldByName('Margin1').AsFloat := (lItemUOM.HargaJual1 - lItemUOM.HargaBeli) / lItemUOM.HargaBeli * 100;
-      CDS.FieldByName('Margin2').AsFloat := (lItemUOM.HargaJual2 - lItemUOM.HargaBeli) / lItemUOM.HargaBeli * 100;
-      CDS.FieldByName('Margin3').AsFloat := (lItemUOM.HargaJual3 - lItemUOM.HargaBeli) / lItemUOM.HargaBeli * 100;
-      CDS.FieldByName('Margin4').AsFloat := (lItemUOM.HargaJual4 - lItemUOM.HargaBeli) / lItemUOM.HargaBeli * 100;
+      CDS.FieldByName('MarginBeli').AsFloat := (lItemUOM.PriceList - lItemUOM.HargaBeli) / lItemUOM.PriceList * 100;
+      CDS.FieldByName('Margin1').AsFloat := (lItemUOM.PriceList - lItemUOM.HargaJual1) / lItemUOM.PriceList * 100;
+      CDS.FieldByName('Margin2').AsFloat := (lItemUOM.PriceList - lItemUOM.HargaJual2) / lItemUOM.PriceList * 100;
+      CDS.FieldByName('Margin3').AsFloat := (lItemUOM.PriceList - lItemUOM.HargaJual3) / lItemUOM.PriceList * 100;
+      CDS.FieldByName('Margin4').AsFloat := (lItemUOM.PriceList - lItemUOM.HargaJual4) / lItemUOM.PriceList * 100;
     end;
 
     CDS.Post;

@@ -61,6 +61,7 @@ object frmMain: TfrmMain
     TabOrder = 1
     TabStop = False
     object dxRTApp: TdxRibbonTab
+      Active = True
       Caption = 'Aplikasi'
       Groups = <
         item
@@ -83,7 +84,6 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxRTInventory: TdxRibbonTab
-      Active = True
       Caption = 'Inventory'
       Groups = <
         item
@@ -225,6 +225,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton51'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton85'
         end>
       OneOnRow = True
       Row = 0
@@ -887,7 +891,7 @@ object frmMain: TfrmMain
       Visible = ivNever
     end
     object dxBarButton58: TdxBarButton
-      Action = actLapPenjualan
+      Action = actDetPenjualan
       Category = 0
     end
     object dxBarButton59: TdxBarButton
@@ -1002,6 +1006,10 @@ object frmMain: TfrmMain
     end
     object dxBarButton84: TdxBarButton
       Action = actLapPembelian
+      Category = 0
+    end
+    object dxBarButton85: TdxBarButton
+      Action = actGantiPass
       Category = 0
     end
   end
@@ -1214,10 +1222,11 @@ object frmMain: TfrmMain
       ImageIndex = 18
       OnExecute = actMutasiKasExecute
     end
-    object actLapPenjualan: TAction
+    object actDetPenjualan: TAction
       Category = 'Kasir & Penjualan'
-      Caption = 'Lap Penjualan'
+      Caption = 'Detail Penjualan'
       ImageIndex = 19
+      OnExecute = actDetPenjualanExecute
     end
     object actBiaya: TAction
       Category = 'Kasir & Penjualan'
@@ -1325,6 +1334,11 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = 'Laporan Pembelian'
       OnExecute = actLapPembelianExecute
+    end
+    object actGantiPass: TAction
+      Category = 'Application'
+      Caption = 'Ganti Password'
+      OnExecute = actGantiPassExecute
     end
   end
   object ImageList: TcxImageList

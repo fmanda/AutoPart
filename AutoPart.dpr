@@ -113,7 +113,9 @@ uses
   uUser in 'classes\uUser.pas',
   ufrmUser in 'forms\ufrmUser.pas' {frmUser},
   ufrmBrowseUser in 'forms\ufrmBrowseUser.pas' {frmBrowseUser},
-  ufrmLapPembelian in 'forms\ufrmLapPembelian.pas' {frmLapPembelian};
+  ufrmLapPembelian in 'forms\ufrmLapPembelian.pas' {frmLapPembelian},
+  ufrmLapPenjualan in 'forms\ufrmLapPenjualan.pas' {frmLapPenjualan},
+  ufrmGantiPassword in 'forms\ufrmGantiPassword.pas' {frmGantiPassword};
 
 {$R *.res}
 

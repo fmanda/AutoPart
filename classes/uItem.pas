@@ -99,13 +99,14 @@ type
     FHargaJual2: Double;
     FHargaJual3: Double;
     FHargaJual4: Double;
+    FPriceList: Double;
     FModifiedDate: TDateTime;
     FModifiedBy: String;
   public
     destructor Destroy; override;
     function GetHarga(aTipeHarga: Integer): Double;
     class function GetItemUOM(aItemID, aUOMID: Integer): TItemUOM;
-    function GetMargin(aPriceIndex: Integer): Double;
+    function GetPriceListMargin(aPriceIndex: Integer): Double;
     function UpdateHargaAvg(aNewAvg: Double): Boolean;
   published
     [AttributeOfHeader]
@@ -118,6 +119,7 @@ type
     property HargaJual2: Double read FHargaJual2 write FHargaJual2;  //harga bengkel
     property HargaJual3: Double read FHargaJual3 write FHargaJual3;  //harga grosir
     property HargaJual4: Double read FHargaJual4 write FHargaJual4;  //harga keliling
+    property PriceList: Double read FPriceList write FPriceList;
     property ModifiedDate: TDateTime read FModifiedDate write FModifiedDate;
     property ModifiedBy: String read FModifiedBy write FModifiedBy;
   end;
@@ -342,17 +344,18 @@ begin
   End;
 end;
 
-function TItemUOM.GetMargin(aPriceIndex: Integer): Double;
+function TItemUOM.GetPriceListMargin(aPriceIndex: Integer): Double;
 begin
   Result := 0;
-  if Self.HargaBeli = 0 then
+  if Self.PriceList = 0 then
     exit;
 
   case aPriceIndex of
-    1 : Result := (Self.HargaJual1 - Self.HargaBeli) / Self.HargaBeli * 100;
-    2 : Result := (Self.HargaJual2 - Self.HargaBeli) / Self.HargaBeli * 100;
-    3 : Result := (Self.HargaJual3 - Self.HargaBeli) / Self.HargaBeli * 100;
-    4 : Result := (Self.HargaJual4 - Self.HargaBeli) / Self.HargaBeli * 100;
+    0 : Result := (Self.PriceList - Self.HargaBeli) / Self.PriceList * 100;
+    1 : Result := (Self.PriceList - Self.HargaJual1) / Self.PriceList * 100;
+    2 : Result := (Self.PriceList - Self.HargaJual2) / Self.PriceList * 100;
+    3 : Result := (Self.PriceList - Self.HargaJual3) / Self.PriceList * 100;
+    4 : Result := (Self.PriceList - Self.HargaJual4) / Self.PriceList * 100;
   end;
 end;
 

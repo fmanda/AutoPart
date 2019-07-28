@@ -28,7 +28,7 @@ var
 implementation
 
 uses
-  uDBUtils, System.DateUtils, uAppUtils, uUser;
+  uDBUtils, System.DateUtils, uAppUtils, uUser, System.StrUtils;
 
 {$R *.dfm}
 
@@ -74,7 +74,8 @@ end;
 
 function TfrmDefault.GetFormName: string;
 begin
-  Result := Self.Name;
+//  Result := Self.Name;
+  Result := RightStr(Self.ClassName, Length(Self.ClassName)-1);
 end;
 
 function TfrmDefault.GetFormCaption: string;

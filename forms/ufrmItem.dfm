@@ -1,10 +1,10 @@
 inherited frmItem: TfrmItem
   Caption = 'Update Data Barang'
   ClientHeight = 545
-  ClientWidth = 738
+  ClientWidth = 882
   KeyPreview = True
   OnKeyDown = FormKeyDown
-  ExplicitWidth = 754
+  ExplicitWidth = 898
   ExplicitHeight = 584
   PixelsPerInch = 96
   TextHeight = 13
@@ -13,17 +13,17 @@ inherited frmItem: TfrmItem
     TabOrder = 2
     ExplicitTop = 510
     ExplicitWidth = 738
-    Width = 738
+    Width = 882
     inherited btnCancel: TcxButton
-      Left = 653
+      Left = 797
       ExplicitLeft = 653
     end
     inherited btnPrint: TcxButton
-      Left = 567
+      Left = 711
       ExplicitLeft = 567
     end
     inherited btnSave: TcxButton
-      Left = 481
+      Left = 625
       OnClick = btnSaveClick
       ExplicitLeft = 481
     end
@@ -58,23 +58,20 @@ inherited frmItem: TfrmItem
   end
   inherited Panel2: TPanel
     Top = 489
-    Width = 738
+    Width = 882
     TabOrder = 3
     ExplicitTop = 489
     ExplicitWidth = 738
     inherited lbEscape: TLabel
-      Left = 493
-      Height = 17
+      Left = 637
       ExplicitLeft = 493
     end
     inherited lgndSave: TLabel
-      Left = 572
-      Height = 17
+      Left = 716
       ExplicitLeft = 572
     end
     inherited lgndPrint: TLabel
-      Left = 659
-      Height = 17
+      Left = 803
       ExplicitLeft = 659
     end
   end
@@ -84,8 +81,9 @@ inherited frmItem: TfrmItem
     Align = alTop
     Caption = ' Informasi Barang [F1] '
     TabOrder = 0
+    ExplicitWidth = 738
     Height = 177
-    Width = 738
+    Width = 882
     object cxLabel1: TcxLabel
       Left = 45
       Top = 43
@@ -242,27 +240,33 @@ inherited frmItem: TfrmItem
   object pgcMain: TcxPageControl [3]
     Left = 0
     Top = 177
-    Width = 738
-    Height = 312
+    Width = 882
+    Height = 290
     Align = alClient
     TabOrder = 1
     Properties.ActivePage = tsUOM
     Properties.CustomButtons.Buttons = <>
     Properties.TabHeight = 30
-    ClientRectBottom = 312
-    ClientRectRight = 738
+    ExplicitWidth = 738
+    ExplicitHeight = 312
+    ClientRectBottom = 290
+    ClientRectRight = 882
     ClientRectTop = 32
     object tsUOM: TcxTabSheet
       Caption = 'Konversi && Harga Satuan [F2]'
       ImageIndex = 0
+      ExplicitWidth = 738
+      ExplicitHeight = 280
       object cxGrid1: TcxGrid
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 732
-        Height = 274
+        Width = 876
+        Height = 252
         Align = alClient
         TabOrder = 0
+        ExplicitWidth = 732
+        ExplicitHeight = 274
         object cxGrdUOM: TcxGridDBBandedTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -278,7 +282,6 @@ inherited frmItem: TfrmItem
           OptionsData.Appending = True
           OptionsSelection.HideSelection = True
           OptionsView.GroupByBox = False
-          OptionsView.Header = False
           OptionsView.BandHeaderHeight = 30
           Bands = <
             item
@@ -290,71 +293,75 @@ inherited frmItem: TfrmItem
               Width = 75
             end
             item
-              Caption = 'Harga Beli'
-              Styles.Content = styleInfoBk
-              Width = 75
+              Caption = 'Price List'
+              Width = 80
             end
             item
-              Caption = 'Harga Umum'
+              Caption = 'Harga Beli'
+              Styles.Content = styleInfoBk
               Width = 110
             end
             item
+              Caption = 'Harga Umum'
+              Width = 127
+            end
+            item
               Caption = '%'
-              Position.BandIndex = 3
+              Position.BandIndex = 4
               Position.ColIndex = 0
               Width = 35
             end
             item
               Caption = 'Rp'
-              Position.BandIndex = 3
+              Position.BandIndex = 4
               Position.ColIndex = 1
               Width = 75
             end
             item
               Caption = 'Harga Bengkel'
-              Width = 110
+              Width = 137
             end
             item
               Caption = '%'
-              Position.BandIndex = 6
+              Position.BandIndex = 7
               Position.ColIndex = 0
               Width = 35
             end
             item
               Caption = 'Rp'
-              Position.BandIndex = 6
+              Position.BandIndex = 7
               Position.ColIndex = 1
               Width = 75
             end
             item
               Caption = 'Harga Grosir'
-              Width = 110
+              Width = 138
             end
             item
               Caption = '%'
-              Position.BandIndex = 9
+              Position.BandIndex = 10
               Position.ColIndex = 0
               Width = 35
             end
             item
               Caption = 'Rp'
-              Position.BandIndex = 9
+              Position.BandIndex = 10
               Position.ColIndex = 1
               Width = 75
             end
             item
               Caption = 'Harga Keliling'
-              Width = 110
+              Width = 129
             end
             item
               Caption = '%'
-              Position.BandIndex = 12
+              Position.BandIndex = 13
               Position.ColIndex = 0
               Width = 35
             end
             item
               Caption = 'Rp'
-              Position.BandIndex = 12
+              Position.BandIndex = 13
               Position.ColIndex = 1
               Width = 75
             end
@@ -362,6 +369,16 @@ inherited frmItem: TfrmItem
               Caption = 'Harga Avg'
               Visible = False
               Width = 100
+            end
+            item
+              Caption = '%'
+              Position.BandIndex = 3
+              Position.ColIndex = 0
+            end
+            item
+              Caption = 'Rp'
+              Position.BandIndex = 3
+              Position.ColIndex = 1
             end>
           object colSatuan: TcxGridDBBandedColumn
             DataBinding.FieldName = 'UOM'
@@ -379,6 +396,18 @@ inherited frmItem: TfrmItem
             Position.ColIndex = 0
             Position.RowIndex = 0
           end
+          object colMarginBeli: TcxGridDBBandedColumn
+            DataBinding.FieldName = 'MarginBeli'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.Alignment.Horz = taRightJustify
+            Properties.DisplayFormat = ',0.0;(,0.0)'
+            Properties.OnEditValueChanged = colMarginBeliPropertiesEditValueChanged
+            Styles.Content = styleInfoBk
+            Width = 37
+            Position.BandIndex = 17
+            Position.ColIndex = 0
+            Position.RowIndex = 0
+          end
           object colHrgBeli: TcxGridDBBandedColumn
             DataBinding.FieldName = 'HargaBeli'
             PropertiesClassName = 'TcxCurrencyEditProperties'
@@ -386,7 +415,8 @@ inherited frmItem: TfrmItem
             Properties.DisplayFormat = ',0;(,0)'
             Properties.OnEditValueChanged = colHrgBeliPropertiesEditValueChanged
             Styles.Content = styleInfoBk
-            Position.BandIndex = 2
+            Width = 72
+            Position.BandIndex = 18
             Position.ColIndex = 0
             Position.RowIndex = 0
           end
@@ -397,7 +427,7 @@ inherited frmItem: TfrmItem
             Properties.DisplayFormat = ',0.0;(,0.0)'
             Properties.OnEditValueChanged = colMargin1PropertiesEditValueChanged
             Styles.Content = styleMoney
-            Position.BandIndex = 4
+            Position.BandIndex = 5
             Position.ColIndex = 0
             Position.RowIndex = 0
           end
@@ -408,7 +438,7 @@ inherited frmItem: TfrmItem
             Properties.DisplayFormat = ',0;(,0)'
             Properties.OnEditValueChanged = colHrgJual1PropertiesEditValueChanged
             Styles.Content = styleMoney
-            Position.BandIndex = 5
+            Position.BandIndex = 6
             Position.ColIndex = 0
             Position.RowIndex = 0
           end
@@ -419,7 +449,7 @@ inherited frmItem: TfrmItem
             Properties.DisplayFormat = ',0.0;(,0.0)'
             Properties.OnEditValueChanged = colMargin2PropertiesEditValueChanged
             Styles.Content = styleInfoBk
-            Position.BandIndex = 7
+            Position.BandIndex = 8
             Position.ColIndex = 0
             Position.RowIndex = 0
           end
@@ -430,7 +460,7 @@ inherited frmItem: TfrmItem
             Properties.DisplayFormat = ',0;(,0)'
             Properties.OnEditValueChanged = colHrgJual2PropertiesEditValueChanged
             Styles.Content = styleInfoBk
-            Position.BandIndex = 8
+            Position.BandIndex = 9
             Position.ColIndex = 0
             Position.RowIndex = 0
           end
@@ -441,7 +471,7 @@ inherited frmItem: TfrmItem
             Properties.DisplayFormat = ',0.0;(,0.0)'
             Properties.OnEditValueChanged = colMargin3PropertiesEditValueChanged
             Styles.Content = styleMoney
-            Position.BandIndex = 10
+            Position.BandIndex = 11
             Position.ColIndex = 0
             Position.RowIndex = 0
           end
@@ -452,7 +482,7 @@ inherited frmItem: TfrmItem
             Properties.DisplayFormat = ',0;(,0)'
             Properties.OnEditValueChanged = colHrgJual3PropertiesEditValueChanged
             Styles.Content = styleMoney
-            Position.BandIndex = 11
+            Position.BandIndex = 12
             Position.ColIndex = 0
             Position.RowIndex = 0
           end
@@ -463,7 +493,7 @@ inherited frmItem: TfrmItem
             Properties.DisplayFormat = ',0.0;(,0.0)'
             Properties.OnEditValueChanged = colMargin4PropertiesEditValueChanged
             Styles.Content = styleInfoBk
-            Position.BandIndex = 13
+            Position.BandIndex = 14
             Position.ColIndex = 0
             Position.RowIndex = 0
           end
@@ -474,7 +504,18 @@ inherited frmItem: TfrmItem
             Properties.DisplayFormat = ',0;(,0)'
             Properties.OnEditValueChanged = colHrgJual4PropertiesEditValueChanged
             Styles.Content = styleInfoBk
-            Position.BandIndex = 14
+            Position.BandIndex = 15
+            Position.ColIndex = 0
+            Position.RowIndex = 0
+          end
+          object colPriceList: TcxGridDBBandedColumn
+            DataBinding.FieldName = 'PriceList'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.Alignment.Horz = taRightJustify
+            Properties.DisplayFormat = ',0;(,0)'
+            Properties.OnEditValueChanged = colPriceListPropertiesEditValueChanged
+            Styles.Content = styleMoney
+            Position.BandIndex = 2
             Position.ColIndex = 0
             Position.RowIndex = 0
           end
@@ -488,13 +529,14 @@ inherited frmItem: TfrmItem
       Caption = 'History Perubahan Harga'
       ImageIndex = 1
       TabVisible = False
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitWidth = 738
+      ExplicitHeight = 280
     end
     object tsAvgCost: TcxTabSheet
       Caption = 'History Harga Pokok Penjualan / Harga Average'
       ImageIndex = 1
+      ExplicitWidth = 738
+      ExplicitHeight = 280
       object cxGroupBox3: TcxGroupBox
         Left = 0
         Top = 0
@@ -504,11 +546,12 @@ inherited frmItem: TfrmItem
         Style.LookAndFeel.NativeStyle = False
         StyleDisabled.LookAndFeel.NativeStyle = False
         TabOrder = 0
+        ExplicitWidth = 738
         Height = 35
-        Width = 738
+        Width = 882
         object btnRefresh: TcxButton
           AlignWithMargins = True
-          Left = 658
+          Left = 802
           Top = 5
           Width = 75
           Height = 25
@@ -518,55 +561,58 @@ inherited frmItem: TfrmItem
           OptionsImage.Images = frmMain.ImageList
           TabOrder = 0
           OnClick = btnRefreshClick
+          ExplicitLeft = 658
         end
         object EndDate: TcxDateEdit
           AlignWithMargins = True
-          Left = 552
+          Left = 696
           Top = 5
           Align = alRight
           Properties.SaveTime = False
           Properties.ShowTime = False
           TabOrder = 1
-          ExplicitHeight = 21
+          ExplicitLeft = 552
           Width = 100
         end
         object StartDate: TcxDateEdit
           AlignWithMargins = True
-          Left = 427
+          Left = 571
           Top = 5
           Align = alRight
           Properties.SaveTime = False
           Properties.ShowTime = False
           TabOrder = 2
-          ExplicitHeight = 21
+          ExplicitLeft = 427
           Width = 100
         end
         object cxLabel9: TcxLabel
-          Left = 357
+          Left = 501
           Top = 2
           Align = alRight
           Caption = 'Filter Periode'
           Properties.Alignment.Vert = taVCenter
-          ExplicitLeft = 201
+          ExplicitLeft = 357
           AnchorY = 18
         end
         object cxLabel10: TcxLabel
-          Left = 530
+          Left = 674
           Top = 2
           Align = alRight
           Caption = 's/d'
           Properties.Alignment.Vert = taVCenter
-          ExplicitLeft = 428
+          ExplicitLeft = 530
           AnchorY = 18
         end
       end
       object cxGrid: TcxGrid
         Left = 0
         Top = 35
-        Width = 738
-        Height = 245
+        Width = 882
+        Height = 223
         Align = alClient
         TabOrder = 1
+        ExplicitWidth = 738
+        ExplicitHeight = 245
         object cxGrdAvg: TcxGridServerModeTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -588,7 +634,33 @@ inherited frmItem: TfrmItem
       end
     end
   end
+  object cxMemo1: TcxMemo [4]
+    Left = 0
+    Top = 467
+    Align = alBottom
+    Enabled = False
+    Lines.Strings = (
+      '** Prosentase (%) dihitung dari Harga Price List')
+    ParentFont = False
+    Style.Font.Charset = DEFAULT_CHARSET
+    Style.Font.Color = clWindowText
+    Style.Font.Height = -11
+    Style.Font.Name = 'Tahoma'
+    Style.Font.Style = []
+    Style.TextColor = clBlack
+    Style.TextStyle = [fsBold]
+    Style.IsFontAssigned = True
+    StyleDisabled.TextColor = clBlack
+    TabOrder = 4
+    ExplicitLeft = -176
+    ExplicitTop = 483
+    ExplicitWidth = 914
+    Height = 22
+    Width = 882
+  end
   inherited styleRepo: TcxStyleRepository
+    Left = 472
+    Top = 416
     PixelsPerInch = 96
   end
   object cxStyleRepository1: TcxStyleRepository

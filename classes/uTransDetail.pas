@@ -57,6 +57,7 @@ type
     FPPN: Double;
     FHargaAvg: Double;
     FLastCost: Double;
+    FPriceList: Double;
     FWarehouse: TWarehouse;
     FUOM: TUOM;
     FRefno: string;
@@ -85,6 +86,7 @@ type
     property PPN: Double read FPPN write FPPN;
     property HargaAvg: Double read FHargaAvg write FHargaAvg;
     property LastCost: Double read FLastCost write FLastCost;
+    property PriceList: Double read FPriceList write FPriceList;
     property Warehouse: TWarehouse read FWarehouse write FWarehouse;
     property UOM: TUOM read FUOM write FUOM;
     property Refno: string read FRefno write FRefno;

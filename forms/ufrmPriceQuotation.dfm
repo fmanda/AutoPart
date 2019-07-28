@@ -1,10 +1,10 @@
 inherited frmPriceQuotation: TfrmPriceQuotation
   Caption = 'Price Quotation / Update Price List'
   ClientHeight = 611
-  ClientWidth = 984
+  ClientWidth = 1034
   KeyPreview = True
   OnKeyDown = FormKeyDown
-  ExplicitWidth = 1000
+  ExplicitWidth = 1050
   ExplicitHeight = 650
   PixelsPerInch = 96
   TextHeight = 13
@@ -13,40 +13,37 @@ inherited frmPriceQuotation: TfrmPriceQuotation
     TabOrder = 2
     ExplicitTop = 576
     ExplicitWidth = 984
-    Width = 984
+    Width = 1034
     inherited btnCancel: TcxButton
-      Left = 899
+      Left = 949
       ExplicitLeft = 899
     end
     inherited btnPrint: TcxButton
-      Left = 813
+      Left = 863
       ExplicitLeft = 813
     end
     inherited btnSave: TcxButton
-      Left = 727
+      Left = 777
       OnClick = btnSaveClick
       ExplicitLeft = 727
     end
   end
   inherited Panel2: TPanel
     Top = 555
-    Width = 984
+    Width = 1034
     TabOrder = 3
     ExplicitTop = 555
     ExplicitWidth = 984
     inherited lbEscape: TLabel
-      Left = 904
-      Height = 17
+      Left = 954
       ExplicitLeft = 904
     end
     inherited lgndSave: TLabel
-      Left = 739
-      Height = 17
+      Left = 789
       ExplicitLeft = 739
     end
     inherited lgndPrint: TLabel
-      Left = 826
-      Height = 17
+      Left = 876
       ExplicitLeft = 826
     end
     object Label1: TLabel
@@ -94,8 +91,9 @@ inherited frmPriceQuotation: TfrmPriceQuotation
     Align = alTop
     Caption = '  Header [F1] '
     TabOrder = 0
+    ExplicitWidth = 984
     Height = 81
-    Width = 984
+    Width = 1034
     object cxLabel1: TcxLabel
       Left = 25
       Top = 20
@@ -177,11 +175,13 @@ inherited frmPriceQuotation: TfrmPriceQuotation
     AlignWithMargins = True
     Left = 3
     Top = 84
-    Width = 978
-    Height = 468
+    Width = 1028
+    Height = 446
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
+    ExplicitWidth = 978
+    ExplicitHeight = 468
     object cxGrdMain: TcxGridDBBandedTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown
@@ -203,37 +203,41 @@ inherited frmPriceQuotation: TfrmPriceQuotation
       Bands = <
         item
           Caption = 'Kode Item'
-          Width = 92
+          Width = 74
         end
         item
           Caption = 'Nama Item'
-          Width = 260
+          Width = 194
         end
         item
           Caption = 'Satuan'
-          Width = 44
+          Width = 43
         end
         item
           Caption = 'Konversi'
-          Width = 53
+          Width = 50
+        end
+        item
+          Caption = 'Price List'
+          Width = 90
         end
         item
           Caption = 'Harga Beli'
-          Width = 75
+          Width = 131
         end
         item
           Caption = 'Harga Umum'
-          Width = 110
+          Width = 118
         end
         item
           Caption = '%'
-          Position.BandIndex = 5
+          Position.BandIndex = 6
           Position.ColIndex = 0
           Width = 35
         end
         item
           Caption = 'Rp'
-          Position.BandIndex = 5
+          Position.BandIndex = 6
           Position.ColIndex = 1
           Width = 75
         end
@@ -243,13 +247,13 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         end
         item
           Caption = '%'
-          Position.BandIndex = 8
+          Position.BandIndex = 9
           Position.ColIndex = 0
           Width = 35
         end
         item
           Caption = 'Rp'
-          Position.BandIndex = 8
+          Position.BandIndex = 9
           Position.ColIndex = 1
           Width = 75
         end
@@ -259,13 +263,13 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         end
         item
           Caption = '%'
-          Position.BandIndex = 11
+          Position.BandIndex = 12
           Position.ColIndex = 0
           Width = 35
         end
         item
           Caption = 'Rp'
-          Position.BandIndex = 11
+          Position.BandIndex = 12
           Position.ColIndex = 1
           Width = 75
         end
@@ -275,13 +279,13 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         end
         item
           Caption = '%'
-          Position.BandIndex = 14
+          Position.BandIndex = 15
           Position.ColIndex = 0
           Width = 35
         end
         item
           Caption = 'Rp'
-          Position.BandIndex = 14
+          Position.BandIndex = 15
           Position.ColIndex = 1
           Width = 75
         end
@@ -289,6 +293,18 @@ inherited frmPriceQuotation: TfrmPriceQuotation
           Caption = 'Harga Avg'
           Visible = False
           Width = 100
+        end
+        item
+          Caption = '%'
+          Position.BandIndex = 5
+          Position.ColIndex = 0
+          Width = 42
+        end
+        item
+          Caption = 'Rp'
+          Position.BandIndex = 5
+          Position.ColIndex = 1
+          Width = 74
         end>
       object colItemCode: TcxGridDBBandedColumn
         DataBinding.FieldName = 'ItemCode'
@@ -343,7 +359,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0;(,0)'
         Properties.OnEditValueChanged = colHrgBeliPropertiesEditValueChanged
-        Position.BandIndex = 4
+        Position.BandIndex = 20
         Position.ColIndex = 0
         Position.RowIndex = 0
       end
@@ -353,7 +369,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.0;(,0.0)'
         Properties.OnEditValueChanged = colMargin1PropertiesEditValueChanged
-        Position.BandIndex = 6
+        Position.BandIndex = 7
         Position.ColIndex = 0
         Position.RowIndex = 0
       end
@@ -363,7 +379,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0;(,0)'
         Properties.OnEditValueChanged = colHrgJual1PropertiesEditValueChanged
-        Position.BandIndex = 7
+        Position.BandIndex = 8
         Position.ColIndex = 0
         Position.RowIndex = 0
       end
@@ -373,7 +389,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.0;(,0.0)'
         Properties.OnEditValueChanged = colMargin2PropertiesEditValueChanged
-        Position.BandIndex = 9
+        Position.BandIndex = 10
         Position.ColIndex = 0
         Position.RowIndex = 0
       end
@@ -383,7 +399,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0;(,0)'
         Properties.OnEditValueChanged = colHrgJual2PropertiesEditValueChanged
-        Position.BandIndex = 10
+        Position.BandIndex = 11
         Position.ColIndex = 0
         Position.RowIndex = 0
       end
@@ -393,7 +409,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.0;(,0.0)'
         Properties.OnEditValueChanged = colMargin3PropertiesEditValueChanged
-        Position.BandIndex = 12
+        Position.BandIndex = 13
         Position.ColIndex = 0
         Position.RowIndex = 0
       end
@@ -403,7 +419,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0;(,0)'
         Properties.OnEditValueChanged = colHrgJual3PropertiesEditValueChanged
-        Position.BandIndex = 13
+        Position.BandIndex = 14
         Position.ColIndex = 0
         Position.RowIndex = 0
       end
@@ -413,7 +429,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.0;(,0.0)'
         Properties.OnEditValueChanged = colMargin4PropertiesEditValueChanged
-        Position.BandIndex = 15
+        Position.BandIndex = 16
         Position.ColIndex = 0
         Position.RowIndex = 0
       end
@@ -423,7 +439,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0;(,0)'
         Properties.OnEditValueChanged = colHrgJual4PropertiesEditValueChanged
-        Position.BandIndex = 16
+        Position.BandIndex = 17
         Position.ColIndex = 0
         Position.RowIndex = 0
       end
@@ -434,11 +450,55 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Position.ColIndex = 0
         Position.RowIndex = 1
       end
+      object colPriceList: TcxGridDBBandedColumn
+        DataBinding.FieldName = 'PriceList'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0;(,0)'
+        Properties.OnEditValueChanged = colPriceListPropertiesEditValueChanged
+        Position.BandIndex = 4
+        Position.ColIndex = 0
+        Position.RowIndex = 0
+      end
+      object colMarginBeli: TcxGridDBBandedColumn
+        DataBinding.FieldName = 'MarginBeli'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.00;(,0.00)'
+        Properties.OnEditValueChanged = colMarginBeliPropertiesEditValueChanged
+        Position.BandIndex = 19
+        Position.ColIndex = 0
+        Position.RowIndex = 0
+      end
     end
     object cxGrid1Level1: TcxGridLevel
       Caption = 'Detail Item'
       GridView = cxGrdMain
     end
+  end
+  object cxMemo1: TcxMemo [4]
+    Left = 0
+    Top = 533
+    Align = alBottom
+    Enabled = False
+    Lines.Strings = (
+      '** Prosentase (%) dihitung dari Harga Price List')
+    ParentFont = False
+    Style.Font.Charset = DEFAULT_CHARSET
+    Style.Font.Color = clWindowText
+    Style.Font.Height = -11
+    Style.Font.Name = 'Tahoma'
+    Style.Font.Style = []
+    Style.TextColor = clBlack
+    Style.TextStyle = [fsBold]
+    Style.IsFontAssigned = True
+    StyleDisabled.TextColor = clBlack
+    TabOrder = 4
+    ExplicitLeft = -176
+    ExplicitTop = 483
+    ExplicitWidth = 882
+    Height = 22
+    Width = 1034
   end
   inherited styleRepo: TcxStyleRepository
     PixelsPerInch = 96

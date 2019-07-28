@@ -46,6 +46,7 @@ type
     FHargaJual2: Double;
     FHargaJual3: Double;
     FHargaJual4: Double;
+    FPriceList: Double;
     FQuotation: TPriceQuotation;
     FModifiedDate: TDateTime;
     FModifiedBy: String;
@@ -60,6 +61,7 @@ type
     property HargaJual2: Double read FHargaJual2 write FHargaJual2;  //harga bengkel
     property HargaJual3: Double read FHargaJual3 write FHargaJual3;  //harga grosir
     property HargaJual4: Double read FHargaJual4 write FHargaJual4;  //harga keliling
+    property PriceList: Double read FPriceList write FPriceList;
     [AttributeOfHeader]
     property Quotation: TPriceQuotation read FQuotation write FQuotation;
     property ModifiedDate: TDateTime read FModifiedDate write FModifiedDate;

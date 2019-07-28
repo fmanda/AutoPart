@@ -472,6 +472,14 @@
         <DCCReference Include="forms\ufrmLapPembelian.pas">
             <Form>frmLapPembelian</Form>
         </DCCReference>
+        <DCCReference Include="forms\ufrmLapPenjualan.pas">
+            <Form>frmLapPenjualan</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmGantiPassword.pas">
+            <Form>frmGantiPassword</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

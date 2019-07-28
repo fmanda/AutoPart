@@ -49,6 +49,9 @@ type
     Label1: TLabel;
     Label2: TLabel;
     colItemID: TcxGridDBBandedColumn;
+    cxMemo1: TcxMemo;
+    colPriceList: TcxGridDBBandedColumn;
+    colMarginBeli: TcxGridDBBandedColumn;
     procedure cxGrdMainEditKeyDown(Sender: TcxCustomGridTableView; AItem:
         TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Word; Shift:
         TShiftState);
@@ -69,6 +72,8 @@ type
     procedure colHrgJual3PropertiesEditValueChanged(Sender: TObject);
     procedure colHrgJual4PropertiesEditValueChanged(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
+    procedure colMarginBeliPropertiesEditValueChanged(Sender: TObject);
+    procedure colPriceListPropertiesEditValueChanged(Sender: TObject);
   private
     FCDS: TClientDataset;
     FCDSClone: TClientDataset;
@@ -126,39 +131,43 @@ procedure TfrmPriceQuotation.CalcSellPrice(aIndexPrice: Integer; IsMargin:
     Boolean);
 var
   iRec: TcxCustomGridRecord;
-  lBuyPrice: Double;
+  lPriceList: Double;
 begin
   cxGrdMain.DataController.Post();
   iRec      := cxGrdMain.Controller.FocusedRecord;
   if iRec = nil then exit;
 
-  lBuyPrice := iRec.Values[colHrgBeli.Index];
+  lPriceList := iRec.Values[colPriceList.Index];
 
   if IsMargin then
   begin
     case aIndexPrice of
+      0 : cxGrdMain.DataController.SetEditValue(colHrgBeli.Index,
+          lPriceList * (1 - (iRec.Values[colMarginBeli.Index] /100)),  evsValue);
       1 : cxGrdMain.DataController.SetEditValue(colHrgJual1.Index,
-          lBuyPrice * (1 + (iRec.Values[colMargin1.Index] /100)),  evsValue);
+          lPriceList * (1 - (iRec.Values[colMargin1.Index] /100)),  evsValue);
       2 : cxGrdMain.DataController.SetEditValue(colHrgJual2.Index,
-          lBuyPrice * (1 + (iRec.Values[colMargin2.Index] /100)),  evsValue);
+          lPriceList * (1 - (iRec.Values[colMargin2.Index] /100)),  evsValue);
       3 : cxGrdMain.DataController.SetEditValue(colHrgJual3.Index,
-          lBuyPrice * (1 + (iRec.Values[colMargin3.Index] /100)),  evsValue);
+          lPriceList * (1 - (iRec.Values[colMargin3.Index] /100)),  evsValue);
       4 : cxGrdMain.DataController.SetEditValue(colHrgJual4.Index,
-          lBuyPrice * (1 + (iRec.Values[colMargin4.Index] /100)),  evsValue);
+          lPriceList * (1 - (iRec.Values[colMargin4.Index] /100)),  evsValue);
     end;
   end else
   begin
-    if lBuyPrice = 0 then exit;
+    if lPriceList = 0 then exit;
 
     case aIndexPrice of
+      0 : cxGrdMain.DataController.SetEditValue(colMarginBeli.Index,
+          (lPriceList - iRec.Values[colHrgBeli.Index]) / lPriceList * 100,  evsValue);
       1 : cxGrdMain.DataController.SetEditValue(colMargin1.Index,
-          (iRec.Values[colHrgJual1.Index] - lBuyPrice) / lBuyPrice * 100,  evsValue);
+          (lPriceList - iRec.Values[colHrgJual1.Index]) / lPriceList * 100,  evsValue);
       2 : cxGrdMain.DataController.SetEditValue(colMargin2.Index,
-          (iRec.Values[colHrgJual2.Index] - lBuyPrice) / lBuyPrice * 100,  evsValue);
+          (lPriceList - iRec.Values[colHrgJual2.Index]) / lPriceList * 100,  evsValue);
       3 : cxGrdMain.DataController.SetEditValue(colMargin3.Index,
-          (iRec.Values[colHrgJual3.Index] - lBuyPrice) / lBuyPrice * 100,  evsValue);
+          (lPriceList - iRec.Values[colHrgJual3.Index]) / lPriceList * 100,  evsValue);
       4 : cxGrdMain.DataController.SetEditValue(colMargin4.Index,
-          (iRec.Values[colHrgJual4.Index] - lBuyPrice) / lBuyPrice * 100,  evsValue);
+          (lPriceList - iRec.Values[colHrgJual4.Index]) / lPriceList * 100,  evsValue);
     end;
   end;
 
@@ -168,10 +177,7 @@ procedure TfrmPriceQuotation.colHrgBeliPropertiesEditValueChanged(
   Sender: TObject);
 begin
   inherited;
-  CalcSellPrice(1, False);
-  CalcSellPrice(2, False);
-  CalcSellPrice(3, False);
-  CalcSellPrice(4, False);
+  CalcSellPrice(0, False);
 end;
 
 procedure TfrmPriceQuotation.colHrgJual1PropertiesEditValueChanged(
@@ -262,6 +268,24 @@ begin
   CalcSellPrice(4, True);
 end;
 
+procedure TfrmPriceQuotation.colMarginBeliPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  CalcSellPrice(0, True);
+end;
+
+procedure TfrmPriceQuotation.colPriceListPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  CalcSellPrice(0, True);
+  CalcSellPrice(1, True);
+  CalcSellPrice(2, True);
+  CalcSellPrice(3, True);
+  CalcSellPrice(4, True);
+end;
+
 procedure TfrmPriceQuotation.cxGrdMainEditKeyDown(Sender:
     TcxCustomGridTableView; AItem: TcxCustomGridTableItem; AEdit:
     TcxCustomEdit; var Key: Word; Shift: TShiftState);
@@ -325,6 +349,7 @@ begin
     FCDS.AddField('ItemCode', ftString);
     FCDS.AddField('ItemName', ftString);
 //    FCDS.AddField('Konversi', ftFloat);
+    FCDS.AddField('MarginBeli',ftFloat);
     FCDS.AddField('Margin1',ftFloat);
     FCDS.AddField('Margin2',ftFloat);
     FCDS.AddField('Margin3',ftFloat);
@@ -402,19 +427,23 @@ begin
     lItem.Item.ReLoad();
     CDS.FieldByName('ItemCode').AsString := lItem.Item.Kode;
     CDS.FieldByName('ItemName').AsString := lItem.Item.Nama;
-    if lItem.HargaBeli = 0 then
+
+    if lItem.PriceList = 0 then
     begin
+      CDS.FieldByName('MarginBeli').AsFloat := 0;
       CDS.FieldByName('Margin1').AsFloat := 0;
       CDS.FieldByName('Margin2').AsFloat := 0;
       CDS.FieldByName('Margin3').AsFloat := 0;
       CDS.FieldByName('Margin4').AsFloat := 0;
     end else
     begin
-      CDS.FieldByName('Margin1').AsFloat := (lItem.HargaJual1 - lItem.HargaBeli) / lItem.HargaBeli * 100;
-      CDS.FieldByName('Margin2').AsFloat := (lItem.HargaJual2 - lItem.HargaBeli) / lItem.HargaBeli * 100;
-      CDS.FieldByName('Margin3').AsFloat := (lItem.HargaJual3 - lItem.HargaBeli) / lItem.HargaBeli * 100;
-      CDS.FieldByName('Margin4').AsFloat := (lItem.HargaJual4 - lItem.HargaBeli) / lItem.HargaBeli * 100;
+      CDS.FieldByName('MarginBeli').AsFloat := (lItem.PriceList - lItem.HargaBeli) / lItem.PriceList * 100;
+      CDS.FieldByName('Margin1').AsFloat := (lItem.PriceList - lItem.HargaJual1) / lItem.PriceList * 100;
+      CDS.FieldByName('Margin2').AsFloat := (lItem.PriceList - lItem.HargaJual2) / lItem.PriceList * 100;
+      CDS.FieldByName('Margin3').AsFloat := (lItem.PriceList - lItem.HargaJual3) / lItem.PriceList * 100;
+      CDS.FieldByName('Margin4').AsFloat := (lItem.PriceList - lItem.HargaJual4) / lItem.PriceList * 100;
     end;
+
     CDS.Post;
   end;
 
@@ -496,16 +525,18 @@ begin
     DC.SetEditValue(colSatuan.Index, lItemUOM.UOM.ID, evsValue);
     DC.SetEditValue(colKonversi.Index, lItemUOM.Konversi, evsValue);
 
+    DC.SetEditValue(colKonversi.Index, lItemUOM.PriceList, evsValue);
     DC.SetEditValue(colHrgBeli.Index, lItemUOM.HargaBeli, evsValue);
     DC.SetEditValue(colHrgJual1.Index, lItemUOM.HargaJual1, evsValue);
     DC.SetEditValue(colHrgJual2.Index, lItemUOM.HargaJual2, evsValue);
     DC.SetEditValue(colHrgJual3.Index, lItemUOM.HargaJual3, evsValue);
     DC.SetEditValue(colHrgJual4.Index, lItemUOM.HargaJual4, evsValue);
 
-    DC.SetEditValue(colMargin1.Index, lItemUOM.GetMargin(1), evsValue);
-    DC.SetEditValue(colMargin2.Index, lItemUOM.GetMargin(2), evsValue);
-    DC.SetEditValue(colMargin3.Index, lItemUOM.GetMargin(3), evsValue);
-    DC.SetEditValue(colMargin4.Index, lItemUOM.GetMargin(4), evsValue);
+    DC.SetEditValue(colMarginBeli.Index, lItemUOM.GetPriceListMargin(0), evsValue);
+    DC.SetEditValue(colMargin1.Index, lItemUOM.GetPriceListMargin(1), evsValue);
+    DC.SetEditValue(colMargin2.Index, lItemUOM.GetPriceListMargin(2), evsValue);
+    DC.SetEditValue(colMargin3.Index, lItemUOM.GetPriceListMargin(3), evsValue);
+    DC.SetEditValue(colMargin4.Index, lItemUOM.GetPriceListMargin(4), evsValue);
     DC.Post();
 
     IsAppendRec := True;
@@ -544,6 +575,8 @@ begin
 end;
 
 function TfrmPriceQuotation.ValidateData: Boolean;
+var
+  bWarningHJ: Boolean;
 begin
   Result := False;
 
@@ -552,6 +585,30 @@ begin
     TAppUtils.Warning('Data Item tidak boleh kosong');
     exit;
   end;
+
+  //warning
+  bWarningHJ := False;
+  CDS.First;
+  while not CDS.Eof do
+  begin
+    if (CDS.FieldByName('HargaJual1').AsFloat < CDS.FieldByName('HargaBeli').AsFloat)
+      or (CDS.FieldByName('HargaJual2').AsFloat < CDS.FieldByName('HargaBeli').AsFloat)
+      or (CDS.FieldByName('HargaJual3').AsFloat < CDS.FieldByName('HargaBeli').AsFloat)
+      or (CDS.FieldByName('HargaJual4').AsFloat < CDS.FieldByName('HargaBeli').AsFloat)
+    then
+    begin
+      bWarningHJ := True;
+      break;
+    end;
+    CDS.Next;
+  end;
+
+  if bWarningHJ then
+  begin
+    if not TAppUtils.Confirm('Ada harga jual yang < harga beli, Apakah anda yakin lanjut simpan? ') then
+      exit;
+  end;
+
 
   Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
 

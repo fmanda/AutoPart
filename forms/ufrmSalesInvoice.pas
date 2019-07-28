@@ -1431,8 +1431,8 @@ begin
 end;
 
 function TfrmSalesInvoice.ValidateData: Boolean;
-var
-  lCashAmt: Double;
+//var
+//  lCashAmt: Double;
 begin
   Result := False;
 
@@ -1538,7 +1538,7 @@ begin
     if not TAppUtils.Confirm('Anda yakin mengkosongkan Jenis Fee atas Penjualan Salesman ini?') then  exit;
   end;
 
-  lCashAmt := 0;
+//  lCashAmt := 0;
 
 //  if cbBayar.ItemIndex = PaymentFlag_Cash then
 //  begin

@@ -1,24 +1,25 @@
-inherited frmLapPembelian: TfrmLapPembelian
-  Caption = 'Laporan Pembelian'
-  ClientHeight = 498
-  ClientWidth = 726
-  ExplicitWidth = 742
-  ExplicitHeight = 537
+inherited frmLapPenjualan: TfrmLapPenjualan
+  Caption = 'Laporan Detail Penjualan'
+  ClientHeight = 487
+  ClientWidth = 690
+  ExplicitWidth = 706
+  ExplicitHeight = 526
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
     Visible = False
-    Width = 726
+    Width = 690
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
+      Visible = False
       AnchorY = 18
     end
   end
   inherited cxGroupBox2: TcxGroupBox
-    Top = 463
-    Width = 726
+    Top = 452
+    Width = 690
     inherited btnTutup: TcxButton
-      Left = 646
+      Left = 610
     end
     inherited btnExport: TcxButton
       OnClick = btnExportClick
@@ -35,12 +36,13 @@ inherited frmLapPembelian: TfrmLapPembelian
     Margins.Right = 0
     Margins.Bottom = 0
     Align = alTop
-    Caption = ' Laporan Pembelian '
+    Caption = ' Laporan Penjualan'
     Style.TextStyle = [fsBold]
     TabOrder = 2
-    ExplicitWidth = 639
+    ExplicitLeft = -87
+    ExplicitWidth = 726
     Height = 54
-    Width = 726
+    Width = 690
     object cxLabel3: TcxLabel
       Left = 38
       Top = 25
@@ -72,12 +74,14 @@ inherited frmLapPembelian: TfrmLapPembelian
     AlignWithMargins = True
     Left = 3
     Top = 95
-    Width = 720
-    Height = 365
+    Width = 684
+    Height = 354
     Align = alClient
     TabOrder = 3
-    ExplicitWidth = 633
-    ExplicitHeight = 275
+    ExplicitLeft = -81
+    ExplicitTop = 43
+    ExplicitWidth = 720
+    ExplicitHeight = 365
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -103,8 +107,8 @@ inherited frmLapPembelian: TfrmLapPembelian
     end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 280
-    Top = 65520
+    Left = 304
+    Top = 352
     PixelsPerInch = 96
   end
 end

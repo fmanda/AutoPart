@@ -1,0 +1,11 @@
+ALTER TABLE TITEMUOM ADD PRICELIST FLOAT;
+ALTER TABLE TTRANSDETAIL ADD PRICELIST FLOAT;
+ALTER TABLE TPRICEQUOTATIONITEM ADD PRICELIST FLOAT;
+
+
+
+-- pump
+update a set a.pricelist = c.PriceList
+FROM Motoroli_01.dbo.TITEMUOM a
+inner join Motoroli_01.dbo.titem b on a.ITEM_ID = b.id and a.UOM_ID = 1
+inner join MOTOROLI2017.dbo.TblStok c on b.KODE = c.KdBar

@@ -11,12 +11,13 @@ uses
   Vcl.Menus, Vcl.ComCtrls, dxCore, cxDateUtils, cxClasses, cxLabel, cxTextEdit,
   cxMaskEdit, cxDropDownEdit, cxCalendar, Vcl.StdCtrls, cxButtons, cxGroupBox,
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridServerModeTableView, cxGrid, uDXUtils;
+  cxGridServerModeTableView, cxGrid, uDXUtils, cxMemo;
 
 type
   TfrmBrowseItem = class(TfrmDefaultServerBrowse)
     styleNonActive: TcxStyle;
     btnStock: TcxButton;
+    cxMemo1: TcxMemo;
     procedure btnBaruClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnLihatClick(Sender: TObject);
@@ -25,6 +26,10 @@ type
       var AStyle: TcxStyle);
     procedure btnHapusClick(Sender: TObject);
     procedure btnStockClick(Sender: TObject);
+    procedure cxGrdMainCellDblClick(Sender: TcxCustomGridTableView; ACellViewInfo:
+        TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift: TShiftState;
+        var AHandled: Boolean);
+    procedure cxGrdMainKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
   protected
@@ -107,7 +112,6 @@ end;
 
 procedure TfrmBrowseItem.btnStockClick(Sender: TObject);
 var
-  cxMsgInfo: TfrmCXMsgInfo;
   lCDS: TClientDataset;
   S: string;
 begin
@@ -116,10 +120,29 @@ begin
 
   lCDS := TDBUtils.OpenDataset(S, Self);
   Try
-    cxMsgInfo := TfrmCXMsgInfo.ShowSimpleMsg('Stock Gudang', lCDS, [])
+    TfrmCXMsgInfo.ShowSimpleMsg('Stock Gudang', lCDS, []);
   Finally
     lCDS.Free;
   End;
+end;
+
+procedure TfrmBrowseItem.cxGrdMainCellDblClick(Sender: TcxCustomGridTableView;
+    ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift:
+    TShiftState; var AHandled: Boolean);
+begin
+//  inherited;
+  btnStock.Click;
+end;
+
+procedure TfrmBrowseItem.cxGrdMainKeyDown(Sender: TObject; var Key: Word;
+    Shift: TShiftState);
+begin
+  inherited;
+  if (cxGrdMain.Controller.FocusedRecord is TcxGridFilterRow ) then exit;
+  if (Key = VK_Return) then
+  begin
+    btnStock.Click;
+  end;
 end;
 
 procedure TfrmBrowseItem.cxGrdMainStylesGetContentStyle(
