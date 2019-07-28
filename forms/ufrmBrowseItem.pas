@@ -112,7 +112,7 @@ var
   S: string;
 begin
   inherited;
-  S := 'SELECT * FROM N_VIEW_STOCKBYITEM('+ IntToStr(cxGrdMain.GetID) +',GETDATE())';
+  S := 'SELECT * FROM FN_VIEW_STOCKBYITEM('+ IntToStr(cxGrdMain.GetID) +',GETDATE())';
 
   lCDS := TDBUtils.OpenDataset(S, Self);
   Try
