@@ -319,6 +319,7 @@ object frmCXServerLookup: TfrmCXServerLookup
       Filtering.ColumnAddValueItems = False
       Filtering.ColumnMRUItemsList = False
       FilterRow.Visible = True
+      FilterRow.ApplyChanges = fracDelayed
       OptionsData.CancelOnExit = False
       OptionsData.Deleting = False
       OptionsData.DeletingConfirmation = False
@@ -332,8 +333,8 @@ object frmCXServerLookup: TfrmCXServerLookup
     end
   end
   object styleRepo: TcxStyleRepository
-    Left = 264
-    Top = 8
+    Left = 256
+    Top = 65528
     PixelsPerInch = 96
     object styleOdd: TcxStyle
       AssignedValues = [svColor]

@@ -607,7 +607,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Options.Focusing = False
-        Width = 290
+        Width = 381
       end
       object colUOM: TcxGridDBColumn
         Caption = 'Satuan'
@@ -661,12 +661,13 @@ inherited frmSalesInvoice: TfrmSalesInvoice
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Options.Focusing = False
-        Width = 100
+        Width = 123
       end
       object colWarehouse: TcxGridDBColumn
         Caption = 'Gudang'
         DataBinding.FieldName = 'Warehouse'
         PropertiesClassName = 'TcxExtLookupComboBoxProperties'
+        Visible = False
         HeaderAlignmentHorz = taCenter
         Width = 153
       end

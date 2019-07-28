@@ -66,3 +66,4 @@ __recovery/
 *.stat
 /bin/print
 /bin/*.rar
+/bin/*.bak

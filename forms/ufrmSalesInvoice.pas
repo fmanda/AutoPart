@@ -1357,6 +1357,13 @@ begin
   begin
     lItem := TTransDetail.Create;
     lItem.SetFromDataset(CDS);
+
+    //user tidak memilih gudang lagi
+    if lItem.Warehouse = nil then
+      lItem.Warehouse := TWarehouse.Create;
+
+    lItem.Warehouse.ID := SalesInv.Warehouse.ID;
+
     SalesInv.Items.Add(lItem);
     CDS.Next;
   end;
@@ -1462,12 +1469,6 @@ begin
     exit;
   end;
 
-  if (rbJenis.ItemIndex = 1) and (VarToInt(cxLookupFee.EditValue) = 0) then
-  begin
-    TAppUtils.Warning('Untuk Penjualan Salesman, Jenis Fee wajib diisi');
-    exit;
-  end;
-
 
   if (SalesInv.Customer.Kode = AppVariable.Def_Cust_Umum) and (cbBayar.ItemIndex = PaymentFlag_Credit)
   then
@@ -1516,15 +1517,13 @@ begin
     exit;
   end;
 
-  if CDS.Locate('Warehouse', 0, []) or CDS.Locate('Warehouse', null, []) then
-  begin
-    TAppUtils.Warning('Warehouse tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
-    exit;
-  end;
+//  if CDS.Locate('Warehouse', 0, []) or CDS.Locate('Warehouse', null, []) then
+//  begin
+//    TAppUtils.Warning('Warehouse tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
+//    exit;
+//  end;
 
   if not IsValidTransDate(dtInvoice.Date) then exit;
-
-
   if not CheckStock then exit;
 
   if not CheckCreditLimit then
@@ -1534,14 +1533,19 @@ begin
     exit;
   end;
 
+  if (rbJenis.ItemIndex = 1) and (VarToInt(cxLookupFee.EditValue) = 0) then
+  begin
+    if not TAppUtils.Confirm('Anda yakin mengkosongkan Jenis Fee atas Penjualan Salesman ini?') then  exit;
+  end;
+
   lCashAmt := 0;
 
-  if cbBayar.ItemIndex = PaymentFlag_Cash then
-  begin
-    Result := TfrmDialogPayment.ShowPayment(crTotal.Value, lCashAmt);
-    SalesInv.CashAmount := lCashAmt;
-  end
-  else
+//  if cbBayar.ItemIndex = PaymentFlag_Cash then
+//  begin
+//    Result := TfrmDialogPayment.ShowPayment(crTotal.Value, lCashAmt);
+//    SalesInv.CashAmount := lCashAmt;
+//  end
+//  else
     Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
 
 end;

@@ -131,7 +131,15 @@ var
   lFieldName: string;
   lRecNo: Integer;
 begin
+  //2019-07-28 field cannot be modified bug, if query from calculated cols
   If Assigned(FCDSResult) then FCDSResult.Free;
+  if (not ShowChecked) and (Source is TClientDataSet) then
+  begin
+    FCDSResult := TClientDataSet.Create(Self);
+    FCDSResult.CloneCursor(TClientDataSet(Source), True);
+    exit;
+  end;
+
 
   FCDSResult := TClientDataSet.Create(nil);
 
@@ -143,11 +151,12 @@ begin
   for i := 0 to CDSResult.FieldDefs.Count-1 do
     FCDSResult.FieldDefs.Items[i].Required := False;
 
-//  for i := 0 to CDSResult.Fields.Count-1 do
-//  begin
-//    CDSResult.Fields[i].ReadOnly := False;
-//    CDSResult.Fields[i].Required := False;
-//  end;
+  for i := 0 to CDSResult.Fields.Count-1 do
+  begin
+    CDSResult.Fields[i].ReadOnly := False;
+    CDSResult.Fields[i].Required := False;
+//    CDSResult.Fields[i].Calculated := False;
+  end;
 
   FCDSResult.CreateDataSet;
 

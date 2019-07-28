@@ -12,6 +12,7 @@ object frmCXMsgInfo: TfrmCXMsgInfo
   KeyPreview = True
   OldCreateOrder = False
   Position = poScreenCenter
+  OnClose = FormClose
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   PixelsPerInch = 96

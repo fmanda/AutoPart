@@ -16,6 +16,7 @@ uses
 type
   TfrmBrowseItem = class(TfrmDefaultServerBrowse)
     styleNonActive: TcxStyle;
+    btnStock: TcxButton;
     procedure btnBaruClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnLihatClick(Sender: TObject);
@@ -23,6 +24,7 @@ type
       ARecord: TcxCustomGridRecord; AItem: TcxCustomGridTableItem;
       var AStyle: TcxStyle);
     procedure btnHapusClick(Sender: TObject);
+    procedure btnStockClick(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -39,7 +41,7 @@ var
 implementation
 
 uses
-  ufrmItem, uDBUtils, uAppUtils, uItem;
+  ufrmItem, uDBUtils, uAppUtils, uItem, ufrmCXMsgInfo, Datasnap.DBClient;
 
 {$R *.dfm}
 
@@ -101,6 +103,23 @@ begin
       Free;
     End;
   end;
+end;
+
+procedure TfrmBrowseItem.btnStockClick(Sender: TObject);
+var
+  cxMsgInfo: TfrmCXMsgInfo;
+  lCDS: TClientDataset;
+  S: string;
+begin
+  inherited;
+  S := 'SELECT * FROM N_VIEW_STOCKBYITEM('+ IntToStr(cxGrdMain.GetID) +',GETDATE())';
+
+  lCDS := TDBUtils.OpenDataset(S, Self);
+  Try
+    cxMsgInfo := TfrmCXMsgInfo.ShowSimpleMsg('Stock Gudang', lCDS, [])
+  Finally
+    lCDS.Free;
+  End;
 end;
 
 procedure TfrmBrowseItem.cxGrdMainStylesGetContentStyle(
