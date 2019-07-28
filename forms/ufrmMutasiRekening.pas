@@ -81,8 +81,8 @@ begin
   inherited;
   Self.AssignKeyDownEvent;
   InitView;
-  dtStart.Date  := StartOfTheMonth(Now());
-  dtEnd.Date    := EndOfTheMonth(Now());
+  dtStart.Date  := (Now());
+  dtEnd.Date    := (Now());
 end;
 
 function TfrmMutasiRekening.GetCDS: TClientDataset;

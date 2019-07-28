@@ -87,6 +87,7 @@ begin
   if Self.IsActive <> 1 then exit;
 
   S := 'UPDATE C SET'
+      +' C.PRICELIST = B.PRICELIST,'
       +' C.HARGABELI = B.HARGABELI,'
       +' C.HARGAJUAL1 = B.HARGAJUAL1,'
       +' C.HARGAJUAL2 = B.HARGAJUAL2,'

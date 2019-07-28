@@ -42,7 +42,7 @@ type
     colNama: TcxGridDBColumn;
     colUOM: TcxGridDBColumn;
     colQty: TcxGridDBColumn;
-    colHrgBeli: TcxGridDBColumn;
+    colPriceList: TcxGridDBColumn;
     colDisc: TcxGridDBColumn;
     colSubTotal: TcxGridDBColumn;
     cxLabel7: TcxLabel;
@@ -63,6 +63,7 @@ type
     edReferensi: TcxTextEdit;
     cxLabel12: TcxLabel;
     cxGrdMainColumn1: TcxGridDBColumn;
+    colHrgBeli: TcxGridDBColumn;
     procedure cxGrdMainEditKeyDown(Sender: TcxCustomGridTableView; AItem:
         TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Word; Shift:
         TShiftState);
@@ -180,9 +181,13 @@ begin
     while not CDSClone.Eof do
     begin
       CDSClone.Edit;
+      CDSClone.FieldByName('Harga').AsFloat :=
+        (1 - (CDSClone.FieldByName('DiscP').AsFloat /100))
+        * CDSClone.FieldByName('PriceList').AsFloat;
+
+
       CDSClone.FieldByName('SubTotal').AsFloat :=
-        (CDSClone.FieldByName('Harga').AsFloat - CDSClone.FieldByName('Discount').AsFloat)
-        * CdSClone.FieldByName('QTY').AsFloat;
+        CDSClone.FieldByName('Harga').AsFloat * CdSClone.FieldByName('QTY').AsFloat;
       dSubTotal := dSubTotal +  CDSClone.FieldByName('SubTotal').AsFloat;
       dPPN :=  dPPN + (CDSClone.FieldByName('PPN').AsFloat * CDSClone.FieldByName('SubTotal').AsFloat / 100);
 
@@ -299,6 +304,9 @@ begin
   Try
     DC.SetEditValue(colKonversi.Index, lItemUOM.Konversi, evsValue);
     DC.SetEditValue(colHrgBeli.Index, lItemUOM.HargaBeli, evsValue);
+    DC.SetEditValue(colPriceList.Index, lItemUOM.PriceList, evsValue);
+    DC.SetEditValue(colDisc.Index, lItemUOM.GetPriceListMargin(0), evsValue);
+
 
     CalculateAll;
     colQty.FocusWithSelection;
@@ -430,6 +438,7 @@ begin
     FCDS.AddField('Kode',ftString);
     FCDS.AddField('Nama',ftString);
     FCDS.AddField('SubTotal',ftFloat);
+    FCDS.AddField('DiscP',ftFloat);
     FCDS.AfterInsert := CDSAfterInsert;
     FCDS.AfterDelete := CDSAfterDelete;
 //    FCDS.AfterPost := CDSAfterPost;
@@ -542,6 +551,12 @@ begin
     lItem.Item.ReLoad(False);
     CDS.FieldByName('Kode').AsString := lItem.Item.Kode;
     CDS.FieldByName('Nama').AsString := lItem.Item.Nama;
+    CDS.FieldByName('DiscP').AsFloat := 0;
+
+    if lItem.PriceList > 0 then
+      CDS.FieldByName('DiscP').AsFloat :=
+        (CDS.FieldByName('PriceList').AsFloat - CDS.FieldByName('Harga').AsFloat)
+          /CDS.FieldByName('PriceList').AsFloat*100;
 
     CDS.Post;
   end;
@@ -720,6 +735,8 @@ begin
     if lItemUOM = nil then exit;
     Try
       DC.SetEditValue(colKonversi.Index, lItemUOM.Konversi, evsValue);
+      DC.SetEditValue(colPriceList.Index, lItemUOM.PriceList, evsValue);
+      DC.SetEditValue(colDisc.Index, lItemUOM.GetPriceListMargin(0), evsValue);
       DC.SetEditValue(colHrgBeli.Index, lItemUOM.HargaBeli, evsValue);
     Finally
       FreeAndNil(lItemUOM);

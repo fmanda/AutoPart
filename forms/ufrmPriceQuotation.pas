@@ -52,6 +52,7 @@ type
     cxMemo1: TcxMemo;
     colPriceList: TcxGridDBBandedColumn;
     colMarginBeli: TcxGridDBBandedColumn;
+    styleGreen: TcxStyle;
     procedure cxGrdMainEditKeyDown(Sender: TcxCustomGridTableView; AItem:
         TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Word; Shift:
         TShiftState);
@@ -525,7 +526,7 @@ begin
     DC.SetEditValue(colSatuan.Index, lItemUOM.UOM.ID, evsValue);
     DC.SetEditValue(colKonversi.Index, lItemUOM.Konversi, evsValue);
 
-    DC.SetEditValue(colKonversi.Index, lItemUOM.PriceList, evsValue);
+    DC.SetEditValue(colPriceList.Index, lItemUOM.PriceList, evsValue);
     DC.SetEditValue(colHrgBeli.Index, lItemUOM.HargaBeli, evsValue);
     DC.SetEditValue(colHrgJual1.Index, lItemUOM.HargaJual1, evsValue);
     DC.SetEditValue(colHrgJual2.Index, lItemUOM.HargaJual2, evsValue);

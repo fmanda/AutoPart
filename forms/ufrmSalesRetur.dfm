@@ -38,17 +38,14 @@ inherited frmSalesRetur: TfrmSalesRetur
     ExplicitWidth = 934
     inherited lbEscape: TLabel
       Left = 854
-      Height = 17
       ExplicitLeft = 854
     end
     inherited lgndSave: TLabel
       Left = 689
-      Height = 17
       ExplicitLeft = 689
     end
     inherited lgndPrint: TLabel
       Left = 776
-      Height = 17
       Visible = True
       ExplicitLeft = 776
     end

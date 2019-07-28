@@ -67,3 +67,4 @@ __recovery/
 /bin/print
 /bin/*.rar
 /bin/*.bak
+/bin/*.tmp

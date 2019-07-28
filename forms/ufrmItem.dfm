@@ -244,7 +244,7 @@ inherited frmItem: TfrmItem
     Height = 290
     Align = alClient
     TabOrder = 1
-    Properties.ActivePage = tsUOM
+    Properties.ActivePage = tsAvgCost
     Properties.CustomButtons.Buttons = <>
     Properties.TabHeight = 30
     ExplicitWidth = 738

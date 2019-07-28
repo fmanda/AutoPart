@@ -361,6 +361,7 @@ begin
   Result.PrepareButtons([mbOK], True);
   Result.PrepareDataSetFrom(CDSInput, False);
   Result.PrepareGrid(HiddenCols, [], False);
+  Result.btnSaveExcel.Visible := False;
   if ShowModal then
     Result.ShowModal;
 end;

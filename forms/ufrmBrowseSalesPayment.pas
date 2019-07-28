@@ -11,10 +11,11 @@ uses
   Vcl.Menus, Vcl.ComCtrls, dxCore, cxDateUtils, cxClasses, cxLabel, cxTextEdit,
   cxMaskEdit, cxDropDownEdit, cxCalendar, Vcl.StdCtrls, cxButtons, cxGroupBox,
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridServerModeTableView, cxGrid;
+  cxGridServerModeTableView, cxGrid, cxCheckBox;
 
 type
   TfrmBrowseSalesPayment = class(TfrmDefaultServerBrowse)
+    chkFrontEnd: TcxCheckBox;
     procedure btnBaruClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnHapusClick(Sender: TObject);
@@ -151,6 +152,10 @@ begin
            +' LEFT JOIN TREKENING C ON A.REKENING_ID = C.ID'
            +' WHERE A.TRANSDATE BETWEEN ' + TAppUtils.QuotD(StartDate.Date)
            +' AND ' + TAppUtils.QuotD(EndDate.Date);
+
+  if not chkFrontEnd.Checked then
+    Result := Result + ' AND (A.REFNO NOT LIKE ''%FK%'' AND  A.REFNO NOT LIKE ''%FT%'')';
+
 end;
 
 end.

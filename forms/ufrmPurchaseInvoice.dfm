@@ -350,7 +350,7 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
         Properties.OnButtonClick = colKodePropertiesButtonClick
         Properties.OnValidate = colKodePropertiesValidate
         HeaderAlignmentHorz = taCenter
-        Width = 137
+        Width = 116
       end
       object colNama: TcxGridDBColumn
         Caption = 'Nama Barang'
@@ -359,7 +359,7 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Options.Focusing = False
-        Width = 290
+        Width = 276
       end
       object colUOM: TcxGridDBColumn
         Caption = 'Satuan'
@@ -381,9 +381,9 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
         HeaderAlignmentHorz = taCenter
         Width = 53
       end
-      object colHrgBeli: TcxGridDBColumn
-        Caption = 'Harga Beli'
-        DataBinding.FieldName = 'Harga'
+      object colPriceList: TcxGridDBColumn
+        Caption = 'Price List'
+        DataBinding.FieldName = 'PriceList'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
@@ -393,11 +393,12 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
         Width = 90
       end
       object colDisc: TcxGridDBColumn
-        DataBinding.FieldName = 'Discount'
+        Caption = 'Disc %'
+        DataBinding.FieldName = 'DiscP'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
-        Properties.ReadOnly = True
+        Properties.ReadOnly = False
         Properties.OnEditValueChanged = colDiscPropertiesEditValueChanged
         HeaderAlignmentHorz = taCenter
         Width = 70
@@ -434,6 +435,12 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
         DataBinding.FieldName = 'PPN'
         Visible = False
       end
+      object colHrgBeli: TcxGridDBColumn
+        DataBinding.FieldName = 'Harga'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.DisplayFormat = ',0.00;(,0.00)'
+        Visible = False
+      end
     end
     object cxGrid1Level1: TcxGridLevel
       Caption = 'Detail Transaksi [F2]'
@@ -448,17 +455,14 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
     ExplicitWidth = 978
     inherited lbEscape: TLabel
       Left = 898
-      Height = 17
       ExplicitLeft = 898
     end
     inherited lgndSave: TLabel
       Left = 733
-      Height = 17
       ExplicitLeft = 733
     end
     inherited lgndPrint: TLabel
       Left = 820
-      Height = 17
       ExplicitLeft = 820
     end
     object Label2: TLabel

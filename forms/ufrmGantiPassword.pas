@@ -21,7 +21,7 @@ type
   private
     { Private declarations }
   public
-    function IsRegistered: Boolean; dynamic;
+    function IsRegistered: Boolean; override;
     { Public declarations }
   end;
 

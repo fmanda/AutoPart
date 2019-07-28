@@ -773,14 +773,17 @@ begin
   Try
     if True then
 
-    s := 'SELECT distinct A.ID, A.KODE, A.NAMA, C.NAMA AS MERK, B.NAMA AS ITEMGROUP, A.RAK'
+    s := 'SELECT A.ID, A.KODE, A.NAMA, D.NAMA AS MERK, A.RAK, B.UOM AS UOMSTOCK,'
+        +' C.PRICELIST, C.HARGAJUAL1 AS HARGAUMUM, C.HARGAJUAL2 AS HARGABENGKEL,'
+        +' C.HARGAJUAL3 AS HARGAGROSIR, C.HARGAJUAL4 AS HARGAKELILING'
         +' FROM TITEM A'
-        +' LEFT JOIN TITEMGROUP B ON A.GROUP_ID = B.ID'
-        +' LEFT JOIN TMERK C ON A.MERK_ID = C.ID';
+        +' INNER JOIN TUOM B ON A.STOCKUOM_ID = B.ID'
+        +' LEFT JOIN TITEMUOM C ON A.ID = C.ITEM_ID AND C.UOM_ID = B.ID'
+        +' LEFT JOIN TMERK D ON A.MERK_ID = C.ID';
 
     if ckReferensiFaktur.Checked then
-      S := S +' INNER JOIN TTRANSDETAIL D ON D.HEADER_FLAG = ' + IntToStr(HeaderFlag_SalesInvoice)
-        +' AND D.ITEM_ID = A.ID AND D.HEADER_ID = ' + IntToStr(SalesRetur.Invoice.ID);
+      S := S +' INNER JOIN TTRANSDETAIL F ON F.HEADER_FLAG = ' + IntToStr(HeaderFlag_SalesInvoice)
+        +' AND F.ITEM_ID = A.ID AND F.HEADER_ID = ' + IntToStr(SalesRetur.Invoice.ID);
 
     cxLookup := TfrmCXServerLookup.Execute(S,'ID');
     if aKey <> '' then

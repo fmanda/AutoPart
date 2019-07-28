@@ -38,17 +38,14 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     ExplicitWidth = 941
     inherited lbEscape: TLabel
       Left = 861
-      Height = 17
       ExplicitLeft = 861
     end
     inherited lgndSave: TLabel
       Left = 696
-      Height = 17
       ExplicitLeft = 696
     end
     inherited lgndPrint: TLabel
       Left = 783
-      Height = 17
       Visible = True
       ExplicitLeft = 783
     end
@@ -414,9 +411,8 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
         HeaderAlignmentHorz = taCenter
         Width = 53
       end
-      object colHrgBeli: TcxGridDBColumn
-        Caption = 'Harga Beli'
-        DataBinding.FieldName = 'Harga'
+      object colPriceList: TcxGridDBColumn
+        DataBinding.FieldName = 'PriceList'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
@@ -426,11 +422,12 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
         Width = 90
       end
       object colDisc: TcxGridDBColumn
-        DataBinding.FieldName = 'Discount'
+        Caption = 'Disc %'
+        DataBinding.FieldName = 'DiscP'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
-        Properties.ReadOnly = True
+        Properties.ReadOnly = False
         Properties.OnEditValueChanged = colDiscPropertiesEditValueChanged
         HeaderAlignmentHorz = taCenter
         Width = 63
@@ -465,6 +462,11 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       end
       object colPPN: TcxGridDBColumn
         DataBinding.FieldName = 'PPN'
+        Visible = False
+      end
+      object colHrgBeli: TcxGridDBColumn
+        DataBinding.FieldName = 'Harga'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
         Visible = False
       end
     end

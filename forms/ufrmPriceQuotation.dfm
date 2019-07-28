@@ -359,6 +359,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0;(,0)'
         Properties.OnEditValueChanged = colHrgBeliPropertiesEditValueChanged
+        Styles.Content = styleOdd
         Position.BandIndex = 20
         Position.ColIndex = 0
         Position.RowIndex = 0
@@ -369,6 +370,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.0;(,0.0)'
         Properties.OnEditValueChanged = colMargin1PropertiesEditValueChanged
+        Styles.Content = styleGreen
         Position.BandIndex = 7
         Position.ColIndex = 0
         Position.RowIndex = 0
@@ -379,6 +381,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0;(,0)'
         Properties.OnEditValueChanged = colHrgJual1PropertiesEditValueChanged
+        Styles.Content = styleGreen
         Position.BandIndex = 8
         Position.ColIndex = 0
         Position.RowIndex = 0
@@ -389,6 +392,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.0;(,0.0)'
         Properties.OnEditValueChanged = colMargin2PropertiesEditValueChanged
+        Styles.Content = styleOdd
         Position.BandIndex = 10
         Position.ColIndex = 0
         Position.RowIndex = 0
@@ -399,6 +403,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0;(,0)'
         Properties.OnEditValueChanged = colHrgJual2PropertiesEditValueChanged
+        Styles.Content = styleOdd
         Position.BandIndex = 11
         Position.ColIndex = 0
         Position.RowIndex = 0
@@ -409,6 +414,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.0;(,0.0)'
         Properties.OnEditValueChanged = colMargin3PropertiesEditValueChanged
+        Styles.Content = styleGreen
         Position.BandIndex = 13
         Position.ColIndex = 0
         Position.RowIndex = 0
@@ -419,6 +425,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0;(,0)'
         Properties.OnEditValueChanged = colHrgJual3PropertiesEditValueChanged
+        Styles.Content = styleGreen
         Position.BandIndex = 14
         Position.ColIndex = 0
         Position.RowIndex = 0
@@ -429,6 +436,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.0;(,0.0)'
         Properties.OnEditValueChanged = colMargin4PropertiesEditValueChanged
+        Styles.Content = styleOdd
         Position.BandIndex = 16
         Position.ColIndex = 0
         Position.RowIndex = 0
@@ -439,6 +447,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0;(,0)'
         Properties.OnEditValueChanged = colHrgJual4PropertiesEditValueChanged
+        Styles.Content = styleOdd
         Position.BandIndex = 17
         Position.ColIndex = 0
         Position.RowIndex = 0
@@ -456,6 +465,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0;(,0)'
         Properties.OnEditValueChanged = colPriceListPropertiesEditValueChanged
+        Styles.Content = styleGreen
         Position.BandIndex = 4
         Position.ColIndex = 0
         Position.RowIndex = 0
@@ -466,6 +476,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.00;(,0.00)'
         Properties.OnEditValueChanged = colMarginBeliPropertiesEditValueChanged
+        Styles.Content = styleOdd
         Position.BandIndex = 19
         Position.ColIndex = 0
         Position.RowIndex = 0
@@ -502,5 +513,9 @@ inherited frmPriceQuotation: TfrmPriceQuotation
   end
   inherited styleRepo: TcxStyleRepository
     PixelsPerInch = 96
+    object styleGreen: TcxStyle
+      AssignedValues = [svColor]
+      Color = clMoneyGreen
+    end
   end
 end

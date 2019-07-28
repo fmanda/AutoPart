@@ -2,6 +2,9 @@ inherited frmBrowseSalesPayment: TfrmBrowseSalesPayment
   Caption = 'Browse Pembayaran Piutang'
   PixelsPerInch = 96
   TextHeight = 13
+  inherited cxGrid: TcxGrid
+    Height = 343
+  end
   inherited cxGroupBox2: TcxGroupBox
     inherited btnHapus: TcxButton
       OnClick = btnHapusClick
@@ -27,16 +30,31 @@ inherited frmBrowseSalesPayment: TfrmBrowseSalesPayment
     end
     inherited cxLabel1: TcxLabel
       Visible = True
+      ExplicitLeft = 260
       AnchorY = 18
     end
     inherited cxLabel2: TcxLabel
       Visible = True
+      ExplicitLeft = 433
       AnchorY = 18
     end
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
       AnchorY = 18
     end
+  end
+  object chkFrontEnd: TcxCheckBox [3]
+    AlignWithMargins = True
+    Left = 3
+    Top = 381
+    TabStop = False
+    Align = alBottom
+    Caption = 'Tampilkan Pembayaran Faktur Front End'
+    Properties.Alignment = taLeftJustify
+    TabOrder = 3
+    ExplicitLeft = 20
+    ExplicitTop = 44
+    ExplicitWidth = 96
   end
   inherited styleRepo: TcxStyleRepository
     PixelsPerInch = 96
