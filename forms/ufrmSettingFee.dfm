@@ -74,7 +74,7 @@ inherited frmSettingFee: TfrmSettingFee
     EditValue = 0.000000000000000000
     Properties.Alignment.Horz = taRightJustify
     Properties.DecimalPlaces = 0
-    Properties.DisplayFormat = ',0.00;(,0.00)'
+    Properties.DisplayFormat = ',0.##;(,0.##)'
     TabOrder = 2
     Width = 59
   end
@@ -104,8 +104,8 @@ inherited frmSettingFee: TfrmSettingFee
     Top = 64
     EditValue = 0.000000000000000000
     Properties.Alignment.Horz = taRightJustify
-    Properties.DecimalPlaces = 0
-    Properties.DisplayFormat = ',0.00;(,0.00)'
+    Properties.DecimalPlaces = 2
+    Properties.DisplayFormat = ',0.##;(,0.##)'
     TabOrder = 4
     Width = 59
   end
@@ -135,8 +135,8 @@ inherited frmSettingFee: TfrmSettingFee
     Top = 85
     EditValue = 0.000000000000000000
     Properties.Alignment.Horz = taRightJustify
-    Properties.DecimalPlaces = 0
-    Properties.DisplayFormat = ',0.00;(,0.00)'
+    Properties.DecimalPlaces = 2
+    Properties.DisplayFormat = ',0.##;(,0.##)'
     TabOrder = 6
     Width = 59
   end
