@@ -98,7 +98,7 @@ begin
 
     if Assigned(ASalesInv.Customer) then
       Result.Add('Cust  : '
-        + TAppUtils.StrPadRight(ASalesInv.Customer.Kode,32,' '));
+        + TAppUtils.StrPadRight(ASalesInv.Customer.Nama,32,' '));
 
 //    Result.Add('       - CETAK ULANG / REPRINT -');
     Result.Add(TAppUtils.StrPadRight('',40,'-'));

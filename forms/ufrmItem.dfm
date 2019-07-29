@@ -12,20 +12,20 @@ inherited frmItem: TfrmItem
     Top = 510
     TabOrder = 2
     ExplicitTop = 510
-    ExplicitWidth = 738
+    ExplicitWidth = 882
     Width = 882
     inherited btnCancel: TcxButton
       Left = 797
-      ExplicitLeft = 653
+      ExplicitLeft = 797
     end
     inherited btnPrint: TcxButton
       Left = 711
-      ExplicitLeft = 567
+      ExplicitLeft = 711
     end
     inherited btnSave: TcxButton
       Left = 625
       OnClick = btnSaveClick
-      ExplicitLeft = 481
+      ExplicitLeft = 625
     end
     object btnDel: TcxButton
       AlignWithMargins = True
@@ -61,18 +61,21 @@ inherited frmItem: TfrmItem
     Width = 882
     TabOrder = 3
     ExplicitTop = 489
-    ExplicitWidth = 738
+    ExplicitWidth = 882
     inherited lbEscape: TLabel
       Left = 637
-      ExplicitLeft = 493
+      Height = 17
+      ExplicitLeft = 637
     end
     inherited lgndSave: TLabel
       Left = 716
-      ExplicitLeft = 572
+      Height = 17
+      ExplicitLeft = 716
     end
     inherited lgndPrint: TLabel
       Left = 803
-      ExplicitLeft = 659
+      Height = 17
+      ExplicitLeft = 803
     end
   end
   object cxGroupBox1: TcxGroupBox [2]
@@ -81,7 +84,6 @@ inherited frmItem: TfrmItem
     Align = alTop
     Caption = ' Informasi Barang [F1] '
     TabOrder = 0
-    ExplicitWidth = 738
     Height = 177
     Width = 882
     object cxLabel1: TcxLabel
@@ -244,19 +246,15 @@ inherited frmItem: TfrmItem
     Height = 290
     Align = alClient
     TabOrder = 1
-    Properties.ActivePage = tsAvgCost
+    Properties.ActivePage = tsUOM
     Properties.CustomButtons.Buttons = <>
     Properties.TabHeight = 30
-    ExplicitWidth = 738
-    ExplicitHeight = 312
     ClientRectBottom = 290
     ClientRectRight = 882
     ClientRectTop = 32
     object tsUOM: TcxTabSheet
       Caption = 'Konversi && Harga Satuan [F2]'
       ImageIndex = 0
-      ExplicitWidth = 738
-      ExplicitHeight = 280
       object cxGrid1: TcxGrid
         AlignWithMargins = True
         Left = 3
@@ -265,8 +263,6 @@ inherited frmItem: TfrmItem
         Height = 252
         Align = alClient
         TabOrder = 0
-        ExplicitWidth = 732
-        ExplicitHeight = 274
         object cxGrdUOM: TcxGridDBBandedTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -529,14 +525,10 @@ inherited frmItem: TfrmItem
       Caption = 'History Perubahan Harga'
       ImageIndex = 1
       TabVisible = False
-      ExplicitWidth = 738
-      ExplicitHeight = 280
     end
     object tsAvgCost: TcxTabSheet
       Caption = 'History Harga Pokok Penjualan / Harga Average'
       ImageIndex = 1
-      ExplicitWidth = 738
-      ExplicitHeight = 280
       object cxGroupBox3: TcxGroupBox
         Left = 0
         Top = 0
@@ -546,7 +538,6 @@ inherited frmItem: TfrmItem
         Style.LookAndFeel.NativeStyle = False
         StyleDisabled.LookAndFeel.NativeStyle = False
         TabOrder = 0
-        ExplicitWidth = 738
         Height = 35
         Width = 882
         object btnRefresh: TcxButton
@@ -561,7 +552,6 @@ inherited frmItem: TfrmItem
           OptionsImage.Images = frmMain.ImageList
           TabOrder = 0
           OnClick = btnRefreshClick
-          ExplicitLeft = 658
         end
         object EndDate: TcxDateEdit
           AlignWithMargins = True
@@ -571,7 +561,6 @@ inherited frmItem: TfrmItem
           Properties.SaveTime = False
           Properties.ShowTime = False
           TabOrder = 1
-          ExplicitLeft = 552
           Width = 100
         end
         object StartDate: TcxDateEdit
@@ -582,7 +571,6 @@ inherited frmItem: TfrmItem
           Properties.SaveTime = False
           Properties.ShowTime = False
           TabOrder = 2
-          ExplicitLeft = 427
           Width = 100
         end
         object cxLabel9: TcxLabel
@@ -591,7 +579,6 @@ inherited frmItem: TfrmItem
           Align = alRight
           Caption = 'Filter Periode'
           Properties.Alignment.Vert = taVCenter
-          ExplicitLeft = 357
           AnchorY = 18
         end
         object cxLabel10: TcxLabel
@@ -600,7 +587,6 @@ inherited frmItem: TfrmItem
           Align = alRight
           Caption = 's/d'
           Properties.Alignment.Vert = taVCenter
-          ExplicitLeft = 530
           AnchorY = 18
         end
       end
@@ -611,8 +597,6 @@ inherited frmItem: TfrmItem
         Height = 223
         Align = alClient
         TabOrder = 1
-        ExplicitWidth = 738
-        ExplicitHeight = 245
         object cxGrdAvg: TcxGridServerModeTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -652,9 +636,6 @@ inherited frmItem: TfrmItem
     Style.IsFontAssigned = True
     StyleDisabled.TextColor = clBlack
     TabOrder = 4
-    ExplicitLeft = -176
-    ExplicitTop = 483
-    ExplicitWidth = 914
     Height = 22
     Width = 882
   end

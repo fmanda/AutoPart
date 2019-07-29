@@ -169,12 +169,15 @@ end;
 
 function TItem.GenerateNo(aPrefix: String; aDigitCount: Integer): String;
 var
+  lLength: Integer;
   lNum: Integer;
   S: string;
 begin
   lNum := 0;
+  lLength := Length(aPrefix) + aDigitCount;
 
   S := 'SELECT MAX(Kode) FROM TItem WHERE Kode LIKE ' + QuotedStr(aPrefix + '%');
+  S := S + ' and len(kode) = ' + IntToStr(lLength);
 
   with TDBUtils.OpenQuery(S) do
   begin
