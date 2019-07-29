@@ -546,9 +546,15 @@ begin
   end;
 
 
-  if CDS.RecordCount = 0 then
+//  if CDS.RecordCount = 0 then
+//  begin
+//    TAppUtils.Warning('Data Satuan tidak boleh kosong');
+//    exit;
+//  end;
+
+  if cxGrdUOM.DataController.RecordCount = 0 then
   begin
-    TAppUtils.Warning('Data Satuan tidak boleh kosong');
+    TAppUtils.Warning('Data Item tidak boleh kosong');
     exit;
   end;
 

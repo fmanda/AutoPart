@@ -199,9 +199,21 @@ begin
       + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Ceil(ASalesInv.Amount)),13,' '));
 
 
+    if ASalesInv.HasRetur then
+    begin
+      ASalesInv.SalesRetur.ReLoad(False);
+
+      Result.Add(TAppUtils.StrPadLeftCut('RETUR:',27,' ')
+        + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',ASalesInv.SalesRetur.Amount),13,' '));
+      Result.Add(TAppUtils.StrPadRight('',27,' ') + TAppUtils.StrPadRight('',13,'-'));
+      Result.Add(TAppUtils.StrPadLeftCut('TOTAL BAYAR:',27,' ')
+        + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',ASalesInv.Amount - ASalesInv.SalesRetur.Amount),13,' '));
+
+    end;
+
     //update 2019/7/28 => bengkel terima uang setelah cetak faktur
 //    if ASalesInv.CashAmount > 0 then
-//    begin
+////    begin
 //      Result.Add(TAppUtils.StrPadLeftCut('TUNAI:',27,' ')
 //        + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',ASalesInv.CashAmount),13,' '));
 //      Result.Add(TAppUtils.StrPadRight('',27,' ') + TAppUtils.StrPadRight('',13,'-'));

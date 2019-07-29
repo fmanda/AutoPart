@@ -4,8 +4,10 @@ inherited frmBrowseSalesPayment: TfrmBrowseSalesPayment
   TextHeight = 13
   inherited cxGrid: TcxGrid
     Height = 343
+    ExplicitHeight = 343
   end
   inherited cxGroupBox2: TcxGroupBox
+    ExplicitTop = 378
     inherited btnHapus: TcxButton
       OnClick = btnHapusClick
     end
@@ -52,9 +54,8 @@ inherited frmBrowseSalesPayment: TfrmBrowseSalesPayment
     Caption = 'Tampilkan Pembayaran Faktur Front End'
     Properties.Alignment = taLeftJustify
     TabOrder = 3
-    ExplicitLeft = 20
-    ExplicitTop = 44
-    ExplicitWidth = 96
+    ExplicitLeft = 8
+    ExplicitTop = 351
   end
   inherited styleRepo: TcxStyleRepository
     PixelsPerInch = 96

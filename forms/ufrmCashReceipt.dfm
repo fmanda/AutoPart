@@ -36,17 +36,14 @@ inherited frmCashReceipt: TfrmCashReceipt
     ExplicitWidth = 735
     inherited lbEscape: TLabel
       Left = 655
-      Height = 17
       ExplicitLeft = 655
     end
     inherited lgndSave: TLabel
       Left = 490
-      Height = 17
       ExplicitLeft = 490
     end
     inherited lgndPrint: TLabel
       Left = 577
-      Height = 17
       ExplicitLeft = 577
     end
   end

@@ -362,9 +362,14 @@ begin
 //  if CDS.State in [dsInsert, dsEdit] then CDS.Post;
 
 
-  if CDS.RecordCount = 0 then
+//  if CDS.RecordCount = 0 then
+//  begin
+//    TAppUtils.Warning('Data Item tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
+//    exit;
+//  end;
+  if cxGrdMain.DataController.RecordCount = 0 then
   begin
-    TAppUtils.Warning('Data Item tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
+    TAppUtils.Warning('Data Item tidak boleh kosong');
     exit;
   end;
 

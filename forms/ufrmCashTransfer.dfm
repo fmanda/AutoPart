@@ -36,17 +36,14 @@ inherited frmCashTransfer: TfrmCashTransfer
     ExplicitWidth = 760
     inherited lbEscape: TLabel
       Left = 680
-      Height = 17
       ExplicitLeft = 680
     end
     inherited lgndSave: TLabel
       Left = 515
-      Height = 17
       ExplicitLeft = 515
     end
     inherited lgndPrint: TLabel
       Left = 602
-      Height = 17
       ExplicitLeft = 602
     end
   end

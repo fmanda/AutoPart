@@ -12,7 +12,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
     Top = 576
     TabOrder = 2
     ExplicitTop = 576
-    ExplicitWidth = 984
+    ExplicitWidth = 1034
     Width = 1034
     inherited btnCancel: TcxButton
       Left = 949
@@ -51,7 +51,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
       Left = 3
       Top = 1
       Width = 124
-      Height = 17
+      Height = 16
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -63,14 +63,13 @@ inherited frmPriceQuotation: TfrmPriceQuotation
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitHeight = 16
     end
     object Label2: TLabel
       AlignWithMargins = True
       Left = 143
       Top = 1
       Width = 266
-      Height = 17
+      Height = 16
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -82,7 +81,6 @@ inherited frmPriceQuotation: TfrmPriceQuotation
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitHeight = 16
     end
   end
   object cxGroupBox1: TcxGroupBox [2]
@@ -91,7 +89,6 @@ inherited frmPriceQuotation: TfrmPriceQuotation
     Align = alTop
     Caption = '  Header [F1] '
     TabOrder = 0
-    ExplicitWidth = 984
     Height = 81
     Width = 1034
     object cxLabel1: TcxLabel
@@ -507,7 +504,6 @@ inherited frmPriceQuotation: TfrmPriceQuotation
     TabOrder = 4
     ExplicitLeft = -176
     ExplicitTop = 483
-    ExplicitWidth = 882
     Height = 22
     Width = 1034
   end

@@ -129,7 +129,7 @@ procedure TfrmCashPayment.FocusToGrid;
 begin
   cxGrid1.SetFocus;
   cxGrid1.FocusedView := cxGrdMain;
-  if CDS.RecordCount = 0 then
+  if cxGrdMain.DataController.RecordCount = 0 then
   begin
     CDS.Append;
     cxGrdMain.Controller.EditingController.ShowEdit;
@@ -305,9 +305,14 @@ begin
     exit;
   end;
 
-  if CDS.RecordCount = 0 then
+//  if CDS.RecordCount = 0 then
+//  begin
+//    TAppUtils.Warning('Detail pengeluaran kosong');
+//    exit;
+//  end;
+  if cxGrdMain.DataController.RecordCount = 0 then
   begin
-    TAppUtils.Warning('Detail pengeluaran kosong');
+    TAppUtils.Warning('Data Item tidak boleh kosong');
     exit;
   end;
 

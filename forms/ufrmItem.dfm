@@ -64,17 +64,14 @@ inherited frmItem: TfrmItem
     ExplicitWidth = 882
     inherited lbEscape: TLabel
       Left = 637
-      Height = 17
       ExplicitLeft = 637
     end
     inherited lgndSave: TLabel
       Left = 716
-      Height = 17
       ExplicitLeft = 716
     end
     inherited lgndPrint: TLabel
       Left = 803
-      Height = 17
       ExplicitLeft = 803
     end
   end
@@ -255,6 +252,9 @@ inherited frmItem: TfrmItem
     object tsUOM: TcxTabSheet
       Caption = 'Konversi && Harga Satuan [F2]'
       ImageIndex = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object cxGrid1: TcxGrid
         AlignWithMargins = True
         Left = 3
@@ -525,6 +525,9 @@ inherited frmItem: TfrmItem
       Caption = 'History Perubahan Harga'
       ImageIndex = 1
       TabVisible = False
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
     end
     object tsAvgCost: TcxTabSheet
       Caption = 'History Harga Pokok Penjualan / Harga Average'
@@ -561,6 +564,7 @@ inherited frmItem: TfrmItem
           Properties.SaveTime = False
           Properties.ShowTime = False
           TabOrder = 1
+          ExplicitHeight = 21
           Width = 100
         end
         object StartDate: TcxDateEdit
@@ -571,6 +575,7 @@ inherited frmItem: TfrmItem
           Properties.SaveTime = False
           Properties.ShowTime = False
           TabOrder = 2
+          ExplicitHeight = 21
           Width = 100
         end
         object cxLabel9: TcxLabel
@@ -579,6 +584,7 @@ inherited frmItem: TfrmItem
           Align = alRight
           Caption = 'Filter Periode'
           Properties.Alignment.Vert = taVCenter
+          ExplicitLeft = 345
           AnchorY = 18
         end
         object cxLabel10: TcxLabel
@@ -587,6 +593,7 @@ inherited frmItem: TfrmItem
           Align = alRight
           Caption = 's/d'
           Properties.Alignment.Vert = taVCenter
+          ExplicitLeft = 572
           AnchorY = 18
         end
       end

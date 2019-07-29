@@ -29,10 +29,10 @@ type
     dtJtTempo: TcxDateEdit;
     cxLabel9: TcxLabel;
     edCustomer: TcxButtonEdit;
-    crSubTotal: TcxCurrencyEdit;
+    crAmount: TcxCurrencyEdit;
     cxLabel2: TcxLabel;
     cxLabel3: TcxLabel;
-    crPPN: TcxCurrencyEdit;
+    crRetur: TcxCurrencyEdit;
     cxLabel5: TcxLabel;
     crTotal: TcxCurrencyEdit;
     cxLabel7: TcxLabel;
@@ -98,6 +98,9 @@ type
     UpdatekeHargaGrosir2: TMenuItem;
     UpdatekeHargaKeliling1: TMenuItem;
     colNo: TcxGridDBColumn;
+    cxLabel17: TcxLabel;
+    edRetur: TcxButtonEdit;
+    crPPN: TcxCurrencyEdit;
     procedure edCustomerKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edNotesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -137,12 +140,17 @@ type
       var AStyle: TcxStyle);
     procedure colNoGetDisplayText(Sender: TcxCustomGridTableItem; ARecord:
         TcxCustomGridRecord; var AText: string);
+    procedure edReturKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure rbHargaOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure rbJenisPropertiesEditValueChanged(Sender: TObject);
     procedure UpdatekeHargaGrosir1Click(Sender: TObject);
     procedure UpdatekeHargaGrosir2Click(Sender: TObject);
     procedure UpdatekeHargaKeliling1Click(Sender: TObject);
     procedure UpdateKeHargaUmum1Click(Sender: TObject);
+    procedure edReturPropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure edReturPropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
   private
     DisableTrigger: Boolean;
     FCDS: TClientDataset;
@@ -177,6 +185,7 @@ type
         Double = 0);
     procedure LookupItem(aKey: string = '');
     procedure LookupCustomer(sKey: string = '');
+    procedure LookupRetur(aKey: string = '');
     procedure SetCDSValidate(const Value: TClientDataset);
     procedure SetDefaultValueTipeHarga;
     procedure SetItemToGrid(aItem: TItem);
@@ -291,9 +300,9 @@ begin
       CDSCloneServ.Next;
     end;
 
-    crSubTotal.Value  := dSubTotal;
     crPPN.Value       := dPPN;
-    crTotal.Value     := crSubTotal.Value + crPPN.Value;
+    crAmount.Value    := dSubTotal + dPPN;
+    crTotal.Value     := crAmount.Value - crRetur.Value;
   Finally
     CDS.EnableControls;
     CDSService.EnableControls;
@@ -701,6 +710,50 @@ begin
   end;
 end;
 
+procedure TfrmSalesInvoice.edReturKeyDown(Sender: TObject; var Key: Word;
+    Shift: TShiftState);
+var
+  Edit: TcxCustomEdit;
+  sKey: string;
+begin
+  inherited;
+  if Key = VK_F5 then
+  begin
+    Edit := Sender as TcxCustomEdit;
+    sKey := VarToStr(Edit.EditingValue);
+    LookupRetur(sKey);
+  end else if Key = VK_RETURN then
+  begin
+    SelectNext(Screen.ActiveControl, True, True);
+  end;
+end;
+
+procedure TfrmSalesInvoice.edReturPropertiesButtonClick(Sender: TObject;
+  AButtonIndex: Integer);
+begin
+  inherited;
+  LookupRetur();
+end;
+
+procedure TfrmSalesInvoice.edReturPropertiesValidate(Sender: TObject;
+  var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+begin
+  inherited;
+  if SalesInv.SalesRetur = nil then
+    SalesInv.SalesRetur := TSalesRetur.Create;
+  if SalesInv.SalesRetur.LoadByCode(VarToStr(DisplayValue)) then
+  begin
+    edRetur.Text := SalesInv.SalesRetur.Refno;
+    crRetur.Value := SalesInv.SalesRetur.Amount;// - SalesInv.SalesRetur.PaidAmount;
+  end else
+  begin
+    SalesInv.ClearRetur;
+    edRetur.Clear;
+    crRetur.Value := 0;
+  end;
+  crTotal.Value := crAmount.Value - crRetur.Value;
+end;
+
 procedure TfrmSalesInvoice.rbHargaOnKeyDown(Sender: TObject; var Key: Word;
     Shift: TShiftState);
 begin
@@ -715,7 +768,7 @@ procedure TfrmSalesInvoice.FocusToGrid;
 begin
   cxGridItem.SetFocus;
   cxGridItem.FocusedView := cxGrdItem;
-  if CDS.RecordCount = 0 then
+  if cxGrdItem.DataController.RecordCount = 0 then
   begin
     CDS.Append;
     colKode.FocusWithSelection;
@@ -1010,9 +1063,16 @@ begin
   dtJtTempo.Date := SalesInv.DueDate;
   spTempo.Value := SalesInv.DueDate - SalesInv.TransDate;
 
-  crSubTotal.Value := SalesInv.SubTotal;
+  crAmount.Value := SalesInv.Amount;
+
+  if SalesInv.HasRetur then
+  begin
+    SalesInv.SalesRetur.ReLoad(False);
+    crRetur.Value := Salesinv.SalesRetur.Amount;
+  end;
+
   crPPN.Value := SalesInv.PPN;
-  crTotal.Value := SalesInv.Amount;
+  crTotal.Value := crAmount.Value - crRetur.Value;
   edNotes.Text := SalesInv.Notes;
 
 //  edCustomer.Clear;
@@ -1222,6 +1282,43 @@ begin
   End;
 end;
 
+procedure TfrmSalesInvoice.LookupRetur(aKey: string = '');
+var
+  cxLookup: TfrmCXServerLookup;
+  S: string;
+begin
+  if SalesInv.Customer = nil then
+  begin
+    TAppUtils.Warning('Customer belum terisi');
+    exit;
+  end;
+
+  S := 'SELECT A.ID, A.REFNO, A.TRANSDATE,  B.NAMA AS CUSTOMER,'
+      +' A.AMOUNT, A.NOTES'
+      +' FROM TSALESRETUR A'
+      +' INNER JOIN TCUSTOMER B ON A.CUSTOMER_ID = B.ID'
+      +' WHERE ISNULL(A.PAIDAMOUNT,0) = 0 '
+//      + FloatToStr(AppVariable.Toleransi_Piutang)
+      +' AND A.CUSTOMER_ID = ' + IntToStr(SalesInv.Customer.ID);
+
+
+  cxLookup := TfrmCXServerLookup.Execute(S, 'ID', (Now()), (Now()) );
+  Try
+    cxLookup.PreFilter('REFNO', aKey);
+    if cxLookup.ShowModal = mrOK then
+    begin
+      SalesInv.ClearRetur;
+      SalesInv.SalesRetur := TSalesRetur.Create;
+      SalesInv.SalesRetur.LoadByID(VarToInt(cxLookup.FieldValue('ID')), False);
+      edRetur.Text := SalesInv.SalesRetur.Refno;
+      crRetur.Value := SalesInv.SalesRetur.Amount;// - SalesInv.SalesRetur.PaidAmount;
+      crTotal.Value := crAmount.Value - crRetur.Value;
+    end;
+  Finally
+    cxLookup.Free;
+  End;
+end;
+
 procedure TfrmSalesInvoice.SetCDSValidate(const Value: TClientDataset);
 begin
   if FCDSValidate = nil then
@@ -1328,9 +1425,10 @@ begin
   SalesInv.Notes := edNotes.Text;
   SalesInv.PaymentFlag := cbBayar.ItemIndex;
   SalesInv.SalesType := rbJenis.ItemIndex;
-  SalesInv.SubTotal := crSubTotal.Value;
+  SalesInv.SubTotal := crAmount.Value - crPPN.Value;
   SalesInv.PPN := crPPN.Value;
-  SalesInv.Amount := crTotal.Value;
+  SalesInv.Amount := crAmount.Value;
+
   SalesInv.ModifiedDate := Now();
   SalesInv.ModifiedBy := UserLogin;
 

@@ -35,17 +35,14 @@ inherited frmSalesPayment: TfrmSalesPayment
     ExplicitWidth = 984
     inherited lbEscape: TLabel
       Left = 904
-      Height = 17
       ExplicitLeft = 904
     end
     inherited lgndSave: TLabel
       Left = 739
-      Height = 17
       ExplicitLeft = 739
     end
     inherited lgndPrint: TLabel
       Left = 826
-      Height = 17
       ExplicitLeft = 826
     end
     object Label1: TLabel
@@ -53,7 +50,7 @@ inherited frmSalesPayment: TfrmSalesPayment
       Left = 3
       Top = 1
       Width = 187
-      Height = 17
+      Height = 16
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -65,14 +62,13 @@ inherited frmSalesPayment: TfrmSalesPayment
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitHeight = 16
     end
     object Label2: TLabel
       AlignWithMargins = True
       Left = 206
       Top = 1
       Width = 84
-      Height = 17
+      Height = 16
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -84,7 +80,6 @@ inherited frmSalesPayment: TfrmSalesPayment
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitHeight = 16
     end
   end
   object cxGroupBox1: TcxGroupBox [2]

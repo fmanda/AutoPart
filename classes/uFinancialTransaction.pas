@@ -502,20 +502,32 @@ class function TSalesPayment.CreateOrGetFromInv(aSalesInvoice: TSalesInvoice):
     TSalesPayment;
 var
   lItem: TFinancialTransaction;
+  lReturAmt: Double;
 begin
   if aSalesInvoice.Rekening = nil then
     raise Exception.Create('aSalesInvoice.Rekening = nil');
 
   Result := TSalesPayment.Create;
 
+  lReturAmt := 0;
+  if aSalesInvoice.HasRetur then
+  begin
+    if aSalesInvoice.SalesRetur.Amount = 0 then
+      aSalesInvoice.SalesRetur.ReLoad(False);
+
+    lReturAmt := aSalesInvoice.SalesRetur.Amount;
+  end;
+
   //load from inv
   Result.LoadByCode(aSalesInvoice.InvoiceNo);
   Result.Refno        := aSalesInvoice.InvoiceNo;
   Result.TransDate    := aSalesInvoice.TransDate;
   Result.DueDate      := Result.TransDate;
-  Result.Amount       := aSalesInvoice.Amount;
+  Result.Amount       := aSalesInvoice.Amount - lReturAmt;
   Result.PaymentFlag  := PaymentFlag_Cash;
-  Result.ReturAmount  := 0;
+  Result.ReturAmount  := lReturAmt;
+                 
+
   Result.Rekening     := TRekening.CreateID(aSalesInvoice.Rekening.ID);
   Result.Items.Clear;
 
@@ -524,7 +536,7 @@ begin
 
 
   lItem.Rekening      := TRekening.CreateID(aSalesInvoice.Rekening.ID);
-  lItem.DebetAmt      := aSalesInvoice.Amount;
+  lItem.DebetAmt      := Result.Amount;
   lItem.Amount        := lItem.DebetAmt;
   lItem.TransDate     := aSalesInvoice.TransDate;
   lItem.Notes         := 'Penjualan Cash No : ' + aSalesInvoice.InvoiceNo;
@@ -534,11 +546,17 @@ begin
   //credit piutang
   lItem               := TFinancialTransaction.Create;
   lItem.SalesInvoice  := TSalesInvoice.CreateID(aSalesInvoice.ID);
-  lItem.CreditAmt     := aSalesInvoice.Amount;
+  lItem.CreditAmt     := Result.Amount;
   lItem.Amount        := lItem.CreditAmt;
+  lItem.ReturAmt      := lReturAmt;
   lItem.TransDate     := aSalesInvoice.TransDate;
   lItem.Notes         := 'Penjualan Cash No : ' + aSalesInvoice.InvoiceNo;
   lItem.TransType     := Result.PaymentFlag;
+
+  if aSalesInvoice.HasRetur then
+  begin
+    lItem.SalesRetur := TSalesRetur.CreateID(aSalesInvoice.SalesRetur.ID);    
+  end;
   Result.Items.Add(lItem);
 
   Result.ModifiedBy   := UserLogin;

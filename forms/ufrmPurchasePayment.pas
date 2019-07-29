@@ -364,7 +364,7 @@ procedure TfrmPurchasePayment.FocusToGrid;
 begin
   cxGrid1.SetFocus;
   cxGrid1.FocusedView := cxGrdMain;
-  if CDS.RecordCount = 0 then
+  if cxGrdMain.DataController.RecordCount = 0 then
   begin
     CDS.Append;
     cxGrdMain.Controller.EditingController.ShowEdit;
@@ -822,9 +822,14 @@ begin
   end;
 
 
-  if CDS.RecordCount = 0 then
+//  if CDS.RecordCount = 0 then
+//  begin
+//    TAppUtils.Warning('Data Faktur tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
+//    exit;
+//  end;
+  if cxGrdMain.DataController.RecordCount = 0 then
   begin
-    TAppUtils.Warning('Data Faktur tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
+    TAppUtils.Warning('Data Item tidak boleh kosong');
     exit;
   end;
 

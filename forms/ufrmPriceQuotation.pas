@@ -315,7 +315,7 @@ procedure TfrmPriceQuotation.FocusToGrid;
 begin
   cxGrid1.SetFocus;
   cxGrid1.FocusedView := cxGrdMain;
-  if CDS.RecordCount = 0 then
+  if cxGrdMain.DataController.RecordCount = 0 then
   begin
     CDS.Append;
     cxGrdMain.Controller.EditingController.ShowEdit;
@@ -581,7 +581,12 @@ var
 begin
   Result := False;
 
-  if CDS.RecordCount = 0 then
+//  if CDS.RecordCount = 0 then
+//  begin
+//    TAppUtils.Warning('Data Item tidak boleh kosong');
+//    exit;
+//  end;
+  if cxGrdMain.DataController.RecordCount = 0 then
   begin
     TAppUtils.Warning('Data Item tidak boleh kosong');
     exit;

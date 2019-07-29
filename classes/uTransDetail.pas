@@ -14,6 +14,7 @@ type
   TServiceDetail = class;
   TStockOpname = class;
   TStockOpnameItem = class;
+  TSalesRetur = class;
 
   TCRUDTransDetail = class(TCRUDObject)
   private
@@ -283,6 +284,7 @@ type
     FSalesman: TSalesman;
     FMekanik: TMekanik;
     FCashAmount: Double;
+    FSalesRetur: TSalesRetur;
     FSettingFee: TSettingFee;
     FSalesType: Integer;
     FWarehouse: TWarehouse;
@@ -295,10 +297,12 @@ type
   public
     constructor Create;
     destructor Destroy; override;
+    procedure ClearRetur;
     function GenerateNo(aSalesType: Integer): String; reintroduce;
     function GetHeaderFlag: Integer; override;
     function GetRemain: Double;
     function GetTotalBayar: Double;
+    function HasRetur: Boolean;
     class procedure PrintData(aSalesInvoiceID: Integer);
     procedure SetGenerateNo; override;
     function UpdateRemain(aPaymentDate: TDateTime; AddedPaidAmt: Double = 0;
@@ -324,6 +328,7 @@ type
     property Salesman: TSalesman read FSalesman write FSalesman;
     property Mekanik: TMekanik read FMekanik write FMekanik;
     property CashAmount: Double read FCashAmount write FCashAmount;
+    property SalesRetur: TSalesRetur read FSalesRetur write FSalesRetur;
     property SettingFee: TSettingFee read FSettingFee write FSettingFee;
     property SalesType: Integer read FSalesType write FSalesType;
     property Warehouse: TWarehouse read FWarehouse write FWarehouse;
@@ -1361,7 +1366,7 @@ begin
       +' INNER JOIN TTRANSDETAIL D ON A.ID = D.HEADER_ID AND D.HEADER_FLAG = 400'
       +' INNER JOIN TITEM E ON D.ITEM_ID = E.ID'
       +' INNER JOIN TUOM F ON D.UOM_ID = F.ID'
-      +' WHERE A.TRANSFERTYPE <> 0 OR D.QTY > 0'
+      +' WHERE (A.TRANSFERTYPE <> 0 OR D.QTY > 0)'
       +' AND A.ID = ' + IntToStr(aID) ;
   DMReport.ExecuteReport('SlipTransferStock', S);
 end;
@@ -1386,6 +1391,7 @@ begin
   if FMekanik <> nil then FreeAndNil(FMekanik);
   if FRekening <> nil then FreeAndNil(FRekening);
   if FSettingFee <> nil then FreeAndNil(FSettingFee);
+  if FSalesRetur <> nil then FreeAndNil(FSalesRetur);
 end;
 
 function TSalesInvoice.AfterSaveToDB: Boolean;
@@ -1465,6 +1471,11 @@ begin
   End;
 end;
 
+procedure TSalesInvoice.ClearRetur;
+begin
+  if FSalesRetur <> nil then FreeAndNil(FSalesRetur);
+end;
+
 function TSalesInvoice.GenerateNo(aSalesType: Integer): String;
 var
   aDigitCount: Integer;
@@ -1521,6 +1532,14 @@ end;
 function TSalesInvoice.GetTotalBayar: Double;
 begin
   Result := Self.PaidAmount + Self.ReturAmount;
+end;
+
+function TSalesInvoice.HasRetur: Boolean;
+begin
+  Result := False;
+  if FSalesRetur <> nil then
+    if FSalesRetur.ID <> 0 then
+      Result := True;
 end;
 
 class procedure TSalesInvoice.PrintData(aSalesInvoiceID: Integer);
