@@ -8,6 +8,7 @@ inherited frmLapPenjualan: TfrmLapPenjualan
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
     Visible = False
+    ExplicitWidth = 690
     Width = 690
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
@@ -17,9 +18,12 @@ inherited frmLapPenjualan: TfrmLapPenjualan
   end
   inherited cxGroupBox2: TcxGroupBox
     Top = 452
+    ExplicitTop = 452
+    ExplicitWidth = 690
     Width = 690
     inherited btnTutup: TcxButton
       Left = 610
+      ExplicitLeft = 610
     end
     inherited btnExport: TcxButton
       OnClick = btnExportClick
@@ -39,8 +43,6 @@ inherited frmLapPenjualan: TfrmLapPenjualan
     Caption = ' Laporan Penjualan'
     Style.TextStyle = [fsBold]
     TabOrder = 2
-    ExplicitLeft = -87
-    ExplicitWidth = 726
     Height = 54
     Width = 690
     object cxLabel3: TcxLabel
@@ -78,10 +80,6 @@ inherited frmLapPenjualan: TfrmLapPenjualan
     Height = 354
     Align = alClient
     TabOrder = 3
-    ExplicitLeft = -81
-    ExplicitTop = 43
-    ExplicitWidth = 720
-    ExplicitHeight = 365
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
