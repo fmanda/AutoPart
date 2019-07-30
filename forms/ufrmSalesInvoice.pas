@@ -1551,9 +1551,9 @@ begin
     exit;
   end;
 
-  if crTotal.Value <= 0 then
+  if crAmount.Value <= 0 then
   begin
-    TAppUtils.Warning('Total <= 0');
+    TAppUtils.Warning('Sub Total <= 0');
     exit;
   end;
 
