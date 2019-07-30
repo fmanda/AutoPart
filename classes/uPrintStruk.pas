@@ -211,6 +211,19 @@ begin
 
     end;
 
+    if ASalesInv.CardAmount > 0 then
+    begin
+      Result.Add(TAppUtils.StrPadRight('',27,' ') + TAppUtils.StrPadRight('',13,'-'));
+      Result.Add(TAppUtils.StrPadLeftCut('BAYAR KARTU:',27,' ')
+        + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',ASalesInv.CardAmount),13,' '));
+      Result.Add(TAppUtils.StrPadLeftCut('BAYAR TUNAI:',27,' ')
+        + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',ASalesInv.CashAmount),13,' '));
+      Result.Add(TAppUtils.StrPadRight('',27,' ') + TAppUtils.StrPadRight('',13,'-'));
+      Result.Add(TAppUtils.StrPadLeftCut('KEMBALI:',27,' ')
+        + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',ASalesInv.CashAmount + ASalesInv.CardAmount - ASalesInv.Amount),13,' '));
+
+    end;
+
     //update 2019/7/28 => bengkel terima uang setelah cetak faktur
 //    if ASalesInv.CashAmount > 0 then
 ////    begin

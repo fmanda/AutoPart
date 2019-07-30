@@ -47,6 +47,27 @@ inherited frmEndOfDay: TfrmEndOfDay
       Height = 17
       ExplicitLeft = 646
     end
+    object Label1: TLabel
+      AlignWithMargins = True
+      Left = 3
+      Top = 1
+      Width = 335
+      Height = 17
+      Margins.Top = 1
+      Margins.Right = 15
+      Margins.Bottom = 1
+      Align = alLeft
+      Caption = 
+        '** Inputkan Saldo Aktual dari masing-masing kas ke Kolom Saldo F' +
+        'isik'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
+      ParentFont = False
+      ExplicitHeight = 16
+    end
   end
   object cxGroupBox1: TcxGroupBox [2]
     Left = 0
@@ -135,6 +156,7 @@ inherited frmEndOfDay: TfrmEndOfDay
         BevelOuter = bvNone
         BorderStyle = cxcbsNone
         TabOrder = 0
+        ExplicitTop = -1
         object cxGrdMain: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -174,6 +196,7 @@ inherited frmEndOfDay: TfrmEndOfDay
             Properties.DisplayFormat = ',0.00;(,0.00)'
             Properties.OnEditValueChanged = colFisikPropertiesEditValueChanged
             HeaderAlignmentHorz = taCenter
+            Styles.Content = styleFisik
             Width = 97
           end
           object colVariant: TcxGridDBColumn
@@ -194,9 +217,56 @@ inherited frmEndOfDay: TfrmEndOfDay
             Width = 322
           end
         end
+        object cxGrdDetail: TcxGridDBTableView
+          Navigator.Buttons.CustomButtons = <>
+          DataController.Summary.DefaultGroupSummaryItems = <>
+          DataController.Summary.FooterSummaryItems = <
+            item
+              Format = ',0.00;(,0.00)'
+              Kind = skSum
+              Column = cxGrdDetailColumn2
+            end
+            item
+              Kind = skCount
+              OnGetText = cxGrdDetailTcxGridDBDataControllerTcxDataSummaryFooterSummaryItems1GetText
+              Column = cxGrdDetailColumn1
+            end>
+          DataController.Summary.SummaryGroups = <>
+          OptionsData.CancelOnExit = False
+          OptionsData.Deleting = False
+          OptionsData.DeletingConfirmation = False
+          OptionsData.Editing = False
+          OptionsData.Inserting = False
+          OptionsView.Footer = True
+          OptionsView.GridLines = glVertical
+          OptionsView.GroupByBox = False
+          OptionsView.HeaderHeight = 23
+          object cxGrdDetailColumn1: TcxGridDBColumn
+            Caption = 'Jenis Transaksi'
+            DataBinding.FieldName = 'TransName'
+            PropertiesClassName = 'TcxTextEditProperties'
+            HeaderAlignmentHorz = taCenter
+            Width = 272
+          end
+          object cxGrdDetailColumn2: TcxGridDBColumn
+            DataBinding.FieldName = 'Total'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.Alignment.Horz = taRightJustify
+            Properties.DisplayFormat = ',0.00;(,0.00)'
+            HeaderAlignmentHorz = taCenter
+            Width = 106
+          end
+        end
         object cxGrid1Level1: TcxGridLevel
           Caption = 'Detail Transfer [F2]'
           GridView = cxGrdMain
+          object cxGrid1Level2: TcxGridLevel
+            Caption = 'Rekap Mutasi Harian'
+            GridView = cxGrdDetail
+          end
+        end
+        object cxGrid1Level3: TcxGridLevel
+          Visible = False
         end
       end
     end
@@ -205,5 +275,14 @@ inherited frmEndOfDay: TfrmEndOfDay
     Left = 584
     Top = 0
     PixelsPerInch = 96
+    object styleFisik: TcxStyle
+      AssignedValues = [svColor, svFont]
+      Color = clMoneyGreen
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+    end
   end
 end

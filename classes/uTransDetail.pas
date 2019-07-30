@@ -284,6 +284,8 @@ type
     FSalesman: TSalesman;
     FMekanik: TMekanik;
     FCashAmount: Double;
+    FCardAmount: Double;
+    FCardRekening: TRekening;
     FSalesRetur: TSalesRetur;
     FSettingFee: TSettingFee;
     FSalesType: Integer;
@@ -328,6 +330,8 @@ type
     property Salesman: TSalesman read FSalesman write FSalesman;
     property Mekanik: TMekanik read FMekanik write FMekanik;
     property CashAmount: Double read FCashAmount write FCashAmount;
+    property CardAmount: Double read FCardAmount write FCardAmount;
+    property CardRekening: TRekening read FCardRekening write FCardRekening;
     property SalesRetur: TSalesRetur read FSalesRetur write FSalesRetur;
     property SettingFee: TSettingFee read FSettingFee write FSettingFee;
     property SalesType: Integer read FSalesType write FSalesType;
@@ -1392,6 +1396,7 @@ begin
   if FRekening <> nil then FreeAndNil(FRekening);
   if FSettingFee <> nil then FreeAndNil(FSettingFee);
   if FSalesRetur <> nil then FreeAndNil(FSalesRetur);
+  if FCardRekening <> nil then FreeAndNil(FCardRekening);
 end;
 
 function TSalesInvoice.AfterSaveToDB: Boolean;

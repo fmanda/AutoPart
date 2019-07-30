@@ -518,12 +518,12 @@ begin
     lReturAmt := aSalesInvoice.SalesRetur.Amount;
   end;
 
-  //load from inv
+  //load from inv , header
   Result.LoadByCode(aSalesInvoice.InvoiceNo);
   Result.Refno        := aSalesInvoice.InvoiceNo;
   Result.TransDate    := aSalesInvoice.TransDate;
   Result.DueDate      := Result.TransDate;
-  Result.Amount       := aSalesInvoice.Amount - lReturAmt;
+  Result.Amount       := aSalesInvoice.Amount - lReturAmt; // - aSalesInvoice.CardAmount;
   Result.PaymentFlag  := PaymentFlag_Cash;
   Result.ReturAmount  := lReturAmt;
                  
@@ -531,22 +531,33 @@ begin
   Result.Rekening     := TRekening.CreateID(aSalesInvoice.Rekening.ID);
   Result.Items.Clear;
 
-  //debet cash in
+  //debet cash in kas
   lItem               := TFinancialTransaction.Create;
-
-
   lItem.Rekening      := TRekening.CreateID(aSalesInvoice.Rekening.ID);
-  lItem.DebetAmt      := Result.Amount;
+  lItem.DebetAmt      := Result.Amount - aSalesInvoice.CardAmount;
   lItem.Amount        := lItem.DebetAmt;
   lItem.TransDate     := aSalesInvoice.TransDate;
   lItem.Notes         := 'Penjualan Cash No : ' + aSalesInvoice.InvoiceNo;
   lItem.TransType     := Result.PaymentFlag;
   Result.Items.Add(lItem);
 
+  //kartu
+  if (aSalesInvoice.CardAmount > 0) and (aSalesInvoice.CardRekening <> nil) then
+  begin
+    lItem               := TFinancialTransaction.Create;
+    lItem.Rekening      := TRekening.CreateID(aSalesInvoice.CardRekening.ID);
+    lItem.DebetAmt      := aSalesInvoice.CardAmount;
+    lItem.Amount        := lItem.DebetAmt;
+    lItem.TransDate     := aSalesInvoice.TransDate;
+    lItem.Notes         := 'Penjualan Cash No : ' + aSalesInvoice.InvoiceNo;
+    lItem.TransType     := Result.PaymentFlag;
+    Result.Items.Add(lItem);
+  end;
+
   //credit piutang
   lItem               := TFinancialTransaction.Create;
   lItem.SalesInvoice  := TSalesInvoice.CreateID(aSalesInvoice.ID);
-  lItem.CreditAmt     := Result.Amount;
+  lItem.CreditAmt     := Result.Amount;   //cash +  card
   lItem.Amount        := lItem.CreditAmt;
   lItem.ReturAmt      := lReturAmt;
   lItem.TransDate     := aSalesInvoice.TransDate;
@@ -558,10 +569,8 @@ begin
     lItem.SalesRetur := TSalesRetur.CreateID(aSalesInvoice.SalesRetur.ID);    
   end;
   Result.Items.Add(lItem);
-
   Result.ModifiedBy   := UserLogin;
   Result.ModifiedDate := Now();
-
 end;
 
 class function TSalesPayment.CreateOrGetFromRetur(aSalesRetur: TSalesRetur):

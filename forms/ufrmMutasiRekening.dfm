@@ -56,6 +56,8 @@ inherited frmMutasiRekening: TfrmMutasiRekening
     object dtStart: TcxDateEdit
       Left = 144
       Top = 13
+      Properties.SaveTime = False
+      Properties.ShowTime = False
       TabOrder = 0
       Width = 117
     end

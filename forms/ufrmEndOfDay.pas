@@ -32,22 +32,35 @@ type
     cxGrid1Level1: TcxGridLevel;
     colVariant: TcxGridDBColumn;
     colNotes: TcxGridDBColumn;
+    cxGrid1Level2: TcxGridLevel;
+    cxGrdDetail: TcxGridDBTableView;
+    cxGrid1Level3: TcxGridLevel;
+    cxGrdDetailColumn1: TcxGridDBColumn;
+    cxGrdDetailColumn2: TcxGridDBColumn;
+    styleFisik: TcxStyle;
+    Label1: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure dtEODPropertiesEditValueChanged(Sender: TObject);
     procedure dtEODPropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure colFisikPropertiesEditValueChanged(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
+    procedure
+        cxGrdDetailTcxGridDBDataControllerTcxDataSummaryFooterSummaryItems1GetText(
+        Sender: TcxDataSummaryItem; const AValue: Variant; AIsFooter: Boolean; var
+        AText: string);
   private
     FCDS: TClientDataset;
     FCDSClone: TClientDataset;
     FEOD: TEndOfDay;
     FCashOpname: TCashOpname;
+    FCDSDetail: TClientDataset;
     procedure CalculateAll;
     function GetCDS: TClientDataset;
     function GetCDSClone: TClientDataset;
     function GetEOD: TEndOfDay;
     function GetCashOpname: TCashOpname;
+    function GetCDSDetail: TClientDataset;
     procedure InitState;
     procedure InitView;
     procedure LoadRekening;
@@ -56,9 +69,11 @@ type
     property CDSClone: TClientDataset read GetCDSClone write FCDSClone;
     property EOD: TEndOfDay read GetEOD write FEOD;
     property CashOpname: TCashOpname read GetCashOpname write FCashOpname;
+    property CDSDetail: TClientDataset read GetCDSDetail write FCDSDetail;
     { Private declarations }
   public
     function GetGroupName: string; override;
+    procedure LoadRekapMutasi(aRekeningID: Integer);
     { Public declarations }
   end;
 
@@ -152,10 +167,26 @@ begin
   CalculateAll;
 end;
 
+procedure
+    TfrmEndOfDay.cxGrdDetailTcxGridDBDataControllerTcxDataSummaryFooterSummaryItems1GetText(
+    Sender: TcxDataSummaryItem; const AValue: Variant; AIsFooter: Boolean; var
+    AText: string);
+begin
+  inherited;
+  AText := 'Total Saldo System';
+end;
+
 procedure TfrmEndOfDay.dtEODPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
-  LoadRekening;
+  Self.Enabled  := False;
+  Self.Cursor   := crHourGlass;
+  try
+    LoadRekening;
+  finally
+    Self.Enabled  := True;
+    Self.Cursor   := crDefault;
+  end;
 end;
 
 procedure TfrmEndOfDay.dtEODPropertiesValidate(Sender: TObject;
@@ -213,6 +244,19 @@ begin
   Result := FCashOpname;
 end;
 
+function TfrmEndOfDay.GetCDSDetail: TClientDataset;
+begin
+  if FCDSDetail = nil then
+  begin
+    FCDSDetail := TClientDataSet.Create(Self);
+    FCDSDetail.AddField('Rekening', ftInteger);
+    FCDSDetail.AddField('TransName', ftString);
+    FCDSDetail.AddField('Total', ftFloat);
+    FCDSDetail.CreateDataSet;
+  end;
+  Result := FCDSDetail;
+end;
+
 function TfrmEndOfDay.GetGroupName: string;
 begin
   Result := 'Manajemen';
@@ -251,9 +295,39 @@ end;
 procedure TfrmEndOfDay.InitView;
 begin
   cxGrdMain.PrepareFromCDS(CDS);
+  cxGrdDetail.PrepareFromCDS(CDSDetail);
+
+  cxGrdDetail.SetMasterKeyField('Rekening');
+  cxGrdDetail.SetDetailKeyField('Rekening');
+
   TcxExtLookup(colRekening.Properties).LoadFromSQL(Self,
     'select id, nama from trekening where jenis = 0','nama'
   );
+end;
+
+procedure TfrmEndOfDay.LoadRekapMutasi(aRekeningID: Integer);
+var
+  S: string;
+begin
+  S := 'SELECT * FROM [FN_REKAPMUTASI_REKENING](' + IntToStr(aRekeningID) +','
+      + TAppUtils.QuotD(dtEOD.Date)+ ','  + TAppUtils.QuotD(dtEOD.Date) + ')';
+
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      while not eof do
+      begin
+        CDSDetail.Append;
+        CDSDetail.FieldByName('Rekening').AsInteger   := aRekeningID;
+        CDSDetail.FieldByName('TransName').AsString   := FieldByName('TransName').AsString;
+        CDSDetail.FieldByName('Total').AsFloat        := FieldByName('Total').AsFloat;
+        CDSDetail.Post;
+        next;
+      end;
+    Finally
+      Free;
+    End;
+  end;
 end;
 
 procedure TfrmEndOfDay.LoadRekening;
@@ -261,6 +335,7 @@ var
   S: string;
 begin
   CDS.EmptyDataSet;
+  CDSDetail.EmptyDataSet;
   S := 'SELECT B.ID, A.BALANCE'
       +' FROM FN_SALDO_REKENING(' + TAppUtils.QuotD(dtEOD.Date)+ ',0) A'
       +' INNER JOIN TREKENING B ON A.REKENING_ID = B.ID AND B.JENIS = 0';
@@ -275,6 +350,7 @@ begin
         CDS.FieldByName('SaldoFisik').AsFloat   := FieldByName('Balance').AsFloat;
         CDS.FieldByName('Variant').AsFloat      := 0;
         CDS.Post;
+        LoadRekapMutasi(FieldByName('ID').AsInteger);
         next;
       end;
     Finally

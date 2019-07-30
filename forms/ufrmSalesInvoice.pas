@@ -76,7 +76,6 @@ type
     cxLookupFee: TcxExtLookupComboBox;
     cxLabel14: TcxLabel;
     spTempo: TcxSpinEdit;
-    btnGenerate: TcxButton;
     cxLabel15: TcxLabel;
     crCreditLimit: TcxCurrencyEdit;
     crCreditUsed: TcxCurrencyEdit;
@@ -101,6 +100,9 @@ type
     cxLabel17: TcxLabel;
     edRetur: TcxButtonEdit;
     crPPN: TcxCurrencyEdit;
+    Label7: TLabel;
+    btnPayment: TcxButton;
+    Label8: TLabel;
     procedure edCustomerKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edNotesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -129,7 +131,6 @@ type
     procedure colSrvQtyPropertiesEditValueChanged(Sender: TObject);
     procedure spTempoPropertiesEditValueChanged(Sender: TObject);
     procedure dtInvoicePropertiesEditValueChanged(Sender: TObject);
-    procedure btnGenerateClick(Sender: TObject);
     procedure btnPrintClick(Sender: TObject);
     procedure colDiscPropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
@@ -151,6 +152,7 @@ type
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure edReturPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
+    procedure btnPaymentClick(Sender: TObject);
   private
     DisableTrigger: Boolean;
     FCDS: TClientDataset;
@@ -171,7 +173,6 @@ type
     function DCService: TcxGridDBDataController;
     procedure FocusToGrid;
     procedure FocusToService;
-    procedure GenerateDummy;
     function GetCDS: TClientDataset;
     function GetCDSService: TClientDataset;
     function GetCDSClone: TClientDataset;
@@ -191,7 +192,7 @@ type
     procedure SetItemToGrid(aItem: TItem);
     procedure UpdateData;
     procedure UpdateHarga(aPriceType: Integer);
-    function ValidateData: Boolean;
+    function ValidateData(WithPaymentDlg: Boolean = False): Boolean;
     property CDS: TClientDataset read GetCDS write FCDS;
     property CDSService: TClientDataset read GetCDSService write FCDSService;
     property CDSClone: TClientDataset read GetCDSClone write FCDSClone;
@@ -203,6 +204,7 @@ type
     property SalesInv: TSalesInvoice read GetSalesInv write FSalesInv;
     { Private declarations }
   protected
+    procedure GenerateDummy;
     property CDSValidate: TClientDataset read FCDSValidate write SetCDSValidate;
   public
     function GetGroupName: string; override;
@@ -224,10 +226,10 @@ uses
 
 {$R *.dfm}
 
-procedure TfrmSalesInvoice.btnGenerateClick(Sender: TObject);
+procedure TfrmSalesInvoice.btnPaymentClick(Sender: TObject);
 begin
   inherited;
-  GenerateDummy;
+  btnSaveClick(Sender);
 end;
 
 procedure TfrmSalesInvoice.btnPrintClick(Sender: TObject);
@@ -240,9 +242,13 @@ begin
 end;
 
 procedure TfrmSalesInvoice.btnSaveClick(Sender: TObject);
+var
+  lWithPaymentDlg: Boolean;
 begin
   inherited;
-  if not ValidateData then exit;
+  lWithPaymentDlg := Sender = btnPayment;
+
+  if not ValidateData(lWithPaymentDlg) then exit;
   UpdateData;
   if SalesInv.SaveRepeat(False) then
   begin
@@ -816,6 +822,10 @@ begin
       cxSplitter.CloseSplitter
     else
       cxSplitter.OpenSplitter;
+  end else if Key = VK_F9 then
+  begin
+    btnPayment.Click;
+
   end;
 
 end;
@@ -904,6 +914,7 @@ begin
   begin
     FCDSService := TServiceDetail.CreateDataSet(Self, False);
     FCDSService.AddField('SubTotal',ftFloat);
+    FCDSService.AfterDelete := CDSAfterDelete;
     FCDSService.CreateDataSet;
   end;
   Result := FCDSService;
@@ -1419,12 +1430,15 @@ var
   lItem: TTransDetail;
   lService: TServiceDetail;
 begin
+  CalculateAll;
+
   SalesInv.InvoiceNo := edNoInv.Text;
   SalesInv.TransDate := dtInvoice.Date;
   SalesInv.DueDate  := dtJtTempo.Date;
   SalesInv.Notes := edNotes.Text;
   SalesInv.PaymentFlag := cbBayar.ItemIndex;
   SalesInv.SalesType := rbJenis.ItemIndex;
+
   SalesInv.SubTotal := crAmount.Value - crPPN.Value;
   SalesInv.PPN := crPPN.Value;
   SalesInv.Amount := crAmount.Value;
@@ -1531,10 +1545,16 @@ begin
   UpdateHarga(0);
 end;
 
-function TfrmSalesInvoice.ValidateData: Boolean;
+function TfrmSalesInvoice.ValidateData(WithPaymentDlg: Boolean = False):
+    Boolean;
 //var
 //  lCashAmt: Double;
+var
+  lCardAmt: Double;
+  lCardRekID: Integer;
+  lCashAmt: Double;
 begin
+  CalculateAll;
   Result := False;
 
   if SalesInv.Customer = nil then
@@ -1585,6 +1605,14 @@ begin
     exit
   end;
 
+  CDSClone.Last;
+  if (CDSClone.FieldByName('Item').AsInteger = 0)
+    and (CDSCLone.FieldByName('UOM').AsInteger = 0)
+    and (CDSClone.FieldByName('Qty').AsFloat = 0)
+  then
+  begin
+    CDSClone.Delete;
+  end;
 
 //  if CDS.State in [dsInsert, dsEdit] then CDS.Post;
 
@@ -1639,14 +1667,18 @@ begin
     if not TAppUtils.Confirm('Anda yakin mengkosongkan Jenis Fee atas Penjualan Salesman ini?') then  exit;
   end;
 
-//  lCashAmt := 0;
-
-//  if cbBayar.ItemIndex = PaymentFlag_Cash then
-//  begin
-//    Result := TfrmDialogPayment.ShowPayment(crTotal.Value, lCashAmt);
-//    SalesInv.CashAmount := lCashAmt;
-//  end
-//  else
+  lCashAmt := 0;
+  lCardAmt := 0;
+  lCardRekID := 0;
+//
+  if WithPaymentDlg then
+  begin
+    Result := TfrmDialogPayment.ShowPayment(crTotal.Value, lCashAmt, lCardAmt, lCardRekID);
+    SalesInv.CashAmount := lCashAmt;
+    SalesInv.CardAmount := lCardAmt;
+    SalesInv.CardRekening := TRekening.CreateID(lCardRekID);
+  end
+  else
     Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
 
 end;

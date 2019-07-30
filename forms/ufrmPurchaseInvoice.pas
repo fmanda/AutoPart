@@ -755,6 +755,7 @@ procedure TfrmPurchaseInvoice.UpdateData;
 var
   lItem: TTransDetail;
 begin
+
   PurchInv.InvoiceNo := edNoInv.Text;
   PurchInv.TransDate := dtInvoice.Date;
   PurchInv.DueDate  := dtJtTempo.Date;
@@ -796,6 +797,7 @@ end;
 function TfrmPurchaseInvoice.ValidateData: Boolean;
 begin
   Result := False;
+  CalculateAll;
 
   if PurchInv.Supplier = nil then
   begin
@@ -821,6 +823,15 @@ begin
   begin
     TAppUtils.Warning('Untuk Pembayaran Cash, Rekening Kas wajib diisi');
     exit;
+  end;
+
+  CDSClone.Last;
+  if (CDSClone.FieldByName('Item').AsInteger = 0)
+    and (CDSCLone.FieldByName('UOM').AsInteger = 0)
+    and (CDSClone.FieldByName('Qty').AsFloat = 0)
+  then
+  begin
+    CDSClone.Delete;
   end;
 
 //  if CDS.State in [dsInsert, dsEdit] then CDS.Post;
