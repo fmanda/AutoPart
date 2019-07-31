@@ -100,6 +100,13 @@ begin
       Result.Add('Cust  : '
         + TAppUtils.StrPadRight(ASalesInv.Customer.Nama,32,' '));
 
+    if ASalesInv.PaymentFlag = PaymentFlag_Credit then
+    begin
+      Result.Add('Bayar : '
+        + TAppUtils.StrPadRight('KREDIT - JT TEMPO : ',24,' ')
+        + FormatDateTime('dd/MM/yy',ASalesInv.DueDate));
+    end;
+
 //    Result.Add('       - CETAK ULANG / REPRINT -');
     Result.Add(TAppUtils.StrPadRight('',40,'-'));
 
