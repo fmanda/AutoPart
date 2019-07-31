@@ -80,6 +80,7 @@ inherited frmSaldoRekening: TfrmSaldoRekening
     Align = alClient
     TabOrder = 3
     object cxGrdMain: TcxGridDBTableView
+      PopupMenu = pmMain
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
       DataController.Summary.FooterSummaryItems = <
@@ -147,8 +148,16 @@ inherited frmSaldoRekening: TfrmSaldoRekening
     end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 520
-    Top = 8
+    Left = 600
+    Top = 65528
     PixelsPerInch = 96
+  end
+  object pmMain: TPopupMenu
+    Left = 280
+    Top = 288
+    object LihatKartuStock1: TMenuItem
+      Caption = 'Lihat Mutasi Rekening'
+      OnClick = LihatKartuStock1Click
+    end
   end
 end

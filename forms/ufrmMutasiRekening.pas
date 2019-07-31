@@ -13,7 +13,7 @@ uses
   cxCalendar, cxTextEdit, cxCurrencyEdit, cxGridLevel, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGridCustomView, cxGrid, cxDropDownEdit,
   cxMaskEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox,
-  Datasnap.DBClient;
+  Datasnap.DBClient, dxBarBuiltInMenu, cxPC;
 
 type
   TfrmMutasiRekening = class(TfrmDefaultReport)
@@ -24,27 +24,44 @@ type
     dtStart: TcxDateEdit;
     dtEnd: TcxDateEdit;
     cxLabel5: TcxLabel;
+    pgcMain: TcxPageControl;
+    tsDetail: TcxTabSheet;
+    tsRekap: TcxTabSheet;
     cxGrid1: TcxGrid;
     cxGrdMain: TcxGridDBTableView;
     colTransDate: TcxGridDBColumn;
     colRefNo: TcxGridDBColumn;
-    colNotes: TcxGridDBColumn;
     colQty: TcxGridDBColumn;
     colSaldo: TcxGridDBColumn;
     colUOM: TcxGridDBColumn;
+    colNotes: TcxGridDBColumn;
     cxGrid1Level1: TcxGridLevel;
+    cxGrid2: TcxGrid;
+    cxGrdRekap: TcxGridDBTableView;
+    cxGridDBColumn2: TcxGridDBColumn;
+    cxGridDBColumn3: TcxGridDBColumn;
+    cxGridLevel1: TcxGridLevel;
+    cxLabel1: TcxLabel;
+    crSaldo: TcxCurrencyEdit;
+    colNo: TcxGridDBColumn;
     procedure btnExportClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
+    procedure colNoGetDisplayText(Sender: TcxCustomGridTableItem; ARecord:
+        TcxCustomGridRecord; var AText: string);
     procedure FormCreate(Sender: TObject);
   private
     FCDS: TClientDataset;
+    FCDSRekap: TClientDataset;
     function GetCDS: TClientDataset;
+    function GetCDSRekap: TClientDataset;
     procedure InitView;
     procedure LoadData;
     property CDS: TClientDataset read GetCDS write FCDS;
+    property CDSRekap: TClientDataset read GetCDSRekap write FCDSRekap;
     { Private declarations }
   public
     function GetGroupName: string; override;
+    procedure LoadByID(aRekeningID: Integer; aDate: TDateTime);
     { Public declarations }
   end;
 
@@ -76,6 +93,14 @@ begin
   LoadData;
 end;
 
+procedure TfrmMutasiRekening.colNoGetDisplayText(Sender:
+    TcxCustomGridTableItem; ARecord: TcxCustomGridRecord; var AText: string);
+begin
+  inherited;
+  if ARecord = nil then exit;
+  AText := IntToStr(ARecord.RecordIndex + 1);
+end;
+
 procedure TfrmMutasiRekening.FormCreate(Sender: TObject);
 begin
   inherited;
@@ -83,6 +108,7 @@ begin
   InitView;
   dtStart.Date  := (Now());
   dtEnd.Date    := (Now());
+  pgcMain.ActivePage := tsDetail;
 end;
 
 function TfrmMutasiRekening.GetCDS: TClientDataset;
@@ -101,6 +127,18 @@ begin
   Result := FCDS;
 end;
 
+function TfrmMutasiRekening.GetCDSRekap: TClientDataset;
+begin
+  if FCDSRekap = nil then
+  begin
+    FCDSRekap := TClientDataSet.Create(Self);
+    FCDSRekap.AddField('TransName', ftString);
+    FCDSRekap.AddField('Total', ftFloat);
+    FCDSRekap.CreateDataSet;
+  end;
+  Result := FCDSRekap;
+end;
+
 function TfrmMutasiRekening.GetGroupName: string;
 begin
   Result := 'Penjualan & Kas';
@@ -109,9 +147,18 @@ end;
 procedure TfrmMutasiRekening.InitView;
 begin
   cxGrdMain.PrepareFromCDS(CDS);
+  cxGrdRekap.PrepareFromCDS(CDSRekap);
   cxLookupRekening.Properties.LoadFromSQL(Self,
     'select id, nama from trekening','nama');
   cxLookupRekening.SetDefaultValue();
+end;
+
+procedure TfrmMutasiRekening.LoadByID(aRekeningID: Integer; aDate: TDateTime);
+begin
+  dtStart.Date := aDate;
+  dtEnd.Date := aDate;
+  cxLookupRekening.EditValue := aRekeningID;
+  LoadData;
 end;
 
 procedure TfrmMutasiRekening.LoadData;
@@ -128,8 +175,10 @@ begin
 
 
   CDS.DisableControls;
+  CDSRekap.DisableControls;
   Try
     CDS.EmptyDataSet;
+    CDSRekap.EmptyDataSet;
 
     S := 'SELECT * FROM FN_MUTASI_REKENING('
         + IntToStr(VarToInt(cxLookupRekening.EditValue))
@@ -159,8 +208,34 @@ begin
         Free;
       End;
     end;
+
+    crSaldo.Value := lSaldo;
+
+    S := 'SELECT TRANSNAME, SUM(TOTAL) AS TOTAL FROM FN_REKAPMUTASI_REKENING('
+        + IntToStr(VarToInt(cxLookupRekening.EditValue))
+        + ',' + TAppUtils.QuotD(dtStart.Date)
+        + ',' + TAppUtils.QuotD(dtEnd.Date) + ')'
+        + ' GROUP BY TRANSNAME';
+
+
+    with TDBUtils.OpenQuery(S) do
+    begin
+      Try
+        while not eof do
+        begin
+          CDSRekap.Append;
+          CDSRekap.FieldByName('TransName').AsString   := FieldByName('TransName').AsString;
+          CDSRekap.FieldByName('Total').AsFloat        := FieldByName('Total').AsFloat;
+          CDSRekap.Post;
+          next;
+        end;
+      Finally
+        Free;
+      End;
+    end;
   Finally
     CDS.EnableControls;
+    CDSRekap.EnableControls;
   End;
 
 end;

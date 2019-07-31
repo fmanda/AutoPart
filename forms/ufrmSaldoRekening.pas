@@ -30,10 +30,13 @@ type
     colQty: TcxGridDBColumn;
     colValue: TcxGridDBColumn;
     cxGrid1Level1: TcxGridLevel;
+    pmMain: TPopupMenu;
+    LihatKartuStock1: TMenuItem;
     procedure btnRefreshClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnExportClick(Sender: TObject);
     procedure ckRekeningPropertiesEditValueChanged(Sender: TObject);
+    procedure LihatKartuStock1Click(Sender: TObject);
   private
     FCDS: TClientDataset;
     procedure InitView;
@@ -51,7 +54,7 @@ var
 implementation
 
 uses
-  uDXUtils, uAppUtils, uDBUtils;
+  uDXUtils, uAppUtils, uDBUtils, ufrmMutasiRekening;
 
 {$R *.dfm}
 
@@ -100,6 +103,18 @@ begin
 //  cxLookupRekening.SetDefaultValue();
 end;
 
+procedure TfrmSaldoRekening.LihatKartuStock1Click(Sender: TObject);
+var
+  lfrm : TfrmMutasiRekening;
+begin
+  inherited;
+  if FCDS = nil then
+    exit;
+
+  lfrm := TfrmMutasiRekening.Create(Application);
+  lfrm.LoadByID(CDS.FieldByName('ID').AsInteger, dtSaldo.Date);
+end;
+
 procedure TfrmSaldoRekening.LoadData;
 var
   S: string;
@@ -112,11 +127,11 @@ begin
 
   if FCDS <> nil then FreeAndNil(FCDS);
 
-  S := 'SELECT'
-      +' B.KODE, B.NAMA, A.DEBET, A.CREDIT, A.BALANCE'
+  S := 'SELECT B.ID, B.KODE, B.NAMA, A.DEBET, A.CREDIT, A.BALANCE'
       +' FROM FN_SALDO_REKENING(' + TAppUtils.QuotD(dtSaldo.Date)
       + ',' + IntToStr(VarToInt(cxLookupRekening.EditValue)) +  ') A'
-      +' INNER JOIN TREKENING B ON A.REKENING_ID = B.ID';
+      +' INNER JOIN TREKENING B ON A.REKENING_ID = B.ID'
+      +' ORDER BY B.JENIS, B.KODE';
 
   FCDS := TDBUtils.OpenDataset(S);
   cxGrdMain.PrepareFromCDS(CDS);

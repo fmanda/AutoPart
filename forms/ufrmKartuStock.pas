@@ -247,8 +247,8 @@ end;
 
 procedure TfrmKartuStock.LoadByID(aItemID, aGudangID: Integer);
 begin
-  dtStart.Date := StartOfTheMonth(Now());
-  dtEnd.Date := EndOfTheMonth(Now());
+  dtStart.Date := (Now());
+  dtEnd.Date := (Now());
   Item.LoadByID(aItemID);
   edKode.Text := Item.Kode;
   edNama.Text := Item.Nama;
