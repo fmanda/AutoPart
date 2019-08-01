@@ -48,18 +48,18 @@ type
     procedure FocusToFilterRow;
     { Private declarations }
   protected
-    procedure HideDateParams;
-    property LastFilterIndex: Integer read FLastFilterIndex write FLastFilterIndex;
   public
     class function Execute(ASQL, AKeyName: String; AStartDate: TDateTime = 0;
-        AEndDate: TDateTime = 0): TfrmCXServerLookup; overload;
+        AEndDate: TDateTime = 0): TfrmCXServerLookup; dynamic;
     function ResultRec: TcxCustomGridRecord;
     function FieldValue(aFieldName: String): Variant;
+    procedure HideDateParams;
     procedure HideFields(FieldNames: Array Of String);
     procedure PreFilter(aFieldName, aValue: String);
     procedure RefreshData;
     property SQL: String read FSQL write FSQL;
     property KeyName: String read FKeyName write FKeyName;
+    property LastFilterIndex: Integer read FLastFilterIndex write FLastFilterIndex;
     { Public declarations }
   end;
 

@@ -222,7 +222,7 @@ implementation
 uses
   uDXUtils, uDBUtils, uAppUtils, ufrmCXServerLookup, uCustomer, cxDataUtils,
   uWarehouse, uMekanik, uSalesman, uVariable, uAccount, uSettingFee,
-  ufrmDialogPayment, uPrintStruk, ufrmAuthUser, uStockCheck;
+  ufrmDialogPayment, uPrintStruk, ufrmAuthUser, uStockCheck, ufrmLookupItem;
 
 {$R *.dfm}
 
@@ -1200,7 +1200,7 @@ begin
         +' LEFT JOIN TITEMUOM C ON A.ID = C.ITEM_ID AND C.UOM_ID = B.ID'
         +' LEFT JOIN TMERK D ON A.MERK_ID = C.ID';
 
-    cxLookup := TfrmCXServerLookup.Execute(S,'ID');
+    cxLookup := TfrmLookupItem.Execute(S,'ID');
     if aKey <> '' then
       cxLookup.PreFilter('Nama', aKey)
     else
