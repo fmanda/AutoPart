@@ -27,7 +27,6 @@ object frmCXLookup: TfrmCXLookup
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 1
-    ExplicitWidth = 684
     object lblHeader: TLabel
       AlignWithMargins = True
       Left = 5
@@ -54,7 +53,6 @@ object frmCXLookup: TfrmCXLookup
       Caption = 'Filter Data'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      ExplicitLeft = 327
       Height = 31
       Width = 58
       AnchorY = 16
@@ -71,7 +69,6 @@ object frmCXLookup: TfrmCXLookup
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 1
-      ExplicitLeft = 388
       Width = 89
     end
     object EndDate: TcxDateEdit
@@ -86,7 +83,6 @@ object frmCXLookup: TfrmCXLookup
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 2
-      ExplicitLeft = 504
       Width = 89
     end
     object btnRefresh: TcxButton
@@ -171,7 +167,6 @@ object frmCXLookup: TfrmCXLookup
       OptionsImage.NumGlyphs = 2
       TabOrder = 4
       OnClick = btnRefreshClick
-      ExplicitLeft = 599
     end
     object lblsdFilter: TcxLabel
       AlignWithMargins = True
@@ -184,7 +179,6 @@ object frmCXLookup: TfrmCXLookup
       Caption = 's/d'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      ExplicitLeft = 480
       Height = 25
       Width = 21
       AnchorY = 16
@@ -200,7 +194,6 @@ object frmCXLookup: TfrmCXLookup
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 2
-    ExplicitWidth = 684
     object lbBenchmark: TLabel
       AlignWithMargins = True
       Left = 3
@@ -218,6 +211,7 @@ object frmCXLookup: TfrmCXLookup
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      Visible = False
       ExplicitHeight = 16
     end
     object btnClose: TcxButton
@@ -232,10 +226,10 @@ object frmCXLookup: TfrmCXLookup
       Align = alRight
       Cancel = True
       Caption = 'Close'
-      OptionsImage.ImageIndex = 6
+      OptionsImage.ImageIndex = 5
+      OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
       OnClick = btnCloseClick
-      ExplicitLeft = 605
     end
     object btnOK: TcxButton
       AlignWithMargins = True
@@ -248,7 +242,8 @@ object frmCXLookup: TfrmCXLookup
       Margins.Bottom = 2
       Align = alRight
       Caption = 'Select'
-      OptionsImage.ImageIndex = 13
+      OptionsImage.ImageIndex = 1
+      OptionsImage.Images = frmMain.ImageList
       TabOrder = 1
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -257,7 +252,6 @@ object frmCXLookup: TfrmCXLookup
       Font.Style = [fsBold]
       ParentFont = False
       OnClick = btnOKClick
-      ExplicitLeft = 519
     end
   end
   object Panel2: TPanel
@@ -271,7 +265,6 @@ object frmCXLookup: TfrmCXLookup
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 3
-    ExplicitWidth = 684
     object lbEscape: TLabel
       AlignWithMargins = True
       Left = 655
@@ -288,7 +281,6 @@ object frmCXLookup: TfrmCXLookup
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitLeft = 605
       ExplicitHeight = 16
     end
     object Label1: TLabel
@@ -308,7 +300,6 @@ object frmCXLookup: TfrmCXLookup
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitLeft = 520
       ExplicitHeight = 16
     end
   end
@@ -321,7 +312,6 @@ object frmCXLookup: TfrmCXLookup
     TabOrder = 0
     LockedStateImageOptions.Text = 'Mohon ditunggu...'
     LookAndFeel.NativeStyle = False
-    ExplicitWidth = 684
     object cxGridView: TcxGridDBTableView
       PopupMenu = pmSelect
       OnKeyDown = cxGridViewKeyDown

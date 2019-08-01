@@ -134,7 +134,7 @@ implementation
 
 uses
   uAppUtils, uDXUtils, ufrmCXServerLookup, cxDataUtils, uSupplier, uWarehouse,
-  uFinancialTransaction, uAccount, uVariable;
+  uFinancialTransaction, uAccount, uVariable, ufrmLookupItem;
 
 {$R *.dfm}
 
@@ -577,12 +577,14 @@ begin
 
   lItem  := TItem.Create;
   Try
-    s := 'SELECT A.ID, A.KODE, A.NAMA, C.NAMA AS MERK, B.NAMA AS ITEMGROUP, A.RAK'
+    s := 'SELECT A.ID, A.KODE, A.NAMA, D.NAMA AS MERK, A.RAK, B.UOM AS UOMSTOCK,'
+        +' C.PRICELIST, C.HARGABELI'
         +' FROM TITEM A'
-        +' LEFT JOIN TITEMGROUP B ON A.GROUP_ID = B.ID'
-        +' LEFT JOIN TMERK C ON A.MERK_ID = C.ID';
+        +' INNER JOIN TUOM B ON A.STOCKUOM_ID = B.ID'
+        +' LEFT JOIN TITEMUOM C ON A.ID = C.ITEM_ID AND C.UOM_ID = B.ID'
+        +' LEFT JOIN TMERK D ON A.MERK_ID = C.ID';
 
-    cxLookup := TfrmCXServerLookup.Execute(S,'ID');
+    cxLookup := TfrmLookupItem.Execute(S,'ID');
     if aKey <> '' then
       cxLookup.PreFilter('Nama', aKey)
     else
