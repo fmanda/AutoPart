@@ -117,10 +117,10 @@ begin
   Try
     if lInv.LoadByID(Self.cxGrdMain.GetID) then
     begin
-      if lInv.PaymentFlag = PaymentFlag_Cash then
+      if lInv.SalesType = SalesType_FrontEnd then
         TPrintStruk.Print(lInv);
 
-      if lInv.PaymentFlag = PaymentFlag_Credit then
+      if lInv.SalesType = SalesType_Salesman then
         TSalesInvoice.PrintData(lInv.ID);
 
     end;

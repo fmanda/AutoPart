@@ -174,16 +174,13 @@ inherited frmCashPayment: TfrmCashPayment
     Properties.ActivePage = tsFee
     Properties.CustomButtons.Buttons = <>
     OnChange = pgcMainChange
-    ExplicitLeft = 56
-    ExplicitTop = 216
-    ExplicitWidth = 353
-    ExplicitHeight = 217
     ClientRectBottom = 352
     ClientRectRight = 737
     ClientRectTop = 24
     object tsDetail: TcxTabSheet
       Caption = 'Detail Pengeluaran [F2]'
       ImageIndex = 0
+      ExplicitTop = 0
       ExplicitWidth = 289
       ExplicitHeight = 169
       object cxGrid1: TcxGrid
@@ -238,8 +235,6 @@ inherited frmCashPayment: TfrmCashPayment
     object tsFee: TcxTabSheet
       Caption = 'Pembayaran Fee Salesman'
       ImageIndex = 1
-      ExplicitWidth = 289
-      ExplicitHeight = 169
       object cxGrid2: TcxGrid
         Left = 0
         Top = 33
@@ -247,9 +242,6 @@ inherited frmCashPayment: TfrmCashPayment
         Height = 295
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = -3
-        ExplicitTop = 47
-        ExplicitHeight = 328
         object cxGrdFee: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>

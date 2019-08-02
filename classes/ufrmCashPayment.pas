@@ -454,14 +454,17 @@ begin
   end;
 
   //fee
-  lItem           := TFinancialTransaction.Create;
-  lItem.TransDate := CashPayment.TransDate;
-  lItem.Account   := TAccount.CreateID(cxLookupAccFee.EditValue);
-  lItem.Amount    := lTotalFee;
-  lItem.DebetAmt  := lTotalFee;
-  lItem.Notes     := 'Pembayaran Fee : ' + CashPayment.Refno;
-  lItem.TransType := 210;
-  CashPayment.Items.Add(lItem);
+  if lTotalFee > 0 then
+  begin
+    lItem           := TFinancialTransaction.Create;
+    lItem.TransDate := CashPayment.TransDate;
+    lItem.Account   := TAccount.CreateID(VarToInt(cxLookupAccFee.EditValue));
+    lItem.Amount    := lTotalFee;
+    lItem.DebetAmt  := lTotalFee;
+    lItem.Notes     := 'Pembayaran Fee : ' + CashPayment.Refno;
+    lItem.TransType := 210;
+    CashPayment.Items.Add(lItem);
+  end;
 
 end;
 

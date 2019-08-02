@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<TfrxReport Version="6.3.3" DotMatrixReport="True" EngineOptions.DoublePass="True" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Modal="False" PreviewOptions.Zoom="1" PrintOptions.Printer="EPSON LX-300+ /II (Copy 1)" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42369.6297970255" ReportOptions.Description.Text="" ReportOptions.LastChange="43679.9212456366" ScriptLanguage="PascalScript" ScriptText.Text="&#13;&#10;begin&#13;&#10;&#13;&#10;end.">
+  <Datasets>
+    <item DataSet="FDS1" DataSetName="FDS1"/>
+  </Datasets>
+  <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000"/>
+  <TfrxDMPPage Name="Page1" Orientation="poLandscape" PaperWidth="355.599770341815" PaperHeight="148.431154138213" PaperSize="256" LeftMargin="0" RightMargin="0" TopMargin="0" BottomMargin="0" ColumnWidth="0" ColumnPositions.Text="" Frame.Typ="0" LargeDesignHeight="True" MirrorMode="0" TitleBeforeHeader="False" HGuides.Text="" VGuides.Text="" FontStyle="0">
+    <TfrxReportTitle Name="ReportTitle1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Frame.Typ="0" Font.Charset="0" Font.Color="0" Font.Height="-11" Font.Name="Courier New" Font.Style="0" Height="136" Left="0" ParentFont="False" Top="17" Width="1344">
+      <TfrxDMPMemoView Name="DMPMemo1" AllowVectorExport="True" Left="19.2" Top="0" Width="345.6" Height="17" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text="[Nama_Cabang]"/>
+      <TfrxDMPMemoView Name="DMPMemo2" AllowVectorExport="True" Left="19.2" Top="17" Width="345.6" Height="17" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text="[Alamat_1]"/>
+      <TfrxDMPMemoView Name="DMPMemo3" AllowVectorExport="True" Left="19.2" Top="34" Width="345.6" Height="17" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text="[Alamat_2] , Telp : [Telp]"/>
+      <TfrxDMPMemoView Name="DMPMemo4" AllowVectorExport="True" Left="9.6" Top="51" Width="1305.6" Height="17" DataSetName="IBQ1" FontStyle="128" Frame.Style="fsDash" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text="========================================================================================================================================="/>
+      <TfrxDMPMemoView Name="DMPMemo5" AllowVectorExport="True" Left="969.6" Top="34" Width="345.6" Height="17" FontStyle="0" Frame.Typ="0" HAlign="haRight" ParentFont="False" TruncOutboundText="False" Text="F A K T U R   P E N J U A L A N">
+        <Formats>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxDMPMemoView>
+      <TfrxDMPMemoView Name="DMPMemo6" AllowVectorExport="True" Left="768" Top="68" Width="86.4" Height="17" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text="Nomor"/>
+      <TfrxDMPMemoView Name="DMPMemo7" AllowVectorExport="True" Left="768" Top="85" Width="86.4" Height="17" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text="Tanggal"/>
+      <TfrxDMPMemoView Name="DMPMemo8" AllowVectorExport="True" Left="768" Top="102" Width="86.4" Height="17" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text="Salesman"/>
+      <TfrxDMPMemoView Name="DMPMemo9" AllowVectorExport="True" Left="19.2" Top="68" Width="105.6" Height="17" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text="Pelanggan"/>
+      <TfrxDMPMemoView Name="DMPMemo10" AllowVectorExport="True" Left="19.2" Top="85" Width="105.6" Height="17" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text="Alamat"/>
+      <TfrxDMPMemoView Name="DMPMemo11" AllowVectorExport="True" Left="134.4" Top="68" Width="9.6" Height="17" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo12" AllowVectorExport="True" Left="134.4" Top="85" Width="9.6" Height="17" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo13" AllowVectorExport="True" Left="864" Top="68" Width="9.6" Height="17" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo14" AllowVectorExport="True" Left="864" Top="85" Width="9.6" Height="17" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo15" AllowVectorExport="True" Left="864" Top="102" Width="9.6" Height="17" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo16" AllowVectorExport="True" Left="153.6" Top="68" Width="460.8" Height="17" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text="[FDS1.&#34;CUSTOMER&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo17" AllowVectorExport="True" Left="153.6" Top="85" Width="460.8" Height="51" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text="[FDS1.&#34;ALAMAT&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo18" AllowVectorExport="True" Left="883.2" Top="68" Width="364.8" Height="17" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text="[FDS1.&#34;INVOICENO&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo19" AllowVectorExport="True" Left="883.2" Top="85" Width="153.6" Height="17" DisplayFormat.FormatStr="dd mmm yyyy" DisplayFormat.Kind="fkDateTime" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text="[FDS1.&#34;TRANSDATE&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo20" AllowVectorExport="True" Left="883.2" Top="102" Width="364.8" Height="17" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text="[FDS1.&#34;SALESMAN&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo21" AllowVectorExport="True" Left="1056" Top="85" Width="76.8" Height="17" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text="Jt Tempo"/>
+      <TfrxDMPMemoView Name="DMPMemo22" AllowVectorExport="True" Left="1142.4" Top="85" Width="9.6" Height="17" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo23" AllowVectorExport="True" Left="1161.6" Top="85" Width="153.6" Height="17" DisplayFormat.FormatStr="dd mmm yyyy" DisplayFormat.Kind="fkDateTime" FontStyle="0" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text="[FDS1.&#34;DUEDATE&#34;]"/>
+    </TfrxReportTitle>
+    <TfrxMasterData Name="MasterData1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Frame.Typ="0" Font.Charset="0" Font.Color="0" Font.Height="-11" Font.Name="Courier New" Font.Style="0" Height="17" Left="0" ParentFont="False" Top="238" Width="1344" ColumnWidth="0" ColumnGap="0" DataSet="FDS1" DataSetName="FDS1" RowCount="0">
+      <TfrxDMPMemoView Name="DMPMemo32" AllowVectorExport="True" Left="19.2" Top="0" Width="38.4" Height="17" FontStyle="0" Frame.Typ="1" HAlign="haCenter" ParentFont="False" TruncOutboundText="False" Text="[Line#]"/>
+      <TfrxDMPMemoView Name="DMPMemo33" AllowVectorExport="True" Left="67.2" Top="0" Width="182.4" Height="17" FontStyle="0" Frame.Typ="1" ParentFont="False" TruncOutboundText="False" Text="[FDS1.&#34;KODE&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo34" AllowVectorExport="True" Left="259.2" Top="0" Width="528" Height="17" FontStyle="0" Frame.Typ="1" ParentFont="False" TruncOutboundText="False" Text="[FDS1.&#34;NAMA&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo35" AllowVectorExport="True" Left="796.8" Top="0" Width="67.2" Height="17" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" FontStyle="0" Frame.Typ="1" HAlign="haRight" ParentFont="False" TruncOutboundText="False" Text="[FDS1.&#34;QTY&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo36" AllowVectorExport="True" Left="873.6" Top="0" Width="67.2" Height="17" FontStyle="0" Frame.Typ="1" HAlign="haCenter" ParentFont="False" TruncOutboundText="False" Text="[FDS1.&#34;UOM&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo37" AllowVectorExport="True" Left="950.4" Top="0" Width="115.2" Height="17" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" FontStyle="0" Frame.Typ="1" HAlign="haRight" ParentFont="False" TruncOutboundText="False" Text="[FDS1.&#34;HARGA&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo38" AllowVectorExport="True" Left="1075.2" Top="0" Width="86.4" Height="17" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" FontStyle="0" Frame.Typ="1" HAlign="haRight" ParentFont="False" TruncOutboundText="False" Text="[FDS1.&#34;DISCOUNT&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo39" AllowVectorExport="True" Left="1171.2" Top="0" Width="144" Height="17" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" FontStyle="0" Frame.Typ="3" HAlign="haRight" ParentFont="False" TruncOutboundText="False" Text="[FDS1.&#34;LINETOTAL&#34;]"/>
+    </TfrxMasterData>
+    <TfrxPageFooter Name="PageFooter1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Frame.Typ="0" Font.Charset="1" Font.Color="0" Font.Height="-16" Font.Name="Courier New" Font.Style="0" Height="85" Left="0" ParentFont="False" Top="408" Width="1344" OnBeforePrint="PageFooter1OnBeforePrint">
+      <TfrxDMPMemoView Name="DMPMemo56" AllowVectorExport="True" Left="1017.6" Top="17" Width="297.6" Height="17" OnBeforePrint="DMPMemo56OnBeforePrint" DataSetName="IBQ1" Frame.Style="fsDash" Frame.Typ="0" HAlign="haRight" TruncOutboundText="False" Text="Page [page] from [TotalPages]">
+        <Formats>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxDMPMemoView>
+      <TfrxDMPMemoView Name="DMPMemo57" AllowVectorExport="True" Left="489.6" Top="17" Width="307.2" Height="17" DataSetName="IBQ1" FontStyle="128" Frame.Style="fsDash" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text="by : [UserPrint]"/>
+      <TfrxDMPMemoView Name="DMPMemo58" AllowVectorExport="True" Left="19.2" Top="17" Width="288" Height="17" DataSetName="IBQ1" FontStyle="128" Frame.Style="fsDash" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text="Print At : [Date] [Time]">
+        <Formats>
+          <item/>
+          <item/>
+        </Formats>
+      </TfrxDMPMemoView>
+      <TfrxDMPMemoView Name="DMPMemo62" AllowVectorExport="True" Left="9.6" Top="0" Width="1305.6" Height="17" Visible="False" DataSetName="IBQ1" FontStyle="128" Frame.Style="fsDash" Frame.Typ="0" ParentFont="False" TruncOutboundText="False" Text="-----------------------------------------------------------------------------------------------------------------------------------------"/>
+      <TfrxDMPMemoView Name="DMPMemo47" AllowVectorExport="True" Left="38.4" Top="34" Width="96" Height="17" Frame.Typ="0" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo63" AllowVectorExport="True" Left="38.4" Top="51" Width="96" Height="17" Frame.Typ="0" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo64" AllowVectorExport="True" Left="38.4" Top="68" Width="96" Height="17" Frame.Typ="0" TruncOutboundText="False" Text=""/>
+    </TfrxPageFooter>
+    <TfrxReportSummary Name="ReportSummary1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Frame.Typ="0" Height="102" Left="0" Top="289" Width="1344">
+      <TfrxDMPMemoView Name="DMPMemo40" AllowVectorExport="True" Left="19.2" Top="17" Width="432" Height="17" Frame.Typ="4" HAlign="haCenter" TruncOutboundText="False" Text="Pelanggan"/>
+      <TfrxDMPMemoView Name="DMPMemo48" AllowVectorExport="True" Left="1171.2" Top="17" Width="144" Height="17" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" Frame.Typ="7" HAlign="haRight" TruncOutboundText="False" Text="[FDS1.&#34;SUBTOTAL&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo49" AllowVectorExport="True" Left="1171.2" Top="34" Width="144" Height="17" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" Frame.Typ="3" HAlign="haRight" TruncOutboundText="False" Text="[SUM(&#60;FDS1.&#34;QTY&#34;&#62;*&#60;FDS1.&#34;DISCOUNT&#34;&#62;,MasterData1)]"/>
+      <TfrxDMPMemoView Name="DMPMemo50" AllowVectorExport="True" Left="1171.2" Top="51" Width="144" Height="17" DisplayFormat.FormatStr="%2.0n" DisplayFormat.Kind="fkNumeric" Frame.Typ="3" HAlign="haRight" TruncOutboundText="False" Text="[FDS1.&#34;AMOUNT&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo51" AllowVectorExport="True" Left="950.4" Top="17" Width="211.2" Height="17" Frame.Typ="5" HAlign="haRight" TruncOutboundText="False" Text="Sub Total"/>
+      <TfrxDMPMemoView Name="DMPMemo52" AllowVectorExport="True" Left="950.4" Top="34" Width="211.2" Height="17" Frame.Typ="1" HAlign="haRight" TruncOutboundText="False" Text="Diskon"/>
+      <TfrxDMPMemoView Name="DMPMemo53" AllowVectorExport="True" Left="950.4" Top="51" Width="211.2" Height="17" Frame.Typ="1" HAlign="haRight" TruncOutboundText="False" Text="Total"/>
+      <TfrxDMPMemoView Name="DMPMemo54" AllowVectorExport="True" Left="460.8" Top="17" Width="480" Height="17" Frame.Typ="4" HAlign="haCenter" TruncOutboundText="False" Text="Salesman"/>
+      <TfrxDMPMemoView Name="DMPMemo55" AllowVectorExport="True" Left="950.4" Top="85" Width="364.8" Height="17" Frame.Typ="4" HAlign="haCenter" TruncOutboundText="False" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo59" AllowVectorExport="True" Left="19.2" Top="85" Width="432" Height="17" Frame.Typ="0" HAlign="haCenter" TruncOutboundText="False" Text="[FDS1.&#34;CUSTOMER&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo60" AllowVectorExport="True" Left="470.4" Top="85" Width="451.2" Height="17" Frame.Typ="0" HAlign="haCenter" TruncOutboundText="False" Text="[FDS1.&#34;SALESMAN&#34;]"/>
+    </TfrxReportSummary>
+    <TfrxHeader Name="Header1" FillType="ftBrush" FillGap.Top="0" FillGap.Left="0" FillGap.Bottom="0" FillGap.Right="0" Frame.Typ="0" Height="34" Left="0" Top="187" Width="1344">
+      <TfrxDMPMemoView Name="DMPMemo24" AllowVectorExport="True" Left="19.2" Top="0" Width="38.4" Height="17" Frame.Typ="13" HAlign="haCenter" TruncOutboundText="False" Text="No"/>
+      <TfrxDMPMemoView Name="DMPMemo25" AllowVectorExport="True" Left="67.2" Top="0" Width="182.4" Height="17" Frame.Typ="13" TruncOutboundText="False" Text="Kode Item"/>
+      <TfrxDMPMemoView Name="DMPMemo26" AllowVectorExport="True" Left="259.2" Top="0" Width="528" Height="17" Frame.Typ="13" TruncOutboundText="False" Text="Nama Item"/>
+      <TfrxDMPMemoView Name="DMPMemo27" AllowVectorExport="True" Left="796.8" Top="0" Width="67.2" Height="17" Frame.Typ="13" HAlign="haRight" TruncOutboundText="False" Text="Qty"/>
+      <TfrxDMPMemoView Name="DMPMemo28" AllowVectorExport="True" Left="873.6" Top="0" Width="67.2" Height="17" Frame.Typ="13" HAlign="haCenter" TruncOutboundText="False" Text="Sat"/>
+      <TfrxDMPMemoView Name="DMPMemo29" AllowVectorExport="True" Left="950.4" Top="0" Width="115.2" Height="17" Frame.Typ="13" HAlign="haRight" TruncOutboundText="False" Text="Harga"/>
+      <TfrxDMPMemoView Name="DMPMemo30" AllowVectorExport="True" Left="1075.2" Top="0" Width="86.4" Height="17" Frame.Typ="13" HAlign="haRight" TruncOutboundText="False" Text="Diskon"/>
+      <TfrxDMPMemoView Name="DMPMemo31" AllowVectorExport="True" Left="1171.2" Top="0" Width="144" Height="17" Frame.Typ="15" HAlign="haRight" TruncOutboundText="False" Text="Total"/>
+    </TfrxHeader>
+  </TfrxDMPPage>
+</TfrxReport>
