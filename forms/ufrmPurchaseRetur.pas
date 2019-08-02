@@ -133,7 +133,7 @@ implementation
 
 uses
   uDBUtils, uDXUtils, uAppUtils, Strutils, ufrmCXServerLookup,
-  System.DateUtils, uSupplier, ufrmCXMsgInfo, uWarehouse;
+  System.DateUtils, uSupplier, ufrmCXMsgInfo, uWarehouse, ufrmLookupItem;
 
 {$R *.dfm}
 
@@ -763,7 +763,7 @@ begin
       S := S +' INNER JOIN TTRANSDETAIL D ON D.HEADER_FLAG = ' + IntToStr(HeaderFlag_PurchaseInvoice)
         +' AND D.ITEM_ID = A.ID AND D.HEADER_ID = ' + IntToStr(PurchRetur.Invoice.ID);
 
-    cxLookup := TfrmCXServerLookup.Execute(S,'ID');
+    cxLookup := TfrmLookupItem.Execute(S,'ID');
     if aKey <> '' then
       cxLookup.PreFilter('Nama', aKey)
     else

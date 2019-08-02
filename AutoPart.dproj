@@ -480,6 +480,10 @@
             <Form>frmGantiPassword</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="lib\ufrmLookupItem.pas">
+            <Form>frmLookupItem</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

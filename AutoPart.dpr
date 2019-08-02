@@ -115,7 +115,8 @@ uses
   ufrmBrowseUser in 'forms\ufrmBrowseUser.pas' {frmBrowseUser},
   ufrmLapPembelian in 'forms\ufrmLapPembelian.pas' {frmLapPembelian},
   ufrmLapPenjualan in 'forms\ufrmLapPenjualan.pas' {frmLapPenjualan},
-  ufrmGantiPassword in 'forms\ufrmGantiPassword.pas' {frmGantiPassword};
+  ufrmGantiPassword in 'forms\ufrmGantiPassword.pas' {frmGantiPassword},
+  ufrmLookupItem in 'lib\ufrmLookupItem.pas' {frmLookupItem};
 
 {$R *.res}
 
@@ -125,5 +126,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmLookupItem, frmLookupItem);
   Application.Run;
 end.

@@ -4,10 +4,12 @@ interface
 
 uses
   CRUDObject, uDBUtils, Sysutils, uItem, System.Generics.Collections,
-  uWarehouse, uSupplier, uCustomer, uSalesman, uAccount, uTransDetail;
+  uWarehouse, uSupplier, uCustomer, uSalesman, uAccount, uTransDetail,
+  uSalesFee;
 
 type
   TFinancialTransaction = class;
+  TFeePaymentItem = class;
 
   TCRUDFinance = class(TCRUDObject)
   private
@@ -119,17 +121,24 @@ type
 
   TCashPayment = class(TCRUDFinance)
   private
+    FFeeItems: TObjectList<TFeePaymentItem>;
     FRekening: TRekening;
+    function GetFeeItems: TObjectList<TFeePaymentItem>;
+    function UpdateFee(aIsRevert: Boolean = False): Boolean;
   protected
+    function AfterSaveToDB: Boolean; override;
+    function BeforeDeleteFromDB: Boolean; override;
+    function BeforeSaveToDB: Boolean; override;
   public
     destructor Destroy; override;
     function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
+    property FeeItems: TObjectList<TFeePaymentItem> read GetFeeItems write
+        FFeeItems;
   published
     property Rekening: TRekening read FRekening write FRekening;
   end;
 
-type
   TSalesPayment = class(TCRUDFinance)
   private
     FMedia: Integer;
@@ -158,7 +167,7 @@ type
     property ReturAmount: Double read FReturAmount write FReturAmount;
   end;
 
-type
+
   TPurchasePayment = class(TCRUDFinance)
   private
     FMedia: Integer;
@@ -187,6 +196,18 @@ type
     property Rekening: TRekening read FRekening write FRekening;
     property Supplier: TSupplier read FSupplier write FSupplier;
     property ReturAmount: Double read FReturAmount write FReturAmount;
+  end;
+
+  TFeePaymentItem = class(TCRUDObject)
+  private
+    FAmount: Double;
+    FSalesFee: TSalesFee;
+    FCashPayment: TCashPayment;
+  published
+    property Amount: Double read FAmount write FAmount;
+    property SalesFee: TSalesFee read FSalesFee write FSalesFee;
+    [AttributeOfHeader]
+    property CashPayment: TCashPayment read FCashPayment write FCashPayment;
   end;
 
 const
@@ -352,7 +373,22 @@ end;
 destructor TCashPayment.Destroy;
 begin
   inherited;
-//  if FSupplier <> nil then FreeAndNil(FSupplier);
+  if FFeeItems <> nil then FreeAndNil(FFeeItems);
+end;
+
+function TCashPayment.AfterSaveToDB: Boolean;
+begin
+  Result := Self.UpdateFee;
+end;
+
+function TCashPayment.BeforeDeleteFromDB: Boolean;
+begin
+  Result := Self.UpdateFee(True);
+end;
+
+function TCashPayment.BeforeSaveToDB: Boolean;
+begin
+  Result := Self.UpdateFee(True);
 end;
 
 function TCashPayment.GenerateNo: String;
@@ -386,6 +422,33 @@ end;
 function TCashPayment.GetHeaderFlag: Integer;
 begin
   Result := HeaderFlag_CashPayment;
+end;
+
+function TCashPayment.GetFeeItems: TObjectList<TFeePaymentItem>;
+begin
+  if FFeeItems = nil then
+  begin
+    FFeeItems := TObjectList<TFeePaymentItem>.Create();
+  end;
+  Result := FFeeItems;
+end;
+
+function TCashPayment.UpdateFee(aIsRevert: Boolean = False): Boolean;
+var
+  iStatus: Integer;
+  S: string;
+begin
+  Result := True;
+  if Self.ID = 0 then exit;
+
+  iStatus := 2;
+  if aIsRevert then iStatus := 1;
+  S := 'UPDATE C SET C.STATUS = ' + IntToStr(iStatus)
+      +' FROM TCASHPAYMENT A'
+      +' INNER JOIN TFEEPAYMENTITEM B ON A.ID = B.CASHPAYMENT_ID'
+      +' INNER JOIN TSALESFEE C ON C.ID = B.SALESFEE_ID'
+      +' WHERE A.ID = ' + IntToStr(Self.ID);
+  TDBUtils.ExecuteSQL(S, False);
 end;
 
 destructor TCashReceipt.Destroy;

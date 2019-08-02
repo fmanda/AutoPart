@@ -95,7 +95,7 @@ var
 implementation
 
 uses
-  cxDataUtils, uAppUtils;
+  cxDataUtils, uAppUtils, ufrmLookupItem;
 
 {$R *.dfm}
 
@@ -526,7 +526,7 @@ begin
         +' LEFT JOIN TITEMGROUP B ON A.GROUP_ID = B.ID'
         +' LEFT JOIN TMERK C ON A.MERK_ID = C.ID';
 
-    cxLookup := TfrmCXServerLookup.Execute(S,'ID');
+    cxLookup := TfrmLookupItem.Execute(S,'ID');
     if aKey <> '' then
       cxLookup.PreFilter('Nama', aKey)
     else

@@ -49,14 +49,17 @@ inherited frmStockOpname: TfrmStockOpname
     ExplicitWidth = 870
     inherited lbEscape: TLabel
       Left = 790
+      Height = 17
       ExplicitLeft = 790
     end
     inherited lgndSave: TLabel
       Left = 625
+      Height = 17
       ExplicitLeft = 625
     end
     inherited lgndPrint: TLabel
       Left = 712
+      Height = 17
       ExplicitLeft = 712
     end
   end
