@@ -235,8 +235,10 @@ end;
 function TCRUDObject.FieldNameOf(aprop: TRttiProperty): String;
 var
   a: TCustomAttribute;
+  ctx: TRttiContext;
 begin
-  TRttiContext.Create();
+  ctx.GetType(Self.ClassType); //must call this lne
+//  TRttiContext.Create();
 
   Result := '';
   if UpperCase(aProp.Name) = 'ID' then

@@ -59,7 +59,12 @@ end;
 procedure TfrmLogin.btnLoginClick(Sender: TObject);
 begin
   inherited;
-  if User = nil then User := TUser.Create;
+  if User = nil then
+    User := TUser.Create;     //idk access violation here.. please check
+//  if User <> nil then
+//    FreeAndNil(User);
+//  User := TUser.Create;
+
   if User.LoadByCode(txtUser.Text) then
     if UpperCase(txtPassword.Text) = UpperCase(User.Password) then
     begin
