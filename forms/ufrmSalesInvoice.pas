@@ -1606,12 +1606,15 @@ begin
   end;
 
   CDSClone.Last;
-  if (CDSClone.FieldByName('Item').AsInteger = 0)
-    and (CDSCLone.FieldByName('UOM').AsInteger = 0)
-    and (CDSClone.FieldByName('Qty').AsFloat = 0)
-  then
+  if CDSClone.RecordCount > 0 then
   begin
-    CDSClone.Delete;
+    if (CDSClone.FieldByName('Item').AsInteger = 0)
+      and (CDSCLone.FieldByName('UOM').AsInteger = 0)
+      and (CDSClone.FieldByName('Qty').AsFloat = 0)
+    then
+    begin
+      CDSClone.Delete;
+    end;
   end;
 
 //  if CDS.State in [dsInsert, dsEdit] then CDS.Post;

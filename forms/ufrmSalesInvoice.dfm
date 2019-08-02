@@ -49,7 +49,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       Left = 601
       Width = 100
       OnClick = btnSaveClick
-      ExplicitLeft = 707
+      ExplicitLeft = 601
       ExplicitWidth = 100
     end
     object btnPayment: TcxButton
@@ -64,8 +64,6 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 3
       OnClick = btnPaymentClick
-      ExplicitLeft = 777
-      ExplicitTop = 6
     end
   end
   inherited Panel2: TPanel
@@ -85,7 +83,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       Height = 17
       Margins.Right = 25
       Caption = '[F9] Opsi Bayar'
-      ExplicitLeft = 726
+      ExplicitLeft = 721
       ExplicitWidth = 77
     end
     inherited lgndPrint: TLabel
@@ -231,7 +229,6 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitLeft = 632
       ExplicitHeight = 16
     end
   end
@@ -640,8 +637,6 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 151
-    ExplicitHeight = 276
     object cxGrdItem: TcxGridDBTableView
       PopupMenu = pmMain
       Navigator.Buttons.CustomButtons = <>
