@@ -27,18 +27,18 @@ inherited frmCashPayment: TfrmCashPayment
       OnClick = btnSaveClick
       ExplicitLeft = 480
     end
-    object btnLookupFee: TcxButton
+    object btnLoad: TcxButton
       AlignWithMargins = True
       Left = 5
       Top = 5
-      Width = 148
+      Width = 164
       Height = 25
       Align = alLeft
       Caption = 'Daftar Fee Salesman'
       OptionsImage.ImageIndex = 25
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 3
-      OnClick = btnLookupFeeClick
+      OnClick = btnLoadClick
     end
   end
   inherited Panel2: TPanel
@@ -171,7 +171,7 @@ inherited frmCashPayment: TfrmCashPayment
     Height = 352
     Align = alClient
     TabOrder = 3
-    Properties.ActivePage = tsFee
+    Properties.ActivePage = tsRetur
     Properties.CustomButtons.Buttons = <>
     OnChange = pgcMainChange
     ClientRectBottom = 352
@@ -180,9 +180,6 @@ inherited frmCashPayment: TfrmCashPayment
     object tsDetail: TcxTabSheet
       Caption = 'Detail Pengeluaran [F2]'
       ImageIndex = 0
-      ExplicitTop = 0
-      ExplicitWidth = 289
-      ExplicitHeight = 169
       object cxGrid1: TcxGrid
         Left = 0
         Top = 0
@@ -190,7 +187,6 @@ inherited frmCashPayment: TfrmCashPayment
         Height = 328
         Align = alClient
         TabOrder = 0
-        ExplicitTop = -1
         object cxGrdMain: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -323,6 +319,80 @@ inherited frmCashPayment: TfrmCashPayment
           Properties.ImmediatePost = True
           TabOrder = 1
           Width = 259
+        end
+      end
+    end
+    object tsRetur: TcxTabSheet
+      Caption = 'Pembayaran Retur Customer'
+      ImageIndex = 2
+      ExplicitTop = 23
+      object cxGrid3: TcxGrid
+        Left = 0
+        Top = 0
+        Width = 737
+        Height = 328
+        Align = alClient
+        TabOrder = 0
+        ExplicitTop = -1
+        object cxGrdRetur: TcxGridDBTableView
+          Navigator.Buttons.CustomButtons = <>
+          DataController.Summary.DefaultGroupSummaryItems = <>
+          DataController.Summary.FooterSummaryItems = <
+            item
+              Format = ',0.00;(,0.00)'
+              Kind = skSum
+              Column = cxGridDBColumn8
+            end>
+          DataController.Summary.SummaryGroups = <>
+          OptionsBehavior.FocusCellOnTab = True
+          OptionsBehavior.FocusFirstCellOnNewRecord = True
+          OptionsBehavior.GoToNextCellOnEnter = True
+          OptionsBehavior.FocusCellOnCycle = True
+          OptionsData.CancelOnExit = False
+          OptionsData.Editing = False
+          OptionsData.Inserting = False
+          OptionsView.Footer = True
+          OptionsView.GroupByBox = False
+          OptionsView.HeaderHeight = 30
+          object cxGridDBColumn4: TcxGridDBColumn
+            Caption = 'No'
+            OnGetDisplayText = cxGrdFeeColumn2GetDisplayText
+            HeaderAlignmentHorz = taCenter
+            Width = 38
+          end
+          object cxGridDBColumn6: TcxGridDBColumn
+            Caption = 'Nomor Retur'
+            DataBinding.FieldName = 'ReturNo'
+            PropertiesClassName = 'TcxTextEditProperties'
+            HeaderAlignmentHorz = taCenter
+            Width = 135
+          end
+          object cxGridDBColumn7: TcxGridDBColumn
+            Caption = 'Tgl Retur'
+            DataBinding.FieldName = 'ReturDate'
+            PropertiesClassName = 'TcxDateEditProperties'
+            HeaderAlignmentHorz = taCenter
+            Width = 89
+          end
+          object cxGridDBColumn5: TcxGridDBColumn
+            DataBinding.FieldName = 'Customer'
+            PropertiesClassName = 'TcxTextEditProperties'
+            HeaderAlignmentHorz = taCenter
+            Width = 247
+          end
+          object cxGridDBColumn8: TcxGridDBColumn
+            Caption = 'Nilai'
+            DataBinding.FieldName = 'Amount'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.DisplayFormat = ',0.00;(,0.00)'
+            Properties.OnEditValueChanged = colCostAmountPropertiesEditValueChanged
+            HeaderAlignmentHorz = taCenter
+            Width = 113
+          end
+        end
+        object cxGridLevel2: TcxGridLevel
+          Caption = 'Detail Pengeluaran [F2]'
+          GridView = cxGrdRetur
         end
       end
     end

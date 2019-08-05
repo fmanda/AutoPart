@@ -1682,8 +1682,8 @@ var
   S: string;
 begin
   lNum := 0;
-  aDigitCount := 4;
-  aPrefix := Cabang + '.RP.' + FormatDateTime('yymmdd',Now()) + '.';
+  aDigitCount := 5;
+  aPrefix := Cabang + '.RP.' + FormatDateTime('yymm',Now()) + '.';
 
 
   S := 'SELECT MAX(Refno) FROM TSalesRetur where Refno LIKE ' + QuotedStr(aPrefix + '%');
@@ -1699,7 +1699,7 @@ begin
   end;
 
   inc(lNum);
-  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
+  Result := aPrefix + RightStr('00000' + IntToStr(lNum), aDigitCount);
 end;
 
 function TSalesRetur.GetHeaderFlag: Integer;

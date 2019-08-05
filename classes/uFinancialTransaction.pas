@@ -70,6 +70,7 @@ type
     function GetSQLRetrieveDetails(Header_ID: Integer): String; override;
   public
     destructor Destroy; override;
+    function HasRetur: Boolean;
     procedure SetToDebet;
     procedure SetToCredit;
   published
@@ -133,6 +134,7 @@ type
     destructor Destroy; override;
     function GenerateNo: String; override;
     function GetHeaderFlag: Integer; override;
+    function UpdateRemain(aIsRevert: Boolean = False): Boolean;
     property FeeItems: TObjectList<TFeePaymentItem> read GetFeeItems write
         FFeeItems;
   published
@@ -358,6 +360,13 @@ begin
 //  Result := Result + lPO.GetHeaderField;
 end;
 
+function TFinancialTransaction.HasRetur: Boolean;
+begin
+  Result :=  False;
+  if FSalesRetur <> nil then
+    Result := FSalesRetur.ID > 0;
+end;
+
 procedure TFinancialTransaction.SetToDebet;
 begin
   Self.DebetAmt := Self.Amount;
@@ -379,16 +388,37 @@ end;
 function TCashPayment.AfterSaveToDB: Boolean;
 begin
   Result := Self.UpdateFee;
+  if Result then
+    Result := Self.UpdateRemain;
 end;
 
 function TCashPayment.BeforeDeleteFromDB: Boolean;
 begin
   Result := Self.UpdateFee(True);
+  if Result then
+    Result := Self.UpdateRemain(True);
 end;
 
 function TCashPayment.BeforeSaveToDB: Boolean;
+var
+  lOldPayment: TCashPayment;
 begin
-  Result := Self.UpdateFee(True);
+  Result := True;
+  if Self.ID = 0 then exit;
+
+  lOldPayment := TCashPayment.Create;
+  Try
+    lOldPayment.LoadByID(Self.ID);
+
+    lOldPayment.UpdateRemain(True);
+    lOldPayment.UpdateFee(True);
+  Finally
+    lOldPayment.Free;
+  End;
+
+//  Result := Self.UpdateFee(True);
+//  if Result then
+//    Result := Self.UpdateRemain(True);
 end;
 
 function TCashPayment.GenerateNo: String;
@@ -449,6 +479,25 @@ begin
       +' INNER JOIN TSALESFEE C ON C.ID = B.SALESFEE_ID'
       +' WHERE A.ID = ' + IntToStr(Self.ID);
   TDBUtils.ExecuteSQL(S, False);
+end;
+
+function TCashPayment.UpdateRemain(aIsRevert: Boolean = False): Boolean;
+var
+  lItem: TFinancialTransaction;
+  iFactor: Integer;
+begin
+  Result := True;
+  iFactor := 1;
+  if aIsRevert then iFactor := -1;
+
+  for lItem in Self.Items do
+  begin
+    if lItem.HasRetur then
+    begin
+      lItem.SalesRetur.ReLoad(False);
+      lItem.SalesRetur.UpdateRemain(iFactor*lItem.ReturAmt);
+    end;
+  end;
 end;
 
 destructor TCashReceipt.Destroy;

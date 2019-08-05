@@ -36,14 +36,17 @@ inherited frmCashReceipt: TfrmCashReceipt
     ExplicitWidth = 735
     inherited lbEscape: TLabel
       Left = 655
+      Height = 17
       ExplicitLeft = 655
     end
     inherited lgndSave: TLabel
       Left = 490
+      Height = 17
       ExplicitLeft = 490
     end
     inherited lgndPrint: TLabel
       Left = 577
+      Height = 17
       ExplicitLeft = 577
     end
   end
@@ -192,7 +195,7 @@ inherited frmCashReceipt: TfrmCashReceipt
       end
     end
     object cxGrid1Level2: TcxGridLevel
-      Caption = 'Detail Pengeluaran [F2]'
+      Caption = 'Detail Penerimaan [F2]'
       GridView = cxGrdMain
     end
   end
