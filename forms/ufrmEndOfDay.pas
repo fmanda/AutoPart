@@ -361,7 +361,13 @@ end;
 
 function TfrmEndOfDay.ValidateData: Boolean;
 begin
-  Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
+  if dtEOD.Date > Now() then
+  begin
+    Result := TAppUtils.Confirm('Tanggal End Of Day melebihi tanggal hari ini'
+      +#13 +'Apakah anda yakin melakukan Simpan End Of Day untuk tanggal : ' + DateToStr(dtEOD.Date)
+    );
+  end else
+   Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
 end;
 
 end.

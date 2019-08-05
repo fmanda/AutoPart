@@ -156,7 +156,6 @@ inherited frmEndOfDay: TfrmEndOfDay
         BevelOuter = bvNone
         BorderStyle = cxcbsNone
         TabOrder = 0
-        ExplicitTop = -1
         object cxGrdMain: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
