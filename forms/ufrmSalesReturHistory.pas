@@ -52,7 +52,9 @@ type
     procedure FormCreate(Sender: TObject);
   private
     FCDS: TClientDataset;
+    FEndLookup: TDateTime;
     FSalesRetur: TSalesRetur;
+    FStartLookup: TDateTime;
     PaidAmount: Double;
     function GetCDS: TClientDataset;
     function GetSalesRetur: TSalesRetur;
@@ -61,7 +63,9 @@ type
     procedure LoadSalesRetur;
     procedure LookupRetur(sKey: string = '');
     property CDS: TClientDataset read GetCDS write FCDS;
+    property EndLookup: TDateTime read FEndLookup write FEndLookup;
     property SalesRetur: TSalesRetur read GetSalesRetur write FSalesRetur;
+    property StartLookup: TDateTime read FStartLookup write FStartLookup;
     { Private declarations }
   protected
     procedure ValidatePaidAmount;
@@ -139,6 +143,8 @@ begin
   inherited;
   Self.AssignKeyDownEvent;
   InitView;
+  StartLookup := IncYear(StartOfTheMonth(Now()), -1);
+  EndLookup := EndOfTheMonth(Now());
 end;
 
 function TfrmSalesReturHistory.GetCDS: TClientDataset;
@@ -278,13 +284,15 @@ begin
       +' WHERE A.TRANSDATE BETWEEN :startdate AND :enddate';
 
 
-  cxLookup := TfrmCXServerLookup.Execute(S, 'ID', IncYear(StartOfTheMonth(Now()), -1), EndOfTheMonth(Now()) );
+  cxLookup := TfrmCXServerLookup.Execute(S, 'ID', StartLookup, EndLookup );
   Try
     cxLookup.PreFilter('REFNO', sKey);
     if cxLookup.ShowModal = mrOK then
     begin
       SalesRetur.LoadByID(cxLookup.FieldValue('id'));
       LoadSalesRetur;
+      StartLookup := cxLookup.StartDate.Date;
+      EndLookup := cxLookup.EndDate.Date;
     end;
   Finally
     cxLookup.Free;

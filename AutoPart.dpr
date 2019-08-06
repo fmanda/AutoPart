@@ -126,6 +126,5 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TDMReport, DMReport);
-  Application.CreateForm(TfrmLookupItem, frmLookupItem);
   Application.Run;
 end.

@@ -574,7 +574,6 @@ begin
     exit;
   end;
 
-
   S := 'SELECT A.ID, A.INVOICENO, B.NAMA AS CUSTOMER,'
       +' A.TRANSDATE, A.DUEDATE, B.NAMA AS SUPPLIER,'
       +' A.AMOUNT, A.PAIDAMOUNT, A.RETURAMOUNT, A.NOTES,'
@@ -594,6 +593,14 @@ begin
     cxLookup.PreFilter('INVOICENO', sKey);
     if cxLookup.ShowModal = mrOK then
     begin
+      if CDSClone.Locate('SalesInvoice', VarToInt(cxLookup.FieldValue('ID')), [loCaseInsensitive]) then
+      begin
+        TAppUtils.Warning('Faktur : ' + VarToStr(cxLookup.FieldValue('INVOICENO'))
+          + ' sudah ada di Grid Input'
+        );
+        exit;
+      end;
+
       lInvoice := TSalesInvoice.Create;
       Try
         lInvoice.LoadByID(VarToInt(cxLookup.FieldValue('ID')));
@@ -631,7 +638,7 @@ begin
       +' AND A.CUSTOMER_ID = ' + IntToStr(aCustomerID);
 
 
-  cxLookup := TfrmCXServerLookup.Execute(S, 'ID', StartOfTheMonth(Now()), EndOfTheMonth(Now()) );
+  cxLookup := TfrmCXServerLookup.Execute(S, 'ID', 0, 0 );
   Try
 //    cxLookup.PreFilter('REFNO', '');
     if cxLookup.ShowModal = mrOK then

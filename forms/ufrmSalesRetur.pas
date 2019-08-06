@@ -74,6 +74,7 @@ type
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
+    colDiscP: TcxGridDBColumn;
     procedure btnSaveClick(Sender: TObject);
     procedure ckReferensiFakturPropertiesEditValueChanged(Sender: TObject);
     procedure colDiscPropertiesEditValueChanged(Sender: TObject);
@@ -105,6 +106,11 @@ type
     procedure UpdatekeHargaKeliling1Click(Sender: TObject);
     procedure UpdateKeHargaUmum1Click(Sender: TObject);
     procedure btnPrintClick(Sender: TObject);
+    procedure colDiscPPropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure colDiscPPropertiesEditValueChanged(Sender: TObject);
+    procedure colDiscPropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
   private
     FCDS: TClientDataset;
     FCDSClone: TClientDataset;
@@ -241,10 +247,45 @@ begin
   end;
 end;
 
+procedure TfrmSalesRetur.colDiscPPropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalculateAll;
+end;
+
+procedure TfrmSalesRetur.colDiscPPropertiesValidate(Sender: TObject;
+  var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+var
+  lDiscRp: Double;
+  lHarga: Double;
+begin
+  inherited;
+  lHarga    := VarToFloat(cxGrdMain.Controller.FocusedRecord.Values[colHrgJual.Index]);
+  lDiscRp   := VarToFloat(DisplayValue)/100 * lHarga;
+  DC.SetEditValue(colDisc.Index, lDiscRp , DisplayValue);
+  DC.SetEditValue(colDiscP.Index, DisplayValue , evsValue);
+end;
+
 procedure TfrmSalesRetur.colDiscPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
   CalculateAll;
+end;
+
+procedure TfrmSalesRetur.colDiscPropertiesValidate(Sender: TObject;
+  var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+var
+  lDiscP: Double;
+  lHarga: Double;
+begin
+  inherited;
+  lHarga    := VarToFloat(cxGrdMain.Controller.FocusedRecord.Values[colHrgJual.Index]);
+  if lHarga = 0 then
+    lDiscP := 0
+  else
+    lDiscP := VarToFloat(DisplayValue)/lHarga*100;
+  DC.SetEditValue(colDiscP.Index, lDiscP , evsValue);
+  DC.SetEditValue(colDisc.Index, DisplayValue , evsValue);
 end;
 
 procedure TfrmSalesRetur.colHrgJualStylesGetContentStyle(
@@ -527,6 +568,7 @@ begin
     FCDS.AddField('Kode',ftString);
     FCDS.AddField('Nama',ftString);
     FCDS.AddField('SubTotal',ftFloat);
+    FCDS.AddField('DiscP',ftFloat);
     FCDS.AfterInsert := CDSAfterInsert;
     FCDS.AfterDelete := CDSAfterDelete;
 //    FCDS.AfterPost := CDSAfterPost;
@@ -605,6 +647,10 @@ begin
     lItem.MakePositive;
     lItem.UpdateToDataset(CDS);
     lItem.Item.ReLoad(False);
+
+    if lItem.Harga <> 0 then
+      CDS.FieldByName('DiscP').AsFloat := lItem.Discount / lItem.Harga * 100;
+
     CDS.FieldByName('Kode').AsString := lItem.Item.Kode;
     CDS.FieldByName('Nama').AsString := lItem.Item.Nama;
     CDS.Post;
@@ -677,6 +723,9 @@ begin
     lItem.MakePositive;
     lItem.UpdateToDataset(CDS);
     lItem.Item.ReLoad(False);
+    if lItem.Harga <> 0 then
+      CDS.FieldByName('DiscP').AsFloat := lItem.Discount / lItem.Harga * 100;
+
     CDS.FieldByName('Kode').AsString := lItem.Item.Kode;
     CDS.FieldByName('Nama').AsString := lItem.Item.Nama;
     CDS.Post;
@@ -886,6 +935,7 @@ begin
   DC.SetEditValue(colKonversi.Index, 0, evsValue);
   DC.SetEditValue(colHrgJual.Index, 0, evsValue);
   DC.SetEditValue(colDisc.Index, 0, evsValue);
+  DC.SetEditValue(colDiscP.Index, 0, evsValue);
   DC.SetEditValue(colSubTotal.Index, 0, evsValue);
   DC.SetEditValue(colPPN.Index, aItem.PPN, evsValue);
 

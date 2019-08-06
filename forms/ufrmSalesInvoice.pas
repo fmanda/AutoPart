@@ -103,6 +103,7 @@ type
     Label7: TLabel;
     btnPayment: TcxButton;
     Label8: TLabel;
+    colDiscP: TcxGridDBColumn;
     procedure edCustomerKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edNotesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -153,6 +154,9 @@ type
     procedure edReturPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
     procedure btnPaymentClick(Sender: TObject);
+    procedure colDiscPPropertiesEditValueChanged(Sender: TObject);
+    procedure colDiscPPropertiesValidate(Sender: TObject;
+      var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
   private
     DisableTrigger: Boolean;
     FCDS: TClientDataset;
@@ -425,6 +429,42 @@ begin
   End;
 end;
 
+procedure TfrmSalesInvoice.colDiscPPropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalculateAll;
+end;
+
+procedure TfrmSalesInvoice.colDiscPPropertiesValidate(Sender: TObject;
+  var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+var
+  lDiscRp: Double;
+  lHarga: Double;
+begin
+  inherited;
+  if DisableTrigger then exit;
+
+  if VarToFloat(DisplayValue) = 0 then
+  begin
+    DC.SetEditValue(colDisc.Index, 0 , evsValue);
+    DC.SetEditValue(colDiscP.Index, 0 , evsValue);
+    exit;
+  end;
+
+  if not TfrmAuthUser.Authorize then
+  begin
+    ErrorText := 'User tidak mendapatkan autorisasi diskon';
+    Error := True;
+  end else
+  begin
+    lHarga    := VarToFloat(cxGrdItem.Controller.FocusedRecord.Values[colHarga.Index]);
+    lDiscRp   := VarToFloat(DisplayValue)/100 * lHarga;
+    DC.SetEditValue(colDisc.Index, lDiscRp , DisplayValue);
+    DC.SetEditValue(colDiscP.Index, DisplayValue , evsValue);
+    Error := False;
+  end;
+end;
+
 procedure TfrmSalesInvoice.colDiscPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
@@ -433,19 +473,31 @@ end;
 
 procedure TfrmSalesInvoice.colDiscPropertiesValidate(Sender: TObject;
   var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+var
+  lDiscP: Double;
+  lHarga: Double;
 begin
   inherited;
   if DisableTrigger then exit;
-
-  if VarToFloat(DisplayValue) = 0 then exit;
-
+  if VarToFloat(DisplayValue) = 0 then
+  begin
+    DC.SetEditValue(colDiscP.Index, 0 , evsValue);
+    exit;
+  end;
   if not TfrmAuthUser.Authorize then
   begin
     ErrorText := 'User tidak mendapatkan autorisasi diskon';
     Error := True;
   end else
   begin
-    Error := False;
+    Error     := False;
+    lHarga    := VarToFloat(cxGrdItem.Controller.FocusedRecord.Values[colHarga.Index]);
+    if lHarga = 0 then
+      lDiscP := 0
+    else
+      lDiscP := VarToFloat(DisplayValue)/lHarga*100;
+    DC.SetEditValue(colDiscP.Index, lDiscP , evsValue);
+    DC.SetEditValue(colDisc.Index, DisplayValue , evsValue);
   end;
 
 end;
@@ -898,6 +950,7 @@ begin
     FCDS.AddField('Kode',ftString);
     FCDS.AddField('Nama',ftString);
     FCDS.AddField('SubTotal',ftFloat);
+    FCDS.AddField('DiscP',ftFloat);
     FCDS.AfterInsert := CDSAfterInsert;
     FCDS.AfterDelete := CDSAfterDelete;
 //    FCDS.AfterPost := CDSAfterPost;
@@ -1123,6 +1176,10 @@ begin
     lItem.Item.ReLoad(False);
     CDS.FieldByName('Kode').AsString := lItem.Item.Kode;
     CDS.FieldByName('Nama').AsString := lItem.Item.Nama;
+
+    if lItem.Harga <> 0 then
+      CDS.FieldByName('DiscP').AsFloat := lItem.Discount / lItem.Harga * 100;
+
     CDS.Post;
   end;
 
@@ -1396,6 +1453,7 @@ begin
   DC.SetEditValue(colKonversi.Index, 0, evsValue);
   DC.SetEditValue(colHarga.Index, 0, evsValue);
   DC.SetEditValue(colDisc.Index, 0, evsValue);
+  DC.SetEditValue(colDiscP.Index, 0, evsValue);
   DC.SetEditValue(colSubTotal.Index, 0, evsValue);
   DC.SetEditValue(colPPN.Index, aItem.PPN, evsValue);
 

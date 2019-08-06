@@ -1,10 +1,10 @@
 inherited frmSalesRetur: TfrmSalesRetur
   Caption = 'Retur Penjualan'
   ClientHeight = 561
-  ClientWidth = 934
+  ClientWidth = 984
   KeyPreview = True
   OnKeyDown = FormKeyDown
-  ExplicitWidth = 950
+  ExplicitWidth = 1000
   ExplicitHeight = 600
   PixelsPerInch = 96
   TextHeight = 13
@@ -13,41 +13,41 @@ inherited frmSalesRetur: TfrmSalesRetur
     TabOrder = 1
     ExplicitTop = 526
     ExplicitWidth = 934
-    Width = 934
+    Width = 984
     inherited btnCancel: TcxButton
-      Left = 849
+      Left = 899
       ExplicitLeft = 849
     end
     inherited btnPrint: TcxButton
-      Left = 763
+      Left = 813
       Visible = True
       OnClick = btnPrintClick
       ExplicitLeft = 763
     end
     inherited btnSave: TcxButton
-      Left = 677
+      Left = 727
       OnClick = btnSaveClick
       ExplicitLeft = 677
     end
   end
   inherited Panel2: TPanel
     Top = 505
-    Width = 934
+    Width = 984
     TabOrder = 2
     ExplicitTop = 505
     ExplicitWidth = 934
     inherited lbEscape: TLabel
-      Left = 854
+      Left = 904
       Height = 17
       ExplicitLeft = 854
     end
     inherited lgndSave: TLabel
-      Left = 689
+      Left = 739
       Height = 17
       ExplicitLeft = 689
     end
     inherited lgndPrint: TLabel
-      Left = 776
+      Left = 826
       Height = 17
       Visible = True
       ExplicitLeft = 776
@@ -181,11 +181,12 @@ inherited frmSalesRetur: TfrmSalesRetur
     Align = alTop
     Caption = '  Header Data [F1] '
     TabOrder = 0
+    ExplicitWidth = 934
     DesignSize = (
-      934
+      984
       147)
     Height = 147
-    Width = 934
+    Width = 984
     object cxLabel1: TcxLabel
       Left = 174
       Top = 20
@@ -246,7 +247,7 @@ inherited frmSalesRetur: TfrmSalesRetur
       Width = 139
     end
     object crSubTotal: TcxCurrencyEdit
-      Left = 746
+      Left = 796
       Top = 45
       TabStop = False
       Anchors = [akTop, akRight]
@@ -263,10 +264,11 @@ inherited frmSalesRetur: TfrmSalesRetur
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 8
+      ExplicitLeft = 746
       Width = 180
     end
     object cxLabel2: TcxLabel
-      Left = 674
+      Left = 724
       Top = 46
       Anchors = [akTop, akRight]
       Caption = 'Sub Total'
@@ -277,9 +279,10 @@ inherited frmSalesRetur: TfrmSalesRetur
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
+      ExplicitLeft = 674
     end
     object cxLabel3: TcxLabel
-      Left = 710
+      Left = 760
       Top = 73
       Anchors = [akTop, akRight]
       Caption = 'PPN'
@@ -290,9 +293,10 @@ inherited frmSalesRetur: TfrmSalesRetur
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
+      ExplicitLeft = 710
     end
     object crPPN: TcxCurrencyEdit
-      Left = 746
+      Left = 796
       Top = 72
       TabStop = False
       Anchors = [akTop, akRight]
@@ -309,10 +313,11 @@ inherited frmSalesRetur: TfrmSalesRetur
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 9
+      ExplicitLeft = 746
       Width = 180
     end
     object cxLabel5: TcxLabel
-      Left = 687
+      Left = 737
       Top = 101
       Anchors = [akTop, akRight]
       Caption = 'TOTAL'
@@ -323,9 +328,10 @@ inherited frmSalesRetur: TfrmSalesRetur
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
+      ExplicitLeft = 687
     end
     object crTotal: TcxCurrencyEdit
-      Left = 746
+      Left = 796
       Top = 98
       TabStop = False
       Anchors = [akTop, akRight]
@@ -342,6 +348,7 @@ inherited frmSalesRetur: TfrmSalesRetur
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 10
+      ExplicitLeft = 746
       Width = 180
     end
     object cxLabel7: TcxLabel
@@ -378,7 +385,6 @@ inherited frmSalesRetur: TfrmSalesRetur
     object rbJenis: TcxRadioGroup
       Left = 16
       Top = 19
-      Anchors = [akTop, akRight]
       Caption = ' Jenis Retur Penjualan'
       Properties.Items = <
         item
@@ -447,11 +453,12 @@ inherited frmSalesRetur: TfrmSalesRetur
   object cxGrid1: TcxGrid [3]
     Left = 0
     Top = 147
-    Width = 934
+    Width = 984
     Height = 314
     Align = alClient
     TabOrder = 3
     RootLevelOptions.DetailTabsPosition = dtpTop
+    ExplicitWidth = 934
     object cxGrdMain: TcxGridDBTableView
       PopupMenu = pmMain
       Navigator.Buttons.CustomButtons = <>
@@ -490,7 +497,7 @@ inherited frmSalesRetur: TfrmSalesRetur
         Properties.OnButtonClick = colKodePropertiesButtonClick
         Properties.OnValidate = colKodePropertiesValidate
         HeaderAlignmentHorz = taCenter
-        Width = 137
+        Width = 125
       end
       object colNama: TcxGridDBColumn
         Caption = 'Nama Barang'
@@ -499,7 +506,7 @@ inherited frmSalesRetur: TfrmSalesRetur
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Options.Focusing = False
-        Width = 282
+        Width = 277
       end
       object colUOM: TcxGridDBColumn
         Caption = 'Satuan'
@@ -533,13 +540,26 @@ inherited frmSalesRetur: TfrmSalesRetur
         Styles.OnGetContentStyle = colHrgJualStylesGetContentStyle
         Width = 90
       end
+      object colDiscP: TcxGridDBColumn
+        Caption = 'Disc %'
+        DataBinding.FieldName = 'DiscP'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##%;(,0.##%)'
+        Properties.OnEditValueChanged = colDiscPPropertiesEditValueChanged
+        Properties.OnValidate = colDiscPPropertiesValidate
+        HeaderAlignmentHorz = taCenter
+        Width = 53
+      end
       object colDisc: TcxGridDBColumn
+        Caption = 'Disc Rp'
         DataBinding.FieldName = 'Discount'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
-        Properties.ReadOnly = True
+        Properties.ReadOnly = False
         Properties.OnEditValueChanged = colDiscPropertiesEditValueChanged
+        Properties.OnValidate = colDiscPropertiesValidate
         HeaderAlignmentHorz = taCenter
         Width = 63
       end
@@ -603,8 +623,9 @@ inherited frmSalesRetur: TfrmSalesRetur
     StyleDisabled.TextColor = clBlack
     TabOrder = 4
     Visible = False
+    ExplicitWidth = 928
     Height = 38
-    Width = 928
+    Width = 978
   end
   inherited styleRepo: TcxStyleRepository
     PixelsPerInch = 96

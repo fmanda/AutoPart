@@ -58,6 +58,8 @@ type
     CashTerbayar: Double;
     FCDS: TClientDataset;
     FPurchaseInvoice: TPurchaseInvoice;
+    FStartLookup: TDateTime;
+    FEndLookup: TDateTime;
     ReturTerBayar: Double;
     function GetCDS: TClientDataset;
     function GetPurchaseInvoice: TPurchaseInvoice;
@@ -68,6 +70,8 @@ type
     property CDS: TClientDataset read GetCDS write FCDS;
     property PurchaseInvoice: TPurchaseInvoice read GetPurchaseInvoice write
         FPurchaseInvoice;
+    property StartLookup: TDateTime read FStartLookup write FStartLookup;
+    property EndLookup: TDateTime read FEndLookup write FEndLookup;
     { Private declarations }
   protected
     procedure ValidatePaidAmount;
@@ -151,6 +155,8 @@ begin
   inherited;
   Self.AssignKeyDownEvent;
   InitView;
+  StartLookup := IncYear(StartOfTheMonth(Now()), -1);
+  EndLookup := EndOfTheMonth(Now());
 end;
 
 function TfrmPurchaseInvoiceHistory.GetCDS: TClientDataset;
@@ -291,7 +297,7 @@ begin
       +' WHERE A.TRANSDATE BETWEEN :startdate AND :enddate';
 
 
-  cxLookup := TfrmCXServerLookup.Execute(S, 'ID', IncYear(StartOfTheMonth(Now()), -1), EndOfTheMonth(Now()) );
+  cxLookup := TfrmCXServerLookup.Execute(S, 'ID', StartLookup, EndLookup );
   Try
     cxLookup.PreFilter('INVOICENO', sKey);
     if cxLookup.ShowModal = mrOK then
@@ -299,6 +305,8 @@ begin
       PurchaseInvoice.LoadByID(cxLookup.FieldValue('id'));
       LoadPurchaseInvoice;
     end;
+    StartLookup := cxLookup.StartDate.Date;
+    EndLookup := cxLookup.EndDate.Date;
   Finally
     cxLookup.Free;
   End;

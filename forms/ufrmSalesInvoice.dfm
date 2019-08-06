@@ -637,6 +637,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
+    ExplicitTop = 145
     object cxGrdItem: TcxGridDBTableView
       PopupMenu = pmMain
       Navigator.Buttons.CustomButtons = <>
@@ -685,7 +686,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
         Properties.OnButtonClick = colKodePropertiesButtonClick
         Properties.OnValidate = colKodePropertiesValidate
         HeaderAlignmentHorz = taCenter
-        Width = 137
+        Width = 131
       end
       object colNama: TcxGridDBColumn
         Caption = 'Nama Barang'
@@ -694,7 +695,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Options.Focusing = False
-        Width = 381
+        Width = 355
       end
       object colUOM: TcxGridDBColumn
         Caption = 'Satuan'
@@ -705,7 +706,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
         Properties.OnEditValueChanged = colUOMPropertiesEditValueChanged
         Properties.OnInitPopup = colUOMPropertiesInitPopup
         HeaderAlignmentHorz = taCenter
-        Width = 49
+        Width = 51
       end
       object colQty: TcxGridDBColumn
         DataBinding.FieldName = 'Qty'
@@ -727,6 +728,17 @@ inherited frmSalesInvoice: TfrmSalesInvoice
         Options.Focusing = False
         Styles.OnGetContentStyle = colHargaStylesGetContentStyle
         Width = 90
+      end
+      object colDiscP: TcxGridDBColumn
+        Caption = 'Disc %'
+        DataBinding.FieldName = 'DiscP'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##%;(,0.##%)'
+        Properties.OnEditValueChanged = colDiscPPropertiesEditValueChanged
+        Properties.OnValidate = colDiscPPropertiesValidate
+        HeaderAlignmentHorz = taCenter
+        Width = 47
       end
       object colDisc: TcxGridDBColumn
         Caption = 'Disc Rp'
@@ -858,7 +870,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
         Width = 99
       end
       object colSrvDisc: TcxGridDBColumn
-        DataBinding.FieldName = 'Discount'
+        DataBinding.FieldName = 'Discount Rp'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
@@ -895,6 +907,8 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     end
   end
   inherited styleRepo: TcxStyleRepository
+    Left = 296
+    Top = 360
     PixelsPerInch = 96
     object styleUmum: TcxStyle
       AssignedValues = [svColor]
@@ -914,8 +928,8 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     end
   end
   object pmMain: TPopupMenu
-    Left = 256
-    Top = 328
+    Left = 232
+    Top = 368
     object UpdateKeHargaUmum1: TMenuItem
       Caption = 'Update ke Harga Umum'
       OnClick = UpdateKeHargaUmum1Click
