@@ -9,6 +9,7 @@ inherited frmKartuStock: TfrmKartuStock
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
     TabOrder = 2
+    Visible = False
     ExplicitWidth = 760
     Width = 760
     inherited lblTitle: TcxLabel

@@ -29,6 +29,7 @@ inherited frmLapStock: TfrmLapStock
     end
     inherited btnRefresh: TcxButton
       OnClick = btnRefreshClick
+      ExplicitTop = 7
     end
   end
   object cxGroupBox3: TcxGroupBox [2]
@@ -42,46 +43,47 @@ inherited frmLapStock: TfrmLapStock
     Caption = ' Laporan Stock '
     Style.TextStyle = [fsBold]
     TabOrder = 2
-    Height = 123
+    Height = 67
     Width = 1009
     object edNama: TcxTextEdit
-      Left = 134
-      Top = 86
+      Left = 861
+      Top = 37
       Properties.CharCase = ecUpperCase
       Properties.ReadOnly = True
       TabOrder = 3
-      Width = 329
+      Visible = False
+      Width = 130
     end
     object cxLabel3: TcxLabel
-      Left = 40
-      Top = 24
+      Left = 23
+      Top = 17
       Caption = 'Stock Per Tanggal'
     end
     object cxLookupGudang: TcxExtLookupComboBox
-      Left = 134
-      Top = 44
+      Left = 117
+      Top = 37
       TabOrder = 1
       Width = 216
     end
     object dtStock: TcxDateEdit
-      Left = 134
-      Top = 23
+      Left = 117
+      Top = 16
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 0
       Width = 130
     end
     object ckGudang: TcxCheckBox
-      Left = 46
-      Top = 43
+      Left = 29
+      Top = 36
       TabStop = False
       Caption = 'Filter Gudang'
       Properties.Alignment = taLeftJustify
       TabOrder = 4
     end
     object edKode: TcxButtonEdit
-      Left = 134
-      Top = 65
+      Left = 861
+      Top = 16
       Properties.Buttons = <
         item
           Default = True
@@ -91,52 +93,65 @@ inherited frmLapStock: TfrmLapStock
       Properties.OnButtonClick = edKodePropertiesButtonClick
       Properties.OnValidate = edKodePropertiesValidate
       TabOrder = 2
+      Visible = False
       OnKeyDown = edKodeKeyDown
       Width = 130
     end
     object ckItem: TcxCheckBox
-      Left = 47
-      Top = 65
+      Left = 774
+      Top = 16
       TabStop = False
       Caption = 'Filter Barang'
       Properties.Alignment = taLeftJustify
       TabOrder = 6
+      Visible = False
     end
     object ckZeroStock: TcxCheckBox
-      Left = 513
-      Top = 44
+      Left = 352
+      Top = 16
       TabStop = False
       Caption = 'Tampilkan Stock 0'
       Properties.Alignment = taLeftJustify
       TabOrder = 7
     end
-    object ckShowAvgCost: TcxCheckBox
-      Left = 513
-      Top = 64
+    object ckShowPrice: TcxCheckBox
+      Left = 352
+      Top = 36
       TabStop = False
-      Caption = 'Tampilkan Harga Avg && Total'
+      Caption = 'Tampilkan Harga'
       Properties.Alignment = taLeftJustify
+      Properties.OnEditValueChanged = ckShowPricePropertiesEditValueChanged
+      State = cbsChecked
       TabOrder = 8
     end
     object ckGrupMerk: TcxCheckBox
-      Left = 513
-      Top = 86
+      Left = 480
+      Top = 17
       TabStop = False
       Caption = 'Tampilkan Merk && Group Barang'
       Properties.Alignment = taLeftJustify
-      State = cbsChecked
+      Properties.OnEditValueChanged = ckGrupMerkPropertiesEditValueChanged
       TabOrder = 9
+    end
+    object ckShowAvgCost: TcxCheckBox
+      Left = 480
+      Top = 36
+      TabStop = False
+      Caption = 'Tampilkan Harga Avg && Total'
+      Properties.Alignment = taLeftJustify
+      Properties.OnEditValueChanged = ckShowAvgCostPropertiesEditValueChanged
+      TabOrder = 10
     end
   end
   object cxGrid1: TcxGrid [3]
     AlignWithMargins = True
     Left = 3
-    Top = 164
+    Top = 108
     Width = 1003
-    Height = 355
+    Height = 411
     Align = alClient
     TabOrder = 3
-    RootLevelOptions.DetailTabsPosition = dtpTop
+    ExplicitLeft = 8
     object cxGrdMain: TcxGridDBTableView
       PopupMenu = pmMain
       Navigator.Buttons.CustomButtons = <>
@@ -172,6 +187,12 @@ inherited frmLapStock: TfrmLapStock
         HeaderAlignmentHorz = taCenter
         Width = 352
       end
+      object colRak: TcxGridDBColumn
+        DataBinding.FieldName = 'Rak'
+        PropertiesClassName = 'TcxTextEditProperties'
+        HeaderAlignmentHorz = taCenter
+        Width = 73
+      end
       object colGroup: TcxGridDBColumn
         Caption = 'Group'
         DataBinding.FieldName = 'ItemGroup'
@@ -183,24 +204,62 @@ inherited frmLapStock: TfrmLapStock
         DataBinding.FieldName = 'Merk'
         PropertiesClassName = 'TcxTextEditProperties'
         HeaderAlignmentHorz = taCenter
-        Width = 114
+        Width = 110
+      end
+      object colPriceList: TcxGridDBColumn
+        DataBinding.FieldName = 'PriceLlist'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##;(,0.##)'
+        HeaderAlignmentHorz = taCenter
+      end
+      object colHrgBeli: TcxGridDBColumn
+        Caption = 'Hrg Beli'
+        DataBinding.FieldName = 'HargaBeli'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##;(,0.##)'
+        HeaderAlignmentHorz = taCenter
+      end
+      object colHrgJual1: TcxGridDBColumn
+        Caption = 'Hrg Umum'
+        DataBinding.FieldName = 'HargaUmum'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##;(,0.##)'
+        HeaderAlignmentHorz = taCenter
+      end
+      object colHrgJual2: TcxGridDBColumn
+        Caption = 'Hrg Bengkel'
+        DataBinding.FieldName = 'HargaBengkel'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##;(,0.##)'
+        HeaderAlignmentHorz = taCenter
+      end
+      object colHrgJual3: TcxGridDBColumn
+        Caption = 'Hrg Grosir'
+        DataBinding.FieldName = 'HargaGrosir'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##;(,0.##)'
+        HeaderAlignmentHorz = taCenter
+      end
+      object colHrgJual4: TcxGridDBColumn
+        Caption = 'Hrg Keliling'
+        DataBinding.FieldName = 'HargaKeliling'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##;(,0.##)'
+        HeaderAlignmentHorz = taCenter
       end
       object colUOM: TcxGridDBColumn
         Caption = 'Satuan'
         DataBinding.FieldName = 'UOM'
         PropertiesClassName = 'TcxTextEditProperties'
+        Properties.Alignment.Horz = taCenter
         HeaderAlignmentHorz = taCenter
         Width = 51
-      end
-      object colHrgAvg: TcxGridDBColumn
-        Caption = 'Harga Avg'
-        DataBinding.FieldName = 'HargaAvg'
-        PropertiesClassName = 'TcxCurrencyEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0.##;(,0.##)'
-        Visible = False
-        HeaderAlignmentHorz = taCenter
-        Width = 71
       end
       object colQty: TcxGridDBColumn
         Caption = 'Total Qty'
@@ -209,7 +268,17 @@ inherited frmLapStock: TfrmLapStock
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
         HeaderAlignmentHorz = taCenter
+        Styles.Content = styleQty
         Width = 67
+      end
+      object colHrgAvg: TcxGridDBColumn
+        Caption = 'Harga Avg'
+        DataBinding.FieldName = 'HargaAvg'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##;(,0.##)'
+        HeaderAlignmentHorz = taCenter
+        Width = 71
       end
       object colValue: TcxGridDBColumn
         Caption = 'Qty x Harga Avg'
@@ -217,7 +286,6 @@ inherited frmLapStock: TfrmLapStock
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taCenter
         Properties.DisplayFormat = ',0.##;(,0.##)'
-        Visible = False
         HeaderAlignmentHorz = taCenter
         Width = 103
       end
@@ -231,6 +299,14 @@ inherited frmLapStock: TfrmLapStock
     Left = 600
     Top = 65528
     PixelsPerInch = 96
+    object styleQty: TcxStyle
+      AssignedValues = [svFont]
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+    end
   end
   object pmMain: TPopupMenu
     Left = 256

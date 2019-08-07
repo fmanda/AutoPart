@@ -86,6 +86,7 @@ begin
   CDS := TDBUtils.OpenDataset(S, Self);
   cxGrdMain.LoadFromCDS(CDS);
   cxGrdMain.SetSummaryByColumns(['SalesAmt','ReturAmt', 'NetSales','Fee']);
+  cxGrdMain.EnableFiltering();
 end;
 
 procedure TfrmLapFeeSalesman.ckSalesmanPropertiesEditValueChanged(

@@ -38,10 +38,19 @@ type
     colValue: TcxGridDBColumn;
     colGroup: TcxGridDBColumn;
     colMerk: TcxGridDBColumn;
-    ckShowAvgCost: TcxCheckBox;
+    ckShowPrice: TcxCheckBox;
     ckGrupMerk: TcxCheckBox;
     pmMain: TPopupMenu;
     LihatKartuStock1: TMenuItem;
+    colRak: TcxGridDBColumn;
+    colPriceList: TcxGridDBColumn;
+    colHrgBeli: TcxGridDBColumn;
+    colHrgJual1: TcxGridDBColumn;
+    colHrgJual2: TcxGridDBColumn;
+    colHrgJual3: TcxGridDBColumn;
+    colHrgJual4: TcxGridDBColumn;
+    ckShowAvgCost: TcxCheckBox;
+    styleQty: TcxStyle;
     procedure edKodeKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edKodePropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
     procedure edKodePropertiesValidate(Sender: TObject; var DisplayValue: Variant;
@@ -50,6 +59,9 @@ type
     procedure btnRefreshClick(Sender: TObject);
     procedure btnExportClick(Sender: TObject);
     procedure LihatKartuStock1Click(Sender: TObject);
+    procedure ckShowPricePropertiesEditValueChanged(Sender: TObject);
+    procedure ckShowAvgCostPropertiesEditValueChanged(Sender: TObject);
+    procedure ckGrupMerkPropertiesEditValueChanged(Sender: TObject);
   private
     FCDS: TClientDataset;
     FItem: TItem;
@@ -85,6 +97,25 @@ procedure TfrmLapStock.btnRefreshClick(Sender: TObject);
 begin
   inherited;
   LoadData;
+end;
+
+procedure TfrmLapStock.ckGrupMerkPropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  cxGrdMain.SetVisibleColumns(['Merk','ItemGroup'], ckGrupMerk.Checked);
+end;
+
+procedure TfrmLapStock.ckShowAvgCostPropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  cxGrdMain.SetVisibleColumns(['HargaAvg','Total'], ckShowAvgCost.Checked);
+end;
+
+procedure TfrmLapStock.ckShowPricePropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  cxGrdMain.SetVisibleColumns(['PriceList','HargaBeli','HargaUmum','HargaBengkel',
+    'HargaGrosir','HargaKeliling'], ckShowPrice.Checked);
 end;
 
 procedure TfrmLapStock.edKodeKeyDown(Sender: TObject; var Key: Word; Shift:
@@ -143,6 +174,10 @@ begin
   Self.AssignKeyDownEvent;
   InitView;
   dtStock.Date  := Now();
+
+  ckShowPricePropertiesEditValueChanged(Self);
+  ckShowAvgCostPropertiesEditValueChanged(Self);
+  ckGrupMerkPropertiesEditValueChanged(Self);
 end;
 
 function TfrmLapStock.GetGroupName: string;
@@ -207,8 +242,10 @@ begin
 
   S := 'SELECT I.ID, I.KODE, I.NAMA, L.UOM,'
       +' I.ISACTIVE, ISNULL(SUM(A.QTYPCS) / J.KONVERSI, 0) AS QTY,'
-      +' M.NAMA AS MERK, N.NAMA AS ITEMGROUP,  ISNULL(J.HARGAAVG,0) as HARGAAVG,'
-      +' ISNULL(SUM(A.QTYPCS) / J.KONVERSI  * J.HARGAAVG,0) AS TOTAL'
+      +' M.NAMA AS MERK, N.NAMA AS ITEMGROUP, I.RAK, J.PRICELIST, J.HARGABELI, J.HARGAJUAL1 AS HARGAUMUM,'
+      +' J.HARGAJUAL2 AS HARGABENGKEL, J.HARGAJUAL3 AS HARGAGROSIR, J.HARGAJUAL4 AS HARGAKELILING,'
+      +' CASE WHEN ISNULL(J.HARGAAVG,0) = 0 THEN J.HARGABELI ELSE J.HARGABELI END as HARGAAVG,'
+      +' CASE WHEN ISNULL(J.HARGAAVG,0) = 0 THEN J.HARGABELI ELSE J.HARGABELI END * (SUM(A.QTYPCS) / J.KONVERSI) as TOTAL'
       +' FROM FN_STOCK(' + TAppUtils.QuotD(dtStock.Date) + ') A'
       +' RIGHT JOIN TITEM I ON I .ID = A.ITEM_ID';
 
@@ -229,13 +266,16 @@ begin
   if ckGudang.Checked then
     S := S + ' AND A.WAREHOUSE_ID = ' + IntToStr(VarToInt(cxLookupGudang.EditValue));
 
-  S := S +' GROUP BY I.ID, I.KODE, I.NAMA, L.UOM,'
-      +' I.ISACTIVE, J.KONVERSI, M.NAMA ,N.NAMA , J.HARGAAVG';
+  S := S +' GROUP BY I.ID, I.KODE, I.NAMA, L.UOM, J.HARGABELI, J.PRICELIST, J.HARGAJUAL1, I.RAK,'
+      +' I.ISACTIVE, J.KONVERSI, M.NAMA ,N.NAMA , J.HARGAAVG, J.HARGAJUAL2, J.HARGAJUAL3, J.HARGAJUAL4';
 
   FCDS := TDBUtils.OpenDataset(S);
   cxGrdMain.PrepareFromCDS(CDS);
+  cxGrdMain.SetVisibleColumns(['PriceList','HargaBeli','HargaUmum','HargaBengkel',
+    'HargaGrosir','HargaKeliling'], ckShowPrice.Checked);
   cxGrdMain.SetVisibleColumns(['HargaAvg','Total'], ckShowAvgCost.Checked);
   cxGrdMain.SetVisibleColumns(['Merk','ItemGroup'], ckGrupMerk.Checked);
+  cxGrdMain.EnableFiltering();
 
 //  cxGrdSrv.LoadFromSQL(S, 'ID');
 //  cxGrdSrv.SetVisibleColumns(['HargaAvg','Total'], ckShowAvgCost.Checked);

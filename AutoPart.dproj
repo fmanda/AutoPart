@@ -83,9 +83,9 @@
         <UWP_DelphiLogo44>assets\autopart.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>assets\autopart.png</UWP_DelphiLogo150>
         <VerInfo_MinorVer>2019</VerInfo_MinorVer>
-        <VerInfo_Release>7</VerInfo_Release>
-        <VerInfo_Build>16</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.2019.7.16;InternalName=;LegalCopyright=Fmanda;LegalTrademarks=;OriginalFilename=;ProgramID=;ProductName=Auto Part;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Release>8</VerInfo_Release>
+        <VerInfo_Build>1</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.2019.8.1;InternalName=;LegalCopyright=Fmanda;LegalTrademarks=;OriginalFilename=;ProgramID=;ProductName=Auto Part;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>

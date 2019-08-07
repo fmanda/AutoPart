@@ -76,6 +76,7 @@ begin
   cxGrdMain.LoadFromCDS(CDS);
   cxGrdMain.SetVisibleColumns(['PURCHASEINVOICE_ID','HEADERREMAIN'],False);
   cxGrdMain.SetSummaryByColumns(['REMAIN']);
+  cxGrdMain.EnableFiltering();
 end;
 
 procedure TfrmLapHutang.cxGrdMainStylesGetContentStyle(

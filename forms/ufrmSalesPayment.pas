@@ -125,7 +125,7 @@ implementation
 
 uses
   uDBUtils, uDXUtils, System.DateUtils,
-  ufrmCXServerLookup, uSupplier, uAccount, uVariable, uSalesman;
+  ufrmCXServerLookup, uSupplier, uAccount, uVariable, uSalesman, ufrmCXLookup;
 
 {$R *.dfm}
 
@@ -562,7 +562,7 @@ end;
 
 procedure TfrmSalesPayment.LookupInvoice(sKey: string = '');
 var
-  cxLookup: TfrmCXServerLookup;
+  cxLookup: TfrmCXLookup;
   lInvoice: TSalesInvoice;
   S: string;
 begin
@@ -588,26 +588,34 @@ begin
   if ckFilterSalesman.Checked then
     S := S + ' and a.salesman_id = ' + IntToStr(VarToInt(cxLookupSalesman.EditValue));
 
-  cxLookup := TfrmCXServerLookup.Execute(S, 'ID', 0, 0 );
+//  cxLookup := TfrmCXServerLookup.Execute(S, 'ID', 0, 0 );
+  cxLookup := TfrmCXLookup.Execute(S, True );
   Try
     cxLookup.PreFilter('INVOICENO', sKey);
+    cxLookup.HideFields(['ID']);
+    cxLookup.cxGridView.EnableFiltering();
     if cxLookup.ShowModal = mrOK then
     begin
-      if CDSClone.Locate('SalesInvoice', VarToInt(cxLookup.FieldValue('ID')), [loCaseInsensitive]) then
+      while not cxLookup.Data.Eof do
       begin
-        TAppUtils.Warning('Faktur : ' + VarToStr(cxLookup.FieldValue('INVOICENO'))
-          + ' sudah ada di Grid Input'
-        );
-        exit;
-      end;
+        if CDSClone.Locate('SalesInvoice', cxLookup.Data.FieldByName('ID').AsInteger, [loCaseInsensitive]) then
+        begin
+          TAppUtils.Warning('Faktur : ' + cxLookup.Data.FieldByName('INVOICENO').AsString + ' sudah ada di Grid Input');
+          cxLookup.Data.Next;
+          continue;
+        end;
 
-      lInvoice := TSalesInvoice.Create;
-      Try
-        lInvoice.LoadByID(VarToInt(cxLookup.FieldValue('ID')));
-        SetInvoiceToGrid(lInvoice);
-      Finally
-        lInvoice.Free;
-      End;
+        lInvoice := TSalesInvoice.Create;
+        Try
+          lInvoice.LoadByID(cxLookup.Data.FieldByName('ID').AsInteger);
+          SetInvoiceToGrid(lInvoice);
+        Finally
+          lInvoice.Free;
+        End;
+
+        cxLookup.Data.Next;
+        if not cxLookup.Data.Eof then DC.Append;
+      end;
     end;
   Finally
     cxLookup.Free;

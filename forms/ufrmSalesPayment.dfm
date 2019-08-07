@@ -2,6 +2,7 @@ inherited frmSalesPayment: TfrmSalesPayment
   Caption = 'Pembayaran Faktur Penjualan'
   ClientHeight = 561
   ClientWidth = 984
+  KeyPreview = True
   OnKeyDown = FormKeyDown
   ExplicitWidth = 1000
   ExplicitHeight = 600

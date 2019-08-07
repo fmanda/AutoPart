@@ -2,7 +2,7 @@ object frmCXLookup: TfrmCXLookup
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
-  ClientHeight = 411
+  ClientHeight = 476
   ClientWidth = 734
   Color = clWindow
   Font.Charset = DEFAULT_CHARSET
@@ -186,7 +186,7 @@ object frmCXLookup: TfrmCXLookup
   end
   object Panel1: TPanel
     Left = 0
-    Top = 376
+    Top = 441
     Width = 734
     Height = 35
     Align = alBottom
@@ -194,6 +194,7 @@ object frmCXLookup: TfrmCXLookup
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 2
+    ExplicitTop = 376
     object lbBenchmark: TLabel
       AlignWithMargins = True
       Left = 3
@@ -256,7 +257,7 @@ object frmCXLookup: TfrmCXLookup
   end
   object Panel2: TPanel
     Left = 0
-    Top = 355
+    Top = 420
     Width = 734
     Height = 21
     Align = alBottom
@@ -265,6 +266,7 @@ object frmCXLookup: TfrmCXLookup
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 3
+    ExplicitTop = 355
     object lbEscape: TLabel
       AlignWithMargins = True
       Left = 655
@@ -307,11 +309,12 @@ object frmCXLookup: TfrmCXLookup
     Left = 0
     Top = 33
     Width = 734
-    Height = 322
+    Height = 387
     Align = alClient
     TabOrder = 0
     LockedStateImageOptions.Text = 'Mohon ditunggu...'
     LookAndFeel.NativeStyle = False
+    ExplicitHeight = 322
     object cxGridView: TcxGridDBTableView
       PopupMenu = pmSelect
       OnKeyDown = cxGridViewKeyDown
@@ -350,6 +353,7 @@ object frmCXLookup: TfrmCXLookup
       OptionsView.NoDataToDisplayInfoText = '<Data kosong>'
       OptionsView.GroupByBox = False
       OptionsView.Indicator = True
+      Styles.ContentOdd = styleOdd
     end
     object cxlvMaster: TcxGridLevel
       GridView = cxGridView
@@ -376,6 +380,15 @@ object frmCXLookup: TfrmCXLookup
     object UncheckAll1: TMenuItem
       Caption = 'Uncheck All'
       OnClick = UncheckAll1Click
+    end
+  end
+  object styleRepo: TcxStyleRepository
+    Left = 288
+    Top = 48
+    PixelsPerInch = 96
+    object styleOdd: TcxStyle
+      AssignedValues = [svColor]
+      Color = clInfoBk
     end
   end
 end

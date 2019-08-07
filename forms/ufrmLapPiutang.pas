@@ -65,6 +65,7 @@ begin
   cxGrdMain.LoadFromCDS(CDS);
   cxGrdMain.SetVisibleColumns(['SALESINVOICE_ID','HEADERREMAIN'],False);
   cxGrdMain.SetSummaryByColumns(['REMAIN']);
+  cxGrdMain.EnableFiltering();
 end;
 
 procedure TfrmLapPiutang.FormCreate(Sender: TObject);

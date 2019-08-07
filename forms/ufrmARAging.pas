@@ -256,6 +256,7 @@ begin
 
   cxGrdDetail.SetMasterKeyField(lParent);
   cxGrdDetail.SetDetailKeyField(lParent);
+  cxGrdMain.EnableFiltering();
 
 //  cxGrdDetail.BeginBestFitUpdate;
 //  cxGrdDetail.ApplyBestFit();

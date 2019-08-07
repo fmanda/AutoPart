@@ -40,6 +40,8 @@ type
     CheckAll1: TMenuItem;
     UncheckAll1: TMenuItem;
     lbBenchmark: TLabel;
+    styleRepo: TcxStyleRepository;
+    styleOdd: TcxStyle;
     procedure btnRefreshClick(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
@@ -78,6 +80,7 @@ type
     class function Execute(ASQL: string; aMultiSelect: Boolean = False; aCaption:
         String = 'Lookup Data'): TfrmCXLookup; overload;
     procedure HideFields(FieldNames: Array Of String);
+    procedure PreFilter(aFieldName, aValue: String);
     procedure Reset;
     procedure ShowFieldsOnly(FieldNames: Array Of String);
     property Data: TClientDataset read FData write FData;
@@ -325,6 +328,20 @@ begin
   end;
   cxGridView.OptionsBehavior.BestFitMaxRecordCount := 200;
   cxGridView.ApplyBestFit;
+end;
+
+procedure TfrmCXLookup.PreFilter(aFieldName, aValue: String);
+var
+  iColIndex: Integer;
+begin
+  if cxGridView.GetColumnByFieldName(aFieldName) = nil then
+    raise Exception.Create('Column ' + aFieldName + ' not found');
+  iColIndex := cxGridView.GetColumnByFieldName(aFieldName).Index;
+  cxGridView.ViewData.FilterRow.Values[iColIndex] := aValue;
+
+//  LastFilterIndex := iColIndex;
+
+//  cxGrdMain.Columns[iColIndex]
 end;
 
 procedure TfrmCXLookup.ShowFieldsOnly(FieldNames: Array Of String);

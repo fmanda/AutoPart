@@ -89,6 +89,7 @@ begin
   CDS := TDBUtils.OpenDataset(S, Self);
   cxGrdMain.PrepareFromCDS(CDS);
   cxGrdMain.SetVisibleColumns(['Merk','GroupItem'], ckGrupMerk.Checked);
+  cxGrdMain.EnableFiltering();
 
 end;
 
@@ -122,7 +123,6 @@ procedure TfrmSuggestionOrder.FormCreate(Sender: TObject);
 begin
   inherited;
   dtStock.Date := Now();
-
 end;
 
 function TfrmSuggestionOrder.GetGroupName: string;

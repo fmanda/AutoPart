@@ -29,6 +29,7 @@ inherited frmLapHutang: TfrmLapHutang
     end
     inherited btnRefresh: TcxButton
       OnClick = btnRefreshClick
+      ExplicitTop = 7
     end
   end
   object cxGroupBox3: TcxGroupBox [2]

@@ -281,11 +281,11 @@ end;
 procedure TfrmItem.colPriceListPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
-  CalcSellPrice(0, True);
-  CalcSellPrice(1, True);
-  CalcSellPrice(2, True);
-  CalcSellPrice(3, True);
-  CalcSellPrice(4, True);
+  CalcSellPrice(0, False);
+  CalcSellPrice(1, False);
+  CalcSellPrice(2, False);
+  CalcSellPrice(3, False);
+  CalcSellPrice(4, False);
 end;
 
 procedure TfrmItem.cxLookupGroupKeyDown(Sender: TObject; var Key: Word; Shift:

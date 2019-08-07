@@ -1181,6 +1181,14 @@ begin
     Self.FilterRow.OperatorCustomization := True;
     for i := 0 to Self.ColumnCount-1 do
       Self.Columns[i].Options.FilterRowOperator := foContains;
+
+    if Self is TcxGridDBTableView then
+    begin
+      Self.Filtering.ColumnAddValueItems := False;
+      Self.DataController.Filter.Options := [fcoCaseInsensitive];
+      Self.FilterRow.ApplyChanges := fracDelayed;
+      Self.FilterRow.ApplyInputDelay := 1000;
+    end;
   end;
 end;
 
