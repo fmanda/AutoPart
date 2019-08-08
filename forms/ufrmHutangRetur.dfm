@@ -1,28 +1,14 @@
-inherited frmLapPiutang: TfrmLapPiutang
-  Caption = 'Laporan Piutang'
-  ClientHeight = 494
-  ClientWidth = 792
-  ExplicitWidth = 808
-  ExplicitHeight = 533
+inherited frmHutangRetur: TfrmHutangRetur
+  Caption = 'Hutang Retur'
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
-    ExplicitWidth = 792
-    Width = 792
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
       AnchorY = 18
     end
   end
   inherited cxGroupBox2: TcxGroupBox
-    Top = 459
-    ExplicitTop = 459
-    ExplicitWidth = 792
-    Width = 792
-    inherited btnTutup: TcxButton
-      Left = 712
-      ExplicitLeft = 712
-    end
     inherited btnExport: TcxButton
       OnClick = btnExportClick
     end
@@ -40,42 +26,22 @@ inherited frmLapPiutang: TfrmLapPiutang
     Align = alTop
     Caption = ' Report Parameter '
     TabOrder = 2
+    ExplicitLeft = -174
+    ExplicitWidth = 813
     Height = 59
-    Width = 792
+    Width = 639
     object cxLabel3: TcxLabel
       Left = 38
       Top = 24
-      Caption = 'Piutang Per Tanggal'
+      Caption = 'Per Tanggal'
     end
     object dtRefDate: TcxDateEdit
-      Left = 140
+      Left = 100
       Top = 23
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 0
       Width = 130
-    end
-    object edKode: TcxButtonEdit
-      Left = 460
-      Top = 23
-      Properties.Buttons = <
-        item
-          Default = True
-          Kind = bkEllipsis
-        end>
-      Properties.CharCase = ecUpperCase
-      TabOrder = 1
-      Visible = False
-      Width = 329
-    end
-    object ckItem: TcxCheckBox
-      Left = 373
-      Top = 23
-      TabStop = False
-      Caption = 'Filter Supplier'
-      Properties.Alignment = taLeftJustify
-      TabOrder = 3
-      Visible = False
     end
     object ckDueDate: TcxCheckBox
       Left = 513
@@ -84,7 +50,7 @@ inherited frmLapPiutang: TfrmLapPiutang
       Caption = 'Hanya tampilkan yang sudah jatuh tempo'
       Properties.Alignment = taLeftJustify
       State = cbsChecked
-      TabOrder = 4
+      TabOrder = 2
       Visible = False
     end
   end
@@ -92,10 +58,14 @@ inherited frmLapPiutang: TfrmLapPiutang
     AlignWithMargins = True
     Left = 3
     Top = 100
-    Width = 786
-    Height = 356
+    Width = 633
+    Height = 270
     Align = alClient
     TabOrder = 3
+    ExplicitLeft = -147
+    ExplicitTop = 52
+    ExplicitWidth = 786
+    ExplicitHeight = 356
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -122,8 +92,6 @@ inherited frmLapPiutang: TfrmLapPiutang
     end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 344
-    Top = 24
     PixelsPerInch = 96
   end
 end

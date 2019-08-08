@@ -1100,6 +1100,12 @@ begin
   Self.PaidAmount := Self.PaidAmount + AddedPaidAmt;   //utk update / revert remain dari collection
 
   S := 'Update TPurchaseRetur set PaidAmount = ' + FloatToStr(Self.PaidAmount);
+
+  if (Self.Amount - Self.PaidAmount) <=  AppVariable.Toleransi_Piutang then
+    S := S + ',PaidOff = 1, PaidOffDate = ' + TAppUtils.QuotD(Now())
+  else
+    S := S + ',PaidOff = 0, PaidOffDate = NULL';
+
   S := S + ' where id = ' + IntToStr(Self.ID);
 
   Result := TDBUtils.ExecuteSQL(S, False);
@@ -1737,6 +1743,13 @@ begin
   Self.PaidAmount := Self.PaidAmount + AddedPaidAmt;   //utk update / revert remain dari collection
 
   S := 'Update TSalesRetur set PaidAmount = ' + FloatToStr(Self.PaidAmount);
+
+  if (Self.Amount - Self.PaidAmount) <=  AppVariable.Toleransi_Piutang then
+    S := S + ',PaidOff = 1, PaidOffDate = ' + TAppUtils.QuotD(Now())
+  else
+    S := S + ',PaidOff = 0, PaidOffDate = NULL';
+
+
   S := S + ' where id = ' + IntToStr(Self.ID);
 
   Result := TDBUtils.ExecuteSQL(S, False);

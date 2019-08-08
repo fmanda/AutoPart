@@ -94,7 +94,6 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
-      Active = True
       Caption = 'Penjualan & Kas'
       Groups = <
         item
@@ -106,6 +105,7 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxRTARAP: TdxRibbonTab
+      Active = True
       Caption = 'Hutang - Piutang'
       Groups = <
         item
@@ -528,7 +528,7 @@ object frmMain: TfrmMain
           ItemName = 'dxBarButton65'
         end>
       OneOnRow = False
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -554,8 +554,12 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton74'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton87'
         end>
-      OneOnRow = False
+      OneOnRow = True
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -564,7 +568,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar8: TdxBar
       Caption = 'Laporan Piutang'
       CaptionButtons = <>
-      DockedLeft = 332
+      DockedLeft = 476
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8
@@ -582,9 +586,13 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton75'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton86'
         end>
       OneOnRow = False
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1012,6 +1020,14 @@ object frmMain: TfrmMain
       Action = actGantiPass
       Category = 0
     end
+    object dxBarButton86: TdxBarButton
+      Action = actPiutangRetur
+      Category = 0
+    end
+    object dxBarButton87: TdxBarButton
+      Action = actHutangRetur
+      Category = 0
+    end
   end
   object ActionManager: TActionManager
     Images = ImageList
@@ -1339,6 +1355,18 @@ object frmMain: TfrmMain
       Category = 'Application'
       Caption = 'Ganti Password'
       OnExecute = actGantiPassExecute
+    end
+    object actPiutangRetur: TAction
+      Category = 'Hutang Piutang'
+      Caption = 'Laporan Piutang Retur'
+      ImageIndex = 5
+      OnExecute = actPiutangReturExecute
+    end
+    object actHutangRetur: TAction
+      Category = 'Hutang Piutang'
+      Caption = 'Laporan Hutang Retur'
+      ImageIndex = 5
+      OnExecute = actHutangReturExecute
     end
   end
   object ImageList: TcxImageList

@@ -191,6 +191,10 @@ type
     dxBarButton84: TdxBarButton;
     actGantiPass: TAction;
     dxBarButton85: TdxBarButton;
+    actPiutangRetur: TAction;
+    dxBarButton86: TdxBarButton;
+    actHutangRetur: TAction;
+    dxBarButton87: TdxBarButton;
     procedure actAccountExecute(Sender: TObject);
     procedure actAgingARExecute(Sender: TObject);
     procedure actAgingStockExecute(Sender: TObject);
@@ -200,6 +204,7 @@ type
     procedure actDetPenjualanExecute(Sender: TObject);
     procedure actEndOfDayExecute(Sender: TObject);
     procedure actGantiPassExecute(Sender: TObject);
+    procedure actHutangReturExecute(Sender: TObject);
     procedure actInternalTransferExecute(Sender: TObject);
     procedure actItemExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -214,6 +219,7 @@ type
     procedure actMekanikExecute(Sender: TObject);
     procedure actMerkExecute(Sender: TObject);
     procedure actMutasiKasExecute(Sender: TObject);
+    procedure actPiutangReturExecute(Sender: TObject);
     procedure actPurchaseInvoiceExecute(Sender: TObject);
     procedure actPurchaseInvoiceHistoryExecute(Sender: TObject);
     procedure actPurchaseReturExecute(Sender: TObject);
@@ -277,7 +283,7 @@ uses
   ufrmBrowseStockAdjustment, ufrmEndOfDay, ufrmLapCashOpname,
   ufrmSalesAnalysis, ufrmProfitLoss, ufrmARAging, ufrmSuggestionOrder,
   ufrmLapFeeSalesman, ufrmBrowseUser, uUser, ufrmLapPembelian,
-  ufrmLapPenjualan, ufrmGantiPassword;
+  ufrmLapPenjualan, ufrmGantiPassword, ufrmPiutangRetur, ufrmHutangRetur;
 
 {$R *.dfm}
 
@@ -350,6 +356,11 @@ end;
 procedure TfrmMain.actGantiPassExecute(Sender: TObject);
 begin
   ShowForm(TfrmGantiPassword).ShowModal;
+end;
+
+procedure TfrmMain.actHutangReturExecute(Sender: TObject);
+begin
+  ShowForm(TfrmHutangRetur);
 end;
 
 procedure TfrmMain.actInternalTransferExecute(Sender: TObject);
@@ -448,6 +459,11 @@ end;
 procedure TfrmMain.actMutasiKasExecute(Sender: TObject);
 begin
   ShowForm(TfrmMutasiRekening);
+end;
+
+procedure TfrmMain.actPiutangReturExecute(Sender: TObject);
+begin
+  ShowForm(TfrmPiutangRetur);
 end;
 
 procedure TfrmMain.actPurchaseInvoiceExecute(Sender: TObject);

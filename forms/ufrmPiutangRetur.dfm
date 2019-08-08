@@ -1,27 +1,23 @@
-inherited frmLapPiutang: TfrmLapPiutang
-  Caption = 'Laporan Piutang'
-  ClientHeight = 494
-  ClientWidth = 792
-  ExplicitWidth = 808
-  ExplicitHeight = 533
+inherited frmPiutangRetur: TfrmPiutangRetur
+  Caption = 'Piutang Retur (Daftar Retur Customer yang belum terpotong)'
+  ClientHeight = 539
+  ClientWidth = 813
+  ExplicitWidth = 829
+  ExplicitHeight = 578
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
-    ExplicitWidth = 792
-    Width = 792
+    Width = 813
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
       AnchorY = 18
     end
   end
   inherited cxGroupBox2: TcxGroupBox
-    Top = 459
-    ExplicitTop = 459
-    ExplicitWidth = 792
-    Width = 792
+    Top = 504
+    Width = 813
     inherited btnTutup: TcxButton
-      Left = 712
-      ExplicitLeft = 712
+      Left = 733
     end
     inherited btnExport: TcxButton
       OnClick = btnExportClick
@@ -40,42 +36,22 @@ inherited frmLapPiutang: TfrmLapPiutang
     Align = alTop
     Caption = ' Report Parameter '
     TabOrder = 2
+    ExplicitLeft = -153
+    ExplicitWidth = 792
     Height = 59
-    Width = 792
+    Width = 813
     object cxLabel3: TcxLabel
       Left = 38
       Top = 24
-      Caption = 'Piutang Per Tanggal'
+      Caption = 'Per Tanggal'
     end
     object dtRefDate: TcxDateEdit
-      Left = 140
+      Left = 100
       Top = 23
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 0
       Width = 130
-    end
-    object edKode: TcxButtonEdit
-      Left = 460
-      Top = 23
-      Properties.Buttons = <
-        item
-          Default = True
-          Kind = bkEllipsis
-        end>
-      Properties.CharCase = ecUpperCase
-      TabOrder = 1
-      Visible = False
-      Width = 329
-    end
-    object ckItem: TcxCheckBox
-      Left = 373
-      Top = 23
-      TabStop = False
-      Caption = 'Filter Supplier'
-      Properties.Alignment = taLeftJustify
-      TabOrder = 3
-      Visible = False
     end
     object ckDueDate: TcxCheckBox
       Left = 513
@@ -84,7 +60,7 @@ inherited frmLapPiutang: TfrmLapPiutang
       Caption = 'Hanya tampilkan yang sudah jatuh tempo'
       Properties.Alignment = taLeftJustify
       State = cbsChecked
-      TabOrder = 4
+      TabOrder = 2
       Visible = False
     end
   end
@@ -92,10 +68,12 @@ inherited frmLapPiutang: TfrmLapPiutang
     AlignWithMargins = True
     Left = 3
     Top = 100
-    Width = 786
-    Height = 356
+    Width = 807
+    Height = 401
     Align = alClient
     TabOrder = 3
+    ExplicitWidth = 786
+    ExplicitHeight = 356
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -122,8 +100,8 @@ inherited frmLapPiutang: TfrmLapPiutang
     end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 344
-    Top = 24
+    Left = 296
+    Top = 8
     PixelsPerInch = 96
   end
 end

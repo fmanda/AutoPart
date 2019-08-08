@@ -116,7 +116,9 @@ uses
   ufrmLapPembelian in 'forms\ufrmLapPembelian.pas' {frmLapPembelian},
   ufrmLapPenjualan in 'forms\ufrmLapPenjualan.pas' {frmLapPenjualan},
   ufrmGantiPassword in 'forms\ufrmGantiPassword.pas' {frmGantiPassword},
-  ufrmLookupItem in 'lib\ufrmLookupItem.pas' {frmLookupItem};
+  ufrmLookupItem in 'lib\ufrmLookupItem.pas' {frmLookupItem},
+  ufrmPiutangRetur in 'forms\ufrmPiutangRetur.pas' {frmPiutangRetur},
+  ufrmHutangRetur in 'forms\ufrmHutangRetur.pas' {frmHutangRetur};
 
 {$R *.res}
 
