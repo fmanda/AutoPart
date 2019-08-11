@@ -5,22 +5,19 @@ interface
 uses CRUDObject, System.Generics.Collections, uItem, uWarehouse, Sysutils;
 
 type
-  TStockOpnameInput = class;
+  TKKSOItem = class;
   TStockOpnameItem = class;
 
   TStockOpname = class(TCRUDObject)
   private
     FNotes: String;
-    FInputs: TObjectList<TStockOpnameInput>;
     FItems: TObjectList<TStockOpnameItem>;
     FRefno: String;
     FStatus: Integer;
     FTransDate: TDatetime;
-    function GetInputs: TObjectList<TStockOpnameInput>;
     function GetItems: TObjectList<TStockOpnameItem>;
   public
     destructor Destroy; override;
-    property Inputs: TObjectList<TStockOpnameInput> read GetInputs write FInputs;
     property Items: TObjectList<TStockOpnameItem> read GetItems write FItems;
   published
     property Notes: String read FNotes write FNotes;
@@ -29,24 +26,19 @@ type
     property TransDate: TDatetime read FTransDate write FTransDate;
   end;
 
-  TStockOpnameInput = class(TCRUDObject)
+  TKKSOItem = class(TCRUDObject)
   private
     FItem: TItem;
     FKonversi: Double;
     FQty: Double;
-    FStockOpname: TStockOpname;
     FUOM: TUOM;
-    FWarehouse: TWarehouse;
   public
     destructor Destroy; override;
   published
     property Item: TItem read FItem write FItem;
     property Konversi: Double read FKonversi write FKonversi;
     property Qty: Double read FQty write FQty;
-    [AttributeOfHeader]
-    property StockOpname: TStockOpname read FStockOpname write FStockOpname;
     property UOM: TUOM read FUOM write FUOM;
-    property Warehouse: TWarehouse read FWarehouse write FWarehouse;
   end;
 
 
@@ -70,25 +62,40 @@ type
     property Warehouse: TWarehouse read FWarehouse write FWarehouse;
   end;
 
+type
+  TKKSO = class(TCRUDObject)
+  private
+    FNotes: String;
+    FItems: TObjectList<TKKSOItem>;
+    FRefno: String;
+    FLokasi: String;
+    FUserInput: String;
+    FStockOpname: TStockOpname;
+    FTransDate: TDatetime;
+    FUserVerify: String;
+    function GetItems: TObjectList<TKKSOItem>;
+  public
+    destructor Destroy; override;
+    property Items: TObjectList<TKKSOItem> read GetItems write FItems;
+  published
+    property Notes: String read FNotes write FNotes;
+    property Refno: String read FRefno write FRefno;
+    property Lokasi: String read FLokasi write FLokasi;
+    property UserInput: String read FUserInput write FUserInput;
+    property StockOpname: TStockOpname read FStockOpname write FStockOpname;
+    property TransDate: TDatetime read FTransDate write FTransDate;
+    property UserVerify: String read FUserVerify write FUserVerify;
+  end;
+
+
 implementation
 
 
 destructor TStockOpname.Destroy;
 begin
   inherited;
-  if FInputs <> nil then
-    FInputs.Free;
   if FItems <> nil then
     FItems.Free;
-end;
-
-function TStockOpname.GetInputs: TObjectList<TStockOpnameInput>;
-begin
-  if FInputs = nil then
-  begin
-    FInputs := TObjectList<TStockOpnameInput>.Create();
-  end;
-  Result := FInputs;
 end;
 
 function TStockOpname.GetItems: TObjectList<TStockOpnameItem>;
@@ -100,12 +107,11 @@ begin
   Result := FItems;
 end;
 
-destructor TStockOpnameInput.Destroy;
+destructor TKKSOItem.Destroy;
 begin
   inherited;
   if FItem <> nil then FreeAndNil(FItem);
   if FUOM <> nil then FreeAndNil(FUOM);
-  if FWarehouse <> nil then FreeAndNil(FWarehouse);
 end;
 
 destructor TStockOpnameItem.Destroy;
@@ -113,6 +119,22 @@ begin
   inherited;
   if FItem <> nil then FreeAndNil(FItem);
   if FWarehouse <> nil then FreeAndNil(FWarehouse);
+end;
+
+destructor TKKSO.Destroy;
+begin
+  inherited;
+  if FItems <> nil then
+    FItems.Free;
+end;
+
+function TKKSO.GetItems: TObjectList<TKKSOItem>;
+begin
+  if FItems = nil then
+  begin
+    FItems := TObjectList<TKKSOItem>.Create();
+  end;
+  Result := FItems;
 end;
 
 end.

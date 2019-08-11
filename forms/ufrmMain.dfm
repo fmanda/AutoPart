@@ -83,6 +83,7 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxRTInventory: TdxRibbonTab
+      Active = True
       Caption = 'Inventory'
       Groups = <
         item
@@ -105,7 +106,6 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxRTARAP: TdxRibbonTab
-      Active = True
       Caption = 'Hutang - Piutang'
       Groups = <
         item
@@ -324,6 +324,10 @@ object frmMain: TfrmMain
         end
         item
           Visible = True
+          ItemName = 'dxBarButton88'
+        end
+        item
+          Visible = True
           ItemName = 'dxBarButton41'
         end
         item
@@ -339,7 +343,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar6: TdxBar
       Caption = 'Lap Inventory'
       CaptionButtons = <>
-      DockedLeft = 253
+      DockedLeft = 337
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8
@@ -528,7 +532,7 @@ object frmMain: TfrmMain
           ItemName = 'dxBarButton65'
         end>
       OneOnRow = False
-      Row = 1
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -559,7 +563,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxBarButton87'
         end>
-      OneOnRow = True
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -592,7 +596,7 @@ object frmMain: TfrmMain
           ItemName = 'dxBarButton86'
         end>
       OneOnRow = False
-      Row = 1
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -1028,6 +1032,11 @@ object frmMain: TfrmMain
       Action = actHutangRetur
       Category = 0
     end
+    object dxBarButton88: TdxBarButton
+      Action = actKKSO
+      Category = 0
+      ImageIndex = 23
+    end
   end
   object ActionManager: TActionManager
     Images = ImageList
@@ -1367,6 +1376,11 @@ object frmMain: TfrmMain
       Caption = 'Laporan Hutang Retur'
       ImageIndex = 5
       OnExecute = actHutangReturExecute
+    end
+    object actKKSO: TAction
+      Category = 'Inventory'
+      Caption = 'Kartu Kerja Stock Opname (KKSO)'
+      OnExecute = actKKSOExecute
     end
   end
   object ImageList: TcxImageList

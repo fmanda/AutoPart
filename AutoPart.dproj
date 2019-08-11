@@ -250,7 +250,6 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="classes\uSalesman.pas"/>
-        <DCCReference Include="classes\uStockOpname.pas"/>
         <DCCReference Include="forms\ufrmTransferStock.pas">
             <Form>frmTransferStock</Form>
             <FormType>dfm</FormType>
@@ -490,6 +489,10 @@
         </DCCReference>
         <DCCReference Include="forms\ufrmHutangRetur.pas">
             <Form>frmHutangRetur</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmKKSO.pas">
+            <Form>frmKKSO</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">

@@ -195,6 +195,8 @@ type
     dxBarButton86: TdxBarButton;
     actHutangRetur: TAction;
     dxBarButton87: TdxBarButton;
+    actKKSO: TAction;
+    dxBarButton88: TdxBarButton;
     procedure actAccountExecute(Sender: TObject);
     procedure actAgingARExecute(Sender: TObject);
     procedure actAgingStockExecute(Sender: TObject);
@@ -210,6 +212,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure actItemGroupExecute(Sender: TObject);
     procedure actKartuStockExecute(Sender: TObject);
+    procedure actKKSOExecute(Sender: TObject);
     procedure actLabaRugiExecute(Sender: TObject);
     procedure actLapCashOpnameExecute(Sender: TObject);
     procedure actLapFeeSalesmanExecute(Sender: TObject);
@@ -283,7 +286,8 @@ uses
   ufrmBrowseStockAdjustment, ufrmEndOfDay, ufrmLapCashOpname,
   ufrmSalesAnalysis, ufrmProfitLoss, ufrmARAging, ufrmSuggestionOrder,
   ufrmLapFeeSalesman, ufrmBrowseUser, uUser, ufrmLapPembelian,
-  ufrmLapPenjualan, ufrmGantiPassword, ufrmPiutangRetur, ufrmHutangRetur;
+  ufrmLapPenjualan, ufrmGantiPassword, ufrmPiutangRetur, ufrmHutangRetur,
+  ufrmKKSO;
 
 {$R *.dfm}
 
@@ -414,6 +418,11 @@ end;
 procedure TfrmMain.actKartuStockExecute(Sender: TObject);
 begin
   ShowForm(TfrmKartuStock);
+end;
+
+procedure TfrmMain.actKKSOExecute(Sender: TObject);
+begin
+  ShowForm(TfrmKKSO).ShowModal;
 end;
 
 procedure TfrmMain.actLabaRugiExecute(Sender: TObject);

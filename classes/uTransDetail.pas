@@ -15,6 +15,9 @@ type
   TStockOpname = class;
   TStockOpnameItem = class;
   TSalesRetur = class;
+  TStockOpnameKKSO = class;
+  TKKSO = class;
+  TKKSOItem = class;
 
   TCRUDTransDetail = class(TCRUDObject)
   private
@@ -409,6 +412,7 @@ type
   private
     FClosed: Integer;
     FItems: TObjectList<TStockOpnameItem>;
+    FKKSO: TObjectList<TStockOpnameKKSO>;
     FModifiedBy: String;
     FModifiedDate: TDateTime;
     FTransDate: TDateTime;
@@ -417,11 +421,13 @@ type
     FTranstype: Integer;
     FWarehouse: TWarehouse;
     function GetItems: TObjectList<TStockOpnameItem>;
+    function GetKKSO: TObjectList<TStockOpnameKKSO>;
   protected
     function BeforeSaveToDB: Boolean; override;
   public
     function GenerateNo: String;
     property Items: TObjectList<TStockOpnameItem> read GetItems write FItems;
+    property KKSO: TObjectList<TStockOpnameKKSO> read GetKKSO write FKKSO;
   published
     property Closed: Integer read FClosed write FClosed;
     property ModifiedBy: String read FModifiedBy write FModifiedBy;
@@ -463,7 +469,6 @@ type
     property Warehouse: TWarehouse read FWarehouse write FWarehouse;
   end;
 
-type
   TStockAdjustment = class(TCRUDTransDetail)
   private
     FNotes: string;
@@ -486,6 +491,66 @@ type
     [AttributeOfCode]
     property RefNo: string read FRefNo write FRefNo;
     property TransType: Integer read FTransType write FTransType;
+    property StockOpname: TStockOpname read FStockOpname write FStockOpname;
+  end;
+
+
+  TKKSOItem = class(TCRUDObject)
+  private
+    FItem: TItem;
+    FKonversi: Double;
+    FQty: Double;
+    FKKSO: TKKSO;
+    FUOM: TUOM;
+  public
+    destructor Destroy; override;
+  published
+    property Item: TItem read FItem write FItem;
+    property Konversi: Double read FKonversi write FKonversi;
+    property Qty: Double read FQty write FQty;
+    [AttributeOfHeader]
+    property KKSO: TKKSO read FKKSO write FKKSO;
+    property UOM: TUOM read FUOM write FUOM;
+  end;
+
+  TKKSO = class(TCRUDObject)
+  private
+    FNotes: String;
+    FItems: TObjectList<TKKSOItem>;
+    FRefno: String;
+    FRak: String;
+    FModifiedBy: String;
+    FModifiedDate: TDateTime;
+    FPIC: String;
+    FStockOpname: TStockOpname;
+    FTransDate: TDatetime;
+    FWarehouse: TWarehouse;
+    function GetItems: TObjectList<TKKSOItem>;
+  public
+    destructor Destroy; override;
+    function GenerateNo: String;
+    property Items: TObjectList<TKKSOItem> read GetItems write FItems;
+  published
+    property Notes: String read FNotes write FNotes;
+    property Refno: String read FRefno write FRefno;
+    property Rak: String read FRak write FRak;
+    property ModifiedBy: String read FModifiedBy write FModifiedBy;
+    property ModifiedDate: TDateTime read FModifiedDate write FModifiedDate;
+    property PIC: String read FPIC write FPIC;
+    property StockOpname: TStockOpname read FStockOpname write FStockOpname;
+    property TransDate: TDatetime read FTransDate write FTransDate;
+    property Warehouse: TWarehouse read FWarehouse write FWarehouse;
+  end;
+
+
+  TStockOpnameKKSO = class(TCRUDObject)
+  private
+    FKKSO: TKKSO;
+    FStockOpname: TStockOpname;
+  public
+  published
+    property KKSO: TKKSO read FKKSO write FKKSO;
+    [AttributeOfHeader]
     property StockOpname: TStockOpname read FStockOpname write FStockOpname;
   end;
 
@@ -1807,6 +1872,15 @@ begin
   Result := FItems;
 end;
 
+function TStockOpname.GetKKSO: TObjectList<TStockOpnameKKSO>;
+begin
+  if FKKSO = nil then
+  begin
+    FKKSO := TObjectList<TStockOpnameKKSO>.Create();
+  end;
+  Result := FKKSO;
+end;
+
 destructor TStockAdjustment.Destroy;
 begin
   inherited;
@@ -1886,6 +1960,57 @@ begin
   Finally
     lItemUOM.Free;
   End;
+end;
+
+destructor TKKSOItem.Destroy;
+begin
+  inherited;
+  if FItem <> nil then FreeAndNil(FItem);
+  if FUOM <> nil then FreeAndNil(FUOM);
+end;
+
+destructor TKKSO.Destroy;
+begin
+  inherited;
+  if FItems <> nil then
+    FItems.Free;
+end;
+
+function TKKSO.GenerateNo: String;
+var
+  aDigitCount: Integer;
+  aPrefix: string;
+  lNum: Integer;
+  S: string;
+begin
+  lNum := 0;
+  aDigitCount := 4;
+  aPrefix := Cabang + '.KKSO' + FormatDateTime('yymm',Now()) + '.';
+
+
+  S := 'SELECT MAX(RefNo) FROM TKKSO where RefNo LIKE ' + QuotedStr(aPrefix + '%');
+
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        TryStrToInt(RightStr(Fields[0].AsString, aDigitCount), lNum);
+    Finally
+      Free;
+    End;
+  end;
+
+  inc(lNum);
+  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
+end;
+
+function TKKSO.GetItems: TObjectList<TKKSOItem>;
+begin
+  if FItems = nil then
+  begin
+    FItems := TObjectList<TKKSOItem>.Create();
+  end;
+  Result := FItems;
 end;
 
 end.

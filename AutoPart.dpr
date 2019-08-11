@@ -50,7 +50,6 @@ uses
   ufrmPurchaseRetur in 'forms\ufrmPurchaseRetur.pas' {frmPurchaseRetur},
   ufrmBrowsePurchaseRetur in 'forms\ufrmBrowsePurchaseRetur.pas' {frmBrowsePurchaseRetur},
   uSalesman in 'classes\uSalesman.pas',
-  uStockOpname in 'classes\uStockOpname.pas',
   ufrmTransferStock in 'forms\ufrmTransferStock.pas' {frmTransferStock},
   ufrmBrowseTransferStock in 'forms\ufrmBrowseTransferStock.pas' {frmBrowseTransferStock},
   ufrmLapStock in 'forms\ufrmLapStock.pas' {frmLapStock},
@@ -118,7 +117,8 @@ uses
   ufrmGantiPassword in 'forms\ufrmGantiPassword.pas' {frmGantiPassword},
   ufrmLookupItem in 'lib\ufrmLookupItem.pas' {frmLookupItem},
   ufrmPiutangRetur in 'forms\ufrmPiutangRetur.pas' {frmPiutangRetur},
-  ufrmHutangRetur in 'forms\ufrmHutangRetur.pas' {frmHutangRetur};
+  ufrmHutangRetur in 'forms\ufrmHutangRetur.pas' {frmHutangRetur},
+  ufrmKKSO in 'forms\ufrmKKSO.pas' {frmKKSO};
 
 {$R *.res}
 
