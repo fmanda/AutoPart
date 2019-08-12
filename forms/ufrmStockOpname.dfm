@@ -52,6 +52,7 @@ inherited frmStockOpname: TfrmStockOpname
       OptionsImage.ImageIndex = 8
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 4
+      OnClick = btnLoadKKSOClick
     end
   end
   inherited Panel2: TPanel

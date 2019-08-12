@@ -77,6 +77,7 @@ type
     procedure cxLookupWHPropertiesEditValueChanged(Sender: TObject);
     procedure btnReloadStockClick(Sender: TObject);
     procedure rbSOPropertiesEditValueChanged(Sender: TObject);
+    procedure btnLoadKKSOClick(Sender: TObject);
   private
     FCDS: TClientDataset;
     FCDSKKSO: TClientDataset;
@@ -255,6 +256,21 @@ begin
   End;
 end;
 
+procedure TfrmStockOpname.btnLoadKKSOClick(Sender: TObject);
+var
+  S: string;
+begin
+  inherited;
+  if VarToInt(cxLookupWH.EditValue) = 0 then
+  begin
+    TAppUtils.Warning('Gudang belum dipilih');
+    exit;
+  end;
+
+  S
+
+end;
+
 procedure TfrmStockOpname.btnReloadStockClick(Sender: TObject);
 var
   lCDSStock: TClientDataset;
@@ -329,6 +345,7 @@ procedure TfrmStockOpname.cxLookupWHPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
   CDS.EmptyDataSet;
+  CDSKKSO.EmptyDataSet;
 end;
 
 function TfrmStockOpname.DC: TcxGridDBDataController;
@@ -539,6 +556,7 @@ begin
   dtSO.Date := SO.TransDate;
   edNotes.Text := SO.Notes;
   rbSO.ItemIndex := SO.Transtype;
+  rbSOPropertiesEditValueChanged(Self);
 
   if SO.Warehouse <> nil then
     cxLookupWH.EditValue := SO.Warehouse.ID;
@@ -595,8 +613,8 @@ begin
   inherited;
   CDS.EmptyDataSet;
   btnReloadStock.Caption := 'Load Stock System';
-  if rbSo.ItemIndex = 1 then
-    btnReloadStock.Visible := False;
+  btnReloadStock.Visible := rbSo.ItemIndex = 0;
+//  if rbSo.ItemIndex = 1 then
 //    btnReloadStock.Caption := 'Load Semua Stock System';
 
   btnLoadKKSO.Visible := rbSO.ItemIndex = 1;
