@@ -229,6 +229,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton85'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton89'
         end>
       OneOnRow = True
       Row = 0
@@ -1023,6 +1027,7 @@ object frmMain: TfrmMain
     object dxBarButton85: TdxBarButton
       Action = actGantiPass
       Category = 0
+      ImageIndex = 23
     end
     object dxBarButton86: TdxBarButton
       Action = actPiutangRetur
@@ -1036,6 +1041,17 @@ object frmMain: TfrmMain
       Action = actKKSO
       Category = 0
       ImageIndex = 23
+    end
+    object dxBarSubItem4: TdxBarSubItem
+      Caption = 'New SubItem'
+      Category = 0
+      Visible = ivAlways
+      ItemLinks = <>
+    end
+    object dxBarButton89: TdxBarButton
+      Action = actLog
+      Category = 0
+      ImageIndex = 7
     end
   end
   object ActionManager: TActionManager
@@ -1381,6 +1397,11 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = 'Kartu Kerja Stock Opname (KKSO)'
       OnExecute = actKKSOExecute
+    end
+    object actLog: TAction
+      Category = 'Application'
+      Caption = 'Lihat Log'
+      OnExecute = actLogExecute
     end
   end
   object ImageList: TcxImageList

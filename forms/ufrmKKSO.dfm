@@ -11,33 +11,43 @@ inherited frmKKSO: TfrmKKSO
   inherited cxGroupBox2: TcxGroupBox
     Top = 626
     TabOrder = 2
+    ExplicitTop = 626
+    ExplicitWidth = 783
     Width = 783
     inherited btnCancel: TcxButton
       Left = 698
+      ExplicitLeft = 698
     end
     inherited btnPrint: TcxButton
       Left = 612
+      ExplicitLeft = 612
     end
     inherited btnSave: TcxButton
       Left = 526
       OnClick = btnSaveClick
+      ExplicitLeft = 526
     end
   end
   inherited Panel2: TPanel
     Top = 605
     Width = 783
     TabOrder = 3
+    ExplicitTop = 605
+    ExplicitWidth = 783
     inherited lbEscape: TLabel
       Left = 703
       Height = 17
+      ExplicitLeft = 703
     end
     inherited lgndSave: TLabel
       Left = 538
       Height = 17
+      ExplicitLeft = 538
     end
     inherited lgndPrint: TLabel
       Left = 625
       Height = 17
+      ExplicitLeft = 625
     end
   end
   object cxGroupBox1: TcxGroupBox [2]
@@ -46,7 +56,6 @@ inherited frmKKSO: TfrmKKSO
     Align = alTop
     Caption = '  Header KKSO [F1] '
     TabOrder = 0
-    ExplicitWidth = 749
     Height = 113
     Width = 783
     object cxLabel1: TcxLabel
@@ -136,8 +145,6 @@ inherited frmKKSO: TfrmKKSO
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 112
-    ExplicitHeight = 413
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown

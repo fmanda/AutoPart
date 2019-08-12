@@ -238,7 +238,7 @@ end;
 
 function TItem.LogLevel: Integer;
 begin
-  Result := 1; //no log
+  Result := 0; //no log
   //1 : all
   //2 : update and delete only
  end;

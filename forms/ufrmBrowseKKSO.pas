@@ -1,4 +1,4 @@
-unit ufrmBrowseCashPayment;
+unit ufrmBrowseKKSO;
 
 interface
 
@@ -14,7 +14,7 @@ uses
   cxGridServerModeTableView, cxGrid;
 
 type
-  TfrmBrowseCashPayment = class(TfrmDefaultServerBrowse)
+  TfrmBrowseKKSO = class(TfrmDefaultServerBrowse)
     procedure btnBaruClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnHapusClick(Sender: TObject);
@@ -31,20 +31,19 @@ type
   end;
 
 var
-  frmBrowseCashPayment: TfrmBrowseCashPayment;
+  frmBrowseKKSO: TfrmBrowseKKSO;
 
 implementation
 
 uses
-  uAppUtils, uDXUtils, Dateutils, ufrmCashPayment, uFinancialTransaction,
-  uDBUtils;
+  ufrmKKSO, uDXUtils, uDBUtils, uAppUtils, uTransDetail;
 
 {$R *.dfm}
 
-procedure TfrmBrowseCashPayment.btnBaruClick(Sender: TObject);
+procedure TfrmBrowseKKSO.btnBaruClick(Sender: TObject);
 begin
   inherited;
-  with TfrmCashPayment.Create(Application) do
+  with TfrmKKSO.Create(Application) do
   begin
     Try
       if ShowModalDlg = mrOK then
@@ -55,10 +54,10 @@ begin
   end;
 end;
 
-procedure TfrmBrowseCashPayment.btnEditClick(Sender: TObject);
+procedure TfrmBrowseKKSO.btnEditClick(Sender: TObject);
 begin
   inherited;
-  with TfrmCashPayment.Create(Application) do
+  with TfrmKKSO.Create(Application) do
   begin
     LoadByID(Self.cxGrdMain.GetID, False);
     Try
@@ -70,16 +69,26 @@ begin
   end;
 end;
 
-procedure TfrmBrowseCashPayment.btnHapusClick(Sender: TObject);
+procedure TfrmBrowseKKSO.btnHapusClick(Sender: TObject);
 begin
   inherited;
   if not TAppUtils.Confirm('Anda yakin menghapus data ini?') then exit;
 
-  with TCashPayment.Create do
+  with TKKSO.Create do
   begin
     if LoadByID(Self.cxGrdMain.GetID) then
     begin
       if not IsValidTransDate(TransDate) then exit;
+
+      if StockOpname <> nil then
+      begin
+        if StockOpname.ID > 0 then
+        begin
+          TAppUtils.Warning('KKSO sudah diproses stock opname, tidak bisa dihapus');
+          exit;
+        end;
+      end;
+
       if DeleteFromDB then
       begin
         TAppUtils.Information('Berhasil menghapus data');
@@ -90,10 +99,10 @@ begin
   end;
 end;
 
-procedure TfrmBrowseCashPayment.btnLihatClick(Sender: TObject);
+procedure TfrmBrowseKKSO.btnLihatClick(Sender: TObject);
 begin
   inherited;
-  with TfrmCashPayment.Create(Application) do
+  with TfrmKKSO.Create(Application) do
   begin
     LoadByID(Self.cxGrdMain.GetID, True);
     Try
@@ -104,28 +113,30 @@ begin
   end;
 end;
 
-procedure TfrmBrowseCashPayment.FormCreate(Sender: TObject);
+procedure TfrmBrowseKKSO.FormCreate(Sender: TObject);
 begin
   StartDate.Date := (Now());
   EndDate.Date := (Now());
   inherited;
 end;
 
-function TfrmBrowseCashPayment.GetGroupName: string;
+function TfrmBrowseKKSO.GetGroupName: string;
 begin
-  Result := 'Penjualan & Kas';
+  Result := 'Inventory';
 end;
 
-function TfrmBrowseCashPayment.GetKeyField: string;
+function TfrmBrowseKKSO.GetKeyField: string;
 begin
   Result := 'id';
 end;
 
-function TfrmBrowseCashPayment.GetSQL: string;
+function TfrmBrowseKKSO.GetSQL: string;
 begin
-  Result := 'SELECT A.ID, A.REFNO, A.TRANSDATE, B.NAMA AS REKENING_ASAL, A.AMOUNT, A.NOTES, A.MODIFIEDDATE, A.MODIFIEDBY'
-           +' FROM TCASHPAYMENT A'
-           +' LEFT JOIN TREKENING B ON A.REKENING_ID = B.ID'
+  Result := 'SELECT A.ID, A.REFNO, A.TRANSDATE, B.NAMA AS WAREHOUSE,'
+           +' A.RAK, A.PIC, A.NOTES, A.MODIFIEDBY, A.MODIFIEDDATE, C.REFNO AS NOSTOCKOPNAME'
+           +' FROM TKKSO A'
+           +' LEFT JOIN TWAREHOUSE B ON A.WAREHOUSE_ID = B.ID'
+           +' LEFT JOIN TSTOCKOPNAME C ON A.STOCKOPNAME_ID = C.ID'
            +' WHERE A.TRANSDATE BETWEEN ' + TAppUtils.QuotD(StartDate.Date)
            +' AND ' + TAppUtils.QuotD(EndDate.Date);
 

@@ -340,9 +340,24 @@ begin
     KKSO.RefNo := KKSO.GenerateNo;
   end;
 
+  if (aID > 0) and (not IsReadOnly) then
+  begin
+    if KKSO.StockOpname <> nil then
+    begin
+      if KKSO.StockOpname.ID > 0 then
+      begin
+        TAppUtils.Warning('KKSO sudah diproses stock opname, tidak bisa diedit lagi');
+        IsReadOnly := True;
+      end;
+    end;
+  end;
+
+
   edRefno.Text := KKSO.RefNo;
   dtSO.Date := KKSO.TransDate;
   edNotes.Text := KKSO.Notes;
+  edPIC.Text := KKSO.PIC;
+  edRak.Text := KKSO.Rak;
 
   if KKSO.Warehouse <> nil then
     cxLookupWH.EditValue := KKSO.Warehouse.ID;

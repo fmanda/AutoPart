@@ -197,6 +197,9 @@ type
     dxBarButton87: TdxBarButton;
     actKKSO: TAction;
     dxBarButton88: TdxBarButton;
+    actLog: TAction;
+    dxBarSubItem4: TdxBarSubItem;
+    dxBarButton89: TdxBarButton;
     procedure actAccountExecute(Sender: TObject);
     procedure actAgingARExecute(Sender: TObject);
     procedure actAgingStockExecute(Sender: TObject);
@@ -218,6 +221,7 @@ type
     procedure actLapFeeSalesmanExecute(Sender: TObject);
     procedure actLapPembelianExecute(Sender: TObject);
     procedure actLapStockExecute(Sender: TObject);
+    procedure actLogExecute(Sender: TObject);
     procedure actLoginExecute(Sender: TObject);
     procedure actMekanikExecute(Sender: TObject);
     procedure actMerkExecute(Sender: TObject);
@@ -256,6 +260,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     function ConnectDB: Boolean;
+    procedure ShowLog;
     { Private declarations }
   public
     procedure DoLogin;
@@ -287,7 +292,7 @@ uses
   ufrmSalesAnalysis, ufrmProfitLoss, ufrmARAging, ufrmSuggestionOrder,
   ufrmLapFeeSalesman, ufrmBrowseUser, uUser, ufrmLapPembelian,
   ufrmLapPenjualan, ufrmGantiPassword, ufrmPiutangRetur, ufrmHutangRetur,
-  ufrmKKSO;
+  ufrmBrowseKKSO;
 
 {$R *.dfm}
 
@@ -422,7 +427,7 @@ end;
 
 procedure TfrmMain.actKKSOExecute(Sender: TObject);
 begin
-  ShowForm(TfrmKKSO).ShowModal;
+  ShowForm(TfrmBrowseKKSO);
 end;
 
 procedure TfrmMain.actLabaRugiExecute(Sender: TObject);
@@ -448,6 +453,11 @@ end;
 procedure TfrmMain.actLapStockExecute(Sender: TObject);
 begin
   ShowForm(TfrmLapStock);
+end;
+
+procedure TfrmMain.actLogExecute(Sender: TObject);
+begin
+  ShowLog;
 end;
 
 procedure TfrmMain.actLoginExecute(Sender: TObject);
@@ -707,6 +717,22 @@ end;
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   TAppUtils.TulisRegistry('LastRibbonTabIndex', IntToStr(dxRBMain.ActiveTab.Index));
+end;
+
+procedure TfrmMain.ShowLog;
+var
+  cxLookup: TfrmCXServerLookup;
+  S: string;
+begin
+  S := 'select id, logdate, username, objectclass, objectid, REFNO, TRANSTYPE, OBJECTQUERY'
+      +' from tlog where logdate between :startdate AND :enddate';
+
+  cxLookup := TfrmCXServerLookup.Execute(S, 'ID', Now(), Now() );
+  Try
+    cxLookup.ShowModal;
+  Finally
+    cxLookup.Free;
+  End;
 end;
 
 end.

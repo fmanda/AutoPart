@@ -14,7 +14,8 @@ uses
   cxButtonEdit, cxCurrencyEdit, cxGridLevel, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxClasses, cxGridCustomView, cxGrid,
   uTransDetail, uDBUtils, uDXUtils, Datasnap.DBClient, uItem,
-  ufrmCXServerLookup, cxGridDBDataDefinitions, uWarehouse, cxRadioGroup;
+  ufrmCXServerLookup, cxGridDBDataDefinitions, uWarehouse, cxRadioGroup,
+  dxBarBuiltInMenu, cxPC;
 
 type
   TfrmStockOpname = class(TfrmDefaultInput)
@@ -28,19 +29,37 @@ type
     cxLabel7: TcxLabel;
     cxLookupWH: TcxExtLookupComboBox;
     rbSO: TcxRadioGroup;
+    cxLabel2: TcxLabel;
+    btnReloadStock: TcxButton;
+    pgcMain: TcxPageControl;
+    tsDetail: TcxTabSheet;
+    tsKKSO: TcxTabSheet;
     cxGrid1: TcxGrid;
     cxGrdMain: TcxGridDBTableView;
     colKode: TcxGridDBColumn;
     colNama: TcxGridDBColumn;
     colUOM: TcxGridDBColumn;
-    colQty: TcxGridDBColumn;
-    colItemID: TcxGridDBColumn;
     colKonversi: TcxGridDBColumn;
-    cxGrid1Level1: TcxGridLevel;
+    colQty: TcxGridDBColumn;
     colQtySys: TcxGridDBColumn;
+    colItemID: TcxGridDBColumn;
     colVariant: TcxGridDBColumn;
-    cxLabel2: TcxLabel;
-    btnReloadStock: TcxButton;
+    cxGrid1Level1: TcxGridLevel;
+    cxGrid2: TcxGrid;
+    cxGrdKKSO: TcxGridDBTableView;
+    cxGridDBColumn1: TcxGridDBColumn;
+    cxGridDBColumn2: TcxGridDBColumn;
+    cxGridDBColumn3: TcxGridDBColumn;
+    cxGridDBColumn4: TcxGridDBColumn;
+    cxGridDBColumn5: TcxGridDBColumn;
+    cxGridDBColumn6: TcxGridDBColumn;
+    cxGridDBColumn7: TcxGridDBColumn;
+    cxGridDBColumn8: TcxGridDBColumn;
+    cxGridLevel1: TcxGridLevel;
+    cxGrdKKSOColumn1: TcxGridDBColumn;
+    cxGrdKKSOColumn2: TcxGridDBColumn;
+    btnLoadKKSO: TcxButton;
+    cxGrdKKSOColumn3: TcxGridDBColumn;
     procedure btnSaveClick(Sender: TObject);
     procedure colKodePropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
     procedure colKodePropertiesValidate(Sender: TObject; var DisplayValue: Variant;
@@ -60,6 +79,7 @@ type
     procedure rbSOPropertiesEditValueChanged(Sender: TObject);
   private
     FCDS: TClientDataset;
+    FCDSKKSO: TClientDataset;
     FCDSClone: TClientDataset;
     FCDSUOM: TClientDataset;
     FSO: TStockOpname;
@@ -67,6 +87,7 @@ type
     function DC: TcxGridDBDataController;
     procedure FocusToGrid;
     function GetCDS: TClientDataset;
+    function GetCDSKKSO: TClientDataset;
     function GetCDSClone: TClientDataset;
     function GetCDSUOM: TClientDataset;
     function GetSO: TStockOpname;
@@ -77,6 +98,7 @@ type
     procedure UpdateData;
     function ValidateData: Boolean;
     property CDS: TClientDataset read GetCDS write FCDS;
+    property CDSKKSO: TClientDataset read GetCDSKKSO write FCDSKKSO;
     property CDSClone: TClientDataset read GetCDSClone write FCDSClone;
     property CDSUOM: TClientDataset read GetCDSUOM write FCDSUOM;
     property SO: TStockOpname read GetSO write FSO;
@@ -326,6 +348,7 @@ end;
 
 procedure TfrmStockOpname.FocusToGrid;
 begin
+  pgcMain.ActivePage := tsDetail;
   cxGrid1.SetFocus;
   cxGrid1.FocusedView := cxGrdMain;
   if cxGrdMain.DataController.RecordCount = 0 then
@@ -366,6 +389,28 @@ begin
     FCDS.CreateDataSet;
   end;
   Result := FCDS;
+end;
+
+function TfrmStockOpname.GetCDSKKSO: TClientDataset;
+begin
+  if FCDSKKSO = nil then
+  begin
+    FCDSKKSO := TClientDataSet.Create(Self);
+    FCDSKKSO.AddField('ItemID',ftInteger);
+//    FCDSKKSO.AddField('UOMID',ftInteger);
+    FCDSKKSO.AddField('Kode',ftString);
+    FCDSKKSO.AddField('Nama',ftString);
+    FCDSKKSO.AddField('KKSO',ftString);
+    FCDSKKSO.AddField('Rak',ftString);
+    FCDSKKSO.AddField('UOM',ftString);
+    FCDSKKSO.AddField('Qty',ftFloat);
+    FCDSKKSO.AddField('Konversi',ftFloat);
+    FCDSKKSO.AddField('KonversiStock',ftFloat);
+    FCDSKKSO.AddField('UOMStock',ftString);
+    FCDSKKSO.AddField('QtyStock',ftFloat);
+    FCDSKKSO.CreateDataSet;
+  end;
+  Result := FCDSKKSO;
 end;
 
 function TfrmStockOpname.GetCDSClone: TClientDataset;
@@ -465,13 +510,13 @@ var
 begin
   cxGrdMain.PrepareFromCDS(CDS);
   TcxExtLookup(colUOM.Properties).LoadFromCDS(CDSUOM, 'id', 'uom', ['id'], Self);
-
   s := 'SELECT A.ID, A.KODE, A.NAMA, B.PROJECT_NAME AS CABANG, A.IS_EXTERNAL'
       +' FROM TWAREHOUSE A'
       +' LEFT JOIN TPROJECT B ON A.PROJECT_CODE = B.PROJECT_CODE'
       +' WHERE ISNULL(A.IS_EXTERNAL,0) = 0';
 
   cxLookupWH.Properties.LoadFromSQL(Self,s,'nama');
+  cxGrdKKSO.PrepareFromCDS(CDSKKSO);
 end;
 
 procedure TfrmStockOpname.LoadByID(aID: Integer; IsReadOnly: Boolean = True);
@@ -551,7 +596,23 @@ begin
   CDS.EmptyDataSet;
   btnReloadStock.Caption := 'Load Stock System';
   if rbSo.ItemIndex = 1 then
-    btnReloadStock.Caption := 'Load Semua Stock System';
+    btnReloadStock.Visible := False;
+//    btnReloadStock.Caption := 'Load Semua Stock System';
+
+  btnLoadKKSO.Visible := rbSO.ItemIndex = 1;
+  tsKKSO.TabVisible := rbSO.ItemIndex = 1;
+  if rbSO.ItemIndex = 0 then
+    pgcMain.ActivePage := tsDetail
+  else
+    pgcMain.ActivePage := tsKKSO;
+
+  cxGrdMain.OptionsData.Appending := rbSO.ItemIndex = 0;
+  cxGrdMain.OptionsData.Inserting := rbSO.ItemIndex = 0;
+  cxGrdMain.OptionsData.Deleting := rbSO.ItemIndex = 0;
+  cxGrdMain.OptionsData.DeletingConfirmation := rbSO.ItemIndex = 0;
+  cxGrdMain.OptionsData.CancelOnExit := rbSO.ItemIndex = 0;
+  cxGrdMain.OptionsData.Editing := rbSO.ItemIndex = 0;
+
 end;
 
 procedure TfrmStockOpname.SetItemToGrid(aItem: TItem);

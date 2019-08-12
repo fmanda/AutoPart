@@ -299,6 +299,7 @@ type
     function BeforeDeleteFromDB: Boolean; override;
     function BeforeSaveToDB: Boolean; override;
     function GetRefno: String; override;
+    function LogLevel: Integer; override;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1617,6 +1618,13 @@ begin
     if FSalesRetur.ID <> 0 then
       Result := True;
 end;
+
+function TSalesInvoice.LogLevel: Integer;
+begin
+  Result := 0; //0 : no log
+  //1 : all
+  //2 : update and delete only
+ end;
 
 class procedure TSalesInvoice.PrintData(aSalesInvoiceID: Integer);
 var
