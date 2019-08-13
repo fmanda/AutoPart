@@ -62,13 +62,11 @@ type
     procedure btnPrintClick(Sender: TObject);
   private
     FCDS: TClientDataset;
-    FCDSClone: TClientDataset;
     FCDSUOM: TClientDataset;
     FKKSO: TKKSO;
     function DC: TcxGridDBDataController;
     procedure FocusToGrid;
     function GetCDS: TClientDataset;
-    function GetCDSClone: TClientDataset;
     function GetCDSUOM: TClientDataset;
     function GetKKSO: TKKSO;
     procedure InitView;
@@ -77,7 +75,6 @@ type
     procedure UpdateData;
     function ValidateData: Boolean;
     property CDS: TClientDataset read GetCDS write FCDS;
-    property CDSClone: TClientDataset read GetCDSClone write FCDSClone;
     property CDSUOM: TClientDataset read GetCDSUOM write FCDSUOM;
     property KKSO: TKKSO read GetKKSO write FKKSO;
     { Private declarations }
@@ -288,15 +285,6 @@ begin
   Result := FCDS;
 end;
 
-function TfrmKKSO.GetCDSClone: TClientDataset;
-begin
-  if FCDSClone = nil then
-  begin
-    FCDSClone := CDS.ClonedDataset(Self);
-  end;
-  Result := FCDSClone;
-end;
-
 function TfrmKKSO.GetCDSUOM: TClientDataset;
 begin
   if FCDSUOM = nil then
@@ -476,15 +464,19 @@ begin
   KKSO.Warehouse.LoadByID(VarToInt(cxLookupWH.EditValue));
   KKSO.Items.Clear;
 
-
-  CDS.First;
-  while not CDS.Eof do
-  begin
-    lItem := TKKSOItem.Create;
-    lItem.SetFromDataset(CDS);
-    KKSO.Items.Add(lItem);
-    CDS.Next;
-  end;
+  CDS.DisableControls;
+  Try
+    CDS.First;
+    while not CDS.Eof do
+    begin
+      lItem := TKKSOItem.Create;
+      lItem.SetFromDataset(CDS);
+      KKSO.Items.Add(lItem);
+      CDS.Next;
+    end;
+  Finally
+    CDS.EnableControls;
+  End;
 end;
 
 function TfrmKKSO.ValidateData: Boolean;

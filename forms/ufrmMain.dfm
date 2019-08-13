@@ -1179,6 +1179,7 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = 'Laporan Stock Opname'
       ImageIndex = 8
+      OnExecute = actLapStockOpnameExecute
     end
     object actSalesman: TAction
       Category = 'Master'

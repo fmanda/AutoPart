@@ -15,7 +15,10 @@ uses
   cxGridTableView, cxGridDBTableView, cxClasses, cxGridCustomView, cxGrid,
   uTransDetail, uDBUtils, uDXUtils, Datasnap.DBClient, uItem,
   ufrmCXServerLookup, cxGridDBDataDefinitions, uWarehouse, cxRadioGroup,
-  dxBarBuiltInMenu, cxPC;
+  dxBarBuiltInMenu, cxPC, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client;
 
 type
   TfrmStockOpname = class(TfrmDefaultInput)
@@ -58,6 +61,7 @@ type
     cxGrdKKSOColumn2: TcxGridDBColumn;
     btnLoadKKSO: TcxButton;
     lbKKSO: TcxLabel;
+    colNO: TcxGridDBColumn;
     procedure btnSaveClick(Sender: TObject);
     procedure colKodePropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
     procedure colKodePropertiesValidate(Sender: TObject; var DisplayValue: Variant;
@@ -77,6 +81,8 @@ type
     procedure rbSOPropertiesEditValueChanged(Sender: TObject);
     procedure pgcMainChange(Sender: TObject);
     procedure btnLoadKKSOClick(Sender: TObject);
+    procedure colNOGetDisplayText(Sender: TcxCustomGridTableItem; ARecord:
+        TcxCustomGridRecord; var AText: string);
   private
     FCDS: TClientDataset;
     FCDSKKSO: TClientDataset;
@@ -338,6 +344,15 @@ begin
 
 end;
 
+procedure TfrmStockOpname.colNOGetDisplayText(Sender: TcxCustomGridTableItem;
+    ARecord: TcxCustomGridRecord; var AText: string);
+begin
+  inherited;
+  if ARecord = nil then exit;
+  AText := VarToStr(ARecord.RecordIndex + 1);
+end;
+
+
 procedure TfrmStockOpname.cxGrdMainEditKeyDown(Sender: TcxCustomGridTableView;
     AItem: TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Word; Shift:
     TShiftState);
@@ -535,6 +550,7 @@ var
   s: string;
 begin
   cxGrdMain.PrepareFromCDS(CDS);
+  cxGrdMain.EnableFiltering();
   TcxExtLookup(colUOM.Properties).LoadFromCDS(CDSUOM, 'id', 'uom', ['id'], Self);
   s := 'SELECT A.ID, A.KODE, A.NAMA, B.PROJECT_NAME AS CABANG, A.IS_EXTERNAL'
       +' FROM TWAREHOUSE A'
@@ -573,21 +589,31 @@ begin
   CDS.EmptyDataSet;
 
 
-  for lItem in SO.Items do
-  begin
-    CDS.Append;
-    lItem.UpdateToDataset(CDS);
-    lItem.Item.ReLoad(False);
-    CDS.FieldByName('Kode').AsString := lItem.Item.Kode;
-    CDS.FieldByName('Nama').AsString := lItem.Item.Nama;
-    CDS.Post;
-  end;
+  CDS.DisableControls;
+  Try
+    for lItem in SO.Items do
+    begin
+      CDS.Append;
+      lItem.UpdateToDataset(CDS);
+      lItem.Item.ReLoad(False);
+      CDS.FieldByName('Kode').AsString := lItem.Item.Kode;
+      CDS.FieldByName('Nama').AsString := lItem.Item.Nama;
+      CDS.Post;
+    end;
+  Finally
+    CDS.EnableControls;
+  End;
+
+  if (SO.ID > 0) and (SO.Transtype = 1) then
+    LoadKKSO(SO.Warehouse.ID, SO.TransDate, SO.ID );
+
   btnSave.Enabled := not IsReadOnly;
 end;
 
 procedure TfrmStockOpname.LoadKKSO(aWarehouseID: Integer; aSODate: TDateTime;
     aIDSO: Integer = 0);
 var
+  lQ: TFDQuery;
   S: string;
 begin
   S := 'SELECT A.ID, A.REFNO, A.TRANSDATE, E.NAMA AS GUDANG,'
@@ -612,9 +638,27 @@ begin
   begin
     CDS.DisableControls;
     CDS.EmptyDataSet;
-    Try
 
+    S := 'SELECT * FROM FN_LOADKKSO(' + TAppUtils.QuotD(dtSO.Date) + ',' +  IntToStr(aWarehouseID) + ')';
+    lQ := TDBUtils.OpenQuery(S,Self);
+    Try
+      while not lQ.Eof do
+      begin
+        CDS.Append;
+        CDS.SetFieldFrom('Item', lQ, 'Item_ID');
+        CDS.SetFieldFrom('UOM', lQ, 'UOM_ID');
+        CDS.SetFieldFrom('Kode', lQ);
+        CDS.SetFieldFrom('Nama', lQ);
+        CDS.SetFieldFrom('Konversi', lQ);
+        CDS.SetFieldFrom('Qty', lQ);
+        CDS.SetFieldFrom('QtySys', lQ);
+        CDS.SetFieldFrom('Variant', lQ);
+        CDS.Post;
+
+        lQ.Next;
+      end;
     Finally
+      FreeAndNil(lQ);
       CDS.EnableControls;
     End;
   end;
@@ -663,6 +707,9 @@ procedure TfrmStockOpname.rbSOPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
   CDS.EmptyDataSet;
+  if CDSKKSO <> nil then
+    CDSKKSO.EmptyDataSet;
+
   btnReloadStock.Caption := 'Load Stock System';
   btnReloadStock.Visible := rbSo.ItemIndex = 0;
 //  if rbSo.ItemIndex = 1 then
@@ -746,20 +793,38 @@ begin
 
   SO.Warehouse.LoadByID(VarToInt(cxLookupWH.EditValue));
   SO.Items.Clear;
+  SO.KKSO.Clear;
 
 //  lFactor := 1;
 
 //  if SO.TransferType = Transfer_External_Out then
 //    lFactor := -1;
 
-  CDS.First;
-  while not CDS.Eof do
+  CDS.DisableControls;
+  Try
+    CDS.First;
+    while not CDS.Eof do
+    begin
+      lItem := TStockOpnameItem.Create;
+      lItem.Warehouse := TWarehouse.CreateID(VarToInt(cxLookupWH.EditValue));
+      lItem.SetFromDataset(CDS);
+      SO.Items.Add(lItem);
+      CDS.Next;
+    end;
+  Finally
+    CDS.EnableControls;
+  End;
+
+  if (FCDSKKSO <> nil) and (rbSO.ItemIndex = 1) then
   begin
-    lItem := TStockOpnameItem.Create;
-    lItem.Warehouse := TWarehouse.CreateID(VarToInt(cxLookupWH.EditValue));
-    lItem.SetFromDataset(CDS);
-    SO.Items.Add(lItem);
-    CDS.Next;
+    CDSKKSO.DisableControls;
+    CDSKKSO.First;
+    while not CDSKKSO.Eof do
+    begin
+      SO.AddKKSO(CDSKKSO.FieldByName('ID').AsInteger);
+      CDSKKSO.Next;
+    end;
+    CDSKKSO.EnableControls;
   end;
 
 end;
@@ -770,67 +835,74 @@ var
   j: Integer;
 begin
   Result := False;
+  CDS.DisableControls;
+  Try
 
-  if VarToInt(cxLookupWH.EditValue) = 0 then
-  begin
-    TAppUtils.Warning('Gudang tidak boleh kosong');
-    exit;
-  end;
-
-//  if CDS.State in [dsInsert, dsEdit] then CDS.Post;
-
-  btnReloadStockClick(Self);
-
-//  if CDS.RecordCount = 0 then
-//  begin
-//    TAppUtils.Warning('Data Item tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
-//    exit;
-//  end;
-  if cxGrdMain.DataController.RecordCount = 0 then
-  begin
-    TAppUtils.Warning('Data Item tidak boleh kosong');
-    exit;
-  end;
-
-  if CDS.Locate('Item', null, []) or CDS.Locate('Item', 0, []) then
-  begin
-    TAppUtils.Warning('Item tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
-    exit;
-  end;
-
-  if CDS.Locate('UOM', null, []) or CDS.Locate('UOM', 0, []) then
-  begin
-    TAppUtils.Warning('Satuan tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
-    exit;
-  end;
-
-  if pgcMain.ActivePage = tsKKSO then
-  begin
-    if CDSKKSO = nil then
+    if VarToInt(cxLookupWH.EditValue) = 0 then
     begin
-      TAppUtils.Warning('Data KKSO masih kosong');
+      TAppUtils.Warning('Gudang tidak boleh kosong');
       exit;
     end;
-    if CDSKKSO.RecordCount = 0 then
+
+  //  if CDS.State in [dsInsert, dsEdit] then CDS.Post;
+
+    if rbSO.ItemIndex = 0 then
+      btnReloadStockClick(Self);
+
+  //  if CDS.RecordCount = 0 then
+  //  begin
+  //    TAppUtils.Warning('Data Item tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
+  //    exit;
+  //  end;
+    if cxGrdMain.DataController.RecordCount = 0 then
     begin
-      TAppUtils.Warning('Data KKSO masih kosong');
+      TAppUtils.Warning('Data Item tidak boleh kosong');
       exit;
     end;
-  end;
 
-  for i := 0 to DC.RecordCount-1 do
-  begin
-    if VarToInt(DC.Values[i,colItemID.Index]) = 0 then continue;
-    for j := 0 to DC.RecordCount-1 do
+    if CDS.Locate('Item', null, []) or CDS.Locate('Item', 0, []) then
     begin
-      if i = j then continue;
-      if VarToInt(DC.Values[i,colItemID.Index]) = VarToInt(DC.Values[j,colItemID.Index]) then
+      TAppUtils.Warning('Item tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
+      exit;
+    end;
+
+    if CDS.Locate('UOM', null, []) or CDS.Locate('UOM', 0, []) then
+    begin
+      TAppUtils.Warning('Satuan tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
+      exit;
+    end;
+
+    if rbSO.ItemIndex = 1 then
+    begin
+      if CDSKKSO = nil then
       begin
-        TAppUtils.Warning('Ada duplikasi record atas item  : ' + VarToStr(DC.Values[i, colNama.Index]));
+        TAppUtils.Warning('Data KKSO masih kosong');
         exit;
       end;
+      if CDSKKSO.RecordCount = 0 then
+      begin
+        TAppUtils.Warning('Data KKSO masih kosong');
+        exit;
+      end;
+    end else
+    begin
+      for i := 0 to DC.RecordCount-1 do
+      begin
+        if VarToInt(DC.Values[i,colItemID.Index]) = 0 then continue;
+        for j := 0 to DC.RecordCount-1 do
+        begin
+          if i = j then continue;
+          if VarToInt(DC.Values[i,colItemID.Index]) = VarToInt(DC.Values[j,colItemID.Index]) then
+          begin
+            TAppUtils.Warning('Ada duplikasi record atas item  : ' + VarToStr(DC.Values[i, colNama.Index]));
+            exit;
+          end;
+        end;
+      end;
     end;
-  end;
+  Finally
+    CDS.EnableControls;
+  End;
 
 
   Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');

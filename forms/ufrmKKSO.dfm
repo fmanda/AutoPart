@@ -38,17 +38,14 @@ inherited frmKKSO: TfrmKKSO
     ExplicitWidth = 783
     inherited lbEscape: TLabel
       Left = 703
-      Height = 17
       ExplicitLeft = 703
     end
     inherited lgndSave: TLabel
       Left = 538
-      Height = 17
       ExplicitLeft = 538
     end
     inherited lgndPrint: TLabel
       Left = 625
-      Height = 17
       Visible = True
       ExplicitLeft = 625
     end

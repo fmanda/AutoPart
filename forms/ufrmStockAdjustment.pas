@@ -268,6 +268,7 @@ begin
 
 
   cxLookup := TfrmCXServerLookup.Execute(S, 'ID', StartOfTheMonth(Now()), EndOfTheMonth(Now()) );
+  CDS.DisableControls;
   Try
     cxLookup.PreFilter('REFNO', sKey);
     if cxLookup.ShowModal = mrOK then
@@ -296,6 +297,7 @@ begin
       end;
     end;
   Finally
+    CDS.EnableControls;
     cxLookup.Free;
   End;
 end;

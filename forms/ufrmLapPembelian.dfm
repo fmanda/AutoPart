@@ -8,6 +8,7 @@ inherited frmLapPembelian: TfrmLapPembelian
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
     Visible = False
+    ExplicitWidth = 726
     Width = 726
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
@@ -16,9 +17,12 @@ inherited frmLapPembelian: TfrmLapPembelian
   end
   inherited cxGroupBox2: TcxGroupBox
     Top = 463
+    ExplicitTop = 463
+    ExplicitWidth = 726
     Width = 726
     inherited btnTutup: TcxButton
       Left = 646
+      ExplicitLeft = 646
     end
     inherited btnExport: TcxButton
       OnClick = btnExportClick
@@ -38,7 +42,7 @@ inherited frmLapPembelian: TfrmLapPembelian
     Caption = ' Laporan Pembelian '
     Style.TextStyle = [fsBold]
     TabOrder = 2
-    ExplicitWidth = 639
+    ExplicitLeft = 5
     Height = 54
     Width = 726
     object cxLabel3: TcxLabel
@@ -76,8 +80,6 @@ inherited frmLapPembelian: TfrmLapPembelian
     Height = 365
     Align = alClient
     TabOrder = 3
-    ExplicitWidth = 633
-    ExplicitHeight = 275
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>

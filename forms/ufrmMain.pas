@@ -14,7 +14,8 @@ uses
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Phys, FireDAC.Phys.MSSQL, FireDAC.Phys.MSSQLDef, FireDAC.VCLUI.Wait,
   Data.DB, FireDAC.Comp.Client, Vcl.StdCtrls, dxRibbonBackstageView,
-  cxImageList, dxNavBarOfficeNavigationBar, Vcl.Menus, cxButtons;
+  cxImageList, dxNavBarOfficeNavigationBar, Vcl.Menus, cxButtons,
+  ufrmLapStockOpname;
 
 type
   TfrmMain = class(TForm)
@@ -221,6 +222,7 @@ type
     procedure actLapFeeSalesmanExecute(Sender: TObject);
     procedure actLapPembelianExecute(Sender: TObject);
     procedure actLapStockExecute(Sender: TObject);
+    procedure actLapStockOpnameExecute(Sender: TObject);
     procedure actLogExecute(Sender: TObject);
     procedure actLoginExecute(Sender: TObject);
     procedure actMekanikExecute(Sender: TObject);
@@ -453,6 +455,11 @@ end;
 procedure TfrmMain.actLapStockExecute(Sender: TObject);
 begin
   ShowForm(TfrmLapStock);
+end;
+
+procedure TfrmMain.actLapStockOpnameExecute(Sender: TObject);
+begin
+  ShowForm(TfrmLapStockOpname);
 end;
 
 procedure TfrmMain.actLogExecute(Sender: TObject);

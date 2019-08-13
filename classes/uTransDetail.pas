@@ -423,9 +423,13 @@ type
     FWarehouse: TWarehouse;
     function GetItems: TObjectList<TStockOpnameItem>;
     function GetKKSO: TObjectList<TStockOpnameKKSO>;
+    function UpdateKKSO(aIsRevert: Boolean = False): Boolean;
   protected
+    function AfterSaveToDB: Boolean; override;
+    function BeforeDeleteFromDB: Boolean; override;
     function BeforeSaveToDB: Boolean; override;
   public
+    function AddKKSO(aKKSO_ID: Integer): TStockOpnameKKSO;
     function GenerateNo: String;
     property Items: TObjectList<TStockOpnameItem> read GetItems write FItems;
     property KKSO: TObjectList<TStockOpnameKKSO> read GetKKSO write FKKSO;
@@ -1840,13 +1844,58 @@ begin
   if FService <> nil then FreeAndNil(FService);
 end;
 
+function TStockOpname.AddKKSO(aKKSO_ID: Integer): TStockOpnameKKSO;
+var
+  lKKSO: TStockOpnameKKSO;
+begin
+  Result := nil;
+  for lKKSO in Self.KKSO do
+  begin
+    if lKKSO.KKSO = nil then continue;
+    if lKKSO.KKSO.ID = aKKSO_ID then
+    begin
+      Result := lKKSO;
+      exit;
+    end;
+  end;
+
+  if Result = nil then
+  begin
+    Result := TStockOpnameKKSO.Create;
+    Result.KKSO := TKKSO.CreateID(aKKSO_ID);
+    Self.KKSO.Add(Result);
+  end;
+
+end;
+
+function TStockOpname.AfterSaveToDB: Boolean;
+begin
+  Result := Self.UpdateKKSO;
+end;
+
+function TStockOpname.BeforeDeleteFromDB: Boolean;
+begin
+  Result := Self.UpdateKKSO(True);
+end;
+
 function TStockOpname.BeforeSaveToDB: Boolean;
 var
   litem: TStockOpnameItem;
+  lOldSO: TStockOpname;
 begin
   Result := True;
   for lItem in Self.Items do
     lItem.SetAvgCost;
+
+  if Self.ID = 0 then exit;
+  lOldSO := TStockOpname.Create;
+  Try
+    lOldSO.LoadByID(Self.ID);
+
+    lOldSO.UpdateKKSO(True);
+  Finally
+    lOldSO.Free;
+  End;
 end;
 
 function TStockOpname.GenerateNo: String;
@@ -1893,6 +1942,23 @@ begin
     FKKSO := TObjectList<TStockOpnameKKSO>.Create();
   end;
   Result := FKKSO;
+end;
+
+function TStockOpname.UpdateKKSO(aIsRevert: Boolean = False): Boolean;
+var
+  iSOID: Integer;
+  S: string;
+begin
+  Result := True;
+  if Self.ID = 0 then exit;
+
+  iSOID := Self.ID;
+  if aIsRevert then iSOID := 0;
+  S := 'UPDATE B SET B.STOCKOPNAME_ID = ' + IntToStr(iSOID)
+      +' FROM TSTOCKOPNAMEKKSO A'
+      +' INNER JOIN TKKSO B ON B.ID = A.KKSO_ID'
+      +' WHERE A.STOCKOPNAME_ID = ' + IntToStr(Self.ID);
+  TDBUtils.ExecuteSQL(S, False);
 end;
 
 destructor TStockAdjustment.Destroy;
@@ -1971,6 +2037,9 @@ begin
   Try
     Self.HargaAvg := lItemUOM.HargaAvg;
     Self.LastCost := lItemUOM.HargaBeli;
+
+    if Self.HargaAvg <= 0 then
+      Self.HargaAvg := Self.LastCost;
   Finally
     lItemUOM.Free;
   End;

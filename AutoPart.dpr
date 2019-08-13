@@ -119,7 +119,8 @@ uses
   ufrmPiutangRetur in 'forms\ufrmPiutangRetur.pas' {frmPiutangRetur},
   ufrmHutangRetur in 'forms\ufrmHutangRetur.pas' {frmHutangRetur},
   ufrmKKSO in 'forms\ufrmKKSO.pas' {frmKKSO},
-  ufrmBrowseKKSO in 'forms\ufrmBrowseKKSO.pas' {frmBrowseKKSO};
+  ufrmBrowseKKSO in 'forms\ufrmBrowseKKSO.pas' {frmBrowseKKSO},
+  ufrmLapStockOpname in 'forms\ufrmLapStockOpname.pas' {frmLapStockOpname};
 
 {$R *.res}
 

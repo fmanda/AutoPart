@@ -29,7 +29,7 @@ inherited frmStockOpname: TfrmStockOpname
     end
     object btnReloadStock: TcxButton
       AlignWithMargins = True
-      Left = 143
+      Left = 5
       Top = 5
       Width = 180
       Height = 25
@@ -39,20 +39,7 @@ inherited frmStockOpname: TfrmStockOpname
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 3
       OnClick = btnReloadStockClick
-    end
-    object btnLoadKKSO: TcxButton
-      AlignWithMargins = True
-      Left = 5
-      Top = 5
-      Width = 132
-      Height = 25
-      Align = alLeft
-      Caption = 'Load KKSO'
-      OptionsImage.ImageIndex = 8
-      OptionsImage.Images = frmMain.ImageList
-      TabOrder = 4
-      OnClick = btnLoadKKSOClick
-      ExplicitTop = 6
+      ExplicitLeft = 143
     end
   end
   inherited Panel2: TPanel
@@ -61,7 +48,7 @@ inherited frmStockOpname: TfrmStockOpname
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = 554
+    ExplicitTop = 555
     ExplicitWidth = 906
     inherited lbEscape: TLabel
       Left = 826
@@ -77,21 +64,6 @@ inherited frmStockOpname: TfrmStockOpname
       Left = 748
       Height = 17
       ExplicitLeft = 748
-    end
-    object lbKKSO: TcxLabel
-      Left = 0
-      Top = 0
-      Align = alLeft
-      Caption = 
-        '** Load KKSO = Merekap KKSO di Tanggal dan Gudang Terpilih, Past' +
-        'ikan Gudang && Tgl KKSO sesuai !!'
-      Style.TextColor = clMaroon
-      Properties.Alignment.Vert = taVCenter
-      Transparent = True
-      ExplicitLeft = 3
-      ExplicitTop = 2
-      ExplicitHeight = 17
-      AnchorY = 10
     end
   end
   object cxGroupBox1: TcxGroupBox [2]
@@ -180,6 +152,18 @@ inherited frmStockOpname: TfrmStockOpname
         's / gudang akan mereset item yang sudah diinput'
       Style.TextColor = clMaroon
     end
+    object btnLoadKKSO: TcxButton
+      AlignWithMargins = True
+      Left = 585
+      Top = 21
+      Width = 112
+      Height = 42
+      Caption = 'Load KKSO'
+      OptionsImage.ImageIndex = 8
+      OptionsImage.Images = frmMain.ImageList
+      TabOrder = 10
+      OnClick = btnLoadKKSOClick
+    end
   end
   object pgcMain: TcxPageControl [3]
     Left = 0
@@ -191,8 +175,6 @@ inherited frmStockOpname: TfrmStockOpname
     Properties.ActivePage = tsDetail
     Properties.CustomButtons.Buttons = <>
     OnChange = pgcMainChange
-    ExplicitLeft = -8
-    ExplicitTop = 128
     ClientRectBottom = 426
     ClientRectRight = 906
     ClientRectTop = 24
@@ -201,11 +183,13 @@ inherited frmStockOpname: TfrmStockOpname
       ImageIndex = 1
       object cxGrid2: TcxGrid
         Left = 0
-        Top = 0
+        Top = 23
         Width = 906
-        Height = 402
+        Height = 379
         Align = alClient
         TabOrder = 0
+        ExplicitTop = 0
+        ExplicitHeight = 402
         object cxGrdKKSO: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           OnEditKeyDown = cxGrdMainEditKeyDown
@@ -311,6 +295,29 @@ inherited frmStockOpname: TfrmStockOpname
           GridView = cxGrdKKSO
         end
       end
+      object lbKKSO: TcxLabel
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Align = alTop
+        Caption = 
+          '** Load KKSO = Merekap KKSO di Tanggal dan Gudang Terpilih, Past' +
+          'ikan Gudang && Tgl KKSO sesuai !!'
+        ParentFont = False
+        Style.Font.Charset = DEFAULT_CHARSET
+        Style.Font.Color = clWindowText
+        Style.Font.Height = -11
+        Style.Font.Name = 'Tahoma'
+        Style.Font.Style = [fsBold]
+        Style.TextColor = clMaroon
+        Style.IsFontAssigned = True
+        Properties.Alignment.Vert = taVCenter
+        Transparent = True
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 402
+        AnchorY = 12
+      end
     end
     object tsDetail: TcxTabSheet
       Caption = 'Detail Transaksi [F2]'
@@ -345,6 +352,14 @@ inherited frmStockOpname: TfrmStockOpname
           OptionsView.GroupByBox = False
           OptionsView.HeaderHeight = 30
           Styles.ContentOdd = styleOdd
+          object colNO: TcxGridDBColumn
+            Caption = 'No'
+            OnGetDisplayText = colNOGetDisplayText
+            HeaderAlignmentHorz = taCenter
+            Options.Editing = False
+            Options.Focusing = False
+            Width = 47
+          end
           object colKode: TcxGridDBColumn
             Caption = 'Kode Barang'
             DataBinding.FieldName = 'Kode'

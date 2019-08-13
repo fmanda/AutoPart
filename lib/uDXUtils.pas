@@ -137,7 +137,8 @@ type
     procedure SetColumnsWidth(ColumnSets: Array Of String; Widths: Array Of
         Integer); overload;
     procedure SetDataColumns(ColumnSets: Array Of String);
-    procedure SetRowColumns(ColumnSets: Array Of String); overload;
+    procedure SetRowColumns(ColumnSets: Array Of String; DoExpand: Boolean =
+        False); overload;
     procedure ResetColumns; overload;
     procedure SetVisibleColumns(ColumnSets: Array Of String; IsVisible: Boolean);
   end;
@@ -1017,7 +1018,8 @@ begin
   end;
 end;
 
-procedure TcxDBPivotHelper.SetRowColumns(ColumnSets: Array Of String);
+procedure TcxDBPivotHelper.SetRowColumns(ColumnSets: Array Of String; DoExpand:
+    Boolean = False);
 var
   i: Integer;
 begin
@@ -1026,6 +1028,8 @@ begin
     If Assigned(Self.GetFieldByName(ColumnSets[i])) then
     begin
       Self.GetFieldByName(ColumnSets[i]).Area := faRow;
+      if DoExpand then
+        Self.GetFieldByName(ColumnSets[i]).ExpandAll;
     end;
   end;
 end;
