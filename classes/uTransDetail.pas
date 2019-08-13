@@ -527,9 +527,15 @@ type
     FTransDate: TDatetime;
     FWarehouse: TWarehouse;
     function GetItems: TObjectList<TKKSOItem>;
+  protected
+    function GetRefno: String;
   public
     destructor Destroy; override;
     function GenerateNo: String;
+    class procedure PrintData(aKKSOID: Integer);
+    function SaveRepeat(DoShowMsg: Boolean = True; aRepeatCount: Integer = 2):
+        Boolean;
+    procedure SetGenerateNo;
     property Items: TObjectList<TKKSOItem> read GetItems write FItems;
   published
     property Notes: String read FNotes write FNotes;
@@ -2019,6 +2025,88 @@ begin
     FItems := TObjectList<TKKSOItem>.Create();
   end;
   Result := FItems;
+end;
+
+function TKKSO.GetRefno: String;
+begin
+  Result := Refno;
+end;
+
+class procedure TKKSO.PrintData(aKKSOID: Integer);
+var
+  S: string;
+begin
+  S := 'SELECT A.ID, A.REFNO, A.TRANSDATE, E.NAMA AS GUDANG,'
+      +' A.PIC, A.MODIFIEDBY, A.MODIFIEDDATE, C.KODE, C.NAMA,'
+      +' D.UOM, B.QTY, B.KONVERSI, A.RAK'
+      +' FROM TKKSO A'
+      +' INNER JOIN TKKSOITEM B ON A.ID = B.KKSO_ID'
+      +' INNER JOIN TITEM C ON B.ITEM_ID = C.ID'
+      +' INNER JOIN TUOM D ON B.UOM_ID = D.ID'
+      +' INNER JOIN TWAREHOUSE E ON A.WAREHOUSE_ID = E.ID'
+      +' WHERE A.ID = ' + IntToStr(aKKSOID);
+
+  DMReport.ExecuteReport('SlipKKSO', S);
+end;
+
+function TKKSO.SaveRepeat(DoShowMsg: Boolean = True; aRepeatCount: Integer =
+    2): Boolean;
+var
+  iRepeat: Integer;
+begin
+  Result := False;
+
+  if Self.ID > 0 then
+  begin
+    Result := Self.SaveToDB();
+    exit;
+  end else
+  begin
+    //hanya berlaku utk baru
+    iRepeat := 0;
+    while iRepeat <= aRepeatCount do
+    begin
+      Try
+        Self.SetGenerateNo;
+        inc(iRepeat);
+        Result := Self.SaveToDB();
+
+        if Result then
+        begin
+          if DoShowMsg then
+            TAppUtils.Information('Data Berhasil Disimpan dengan nomor bukti : ' + Self.GetRefno);
+        end else
+        begin
+          TAppUtils.Error('SaveToDB Result = False without exception ???');
+        end;
+
+        exit; //sukses or error without exception we must exist
+      except
+        on E:Exception do
+        begin
+          if Pos('unique key', LowerCase(E.Message)) > 0 then
+          begin
+            if (iRepeat > aRepeatCount) or (not TAppUtils.Confirm('Terdeteksi Ada Nomor Bukti sudah terpakai, Otomatis Generate Baru dan Simpan?'
+              + #13 +'Percobaan Simpan ke : ' + IntToStr(iRepeat)
+              + #13#13 +'Pesan Error : '
+              + #13 + E.Message
+            ))
+            then
+            begin
+              E.Message := 'Gagal Mengulang Simpan ke- ' + IntToStr(iRepeat-1) + #13 + E.Message;
+              raise;
+            end;
+          end else
+            Raise;
+        end;
+      End;
+    end;
+  end;
+end;
+
+procedure TKKSO.SetGenerateNo;
+begin
+  if Self.ID = 0 then Self.RefNo := Self.GenerateNo;
 end;
 
 end.

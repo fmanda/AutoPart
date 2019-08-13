@@ -41,6 +41,7 @@ type
     colItemID: TcxGridDBColumn;
     cxGrid1Level1: TcxGridLevel;
     colNo: TcxGridDBColumn;
+    cxLabel4: TcxLabel;
     procedure FormCreate(Sender: TObject);
     procedure colUOMPropertiesCloseUp(Sender: TObject);
     procedure colUOMPropertiesEditValueChanged(Sender: TObject);
@@ -58,6 +59,7 @@ type
         TShiftState);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnSaveClick(Sender: TObject);
+    procedure btnPrintClick(Sender: TObject);
   private
     FCDS: TClientDataset;
     FCDSClone: TClientDataset;
@@ -104,14 +106,21 @@ begin
   LoadByID(0, False);
 end;
 
+procedure TfrmKKSO.btnPrintClick(Sender: TObject);
+begin
+  inherited;
+  TKKSO.PrintData(KKSO.ID);
+end;
+
 procedure TfrmKKSO.btnSaveClick(Sender: TObject);
 begin
   inherited;
   if not ValidateData then exit;
   UpdateData;
-  if KKSO.SaveToDB then
+  if KKSO.SaveRepeat(False) then
   begin
-    TAppUtils.InformationBerhasilSimpan;
+//    TAppUtils.InformationBerhasilSimpan;
+    btnPrint.Click;
     Self.ModalResult := mrOK;
   end;
 end;
@@ -485,6 +494,18 @@ begin
   if VarToInt(cxLookupWH.EditValue) = 0 then
   begin
     TAppUtils.Warning('Gudang tidak boleh kosong');
+    exit;
+  end;
+
+  if edPIC.Text = '' then
+  begin
+    TAppUtils.Warning('PIC wajib diisi');
+    exit;
+  end;
+
+  if edRak.Text = '' then
+  begin
+    TAppUtils.Warning('Rak wajib diisi');
     exit;
   end;
 

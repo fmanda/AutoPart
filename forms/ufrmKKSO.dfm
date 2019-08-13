@@ -20,6 +20,8 @@ inherited frmKKSO: TfrmKKSO
     end
     inherited btnPrint: TcxButton
       Left = 612
+      Visible = True
+      OnClick = btnPrintClick
       ExplicitLeft = 612
     end
     inherited btnSave: TcxButton
@@ -47,6 +49,7 @@ inherited frmKKSO: TfrmKKSO
     inherited lgndPrint: TLabel
       Left = 625
       Height = 17
+      Visible = True
       ExplicitLeft = 625
     end
   end
@@ -112,19 +115,19 @@ inherited frmKKSO: TfrmKKSO
       Width = 309
     end
     object edPIC: TcxTextEdit
-      Left = 492
+      Left = 487
       Top = 22
       Properties.CharCase = ecUpperCase
       TabOrder = 4
       Width = 155
     end
     object cxLabel2: TcxLabel
-      Left = 469
-      Top = 22
-      Caption = 'PIC'
+      Left = 398
+      Top = 23
+      Caption = 'PIC / Penghitung'
     end
     object edRak: TcxTextEdit
-      Left = 492
+      Left = 487
       Top = 43
       Properties.CharCase = ecUpperCase
       TabOrder = 5
@@ -132,9 +135,15 @@ inherited frmKKSO: TfrmKKSO
       Width = 155
     end
     object cxLabel3: TcxLabel
-      Left = 429
+      Left = 424
       Top = 44
       Caption = 'Lokasi / Rak'
+    end
+    object cxLabel4: TcxLabel
+      Left = 567
+      Top = 90
+      Caption = '* Pastikan Tgl KKSO = Tgl Stock Opname'
+      Style.TextColor = clMaroon
     end
   end
   object cxGrid1: TcxGrid [3]

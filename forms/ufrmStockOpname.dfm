@@ -11,21 +11,21 @@ inherited frmStockOpname: TfrmStockOpname
   inherited cxGroupBox2: TcxGroupBox
     Top = 576
     TabOrder = 1
-    ExplicitTop = 545
-    ExplicitWidth = 870
+    ExplicitTop = 576
+    ExplicitWidth = 906
     Width = 906
     inherited btnCancel: TcxButton
       Left = 821
-      ExplicitLeft = 785
+      ExplicitLeft = 821
     end
     inherited btnPrint: TcxButton
       Left = 735
-      ExplicitLeft = 699
+      ExplicitLeft = 735
     end
     inherited btnSave: TcxButton
       Left = 649
       OnClick = btnSaveClick
-      ExplicitLeft = 613
+      ExplicitLeft = 649
     end
     object btnReloadStock: TcxButton
       AlignWithMargins = True
@@ -39,7 +39,6 @@ inherited frmStockOpname: TfrmStockOpname
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 3
       OnClick = btnReloadStockClick
-      ExplicitLeft = 5
     end
     object btnLoadKKSO: TcxButton
       AlignWithMargins = True
@@ -53,28 +52,46 @@ inherited frmStockOpname: TfrmStockOpname
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 4
       OnClick = btnLoadKKSOClick
+      ExplicitTop = 6
     end
   end
   inherited Panel2: TPanel
     Top = 555
     Width = 906
+    Font.Style = [fsBold]
+    ParentFont = False
     TabOrder = 2
-    ExplicitTop = 524
-    ExplicitWidth = 870
+    ExplicitTop = 554
+    ExplicitWidth = 906
     inherited lbEscape: TLabel
       Left = 826
       Height = 17
-      ExplicitLeft = 790
+      ExplicitLeft = 826
     end
     inherited lgndSave: TLabel
       Left = 661
       Height = 17
-      ExplicitLeft = 625
+      ExplicitLeft = 661
     end
     inherited lgndPrint: TLabel
       Left = 748
       Height = 17
-      ExplicitLeft = 712
+      ExplicitLeft = 748
+    end
+    object lbKKSO: TcxLabel
+      Left = 0
+      Top = 0
+      Align = alLeft
+      Caption = 
+        '** Load KKSO = Merekap KKSO di Tanggal dan Gudang Terpilih, Past' +
+        'ikan Gudang && Tgl KKSO sesuai !!'
+      Style.TextColor = clMaroon
+      Properties.Alignment.Vert = taVCenter
+      Transparent = True
+      ExplicitLeft = 3
+      ExplicitTop = 2
+      ExplicitHeight = 17
+      AnchorY = 10
     end
   end
   object cxGroupBox1: TcxGroupBox [2]
@@ -83,7 +100,6 @@ inherited frmStockOpname: TfrmStockOpname
     Align = alTop
     Caption = '  Header Stock Opname [F1] '
     TabOrder = 0
-    ExplicitWidth = 870
     Height = 129
     Width = 906
     object cxLabel1: TcxLabel
@@ -172,18 +188,17 @@ inherited frmStockOpname: TfrmStockOpname
     Height = 426
     Align = alClient
     TabOrder = 3
-    Properties.ActivePage = tsKKSO
+    Properties.ActivePage = tsDetail
     Properties.CustomButtons.Buttons = <>
+    OnChange = pgcMainChange
+    ExplicitLeft = -8
     ExplicitTop = 128
-    ExplicitWidth = 870
     ClientRectBottom = 426
     ClientRectRight = 906
     ClientRectTop = 24
     object tsKKSO: TcxTabSheet
       Caption = 'Detail KKSO'
       ImageIndex = 1
-      ExplicitWidth = 289
-      ExplicitHeight = 169
       object cxGrid2: TcxGrid
         Left = 0
         Top = 0
@@ -191,10 +206,6 @@ inherited frmStockOpname: TfrmStockOpname
         Height = 402
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 3
-        ExplicitTop = -1
-        ExplicitWidth = 870
-        ExplicitHeight = 370
         object cxGrdKKSO: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           OnEditKeyDown = cxGrdMainEditKeyDown
@@ -205,7 +216,6 @@ inherited frmStockOpname: TfrmStockOpname
             end
             item
               Kind = skSum
-              Column = cxGridDBColumn8
             end>
           DataController.Summary.SummaryGroups = <>
           FilterRow.Visible = True
@@ -218,20 +228,20 @@ inherited frmStockOpname: TfrmStockOpname
           OptionsData.DeletingConfirmation = False
           OptionsData.Editing = False
           OptionsData.Inserting = False
-          OptionsView.Footer = True
           OptionsView.HeaderHeight = 30
           Styles.ContentOdd = styleOdd
-          object cxGrdKKSOColumn1: TcxGridDBColumn
-            DataBinding.FieldName = 'KKSO'
-            Visible = False
-            GroupIndex = 0
-            HeaderAlignmentHorz = taCenter
-          end
           object cxGrdKKSOColumn2: TcxGridDBColumn
             DataBinding.FieldName = 'Rak'
             Visible = False
             GroupIndex = 1
             HeaderAlignmentHorz = taCenter
+          end
+          object cxGrdKKSOColumn1: TcxGridDBColumn
+            DataBinding.FieldName = 'RefNo'
+            Visible = False
+            GroupIndex = 0
+            HeaderAlignmentHorz = taCenter
+            Width = 96
           end
           object cxGridDBColumn1: TcxGridDBColumn
             Caption = 'Kode Barang'
@@ -257,7 +267,7 @@ inherited frmStockOpname: TfrmStockOpname
             Width = 310
           end
           object cxGridDBColumn3: TcxGridDBColumn
-            Caption = 'Satuan KKSO'
+            Caption = 'UOM KKSO'
             DataBinding.FieldName = 'UOM'
             PropertiesClassName = 'TcxExtLookupComboBoxProperties'
             Properties.ImmediatePost = True
@@ -270,6 +280,21 @@ inherited frmStockOpname: TfrmStockOpname
             Options.Focusing = False
             Width = 82
           end
+          object cxGridDBColumn4: TcxGridDBColumn
+            DataBinding.FieldName = 'Konversi'
+            PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.Alignment.Horz = taRightJustify
+            Properties.DisplayFormat = ',0.##;(,0.##)'
+            Properties.ReadOnly = True
+            HeaderAlignmentHorz = taCenter
+            Options.Editing = False
+            Options.Focusing = False
+          end
+          object cxGridDBColumn7: TcxGridDBColumn
+            DataBinding.FieldName = 'Item'
+            Visible = False
+            Options.Editing = False
+          end
           object cxGridDBColumn5: TcxGridDBColumn
             Caption = 'Qty KKSO'
             DataBinding.FieldName = 'Qty'
@@ -279,48 +304,6 @@ inherited frmStockOpname: TfrmStockOpname
             Properties.OnEditValueChanged = colQtyPropertiesEditValueChanged
             HeaderAlignmentHorz = taCenter
             Width = 74
-          end
-          object cxGridDBColumn4: TcxGridDBColumn
-            DataBinding.FieldName = 'Konv KKSO'
-            PropertiesClassName = 'TcxCurrencyEditProperties'
-            Properties.Alignment.Horz = taRightJustify
-            Properties.DisplayFormat = ',0.##;(,0.##)'
-            Properties.ReadOnly = True
-            HeaderAlignmentHorz = taCenter
-            Options.Editing = False
-            Options.Focusing = False
-          end
-          object cxGridDBColumn6: TcxGridDBColumn
-            Caption = 'UOM Stock'
-            DataBinding.FieldName = 'UOMStock'
-            PropertiesClassName = 'TcxCurrencyEditProperties'
-            Properties.Alignment.Horz = taRightJustify
-            Properties.DisplayFormat = ',0.##;(,0.##)'
-            Properties.ReadOnly = True
-            HeaderAlignmentHorz = taCenter
-            Options.Editing = False
-            Width = 71
-          end
-          object cxGridDBColumn7: TcxGridDBColumn
-            DataBinding.FieldName = 'Item'
-            Visible = False
-            Options.Editing = False
-          end
-          object cxGrdKKSOColumn3: TcxGridDBColumn
-            Caption = 'Konv Stock'
-            DataBinding.FieldName = 'KonversiStock'
-            HeaderAlignmentHorz = taCenter
-          end
-          object cxGridDBColumn8: TcxGridDBColumn
-            Caption = 'Qty Stock'
-            DataBinding.FieldName = 'QtyStock'
-            PropertiesClassName = 'TcxCurrencyEditProperties'
-            Properties.Alignment.Horz = taRightJustify
-            Properties.DisplayFormat = ',0.##;(,0.##)'
-            Properties.ReadOnly = True
-            HeaderAlignmentHorz = taCenter
-            Options.Editing = False
-            Options.Focusing = False
           end
         end
         object cxGridLevel1: TcxGridLevel
@@ -332,8 +315,6 @@ inherited frmStockOpname: TfrmStockOpname
     object tsDetail: TcxTabSheet
       Caption = 'Detail Transaksi [F2]'
       ImageIndex = 0
-      ExplicitWidth = 289
-      ExplicitHeight = 169
       object cxGrid1: TcxGrid
         Left = 0
         Top = 0
@@ -341,9 +322,6 @@ inherited frmStockOpname: TfrmStockOpname
         Height = 402
         Align = alClient
         TabOrder = 0
-        ExplicitTop = 130
-        ExplicitWidth = 870
-        ExplicitHeight = 394
         object cxGrdMain: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           OnEditKeyDown = cxGrdMainEditKeyDown

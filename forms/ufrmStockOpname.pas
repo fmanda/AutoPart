@@ -52,14 +52,12 @@ type
     cxGridDBColumn3: TcxGridDBColumn;
     cxGridDBColumn4: TcxGridDBColumn;
     cxGridDBColumn5: TcxGridDBColumn;
-    cxGridDBColumn6: TcxGridDBColumn;
     cxGridDBColumn7: TcxGridDBColumn;
-    cxGridDBColumn8: TcxGridDBColumn;
     cxGridLevel1: TcxGridLevel;
     cxGrdKKSOColumn1: TcxGridDBColumn;
     cxGrdKKSOColumn2: TcxGridDBColumn;
     btnLoadKKSO: TcxButton;
-    cxGrdKKSOColumn3: TcxGridDBColumn;
+    lbKKSO: TcxLabel;
     procedure btnSaveClick(Sender: TObject);
     procedure colKodePropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
     procedure colKodePropertiesValidate(Sender: TObject; var DisplayValue: Variant;
@@ -77,6 +75,7 @@ type
     procedure cxLookupWHPropertiesEditValueChanged(Sender: TObject);
     procedure btnReloadStockClick(Sender: TObject);
     procedure rbSOPropertiesEditValueChanged(Sender: TObject);
+    procedure pgcMainChange(Sender: TObject);
     procedure btnLoadKKSOClick(Sender: TObject);
   private
     FCDS: TClientDataset;
@@ -94,6 +93,8 @@ type
     function GetSO: TStockOpname;
     function GetCDSStock: TClientDataset;
     procedure InitView;
+    procedure LoadKKSO(aWarehouseID: Integer; aSODate: TDateTime; aIDSO: Integer =
+        0);
     procedure LookupItem(aKey: string = '');
     procedure SetItemToGrid(aItem: TItem);
     procedure UpdateData;
@@ -257,8 +258,6 @@ begin
 end;
 
 procedure TfrmStockOpname.btnLoadKKSOClick(Sender: TObject);
-var
-  S: string;
 begin
   inherited;
   if VarToInt(cxLookupWH.EditValue) = 0 then
@@ -267,8 +266,17 @@ begin
     exit;
   end;
 
-  S
+  if not TAppUtils.Confirm('Anda yakin gudang dan tanggal Stock Opname = gudang dan tanggal KKSO?') then
+    exit;
 
+  Self.Enabled := False;
+  Self.Cursor := crHourGlass;
+  Try
+    LoadKKSO(VarToInt(cxLookupWH.EditValue), dtSO.Date, SO.ID);
+  Finally
+    Self.Cursor := crDefault;
+    Self.Enabled := True;
+  End;
 end;
 
 procedure TfrmStockOpname.btnReloadStockClick(Sender: TObject);
@@ -345,7 +353,8 @@ procedure TfrmStockOpname.cxLookupWHPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
   CDS.EmptyDataSet;
-  CDSKKSO.EmptyDataSet;
+  if CDSKKSO <> nil then
+    CDSKKSO.EmptyDataSet;
 end;
 
 function TfrmStockOpname.DC: TcxGridDBDataController;
@@ -410,23 +419,23 @@ end;
 
 function TfrmStockOpname.GetCDSKKSO: TClientDataset;
 begin
-  if FCDSKKSO = nil then
-  begin
-    FCDSKKSO := TClientDataSet.Create(Self);
-    FCDSKKSO.AddField('ItemID',ftInteger);
-//    FCDSKKSO.AddField('UOMID',ftInteger);
-    FCDSKKSO.AddField('Kode',ftString);
-    FCDSKKSO.AddField('Nama',ftString);
-    FCDSKKSO.AddField('KKSO',ftString);
-    FCDSKKSO.AddField('Rak',ftString);
-    FCDSKKSO.AddField('UOM',ftString);
-    FCDSKKSO.AddField('Qty',ftFloat);
-    FCDSKKSO.AddField('Konversi',ftFloat);
-    FCDSKKSO.AddField('KonversiStock',ftFloat);
-    FCDSKKSO.AddField('UOMStock',ftString);
-    FCDSKKSO.AddField('QtyStock',ftFloat);
-    FCDSKKSO.CreateDataSet;
-  end;
+//  if FCDSKKSO = nil then
+//  begin
+//    FCDSKKSO := TClientDataSet.Create(Self);
+//    FCDSKKSO.AddField('ItemID',ftInteger);
+////    FCDSKKSO.AddField('UOMID',ftInteger);
+//    FCDSKKSO.AddField('Kode',ftString);
+//    FCDSKKSO.AddField('Nama',ftString);
+//    FCDSKKSO.AddField('KKSO',ftString);
+//    FCDSKKSO.AddField('Rak',ftString);
+//    FCDSKKSO.AddField('UOM',ftString);
+//    FCDSKKSO.AddField('Qty',ftFloat);
+//    FCDSKKSO.AddField('Konversi',ftFloat);
+////    FCDSKKSO.AddField('KonversiStock',ftFloat);
+////    FCDSKKSO.AddField('UOMStock',ftString);
+////    FCDSKKSO.AddField('QtyStock',ftFloat);
+//    FCDSKKSO.CreateDataSet;
+//  end;
   Result := FCDSKKSO;
 end;
 
@@ -557,6 +566,7 @@ begin
   edNotes.Text := SO.Notes;
   rbSO.ItemIndex := SO.Transtype;
   rbSOPropertiesEditValueChanged(Self);
+  pgcMainChange(Self);
 
   if SO.Warehouse <> nil then
     cxLookupWH.EditValue := SO.Warehouse.ID;
@@ -573,6 +583,41 @@ begin
     CDS.Post;
   end;
   btnSave.Enabled := not IsReadOnly;
+end;
+
+procedure TfrmStockOpname.LoadKKSO(aWarehouseID: Integer; aSODate: TDateTime;
+    aIDSO: Integer = 0);
+var
+  S: string;
+begin
+  S := 'SELECT A.ID, A.REFNO, A.TRANSDATE, E.NAMA AS GUDANG,'
+      +' A.PIC, A.MODIFIEDBY, A.MODIFIEDDATE, C.KODE, C.NAMA,'
+      +' D.UOM, B.QTY, B.KONVERSI, A.RAK'
+      +' FROM TKKSO A'
+      +' INNER JOIN TKKSOITEM B ON A.ID = B.KKSO_ID'
+      +' INNER JOIN TITEM C ON B.ITEM_ID = C.ID'
+      +' INNER JOIN TUOM D ON B.UOM_ID = D.ID'
+      +' INNER JOIN TWAREHOUSE E ON A.WAREHOUSE_ID = E.ID'
+      +' WHERE ISNULL(A.STOCKOPNAME_ID,0) = ' +  IntToStr(aIDSO)
+      +' AND A.TRANSDATE = ' + TAppUtils.QuotD(dtSO.Date)
+      +' AND A.WAREHOUSE_ID = ' +  IntToStr(aWarehouseID);
+  if FCDSKKSO <> nil then FreeAndNil(FCDSKKSO);
+
+  FCDSKKSO := TDBUtils.OpenDataset(S, Self);
+  cxGrdKKSO.PrepareFromCDS(CDSKKSO);
+  cxGrdKKSO.DataController.Groups.FullExpand;
+  cxGrdKKSO.EnableFiltering();
+
+  if aIDSO = 0 then
+  begin
+    CDS.DisableControls;
+    CDS.EmptyDataSet;
+    Try
+
+    Finally
+      CDS.EnableControls;
+    End;
+  end;
 end;
 
 procedure TfrmStockOpname.LookupItem(aKey: string = '');
@@ -606,6 +651,12 @@ begin
   Finally
     FreeAndNil(lItem);
   End;
+end;
+
+procedure TfrmStockOpname.pgcMainChange(Sender: TObject);
+begin
+  inherited;
+  lbKKSO.Visible := pgcMain.ActivePage = tsKKSO;
 end;
 
 procedure TfrmStockOpname.rbSOPropertiesEditValueChanged(Sender: TObject);
@@ -751,6 +802,20 @@ begin
   begin
     TAppUtils.Warning('Satuan tidak boleh kosong' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
     exit;
+  end;
+
+  if pgcMain.ActivePage = tsKKSO then
+  begin
+    if CDSKKSO = nil then
+    begin
+      TAppUtils.Warning('Data KKSO masih kosong');
+      exit;
+    end;
+    if CDSKKSO.RecordCount = 0 then
+    begin
+      TAppUtils.Warning('Data KKSO masih kosong');
+      exit;
+    end;
   end;
 
   for i := 0 to DC.RecordCount-1 do
