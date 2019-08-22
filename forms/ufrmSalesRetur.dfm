@@ -12,22 +12,22 @@ inherited frmSalesRetur: TfrmSalesRetur
     Top = 526
     TabOrder = 1
     ExplicitTop = 526
-    ExplicitWidth = 934
+    ExplicitWidth = 984
     Width = 984
     inherited btnCancel: TcxButton
       Left = 899
-      ExplicitLeft = 849
+      ExplicitLeft = 899
     end
     inherited btnPrint: TcxButton
       Left = 813
       Visible = True
       OnClick = btnPrintClick
-      ExplicitLeft = 763
+      ExplicitLeft = 813
     end
     inherited btnSave: TcxButton
       Left = 727
       OnClick = btnSaveClick
-      ExplicitLeft = 677
+      ExplicitLeft = 727
     end
   end
   inherited Panel2: TPanel
@@ -35,22 +35,22 @@ inherited frmSalesRetur: TfrmSalesRetur
     Width = 984
     TabOrder = 2
     ExplicitTop = 505
-    ExplicitWidth = 934
+    ExplicitWidth = 984
     inherited lbEscape: TLabel
       Left = 904
       Height = 17
-      ExplicitLeft = 854
+      ExplicitLeft = 904
     end
     inherited lgndSave: TLabel
       Left = 739
       Height = 17
-      ExplicitLeft = 689
+      ExplicitLeft = 739
     end
     inherited lgndPrint: TLabel
       Left = 826
       Height = 17
       Visible = True
-      ExplicitLeft = 776
+      ExplicitLeft = 826
     end
     object Label2: TLabel
       AlignWithMargins = True
@@ -181,7 +181,6 @@ inherited frmSalesRetur: TfrmSalesRetur
     Align = alTop
     Caption = '  Header Data [F1] '
     TabOrder = 0
-    ExplicitWidth = 934
     DesignSize = (
       984
       147)
@@ -264,7 +263,6 @@ inherited frmSalesRetur: TfrmSalesRetur
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 8
-      ExplicitLeft = 746
       Width = 180
     end
     object cxLabel2: TcxLabel
@@ -279,7 +277,6 @@ inherited frmSalesRetur: TfrmSalesRetur
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
-      ExplicitLeft = 674
     end
     object cxLabel3: TcxLabel
       Left = 760
@@ -293,7 +290,6 @@ inherited frmSalesRetur: TfrmSalesRetur
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
-      ExplicitLeft = 710
     end
     object crPPN: TcxCurrencyEdit
       Left = 796
@@ -313,7 +309,6 @@ inherited frmSalesRetur: TfrmSalesRetur
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 9
-      ExplicitLeft = 746
       Width = 180
     end
     object cxLabel5: TcxLabel
@@ -328,7 +323,6 @@ inherited frmSalesRetur: TfrmSalesRetur
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
-      ExplicitLeft = 687
     end
     object crTotal: TcxCurrencyEdit
       Left = 796
@@ -348,7 +342,6 @@ inherited frmSalesRetur: TfrmSalesRetur
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 10
-      ExplicitLeft = 746
       Width = 180
     end
     object cxLabel7: TcxLabel
@@ -446,6 +439,7 @@ inherited frmSalesRetur: TfrmSalesRetur
         end>
       ItemIndex = 0
       TabOrder = 22
+      Visible = False
       Height = 100
       Width = 84
     end
@@ -458,7 +452,6 @@ inherited frmSalesRetur: TfrmSalesRetur
     Align = alClient
     TabOrder = 3
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitWidth = 934
     object cxGrdMain: TcxGridDBTableView
       PopupMenu = pmMain
       Navigator.Buttons.CustomButtons = <>
@@ -623,7 +616,6 @@ inherited frmSalesRetur: TfrmSalesRetur
     StyleDisabled.TextColor = clBlack
     TabOrder = 4
     Visible = False
-    ExplicitWidth = 928
     Height = 38
     Width = 978
   end

@@ -1772,7 +1772,7 @@ var
 begin
   lNum := 0;
   aDigitCount := 5;
-  aPrefix := Cabang + '.RP.' + FormatDateTime('yymm',Now()) + '.';
+  aPrefix := Cabang + '.RP' + FormatDateTime('yymm',Now()) + '.';
 
 
   S := 'SELECT MAX(Refno) FROM TSalesRetur where Refno LIKE ' + QuotedStr(aPrefix + '%');

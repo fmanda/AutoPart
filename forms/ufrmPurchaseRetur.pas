@@ -60,6 +60,9 @@ type
     cxMemo1: TcxMemo;
     colNo: TcxGridDBColumn;
     colHrgBeli: TcxGridDBColumn;
+    pmMain: TPopupMenu;
+    AmbilHargaDariFakturPembelian1: TMenuItem;
+    procedure AmbilHargaDariFakturPembelian1Click(Sender: TObject);
     procedure edInvKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
     procedure edInvPropertiesButtonClick(Sender: TObject;
@@ -106,6 +109,7 @@ type
     function GetPurchRetur: TPurchaseRetur;
     procedure InitView;
     procedure LoadAllInvoiceItem;
+    procedure LookupHargaPembelian;
     procedure LookupInvoice(sKey: string = '');
     procedure LookupItem(aKey: string = '');
     procedure LookupSupplier(sKey: string = '');
@@ -133,9 +137,17 @@ implementation
 
 uses
   uDBUtils, uDXUtils, uAppUtils, Strutils, ufrmCXServerLookup,
-  System.DateUtils, uSupplier, ufrmCXMsgInfo, uWarehouse, ufrmLookupItem;
+  System.DateUtils, uSupplier, ufrmCXMsgInfo, uWarehouse, ufrmLookupItem,
+  ufrmCXLookup;
 
 {$R *.dfm}
+
+procedure TfrmPurchaseRetur.AmbilHargaDariFakturPembelian1Click(Sender:
+    TObject);
+begin
+  inherited;
+  LookupHargaPembelian;
+end;
 
 procedure TfrmPurchaseRetur.btnPrintClick(Sender: TObject);
 begin
@@ -668,6 +680,66 @@ begin
   end;
   CalculateAll;
   btnSave.Enabled := not IsReadOnly;
+end;
+
+procedure TfrmPurchaseRetur.LookupHargaPembelian;
+var
+  cxLookup: TfrmCXServerLookup;
+  S: string;
+begin
+  if CDS.State in [dsInsert, dsEdit] then CDS.Post;
+  if CDS.Eof then exit;
+
+  if PurchRetur.Supplier = nil then
+  begin
+    TAppUtils.Warning('Supplier Harus dipilih terlebih dahulu');
+    exit;
+  end;
+
+
+  if CDS.FieldByName('Item').AsInteger = 0 then
+  begin
+    TAppUtils.Warning('Item wajib dipilih');
+    exit;
+  end;
+
+  if CDS.FieldByName('UOM').AsInteger = 0 then
+  begin
+    TAppUtils.Warning('Satuan wajib dipilih');
+    exit;
+  end;
+
+  S := 'SELECT B.ID, A.INVOICENO, A.TRANSDATE, E.NAMA AS SUPPLIER,'
+      +' C.KODE, C.NAMA, D.UOM, B.PRICELIST, B.HARGA'
+      +' FROM TPURCHASEINVOICE A'
+      +' INNER JOIN TTRANSDETAIL B ON A.ID = B.HEADER_ID AND B.HEADER_FLAG = 100'
+      +' INNER JOIN TITEM C ON B.ITEM_ID = C.ID'
+      +' INNER JOIN TUOM D ON B.UOM_ID = D.ID'
+      +' INNER JOIN TSUPPLIER E ON A.SUPPLIER_ID = E.ID'
+      +' WHERE A.SUPPLIER_ID = ' + IntToStr(PurchRetur.Supplier.ID)
+      +' AND B.ITEM_ID = ' + IntToStr(CDS.FieldByName('Item').AsInteger)
+      +' AND B.UOM_ID = ' + IntToStr(CDS.FieldByName('UOM').AsInteger)
+      +' AND A.TRANSDATE BETWEEN :STARTDATE AND :ENDDATE';
+
+
+  cxLookup := TfrmCXServerLookup.Execute(S, 'ID', StartOfTheYear(Now()), EndOfTheMonth(Now()) );
+  Try
+    if cxLookup.ShowModal = mrOK then
+    begin
+      CDS.Edit;
+      CDS.FieldByName('PriceList').AsFloat  := cxLookup.FieldValue('PriceList');
+      CDS.FieldByName('Harga').AsFloat      := cxLookup.FieldValue('Harga');
+      if CDS.FieldByName('PriceList').AsFloat  <> 0 then
+        CDS.FieldByName('DiscP').AsFloat :=
+        (CDS.FieldByName('PriceList').AsFloat - CDS.FieldByName('Harga').AsFloat)
+          /CDS.FieldByName('PriceList').AsFloat*100;
+
+      CDS.Post;
+      CalculateAll;
+    end;
+  finally
+    cxLookup.Free;
+  end;
 end;
 
 procedure TfrmPurchaseRetur.LookupInvoice(sKey: string = '');

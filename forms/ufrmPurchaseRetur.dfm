@@ -338,9 +338,12 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     Width = 941
     Height = 311
     Align = alClient
+    PopupMenu = pmMain
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
+    ExplicitTop = 144
     object cxGrdMain: TcxGridDBTableView
+      PopupMenu = pmMain
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -501,5 +504,13 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
   end
   inherited styleRepo: TcxStyleRepository
     PixelsPerInch = 96
+  end
+  object pmMain: TPopupMenu
+    Left = 232
+    Top = 368
+    object AmbilHargaDariFakturPembelian1: TMenuItem
+      Caption = 'Ambil Harga Dari Faktur Pembelian ...'
+      OnClick = AmbilHargaDariFakturPembelian1Click
+    end
   end
 end
