@@ -13,7 +13,10 @@ uses
   cxGridDBTableView, cxGrid, Vcl.StdCtrls, cxButtons, cxContainer, Vcl.ComCtrls,
   dxCore, cxDateUtils, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar,
   cxLabel, Vcl.ExtCtrls, dxBarBuiltInMenu, cxPC, cxCheckBox,
-  cxDataControllerConditionalFormattingRulesManagerDialog;
+  cxDataControllerConditionalFormattingRulesManagerDialog, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client;
 
 type
   TfrmCXLookup = class(TForm)
@@ -71,7 +74,7 @@ type
     { Private declarations }
   protected
     procedure HideDateParams;
-    procedure RefreshDataSet;
+    procedure RefreshDataRange;
   public
     constructor Create(ARestConn: TDSRestConnection; aMultiSelect: Boolean =
         False); reintroduce;
@@ -79,6 +82,9 @@ type
         aCaption: String = 'Lookup Data'): TfrmCXLookup; overload;
     class function Execute(ASQL: string; aMultiSelect: Boolean = False; aCaption:
         String = 'Lookup Data'): TfrmCXLookup; overload;
+    class function ExecuteRange(ASQL: string; StartDate, EndDate: TDateTime;
+        aMultiSelect: Boolean = False; aCaption: String = 'Lookup Data'):
+        TfrmCXLookup; overload;
     procedure HideFields(FieldNames: Array Of String);
     procedure PreFilter(aFieldName, aValue: String);
     procedure Reset;
@@ -109,7 +115,7 @@ uses
 
 procedure TfrmCXLookup.btnRefreshClick(Sender: TObject);
 begin
-  RefreshDataSet;
+  RefreshDataRange;
 end;
 
 procedure TfrmCXLookup.btnCloseClick(Sender: TObject);
@@ -269,6 +275,21 @@ begin
 
 end;
 
+class function TfrmCXLookup.ExecuteRange(ASQL: string; StartDate, EndDate:
+    TDateTime; aMultiSelect: Boolean = False; aCaption: String =
+    'Lookup Data'): TfrmCXLookup;
+begin
+  Result                    := TfrmCXLookup.Create(nil, aMultiSelect);
+  Result.lblHeader.Caption  := aCaption;
+  Result.StartDate.Date     := StartDate;
+  Result.EndDate.Date       := EndDate;
+  Result.SQL                := ASQL;
+  Result.Caption            := aCaption;
+//  Result.HideDateParams;
+
+  Result.RefreshDataRange;
+end;
+
 procedure TfrmCXLookup.FormKeyDown(Sender: TObject; var Key: Word; Shift:
     TShiftState);
 begin
@@ -350,23 +371,27 @@ begin
   Self.cxGridView.SetVisibleColumns([check_flag], True);
 end;
 
-procedure TfrmCXLookup.RefreshDataSet;
-//var
-//  ADataSet: TDataSet;
+procedure TfrmCXLookup.RefreshDataRange;
+var
+  aDataSet: TClientDataset;
+  lQ: TFDQuery;
 begin
-//  ADataSet := TDBUtils;
-//
-//  if Assigned(FCDS) then
-//    FreeAndNil(FCDS);
-//  if Assigned(ADataset) then
-//  begin
-//    if not MultiSelect then
-//      CDS := TDBUtils.DSToCDS(ADataSet, Self, True)
-//    else
-//      CDS := Self.CopyDataset(ADataSet)
-//  end;
-//
-//  if CDS <> nil then initView;
+  lQ := TDBUtils.PrepareQuery(Self.SQL);
+  lQ.Params[0].AsDate := StartDate.Date;
+  lQ.Params[1].AsDate := EndDate.Date;
+  lQ.Open;
+
+  if FCDS <> nil then
+    FreeAndNil(FCDS);
+
+  aDataSet := TDBUtils.DSToCDS(lQ, Self);
+
+  If Self.MultiSelect then
+    FCDS := Self.CopyDataset(aDataSet)
+  else
+    FCDS := aDataSet;
+
+  InitView;
 end;
 
 procedure TfrmCXLookup.Reset;
@@ -391,7 +416,7 @@ procedure TfrmCXLookup.SetCheckSelected(IsChecked: Boolean = True; IsSelectAll:
 var
   i: Integer;
   lAfterPostNotify: TDataSetNotifyEvent;
-  lRecNo: Integer;
+//  lRecNo: Integer;
 begin
   lAfterPostNotify  := CDS.AfterPost;
   CDS.AfterPost     := nil;
@@ -402,7 +427,6 @@ begin
 
     If not IsSelectAll then
     begin
-//      cShowProgressDlg('Checking Process',cxGridView.Controller.SelectedRecordCount);
       for i := 0 to cxGridView.Controller.SelectedRecordCount-1 do
       begin
         cxGridView.Controller.SelectedRecords[i].Focused := True;
@@ -412,24 +436,34 @@ begin
           FieldByName(check_flag).AsBoolean := IsChecked;
           Post;
         end;
-//        cStepProgressDlg;
       end;
     end else //optimize performance for select all
     begin
-//      cShowProgressDlg('Checking Process',CDS.RecordCount);
-      lRecNo := CDS.RecNo;
-      CDS.DisableControls;
-      CDS.First;
-      while not CDS.eof do
+      cxGridView.Controller.SelectAll;
+      for i := 0 to cxGridView.Controller.SelectedRecordCount-1 do
       begin
-        CDS.Edit;
-        CDS.FieldByName(check_flag).AsBoolean := IsChecked;
-        CDS.Post;
-        CDS.Next;
-//        cStepProgressDlg;
+        cxGridView.Controller.SelectedRecords[i].Focused := True;
+        With cxGridView.DataController.DataSource.DataSet do
+        begin
+          Edit;
+          FieldByName(check_flag).AsBoolean := IsChecked;
+          Post;
+        end;
       end;
-      CDS.RecNo := lRecNo;
-      CDS.EnableControls;
+
+//      lRecNo := CDS.RecNo;
+//      CDS.DisableControls;
+//      CDS.First;
+//      while not CDS.eof do
+//      begin
+//        CDS.Edit;
+//        CDS.FieldByName(check_flag).AsBoolean := IsChecked;
+//        CDS.Post;
+//        CDS.Next;
+////        cStepProgressDlg;
+//      end;
+//      CDS.RecNo := lRecNo;
+//      CDS.EnableControls;
     end;
 //    If MultiSelect then CountSelected;
   Finally

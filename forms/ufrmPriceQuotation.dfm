@@ -16,16 +16,16 @@ inherited frmPriceQuotation: TfrmPriceQuotation
     Width = 1034
     inherited btnCancel: TcxButton
       Left = 949
-      ExplicitLeft = 899
+      ExplicitLeft = 949
     end
     inherited btnPrint: TcxButton
       Left = 863
-      ExplicitLeft = 813
+      ExplicitLeft = 863
     end
     inherited btnSave: TcxButton
       Left = 777
       OnClick = btnSaveClick
-      ExplicitLeft = 727
+      ExplicitLeft = 777
     end
   end
   inherited Panel2: TPanel
@@ -33,25 +33,28 @@ inherited frmPriceQuotation: TfrmPriceQuotation
     Width = 1034
     TabOrder = 3
     ExplicitTop = 555
-    ExplicitWidth = 984
+    ExplicitWidth = 1034
     inherited lbEscape: TLabel
       Left = 954
-      ExplicitLeft = 904
+      Height = 17
+      ExplicitLeft = 954
     end
     inherited lgndSave: TLabel
       Left = 789
-      ExplicitLeft = 739
+      Height = 17
+      ExplicitLeft = 789
     end
     inherited lgndPrint: TLabel
       Left = 876
-      ExplicitLeft = 826
+      Height = 17
+      ExplicitLeft = 876
     end
     object Label1: TLabel
       AlignWithMargins = True
       Left = 3
       Top = 1
       Width = 124
-      Height = 16
+      Height = 17
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -63,24 +66,26 @@ inherited frmPriceQuotation: TfrmPriceQuotation
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      ExplicitHeight = 16
     end
     object Label2: TLabel
       AlignWithMargins = True
       Left = 143
       Top = 1
-      Width = 266
-      Height = 16
+      Width = 239
+      Height = 17
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
       Align = alLeft
-      Caption = 'Otomatis ditambahkan semua satuan atas barang tsb'
+      Caption = 'F6 [Lookup Data Barang terakhir diinput / edit]'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      ExplicitHeight = 16
     end
   end
   object cxGroupBox1: TcxGroupBox [2]
@@ -177,9 +182,8 @@ inherited frmPriceQuotation: TfrmPriceQuotation
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitWidth = 978
-    ExplicitHeight = 468
     object cxGrdMain: TcxGridDBBandedTableView
+      PopupMenu = pmGrid
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -502,8 +506,6 @@ inherited frmPriceQuotation: TfrmPriceQuotation
     Style.IsFontAssigned = True
     StyleDisabled.TextColor = clBlack
     TabOrder = 4
-    ExplicitLeft = -176
-    ExplicitTop = 483
     Height = 22
     Width = 1034
   end
@@ -512,6 +514,14 @@ inherited frmPriceQuotation: TfrmPriceQuotation
     object styleGreen: TcxStyle
       AssignedValues = [svColor]
       Color = clMoneyGreen
+    end
+  end
+  object pmGrid: TPopupMenu
+    Left = 352
+    Top = 320
+    object F6LookupDataBarangterakhirdiinputedit1: TMenuItem
+      Caption = 'Lookup Data Barang terakhir diinput / edit [F6]'
+      OnClick = F6LookupDataBarangterakhirdiinputedit1Click
     end
   end
 end

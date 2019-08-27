@@ -46,15 +46,13 @@ object frmCXLookup: TfrmCXLookup
       ExplicitHeight = 14
     end
     object lblFilterData: TcxLabel
-      Left = 377
+      Left = 381
       Top = 0
       Align = alRight
-      AutoSize = False
       Caption = 'Filter Data'
       Properties.Alignment.Vert = taVCenter
       Transparent = True
-      Height = 31
-      Width = 58
+      ExplicitLeft = 377
       AnchorY = 16
     end
     object StartDate: TcxDateEdit
@@ -194,7 +192,6 @@ object frmCXLookup: TfrmCXLookup
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 2
-    ExplicitTop = 376
     object lbBenchmark: TLabel
       AlignWithMargins = True
       Left = 3
@@ -266,7 +263,6 @@ object frmCXLookup: TfrmCXLookup
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 3
-    ExplicitTop = 355
     object lbEscape: TLabel
       AlignWithMargins = True
       Left = 655
@@ -314,7 +310,6 @@ object frmCXLookup: TfrmCXLookup
     TabOrder = 0
     LockedStateImageOptions.Text = 'Mohon ditunggu...'
     LookAndFeel.NativeStyle = False
-    ExplicitHeight = 322
     object cxGridView: TcxGridDBTableView
       PopupMenu = pmSelect
       OnKeyDown = cxGridViewKeyDown

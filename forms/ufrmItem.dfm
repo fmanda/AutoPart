@@ -135,17 +135,19 @@ inherited frmItem: TfrmItem
       Width = 292
     end
     object cxLabel5: TcxLabel
-      Left = 455
-      Top = 43
+      Left = 578
+      Top = 22
       Caption = 'Rak'
+      Visible = False
     end
     object edRak: TcxTextEdit
-      Left = 481
-      Top = 42
+      Left = 601
+      Top = 21
       Properties.CharCase = ecUpperCase
       TabOrder = 6
+      Visible = False
       OnKeyDown = edRakKeyDown
-      Width = 201
+      Width = 81
     end
     object cxLabel6: TcxLabel
       Left = 30
@@ -161,7 +163,7 @@ inherited frmItem: TfrmItem
     end
     object crPPN: TcxCurrencyEdit
       Left = 481
-      Top = 63
+      Top = 42
       TabStop = False
       EditValue = 0.000000000000000000
       Properties.Alignment.Horz = taRightJustify
@@ -172,7 +174,7 @@ inherited frmItem: TfrmItem
     end
     object cxLabel7: TcxLabel
       Left = 434
-      Top = 64
+      Top = 43
       Caption = 'PPN (%)'
     end
     object lbModifiedBy: TcxLabel
@@ -221,12 +223,12 @@ inherited frmItem: TfrmItem
     end
     object cxLabel11: TcxLabel
       Left = 425
-      Top = 86
+      Top = 65
       Caption = 'Lead Time'
     end
     object spLeadTime: TcxSpinEdit
       Left = 481
-      Top = 85
+      Top = 64
       Properties.Alignment.Horz = taRightJustify
       Properties.MinValue = 1.000000000000000000
       TabOrder = 8
@@ -234,8 +236,8 @@ inherited frmItem: TfrmItem
       Width = 69
     end
     object cxLabel12: TcxLabel
-      Left = 553
-      Top = 86
+      Left = 556
+      Top = 65
       Caption = 'Hari'
     end
   end

@@ -53,6 +53,8 @@ type
     colPriceList: TcxGridDBBandedColumn;
     colMarginBeli: TcxGridDBBandedColumn;
     styleGreen: TcxStyle;
+    pmGrid: TPopupMenu;
+    F6LookupDataBarangterakhirdiinputedit1: TMenuItem;
     procedure cxGrdMainEditKeyDown(Sender: TcxCustomGridTableView; AItem:
         TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Word; Shift:
         TShiftState);
@@ -75,6 +77,7 @@ type
     procedure btnSaveClick(Sender: TObject);
     procedure colMarginBeliPropertiesEditValueChanged(Sender: TObject);
     procedure colPriceListPropertiesEditValueChanged(Sender: TObject);
+    procedure F6LookupDataBarangterakhirdiinputedit1Click(Sender: TObject);
   private
     FCDS: TClientDataset;
     FCDSClone: TClientDataset;
@@ -89,6 +92,7 @@ type
     function GetPriceQuot: TPriceQuotation;
     procedure InitView;
     procedure LookupItem(aKey: string = '');
+    procedure LookupRecent;
     procedure SetItemToGrid(aItem: TItem);
     procedure UpdateData;
     function ValidateData: Boolean;
@@ -112,7 +116,7 @@ implementation
 
 uses
   uDXUtils, Dateutils, uDBUtils, ufrmCXServerLookup, cxDataUtils, uAppUtils,
-  Strutils;
+  Strutils, ufrmCXLookup;
 
 {$R *.dfm}
 
@@ -296,6 +300,10 @@ begin
   begin
     LookupItem(VarToStr(AEdit.EditingValue));
   end;
+  if (Key = VK_F6) and (aItem = colItemCode) then
+  begin
+    LookupRecent;
+  end;
 end;
 
 function TfrmPriceQuotation.DC: TcxGridDBDataController;
@@ -309,6 +317,13 @@ begin
   inherited;
   if Key = VK_Return then
     FocusToGrid;
+end;
+
+procedure TfrmPriceQuotation.F6LookupDataBarangterakhirdiinputedit1Click(
+    Sender: TObject);
+begin
+  inherited;
+  LookupRecent;
 end;
 
 procedure TfrmPriceQuotation.FocusToGrid;
@@ -473,6 +488,50 @@ begin
       begin
         lItem.LoadByID(cxLookup.FieldValue('ID'));
         SetItemToGrid(lItem);
+      end;
+    finally
+      cxLookup.Free;
+    end;
+  Finally
+    FreeAndNil(lItem);
+  End;
+end;
+
+procedure TfrmPriceQuotation.LookupRecent;
+var
+  cxLookup: TfrmCXLookup;
+  lItem: TItem;
+  s: string;
+begin
+  lItem  := TItem.Create;
+  Try
+    s := 'select a.ID, a.KODE, a.NAMA, e.NAMA as MERK,'
+        +' c.UOM as STOCKUOM, b.HARGAJUAL1 as HARGAUMUM, b.HARGAJUAL2 AS HARGABENGKEL,'
+        +' b.HARGAJUAL3 AS HARGAGROSIR, b.HARGAJUAL4 AS HARGAKELILING,'
+        +' A.MODIFIEDBY, A.MODIFIEDDATE'
+        +' from titem a'
+        +' inner join TITEMUOM b on a.id = b.ITEM_ID and a.STOCKUOM_ID = b.UOM_ID'
+        +' inner join TUOM c on a.STOCKUOM_ID = c.id'
+        +' left join TITEMGROUP d on a.GROUP_ID = d.id'
+        +' left join TMERK e on a.MERK_ID = e.id'
+        +' WHERE A.MODIFIEDDATE BETWEEN :STARTDATE AND :ENDDATE'
+        +' ORDER BY A.MODIFIEDDATE DESC';
+
+    cxLookup := TfrmCXLookup.ExecuteRange(S, Now(), Now(), True);
+    cxLookup.HideFields(['ID']);
+    try
+      cxLookup.lblFilterData.Caption := 'Filter Modified Date : ';
+      cxLookup.Width := 1000;
+      if cxLookup.ShowModal = mrOK then
+      begin
+        while not cxLookup.Data.Eof do
+        begin
+//          if lItem.ID > 0 then
+          CDS.Append;
+          lItem.LoadByID(cxLookup.Data.FieldByName('ID').AsInteger);
+          SetItemToGrid(lItem);
+          cxLookup.Data.Next;
+        end;
       end;
     finally
       cxLookup.Free;
