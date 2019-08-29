@@ -9,10 +9,17 @@ uses
   Vcl.Menus, Vcl.StdCtrls, cxButtons, cxGroupBox, cxRadioGroup, cxCheckBox,
   cxTextEdit, cxLabel, uSupplier, uWarehouse, Vcl.ExtCtrls, cxMaskEdit,
   cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox, cxStyles,
-  cxClasses;
+  cxClasses, dxBarBuiltInMenu, cxPC, cxGridCustomTableView, cxCustomData,
+  cxFilter, cxData, cxDataStorage, cxNavigator,
+  cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
+  cxButtonEdit, cxGridLevel, cxGridTableView, cxGridDBTableView,
+  cxGridCustomView, cxGrid, Datasnap.DBClient;
 
 type
   TfrmWarehouse = class(TfrmDefaultInput)
+    pgcMain: TcxPageControl;
+    tsHeader: TcxTabSheet;
+    cxTabSheet2: TcxTabSheet;
     cxLabel1: TcxLabel;
     edKode: TcxTextEdit;
     cxLabel2: TcxLabel;
@@ -22,14 +29,25 @@ type
     ckExternal: TcxCheckBox;
     cxLookupCabang: TcxExtLookupComboBox;
     cxLabel3: TcxLabel;
+    cxGrid1: TcxGrid;
+    cxGrdRak: TcxGridDBTableView;
+    colKode: TcxGridDBColumn;
+    colNama: TcxGridDBColumn;
+    colNO: TcxGridDBColumn;
+    cxGrid1Level1: TcxGridLevel;
     procedure btnSaveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure ckExternalPropertiesEditValueChanged(Sender: TObject);
+    procedure colNOGetDisplayText(Sender: TcxCustomGridTableItem; ARecord:
+        TcxCustomGridRecord; var AText: string);
   private
+    FCDS: TClientDataset;
     FWarehouse: TWarehouse;
+    function GetCDS: TClientDataset;
     function GetWarehouse: TWarehouse;
     procedure UpdateData;
     function ValidateData: Boolean;
+    property CDS: TClientDataset read GetCDS write FCDS;
     property Warehouse: TWarehouse read GetWarehouse write FWarehouse;
     { Private declarations }
   public
@@ -68,12 +86,29 @@ begin
     cxLookupCabang.Clear;
 end;
 
+procedure TfrmWarehouse.colNOGetDisplayText(Sender: TcxCustomGridTableItem;
+    ARecord: TcxCustomGridRecord; var AText: string);
+begin
+  inherited;
+  if ARecord = nil then exit;
+  AText := VarToStr(ARecord.RecordIndex + 1);
+end;
+
 procedure TfrmWarehouse.FormCreate(Sender: TObject);
 begin
   inherited;
   cxLookupCabang.LoadFromSQL('select * from tproject','project_code','project_name', Self);
   Self.AssignKeyDownEvent;
+  cxGrdRak.PrepareFromCDS(CDS);
   LoadByID(0);
+  pgcMain.ActivePage := tsHeader;
+end;
+
+function TfrmWarehouse.GetCDS: TClientDataset;
+begin
+  if FCDS = nil then
+    FCDS := TRack.CreateDataSet(Self);
+  Result := FCDS;
 end;
 
 function TfrmWarehouse.GetGroupName: string;
@@ -90,6 +125,8 @@ begin
 end;
 
 procedure TfrmWarehouse.LoadByID(aID: Integer; IsReadOnly: Boolean = False);
+var
+  lRack: TRack;
 begin
   if FWarehouse <> nil then FreeAndNil(FWarehouse);
   Warehouse.LoadByID(aID);
@@ -106,9 +143,24 @@ begin
   cxLookupCabang.EditValue  := Warehouse.Project_Code;
   btnSave.Enabled           := not IsReadOnly;
 
+  CDS.EmptyDataSet;
+  CDS.DisableControls;
+  Try
+    for lRack in Warehouse.Racks do
+    begin
+      CDS.Append;
+      lRack.UpdateToDataset(CDS);
+      CDS.Post;
+    end;
+  Finally
+    CDS.EnableControls;
+  End;
+
 end;
 
 procedure TfrmWarehouse.UpdateData;
+var
+  lRack: TRack;
 begin
   Warehouse.Kode          := edKode.Text;
   Warehouse.Nama          := edNama.Text;
@@ -116,6 +168,22 @@ begin
   Warehouse.Is_External   := TApputils.BoolToInt(ckExternal.Checked);
   Warehouse.Project_Code  := VartoStr(cxLookupCabang.EditValue);
   Warehouse.IsActive      := 1;
+  Warehouse.Racks.Clear;
+
+  CDS.DisableControls;
+  Try
+    CDS.First;
+    while not CDS.Eof do
+    begin
+      lRack := TRack.Create;
+      lRack.SetFromDataset(CDS);
+      Warehouse.Racks.Add(lRack);
+
+      CDS.Next;
+    end;
+  Finally
+    CDS.EnableControls;
+  End;
   if not chkActive.Checked then Warehouse.IsActive := 0;
 end;
 

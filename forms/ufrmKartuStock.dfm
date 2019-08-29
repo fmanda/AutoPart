@@ -1,9 +1,9 @@
 inherited frmKartuStock: TfrmKartuStock
   Caption = 'Kartu Stock'
   ClientHeight = 611
-  ClientWidth = 760
+  ClientWidth = 742
   Position = poMainFormCenter
-  ExplicitWidth = 776
+  ExplicitWidth = 758
   ExplicitHeight = 650
   PixelsPerInch = 96
   TextHeight = 13
@@ -11,7 +11,7 @@ inherited frmKartuStock: TfrmKartuStock
     TabOrder = 2
     Visible = False
     ExplicitWidth = 760
-    Width = 760
+    Width = 742
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
       AnchorY = 18
@@ -23,9 +23,9 @@ inherited frmKartuStock: TfrmKartuStock
     OnClick = cxGroupBox2Click
     ExplicitTop = 576
     ExplicitWidth = 760
-    Width = 760
+    Width = 742
     inherited btnTutup: TcxButton
-      Left = 680
+      Left = 662
       ExplicitLeft = 680
     end
     inherited btnExport: TcxButton
@@ -44,8 +44,9 @@ inherited frmKartuStock: TfrmKartuStock
     Align = alTop
     Caption = ' Kartu Stock '
     TabOrder = 0
+    ExplicitWidth = 760
     Height = 104
-    Width = 760
+    Width = 742
     object cxLabel1: TcxLabel
       Left = 78
       Top = 35
@@ -77,12 +78,15 @@ inherited frmKartuStock: TfrmKartuStock
     object cxLookupGudang: TcxExtLookupComboBox
       Left = 144
       Top = 74
+      Properties.OnEditValueChanged = cxLookupGudangPropertiesEditValueChanged
       TabOrder = 5
       Width = 216
     end
     object dtStart: TcxDateEdit
       Left = 144
       Top = 13
+      Properties.SaveTime = False
+      Properties.ShowTime = False
       TabOrder = 0
       Width = 117
     end
@@ -135,15 +139,30 @@ inherited frmKartuStock: TfrmKartuStock
       Top = 35
       Caption = 'Dalam Satuan'
     end
+    object edRak: TcxTextEdit
+      Left = 515
+      Top = 74
+      TabStop = False
+      Properties.CharCase = ecUpperCase
+      Properties.ReadOnly = True
+      TabOrder = 13
+      Width = 186
+    end
+    object cxLabel7: TcxLabel
+      Left = 492
+      Top = 75
+      Caption = 'Rak'
+    end
   end
   object cxGrid1: TcxGrid [3]
     AlignWithMargins = True
     Left = 3
     Top = 142
-    Width = 754
+    Width = 736
     Height = 431
     Align = alClient
     TabOrder = 1
+    ExplicitWidth = 754
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>

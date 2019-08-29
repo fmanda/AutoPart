@@ -248,17 +248,21 @@ class function TAppUtils.BacaRegistry(aNama: String; aPath : String = ''):
     string;
 var
   Registry: TRegistry;
+  sName: string;
   //S: string;
 begin
   Registry:=TRegistry.Create;
 
-  Registry.RootKey := HKEY_CURRENT_USER;
-  {False because we do not want to create it if it doesnt exist}
   if Trim(aPath) = '' then
-    Registry.OpenKey('\Software\' + ApplicationRegName, False)
+    sName := ApplicationRegName
   else
-    Registry.OpenKey('\Software\' + aPath, False);
+    sName := aPath;
 
+  if ParamStr(1) <> '' then
+    sName := sName + ' ' + ParamStr(1);
+
+  Registry.RootKey := HKEY_CURRENT_USER;
+  Registry.OpenKey('\Software\' + sName, False);
   Result := Registry.ReadString(aNama);
 
   Registry.Free;
@@ -268,17 +272,21 @@ class function TAppUtils.BacaRegistry1(aNama: String; aPath : String = ''):
     string;
 var
   Registry: TRegistry;
+  sName: string;
   //S: string;
 begin
   Registry:=TRegistry.Create;
 
-  Registry.RootKey := HKEY_CURRENT_USER;
-  {False because we do not want to create it if it doesnt exist}
   if Trim(aPath) = '' then
-    Registry.OpenKey('\Software\' + ApplicationRegName, False)
+    sName := ApplicationRegName
   else
-    Registry.OpenKey('\Software\' + aPath, False);
+    sName := aPath;
 
+  if ParamStr(1) <> '' then
+    sName := sName + ' ' + ParamStr(1);
+
+  Registry.RootKey := HKEY_CURRENT_USER;
+  Registry.OpenKey('\Software\' + sName, False);
   Result := Registry.ReadString(aNama);
 
   Registry.Free;
@@ -1002,32 +1010,32 @@ end;
 class function TAppUtils.TulisRegistry(aName, aValue: String; sAppName : String
     = ''): Boolean;
 var
-   Reg : TRegistry;
+  Reg : TRegistry;
+  sName: string;
 begin
-    result := true;
-    Reg := TRegistry.Create;
-    try
-      Reg.RootKey := HKEY_CURRENT_USER;
-      if sAppName = '' then
-      begin
-        if Reg.OpenKey('\Software\' + ApplicationRegName, True) then
-        begin
-             Reg.WriteString(aName, aValue);
-             Reg.CloseKey;
-        end
-      end else begin
-        if Reg.OpenKey('\Software\' + sAppName, True) then
-        begin
-             Reg.WriteString(aName, aValue);
-             Reg.CloseKey;
-        end;
-      end;
-    Except
-      result := false;
-      Reg.Free;
-      exit;
+  result := true;
+  Reg := TRegistry.Create;
+  try
+    Reg.RootKey := HKEY_CURRENT_USER;
+    if sAppName = '' then
+      sName := ApplicationRegName
+    else
+      sName := sAppName;
+
+    if ParamStr(1) <> '' then
+      sName := sName + ' ' + ParamStr(1);
+
+    if Reg.OpenKey('\Software\' + sName, True) then
+    begin
+       Reg.WriteString(aName, aValue);
+       Reg.CloseKey;
     end;
-   Reg.Free;
+  Except
+    result := false;
+    Reg.Free;
+    exit;
+  end;
+ Reg.Free;
 end;
 
 class procedure TAppUtils.Warning(const Text: string);

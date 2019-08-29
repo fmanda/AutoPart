@@ -36,17 +36,14 @@ inherited frmPriceQuotation: TfrmPriceQuotation
     ExplicitWidth = 1034
     inherited lbEscape: TLabel
       Left = 954
-      Height = 17
       ExplicitLeft = 954
     end
     inherited lgndSave: TLabel
       Left = 789
-      Height = 17
       ExplicitLeft = 789
     end
     inherited lgndPrint: TLabel
       Left = 876
-      Height = 17
       ExplicitLeft = 876
     end
     object Label1: TLabel
@@ -54,7 +51,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
       Left = 3
       Top = 1
       Width = 124
-      Height = 17
+      Height = 16
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -66,14 +63,13 @@ inherited frmPriceQuotation: TfrmPriceQuotation
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitHeight = 16
     end
     object Label2: TLabel
       AlignWithMargins = True
       Left = 143
       Top = 1
       Width = 239
-      Height = 17
+      Height = 16
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -85,7 +81,6 @@ inherited frmPriceQuotation: TfrmPriceQuotation
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitHeight = 16
     end
   end
   object cxGroupBox1: TcxGroupBox [2]

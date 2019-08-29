@@ -240,8 +240,8 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     TabOrder = 0
     DesignSize = (
       984
-      146)
-    Height = 146
+      147)
+    Height = 147
     Width = 984
     object cxLabel1: TcxLabel
       Left = 104
@@ -631,13 +631,14 @@ inherited frmSalesInvoice: TfrmSalesInvoice
   end
   object cxGridItem: TcxGrid [3]
     Left = 0
-    Top = 146
+    Top = 147
     Width = 984
-    Height = 281
+    Height = 280
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 145
+    ExplicitTop = 146
+    ExplicitHeight = 281
     object cxGrdItem: TcxGridDBTableView
       PopupMenu = pmMain
       Navigator.Buttons.CustomButtons = <>

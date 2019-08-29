@@ -3,11 +3,12 @@ unit uItem;
 interface
 
 uses
-  CRUDObject, System.Generics.Collections, System.SysUtils;
+  CRUDObject, System.Generics.Collections, System.SysUtils, uWarehouse;
 
 type
   TItem = class;
   TItemUOM = class;
+  TItemRack = class;
 
   TUOM = class(TCRUDObject)
   private
@@ -56,12 +57,14 @@ type
     FModifiedDate: TDateTime;
     FModifiedBy: String;
     FIsActive: Integer;
+    FItemRacks: TObjectList<TItemRack>;
     FLeadTime: Integer;
     FRak: String;
     FPPN: Double;
     FNotes: String;
     FStockUOM: TUOM;
     function GetItemUOMs: TObjectList<TItemUOM>;
+    function GetItemRacks: TObjectList<TItemRack>;
   protected
     function BeforeSaveToDB: Boolean; override;
     function LogLevel: Integer; override;
@@ -72,6 +75,7 @@ type
     function GetKonversi(aUOMID: Integer): Double;
     function ValidateEditUOM: Boolean;
     property ItemUOMs: TObjectList<TItemUOM> read GetItemUOMs write FItemUOMs;
+    property ItemRacks: TObjectList<TItemRack> read GetItemRacks write FItemRacks;
   published
     [AttributeOfCode]
     property Kode: String read FKode write FKode;
@@ -124,7 +128,6 @@ type
     property ModifiedBy: String read FModifiedBy write FModifiedBy;
   end;
 
-type
   TService = class(TCRUDObject)
   private
     FKode: String;
@@ -148,6 +151,20 @@ type
     property PPN: Double read FPPN write FPPN;
   end;
 
+  TItemRack = class(TCRUDObject)
+  private
+    FItem: TItem;
+    FWarehouse: TWarehouse;
+    FRak: string;
+  public
+    destructor Destroy; override;
+  published
+    [AttributeOfHeader]
+    property Item: TItem read FItem write FItem;
+    property Warehouse: TWarehouse read FWarehouse write FWarehouse;
+    property Rak: string read FRak write FRak;
+  end;
+
 implementation
 
 uses
@@ -157,6 +174,7 @@ destructor TItem.Destroy;
 begin
   inherited;
   if FItemUOMS <> nil then FItemUOMS.Free;
+  if FItemRacks <> nil then FItemRacks.Free;
   if FMerk <> nil then FMerk.Free;
   if FGroup <> nil then FGroup.Free;
   if FStockUOM <> nil then FStockUOM.Free;  
@@ -214,6 +232,13 @@ begin
   if FItemUOMs = nil then
     FItemUOMs := TObjectList<TItemUOM>.Create();
   Result := FItemUOMs;
+end;
+
+function TItem.GetItemRacks: TObjectList<TItemRack>;
+begin
+  if FItemRacks = nil then
+    FItemRacks := TObjectList<TItemRack>.Create();
+  Result := FItemRacks;
 end;
 
 function TItem.GetKonversi(aUOMID: Integer): Double;
@@ -376,6 +401,12 @@ function TItemGroup.ValidateDelete: Boolean;
 begin
   Result := True;
 //  raise Exception.Create('Error Message');
+end;
+
+destructor TItemRack.Destroy;
+begin
+  inherited;
+  if FWarehouse <> nil then FWarehouse.Free;
 end;
 
 end.

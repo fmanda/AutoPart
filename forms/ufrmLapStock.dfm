@@ -29,7 +29,6 @@ inherited frmLapStock: TfrmLapStock
     end
     inherited btnRefresh: TcxButton
       OnClick = btnRefreshClick
-      ExplicitTop = 7
     end
   end
   object cxGroupBox3: TcxGroupBox [2]
@@ -79,6 +78,8 @@ inherited frmLapStock: TfrmLapStock
       TabStop = False
       Caption = 'Filter Gudang'
       Properties.Alignment = taLeftJustify
+      Properties.OnEditValueChanged = ckGudangPropertiesEditValueChanged
+      State = cbsChecked
       TabOrder = 4
     end
     object edKode: TcxButtonEdit
@@ -151,7 +152,6 @@ inherited frmLapStock: TfrmLapStock
     Height = 411
     Align = alClient
     TabOrder = 3
-    ExplicitLeft = 8
     object cxGrdMain: TcxGridDBTableView
       PopupMenu = pmMain
       Navigator.Buttons.CustomButtons = <>
@@ -207,7 +207,7 @@ inherited frmLapStock: TfrmLapStock
         Width = 110
       end
       object colPriceList: TcxGridDBColumn
-        DataBinding.FieldName = 'PriceLlist'
+        DataBinding.FieldName = 'PriceList'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'

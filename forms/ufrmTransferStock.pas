@@ -385,7 +385,7 @@ var
 begin
   lItem  := TItem.Create;
   Try
-    s := 'SELECT A.ID, A.KODE, A.NAMA, C.NAMA AS MERK, B.NAMA AS ITEMGROUP, A.RAK'
+    s := 'SELECT A.ID, A.KODE, A.NAMA, C.NAMA AS MERK, B.NAMA AS ITEMGROUP'
         +' FROM TITEM A'
         +' LEFT JOIN TITEMGROUP B ON A.GROUP_ID = B.ID'
         +' LEFT JOIN TMERK C ON A.MERK_ID = C.ID';

@@ -39,7 +39,6 @@ inherited frmStockOpname: TfrmStockOpname
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 3
       OnClick = btnReloadStockClick
-      ExplicitLeft = 143
     end
   end
   inherited Panel2: TPanel
@@ -188,8 +187,6 @@ inherited frmStockOpname: TfrmStockOpname
         Height = 379
         Align = alClient
         TabOrder = 0
-        ExplicitTop = 0
-        ExplicitHeight = 402
         object cxGrdKKSO: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           OnEditKeyDown = cxGrdMainEditKeyDown
@@ -313,9 +310,6 @@ inherited frmStockOpname: TfrmStockOpname
         Style.IsFontAssigned = True
         Properties.Alignment.Vert = taVCenter
         Transparent = True
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 402
         AnchorY = 12
       end
     end

@@ -14,7 +14,8 @@ uses
   cxGrid, cxMemo, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
   cxDBExtLookupComboBox, cxTextEdit, cxLabel, cxCurrencyEdit, dxBarBuiltInMenu,
   cxPC, Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, Datasnap.DBClient, uItem,
-  cxCheckBox, Vcl.ExtCtrls, cxGridServerModeTableView, cxSpinEdit;
+  cxCheckBox, Vcl.ExtCtrls, cxGridServerModeTableView, cxSpinEdit,
+  cxGridDBTableView, cxButtonEdit;
 
 type
   TfrmItem = class(TfrmDefaultInput)
@@ -78,6 +79,12 @@ type
     cxMemo1: TcxMemo;
     colMarginBeli: TcxGridDBBandedColumn;
     colPriceList: TcxGridDBBandedColumn;
+    tsRack: TcxTabSheet;
+    cxGrid2: TcxGrid;
+    cxGrdRak: TcxGridDBTableView;
+    colRak: TcxGridDBColumn;
+    colWarehouse: TcxGridDBColumn;
+    cxGridLevel2: TcxGridLevel;
     procedure FormCreate(Sender: TObject);
     procedure btnDelClick(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
@@ -99,18 +106,27 @@ type
     procedure btnRefreshClick(Sender: TObject);
     procedure colMarginBeliPropertiesEditValueChanged(Sender: TObject);
     procedure colPriceListPropertiesEditValueChanged(Sender: TObject);
+    procedure colRakPropertiesButtonClick(Sender: TObject;
+      AButtonIndex: Integer);
   private
     FCDS: TClientDataset;
+    FCDSRak: TClientDataset;
     FCDSUOM: TClientDataset;
+    FCDSWarehouse: TClientDataset;
     FItem: TItem;
     function GetCDS: TClientDataset;
+    function GetCDSRak: TClientDataset;
     function GetCDSUOM: TClientDataset;
+    function GetCDSWarehouse: TClientDataset;
     function GetItem: TItem;
     procedure InitView;
+    procedure LookupRak;
     procedure UpdateData;
     function ValidateData: Boolean;
     property CDS: TClientDataset read GetCDS write FCDS;
+    property CDSRak: TClientDataset read GetCDSRak write FCDSRak;
     property CDSUOM: TClientDataset read GetCDSUOM write FCDSUOM;
+    property CDSWarehouse: TClientDataset read GetCDSWarehouse write FCDSWarehouse;
     property Item: TItem read GetItem write FItem;
     { Private declarations }
   public
@@ -126,7 +142,7 @@ var
 implementation
 
 uses
-  uDBUtils, uDXUtils, uAppUtils, cxDataUtils, System.DateUtils;
+  uDBUtils, uDXUtils, uAppUtils, cxDataUtils, System.DateUtils, ufrmCXLookup;
 
 {$R *.dfm}
 
@@ -288,6 +304,13 @@ begin
   CalcSellPrice(4, False);
 end;
 
+procedure TfrmItem.colRakPropertiesButtonClick(Sender: TObject;
+  AButtonIndex: Integer);
+begin
+  inherited;
+  LookupRak;
+end;
+
 procedure TfrmItem.cxLookupGroupKeyDown(Sender: TObject; var Key: Word; Shift:
     TShiftState);
 begin
@@ -340,7 +363,13 @@ begin
   inherited;
   if Key = VK_F2 then
   begin
+    pgcMain.ActivePage := tsUOM;
     cxGrid1.SetFocus;
+  end
+  else if Key = VK_F3 then
+  begin
+    pgcMain.ActivePage := tsRack;
+    cxGrid2.SetFocus;
   end
   else if Key = VK_F1 then
   begin
@@ -363,6 +392,16 @@ begin
   Result := FCDS;
 end;
 
+function TfrmItem.GetCDSRak: TClientDataset;
+begin
+  if FCDSRak = nil then
+  begin
+    FCDSRak := TItemRack.CreateDataSet(Self, False);
+    FCDSRak.CreateDataSet;
+  end;
+  Result := FCDSRak;
+end;
+
 function TfrmItem.GetCDSUOM: TClientDataset;
 begin
   if FCDSUOM = nil then
@@ -371,6 +410,16 @@ begin
     );
 
   Result := FCDSUOM;
+end;
+
+function TfrmItem.GetCDSWarehouse: TClientDataset;
+begin
+  if FCDSWarehouse = nil then
+    FCDSWarehouse := TDBUtils.OpenDataset(
+      'select id, nama from twarehouse', Self
+    );
+
+  Result := FCDSWarehouse;
 end;
 
 function TfrmItem.GetGroupName: string;
@@ -389,9 +438,11 @@ end;
 procedure TfrmItem.InitView;
 begin
   cxGrdUOM.PrepareFromCDS(CDS);
+  cxGrdRak.PrepareFromCDS(CDSRak);
   cxLookupGroup.LoadFromSQL('select id, nama from titemgroup','id','nama',Self);
   cxLookupMerk.LoadFromSQL('select id, nama from tmerk','id','nama',Self);
   TcxExtLookup(colSatuan.Properties).LoadFromCDS(CDSUOM, 'id','uom', Self);
+  TcxExtLookup(colWarehouse.Properties).LoadFromCDS(CDSWarehouse, 'id','nama', Self);
   cxLookUpUOM.LoadFromSQL('select id, uom from tuom order by id','id','uom', self);
   cxLookUpUOM.SetDefaultValue();
   pgcMain.ActivePage := tsUOM;
@@ -401,6 +452,7 @@ end;
 procedure TfrmItem.LoadByID(aID: Integer; IsReadOnly: Boolean = True);
 var
   lItemUOM: TItemUOM;
+  lRak: TItemRack;
 begin
   if FItem <> nil then
     FreeAndNil(FItem);
@@ -463,6 +515,14 @@ begin
     CDS.Post;
   end;
 
+  CDSRak.EmptyDataSet;
+  for lRak in Item.ItemRacks do
+  begin
+    CDSRak.Append;
+    lRak.UpdateToDataset(CDSRak);
+    CDSRak.Post;
+  end;
+
   chkActive.Checked := Item.IsActive = 1;
 
   btnSave.Enabled := not IsReadOnly;
@@ -472,8 +532,40 @@ begin
 
 end;
 
+procedure TfrmItem.LookupRak;
+var
+  cxLookup: TfrmCXLookup;
+  S: string;
+begin
+  S := 'select A.ID, A.RAK, B.NAMA AS WAREHOUSE, A.WAREHOUSE_ID'
+      +' from TRACK A'
+      +' INNER JOIN TWAREHOUSE B ON A.WAREHOUSE_ID = B.ID';
+
+  cxLookup := TfrmCXLookup.Execute(S);
+  Try
+    cxLookup.HideFields(['ID','WAREHOUSE_ID']);
+    cxLookup.cxGridView.EnableFiltering();
+    if cxLookup.ShowModal = mrOK then
+    begin
+      if not cxLookup.Data.Eof then
+      begin
+        with cxGrdRak.DataController do
+        begin
+          SetEditValue(colRak.Index, cxLookup.Data.FieldByName('Rak').AsString, evsValue);
+          SetEditValue(colWarehouse.Index, cxLookup.Data.FieldByName('WAREHOUSE_ID').AsInteger, evsValue);
+          if CDSRak.State in [dsEdit, dsInsert] then
+            CDSRak.Post;
+        end;
+      end;
+    end;
+  Finally
+    cxLookup.Free;
+  End;
+end;
+
 procedure TfrmItem.UpdateData;
 var
+  lRak: TItemRack;
   lUOM: TItemUOM;
 begin
   Item.Kode := edKode.Text;
@@ -495,6 +587,7 @@ begin
   Item.PPN := crPPN.Value;
   Item.ModifiedDate := Now();
   Item.ItemUOMs.Clear;
+  Item.ItemRacks.Clear;
 
   Item.StockUOM := TUOM.CreateID(VarToInt(cxLookUpUOM.EditValue));
 
@@ -507,6 +600,15 @@ begin
     CDS.Next;
   end;
 
+  CDSRak.First;
+  while not CDSRak.Eof do
+  begin
+    lRak := TItemRack.Create;
+    lRak.SetFromDataset(CDSRak);
+    Item.ItemRacks.Add(lRak);
+    CDSRak.Next;
+  end;
+
   Item.IsActive := 1;
   if not chkActive.Checked then Item.IsActive := 0;
 
@@ -515,6 +617,8 @@ end;
 function TfrmItem.ValidateData: Boolean;
 var
   bWarningHJ: Boolean;
+  i: Integer;
+  j: Integer;
 begin
   Result := False;
 
@@ -581,6 +685,21 @@ begin
     end;
     CDS.Next;
   end;
+
+  for i := 0 to cxGrdRak.DataController.RecordCount-1 do
+  begin
+    for j := 0 to cxGrdRak.DataController.RecordCount-1 do
+    begin
+      if i = j then continue;
+      if VarToInt(cxGrdRak.DataController.Values[i, colWarehouse.Index])
+        = VarToInt(cxGrdRak.DataController.Values[j, colWarehouse.Index])  then
+      begin
+        TAppUtils.Warning('Mapping Rak hanya diijinkan 1 Rak = 1 Gudang');
+        exit;
+      end;
+    end;
+  end;
+
 
   //warning
   bWarningHJ := False;

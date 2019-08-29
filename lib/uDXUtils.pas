@@ -1864,6 +1864,7 @@ begin
   end;
   Try
     Self.Clear;
+    Self.DS.First;
     if Self.DS <> nil then
     begin
       Self.EditValue := Self.DS.FieldByName(Self.Properties.KeyFieldNames).Value;

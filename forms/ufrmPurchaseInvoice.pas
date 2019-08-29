@@ -577,7 +577,7 @@ begin
 
   lItem  := TItem.Create;
   Try
-    s := 'SELECT A.ID, A.KODE, A.NAMA, D.NAMA AS MERK, A.RAK, B.UOM AS UOMSTOCK,'
+    s := 'SELECT A.ID, A.KODE, A.NAMA, D.NAMA AS MERK, B.UOM AS UOMSTOCK,'
         +' C.PRICELIST, C.HARGABELI'
         +' FROM TITEM A'
         +' INNER JOIN TUOM B ON A.STOCKUOM_ID = B.ID'

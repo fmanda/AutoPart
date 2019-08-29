@@ -18,9 +18,9 @@ type
     FRacks: TObjectList<TRack>;
     FProject_Code: String;
     function GetRacks: TObjectList<TRack>;
-    property Racks: TObjectList<TRack> read GetRacks write FRacks;
   public
     destructor Destroy; override;
+    property Racks: TObjectList<TRack> read GetRacks write FRacks;
   published
     [AttributeOfCode]
     property Kode: String read FKode write FKode;

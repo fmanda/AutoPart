@@ -10,8 +10,16 @@ inherited frmLookupItem: TfrmLookupItem
     end
   end
   inherited Panel2: TPanel
+    inherited lbEscape: TLabel
+      Height = 17
+    end
+    inherited Label1: TLabel
+      Height = 17
+    end
     inherited Label2: TLabel
       Left = 121
+      Height = 17
+      ExplicitLeft = 121
     end
     object Label3: TLabel
       AlignWithMargins = True

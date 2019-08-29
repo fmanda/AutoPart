@@ -40,6 +40,8 @@ type
     cxLookupUOM: TcxExtLookupComboBox;
     cxLabel6: TcxLabel;
     colUOM: TcxGridDBColumn;
+    edRak: TcxTextEdit;
+    cxLabel7: TcxLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnExportClick(Sender: TObject);
     procedure chkAllPropertiesEditValueChanged(Sender: TObject);
@@ -52,6 +54,7 @@ type
     procedure edKodePropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure cxGroupBox2Click(Sender: TObject);
+    procedure cxLookupGudangPropertiesEditValueChanged(Sender: TObject);
   private
     FCDS: TClientDataset;
     FItem: TItem;
@@ -60,6 +63,7 @@ type
     procedure InitView;
     procedure LoadData;
     procedure LookupItem(aKey: string = '');
+    procedure SetRak;
     property CDS: TClientDataset read GetCDS write FCDS;
     property Item: TItem read GetItem write FItem;
     { Private declarations }
@@ -100,12 +104,20 @@ procedure TfrmKartuStock.chkAllPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
   cxLookupGudang.Enabled := not chkAll.Checked;
+  edRak.Visible := not chkAll.Checked;
 end;
 
 procedure TfrmKartuStock.cxGroupBox2Click(Sender: TObject);
 begin
   inherited;
   LoadData;
+end;
+
+procedure TfrmKartuStock.cxLookupGudangPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  SetRak;
 end;
 
 procedure TfrmKartuStock.cxLookupUOMPropertiesCloseUp(Sender: TObject);
@@ -205,6 +217,7 @@ begin
   InitView;
   dtStart.Date  := (Now());
   dtEnd.Date    := (Now());
+  chkAllPropertiesEditValueChanged(Self);
 end;
 
 function TfrmKartuStock.GetCDS: TClientDataset;
@@ -286,6 +299,7 @@ begin
   if not chkAll.Checked then
     iWarehouseID := VarToInt(cxLookupGudang.EditValue);
 
+//  SetRak;
   CDS.DisableControls;
   Try
     CDS.EmptyDataSet;
@@ -329,7 +343,7 @@ var
   cxLookup: TfrmCXServerLookup;
   s: string;
 begin
-  s := 'SELECT A.ID, A.KODE, A.NAMA, C.NAMA AS MERK, B.NAMA AS ITEMGROUP, A.RAK'
+  s := 'SELECT A.ID, A.KODE, A.NAMA, C.NAMA AS MERK, B.NAMA AS ITEMGROUP'
       +' FROM TITEM A'
       +' LEFT JOIN TITEMGROUP B ON A.GROUP_ID = B.ID'
       +' LEFT JOIN TMERK C ON A.MERK_ID = C.ID';
@@ -348,9 +362,32 @@ begin
 
       if Item.StockUOM <> nil then
         cxLookupUOM.EditValue := Item.StockUOM.ID;
+
+      SetRak;
     end;
   finally
     cxLookup.Free;
+  end;
+end;
+
+procedure TfrmKartuStock.SetRak;
+var
+  S: string;
+begin
+  edRak.Text := '';
+  if Item.ID = 0 then exit;
+  if VarToInt(cxLookupGudang.EditValue) = 0 then exit;
+
+  S := 'SELECT * FROM TITEMRACK WHERE ITEM_ID = ' + IntToStr(Item.ID)
+      +' AND WAREHOUSE_ID = ' + IntToStr(VarToInt(cxLookupGudang.EditValue));
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not Eof then
+        edRak.Text := FieldByName('Rak').AsString;
+    Finally
+      Free;
+    End;
   end;
 end;
 

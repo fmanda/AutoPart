@@ -62,6 +62,7 @@ type
     procedure ckShowPricePropertiesEditValueChanged(Sender: TObject);
     procedure ckShowAvgCostPropertiesEditValueChanged(Sender: TObject);
     procedure ckGrupMerkPropertiesEditValueChanged(Sender: TObject);
+    procedure ckGudangPropertiesEditValueChanged(Sender: TObject);
   private
     FCDS: TClientDataset;
     FItem: TItem;
@@ -103,6 +104,12 @@ procedure TfrmLapStock.ckGrupMerkPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
   cxGrdMain.SetVisibleColumns(['Merk','ItemGroup'], ckGrupMerk.Checked);
+end;
+
+procedure TfrmLapStock.ckGudangPropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  colRak.Visible := ckGudang.Checked;
 end;
 
 procedure TfrmLapStock.ckShowAvgCostPropertiesEditValueChanged(Sender: TObject);
@@ -178,6 +185,7 @@ begin
   ckShowPricePropertiesEditValueChanged(Self);
   ckShowAvgCostPropertiesEditValueChanged(Self);
   ckGrupMerkPropertiesEditValueChanged(Self);
+  ckGudangPropertiesEditValueChanged(Self);
 end;
 
 function TfrmLapStock.GetGroupName: string;
@@ -242,7 +250,7 @@ begin
 
   S := 'SELECT I.ID, I.KODE, I.NAMA, L.UOM,'
       +' I.ISACTIVE, ISNULL(SUM(A.QTYPCS) / J.KONVERSI, 0) AS QTY,'
-      +' M.NAMA AS MERK, N.NAMA AS ITEMGROUP, I.RAK, J.PRICELIST, J.HARGABELI, J.HARGAJUAL1 AS HARGAUMUM,'
+      +' M.NAMA AS MERK, N.NAMA AS ITEMGROUP, J.PRICELIST, J.HARGABELI, J.HARGAJUAL1 AS HARGAUMUM,'
       +' J.HARGAJUAL2 AS HARGABENGKEL, J.HARGAJUAL3 AS HARGAGROSIR, J.HARGAJUAL4 AS HARGAKELILING,'
       +' CASE WHEN ISNULL(J.HARGAAVG,0) = 0 THEN J.HARGABELI ELSE J.HARGABELI END as HARGAAVG,'
       +' CASE WHEN ISNULL(J.HARGAAVG,0) = 0 THEN J.HARGABELI ELSE J.HARGABELI END * (SUM(A.QTYPCS) / J.KONVERSI) as TOTAL'
@@ -266,8 +274,15 @@ begin
   if ckGudang.Checked then
     S := S + ' AND A.WAREHOUSE_ID = ' + IntToStr(VarToInt(cxLookupGudang.EditValue));
 
-  S := S +' GROUP BY I.ID, I.KODE, I.NAMA, L.UOM, J.HARGABELI, J.PRICELIST, J.HARGAJUAL1, I.RAK,'
+  S := S +' GROUP BY I.ID, I.KODE, I.NAMA, L.UOM, J.HARGABELI, J.PRICELIST, J.HARGAJUAL1, '
       +' I.ISACTIVE, J.KONVERSI, M.NAMA ,N.NAMA , J.HARGAAVG, J.HARGAJUAL2, J.HARGAJUAL3, J.HARGAJUAL4';
+
+  //rack
+  if ckGudang.Checked then
+  begin
+    S := 'SELECT RS.*, IR.RAK FROM (' + S + ') AS RS'
+       + ' LEFT JOIN TITEMRACK IR ON RS.ID = IR.ITEM_ID AND IR.WAREHOUSE_ID = ' + IntToStr(VarToInt(cxLookupGudang.EditValue));
+  end;
 
   FCDS := TDBUtils.OpenDataset(S);
   cxGrdMain.PrepareFromCDS(CDS);
@@ -287,7 +302,7 @@ var
   cxLookup: TfrmCXServerLookup;
   s: string;
 begin
-  s := 'SELECT A.ID, A.KODE, A.NAMA, C.NAMA AS MERK, B.NAMA AS ITEMGROUP, A.RAK'
+  s := 'SELECT A.ID, A.KODE, A.NAMA, C.NAMA AS MERK, B.NAMA AS ITEMGROUP'
       +' FROM TITEM A'
       +' LEFT JOIN TITEMGROUP B ON A.GROUP_ID = B.ID'
       +' LEFT JOIN TMERK C ON A.MERK_ID = C.ID';

@@ -1095,6 +1095,14 @@ begin
 
     rbJenis.ItemIndex     := SalesType;
     rbJenisPropertiesEditValueChanged(Self);
+
+    if SalesInv.Rekening = nil then
+      SalesInv.Rekening := TRekening.Create;
+
+    SalesInv.Rekening.LoadByCode(AppVariable.Def_Rekening);
+    cxLookupRekening.EditValue := SalesInv.Rekening.ID;
+
+    cxLookupGudang.SetDefaultValue();
   end;
 //  else
 //  begin
@@ -1249,7 +1257,7 @@ begin
 
   lItem  := TItem.Create;
   Try
-    s := 'SELECT A.ID, A.KODE, A.NAMA, D.NAMA AS MERK, A.RAK, B.UOM AS UOMSTOCK,'
+    s := 'SELECT A.ID, A.KODE, A.NAMA, D.NAMA AS MERK, B.UOM AS UOMSTOCK,'
         +' C.PRICELIST, C.HARGAJUAL1 AS HARGAUMUM, C.HARGAJUAL2 AS HARGABENGKEL,'
         +' C.HARGAJUAL3 AS HARGAGROSIR, C.HARGAJUAL4 AS HARGAKELILING'
         +' FROM TITEM A'
