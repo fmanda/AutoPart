@@ -134,7 +134,7 @@ begin
   inherited;
   if not ValidateData then exit;
   UpdateData;
-  if SO.SaveToDB then
+  if SO.SaveRepeat then
   begin
     TAppUtils.InformationBerhasilSimpan;
     Self.ModalResult := mrOK;

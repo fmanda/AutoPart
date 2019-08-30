@@ -428,9 +428,13 @@ type
     function AfterSaveToDB: Boolean; override;
     function BeforeDeleteFromDB: Boolean; override;
     function BeforeSaveToDB: Boolean; override;
+    function GetRefno: String;
   public
     function AddKKSO(aKKSO_ID: Integer): TStockOpnameKKSO;
     function GenerateNo: String;
+    function SaveRepeat(DoShowMsg: Boolean = True; aRepeatCount: Integer = 2):
+        Boolean;
+    procedure SetGenerateNo;
     property Items: TObjectList<TStockOpnameItem> read GetItems write FItems;
     property KKSO: TObjectList<TStockOpnameKKSO> read GetKKSO write FKKSO;
   published
@@ -1942,6 +1946,71 @@ begin
     FKKSO := TObjectList<TStockOpnameKKSO>.Create();
   end;
   Result := FKKSO;
+end;
+
+function TStockOpname.GetRefno: String;
+begin
+  Result := Refno;
+end;
+
+function TStockOpname.SaveRepeat(DoShowMsg: Boolean = True; aRepeatCount:
+    Integer = 2): Boolean;
+var
+  iRepeat: Integer;
+begin
+  Result := False;
+
+  if Self.ID > 0 then
+  begin
+    Result := Self.SaveToDB();
+    exit;
+  end else
+  begin
+    //hanya berlaku utk baru
+    iRepeat := 0;
+    while iRepeat <= aRepeatCount do
+    begin
+      Try
+        Self.SetGenerateNo;
+        inc(iRepeat);
+        Result := Self.SaveToDB();
+
+        if Result then
+        begin
+          if DoShowMsg then
+            TAppUtils.Information('Data Berhasil Disimpan dengan nomor bukti : ' + Self.GetRefno);
+        end else
+        begin
+          TAppUtils.Error('SaveToDB Result = False without exception ???');
+        end;
+
+        exit; //sukses or error without exception we must exist
+      except
+        on E:Exception do
+        begin
+          if Pos('unique key', LowerCase(E.Message)) > 0 then
+          begin
+            if (iRepeat > aRepeatCount) or (not TAppUtils.Confirm('Terdeteksi Ada Nomor Bukti sudah terpakai, Otomatis Generate Baru dan Simpan?'
+              + #13 +'Percobaan Simpan ke : ' + IntToStr(iRepeat)
+              + #13#13 +'Pesan Error : '
+              + #13 + E.Message
+            ))
+            then
+            begin
+              E.Message := 'Gagal Mengulang Simpan ke- ' + IntToStr(iRepeat-1) + #13 + E.Message;
+              raise;
+            end;
+          end else
+            Raise;
+        end;
+      End;
+    end;
+  end;
+end;
+
+procedure TStockOpname.SetGenerateNo;
+begin
+  if Self.ID = 0 then Self.RefNo := Self.GenerateNo;
 end;
 
 function TStockOpname.UpdateKKSO(aIsRevert: Boolean = False): Boolean;
