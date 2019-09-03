@@ -10,7 +10,7 @@ inherited frmBrowseItem: TfrmBrowseItem
     Width = 920
     Height = 445
     ExplicitWidth = 920
-    ExplicitHeight = 473
+    ExplicitHeight = 445
     inherited cxGrdMain: TcxGridServerModeTableView
       OnKeyDown = cxGrdMainKeyDown
       Styles.OnGetContentStyle = cxGrdMainStylesGetContentStyle
@@ -61,7 +61,7 @@ inherited frmBrowseItem: TfrmBrowseItem
       Height = 25
       Align = alLeft
       Caption = '&Stock'
-      OptionsImage.ImageIndex = 25
+      OptionsImage.ImageIndex = 67
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 7
       OnClick = btnStockClick
@@ -77,12 +77,10 @@ inherited frmBrowseItem: TfrmBrowseItem
     inherited EndDate: TcxDateEdit
       Left = 734
       ExplicitLeft = 734
-      ExplicitHeight = 25
     end
     inherited StartDate: TcxDateEdit
       Left = 609
       ExplicitLeft = 609
-      ExplicitHeight = 25
     end
     inherited cxLabel1: TcxLabel
       Left = 539
@@ -120,7 +118,6 @@ inherited frmBrowseItem: TfrmBrowseItem
     Style.IsFontAssigned = True
     StyleDisabled.TextColor = clBlack
     TabOrder = 3
-    ExplicitTop = 482
     Height = 22
     Width = 914
   end

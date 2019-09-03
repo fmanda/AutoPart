@@ -34,17 +34,14 @@ inherited frmWarehouse: TfrmWarehouse
     ExplicitWidth = 485
     inherited lbEscape: TLabel
       Left = 405
-      Height = 17
       ExplicitLeft = 405
     end
     inherited lgndSave: TLabel
       Left = 240
-      Height = 17
       ExplicitLeft = 240
     end
     inherited lgndPrint: TLabel
       Left = 327
-      Height = 17
       ExplicitLeft = 327
     end
   end
@@ -55,7 +52,7 @@ inherited frmWarehouse: TfrmWarehouse
     Height = 407
     Align = alClient
     TabOrder = 2
-    Properties.ActivePage = cxTabSheet2
+    Properties.ActivePage = tsHeader
     Properties.CustomButtons.Buttons = <>
     ClientRectBottom = 407
     ClientRectRight = 485
@@ -148,7 +145,6 @@ inherited frmWarehouse: TfrmWarehouse
         Height = 383
         Align = alClient
         TabOrder = 0
-        ExplicitTop = -1
         object cxGrdRak: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>

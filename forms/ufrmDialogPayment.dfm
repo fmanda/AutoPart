@@ -81,7 +81,7 @@ inherited frmDialogPayment: TfrmDialogPayment
       Height = 43
       Align = alRight
       Caption = 'Ba&tal'
-      OptionsImage.ImageIndex = 2
+      OptionsImage.ImageIndex = 10
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 1
       TabStop = False
@@ -95,7 +95,7 @@ inherited frmDialogPayment: TfrmDialogPayment
       Height = 43
       Align = alRight
       Caption = '&Bayar && &Simpan'
-      OptionsImage.ImageIndex = 1
+      OptionsImage.ImageIndex = 70
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
       OnClick = btnSaveClick

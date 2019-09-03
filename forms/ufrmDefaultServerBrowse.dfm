@@ -58,7 +58,7 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Height = 25
       Align = alRight
       Caption = '&Tutup'
-      OptionsImage.ImageIndex = 32
+      OptionsImage.ImageIndex = 61
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
       OnClick = btnTutupClick
@@ -71,7 +71,7 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Height = 25
       Align = alLeft
       Caption = 'E&xport'
-      OptionsImage.ImageIndex = 31
+      OptionsImage.ImageIndex = 56
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 1
       OnClick = btnExportClick
@@ -84,7 +84,7 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Height = 25
       Align = alLeft
       Caption = '&Hapus'
-      OptionsImage.ImageIndex = 34
+      OptionsImage.ImageIndex = 6
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 2
     end
@@ -96,7 +96,7 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Height = 25
       Align = alLeft
       Caption = '&Edit'
-      OptionsImage.ImageIndex = 35
+      OptionsImage.ImageIndex = 49
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 3
     end
@@ -108,7 +108,7 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Height = 25
       Align = alLeft
       Caption = '&Lihat'
-      OptionsImage.ImageIndex = 7
+      OptionsImage.ImageIndex = 12
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 4
     end
@@ -120,7 +120,7 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Height = 25
       Align = alLeft
       Caption = '&Baru'
-      OptionsImage.ImageIndex = 33
+      OptionsImage.ImageIndex = 46
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 5
     end
@@ -132,10 +132,11 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Height = 25
       Align = alLeft
       Caption = '&Cetak'
-      OptionsImage.ImageIndex = 26
+      OptionsImage.ImageIndex = 68
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 6
       Visible = False
+      ExplicitTop = 3
     end
   end
   object cxGroupBox1: TcxGroupBox
@@ -157,7 +158,7 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Height = 25
       Align = alRight
       Caption = '&Refresh'
-      OptionsImage.ImageIndex = 5
+      OptionsImage.ImageIndex = 4
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
       OnClick = btnRefreshClick

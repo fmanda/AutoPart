@@ -120,7 +120,8 @@ uses
   ufrmHutangRetur in 'forms\ufrmHutangRetur.pas' {frmHutangRetur},
   ufrmKKSO in 'forms\ufrmKKSO.pas' {frmKKSO},
   ufrmBrowseKKSO in 'forms\ufrmBrowseKKSO.pas' {frmBrowseKKSO},
-  ufrmLapStockOpname in 'forms\ufrmLapStockOpname.pas' {frmLapStockOpname};
+  ufrmLapStockOpname in 'forms\ufrmLapStockOpname.pas' {frmLapStockOpname},
+  ufrmExportData in 'forms\ufrmExportData.pas' {frmExportData};
 
 {$R *.res}
 

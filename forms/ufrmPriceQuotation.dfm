@@ -51,7 +51,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
       Left = 3
       Top = 1
       Width = 124
-      Height = 16
+      Height = 17
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -63,13 +63,14 @@ inherited frmPriceQuotation: TfrmPriceQuotation
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      ExplicitHeight = 16
     end
     object Label2: TLabel
       AlignWithMargins = True
       Left = 143
       Top = 1
       Width = 239
-      Height = 16
+      Height = 17
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -81,6 +82,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      ExplicitHeight = 16
     end
   end
   object cxGroupBox1: TcxGroupBox [2]

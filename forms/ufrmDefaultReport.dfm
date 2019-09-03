@@ -5,7 +5,6 @@ inherited frmDefaultReport: TfrmDefaultReport
   FormStyle = fsMDIChild
   Visible = True
   WindowState = wsMaximized
-  OnCreate = FormCreate
   ExplicitWidth = 655
   ExplicitHeight = 447
   PixelsPerInch = 96
@@ -58,7 +57,7 @@ inherited frmDefaultReport: TfrmDefaultReport
       Height = 25
       Align = alRight
       Caption = '&Tutup'
-      OptionsImage.ImageIndex = 32
+      OptionsImage.ImageIndex = 61
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
       OnClick = btnTutupClick
@@ -71,7 +70,7 @@ inherited frmDefaultReport: TfrmDefaultReport
       Height = 25
       Align = alLeft
       Caption = '&Export'
-      OptionsImage.ImageIndex = 31
+      OptionsImage.ImageIndex = 56
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 1
     end
@@ -83,7 +82,7 @@ inherited frmDefaultReport: TfrmDefaultReport
       Height = 25
       Align = alLeft
       Caption = '&Cetak'
-      OptionsImage.ImageIndex = 26
+      OptionsImage.ImageIndex = 68
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 2
     end
@@ -95,7 +94,7 @@ inherited frmDefaultReport: TfrmDefaultReport
       Height = 25
       Align = alLeft
       Caption = '&Refresh'
-      OptionsImage.ImageIndex = 5
+      OptionsImage.ImageIndex = 4
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 3
     end

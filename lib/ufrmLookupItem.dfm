@@ -10,15 +10,8 @@ inherited frmLookupItem: TfrmLookupItem
     end
   end
   inherited Panel2: TPanel
-    inherited lbEscape: TLabel
-      Height = 17
-    end
-    inherited Label1: TLabel
-      Height = 17
-    end
     inherited Label2: TLabel
       Left = 121
-      Height = 17
       ExplicitLeft = 121
     end
     object Label3: TLabel
@@ -50,7 +43,7 @@ inherited frmLookupItem: TfrmLookupItem
       Height = 25
       Align = alLeft
       Caption = 'Stock'
-      OptionsImage.ImageIndex = 25
+      OptionsImage.ImageIndex = 67
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 2
       OnClick = btnStockClick

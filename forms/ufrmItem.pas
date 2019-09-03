@@ -177,7 +177,7 @@ begin
 
   SS := TStringList.Create;
   Try
-    SS.Add(TJSONUtils.ObjectlToJSON(Item).ToString);
+    SS.Add(TJSONUtils.ObjectToJSON(Item).ToString);
     SS.SaveToFile('Test.txt');
   Finally
     SS.Free;

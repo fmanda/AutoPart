@@ -274,7 +274,7 @@ object frmCXServerLookup: TfrmCXServerLookup
       Align = alRight
       Cancel = True
       Caption = 'Close'
-      OptionsImage.ImageIndex = 5
+      OptionsImage.ImageIndex = 10
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
       OnClick = btnCloseClick
@@ -290,7 +290,7 @@ object frmCXServerLookup: TfrmCXServerLookup
       Margins.Bottom = 2
       Align = alRight
       Caption = 'Select'
-      OptionsImage.ImageIndex = 1
+      OptionsImage.ImageIndex = 2
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 1
       Font.Charset = DEFAULT_CHARSET

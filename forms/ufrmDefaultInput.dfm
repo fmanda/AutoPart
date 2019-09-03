@@ -26,7 +26,7 @@ inherited frmDefaultInput: TfrmDefaultInput
       Height = 25
       Align = alRight
       Caption = 'Ba&tal'
-      OptionsImage.ImageIndex = 5
+      OptionsImage.ImageIndex = 10
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 1
       OnClick = btnCancelClick
@@ -39,7 +39,7 @@ inherited frmDefaultInput: TfrmDefaultInput
       Height = 25
       Align = alRight
       Caption = '&Cetak'
-      OptionsImage.ImageIndex = 26
+      OptionsImage.ImageIndex = 68
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 2
       Visible = False
@@ -52,7 +52,7 @@ inherited frmDefaultInput: TfrmDefaultInput
       Height = 25
       Align = alRight
       Caption = '&Simpan'
-      OptionsImage.ImageIndex = 28
+      OptionsImage.ImageIndex = 70
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
     end

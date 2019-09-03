@@ -22,7 +22,7 @@ type
     dxBarManager: TdxBarManager;
     dxStatusBar: TdxRibbonStatusBar;
     dxRTApp: TdxRibbonTab;
-    dbxRBMain: TdxRibbon;
+    dxRBMain: TdxRibbon;
     dxRTMaster: TdxRibbonTab;
     dxRTSales: TdxRibbonTab;
     dxRTInventory: TdxRibbonTab;
@@ -214,6 +214,7 @@ type
     procedure actCustomerExecute(Sender: TObject);
     procedure actDetPenjualanExecute(Sender: TObject);
     procedure actEndOfDayExecute(Sender: TObject);
+    procedure actExportDataExecute(Sender: TObject);
     procedure actGantiPassExecute(Sender: TObject);
     procedure actHutangReturExecute(Sender: TObject);
     procedure actInternalTransferExecute(Sender: TObject);
@@ -299,7 +300,7 @@ uses
   ufrmSalesAnalysis, ufrmProfitLoss, ufrmARAging, ufrmSuggestionOrder,
   ufrmLapFeeSalesman, ufrmBrowseUser, uUser, ufrmLapPembelian,
   ufrmLapPenjualan, ufrmGantiPassword, ufrmPiutangRetur, ufrmHutangRetur,
-  ufrmBrowseKKSO;
+  ufrmBrowseKKSO, ufrmExportData;
 
 {$R *.dfm}
 
@@ -367,6 +368,11 @@ begin
   lfrm := ShowForm(TfrmEndOfDay) as TfrmEndOfDay;
   if lfrm <> nil then
     lfrm.ShowModal;
+end;
+
+procedure TfrmMain.actExportDataExecute(Sender: TObject);
+begin
+  ShowForm(TfrmExportData).ShowModal;
 end;
 
 procedure TfrmMain.actGantiPassExecute(Sender: TObject);
