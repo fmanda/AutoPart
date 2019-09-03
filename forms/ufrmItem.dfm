@@ -4,6 +4,7 @@ inherited frmItem: TfrmItem
   ClientWidth = 882
   KeyPreview = True
   OnKeyDown = FormKeyDown
+  ExplicitTop = -160
   ExplicitWidth = 898
   ExplicitHeight = 599
   PixelsPerInch = 96
@@ -11,7 +12,7 @@ inherited frmItem: TfrmItem
   inherited cxGroupBox2: TcxGroupBox
     Top = 525
     TabOrder = 2
-    ExplicitTop = 510
+    ExplicitTop = 525
     ExplicitWidth = 882
     Width = 882
     inherited btnCancel: TcxButton
@@ -20,6 +21,8 @@ inherited frmItem: TfrmItem
     end
     inherited btnPrint: TcxButton
       Left = 711
+      Visible = True
+      OnClick = btnPrintClick
       ExplicitLeft = 711
     end
     inherited btnSave: TcxButton
@@ -60,7 +63,7 @@ inherited frmItem: TfrmItem
     Top = 504
     Width = 882
     TabOrder = 3
-    ExplicitTop = 489
+    ExplicitTop = 504
     ExplicitWidth = 882
     inherited lbEscape: TLabel
       Left = 637
@@ -251,14 +254,12 @@ inherited frmItem: TfrmItem
     Properties.ActivePage = tsRack
     Properties.CustomButtons.Buttons = <>
     Properties.TabHeight = 30
-    ExplicitHeight = 290
     ClientRectBottom = 305
     ClientRectRight = 882
     ClientRectTop = 32
     object tsUOM: TcxTabSheet
       Caption = 'Konversi && Harga Satuan [F2]'
       ImageIndex = 0
-      ExplicitHeight = 258
       object cxGrid1: TcxGrid
         AlignWithMargins = True
         Left = 3
@@ -267,7 +268,6 @@ inherited frmItem: TfrmItem
         Height = 267
         Align = alClient
         TabOrder = 0
-        ExplicitHeight = 252
         object cxGrdUOM: TcxGridDBBandedTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -530,7 +530,6 @@ inherited frmItem: TfrmItem
       Caption = 'History Perubahan Harga'
       ImageIndex = 1
       TabVisible = False
-      ExplicitHeight = 258
     end
     object tsRack: TcxTabSheet
       Caption = 'Update Informasi Rak [F3]'
@@ -542,7 +541,6 @@ inherited frmItem: TfrmItem
         Height = 273
         Align = alClient
         TabOrder = 0
-        ExplicitTop = -6
         object cxGrdRak: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -591,7 +589,6 @@ inherited frmItem: TfrmItem
     object tsAvgCost: TcxTabSheet
       Caption = 'History Harga Pokok Penjualan / Harga Average'
       ImageIndex = 1
-      ExplicitHeight = 258
       object cxGroupBox3: TcxGroupBox
         Left = 0
         Top = 0
@@ -660,7 +657,6 @@ inherited frmItem: TfrmItem
         Height = 238
         Align = alClient
         TabOrder = 1
-        ExplicitHeight = 223
         object cxGrdAvg: TcxGridServerModeTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -700,7 +696,6 @@ inherited frmItem: TfrmItem
     Style.IsFontAssigned = True
     StyleDisabled.TextColor = clBlack
     TabOrder = 4
-    ExplicitTop = 467
     Height = 22
     Width = 882
   end

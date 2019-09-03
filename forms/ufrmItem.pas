@@ -108,6 +108,7 @@ type
     procedure colPriceListPropertiesEditValueChanged(Sender: TObject);
     procedure colRakPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
+    procedure btnPrintClick(Sender: TObject);
   private
     FCDS: TClientDataset;
     FCDSRak: TClientDataset;
@@ -142,7 +143,8 @@ var
 implementation
 
 uses
-  uDBUtils, uDXUtils, uAppUtils, cxDataUtils, System.DateUtils, ufrmCXLookup;
+  uDBUtils, uDXUtils, uAppUtils, cxDataUtils, System.DateUtils, ufrmCXLookup,
+  CRUDObject;
 
 {$R *.dfm}
 
@@ -164,6 +166,22 @@ begin
   inherited;
   if not CDSUOM.EOf then
     CDSUOM.Delete;
+end;
+
+procedure TfrmItem.btnPrintClick(Sender: TObject);
+var
+  SS: TStrings;
+begin
+  inherited;
+  if Item = nil then exit;
+
+  SS := TStringList.Create;
+  Try
+    SS.Add(TJSONUtils.ObjectlToJSON(Item).ToString);
+    SS.SaveToFile('Test.txt');
+  Finally
+    SS.Free;
+  End;
 end;
 
 procedure TfrmItem.btnRefreshClick(Sender: TObject);
