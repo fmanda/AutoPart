@@ -41,14 +41,14 @@ object frmMain: TfrmMain
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
       end>
-    Ribbon = dxRBMain
+    Ribbon = dbxRBMain
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clDefault
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
   end
-  object dxRBMain: TdxRibbon
+  object dbxRBMain: TdxRibbon
     Left = 0
     Top = 0
     Width = 1350
@@ -61,6 +61,7 @@ object frmMain: TfrmMain
     TabOrder = 1
     TabStop = False
     object dxRTApp: TdxRibbonTab
+      Active = True
       Caption = 'Aplikasi'
       Groups = <
         item
@@ -83,7 +84,6 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxRTInventory: TdxRibbonTab
-      Active = True
       Caption = 'Inventory'
       Groups = <
         item
@@ -129,6 +129,14 @@ object frmMain: TfrmMain
           ToolbarName = 'dxBarManagerBar11'
         end>
       Index = 5
+    end
+    object dxRTUtilities: TdxRibbonTab
+      Caption = 'Utilities'
+      Groups = <
+        item
+          ToolbarName = 'dxBarManagerBar13'
+        end>
+      Index = 6
     end
   end
   object dxBarManager: TdxBarManager
@@ -605,6 +613,26 @@ object frmMain: TfrmMain
       Visible = True
       WholeRow = False
     end
+    object dxBarManagerBar13: TdxBar
+      Caption = 'Export - Import'
+      CaptionButtons = <>
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 1384
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarButton90'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
     object dxBarLargeButton1: TdxBarLargeButton
       Action = actUOM
       Category = 0
@@ -1053,6 +1081,10 @@ object frmMain: TfrmMain
       Category = 0
       ImageIndex = 7
     end
+    object dxBarButton90: TdxBarButton
+      Action = actExportData
+      Category = 0
+    end
   end
   object ActionManager: TActionManager
     Images = ImageList
@@ -1403,6 +1435,10 @@ object frmMain: TfrmMain
       Category = 'Application'
       Caption = 'Lihat Log'
       OnExecute = actLogExecute
+    end
+    object actExportData: TAction
+      Category = 'Utilities'
+      Caption = 'Export Data'
     end
   end
   object ImageList: TcxImageList
@@ -2921,5 +2957,9 @@ object frmMain: TfrmMain
     Left = 56
     Top = 256
     PixelsPerInch = 96
+  end
+  object FDStanStorageJSONLink1: TFDStanStorageJSONLink
+    Left = 352
+    Top = 256
   end
 end

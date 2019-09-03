@@ -15,14 +15,14 @@ uses
   FireDAC.Phys, FireDAC.Phys.MSSQL, FireDAC.Phys.MSSQLDef, FireDAC.VCLUI.Wait,
   Data.DB, FireDAC.Comp.Client, Vcl.StdCtrls, dxRibbonBackstageView,
   cxImageList, dxNavBarOfficeNavigationBar, Vcl.Menus, cxButtons,
-  ufrmLapStockOpname;
+  ufrmLapStockOpname, FireDAC.Stan.StorageJSON;
 
 type
   TfrmMain = class(TForm)
     dxBarManager: TdxBarManager;
     dxStatusBar: TdxRibbonStatusBar;
     dxRTApp: TdxRibbonTab;
-    dxRBMain: TdxRibbon;
+    dbxRBMain: TdxRibbon;
     dxRTMaster: TdxRibbonTab;
     dxRTSales: TdxRibbonTab;
     dxRTInventory: TdxRibbonTab;
@@ -201,6 +201,11 @@ type
     actLog: TAction;
     dxBarSubItem4: TdxBarSubItem;
     dxBarButton89: TdxBarButton;
+    FDStanStorageJSONLink1: TFDStanStorageJSONLink;
+    actExportData: TAction;
+    dxRTUtilities: TdxRibbonTab;
+    dxBarManagerBar13: TdxBar;
+    dxBarButton90: TdxBarButton;
     procedure actAccountExecute(Sender: TObject);
     procedure actAgingARExecute(Sender: TObject);
     procedure actAgingStockExecute(Sender: TObject);

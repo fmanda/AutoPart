@@ -122,8 +122,8 @@ type
   public
     class function JSONToObject(AJSON: TJSONObject; AObjectClass:
         TCRUDObjectClass): TCRUDObject; overload;
-    class function ObjectlToJSON(AObject: TCRUDObject): TJSONObject; overload;
-    class function ObjectlToJSON(AObject: TCRUDObject; FilterProperties: Array Of
+    class function ObjectToJSON(AObject: TCRUDObject): TJSONObject; overload;
+    class function ObjectToJSON(AObject: TCRUDObject; FilterProperties: Array Of
         String): TJSONObject; overload;
     class function DataSetToJSON(ADataSet: TDataSet): TJSONArray; overload;
     class function GetProperty(rt: TRttiType; AObject: TObject; APropName: String;
@@ -1297,12 +1297,12 @@ begin
   end;
 end;
 
-class function TJSONUtils.ObjectlToJSON(AObject: TCRUDObject): TJSONObject;
+class function TJSONUtils.ObjectToJSON(AObject: TCRUDObject): TJSONObject;
 begin
-  Result := ObjectlToJSON(AObject, [])
+  Result := ObjectToJSON(AObject, [])
 end;
 
-class function TJSONUtils.ObjectlToJSON(AObject: TCRUDObject; FilterProperties:
+class function TJSONUtils.ObjectToJSON(AObject: TCRUDObject; FilterProperties:
     Array Of String): TJSONObject;
 var
   ctx : TRttiContext;
@@ -1368,7 +1368,7 @@ begin
           if lObj = nil then
             Result.AddPair(pairName, TJSONNull.Create)
           else if lObj.InheritsFrom(TCRUDObject) then
-            Result.AddPair(pairName, Self.ObjectlToJSON(TCRUDObject(lObj), ['ID']));
+            Result.AddPair(pairName, Self.ObjectToJSON(TCRUDObject(lObj), ['ID']));
         end;
       else
         Result.AddPair(pairName,
@@ -1398,7 +1398,7 @@ begin
               lObj := value.GetArrayElement(i).AsObject;
               If not lObj.ClassType.InheritsFrom(TCRUDObject) then continue;  //bila ada generic selain class ini
               lModItem := TCRUDObject(lObj);
-              lJSONItem := Self.ObjectlToJSON(lModItem);
+              lJSONItem := Self.ObjectToJSON(lModItem);
               lJSOArr.AddElement(lJSONItem);
             end;
 
@@ -1470,7 +1470,7 @@ class function TJSONUtils.ObjectlToJSONStr(AObject: TCRUDObject): String;
 var
   lObj: TJSONValue;
 begin
-  lObj := ObjectlToJSON(AObject, []);
+  lObj := ObjectToJSON(AObject, []);
   Result := TJSON.Format(lObj);
 end;
 

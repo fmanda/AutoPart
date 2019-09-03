@@ -128,8 +128,8 @@ inherited frmDefaultInput: TfrmDefaultInput
     end
   end
   object styleRepo: TcxStyleRepository
-    Left = 544
-    Top = 336
+    Left = 528
+    Top = 272
     PixelsPerInch = 96
     object styleOdd: TcxStyle
       AssignedValues = [svColor]

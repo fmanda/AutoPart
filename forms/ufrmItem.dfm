@@ -4,7 +4,6 @@ inherited frmItem: TfrmItem
   ClientWidth = 882
   KeyPreview = True
   OnKeyDown = FormKeyDown
-  ExplicitTop = -160
   ExplicitWidth = 898
   ExplicitHeight = 599
   PixelsPerInch = 96
@@ -21,7 +20,6 @@ inherited frmItem: TfrmItem
     end
     inherited btnPrint: TcxButton
       Left = 711
-      Visible = True
       OnClick = btnPrintClick
       ExplicitLeft = 711
     end
