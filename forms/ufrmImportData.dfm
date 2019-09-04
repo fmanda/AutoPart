@@ -59,6 +59,7 @@ inherited frmImportData: TfrmImportData
     Left = 0
     Top = 535
     Align = alBottom
+    Properties.ShowTextStyle = cxtsPosition
     TabOrder = 1
     ExplicitLeft = 128
     ExplicitTop = 296

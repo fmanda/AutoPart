@@ -13,7 +13,7 @@ uses
   cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
   cxButtonEdit, cxGridLevel, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxClasses, cxGridCustomView, cxGrid, uItem,
-  Datasnap.DBClient, System.JSON;
+  Datasnap.DBClient, System.JSON, cxProgressBar;
 
 type
   TfrmExportData = class(TfrmDefault)
@@ -45,12 +45,16 @@ type
     cxGridItemLevel1: TcxGridLevel;
     cxMemo1: TcxMemo;
     SaveDlg: TSaveDialog;
+    pmGrid: TPopupMenu;
+    F6LookupDataBarangterakhirdiinputedit1: TMenuItem;
+    pgBar: TcxProgressBar;
     procedure FormCreate(Sender: TObject);
     procedure colNoGetDisplayText(Sender: TcxCustomGridTableItem; ARecord:
         TcxCustomGridRecord; var AText: string);
     procedure colKodePropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
     procedure btnExportClick(Sender: TObject);
+    procedure F6LookupDataBarangterakhirdiinputedit1Click(Sender: TObject);
   private
     FCDSItemClone: TClientDataset;
     FCDSItem: TClientDataset;
@@ -79,7 +83,7 @@ implementation
 
 uses
   uDBUtils, uDXUtils, ufrmCXServerLookup, ufrmCXLookup, ufrmLookupItem,
-  cxDataUtils, CRUDObject, REST.Json, uAppUtils;
+  cxDataUtils, CRUDObject, REST.Json, uAppUtils, System.IOUtils;
 
 {$R *.dfm}
 
@@ -87,6 +91,7 @@ procedure TfrmExportData.FormCreate(Sender: TObject);
 begin
   inherited;
   InitView;
+  SaveDlg.InitialDir := TPath.GetDocumentsPath;
 end;
 
 procedure TfrmExportData.btnExportClick(Sender: TObject);
@@ -99,6 +104,7 @@ begin
   mmJSON.Lines.Clear;
   mmJSON.Text := TJSON.Format(ResultJSON);
 
+  SaveDlg.FileName := 'IT_' + FormatDateTime('YYmmddhhmmss',Now());
   if SaveDlg.Execute then
   begin
     mmJSON.Lines.SaveToFile(SaveDlg.FileName);
@@ -132,10 +138,14 @@ var
   lItem: TItem;
   lObj: TJSONObject;
 begin
-
+  pgBar.Position := 0;
+  pgBar.Properties.Max := CDSItem.RecordCount;
   CDSItem.First;
   while not CDSITem.Eof do
   begin
+    pgBar.Position := pgBar.Position + 1;
+    Application.ProcessMessages;
+
     lItem := TItem.Create;
     Try
       lItem.LoadByID(CDSItem.FieldByName('ID').AsInteger);
@@ -147,6 +157,13 @@ begin
     CDSItem.Next;
   end;
 
+end;
+
+procedure TfrmExportData.F6LookupDataBarangterakhirdiinputedit1Click(Sender:
+    TObject);
+begin
+  inherited;
+  LookupRecent;
 end;
 
 function TfrmExportData.GetCDSItemClone: TClientDataset;

@@ -44,7 +44,7 @@ var
 implementation
 
 uses
-  uItem;
+  uItem, uAppUtils;
 
 {$R *.dfm}
 
@@ -87,6 +87,8 @@ begin
   for i:=0 to JSONFile.Count-1 do
   begin
     pgBar.Position := i+1;
+    Application.ProcessMessages;
+
     lJSONVal  := JSONFile.Items[i];
     lJSONObj  := TJSONObject.ParseJSONValue(lJSONVal.ToString) as TJSONObject;
     lClass    := TJSONUtils.GetClass(lJSONObj);
@@ -101,6 +103,7 @@ begin
 
     FreeAndNil(LJSONObj);
   end;
+  TAppUtils.Information('Data Berhasil Diimport');
 end;
 
 procedure TfrmImportData.LoadFile;

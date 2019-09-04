@@ -174,7 +174,8 @@ begin
   list := ctx.GetTypes;
   for typ in list do
   begin
-    if typ.IsInstance and (EndsText(aClassName, typ.Name)) then
+//    if typ.IsInstance and (EndsText(aClassName, typ.Name)) then
+    if typ.IsInstance and (LowerCase(aClassName) = LowerCase(typ.Name)) then
     begin
       Result := TCRUDObjectClass(typ.AsInstance.MetaClassType);
       break;
@@ -1281,16 +1282,13 @@ begin
   begin
     Try
       LPair := AJSON.Pairs[i];
-
       if UpperCase(LPair.JsonString.Value) = '_CLASSNAME' then continue;
-
       prop := GetProperty(rt, Result, LPair.JsonString.Value);
       if prop = nil then continue;
       if not prop.IsWritable then continue;
       if Result.IsPropertyIgnoreJSON(prop) then continue;
       if UpperCase(prop.Name) = 'ID' then continue;
 
-  //      LPair.JsonValue.
       case prop.PropertyType.TypeKind of
         tkInteger, tkInt64 :
 //          if LPair.JsonValue.TryGetValue<Integer>(lIntVal) then
@@ -1300,8 +1298,7 @@ begin
         tkFloat :
           if CompareText('TDateTime', prop.PropertyType.Name) = 0 then
           begin
-//            FormatSettings.ShortDateFormat := 'yyyy-MM-dd';
-//            FormatSettings.DateSeparator   := '-';
+//            FormatSettings.ShortDateFormat := 'yyyy-MM-dd';  FormatSettings.DateSeparator   := '-';
             dDate := StrToDate(LPair.JsonValue.Value, JSONFormat);
             dFloat := dDate;
             prop.SetValue(Result, dFloat);
@@ -1321,9 +1318,6 @@ begin
 
         tkClass :
         begin
-          //1. apabila objectlist ada di json, clear data tsb -> done with call meth clear
-          //2. pertimbangkan juga property yg diigonore , contoh rak.. -> done with IsPropertyIgnoreJSON
-
           if LowerCase(LPair.JSONValue.ToString) = 'null' then continue;
 
           meth := prop.PropertyType.GetMethod('ToArray');
@@ -1343,7 +1337,7 @@ begin
 
             meth := prop.PropertyType.GetMethod('Add');
             if Assigned(meth) and Assigned(rtItem) then
-            begin                                                                              //sayangny utk akses rtti object harus ada dulu, jadi create dulu
+            begin
               if not rtItem.AsInstance.MetaclassType.InheritsFrom(TCRUDObject) then continue;
               lAppClass       := TCRUDObjectClass( rtItem.AsInstance.MetaclassType );
 
@@ -1593,3 +1587,8 @@ begin
 end;
 
 end.
+
+
+//temuan import barang, data uom tidak ikut diupdate
+//harusnya uom baru otomatis didaftarkan ke db
+//atau tambahkan exception , tapi dimana?

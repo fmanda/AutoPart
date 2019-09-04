@@ -279,6 +279,7 @@ var
   S: string;
 begin
   Result := True;
+  exit;
   lOldItem := TItem.Create;
   Try
     lOldItem.LoadByID(Self.ID);

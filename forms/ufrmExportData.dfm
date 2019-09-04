@@ -82,12 +82,14 @@ inherited frmExportData: TfrmExportData
       Left = 9
       Top = 31
       Caption = 'Price Quotation'
+      Enabled = False
       TabOrder = 1
     end
     object ckTransfer: TcxCheckBox
       Left = 9
       Top = 48
       Caption = 'Transfer Stock Antar Cabang'
+      Enabled = False
       TabOrder = 2
     end
     object cxGroupBox2: TcxGroupBox
@@ -100,7 +102,7 @@ inherited frmExportData: TfrmExportData
       Style.LookAndFeel.NativeStyle = False
       StyleDisabled.LookAndFeel.NativeStyle = False
       TabOrder = 3
-      ExplicitWidth = 781
+      ExplicitLeft = 7
       Height = 35
       Width = 843
       object EndDate: TcxDateEdit
@@ -108,6 +110,7 @@ inherited frmExportData: TfrmExportData
         Left = 202
         Top = 5
         Align = alLeft
+        Enabled = False
         Properties.SaveTime = False
         Properties.ShowTime = False
         TabOrder = 0
@@ -119,6 +122,7 @@ inherited frmExportData: TfrmExportData
         Left = 77
         Top = 5
         Align = alLeft
+        Enabled = False
         Properties.SaveTime = False
         Properties.ShowTime = False
         TabOrder = 1
@@ -133,6 +137,7 @@ inherited frmExportData: TfrmExportData
         Margins.Right = 0
         Align = alLeft
         Caption = 'Filter Periode'
+        Enabled = False
         Properties.Alignment.Vert = taVCenter
         Visible = False
         AnchorY = 18
@@ -142,6 +147,7 @@ inherited frmExportData: TfrmExportData
         Top = 2
         Align = alLeft
         Caption = 's/d'
+        Enabled = False
         Properties.Alignment.Vert = taVCenter
         Visible = False
         AnchorY = 18
@@ -157,6 +163,7 @@ inherited frmExportData: TfrmExportData
         Margins.Bottom = 2
         Align = alLeft
         Caption = '&Load Data'
+        Enabled = False
         OptionsImage.ImageIndex = 4
         OptionsImage.Images = frmMain.ImageList
         TabOrder = 4
@@ -188,14 +195,14 @@ inherited frmExportData: TfrmExportData
     Left = 0
     Top = 113
     Width = 853
-    Height = 440
+    Height = 419
     Align = alClient
     TabOrder = 2
-    Properties.ActivePage = tsPriceQuotation
+    Properties.ActivePage = tsItem
     Properties.CustomButtons.Buttons = <>
     ExplicitWidth = 791
     ExplicitHeight = 383
-    ClientRectBottom = 440
+    ClientRectBottom = 419
     ClientRectRight = 853
     ClientRectTop = 24
     object tsItem: TcxTabSheet
@@ -207,12 +214,13 @@ inherited frmExportData: TfrmExportData
         Left = 0
         Top = 0
         Width = 853
-        Height = 416
+        Height = 395
         Align = alClient
         TabOrder = 0
         ExplicitWidth = 791
         ExplicitHeight = 359
         object cxGrdItem: TcxGridDBTableView
+          PopupMenu = pmGrid
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
           DataController.Summary.FooterSummaryItems = <
@@ -314,10 +322,21 @@ inherited frmExportData: TfrmExportData
         TabOrder = 0
         ExplicitWidth = 791
         ExplicitHeight = 359
-        Height = 416
+        Height = 395
         Width = 853
       end
     end
+  end
+  object pgBar: TcxProgressBar
+    Left = 0
+    Top = 532
+    Align = alBottom
+    Properties.ShowTextStyle = cxtsPosition
+    TabOrder = 3
+    ExplicitLeft = 128
+    ExplicitTop = 296
+    ExplicitWidth = 642
+    Width = 853
   end
   object SaveDlg: TSaveDialog
     DefaultExt = '*.json'
@@ -325,5 +344,13 @@ inherited frmExportData: TfrmExportData
     FilterIndex = 0
     Left = 440
     Top = 329
+  end
+  object pmGrid: TPopupMenu
+    Left = 352
+    Top = 320
+    object F6LookupDataBarangterakhirdiinputedit1: TMenuItem
+      Caption = 'Lookup Data Barang terakhir diinput / edit [F6]'
+      OnClick = F6LookupDataBarangterakhirdiinputedit1Click
+    end
   end
 end
