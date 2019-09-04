@@ -1,3 +1,5 @@
-SET NOCOUNT ON
-Insert Into TRack(Rak,Lokasi,Warehouse_ID) values('22131','',1);
-Select Scope_Identity() as ID
+Delete From TItemUOM where Item_ID = 3;
+Delete From TItemUOM where ID = 13716;
+Delete From TItemRack where Item_ID = 3;
+Delete From TItemRack where ID = 8002;
+Delete From TItem where ID = 3;

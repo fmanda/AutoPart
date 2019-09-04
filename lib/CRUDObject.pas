@@ -28,6 +28,8 @@ type
   end;
   AttrUpdateDetails = class(TCustomAttribute)  //so far blm dipakai :P
   end;
+  AttributeIgnoreJSON = class(TCustomAttribute)
+  end;
 
 
   {$TYPEINFO ON}
@@ -89,6 +91,8 @@ type
     property IsShowProgress: Boolean read FIsShowProgress write FIsShowProgress;
   published
     function GetCodeValue: String;
+    function IsPropertyHeader(aProp: TRttiProperty): Boolean;
+    function IsPropertyIgnoreJSON(aProp: TRttiProperty): Boolean;
     property ID: Integer read FID write FID;
   end;
 
@@ -129,8 +133,11 @@ type
     class function GetProperty(rt: TRttiType; AObject: TObject; APropName: String;
         ShowException: Boolean = False): TRttiProperty; overload;
     class function GetValue(AJSON: TJSONObject; APairName: String): TJSONValue;
-    class function ObjectlToJSONStr(AObject: TCRUDObject): String; overload;
+    class function GetClass(AJSON: TJSONObject): TCRUDObjectClass;
+    class function ObjectToJSONStr(AObject: TCRUDObject): String; overload;
   end;
+
+function StringToClass(aClassName: string): TCRUDObjectClass;
 
   
 
@@ -155,6 +162,26 @@ implementation
 
 uses
   StrUtils, DateUtils, REST.Json;
+
+function StringToClass(aClassName: string): TCRUDObjectClass;
+var
+  ctx: TRttiContext;
+  typ: TRttiType;
+  list: TArray<TRttiType>;
+begin
+  Result := nil;
+  ctx := TRttiContext.Create;
+  list := ctx.GetTypes;
+  for typ in list do
+  begin
+    if typ.IsInstance and (EndsText(aClassName, typ.Name)) then
+    begin
+      Result := TCRUDObjectClass(typ.AsInstance.MetaClassType);
+      break;
+    end;
+  end;
+  ctx.Free;
+end;
 
 constructor TCRUDObject.Create;
 begin
@@ -428,8 +455,8 @@ begin
       + Self.ClassName
     );
 
-  if Result.PropertyType = nil then
-    raise Exception.Create('NIL');
+//  if Result.PropertyType = nil then
+//    raise Exception.Create('NIL');
 end;
 
 function TCRUDObject.QuotValue(AProp: TRttiProperty): String;
@@ -770,6 +797,24 @@ begin
   End;
 end;
 
+function TCRUDObject.IsPropertyHeader(aProp: TRttiProperty): Boolean;
+var
+  a: TCustomAttribute;
+  ctx : TRttiContext;
+begin
+  ctx.GetType(Self.ClassType); //must use this line before calling GetValue(Self) after Delphi.Berlin... or u get AV
+
+  Result := False;
+  for a in aProp.GetAttributes do
+  begin
+    if a is AttributeOfHeader then
+    begin
+      Result := True;
+      break;
+    end;
+  end;
+end;
+
 function TCRUDObject.GetLog: TLog;
 begin
   if FLog = nil then
@@ -802,6 +847,24 @@ begin
 //
 //  lPO := TCRUDPOItem.Create;
 //  Result := Result + lPO.GetHeaderField;
+end;
+
+function TCRUDObject.IsPropertyIgnoreJSON(aProp: TRttiProperty): Boolean;
+var
+  a: TCustomAttribute;
+  ctx : TRttiContext;
+begin
+  ctx.GetType(Self.ClassType); //must use this line before calling GetValue(Self) after Delphi.Berlin... or u get AV
+
+  Result := False;
+  for a in aProp.GetAttributes do
+  begin
+    if a is AttributeIgnoreJSON then
+    begin
+      Result := True;
+      break;
+    end;
+  end;
 end;
 
 procedure TCRUDObject.LoadFromDataset(ADataSet: TDataset; LoadObjectList:
@@ -1203,17 +1266,31 @@ begin
   prop := nil;
   rt := ctx.GetType(Result.ClassType);
 
+  //get ID Property first;
+  for i := 0 to AJSON.Count-1 do
+  begin
+    LPair := AJSON.Pairs[i];
+    if UpperCase(LPair.JsonString.Value) = 'ID' then
+    begin
+      Result.LoadByCode(lPair.JsonValue.Value);
+      break;
+    end;
+  end;
+
   for i := 0 to AJSON.Count-1 do
   begin
     Try
       LPair := AJSON.Pairs[i];
-      if UpperCase(LPair.JsonString.Value) = 'CLASSNAME' then continue;
+
+      if UpperCase(LPair.JsonString.Value) = '_CLASSNAME' then continue;
 
       prop := GetProperty(rt, Result, LPair.JsonString.Value);
       if prop = nil then continue;
       if not prop.IsWritable then continue;
+      if Result.IsPropertyIgnoreJSON(prop) then continue;
+      if UpperCase(prop.Name) = 'ID' then continue;
 
-//      LPair.JsonValue.
+  //      LPair.JsonValue.
       case prop.PropertyType.TypeKind of
         tkInteger, tkInt64 :
 //          if LPair.JsonValue.TryGetValue<Integer>(lIntVal) then
@@ -1244,11 +1321,21 @@ begin
 
         tkClass :
         begin
+          //1. apabila objectlist ada di json, clear data tsb -> done with call meth clear
+          //2. pertimbangkan juga property yg diigonore , contoh rak.. -> done with IsPropertyIgnoreJSON
+
+          if LowerCase(LPair.JSONValue.ToString) = 'null' then continue;
+
           meth := prop.PropertyType.GetMethod('ToArray');
           if Assigned(meth) then //obj list
           begin
             lObjectList := prop.GetValue(Result).AsObject;
             if lObjectList = nil then continue;
+
+            meth := prop.PropertyType.GetMethod('Clear');  //clear first
+            if Assigned(meth) then
+              meth.Invoke(lObjectList,[]);
+
             LJSONArr := TJSONArray(LPair.JsonValue);
             sGenericItemClassName :=  StringReplace(lObjectList.ClassName, 'TOBJECTLIST<','', [rfIgnoreCase]);
             sGenericItemClassName :=  StringReplace(sGenericItemClassName, '>','', [rfIgnoreCase]);
@@ -1274,6 +1361,7 @@ begin
           begin
             if not prop.PropertyType.AsInstance.MetaclassType.InheritsFrom(TCRUDObject) then continue;
             lAppClass   := TCRUDObjectClass( prop.PropertyType.AsInstance.MetaclassType );
+
             lJSONObj := TJSONObject.ParseJSONValue(LPair.JSONValue.ToString) as TJSONObject;
             lAppObject := JSONToObject(lJSONObj, lAppClass);
 //            lAppObject.ObjectState := 3;
@@ -1346,8 +1434,17 @@ begin
   begin
     pairName := LowerCase(prop.Name);
     if not CheckFilter(pairName) then continue;
+    if AObject.IsPropertyHeader(prop) then continue;
+    if AObject.IsPropertyIgnoreJSON(prop) then continue;
 
-    If prop.Visibility = mvPublished then
+    if UpperCase(prop.Name) = 'ID' then  //id wajib
+    begin
+      if AObject.PropFromAttr(AttributeOfCode, False) = nil then continue;
+      if AObject.GetCodeValue = '' then
+        AObject.ReLoad(False);
+      Result.AddPair(pairName, TJSONString.Create(AObject.GetCodeValue));
+    end
+    else If prop.Visibility = mvPublished then
     begin
       case prop.PropertyType.TypeKind of
         tkInteger, tkInt64, tkFloat :
@@ -1466,7 +1563,28 @@ begin
   end;
 end;
 
-class function TJSONUtils.ObjectlToJSONStr(AObject: TCRUDObject): String;
+class function TJSONUtils.GetClass(AJSON: TJSONObject): TCRUDObjectClass;
+var
+  i: Integer;
+  sClass: string;
+begin
+  sClass := '';
+  for i := 0 to AJSON.Count-1 do
+  begin
+    if UpperCase(AJSON.Pairs[i].JsonString.Value) = UpperCase('_classname') then
+      sClass := AJSON.Pairs[i].JsonValue.Value;
+  end;
+  if sClass = '' then
+    raise Exception.Create('TJSONUtils.GetClass = nil');
+
+  Result := StringToClass(sClass);
+
+  if Result = nil then
+    raise Exception.Create(sClass + ' not found in TJSONUtils.GetClass');
+
+end;
+
+class function TJSONUtils.ObjectToJSONStr(AObject: TCRUDObject): String;
 var
   lObj: TJSONValue;
 begin

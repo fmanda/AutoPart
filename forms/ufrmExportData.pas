@@ -43,6 +43,8 @@ type
     colNama: TcxGridDBColumn;
     colItemID: TcxGridDBColumn;
     cxGridItemLevel1: TcxGridLevel;
+    cxMemo1: TcxMemo;
+    SaveDlg: TSaveDialog;
     procedure FormCreate(Sender: TObject);
     procedure colNoGetDisplayText(Sender: TcxCustomGridTableItem; ARecord:
         TcxCustomGridRecord; var AText: string);
@@ -66,6 +68,7 @@ type
     property ResultJSON: TJSONArray read GetResultJSON write FResultJSON;
     { Private declarations }
   public
+    function GetGroupName: string; override;
     { Public declarations }
   end;
 
@@ -76,7 +79,7 @@ implementation
 
 uses
   uDBUtils, uDXUtils, ufrmCXServerLookup, ufrmCXLookup, ufrmLookupItem,
-  cxDataUtils, CRUDObject, REST.Json;
+  cxDataUtils, CRUDObject, REST.Json, uAppUtils;
 
 {$R *.dfm}
 
@@ -94,7 +97,14 @@ begin
   ExportItem;
 
   mmJSON.Lines.Clear;
-  mmJSON.Text := ResultJSON.ToString;
+  mmJSON.Text := TJSON.Format(ResultJSON);
+
+  if SaveDlg.Execute then
+  begin
+    mmJSON.Lines.SaveToFile(SaveDlg.FileName);
+    TAppUtils.Information('Data berhasil di export ke file : ' + SaveDLg.FileName);
+  end;
+
 end;
 
 procedure TfrmExportData.colKodePropertiesButtonClick(Sender: TObject;
@@ -157,6 +167,11 @@ begin
     FCDSItem.CreateDataSet;
   end;
   Result := FCDSItem;
+end;
+
+function TfrmExportData.GetGroupName: string;
+begin
+  Result := 'Utilities'; //override this
 end;
 
 function TfrmExportData.GetResultJSON: TJSONArray;

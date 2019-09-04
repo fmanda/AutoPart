@@ -121,7 +121,8 @@ uses
   ufrmKKSO in 'forms\ufrmKKSO.pas' {frmKKSO},
   ufrmBrowseKKSO in 'forms\ufrmBrowseKKSO.pas' {frmBrowseKKSO},
   ufrmLapStockOpname in 'forms\ufrmLapStockOpname.pas' {frmLapStockOpname},
-  ufrmExportData in 'forms\ufrmExportData.pas' {frmExportData};
+  ufrmExportData in 'forms\ufrmExportData.pas' {frmExportData},
+  ufrmImportData in 'forms\ufrmImportData.pas' {frmImportData};
 
 {$R *.res}
 

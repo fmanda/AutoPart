@@ -206,6 +206,8 @@ type
     dxRTUtilities: TdxRibbonTab;
     dxBarManagerBar13: TdxBar;
     dxBarButton90: TdxBarButton;
+    actImportData: TAction;
+    dxBarButton91: TdxBarButton;
     procedure actAccountExecute(Sender: TObject);
     procedure actAgingARExecute(Sender: TObject);
     procedure actAgingStockExecute(Sender: TObject);
@@ -217,6 +219,7 @@ type
     procedure actExportDataExecute(Sender: TObject);
     procedure actGantiPassExecute(Sender: TObject);
     procedure actHutangReturExecute(Sender: TObject);
+    procedure actImportDataExecute(Sender: TObject);
     procedure actInternalTransferExecute(Sender: TObject);
     procedure actItemExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -300,7 +303,7 @@ uses
   ufrmSalesAnalysis, ufrmProfitLoss, ufrmARAging, ufrmSuggestionOrder,
   ufrmLapFeeSalesman, ufrmBrowseUser, uUser, ufrmLapPembelian,
   ufrmLapPenjualan, ufrmGantiPassword, ufrmPiutangRetur, ufrmHutangRetur,
-  ufrmBrowseKKSO, ufrmExportData;
+  ufrmBrowseKKSO, ufrmExportData, ufrmImportData;
 
 {$R *.dfm}
 
@@ -383,6 +386,11 @@ end;
 procedure TfrmMain.actHutangReturExecute(Sender: TObject);
 begin
   ShowForm(TfrmHutangRetur);
+end;
+
+procedure TfrmMain.actImportDataExecute(Sender: TObject);
+begin
+  ShowForm(TfrmImportData).ShowModal;
 end;
 
 procedure TfrmMain.actInternalTransferExecute(Sender: TObject);

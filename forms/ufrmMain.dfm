@@ -626,6 +626,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton90'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton91'
         end>
       OneOnRow = True
       Row = 0
@@ -1131,6 +1135,11 @@ object frmMain: TfrmMain
       Category = 0
       ImageIndex = 51
     end
+    object dxBarButton91: TdxBarButton
+      Action = actImportData
+      Category = 0
+      ImageIndex = 59
+    end
   end
   object ActionManager: TActionManager
     Images = ImageList
@@ -1486,6 +1495,11 @@ object frmMain: TfrmMain
       Category = 'Utilities'
       Caption = 'Export Data'
       OnExecute = actExportDataExecute
+    end
+    object actImportData: TAction
+      Category = 'Utilities'
+      Caption = 'Import Data'
+      OnExecute = actImportDataExecute
     end
   end
   object ImageList: TcxImageList

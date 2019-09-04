@@ -1,28 +1,27 @@
 inherited frmExportData: TfrmExportData
   Caption = 'Export Data'
-  ClientHeight = 531
-  ClientWidth = 791
+  ClientHeight = 588
+  ClientWidth = 853
   Position = poDesktopCenter
-  ExplicitWidth = 807
-  ExplicitHeight = 570
+  ExplicitWidth = 869
+  ExplicitHeight = 627
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
-    Top = 496
-    Width = 791
+    Top = 553
+    Width = 853
     Height = 35
     Align = alBottom
     BevelKind = bkTile
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 0
-    ExplicitLeft = -247
-    ExplicitTop = 412
-    ExplicitWidth = 784
+    ExplicitTop = 496
+    ExplicitWidth = 791
     object btnClose: TcxButton
       AlignWithMargins = True
-      Left = 712
+      Left = 774
       Top = 2
       Width = 72
       Height = 27
@@ -35,11 +34,11 @@ inherited frmExportData: TfrmExportData
       OptionsImage.ImageIndex = 10
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
-      ExplicitLeft = 705
+      ExplicitLeft = 712
     end
     object btnExport: TcxButton
       AlignWithMargins = True
-      Left = 602
+      Left = 664
       Top = 2
       Width = 104
       Height = 27
@@ -58,7 +57,7 @@ inherited frmExportData: TfrmExportData
       Font.Style = [fsBold]
       ParentFont = False
       OnClick = btnExportClick
-      ExplicitTop = 3
+      ExplicitLeft = 602
     end
   end
   object cxGroupBox3: TcxGroupBox
@@ -70,8 +69,9 @@ inherited frmExportData: TfrmExportData
     Align = alTop
     Caption = ' Parameter '
     TabOrder = 1
+    ExplicitWidth = 791
     Height = 113
-    Width = 791
+    Width = 853
     object ckItem: TcxCheckBox
       Left = 9
       Top = 15
@@ -100,11 +100,9 @@ inherited frmExportData: TfrmExportData
       Style.LookAndFeel.NativeStyle = False
       StyleDisabled.LookAndFeel.NativeStyle = False
       TabOrder = 3
-      ExplicitLeft = 0
-      ExplicitTop = 63
-      ExplicitWidth = 533
+      ExplicitWidth = 781
       Height = 35
-      Width = 781
+      Width = 843
       object EndDate: TcxDateEdit
         AlignWithMargins = True
         Left = 202
@@ -114,7 +112,6 @@ inherited frmExportData: TfrmExportData
         Properties.ShowTime = False
         TabOrder = 0
         Visible = False
-        ExplicitLeft = 358
         Width = 100
       end
       object StartDate: TcxDateEdit
@@ -126,7 +123,6 @@ inherited frmExportData: TfrmExportData
         Properties.ShowTime = False
         TabOrder = 1
         Visible = False
-        ExplicitLeft = 131
         Width = 100
       end
       object cxLabel1: TcxLabel
@@ -152,51 +148,70 @@ inherited frmExportData: TfrmExportData
       end
       object btnRefresh: TcxButton
         AlignWithMargins = True
-        Left = 686
+        Left = 308
         Top = 4
         Width = 90
         Height = 27
         Cursor = crHandPoint
         Margins.Top = 2
         Margins.Bottom = 2
-        Align = alRight
+        Align = alLeft
         Caption = '&Load Data'
         OptionsImage.ImageIndex = 4
         OptionsImage.Images = frmMain.ImageList
         TabOrder = 4
-        ExplicitLeft = 432
+        ExplicitLeft = 686
       end
+    end
+    object cxMemo1: TcxMemo
+      AlignWithMargins = True
+      Left = 416
+      Top = 21
+      Align = alRight
+      Enabled = False
+      Lines.Strings = (
+        
+          '** Transfer Stock diexport menjadi file terpisah dengan Master B' +
+          'arang & Quotation.'
+        '** Export Quotation otomatis mengexport Data Barang juga.'
+        
+          '** Load Data melakukan load inputan diperiode terpilih (Barang, ' +
+          'Quotation, Transfer)')
+      StyleDisabled.TextColor = clBlack
+      TabOrder = 4
+      Visible = False
+      Height = 46
+      Width = 432
     end
   end
   object cxPageControl1: TcxPageControl
     Left = 0
     Top = 113
-    Width = 791
-    Height = 383
+    Width = 853
+    Height = 440
     Align = alClient
     TabOrder = 2
-    Properties.ActivePage = tsJSON
+    Properties.ActivePage = tsPriceQuotation
     Properties.CustomButtons.Buttons = <>
-    ExplicitTop = 112
-    ExplicitHeight = 302
-    ClientRectBottom = 383
-    ClientRectRight = 791
+    ExplicitWidth = 791
+    ExplicitHeight = 383
+    ClientRectBottom = 440
+    ClientRectRight = 853
     ClientRectTop = 24
     object tsItem: TcxTabSheet
       Caption = 'List Master Barang'
       ImageIndex = 0
-      ExplicitTop = 23
-      ExplicitHeight = 278
+      ExplicitWidth = 791
+      ExplicitHeight = 359
       object cxGridItem: TcxGrid
         Left = 0
         Top = 0
-        Width = 791
-        Height = 359
+        Width = 853
+        Height = 416
         Align = alClient
         TabOrder = 0
-        ExplicitTop = 147
-        ExplicitWidth = 984
-        ExplicitHeight = 280
+        ExplicitWidth = 791
+        ExplicitHeight = 359
         object cxGrdItem: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -265,20 +280,20 @@ inherited frmExportData: TfrmExportData
     object tsPriceQuotation: TcxTabSheet
       Caption = 'List Price Quotation'
       ImageIndex = 1
-      ExplicitWidth = 289
-      ExplicitHeight = 169
+      ExplicitWidth = 791
+      ExplicitHeight = 359
     end
     object tsTransfer: TcxTabSheet
       Caption = 'List Transfer Stock'
       ImageIndex = 2
-      ExplicitWidth = 289
-      ExplicitHeight = 169
+      ExplicitWidth = 791
+      ExplicitHeight = 359
     end
     object tsJSON: TcxTabSheet
       Caption = 'File Preview'
       ImageIndex = 3
-      ExplicitWidth = 537
-      ExplicitHeight = 267
+      ExplicitWidth = 791
+      ExplicitHeight = 359
       object mmJSON: TcxMemo
         Left = 0
         Top = 0
@@ -297,13 +312,18 @@ inherited frmExportData: TfrmExportData
         Style.Font.Style = []
         Style.IsFontAssigned = True
         TabOrder = 0
-        ExplicitLeft = 136
-        ExplicitTop = 88
-        ExplicitWidth = 185
-        ExplicitHeight = 89
-        Height = 359
-        Width = 791
+        ExplicitWidth = 791
+        ExplicitHeight = 359
+        Height = 416
+        Width = 853
       end
     end
+  end
+  object SaveDlg: TSaveDialog
+    DefaultExt = '*.json'
+    Filter = 'AutoPart JSON File|*.json'
+    FilterIndex = 0
+    Left = 440
+    Top = 329
   end
 end

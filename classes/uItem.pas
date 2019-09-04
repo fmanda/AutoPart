@@ -75,6 +75,7 @@ type
     function GetKonversi(aUOMID: Integer): Double;
     function ValidateEditUOM: Boolean;
     property ItemUOMs: TObjectList<TItemUOM> read GetItemUOMs write FItemUOMs;
+    [AttributeIgnoreJSON]
     property ItemRacks: TObjectList<TItemRack> read GetItemRacks write FItemRacks;
   published
     [AttributeOfCode]
