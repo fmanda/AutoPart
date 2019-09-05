@@ -317,8 +317,16 @@ function TCRUDObject.GetCodeField: String;
 var
   lProp: TRttiProperty;
 begin
-  lProp   := PropFromAttr(AttributeOfCode);
-  Result  := FieldNameOf(lProp);
+  Try
+    lProp   := PropFromAttr(AttributeOfCode);
+    Result  := FieldNameOf(lProp);
+  except
+    on E:Exception do
+    begin
+      E.Message := E.Message + #13 + 'Property : ' + lProp.Name;
+      Raise;
+    end;
+  End;
 end;
 
 function TCRUDObject.GetCodeValue: String;

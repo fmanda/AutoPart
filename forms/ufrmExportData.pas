@@ -48,6 +48,9 @@ type
     pmGrid: TPopupMenu;
     F6LookupDataBarangterakhirdiinputedit1: TMenuItem;
     pgBar: TcxProgressBar;
+    cxGrid: TcxGrid;
+    cxGrdPQ: TcxGridDBTableView;
+    cxGridLevel1: TcxGridLevel;
     procedure FormCreate(Sender: TObject);
     procedure colNoGetDisplayText(Sender: TcxCustomGridTableItem; ARecord:
         TcxCustomGridRecord; var AText: string);
@@ -55,20 +58,26 @@ type
       AButtonIndex: Integer);
     procedure btnExportClick(Sender: TObject);
     procedure F6LookupDataBarangterakhirdiinputedit1Click(Sender: TObject);
+    procedure btnRefreshClick(Sender: TObject);
+    procedure ckItemPropertiesEditValueChanged(Sender: TObject);
   private
     FCDSItemClone: TClientDataset;
     FCDSItem: TClientDataset;
+    FCDSPQ: TClientDataset;
     FResultJSON: TJSONArray;
     procedure ExportItem;
     function GetCDSItemClone: TClientDataset;
     function GetCDSItem: TClientDataset;
     function GetResultJSON: TJSONArray;
     procedure InitView;
+    procedure LoadModifiedItem;
+    procedure LoadPriceQuotation;
     procedure LookupItem(aKey: string = '');
     procedure LookupRecent;
     procedure SetItemToGrid(aItem: TItem);
     property CDSItemClone: TClientDataset read GetCDSItemClone write FCDSItemClone;
     property CDSItem: TClientDataset read GetCDSItem write FCDSItem;
+    property CDSPQ: TClientDataset read FCDSPQ write FCDSPQ;
     property ResultJSON: TJSONArray read GetResultJSON write FResultJSON;
     { Private declarations }
   public
@@ -92,6 +101,7 @@ begin
   inherited;
   InitView;
   SaveDlg.InitialDir := TPath.GetDocumentsPath;
+  ckItemPropertiesEditValueChanged(Self);
 end;
 
 procedure TfrmExportData.btnExportClick(Sender: TObject);
@@ -111,6 +121,24 @@ begin
     TAppUtils.Information('Data berhasil di export ke file : ' + SaveDLg.FileName);
   end;
 
+end;
+
+procedure TfrmExportData.btnRefreshClick(Sender: TObject);
+begin
+  inherited;
+  if ckItem.Checked then
+    LoadModifiedItem;
+  if ckPriceQuot.Checked then
+    LoadPriceQuotation;
+end;
+
+procedure TfrmExportData.ckItemPropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  cxGrdItem.OptionsData.Appending := ckItem.Checked;
+  cxGrdItem.OptionsData.Editing := ckItem.Checked;
+  cxGrdItem.OptionsData.Deleting := ckItem.Checked;
+  cxGrdItem.OptionsData.Inserting := ckItem.Checked;
 end;
 
 procedure TfrmExportData.colKodePropertiesButtonClick(Sender: TObject;
@@ -251,6 +279,88 @@ end;
 procedure TfrmExportData.InitView;
 begin
   cxGrdItem.PrepareFromCDS(CDSItem);
+end;
+
+procedure TfrmExportData.LoadModifiedItem;
+var
+  S: string;
+begin
+  //load barang
+  S := 'select a.ID, a.KODE, a.NAMA, e.NAMA as MERK,'
+      +' c.UOM as STOCKUOM, b.HARGAJUAL1 as HARGAUMUM, b.HARGAJUAL2 AS HARGABENGKEL,'
+      +' b.HARGAJUAL3 AS HARGAGROSIR, b.HARGAJUAL4 AS HARGAKELILING,'
+      +' A.MODIFIEDBY, A.MODIFIEDDATE'
+      +' from titem a'
+      +' inner join TITEMUOM b on a.id = b.ITEM_ID and a.STOCKUOM_ID = b.UOM_ID'
+      +' inner join TUOM c on a.STOCKUOM_ID = c.id'
+      +' left join TITEMGROUP d on a.GROUP_ID = d.id'
+      +' left join TMERK e on a.MERK_ID = e.id'
+      +' WHERE A.MODIFIEDDATE BETWEEN ' + TAppUtils.QuotD(StartDate.Date)
+      +' and ' + TAppUtils.QuotD(EndDate.Date);
+
+  with TDBUtils.OpenQuery(S, Self) do
+  begin
+    Try
+      while not eof do
+      begin
+        if not CDSItem.Locate('ID', FieldByName('ID').AsInteger, []) then
+        begin
+          CDSItem.Append;
+          CDSItem.FieldByName('ID').AsInteger := FieldByName('ID').AsInteger;
+          CDSItem.FieldByName('Kode').AsString := FieldByName('Kode').AsString;
+          CDSItem.FieldByName('Nama').AsString := FieldByName('Nama').AsString;
+          CDSItem.Post;
+        end;
+        next;
+      end;
+    Finally
+      Free;
+    End;
+  end;
+end;
+
+procedure TfrmExportData.LoadPriceQuotation;
+var
+  S: string;
+begin
+  S := 'SELECT * FROM TPRICEQUOTATION'
+      +' WHERE TRANSDATE BETWEEN ' + TAppUtils.QuotD(StartDate.Date)
+      +' and ' + TAppUtils.QuotD(EndDate.Date);
+  if FCDSPQ <> nil then
+    FreeAndNil(FCDSPQ);
+
+  FCDSPQ := TDBUtils.OpenDataset(S, Self);
+  cxGrdPQ.LoadFromCDS(CDSPQ);
+
+  //load barang
+  S := 'SELECT DISTINCT C.ID, C.KODE, C.NAMA'
+      +' FROM TPRICEQUOTATION A'
+      +' INNER JOIN TPRICEQUOTATIONITEM B ON A.ID = B.QUOTATION_ID'
+      +' INNER JOIN TITEM C ON B.ITEM_ID = C.ID'
+      +' WHERE A.TRANSDATE BETWEEN ' + TAppUtils.QuotD(StartDate.Date)
+      +' and ' + TAppUtils.QuotD(EndDate.Date);
+
+  with TDBUtils.OpenQuery(S, Self) do
+  begin
+    Try
+      while not eof do
+      begin
+        if not CDSItem.Locate('ID', FieldByName('ID').AsInteger, []) then
+        begin
+          CDSItem.Append;
+          CDSItem.FieldByName('ID').AsInteger := FieldByName('ID').AsInteger;
+          CDSItem.FieldByName('Kode').AsString := FieldByName('Kode').AsString;
+          CDSItem.FieldByName('Nama').AsString := FieldByName('Nama').AsString;
+          CDSItem.Post;
+        end;
+        next;
+      end;
+    Finally
+      Free;
+    End;
+  end;
+
+
 end;
 
 procedure TfrmExportData.LookupItem(aKey: string = '');

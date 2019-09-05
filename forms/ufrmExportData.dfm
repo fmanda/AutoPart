@@ -71,13 +71,13 @@ inherited frmExportData: TfrmExportData
       Left = 9
       Top = 15
       Caption = 'Master Barang'
+      Properties.OnEditValueChanged = ckItemPropertiesEditValueChanged
       TabOrder = 0
     end
     object ckPriceQuot: TcxCheckBox
       Left = 9
       Top = 31
       Caption = 'Price Quotation'
-      Enabled = False
       TabOrder = 1
     end
     object ckTransfer: TcxCheckBox
@@ -97,6 +97,7 @@ inherited frmExportData: TfrmExportData
       Style.LookAndFeel.NativeStyle = False
       StyleDisabled.LookAndFeel.NativeStyle = False
       TabOrder = 3
+      ExplicitLeft = 7
       Height = 35
       Width = 843
       object EndDate: TcxDateEdit
@@ -104,7 +105,6 @@ inherited frmExportData: TfrmExportData
         Left = 202
         Top = 5
         Align = alLeft
-        Enabled = False
         Properties.SaveTime = False
         Properties.ShowTime = False
         TabOrder = 0
@@ -116,7 +116,6 @@ inherited frmExportData: TfrmExportData
         Left = 77
         Top = 5
         Align = alLeft
-        Enabled = False
         Properties.SaveTime = False
         Properties.ShowTime = False
         TabOrder = 1
@@ -131,7 +130,6 @@ inherited frmExportData: TfrmExportData
         Margins.Right = 0
         Align = alLeft
         Caption = 'Filter Periode'
-        Enabled = False
         Properties.Alignment.Vert = taVCenter
         Visible = False
         AnchorY = 18
@@ -141,7 +139,6 @@ inherited frmExportData: TfrmExportData
         Top = 2
         Align = alLeft
         Caption = 's/d'
-        Enabled = False
         Properties.Alignment.Vert = taVCenter
         Visible = False
         AnchorY = 18
@@ -157,10 +154,10 @@ inherited frmExportData: TfrmExportData
         Margins.Bottom = 2
         Align = alLeft
         Caption = '&Load Data'
-        Enabled = False
         OptionsImage.ImageIndex = 4
         OptionsImage.Images = frmMain.ImageList
         TabOrder = 4
+        OnClick = btnRefreshClick
       end
     end
     object cxMemo1: TcxMemo
@@ -275,23 +272,44 @@ inherited frmExportData: TfrmExportData
     object tsPriceQuotation: TcxTabSheet
       Caption = 'List Price Quotation'
       ImageIndex = 1
-      ExplicitTop = 0
-      ExplicitWidth = 791
-      ExplicitHeight = 359
+      object cxGrid: TcxGrid
+        Left = 0
+        Top = 0
+        Width = 853
+        Height = 395
+        Align = alClient
+        TabOrder = 0
+        ExplicitTop = 35
+        ExplicitWidth = 611
+        ExplicitHeight = 313
+        object cxGrdPQ: TcxGridDBTableView
+          Navigator.Buttons.CustomButtons = <>
+          DataController.Filter.Options = [fcoCaseInsensitive]
+          DataController.Filter.Active = True
+          DataController.Summary.DefaultGroupSummaryItems = <>
+          DataController.Summary.FooterSummaryItems = <>
+          DataController.Summary.SummaryGroups = <>
+          FilterRow.Visible = True
+          FilterRow.ApplyChanges = fracImmediately
+          OptionsData.CancelOnExit = False
+          OptionsData.Deleting = False
+          OptionsData.DeletingConfirmation = False
+          OptionsData.Editing = False
+          OptionsData.Inserting = False
+          OptionsView.GroupByBox = False
+        end
+        object cxGridLevel1: TcxGridLevel
+          GridView = cxGrdPQ
+        end
+      end
     end
     object tsTransfer: TcxTabSheet
       Caption = 'List Transfer Stock'
       ImageIndex = 2
-      ExplicitTop = 0
-      ExplicitWidth = 791
-      ExplicitHeight = 359
     end
     object tsJSON: TcxTabSheet
       Caption = 'File Preview'
       ImageIndex = 3
-      ExplicitTop = 0
-      ExplicitWidth = 791
-      ExplicitHeight = 359
       object mmJSON: TcxMemo
         Left = 0
         Top = 0
