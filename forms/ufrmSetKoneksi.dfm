@@ -26,7 +26,7 @@ inherited frmSetKoneksi: TfrmSetKoneksi
       Height = 25
       Align = alRight
       Caption = '&Tutup'
-      OptionsImage.ImageIndex = 32
+      OptionsImage.ImageIndex = 3
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
       OnClick = btnTutupClick
@@ -39,7 +39,7 @@ inherited frmSetKoneksi: TfrmSetKoneksi
       Height = 25
       Align = alLeft
       Caption = 'Test Koneksi'
-      OptionsImage.ImageIndex = 5
+      OptionsImage.ImageIndex = 9
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 1
       OnClick = btnTestClick
@@ -52,7 +52,7 @@ inherited frmSetKoneksi: TfrmSetKoneksi
       Height = 25
       Align = alLeft
       Caption = '&Simpan Koneksi'
-      OptionsImage.ImageIndex = 28
+      OptionsImage.ImageIndex = 70
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 2
       OnClick = btnSaveClick

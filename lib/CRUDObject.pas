@@ -318,17 +318,17 @@ var
   ctx: TRttiContext;
   lProp: TRttiProperty;
 begin
-  Try
+//  Try
     ctx.GetType(Self.ClassType);  //i have to call this to avoid exception
     lProp   := PropFromAttr(AttributeOfCode);
     Result  := FieldNameOf(lProp);
-  except
-    on E:Exception do
-    begin
-      E.Message := E.Message + #13 + 'Property : ' + lProp.Name;
-      Raise;
-    end;
-  End;
+//  except
+//    on E:Exception do
+//    begin
+//      E.Message := E.Message + #13 + 'Property : ' + lProp.Name;
+//      Raise;
+//    end;
+//  End;
 end;
 
 function TCRUDObject.GetCodeValue: String;

@@ -2004,3 +2004,20 @@ INSERT INTO TUOM(UOM) VALUES('BOX');
 INSERT INTO TPROJECT(PROJECT_CODE, PROJECT_NAME) VALUES('1','Motoroli Pusat');
 INSERT INTO TPROJECT(PROJECT_CODE, PROJECT_NAME) VALUES('11','Motoroli Cabang 1');
 INSERT INTO TPROJECT(PROJECT_CODE, PROJECT_NAME) VALUES('12','Motoroli Cabang 2');
+
+
+
+
+EXEC msdb.dbo.sp_send_dbmail
+@profile_name = 'motoroli',
+@recipients = 'moto12roli@gmail.com',
+@copy_recipients = 'it.motoroli@gmail.com',
+@subject = 'Profit-Lost Gumpang',
+@body = 'Email ini dikirim otomatis oleh Server',
+@query = N'select reportname, cast(reportval as numeric(16,0)) as reportval
+from Motoroli_03.dbo.FN_PROFITLOSS(	DATEADD(mm, DATEDIFF(mm, 0, getdate()), 0), getdate())
+where reportname is not null;',
+@attach_query_result_as_file = 1,
+@exclude_query_output = 0,
+@query_result_width = 120,
+@query_attachment_filename = 'PNL_Gumpang.txt'

@@ -109,7 +109,6 @@ procedure TfrmExportData.FormCreate(Sender: TObject);
 begin
   inherited;
   InitView;
-  SaveDlg.InitialDir := TPath.GetDocumentsPath;
   ckItemPropertiesEditValueChanged(Self);
   StartDate.Date := Now();
   EndDate.Date := Now();
@@ -129,11 +128,18 @@ begin
   mmJSON.Lines.Clear;
   mmJSON.Text := TJSON.Format(ResultJSON);
 
+  SaveDlg.InitialDir := TApputils.BacaRegistry('LastExportDir');
+  if SaveDlg.InitialDir = '' then
+    SaveDlg.InitialDir := TPath.GetDocumentsPath;
+
+
   SaveDlg.FileName := 'IT_' + FormatDateTime('YYmmddhhmmss',Now());
   if SaveDlg.Execute then
   begin
     mmJSON.Lines.SaveToFile(SaveDlg.FileName);
     TAppUtils.Information('Data berhasil di export ke file : ' + SaveDLg.FileName);
+
+    TApputils.TulisRegistry('LastExportDir', ExtractFileDir(SaveDlg.FileName));
   end;
 
 end;

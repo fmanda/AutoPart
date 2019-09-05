@@ -18,7 +18,6 @@ inherited frmExportData: TfrmExportData
     Color = 14079702
     TabOrder = 0
     Visible = False
-    ExplicitTop = 559
     object btnClose: TcxButton
       AlignWithMargins = True
       Left = 774
@@ -325,7 +324,6 @@ inherited frmExportData: TfrmExportData
         Style.Font.Style = []
         Style.IsFontAssigned = True
         TabOrder = 0
-        ExplicitTop = -6
         Height = 395
         Width = 853
       end

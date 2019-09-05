@@ -51,7 +51,7 @@ var
 implementation
 
 uses
-  uItem, uAppUtils, uPriceQuotation;
+  uItem, uAppUtils, uPriceQuotation, System.IOUtils;
 
 {$R *.dfm}
 
@@ -64,6 +64,11 @@ end;
 procedure TfrmImportData.btnRefreshClick(Sender: TObject);
 begin
   inherited;
+  if edFile.Text = '' then
+  begin
+    TAppUtils.Warning('File belum dipilih');
+    exit;
+  end;
   mmJSON.Clear;
   ImportUOM;
   ImportMerk;
@@ -353,10 +358,16 @@ end;
 
 procedure TfrmImportData.LoadFile;
 begin
-  if opDialog.Execute then
-    edFile.Text := opDialog.FileName;
+  opDialog.InitialDir := TApputils.BacaRegistry('LastImportDir');
+  if opDialog.InitialDir = '' then
+    opDialog.InitialDir := TPath.GetDocumentsPath;
 
-  LoadJSON;
+  if opDialog.Execute then
+  begin
+    edFile.Text := opDialog.FileName;
+    LoadJSON;
+    TApputils.TulisRegistry('LastImportDir', ExtractFileDir(edFile.Text));
+  end;
 end;
 
 procedure TfrmImportData.LoadJSON;
