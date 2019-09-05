@@ -136,26 +136,75 @@ end;
 procedure TfrmExportData.ExportItem;
 var
   lItem: TItem;
+  lItemUOM: TItemUOM;
   lObj: TJSONObject;
+  SS: TStrings;
 begin
   pgBar.Position := 0;
   pgBar.Properties.Max := CDSItem.RecordCount;
   CDSItem.First;
-  while not CDSITem.Eof do
-  begin
-    pgBar.Position := pgBar.Position + 1;
-    Application.ProcessMessages;
 
-    lItem := TItem.Create;
-    Try
-      lItem.LoadByID(CDSItem.FieldByName('ID').AsInteger);
-      lObj := TJSONUtils.ObjectToJSON(lItem);
-      ResultJSON.AddElement(lObj);
-    Finally
-      FreeAndNil(lItem);
-    End;
-    CDSItem.Next;
-  end;
+  SS := TStringList.Create;
+  Try
+    while not CDSITem.Eof do
+    begin
+      pgBar.Position := pgBar.Position + 1;
+      Application.ProcessMessages;
+
+      lItem := TItem.Create;
+      Try
+        lItem.LoadByID(CDSItem.FieldByName('ID').AsInteger);
+        lObj := TJSONUtils.ObjectToJSON(lItem);
+        ResultJSON.AddElement(lObj);
+
+
+        //merk
+        if lItem.Merk <> nil then
+        begin
+          if SS.IndexOf('merk_' + inttostr(lItem.Merk.ID)) = -1 then
+          begin
+            lItem.Merk.ReLoad(False);
+            lObj := TJSONUtils.ObjectToJSON(lItem.Merk);
+            ResultJSON.AddElement(lObj);
+
+            SS.Add('merk_' + inttostr(lItem.Merk.ID) );
+          end;
+        end;
+
+        if lItem.Group <> nil then
+        begin
+          if SS.IndexOf('itemgroup_' + inttostr(lItem.Group.ID)) = -1 then
+          begin
+            lItem.Group.ReLoad(False);
+            lObj := TJSONUtils.ObjectToJSON(lItem.Group);
+            ResultJSON.AddElement(lObj);
+
+            SS.Add('itemgroup_' + inttostr(lItem.Group.ID) );
+          end;
+        end;
+
+        for lItemUOM in lItem.ItemUOMs do
+        begin
+          if lItemUOM.UOM <> nil then
+          begin
+            if SS.IndexOf('uom_' + inttostr(lItemUOM.UOM.ID)) = -1 then
+            begin
+              lItemUOM.UOM.ReLoad(False);
+              lObj := TJSONUtils.ObjectToJSON(lItemUOM.UOM);
+              ResultJSON.AddElement(lObj);
+
+              SS.Add('uom_' + inttostr(lItemUOM.UOM.ID) );
+            end;
+          end;
+        end;
+      Finally
+        FreeAndNil(lItem);
+      End;
+      CDSItem.Next;
+    end;
+  Finally
+    SS.Free;
+  End;
 
 end;
 

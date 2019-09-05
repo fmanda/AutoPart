@@ -133,7 +133,8 @@ type
     class function GetProperty(rt: TRttiType; AObject: TObject; APropName: String;
         ShowException: Boolean = False): TRttiProperty; overload;
     class function GetValue(AJSON: TJSONObject; APairName: String): TJSONValue;
-    class function GetClass(AJSON: TJSONObject): TCRUDObjectClass;
+    class function GetClass(AJSON: TJSONObject; WithException: Boolean = True):
+        TCRUDObjectClass;
     class function ObjectToJSONStr(AObject: TCRUDObject): String; overload;
   end;
 
@@ -1557,25 +1558,27 @@ begin
   end;
 end;
 
-class function TJSONUtils.GetClass(AJSON: TJSONObject): TCRUDObjectClass;
+class function TJSONUtils.GetClass(AJSON: TJSONObject; WithException: Boolean =
+    True): TCRUDObjectClass;
 var
   i: Integer;
   sClass: string;
 begin
+  Result := nil;
   sClass := '';
   for i := 0 to AJSON.Count-1 do
   begin
     if UpperCase(AJSON.Pairs[i].JsonString.Value) = UpperCase('_classname') then
       sClass := AJSON.Pairs[i].JsonValue.Value;
   end;
-  if sClass = '' then
+  if (sClass = '') and (WithException) then
     raise Exception.Create('TJSONUtils.GetClass = nil');
 
-  Result := StringToClass(sClass);
+  if sClass <> '' then
+    Result := StringToClass(sClass);
 
-  if Result = nil then
+  if (Result = nil) and (WithException) then
     raise Exception.Create(sClass + ' not found in TJSONUtils.GetClass');
-
 end;
 
 class function TJSONUtils.ObjectToJSONStr(AObject: TCRUDObject): String;

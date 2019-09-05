@@ -1,5 +1,6 @@
-Delete From TItemUOM where Item_ID = 3;
-Delete From TItemUOM where ID = 13716;
-Delete From TItemRack where Item_ID = 3;
-Delete From TItemRack where ID = 8002;
-Delete From TItem where ID = 3;
+Delete From TItemUOM where Item_ID = 1;
+Delete From TItemUOM where ID = 13656;
+Delete From TItemUOM where ID = 13657;
+Delete From TItemRack where Item_ID = 1;
+Delete From TItemRack where ID = 7855;
+Delete From TItem where ID = 1;

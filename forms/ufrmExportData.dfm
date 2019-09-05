@@ -17,8 +17,6 @@ inherited frmExportData: TfrmExportData
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 0
-    ExplicitTop = 496
-    ExplicitWidth = 791
     object btnClose: TcxButton
       AlignWithMargins = True
       Left = 774
@@ -34,7 +32,6 @@ inherited frmExportData: TfrmExportData
       OptionsImage.ImageIndex = 10
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
-      ExplicitLeft = 712
     end
     object btnExport: TcxButton
       AlignWithMargins = True
@@ -57,7 +54,6 @@ inherited frmExportData: TfrmExportData
       Font.Style = [fsBold]
       ParentFont = False
       OnClick = btnExportClick
-      ExplicitLeft = 602
     end
   end
   object cxGroupBox3: TcxGroupBox
@@ -69,7 +65,6 @@ inherited frmExportData: TfrmExportData
     Align = alTop
     Caption = ' Parameter '
     TabOrder = 1
-    ExplicitWidth = 791
     Height = 113
     Width = 853
     object ckItem: TcxCheckBox
@@ -102,7 +97,6 @@ inherited frmExportData: TfrmExportData
       Style.LookAndFeel.NativeStyle = False
       StyleDisabled.LookAndFeel.NativeStyle = False
       TabOrder = 3
-      ExplicitLeft = 7
       Height = 35
       Width = 843
       object EndDate: TcxDateEdit
@@ -167,7 +161,6 @@ inherited frmExportData: TfrmExportData
         OptionsImage.ImageIndex = 4
         OptionsImage.Images = frmMain.ImageList
         TabOrder = 4
-        ExplicitLeft = 686
       end
     end
     object cxMemo1: TcxMemo
@@ -200,16 +193,12 @@ inherited frmExportData: TfrmExportData
     TabOrder = 2
     Properties.ActivePage = tsItem
     Properties.CustomButtons.Buttons = <>
-    ExplicitWidth = 791
-    ExplicitHeight = 383
     ClientRectBottom = 419
     ClientRectRight = 853
     ClientRectTop = 24
     object tsItem: TcxTabSheet
       Caption = 'List Master Barang'
       ImageIndex = 0
-      ExplicitWidth = 791
-      ExplicitHeight = 359
       object cxGridItem: TcxGrid
         Left = 0
         Top = 0
@@ -217,8 +206,6 @@ inherited frmExportData: TfrmExportData
         Height = 395
         Align = alClient
         TabOrder = 0
-        ExplicitWidth = 791
-        ExplicitHeight = 359
         object cxGrdItem: TcxGridDBTableView
           PopupMenu = pmGrid
           Navigator.Buttons.CustomButtons = <>
@@ -288,18 +275,21 @@ inherited frmExportData: TfrmExportData
     object tsPriceQuotation: TcxTabSheet
       Caption = 'List Price Quotation'
       ImageIndex = 1
+      ExplicitTop = 0
       ExplicitWidth = 791
       ExplicitHeight = 359
     end
     object tsTransfer: TcxTabSheet
       Caption = 'List Transfer Stock'
       ImageIndex = 2
+      ExplicitTop = 0
       ExplicitWidth = 791
       ExplicitHeight = 359
     end
     object tsJSON: TcxTabSheet
       Caption = 'File Preview'
       ImageIndex = 3
+      ExplicitTop = 0
       ExplicitWidth = 791
       ExplicitHeight = 359
       object mmJSON: TcxMemo
@@ -320,8 +310,6 @@ inherited frmExportData: TfrmExportData
         Style.Font.Style = []
         Style.IsFontAssigned = True
         TabOrder = 0
-        ExplicitWidth = 791
-        ExplicitHeight = 359
         Height = 395
         Width = 853
       end
@@ -333,9 +321,6 @@ inherited frmExportData: TfrmExportData
     Align = alBottom
     Properties.ShowTextStyle = cxtsPosition
     TabOrder = 3
-    ExplicitLeft = 128
-    ExplicitTop = 296
-    ExplicitWidth = 642
     Width = 853
   end
   object SaveDlg: TSaveDialog

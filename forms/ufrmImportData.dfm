@@ -16,7 +16,6 @@ inherited frmImportData: TfrmImportData
     Align = alTop
     Caption = ' Parameter '
     TabOrder = 0
-    ExplicitWidth = 635
     Height = 57
     Width = 642
     object edFile: TcxButtonEdit
@@ -59,11 +58,9 @@ inherited frmImportData: TfrmImportData
     Left = 0
     Top = 535
     Align = alBottom
-    Properties.ShowTextStyle = cxtsPosition
+    Properties.ShowTextStyle = cxtsText
     TabOrder = 1
-    ExplicitLeft = 128
-    ExplicitTop = 296
-    ExplicitWidth = 121
+    ExplicitTop = 541
     Width = 642
   end
   object cxPageControl1: TcxPageControl
@@ -75,25 +72,16 @@ inherited frmImportData: TfrmImportData
     TabOrder = 2
     Properties.ActivePage = tsJSON
     Properties.CustomButtons.Buttons = <>
-    ExplicitLeft = -218
-    ExplicitTop = -34
-    ExplicitWidth = 853
-    ExplicitHeight = 440
     ClientRectBottom = 478
     ClientRectRight = 642
     ClientRectTop = 24
     object tsPriceQuotation: TcxTabSheet
       Caption = 'Class Yang Akan Diimport'
       ImageIndex = 1
-      ExplicitWidth = 635
-      ExplicitHeight = 304
     end
     object tsJSON: TcxTabSheet
       Caption = 'File Preview'
       ImageIndex = 3
-      ExplicitTop = 0
-      ExplicitWidth = 791
-      ExplicitHeight = 359
       object mmJSON: TcxMemo
         Left = 0
         Top = 0
@@ -112,8 +100,6 @@ inherited frmImportData: TfrmImportData
         Style.Font.Style = []
         Style.IsFontAssigned = True
         TabOrder = 0
-        ExplicitWidth = 853
-        ExplicitHeight = 416
         Height = 454
         Width = 642
       end
