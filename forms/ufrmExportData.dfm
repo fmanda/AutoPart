@@ -17,6 +17,8 @@ inherited frmExportData: TfrmExportData
     BevelOuter = bvNone
     Color = 14079702
     TabOrder = 0
+    Visible = False
+    ExplicitTop = 559
     object btnClose: TcxButton
       AlignWithMargins = True
       Left = 774
@@ -32,28 +34,6 @@ inherited frmExportData: TfrmExportData
       OptionsImage.ImageIndex = 10
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 0
-    end
-    object btnExport: TcxButton
-      AlignWithMargins = True
-      Left = 664
-      Top = 2
-      Width = 104
-      Height = 27
-      Cursor = crHandPoint
-      Margins.Top = 2
-      Margins.Bottom = 2
-      Align = alRight
-      Caption = '&Export'
-      OptionsImage.ImageIndex = 51
-      OptionsImage.Images = frmMain.ImageList
-      TabOrder = 1
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Trebuchet MS'
-      Font.Style = [fsBold]
-      ParentFont = False
-      OnClick = btnExportClick
     end
   end
   object cxGroupBox3: TcxGroupBox
@@ -72,12 +52,14 @@ inherited frmExportData: TfrmExportData
       Top = 15
       Caption = 'Master Barang'
       Properties.OnEditValueChanged = ckItemPropertiesEditValueChanged
+      State = cbsChecked
       TabOrder = 0
     end
     object ckPriceQuot: TcxCheckBox
       Left = 9
       Top = 31
       Caption = 'Price Quotation'
+      State = cbsChecked
       TabOrder = 1
     end
     object ckTransfer: TcxCheckBox
@@ -97,7 +79,6 @@ inherited frmExportData: TfrmExportData
       Style.LookAndFeel.NativeStyle = False
       StyleDisabled.LookAndFeel.NativeStyle = False
       TabOrder = 3
-      ExplicitLeft = 7
       Height = 35
       Width = 843
       object EndDate: TcxDateEdit
@@ -108,7 +89,6 @@ inherited frmExportData: TfrmExportData
         Properties.SaveTime = False
         Properties.ShowTime = False
         TabOrder = 0
-        Visible = False
         Width = 100
       end
       object StartDate: TcxDateEdit
@@ -119,7 +99,6 @@ inherited frmExportData: TfrmExportData
         Properties.SaveTime = False
         Properties.ShowTime = False
         TabOrder = 1
-        Visible = False
         Width = 100
       end
       object cxLabel1: TcxLabel
@@ -131,7 +110,6 @@ inherited frmExportData: TfrmExportData
         Align = alLeft
         Caption = 'Filter Periode'
         Properties.Alignment.Vert = taVCenter
-        Visible = False
         AnchorY = 18
       end
       object cxLabel2: TcxLabel
@@ -140,7 +118,6 @@ inherited frmExportData: TfrmExportData
         Align = alLeft
         Caption = 's/d'
         Properties.Alignment.Vert = taVCenter
-        Visible = False
         AnchorY = 18
       end
       object btnRefresh: TcxButton
@@ -158,6 +135,29 @@ inherited frmExportData: TfrmExportData
         OptionsImage.Images = frmMain.ImageList
         TabOrder = 4
         OnClick = btnRefreshClick
+      end
+      object btnExport: TcxButton
+        AlignWithMargins = True
+        Left = 404
+        Top = 4
+        Width = 109
+        Height = 27
+        Cursor = crHandPoint
+        Margins.Top = 2
+        Margins.Bottom = 2
+        Align = alLeft
+        Cancel = True
+        Caption = '&Export'
+        OptionsImage.ImageIndex = 51
+        OptionsImage.Images = frmMain.ImageList
+        TabOrder = 5
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Trebuchet MS'
+        Font.Style = [fsBold]
+        ParentFont = False
+        OnClick = btnExportClick
       end
     end
     object cxMemo1: TcxMemo
@@ -181,14 +181,14 @@ inherited frmExportData: TfrmExportData
       Width = 432
     end
   end
-  object cxPageControl1: TcxPageControl
+  object pgcMain: TcxPageControl
     Left = 0
     Top = 113
     Width = 853
     Height = 419
     Align = alClient
     TabOrder = 2
-    Properties.ActivePage = tsItem
+    Properties.ActivePage = tsJSON
     Properties.CustomButtons.Buttons = <>
     ClientRectBottom = 419
     ClientRectRight = 853
@@ -279,9 +279,6 @@ inherited frmExportData: TfrmExportData
         Height = 395
         Align = alClient
         TabOrder = 0
-        ExplicitTop = 35
-        ExplicitWidth = 611
-        ExplicitHeight = 313
         object cxGrdPQ: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Filter.Options = [fcoCaseInsensitive]
@@ -328,6 +325,7 @@ inherited frmExportData: TfrmExportData
         Style.Font.Style = []
         Style.IsFontAssigned = True
         TabOrder = 0
+        ExplicitTop = -6
         Height = 395
         Width = 853
       end
@@ -337,7 +335,7 @@ inherited frmExportData: TfrmExportData
     Left = 0
     Top = 532
     Align = alBottom
-    Properties.ShowTextStyle = cxtsPosition
+    Properties.ShowTextStyle = cxtsText
     TabOrder = 3
     Width = 853
   end

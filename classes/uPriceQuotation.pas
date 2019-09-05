@@ -27,6 +27,7 @@ type
     function GenerateNo: String;
     property Items: TObjectList<TPriceQuotationItem> read GetItems write FItems;
   published
+    [AttributeOfCode]
     property Refno: String read FRefno write FRefno;
     property TransDate: TDatetime read FTransDate write FTransDate;
     property IsActive: Integer read FIsActive write FIsActive;

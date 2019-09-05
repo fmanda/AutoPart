@@ -19,7 +19,6 @@ type
   TfrmExportData = class(TfrmDefault)
     Panel1: TPanel;
     btnClose: TcxButton;
-    btnExport: TcxButton;
     cxGroupBox3: TcxGroupBox;
     ckItem: TcxCheckBox;
     ckPriceQuot: TcxCheckBox;
@@ -30,7 +29,7 @@ type
     cxLabel1: TcxLabel;
     cxLabel2: TcxLabel;
     btnRefresh: TcxButton;
-    cxPageControl1: TcxPageControl;
+    pgcMain: TcxPageControl;
     tsItem: TcxTabSheet;
     tsPriceQuotation: TcxTabSheet;
     tsTransfer: TcxTabSheet;
@@ -51,6 +50,7 @@ type
     cxGrid: TcxGrid;
     cxGrdPQ: TcxGridDBTableView;
     cxGridLevel1: TcxGridLevel;
+    btnExport: TcxButton;
     procedure FormCreate(Sender: TObject);
     procedure colNoGetDisplayText(Sender: TcxCustomGridTableItem; ARecord:
         TcxCustomGridRecord; var AText: string);
@@ -65,7 +65,9 @@ type
     FCDSItem: TClientDataset;
     FCDSPQ: TClientDataset;
     FResultJSON: TJSONArray;
+    procedure AddLog(aStr: string);
     procedure ExportItem;
+    procedure ExportPriceQuotation;
     function GetCDSItemClone: TClientDataset;
     function GetCDSItem: TClientDataset;
     function GetResultJSON: TJSONArray;
@@ -92,9 +94,16 @@ implementation
 
 uses
   uDBUtils, uDXUtils, ufrmCXServerLookup, ufrmCXLookup, ufrmLookupItem,
-  cxDataUtils, CRUDObject, REST.Json, uAppUtils, System.IOUtils;
+  cxDataUtils, CRUDObject, REST.Json, uAppUtils, System.IOUtils,
+  uPriceQuotation;
 
 {$R *.dfm}
+
+procedure TfrmExportData.AddLog(aStr: string);
+begin
+  aStr := '[' + FormatDateTime('hh:mm:ss', Now()) + '] ' + aStr;
+  mmJSON.Lines.Add(aStr);
+end;
 
 procedure TfrmExportData.FormCreate(Sender: TObject);
 begin
@@ -102,13 +111,19 @@ begin
   InitView;
   SaveDlg.InitialDir := TPath.GetDocumentsPath;
   ckItemPropertiesEditValueChanged(Self);
+  StartDate.Date := Now();
+  EndDate.Date := Now();
 end;
 
 procedure TfrmExportData.btnExportClick(Sender: TObject);
 begin
   inherited;
+  pgcMain.ActivePage := tsJSON;
   if FResultJSON <> nil then
     FreeAndNil(FResultJSON);
+
+  mmJSON.Lines.Clear;
+  ExportPriceQuotation;
   ExportItem;
 
   mmJSON.Lines.Clear;
@@ -127,9 +142,15 @@ procedure TfrmExportData.btnRefreshClick(Sender: TObject);
 begin
   inherited;
   if ckItem.Checked then
+  begin
+    pgcMain.ActivePage := tsItem;
     LoadModifiedItem;
+  end;
   if ckPriceQuot.Checked then
+  begin
+    pgcMain.ActivePage := tsPriceQuotation;
     LoadPriceQuotation;
+  end;
 end;
 
 procedure TfrmExportData.ckItemPropertiesEditValueChanged(Sender: TObject);
@@ -177,6 +198,8 @@ begin
     while not CDSITem.Eof do
     begin
       pgBar.Position := pgBar.Position + 1;
+      pgBar.Properties.Text := 'Import Data Item : '
+        + FloatToStr(pgBar.Position) + ' of ' + FloatToStr(pgBar.Properties.Max);
       Application.ProcessMessages;
 
       lItem := TItem.Create;
@@ -184,6 +207,7 @@ begin
         lItem.LoadByID(CDSItem.FieldByName('ID').AsInteger);
         lObj := TJSONUtils.ObjectToJSON(lItem);
         ResultJSON.AddElement(lObj);
+        AddLog('Item : ' + lItem.Nama + ' Exported');
 
 
         //merk
@@ -194,6 +218,7 @@ begin
             lItem.Merk.ReLoad(False);
             lObj := TJSONUtils.ObjectToJSON(lItem.Merk);
             ResultJSON.AddElement(lObj);
+            AddLog('Merk : ' + lItem.Merk.Nama + ' Exported');
 
             SS.Add('merk_' + inttostr(lItem.Merk.ID) );
           end;
@@ -206,6 +231,7 @@ begin
             lItem.Group.ReLoad(False);
             lObj := TJSONUtils.ObjectToJSON(lItem.Group);
             ResultJSON.AddElement(lObj);
+            AddLog('Group : ' + lItem.Group.Nama + ' Exported');
 
             SS.Add('itemgroup_' + inttostr(lItem.Group.ID) );
           end;
@@ -220,6 +246,7 @@ begin
               lItemUOM.UOM.ReLoad(False);
               lObj := TJSONUtils.ObjectToJSON(lItemUOM.UOM);
               ResultJSON.AddElement(lObj);
+              AddLog('UOM : ' + lItemUOM.UOM.UOM + ' Exported');
 
               SS.Add('uom_' + inttostr(lItemUOM.UOM.ID) );
             end;
@@ -233,6 +260,39 @@ begin
   Finally
     SS.Free;
   End;
+
+end;
+
+procedure TfrmExportData.ExportPriceQuotation;
+var
+  lPQ: TPriceQuotation;
+  lObj: TJSONObject;
+begin
+  if FCDSPQ = nil then exit;
+
+  pgBar.Position := 0;
+  pgBar.Properties.Max := CDSPQ.RecordCount;
+  CDSPQ.First;
+
+  while not CDSPQ.Eof do
+  begin
+    pgBar.Position := pgBar.Position + 1;
+    pgBar.Properties.Text := 'Import Data Quotation '
+      + FloatToStr(pgBar.Position) + ' of ' + FloatToStr(pgBar.Properties.Max);
+    Application.ProcessMessages;
+
+    lPQ := TPriceQuotation.Create;
+    Try
+      lPQ.LoadByID(CDSPQ.FieldByName('ID').AsInteger);
+      lObj := TJSONUtils.ObjectToJSON(lPQ);
+      ResultJSON.AddElement(lObj);
+
+      AddLog('Quotation No : ' + lPQ.Refno + ' Exported');
+    Finally
+      FreeAndNil(lPQ);
+    End;
+    CDSPQ.Next;
+  end;
 
 end;
 
@@ -300,6 +360,7 @@ begin
 
   with TDBUtils.OpenQuery(S, Self) do
   begin
+    CDSItem.DisableControls;
     Try
       while not eof do
       begin
@@ -315,6 +376,7 @@ begin
       end;
     Finally
       Free;
+      CDSItem.EnableControls;
     End;
   end;
 end;
@@ -331,6 +393,7 @@ begin
 
   FCDSPQ := TDBUtils.OpenDataset(S, Self);
   cxGrdPQ.LoadFromCDS(CDSPQ);
+  cxGrdPQ.SetVisibleColumns(['ID'], False);
 
   //load barang
   S := 'SELECT DISTINCT C.ID, C.KODE, C.NAMA'

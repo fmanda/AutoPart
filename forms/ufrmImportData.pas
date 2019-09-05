@@ -33,6 +33,7 @@ type
     procedure ImportUOM;
     procedure ImportMerk;
     procedure ImportGroup;
+    procedure ImportQuotation;
     procedure LoadFile;
     procedure LoadJSON;
     property JSONFile: TJSONArray read FJSONFile write FJSONFile;
@@ -50,7 +51,7 @@ var
 implementation
 
 uses
-  uItem, uAppUtils;
+  uItem, uAppUtils, uPriceQuotation;
 
 {$R *.dfm}
 
@@ -68,8 +69,8 @@ begin
   ImportMerk;
   ImportGroup;
   ImportItem;
-
-
+  ImportQuotation;
+  TAppUtils.Information('Semua data berhasil diimport');
 end;
 
 procedure TfrmImportData.edFileKeyDown(Sender: TObject; var Key: Word; Shift:
@@ -308,6 +309,41 @@ begin
       lGroup := TJSONUtils.JSONToObject(lJSONObj, lClass) as TItemGroup;
       lGroup.SaveToDB();
       AddLog('Group : ' + lGroup.Nama + ' Updated');
+    end;
+
+    FreeAndNil(LJSONObj);
+  end;
+//  TAppUtils.Information('Data Berhasil Diimport');
+end;
+
+procedure TfrmImportData.ImportQuotation;
+var
+  i: Integer;
+  lClass: TCRUDObjectClass;
+  lPQ: TPriceQuotation;
+  lJSONObj: TJSONObject;
+  lJSONVal: TJSONValue;
+begin
+  pgBar.Properties.Max := JSONFile.Count;
+  lPQ := nil;
+  for i:=0 to JSONFile.Count-1 do
+  begin
+    pgBar.Position := i+1;
+    pgBar.Properties.Text := 'Import Data Quotation : '
+        + FloatToStr(pgBar.Position) + ' of ' + FloatToStr(pgBar.Properties.Max);
+    Application.ProcessMessages;
+
+    lJSONVal  := JSONFile.Items[i];
+    lJSONObj  := TJSONObject.ParseJSONValue(lJSONVal.ToString) as TJSONObject;
+    lClass    := TJSONUtils.GetClass(lJSONObj);
+
+    if lClass = TPriceQuotation then
+    begin
+      if lPQ <> nil then FreeAndNil(lPQ);
+
+      lPQ := TJSONUtils.JSONToObject(lJSONObj, lClass) as TPriceQuotation;
+      lPQ.SaveToDB();
+      AddLog('Quotation : ' + lPQ.Refno + ' Updated');
     end;
 
     FreeAndNil(LJSONObj);

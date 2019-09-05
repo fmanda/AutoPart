@@ -315,9 +315,11 @@ end;
 
 function TCRUDObject.GetCodeField: String;
 var
+  ctx: TRttiContext;
   lProp: TRttiProperty;
 begin
   Try
+    ctx.GetType(Self.ClassType);  //i have to call this to avoid exception
     lProp   := PropFromAttr(AttributeOfCode);
     Result  := FieldNameOf(lProp);
   except

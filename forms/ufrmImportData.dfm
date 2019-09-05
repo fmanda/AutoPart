@@ -60,7 +60,6 @@ inherited frmImportData: TfrmImportData
     Align = alBottom
     Properties.ShowTextStyle = cxtsText
     TabOrder = 1
-    ExplicitTop = 541
     Width = 642
   end
   object cxPageControl1: TcxPageControl
