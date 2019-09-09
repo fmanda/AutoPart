@@ -201,7 +201,6 @@ type
     actLog: TAction;
     dxBarSubItem4: TdxBarSubItem;
     dxBarButton89: TdxBarButton;
-    FDStanStorageJSONLink1: TFDStanStorageJSONLink;
     actExportData: TAction;
     dxRTUtilities: TdxRibbonTab;
     dxBarManagerBar13: TdxBar;

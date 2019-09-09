@@ -514,7 +514,7 @@ begin
         +' inner join TUOM c on a.STOCKUOM_ID = c.id'
         +' left join TITEMGROUP d on a.GROUP_ID = d.id'
         +' left join TMERK e on a.MERK_ID = e.id'
-        +' WHERE A.MODIFIEDDATE BETWEEN :STARTDATE AND :ENDDATE'
+        +' WHERE cast(A.MODIFIEDDATE as DATE) BETWEEN :STARTDATE AND :ENDDATE'
         +' ORDER BY A.MODIFIEDDATE DESC';
 
     cxLookup := TfrmCXLookup.ExecuteRange(S, Now(), Now(), True);

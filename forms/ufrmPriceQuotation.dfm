@@ -36,14 +36,17 @@ inherited frmPriceQuotation: TfrmPriceQuotation
     ExplicitWidth = 1034
     inherited lbEscape: TLabel
       Left = 954
+      Height = 17
       ExplicitLeft = 954
     end
     inherited lgndSave: TLabel
       Left = 789
+      Height = 17
       ExplicitLeft = 789
     end
     inherited lgndPrint: TLabel
       Left = 876
+      Height = 17
       ExplicitLeft = 876
     end
     object Label1: TLabel

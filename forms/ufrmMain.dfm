@@ -4758,8 +4758,4 @@ object frmMain: TfrmMain
     Top = 256
     PixelsPerInch = 96
   end
-  object FDStanStorageJSONLink1: TFDStanStorageJSONLink
-    Left = 352
-    Top = 256
-  end
 end
