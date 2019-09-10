@@ -276,7 +276,14 @@ inherited frmTransferStock: TfrmTransferStock
   object opDialog: TOpenDialog
     Filter = 'AutoPart JSON File|*.json'
     FilterIndex = 0
-    Left = 600
-    Top = 73
+    Left = 616
+    Top = 65
+  end
+  object SaveDlg: TSaveDialog
+    DefaultExt = '*.json'
+    Filter = 'AutoPart JSON File|*.json'
+    FilterIndex = 0
+    Left = 440
+    Top = 329
   end
 end

@@ -112,7 +112,6 @@ begin
     if SaveDlg.InitialDir = '' then
       SaveDlg.InitialDir := TPath.GetDocumentsPath;
 
-
     SaveDlg.FileName := TranferReq.Refno;
     if SaveDlg.Execute then
     begin

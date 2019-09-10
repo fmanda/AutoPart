@@ -1494,8 +1494,21 @@ class procedure TTransferStock.PrintData(aID: Integer);
 var
   S: string;
 begin
-  S := '';
-  DMReport.ExecuteReport('SlipTransferRequest', S);
+  S := 'SELECT A.ID, A.REFNO, A.TRANSDATE, A.NOTES,'
+      +' B.NAMA AS WH_ASAL, C.NAMA AS WH_TUJUAN,'
+      +' CASE WHEN A.TRANSFERTYPE = 1 THEN ''KIRIM KE CABANG LAIN'' '
+      +' WHEN A.TRANSFERTYPE = 2 THEN ''TERIMA DARI CABANG LAIN'' '
+      +' ELSE ''ANTAR GUDANG INTERNAL'' END AS JENIS_TRANSFER,'
+      +' E.KODE, E.NAMA, F.UOM, ABS(D.QTY) AS QTY'
+      +' FROM TTRANSFERSTOCK A'
+      +' LEFT JOIN TWAREHOUSE B ON A.WH_ASAL_ID = B.ID'
+      +' LEFT JOIN TWAREHOUSE C ON A.WH_TUJUAN_ID = C.ID'
+      +' INNER JOIN TTRANSDETAIL D ON A.ID = D.HEADER_ID AND D.HEADER_FLAG = 400'
+      +' INNER JOIN TITEM E ON D.ITEM_ID = E.ID'
+      +' INNER JOIN TUOM F ON D.UOM_ID = F.ID'
+      +' WHERE (A.TRANSFERTYPE <> 0 OR D.QTY > 0)'
+      +' AND A.ID = ' + IntToStr(aID) ;
+  DMReport.ExecuteReport('SlipTransferStock', S);
 end;
 
 procedure TTransferStock.SetGenerateNo;
@@ -2307,7 +2320,7 @@ var
 begin
   lNum := 0;
   aDigitCount := 4;
-  aPrefix := Cabang + '.TQ' + FormatDateTime('yymm',Now()) + '.';
+  aPrefix := Cabang + '.TRQ' + FormatDateTime('yymm',Now()) + '.';
 
 
   S := 'SELECT MAX(RefNo) FROM TTransferRequest where RefNo LIKE ' + QuotedStr(aPrefix + '%');
@@ -2344,17 +2357,9 @@ class procedure TTransferRequest.PrintData(aTransferReqID: Integer);
 var
   S: string;
 begin
-  S := 'SELECT A.ID, A.REFNO, A.TRANSDATE, E.NAMA AS GUDANG,'
-      +' A.PIC, A.MODIFIEDBY, A.MODIFIEDDATE, C.KODE, C.NAMA,'
-      +' D.UOM, B.QTY, B.KONVERSI, A.RAK'
-      +' FROM TTransferRequest A'
-      +' INNER JOIN TKKSOITEM B ON A.ID = B.KKSO_ID'
-      +' INNER JOIN TITEM C ON B.ITEM_ID = C.ID'
-      +' INNER JOIN TUOM D ON B.UOM_ID = D.ID'
-      +' INNER JOIN TWAREHOUSE E ON A.WAREHOUSE_ID = E.ID'
-      +' WHERE A.ID = ' + IntToStr(aTransferReqID);
+  S := '';
 
-  DMReport.ExecuteReport('SlipKKSO', S);
+  DMReport.ExecuteReport('SlipTransferRequest', S);
 end;
 
 function TTransferRequest.SaveRepeat(DoShowMsg: Boolean = True; aRepeatCount: Integer =

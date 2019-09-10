@@ -43,6 +43,7 @@ type
     colNo: TcxGridDBColumn;
     btnLoadFromFile: TcxButton;
     opDialog: TOpenDialog;
+    SaveDlg: TSaveDialog;
     procedure FormCreate(Sender: TObject);
     procedure colKodePropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
@@ -72,10 +73,13 @@ type
     function GetCDSUOM: TClientDataset;
     function GetTransfer: TTransferStock;
     procedure ImportTransferRequest;
+    procedure ImportTransferIN;
     procedure InitView;
     procedure LoadByTransferRequest(lTQ: TTransferRequest);
+    procedure LoadByTransferIN(lTS: TTransferStock);
     procedure LookupItem(aKey: string = '');
     procedure SetItemToGrid(aItem: TItem);
+    procedure SimpanFileTrfOut;
     procedure TranferTypeChanged;
     procedure UpdateData;
     function ValidateData: Boolean;
@@ -111,7 +115,9 @@ procedure TfrmTransferStock.btnLoadFromFileClick(Sender: TObject);
 begin
   inherited;
   if rbTransfer.ItemIndex = 1 then
-    ImportTransferRequest;
+    ImportTransferRequest
+  else
+    ImportTransferIN;
 
 end;
 
@@ -128,6 +134,9 @@ begin
   UpdateData;
   if Transfer.SaveRepeat(False) then
   begin
+    if Transfer.TransferType = Transfer_External_Out then
+      SimpanFileTrfOut;
+
     btnPrint.Click;
 //    TAppUtils.InformationBerhasilSimpan;
     Self.ModalResult := mrOK;
@@ -359,6 +368,46 @@ begin
 
 end;
 
+procedure TfrmTransferStock.ImportTransferIN;
+var
+  JSON: TJSONObject;
+  JSONVal: TJSONValue;
+  lClass: TCRUDObjectClass;
+  lTS: TTransferStock;
+  SS: TStrings;
+begin
+  opDialog.InitialDir := TApputils.BacaRegistry('LastImportDir');
+  if opDialog.InitialDir = '' then
+    opDialog.InitialDir := TPath.GetDocumentsPath;
+
+  if not opDialog.Execute then exit;
+  TApputils.TulisRegistry('LastImportDir', ExtractFileDir(opDialog.FileName));
+
+  SS := TStringList.Create;
+  Try
+    SS.LoadFromFile(opDialog.FileName);
+    JSONVal := TJSONObject.ParseJSONValue(SS.Text);
+    if not(JSONVal is TJSONObject) then
+      raise Exception.Create('File Import (JSON) tidak sesuai. Expected JSONObject');
+
+    JSON      := JSONVal as TJSONObject;
+    lClass    := TJSONUtils.GetClass(JSON);
+
+    if lClass = TTransferStock then
+    begin
+      lTS := TJSONUtils.JSONToObject(JSON, lClass) as TTransferStock;
+//      TAppUtils.Information('Transfer Req ' + lTQ.Refno);
+      LoadByTransferIN(lTS);
+
+      if lTS <> nil then FreeAndNil(lTS);
+    end else
+      raise Exception.Create('Class Transfer Stock tidak ditemukan di file yang dipilih');
+  Finally
+    SS.Free;
+  End;
+
+end;
+
 procedure TfrmTransferStock.InitView;
 var
   s: string;
@@ -463,6 +512,41 @@ begin
   end;
 end;
 
+procedure TfrmTransferStock.LoadByTransferIN(lTS: TTransferStock);
+var
+  lTSItem: TTransDetail;
+//  S: string;
+begin
+  //item
+  CDS.EmptyDataSet;
+  for lTSItem in lTS.Items do
+  begin
+//    if lTSItem.Qty < 0 then continue;
+    CDS.Append;
+    CDS.FieldByName('Item').AsInteger     := lTSItem.Item.ID;
+    CDS.FieldByName('UOM').AsInteger      := lTSItem.UOM.ID;
+    CDS.FieldByName('Qty').AsFloat        := Abs(lTSItem.Qty);
+    CDS.FieldByName('Konversi').AsFloat   := lTSItem.Konversi;
+    lTSItem.Item.ReLoad(False);
+    CDS.FieldByName('Kode').AsString      := lTSItem.Item.Kode;
+    CDS.FieldByName('Nama').AsString      := lTSItem.Item.Nama;
+    CDS.Post;
+  end;
+  edNotes.Text := '';
+
+  //TTransferStock tambahkan KodePengirim dan KodePenerima
+//  S := 'select * from TWAREHOUSE where PROJECT_CODE = ' + QuotedStr(lTS.KodeCabang);
+//  with TDBUtils.OpenQuery(S) do
+//  begin
+//    Try
+//      if not eof then
+//        cxLookupWHTujuan.EditValue := FieldByName('ID').AsInteger;
+//    Finally
+//      Free;
+//    End;
+//  end;
+end;
+
 procedure TfrmTransferStock.LookupItem(aKey: string = '');
 var
   cxLookup: TfrmCXServerLookup;
@@ -532,6 +616,30 @@ begin
       FreeAndNil(lItemUOM);
     End;
   end;
+end;
+
+procedure TfrmTransferStock.SimpanFileTrfOut;
+var
+  SS: TStringList;
+begin
+  SaveDlg.InitialDir := TApputils.BacaRegistry('LastExportDir');
+  if SaveDlg.InitialDir = '' then
+    SaveDlg.InitialDir := TPath.GetDocumentsPath;
+
+  SaveDlg.FileName := Transfer.Refno;
+  if SaveDlg.Execute then
+  begin
+    SS := TStringList.Create;
+    Try
+      SS.Text := TJSONUtils.ObjectToJSONStr(Transfer);
+      SS.SaveToFile(SaveDlg.FileName);
+      TAppUtils.Information('Data berhasil di export ke file : ' + SaveDLg.FileName);
+      TApputils.TulisRegistry('LastExportDir', ExtractFileDir(SaveDlg.FileName));
+    Finally
+      SS.Free;
+    End;
+  end;
+
 end;
 
 procedure TfrmTransferStock.TranferTypeChanged;

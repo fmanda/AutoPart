@@ -67,6 +67,7 @@ inherited frmExportData: TfrmExportData
       Caption = 'Transfer Stock Antar Cabang'
       Enabled = False
       TabOrder = 2
+      Visible = False
     end
     object cxGroupBox2: TcxGroupBox
       AlignWithMargins = True
@@ -166,16 +167,14 @@ inherited frmExportData: TfrmExportData
       Align = alRight
       Enabled = False
       Lines.Strings = (
-        
-          '** Transfer Stock diexport menjadi file terpisah dengan Master B' +
-          'arang & Quotation.'
         '** Export Quotation otomatis mengexport Data Barang juga.'
         
           '** Load Data melakukan load inputan diperiode terpilih (Barang, ' +
-          'Quotation, Transfer)')
+          'Quotation)')
       StyleDisabled.TextColor = clBlack
       TabOrder = 4
       Visible = False
+      ExplicitHeight = 31
       Height = 46
       Width = 432
     end
