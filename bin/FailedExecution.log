@@ -1,6 +1,3 @@
-Delete From TItemUOM where Item_ID = 1;
-Delete From TItemUOM where ID = 13656;
-Delete From TItemUOM where ID = 13657;
-Delete From TItemRack where Item_ID = 1;
-Delete From TItemRack where ID = 7855;
-Delete From TItem where ID = 1;
+SET NOCOUNT ON
+Insert Into TTransferRequest(Notes,Refno,ModifiedBy,ModifiedDate,TransDate,Warehouse_ID) values('','1.KKSO1909.0001','FMANDA','2019-09-10 19:18:01','2019-09-10 19:17:51',NULL);
+Select Scope_Identity() as ID

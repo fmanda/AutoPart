@@ -207,6 +207,10 @@ type
     dxBarButton90: TdxBarButton;
     actImportData: TAction;
     dxBarButton91: TdxBarButton;
+    actTransferRequest: TAction;
+    dxBarButton92: TdxBarButton;
+    dxBarButton93: TdxBarButton;
+    dxBarButton94: TdxBarButton;
     procedure actAccountExecute(Sender: TObject);
     procedure actAgingARExecute(Sender: TObject);
     procedure actAgingStockExecute(Sender: TObject);
@@ -262,6 +266,7 @@ type
     procedure actStockOpnameExecute(Sender: TObject);
     procedure actSuggestionOrderExecute(Sender: TObject);
     procedure actSupplierExecute(Sender: TObject);
+    procedure actTransferRequestExecute(Sender: TObject);
     procedure actTransferStockExecute(Sender: TObject);
     procedure actUserExecute(Sender: TObject);
     procedure actVariableExecute(Sender: TObject);
@@ -302,7 +307,7 @@ uses
   ufrmSalesAnalysis, ufrmProfitLoss, ufrmARAging, ufrmSuggestionOrder,
   ufrmLapFeeSalesman, ufrmBrowseUser, uUser, ufrmLapPembelian,
   ufrmLapPenjualan, ufrmGantiPassword, ufrmPiutangRetur, ufrmHutangRetur,
-  ufrmBrowseKKSO, ufrmExportData, ufrmImportData;
+  ufrmBrowseKKSO, ufrmExportData, ufrmImportData, ufrmBrowseTransferRequest;
 
 {$R *.dfm}
 
@@ -636,6 +641,11 @@ end;
 procedure TfrmMain.actSupplierExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseSupplier);
+end;
+
+procedure TfrmMain.actTransferRequestExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseTransferRequest);
 end;
 
 procedure TfrmMain.actTransferStockExecute(Sender: TObject);

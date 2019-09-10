@@ -18,6 +18,8 @@ type
   TStockOpnameKKSO = class;
   TKKSO = class;
   TKKSOItem = class;
+  TTransferRequest = class;
+  TTransferRequestItem = class;
 
   TCRUDTransDetail = class(TCRUDObject)
   private
@@ -567,6 +569,54 @@ type
     property KKSO: TKKSO read FKKSO write FKKSO;
     [AttributeOfHeader]
     property StockOpname: TStockOpname read FStockOpname write FStockOpname;
+  end;
+
+  TTransferRequestItem = class(TCRUDObject)
+  private
+    FItem: TItem;
+    FKonversi: Double;
+    FQty: Double;
+    FTransferRequest: TTransferRequest;
+    FUOM: TUOM;
+  public
+    destructor Destroy; override;
+  published
+    property Item: TItem read FItem write FItem;
+    property Konversi: Double read FKonversi write FKonversi;
+    property Qty: Double read FQty write FQty;
+    [AttributeOfHeader]
+    property TransferRequest: TTransferRequest read FTransferRequest write
+        FTransferRequest;
+    property UOM: TUOM read FUOM write FUOM;
+  end;
+
+  TTransferRequest = class(TCRUDObject)
+  private
+    FNotes: String;
+    FItems: TObjectList<TTransferRequestItem>;
+    FRefno: String;
+    FModifiedBy: String;
+    FModifiedDate: TDateTime;
+    FKodeCabang: String;
+    FTransDate: TDatetime;
+    function GetItems: TObjectList<TTransferRequestItem>;
+  protected
+    function GetRefno: String;
+  public
+    destructor Destroy; override;
+    function GenerateNo: String;
+    class procedure PrintData(aTransferReqID: Integer);
+    function SaveRepeat(DoShowMsg: Boolean = True; aRepeatCount: Integer = 2):
+        Boolean;
+    procedure SetGenerateNo;
+    property Items: TObjectList<TTransferRequestItem> read GetItems write FItems;
+  published
+    property Notes: String read FNotes write FNotes;
+    property Refno: String read FRefno write FRefno;
+    property ModifiedBy: String read FModifiedBy write FModifiedBy;
+    property ModifiedDate: TDateTime read FModifiedDate write FModifiedDate;
+    property KodeCabang: String read FKodeCabang write FKodeCabang;
+    property TransDate: TDatetime read FTransDate write FTransDate;
   end;
 
 const
@@ -1444,21 +1494,8 @@ class procedure TTransferStock.PrintData(aID: Integer);
 var
   S: string;
 begin
-  S := 'SELECT A.ID, A.REFNO, A.TRANSDATE, A.NOTES,'
-      +' B.NAMA AS WH_ASAL, C.NAMA AS WH_TUJUAN,'
-      +' CASE WHEN A.TRANSFERTYPE = 1 THEN ''KIRIM KE CABANG LAIN'' '
-      +' WHEN A.TRANSFERTYPE = 2 THEN ''TERIMA DARI CABANG LAIN'' '
-      +' ELSE ''ANTAR GUDANG INTERNAL'' END AS JENIS_TRANSFER,'
-      +' E.KODE, E.NAMA, F.UOM, ABS(D.QTY) AS QTY'
-      +' FROM TTRANSFERSTOCK A'
-      +' LEFT JOIN TWAREHOUSE B ON A.WH_ASAL_ID = B.ID'
-      +' LEFT JOIN TWAREHOUSE C ON A.WH_TUJUAN_ID = C.ID'
-      +' INNER JOIN TTRANSDETAIL D ON A.ID = D.HEADER_ID AND D.HEADER_FLAG = 400'
-      +' INNER JOIN TITEM E ON D.ITEM_ID = E.ID'
-      +' INNER JOIN TUOM F ON D.UOM_ID = F.ID'
-      +' WHERE (A.TRANSFERTYPE <> 0 OR D.QTY > 0)'
-      +' AND A.ID = ' + IntToStr(aID) ;
-  DMReport.ExecuteReport('SlipTransferStock', S);
+  S := '';
+  DMReport.ExecuteReport('SlipTransferRequest', S);
 end;
 
 procedure TTransferStock.SetGenerateNo;
@@ -2243,6 +2280,139 @@ begin
 end;
 
 procedure TKKSO.SetGenerateNo;
+begin
+  if Self.ID = 0 then Self.RefNo := Self.GenerateNo;
+end;
+
+destructor TTransferRequestItem.Destroy;
+begin
+  inherited;
+  if FItem <> nil then FreeAndNil(FItem);
+  if FUOM <> nil then FreeAndNil(FUOM);
+end;
+
+destructor TTransferRequest.Destroy;
+begin
+  inherited;
+  if FItems <> nil then
+    FItems.Free;
+end;
+
+function TTransferRequest.GenerateNo: String;
+var
+  aDigitCount: Integer;
+  aPrefix: string;
+  lNum: Integer;
+  S: string;
+begin
+  lNum := 0;
+  aDigitCount := 4;
+  aPrefix := Cabang + '.TQ' + FormatDateTime('yymm',Now()) + '.';
+
+
+  S := 'SELECT MAX(RefNo) FROM TTransferRequest where RefNo LIKE ' + QuotedStr(aPrefix + '%');
+
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        TryStrToInt(RightStr(Fields[0].AsString, aDigitCount), lNum);
+    Finally
+      Free;
+    End;
+  end;
+
+  inc(lNum);
+  Result := aPrefix + RightStr('0000' + IntToStr(lNum), aDigitCount);
+end;
+
+function TTransferRequest.GetItems: TObjectList<TTransferRequestItem>;
+begin
+  if FItems = nil then
+  begin
+    FItems := TObjectList<TTransferRequestItem>.Create();
+  end;
+  Result := FItems;
+end;
+
+function TTransferRequest.GetRefno: String;
+begin
+  Result := Refno;
+end;
+
+class procedure TTransferRequest.PrintData(aTransferReqID: Integer);
+var
+  S: string;
+begin
+  S := 'SELECT A.ID, A.REFNO, A.TRANSDATE, E.NAMA AS GUDANG,'
+      +' A.PIC, A.MODIFIEDBY, A.MODIFIEDDATE, C.KODE, C.NAMA,'
+      +' D.UOM, B.QTY, B.KONVERSI, A.RAK'
+      +' FROM TTransferRequest A'
+      +' INNER JOIN TKKSOITEM B ON A.ID = B.KKSO_ID'
+      +' INNER JOIN TITEM C ON B.ITEM_ID = C.ID'
+      +' INNER JOIN TUOM D ON B.UOM_ID = D.ID'
+      +' INNER JOIN TWAREHOUSE E ON A.WAREHOUSE_ID = E.ID'
+      +' WHERE A.ID = ' + IntToStr(aTransferReqID);
+
+  DMReport.ExecuteReport('SlipKKSO', S);
+end;
+
+function TTransferRequest.SaveRepeat(DoShowMsg: Boolean = True; aRepeatCount: Integer =
+    2): Boolean;
+var
+  iRepeat: Integer;
+begin
+  Result := False;
+
+  if Self.ID > 0 then
+  begin
+    Result := Self.SaveToDB();
+    exit;
+  end else
+  begin
+    //hanya berlaku utk baru
+    iRepeat := 0;
+    while iRepeat <= aRepeatCount do
+    begin
+      Try
+        Self.SetGenerateNo;
+        inc(iRepeat);
+        Result := Self.SaveToDB();
+
+        if Result then
+        begin
+          if DoShowMsg then
+            TAppUtils.Information('Data Berhasil Disimpan dengan nomor bukti : ' + Self.GetRefno);
+        end else
+        begin
+          TAppUtils.Error('SaveToDB Result = False without exception ???');
+        end;
+
+        exit; //sukses or error without exception we must exist
+      except
+        on E:Exception do
+        begin
+          if Pos('unique key', LowerCase(E.Message)) > 0 then
+          begin
+            if (iRepeat > aRepeatCount) or (not TAppUtils.Confirm('Terdeteksi Ada Nomor Bukti sudah terpakai, Otomatis Generate Baru dan Simpan?'
+              + #13 +'Percobaan Simpan ke : ' + IntToStr(iRepeat)
+              + #13#13 +'Pesan Error : '
+              + #13 + E.Message
+            ))
+            then
+            begin
+              E.Message := 'Gagal Mengulang Simpan ke- ' + IntToStr(iRepeat-1) + #13 + E.Message;
+              raise;
+            end;
+          end else
+            Raise;
+        end;
+      End;
+    end;
+  end;
+end;
+
+procedure TTransferRequest.SetGenerateNo;
 begin
   if Self.ID = 0 then Self.RefNo := Self.GenerateNo;
 end;

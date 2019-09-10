@@ -122,7 +122,9 @@ uses
   ufrmBrowseKKSO in 'forms\ufrmBrowseKKSO.pas' {frmBrowseKKSO},
   ufrmLapStockOpname in 'forms\ufrmLapStockOpname.pas' {frmLapStockOpname},
   ufrmExportData in 'forms\ufrmExportData.pas' {frmExportData},
-  ufrmImportData in 'forms\ufrmImportData.pas' {frmImportData};
+  ufrmImportData in 'forms\ufrmImportData.pas' {frmImportData},
+  ufrmTransferRequest in 'forms\ufrmTransferRequest.pas' {frmTransferRequest},
+  ufrmBrowseTransferRequest in 'forms\ufrmBrowseTransferRequest.pas' {frmBrowseTransferRequest};
 
 {$R *.res}
 

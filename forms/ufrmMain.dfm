@@ -83,6 +83,7 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxRTInventory: TdxRibbonTab
+      Active = True
       Caption = 'Inventory'
       Groups = <
         item
@@ -130,7 +131,6 @@ object frmMain: TfrmMain
       Index = 5
     end
     object dxRTUtilities: TdxRibbonTab
-      Active = True
       Caption = 'Utilities'
       Groups = <
         item
@@ -336,15 +336,19 @@ object frmMain: TfrmMain
         end
         item
           Visible = True
-          ItemName = 'dxBarButton88'
-        end
-        item
-          Visible = True
           ItemName = 'dxBarButton41'
         end
         item
           Visible = True
           ItemName = 'dxBarButton42'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton88'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton94'
         end>
       OneOnRow = False
       Row = 0
@@ -355,7 +359,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar6: TdxBar
       Caption = 'Lap Inventory'
       CaptionButtons = <>
-      DockedLeft = 318
+      DockedLeft = 432
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8
@@ -1140,6 +1144,22 @@ object frmMain: TfrmMain
       Category = 0
       ImageIndex = 59
     end
+    object dxBarButton92: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxBarButton93: TdxBarButton
+      Caption = 'New Button'
+      Category = 0
+      Hint = 'New Button'
+      Visible = ivAlways
+    end
+    object dxBarButton94: TdxBarButton
+      Action = actTransferRequest
+      Category = 0
+    end
   end
   object ActionManager: TActionManager
     Images = ImageList
@@ -1500,6 +1520,12 @@ object frmMain: TfrmMain
       Category = 'Utilities'
       Caption = 'Import Data'
       OnExecute = actImportDataExecute
+    end
+    object actTransferRequest: TAction
+      Category = 'Inventory'
+      Caption = 'Transfer Request'
+      ImageIndex = 39
+      OnExecute = actTransferRequestExecute
     end
   end
   object ImageList: TcxImageList
