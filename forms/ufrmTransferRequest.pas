@@ -39,7 +39,6 @@ type
     edNamaCabang: TcxTextEdit;
     cxLabel3: TcxLabel;
     ckPriceQuot: TcxCheckBox;
-    edFile: TcxButtonEdit;
     procedure btnPrintClick(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
     procedure colKodePropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);

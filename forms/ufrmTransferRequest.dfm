@@ -47,7 +47,7 @@ inherited frmTransferRequest: TfrmTransferRequest
     Align = alTop
     Caption = '  Header Transfer [F1] '
     TabOrder = 0
-    Height = 113
+    Height = 107
     Width = 765
     object cxLabel1: TcxLabel
       Left = 23
@@ -119,31 +119,18 @@ inherited frmTransferRequest: TfrmTransferRequest
       Caption = 'Nama Cabang'
     end
     object ckPriceQuot: TcxCheckBox
-      Left = 14
+      Left = 69
       Top = 79
-      Caption = 'Export'
+      Caption = 'Auto Export File'
       State = cbsChecked
       TabOrder = 10
-    end
-    object edFile: TcxButtonEdit
-      Left = 72
-      Top = 79
-      Properties.Buttons = <
-        item
-          Default = True
-          ImageIndex = 8
-          Kind = bkGlyph
-        end>
-      Properties.Images = frmMain.ImageList
-      TabOrder = 11
-      Width = 335
     end
   end
   object cxGrid1: TcxGrid [3]
     Left = 0
-    Top = 113
+    Top = 107
     Width = 765
-    Height = 370
+    Height = 376
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
