@@ -38,14 +38,17 @@ inherited frmTransferStock: TfrmTransferStock
     ExplicitWidth = 753
     inherited lbEscape: TLabel
       Left = 673
+      Height = 17
       ExplicitLeft = 673
     end
     inherited lgndSave: TLabel
       Left = 508
+      Height = 17
       ExplicitLeft = 508
     end
     inherited lgndPrint: TLabel
       Left = 595
+      Height = 17
       Visible = True
       ExplicitLeft = 595
     end
@@ -56,37 +59,42 @@ inherited frmTransferStock: TfrmTransferStock
     Align = alTop
     Caption = '  Header Transfer [F1] '
     TabOrder = 0
-    Height = 133
+    ExplicitTop = -6
+    Height = 139
     Width = 753
     object cxLabel1: TcxLabel
-      Left = 223
-      Top = 23
+      Left = 212
+      Top = 21
       Caption = 'No. Bukti'
+      Properties.Alignment.Horz = taRightJustify
+      AnchorX = 259
     end
     object edRefno: TcxTextEdit
-      Left = 272
-      Top = 22
+      Left = 261
+      Top = 20
       TabStop = False
       Properties.CharCase = ecUpperCase
       TabOrder = 1
       Width = 155
     end
     object cxLabel6: TcxLabel
-      Left = 227
-      Top = 86
+      Left = 216
+      Top = 84
       Caption = 'Catatan'
+      Properties.Alignment.Horz = taRightJustify
+      AnchorX = 259
     end
     object edNotes: TcxMemo
-      Left = 272
-      Top = 85
+      Left = 261
+      Top = 83
       TabOrder = 5
       OnKeyDown = edNotesKeyDown
-      Height = 35
+      Height = 40
       Width = 335
     end
     object dtTransfer: TcxDateEdit
-      Left = 499
-      Top = 22
+      Left = 488
+      Top = 20
       TabStop = False
       Properties.ImmediatePost = True
       Properties.SaveTime = False
@@ -95,35 +103,39 @@ inherited frmTransferStock: TfrmTransferStock
       Width = 108
     end
     object cxLabel8: TcxLabel
-      Left = 454
-      Top = 22
+      Left = 443
+      Top = 20
       Caption = 'Tanggal'
     end
     object cxLabel7: TcxLabel
-      Left = 206
-      Top = 44
+      Left = 195
+      Top = 42
       Caption = 'Gudang Asal'
+      Properties.Alignment.Horz = taRightJustify
+      AnchorX = 259
     end
     object cxLookupWHAsal: TcxExtLookupComboBox
-      Left = 272
-      Top = 43
+      Left = 261
+      Top = 41
       TabOrder = 3
       Width = 335
     end
     object cxLookupWHTujuan: TcxExtLookupComboBox
-      Left = 272
-      Top = 64
+      Left = 261
+      Top = 62
       TabOrder = 4
       Width = 335
     end
     object cxLabel4: TcxLabel
-      Left = 193
-      Top = 65
+      Left = 182
+      Top = 63
       Caption = 'Gudang Tujuan'
+      Properties.Alignment.Horz = taRightJustify
+      AnchorX = 259
     end
     object rbTransfer: TcxRadioGroup
-      Left = 22
-      Top = 21
+      Left = 13
+      Top = 16
       Caption = ' Jenis Transfer'
       Properties.Items = <
         item
@@ -138,18 +150,35 @@ inherited frmTransferStock: TfrmTransferStock
       Properties.OnEditValueChanged = rbTransferPropertiesEditValueChanged
       ItemIndex = 0
       TabOrder = 0
-      Height = 91
-      Width = 159
+      Height = 82
+      Width = 156
+    end
+    object btnLoadFromFile: TcxButton
+      AlignWithMargins = True
+      Left = 13
+      Top = 99
+      Width = 156
+      Height = 24
+      Cursor = crHandPoint
+      Margins.Top = 2
+      Margins.Bottom = 2
+      Caption = '&Load From File...'
+      OptionsImage.ImageIndex = 7
+      OptionsImage.Images = frmMain.ImageList
+      TabOrder = 11
+      OnClick = btnLoadFromFileClick
     end
   end
   object cxGrid1: TcxGrid [3]
     Left = 0
-    Top = 133
+    Top = 139
     Width = 753
-    Height = 346
+    Height = 340
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
+    ExplicitTop = 133
+    ExplicitHeight = 346
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown
@@ -240,6 +269,14 @@ inherited frmTransferStock: TfrmTransferStock
     end
   end
   inherited styleRepo: TcxStyleRepository
+    Left = 648
+    Top = 344
     PixelsPerInch = 96
+  end
+  object opDialog: TOpenDialog
+    Filter = 'AutoPart JSON File|*.json'
+    FilterIndex = 0
+    Left = 600
+    Top = 73
   end
 end

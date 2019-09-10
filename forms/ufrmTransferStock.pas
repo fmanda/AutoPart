@@ -14,7 +14,8 @@ uses
   cxButtonEdit, cxCurrencyEdit, cxGridLevel, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxClasses, cxGridCustomView, cxGrid,
   uTransDetail, uDBUtils, uDXUtils, Datasnap.DBClient, uItem,
-  ufrmCXServerLookup, cxGridDBDataDefinitions, uWarehouse, cxRadioGroup;
+  ufrmCXServerLookup, cxGridDBDataDefinitions, uWarehouse, cxRadioGroup,
+  CRUDObject;
 
 type
   TfrmTransferStock = class(TfrmDefaultInput)
@@ -40,6 +41,8 @@ type
     cxGrid1Level1: TcxGridLevel;
     rbTransfer: TcxRadioGroup;
     colNo: TcxGridDBColumn;
+    btnLoadFromFile: TcxButton;
+    opDialog: TOpenDialog;
     procedure FormCreate(Sender: TObject);
     procedure colKodePropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
@@ -58,6 +61,7 @@ type
     procedure edNotesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure rbTransferPropertiesEditValueChanged(Sender: TObject);
     procedure btnPrintClick(Sender: TObject);
+    procedure btnLoadFromFileClick(Sender: TObject);
   private
     FCDS: TClientDataset;
     FCDSUOM: TClientDataset;
@@ -67,7 +71,9 @@ type
     function GetCDS: TClientDataset;
     function GetCDSUOM: TClientDataset;
     function GetTransfer: TTransferStock;
+    procedure ImportTransferRequest;
     procedure InitView;
+    procedure LoadByTransferRequest(lTQ: TTransferRequest);
     procedure LookupItem(aKey: string = '');
     procedure SetItemToGrid(aItem: TItem);
     procedure TranferTypeChanged;
@@ -89,7 +95,7 @@ var
 implementation
 
 uses
-  cxDataUtils, uAppUtils, ufrmLookupItem;
+  cxDataUtils, uAppUtils, ufrmLookupItem, System.IOUtils, System.JSON;
 
 {$R *.dfm}
 
@@ -99,6 +105,14 @@ begin
   InitView;
   Self.AssignKeyDownEvent;
   LoadByID(0, False);
+end;
+
+procedure TfrmTransferStock.btnLoadFromFileClick(Sender: TObject);
+begin
+  inherited;
+  if rbTransfer.ItemIndex = 1 then
+    ImportTransferRequest;
+
 end;
 
 procedure TfrmTransferStock.btnPrintClick(Sender: TObject);
@@ -305,6 +319,46 @@ begin
   Result := FTransfer;
 end;
 
+procedure TfrmTransferStock.ImportTransferRequest;
+var
+  JSON: TJSONObject;
+  JSONVal: TJSONValue;
+  lClass: TCRUDObjectClass;
+  lTQ: TTransferRequest;
+  SS: TStrings;
+begin
+  opDialog.InitialDir := TApputils.BacaRegistry('LastImportDir');
+  if opDialog.InitialDir = '' then
+    opDialog.InitialDir := TPath.GetDocumentsPath;
+
+  if not opDialog.Execute then exit;
+  TApputils.TulisRegistry('LastImportDir', ExtractFileDir(opDialog.FileName));
+
+  SS := TStringList.Create;
+  Try
+    SS.LoadFromFile(opDialog.FileName);
+    JSONVal := TJSONObject.ParseJSONValue(SS.Text);
+    if not(JSONVal is TJSONObject) then
+      raise Exception.Create('File Import (JSON) tidak sesuai. Expected JSONObject');
+
+    JSON      := JSONVal as TJSONObject;
+    lClass    := TJSONUtils.GetClass(JSON);
+
+    if lClass = TTransferRequest then
+    begin
+      lTQ := TJSONUtils.JSONToObject(JSON, lClass) as TTransferRequest;
+//      TAppUtils.Information('Transfer Req ' + lTQ.Refno);
+      LoadByTransferRequest(lTQ);
+
+      if lTQ <> nil then FreeAndNil(lTQ);
+    end else
+      raise Exception.Create('Class Transfer Request tidak ditemukan di file yang dipilih');
+  Finally
+    SS.Free;
+  End;
+
+end;
+
 procedure TfrmTransferStock.InitView;
 var
   s: string;
@@ -375,6 +429,38 @@ begin
     CDS.Post;
   end;
   btnSave.Enabled := not IsReadOnly;
+end;
+
+procedure TfrmTransferStock.LoadByTransferRequest(lTQ: TTransferRequest);
+var
+  lTQItem: TTransferRequestItem;
+  S: string;
+begin
+  //item
+  CDS.EmptyDataSet;
+  for lTQItem in lTQ.Items do
+  begin
+    CDS.Append;
+    CDS.FieldByName('Item').AsInteger     := lTQItem.Item.ID;
+    CDS.FieldByName('UOM').AsInteger      := lTQItem.UOM.ID;
+    CDS.FieldByName('Qty').AsFloat        := lTQItem.Qty;
+    CDS.FieldByName('Konversi').AsFloat   := lTQItem.Konversi;
+    lTQItem.Item.ReLoad(False);
+    CDS.FieldByName('Kode').AsString      := lTQItem.Item.Kode;
+    CDS.FieldByName('Nama').AsString      := lTQItem.Item.Nama;
+    CDS.Post;
+  end;
+  edNotes.Text := 'Transfer Ke Kode Cabang : ' + lTQ.KodeCabang + ', Request No : ' + lTQ.Refno;
+  S := 'select * from TWAREHOUSE where PROJECT_CODE = ' + QuotedStr(lTQ.KodeCabang);
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        cxLookupWHTujuan.EditValue := FieldByName('ID').AsInteger;
+    Finally
+      Free;
+    End;
+  end;
 end;
 
 procedure TfrmTransferStock.LookupItem(aKey: string = '');
@@ -459,12 +545,18 @@ begin
   begin
     cxLookupWHAsal.CDS.Filter   := 'Is_External = 0';
     cxLookupWHTujuan.CDS.Filter := 'Is_External = 1';
+    btnLoadFromFile.Caption     := 'Import Tranfer Request...';
   end else
   if rbTransfer.ItemIndex = Transfer_External_In then
   begin
     cxLookupWHAsal.CDS.Filter   := 'Is_External = 1';
     cxLookupWHTujuan.CDS.Filter := 'Is_External = 0';
+    btnLoadFromFile.Caption     := 'Import Tranfer Stock...';
   end;
+
+  btnLoadFromFile.Visible := rbTransfer.ItemIndex in [1,2];
+
+
   cxLookupWHAsal.Clear;
   cxLookupWHTujuan.Clear
 end;

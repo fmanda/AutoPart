@@ -39,6 +39,7 @@ type
     edNamaCabang: TcxTextEdit;
     cxLabel3: TcxLabel;
     ckPriceQuot: TcxCheckBox;
+    SaveDlg: TSaveDialog;
     procedure btnPrintClick(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
     procedure colKodePropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
@@ -86,7 +87,7 @@ implementation
 
 uses
   cxDataUtils, uAppUtils, ufrmLookupItem, uDXUtils, uDBUtils,
-  ufrmCXServerLookup, uVariable;
+  ufrmCXServerLookup, uVariable, System.IOUtils, CRUDObject;
 
 {$R *.dfm}
 
@@ -97,6 +98,8 @@ begin
 end;
 
 procedure TfrmTransferRequest.btnSaveClick(Sender: TObject);
+var
+  SS: TStrings;
 begin
   inherited;
   if not ValidateData then exit;
@@ -104,7 +107,27 @@ begin
   if TranferReq.SaveRepeat(False) then
   begin
 //    btnPrint.Click;
-    TAppUtils.InformationBerhasilSimpan;
+//    TAppUtils.InformationBerhasilSimpan;
+    SaveDlg.InitialDir := TApputils.BacaRegistry('LastExportDir');
+    if SaveDlg.InitialDir = '' then
+      SaveDlg.InitialDir := TPath.GetDocumentsPath;
+
+
+    SaveDlg.FileName := TranferReq.Refno;
+    if SaveDlg.Execute then
+    begin
+      SS := TStringList.Create;
+      Try
+        SS.Text := TJSONUtils.ObjectToJSONStr(TranferReq);
+        SS.SaveToFile(SaveDlg.FileName);
+        TAppUtils.Information('Data berhasil di export ke file : ' + SaveDLg.FileName);
+
+        TApputils.TulisRegistry('LastExportDir', ExtractFileDir(SaveDlg.FileName));
+      Finally
+        SS.Free;
+      End;
+    end;
+
     Self.ModalResult := mrOK;
   end;
 end;

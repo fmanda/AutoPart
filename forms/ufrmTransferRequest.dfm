@@ -11,34 +11,45 @@ inherited frmTransferRequest: TfrmTransferRequest
   inherited cxGroupBox2: TcxGroupBox
     Top = 504
     TabOrder = 2
+    ExplicitTop = 504
+    ExplicitWidth = 765
     Width = 765
     inherited btnCancel: TcxButton
       Left = 680
+      ExplicitLeft = 680
     end
     inherited btnPrint: TcxButton
       Left = 594
       OnClick = btnPrintClick
+      ExplicitLeft = 594
     end
     inherited btnSave: TcxButton
       Left = 508
       OnClick = btnSaveClick
+      ExplicitLeft = 508
+      ExplicitTop = 3
     end
   end
   inherited Panel2: TPanel
     Top = 483
     Width = 765
     TabOrder = 3
+    ExplicitTop = 483
+    ExplicitWidth = 765
     inherited lbEscape: TLabel
       Left = 685
       Height = 17
+      ExplicitLeft = 685
     end
     inherited lgndSave: TLabel
       Left = 520
       Height = 17
+      ExplicitLeft = 520
     end
     inherited lgndPrint: TLabel
       Left = 607
       Height = 17
+      ExplicitLeft = 607
     end
   end
   object cxGroupBox1: TcxGroupBox [2]
@@ -47,7 +58,7 @@ inherited frmTransferRequest: TfrmTransferRequest
     Align = alTop
     Caption = '  Header Transfer [F1] '
     TabOrder = 0
-    Height = 107
+    Height = 89
     Width = 765
     object cxLabel1: TcxLabel
       Left = 23
@@ -119,24 +130,24 @@ inherited frmTransferRequest: TfrmTransferRequest
       Caption = 'Nama Cabang'
     end
     object ckPriceQuot: TcxCheckBox
-      Left = 69
-      Top = 79
+      Left = 609
+      Top = 21
       Caption = 'Auto Export File'
       State = cbsChecked
       TabOrder = 10
+      Visible = False
     end
   end
   object cxGrid1: TcxGrid [3]
     Left = 0
-    Top = 107
+    Top = 89
     Width = 765
-    Height = 376
+    Height = 394
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 95
-    ExplicitWidth = 744
-    ExplicitHeight = 394
+    ExplicitTop = 107
+    ExplicitHeight = 376
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown
@@ -228,5 +239,12 @@ inherited frmTransferRequest: TfrmTransferRequest
   end
   inherited styleRepo: TcxStyleRepository
     PixelsPerInch = 96
+  end
+  object SaveDlg: TSaveDialog
+    DefaultExt = '*.json'
+    Filter = 'AutoPart JSON File|*.json'
+    FilterIndex = 0
+    Left = 440
+    Top = 329
   end
 end
