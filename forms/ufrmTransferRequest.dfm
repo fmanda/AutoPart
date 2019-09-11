@@ -4,6 +4,7 @@ inherited frmTransferRequest: TfrmTransferRequest
   ClientWidth = 765
   KeyPreview = True
   OnKeyDown = FormKeyDown
+  ExplicitTop = -60
   ExplicitWidth = 781
   ExplicitHeight = 578
   PixelsPerInch = 96
@@ -27,7 +28,6 @@ inherited frmTransferRequest: TfrmTransferRequest
       Left = 508
       OnClick = btnSaveClick
       ExplicitLeft = 508
-      ExplicitTop = 3
     end
   end
   inherited Panel2: TPanel
@@ -146,8 +146,6 @@ inherited frmTransferRequest: TfrmTransferRequest
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 107
-    ExplicitHeight = 376
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown
@@ -241,8 +239,8 @@ inherited frmTransferRequest: TfrmTransferRequest
     PixelsPerInch = 96
   end
   object SaveDlg: TSaveDialog
-    DefaultExt = '*.json'
-    Filter = 'AutoPart JSON File|*.json'
+    DefaultExt = '*.trq'
+    Filter = 'AutoPart Transfer Request|*.trq'
     FilterIndex = 0
     Left = 440
     Top = 329

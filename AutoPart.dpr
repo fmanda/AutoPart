@@ -124,7 +124,8 @@ uses
   ufrmExportData in 'forms\ufrmExportData.pas' {frmExportData},
   ufrmImportData in 'forms\ufrmImportData.pas' {frmImportData},
   ufrmTransferRequest in 'forms\ufrmTransferRequest.pas' {frmTransferRequest},
-  ufrmBrowseTransferRequest in 'forms\ufrmBrowseTransferRequest.pas' {frmBrowseTransferRequest};
+  ufrmBrowseTransferRequest in 'forms\ufrmBrowseTransferRequest.pas' {frmBrowseTransferRequest},
+  uImportLog in 'classes\uImportLog.pas';
 
 {$R *.res}
 

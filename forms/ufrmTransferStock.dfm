@@ -28,6 +28,21 @@ inherited frmTransferStock: TfrmTransferStock
       Left = 496
       OnClick = btnSaveClick
       ExplicitLeft = 496
+      ExplicitTop = 3
+    end
+    object btnTransfer: TcxButton
+      AlignWithMargins = True
+      Left = 5
+      Top = 5
+      Width = 106
+      Height = 25
+      Align = alLeft
+      Caption = '&Transfer File'
+      OptionsImage.ImageIndex = 5
+      OptionsImage.Images = frmMain.ImageList
+      TabOrder = 3
+      OnClick = btnTransferClick
+      ExplicitLeft = 384
     end
   end
   inherited Panel2: TPanel
@@ -59,7 +74,6 @@ inherited frmTransferStock: TfrmTransferStock
     Align = alTop
     Caption = '  Header Transfer [F1] '
     TabOrder = 0
-    ExplicitTop = -6
     Height = 139
     Width = 753
     object cxLabel1: TcxLabel
@@ -177,8 +191,6 @@ inherited frmTransferStock: TfrmTransferStock
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 133
-    ExplicitHeight = 346
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown
@@ -274,14 +286,13 @@ inherited frmTransferStock: TfrmTransferStock
     PixelsPerInch = 96
   end
   object opDialog: TOpenDialog
-    Filter = 'AutoPart JSON File|*.json'
     FilterIndex = 0
     Left = 616
     Top = 65
   end
   object SaveDlg: TSaveDialog
-    DefaultExt = '*.json'
-    Filter = 'AutoPart JSON File|*.json'
+    DefaultExt = '*.trf'
+    Filter = 'AutoPart Transfer File|*.trf'
     FilterIndex = 0
     Left = 440
     Top = 329

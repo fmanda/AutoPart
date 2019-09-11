@@ -44,6 +44,7 @@ type
     btnLoadFromFile: TcxButton;
     opDialog: TOpenDialog;
     SaveDlg: TSaveDialog;
+    btnTransfer: TcxButton;
     procedure FormCreate(Sender: TObject);
     procedure colKodePropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
@@ -63,10 +64,12 @@ type
     procedure rbTransferPropertiesEditValueChanged(Sender: TObject);
     procedure btnPrintClick(Sender: TObject);
     procedure btnLoadFromFileClick(Sender: TObject);
+    procedure btnTransferClick(Sender: TObject);
   private
     FCDS: TClientDataset;
     FCDSUOM: TClientDataset;
     FTransfer: TTransferStock;
+    function CheckStock: Boolean;
     function DC: TcxGridDBDataController;
     procedure FocusToGrid;
     function GetCDS: TClientDataset;
@@ -78,6 +81,7 @@ type
     procedure LoadByTransferRequest(lTQ: TTransferRequest);
     procedure LoadByTransferIN(lTS: TTransferStock);
     procedure LookupItem(aKey: string = '');
+    procedure RenameFileImport;
     procedure SetItemToGrid(aItem: TItem);
     procedure SimpanFileTrfOut;
     procedure TranferTypeChanged;
@@ -99,7 +103,8 @@ var
 implementation
 
 uses
-  cxDataUtils, uAppUtils, ufrmLookupItem, System.IOUtils, System.JSON;
+  cxDataUtils, uAppUtils, ufrmLookupItem, System.IOUtils, System.JSON,
+  uVariable, uStockCheck, uImportLog;
 
 {$R *.dfm}
 
@@ -109,6 +114,7 @@ begin
   InitView;
   Self.AssignKeyDownEvent;
   LoadByID(0, False);
+  btnTransfer.Visible := False;
 end;
 
 procedure TfrmTransferStock.btnLoadFromFileClick(Sender: TObject);
@@ -118,7 +124,6 @@ begin
     ImportTransferRequest
   else
     ImportTransferIN;
-
 end;
 
 procedure TfrmTransferStock.btnPrintClick(Sender: TObject);
@@ -137,10 +142,82 @@ begin
     if Transfer.TransferType = Transfer_External_Out then
       SimpanFileTrfOut;
 
+    if Transfer.TransferType <> Transfer_Internal then
+    begin
+      if opDialog.FileName <> '' then
+      begin
+        RenameFileImport;
+      end;
+    end;
+
     btnPrint.Click;
 //    TAppUtils.InformationBerhasilSimpan;
     Self.ModalResult := mrOK;
   end;
+end;
+
+procedure TfrmTransferStock.btnTransferClick(Sender: TObject);
+begin
+  inherited;
+  if Transfer.TransferType = Transfer_External_Out then
+   SimpanFileTrfOut;
+end;
+
+function TfrmTransferStock.CheckStock: Boolean;
+var
+  lCalc: TStockCheck;
+  lCDS: TClientDataSet;
+  lItem: TTransDetail;
+  lOldTrf: TTransferStock;
+  QTYPCS: Integer;
+begin
+  Result := AppVariable.Check_Stock <> 1;
+  if Result then exit;
+
+  if rbTransfer.ItemIndex = Transfer_External_In then
+  begin
+    Result := True;
+    exit;
+  end;
+
+  lCalc := TStockCheck.Create(dtTransfer.Date);
+  lOldTrf := TTransferStock.Create;
+  Application.ProcessMessages;
+
+  lCDS := TClientDataSet.Create(Self);
+  Try
+    lCDS.CloneCursor(CDS, True);
+    lCDS.First;
+    while not lCDS.Eof do
+    begin
+      QTYPCS   := lCDS.FieldByName('QTY').AsInteger * lCDS.FieldByName('Konversi').AsInteger;
+      lCalc.AddCalcItem(
+        lCDS.FieldByName('Item').AsInteger,
+        VarToInt(cxLookupWHAsal.EditValue),
+        QTYPCS
+      );
+      lCDS.Next;
+    end;
+
+    //apabila edit
+    If Transfer.ID <> 0 then
+    begin
+      lOldTrf.LoadByID(Transfer.ID);
+      for lItem in lOldTrf.Items do
+      begin
+        lCalc.AddOnHandPCS(
+            lItem.Item.ID,
+            lItem.Warehouse.ID,
+            lItem.Qty * lItem.Konversi
+          );
+      end;
+    end;
+    Result := lCalc.CheckStockIgnore(True);
+  finally
+    lCDS.Free;
+    lOldTrf.Free;
+    lCalc.Free;
+  End;
 end;
 
 procedure TfrmTransferStock.colKodePropertiesButtonClick(Sender: TObject;
@@ -336,11 +413,17 @@ var
   lTQ: TTransferRequest;
   SS: TStrings;
 begin
+  opDialog.DefaultExt := '*.trq';
+  opDialog.Filter := 'AutoPart Transfer Request|*.trq';
+
   opDialog.InitialDir := TApputils.BacaRegistry('LastImportDir');
   if opDialog.InitialDir = '' then
     opDialog.InitialDir := TPath.GetDocumentsPath;
 
   if not opDialog.Execute then exit;
+
+  if not TImportLog.ConfirmImport(opDialog.FileName) then exit;
+
   TApputils.TulisRegistry('LastImportDir', ExtractFileDir(opDialog.FileName));
 
   SS := TStringList.Create;
@@ -376,11 +459,16 @@ var
   lTS: TTransferStock;
   SS: TStrings;
 begin
+  opDialog.DefaultExt := '*.trf';
+  opDialog.Filter := 'AutoPart Transfer Stock File|*.trf';
+
   opDialog.InitialDir := TApputils.BacaRegistry('LastImportDir');
   if opDialog.InitialDir = '' then
     opDialog.InitialDir := TPath.GetDocumentsPath;
 
   if not opDialog.Execute then exit;
+  if not TImportLog.ConfirmImport(opDialog.FileName) then exit;
+
   TApputils.TulisRegistry('LastImportDir', ExtractFileDir(opDialog.FileName));
 
   SS := TStringList.Create;
@@ -396,8 +484,14 @@ begin
     if lClass = TTransferStock then
     begin
       lTS := TJSONUtils.JSONToObject(JSON, lClass) as TTransferStock;
-//      TAppUtils.Information('Transfer Req ' + lTQ.Refno);
-      LoadByTransferIN(lTS);
+
+      if lTS.KodeCabang_Tujuan = AppVariable.Kode_Cabang then
+        LoadByTransferIN(lTS)
+      else
+        TAppUtils.Warning('File Transfer Bukan Untuk Cabang Ini '
+          +#13 +'Kode Cabang DB : ' + AppVariable.Kode_Cabang
+          +#13 +'Cabang Tujuan File Transfer : ' + lTS.KodeCabang_Tujuan
+        );
 
       if lTS <> nil then FreeAndNil(lTS);
     end else
@@ -478,6 +572,11 @@ begin
     CDS.Post;
   end;
   btnSave.Enabled := not IsReadOnly;
+
+  if IsReadOnly then
+  begin
+    btnTransfer.Visible := Transfer.TransferType = Transfer_External_Out;
+  end;
 end;
 
 procedure TfrmTransferStock.LoadByTransferRequest(lTQ: TTransferRequest);
@@ -515,6 +614,7 @@ end;
 procedure TfrmTransferStock.LoadByTransferIN(lTS: TTransferStock);
 var
   lTSItem: TTransDetail;
+  S: string;
 //  S: string;
 begin
   //item
@@ -532,19 +632,18 @@ begin
     CDS.FieldByName('Nama').AsString      := lTSItem.Item.Nama;
     CDS.Post;
   end;
-  edNotes.Text := '';
+  edNotes.Text := 'Transfer IN dari Kode Cabang : ' + lTS.KodeCabang_Asal + ', RefNo : ' + lTS.Refno;
+  S := 'select * from TWAREHOUSE where PROJECT_CODE = ' + QuotedStr(lTS.KodeCabang_Asal);
+  with TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        cxLookupWHAsal.EditValue := FieldByName('ID').AsInteger;
+    Finally
+      Free;
+    End;
+  end;
 
-  //TTransferStock tambahkan KodePengirim dan KodePenerima
-//  S := 'select * from TWAREHOUSE where PROJECT_CODE = ' + QuotedStr(lTS.KodeCabang);
-//  with TDBUtils.OpenQuery(S) do
-//  begin
-//    Try
-//      if not eof then
-//        cxLookupWHTujuan.EditValue := FieldByName('ID').AsInteger;
-//    Finally
-//      Free;
-//    End;
-//  end;
 end;
 
 procedure TfrmTransferStock.LookupItem(aKey: string = '');
@@ -584,6 +683,15 @@ procedure TfrmTransferStock.rbTransferPropertiesEditValueChanged(
 begin
   inherited;
   TranferTypeChanged;
+end;
+
+procedure TfrmTransferStock.RenameFileImport;
+begin
+  Try
+    TImportLog.SaveLog(opDialog.FileName);
+    RenameFile(opDialog.FileName, ChangeFileExt(opDialog.FileName, '.imported'))
+  except
+  End;
 end;
 
 procedure TfrmTransferStock.SetItemToGrid(aItem: TItem);
@@ -688,13 +796,22 @@ begin
 
   Transfer.WH_Asal.LoadByID(VarToInt(cxLookupWHAsal.EditValue));
   Transfer.WH_Tujuan.LoadByID(VarToInt(cxLookupWHTujuan.EditValue));
-  Transfer.Items.Clear;
+
+  Transfer.KodeCabang_Asal := AppVariable.Kode_Cabang;
+  Transfer.KodeCabang_Tujuan := AppVariable.Kode_Cabang;
+
+  if Transfer.TransferType = Transfer_External_In then
+    Transfer.KodeCabang_Asal := Transfer.WH_Asal.Project_Code;
+
+  if Transfer.TransferType = Transfer_External_Out then
+    Transfer.KodeCabang_Tujuan := Transfer.WH_Tujuan.Project_Code;
 
 //  lFactor := 1;
 
 //  if Transfer.TransferType = Transfer_External_Out then
 //    lFactor := -1;
 
+  Transfer.Items.Clear;
   CDS.First;
   while not CDS.Eof do
   begin
@@ -759,6 +876,7 @@ begin
 
 
   if not IsValidTransDate(dtTransfer.Date) then exit;
+  if not CheckStock then exit;
 
   Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
 

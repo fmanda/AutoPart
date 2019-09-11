@@ -220,11 +220,11 @@ begin
     AItem               := TStockCheckItem.Create;
     AItem.ITEM_ID       := AItemID;
     AItem.Warehouse_ID  := AWarehouseID;
-    AItem.ONHAND_PCS    := AQTYPCS;
+    AItem.ONHAND_PCS    := Abs(AQTYPCS);
     Self.Items.Add(AItem);
   end else
   begin
-    AItem.ONHAND_PCS    := AItem.ONHAND_PCS + AQTYPCS;
+    AItem.ONHAND_PCS    := AItem.ONHAND_PCS + Abs(AQTYPCS);
   end;
 end;
 
@@ -251,9 +251,9 @@ begin
     else
       Self.Items[i].STOCK_PCS := 0;
 
-    Self.Items[i].STOCK_PCS := Self.Items[i].STOCK_PCS + Self.Items[i].ONHAND_PCS;
+//    Self.Items[i].STOCK_PCS := Self.Items[i].STOCK_PCS + Self.Items[i].ONHAND_PCS;
 
-    If Self.Items[i].QTY_PCS > (Self.Items[i].STOCK_PCS)  then
+    If Self.Items[i].QTY_PCS > (Self.Items[i].STOCK_PCS + + Self.Items[i].ONHAND_PCS)  then
     begin
       CDS.Append;
       CDS.FieldByName('ITEM_ID').AsInteger      := Self.Items[i].ITEM_ID;
@@ -264,6 +264,7 @@ begin
       CDS.FieldByName('UOM').AsString           := Self.Items[i].UOM;
       CDS.FieldByName('QTY').AsFloat            := Self.Items[i].QTY_PCS / Self.Items[i].Konversi;
       CDS.FieldByName('STOCK').AsFloat          := Self.Items[i].STOCK_PCS / Self.Items[i].Konversi;
+      CDS.FieldByName('ONHAND').AsFloat         := Self.Items[i].ONHAND_PCS / Self.Items[i].Konversi;
       CDS.Post;
     end;
   end;
@@ -316,9 +317,9 @@ begin
     else
       Self.Items[i].STOCK_PCS := 0;
 
-    Self.Items[i].STOCK_PCS := Self.Items[i].STOCK_PCS + Self.Items[i].ONHAND_PCS;
+//    Self.Items[i].STOCK_PCS := Self.Items[i].STOCK_PCS + Self.Items[i].ONHAND_PCS;
 
-    If Self.Items[i].QTY_PCS > (Self.Items[i].STOCK_PCS)  then
+    If Self.Items[i].QTY_PCS > (Self.Items[i].STOCK_PCS + Self.Items[i].ONHAND_PCS)  then
     begin
       CDS.Append;
       CDS.FieldByName('ITEM_ID').AsInteger      := Self.Items[i].ITEM_ID;
@@ -329,6 +330,7 @@ begin
       CDS.FieldByName('UOM').AsString           := Self.Items[i].UOM;
       CDS.FieldByName('QTY').AsFloat            := Self.Items[i].QTY_PCS / Self.Items[i].Konversi;
       CDS.FieldByName('STOCK').AsFloat          := Self.Items[i].STOCK_PCS / Self.Items[i].Konversi;
+      CDS.FieldByName('ONHAND').AsFloat         := Self.Items[i].ONHAND_PCS / Self.Items[i].Konversi;
       CDS.Post;
     end;
   end;
@@ -350,6 +352,7 @@ begin
 //      If CustomFieldName <> '' then
 //        lCxmsg.cxGrdMain.GetColumnByFieldName('STOCK_PCS').Caption := CustomFieldName;
       lCxmsg.cxGrdMain.ApplyBestFit;
+      lCxmsg.SetWarningLabel;
       Result := lCxmsg.ShowModal = mrIgnore;
 
     Finally
@@ -373,7 +376,7 @@ begin
     FCDS.AddField( 'UOM', ftString);
     FCDS.AddField( 'QTY', ftFloat);
     FCDS.AddField( 'STOCK', ftFloat);
-//    FCDS.AddField( 'OCCUPIED_PCS', ftFloat);
+    FCDS.AddField( 'ONHAND', ftFloat);
     FCDS.AddField( 'REMARK', ftString);
     FCDS.CreateDataSet;
   end;

@@ -1,3 +1,4 @@
 SET NOCOUNT ON
-Insert Into TTransferRequest(Notes,Refno,ModifiedBy,ModifiedDate,TransDate,Warehouse_ID) values('','1.KKSO1909.0001','FMANDA','2019-09-10 19:18:01','2019-09-10 19:17:51',NULL);
+Insert Into TTransferRequest(Notes,Refno,ModifiedBy,ModifiedDate,KodeCabang,TransDate) values('test
+','1.TRQ1909.0002','FMANDA','2019-09-11 17:11:41','1','2019-09-11 17:11:29');
 Select Scope_Identity() as ID

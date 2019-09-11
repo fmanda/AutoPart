@@ -247,6 +247,8 @@ type
     FNotes: string;
     FWH_Asal: TWarehouse;
     FRefNo: string;
+    FKodeCabang_Asal: string;
+    FKodeCabang_Tujuan: string;
     FTransferType: Integer;
     FWH_Tujuan: TWarehouse;
   protected
@@ -265,6 +267,9 @@ type
     property WH_Asal: TWarehouse read FWH_Asal write FWH_Asal;
     [AttributeOfCode]
     property RefNo: string read FRefNo write FRefNo;
+    property KodeCabang_Asal: string read FKodeCabang_Asal write FKodeCabang_Asal;
+    property KodeCabang_Tujuan: string read FKodeCabang_Tujuan write
+        FKodeCabang_Tujuan;
     property TransferType: Integer read FTransferType write FTransferType;
     property WH_Tujuan: TWarehouse read FWH_Tujuan write FWH_Tujuan;
   end;
@@ -612,6 +617,7 @@ type
     property Items: TObjectList<TTransferRequestItem> read GetItems write FItems;
   published
     property Notes: String read FNotes write FNotes;
+    [AttributeOfCode]
     property Refno: String read FRefno write FRefno;
     property ModifiedBy: String read FModifiedBy write FModifiedBy;
     property ModifiedDate: TDateTime read FModifiedDate write FModifiedDate;

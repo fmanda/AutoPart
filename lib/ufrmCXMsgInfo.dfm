@@ -29,7 +29,7 @@ object frmCXMsgInfo: TfrmCXMsgInfo
     Style.LookAndFeel.Kind = lfUltraFlat
     StyleDisabled.LookAndFeel.Kind = lfUltraFlat
     TabOrder = 0
-    Height = 40
+    Height = 50
     Width = 634
     object mmPesan: TcxMemo
       Left = 2
@@ -58,7 +58,8 @@ object frmCXMsgInfo: TfrmCXMsgInfo
       StyleFocused.LookAndFeel.Kind = lfUltraFlat
       StyleHot.LookAndFeel.Kind = lfUltraFlat
       TabOrder = 0
-      Height = 36
+      ExplicitHeight = 32
+      Height = 46
       Width = 630
     end
   end
@@ -192,9 +193,9 @@ object frmCXMsgInfo: TfrmCXMsgInfo
   end
   object cxGrid1: TcxGrid
     Left = 0
-    Top = 40
+    Top = 50
     Width = 634
-    Height = 281
+    Height = 271
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -204,6 +205,8 @@ object frmCXMsgInfo: TfrmCXMsgInfo
     ParentFont = False
     TabOrder = 2
     LookAndFeel.Kind = lfUltraFlat
+    ExplicitTop = 40
+    ExplicitHeight = 281
     object cxGrdMain: TcxGridDBTableView
       PopupMenu = PopupMenu1
       Navigator.Buttons.CustomButtons = <>
