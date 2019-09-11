@@ -325,8 +325,6 @@ inherited frmPriceQuotation: TfrmPriceQuotation
       object colItemName: TcxGridDBBandedColumn
         DataBinding.FieldName = 'ItemName'
         PropertiesClassName = 'TcxTextEditProperties'
-        Options.Editing = False
-        Options.Focusing = False
         Width = 20
         Position.BandIndex = 1
         Position.ColIndex = 0

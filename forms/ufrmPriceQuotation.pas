@@ -95,6 +95,7 @@ type
     procedure LookupRecent;
     procedure SetItemToGrid(aItem: TItem);
     procedure UpdateData;
+    procedure UpdateItemName;
     function ValidateData: Boolean;
     property CDS: TClientDataset read GetCDS write FCDS;
     property CDSClone: TClientDataset read GetCDSClone write FCDSClone;
@@ -127,6 +128,7 @@ begin
   UpdateData;
   if PriceQuot.SaveToDB then
   begin
+    UpdateItemName;
     TAppUtils.InformationBerhasilSimpan;
     Self.ModalResult := mrOK;
   end;
@@ -284,11 +286,11 @@ procedure TfrmPriceQuotation.colPriceListPropertiesEditValueChanged(
   Sender: TObject);
 begin
   inherited;
-  CalcSellPrice(0, True);
-  CalcSellPrice(1, True);
-  CalcSellPrice(2, True);
-  CalcSellPrice(3, True);
-  CalcSellPrice(4, True);
+  CalcSellPrice(0, False);
+  CalcSellPrice(1, False);
+  CalcSellPrice(2, False);
+  CalcSellPrice(3, False);
+  CalcSellPrice(4, False);
 end;
 
 procedure TfrmPriceQuotation.cxGrdMainEditKeyDown(Sender:
@@ -632,6 +634,26 @@ begin
     CDS.Next;
   end;
 
+end;
+
+procedure TfrmPriceQuotation.UpdateItemName;
+var
+  SS: TStrings;
+begin
+  SS := TStringList.Create;
+  Try
+    CDS.First;
+    while not CDS.Eof do
+    begin
+      SS.Add('Update TItem Set Nama = ' + QuotedStr(CDS.FieldByName('ItemName').AsString)
+        + ' where ID = ' + IntToSTr(CDS.FieldByName('Item').AsInteger) + ';'
+      );
+      CDS.Next;
+    end;
+    TDBUtils.ExecuteSQL(SS);
+  Finally
+    SS.Free;
+  End;
 end;
 
 function TfrmPriceQuotation.ValidateData: Boolean;

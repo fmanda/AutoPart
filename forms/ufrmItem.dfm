@@ -65,17 +65,17 @@ inherited frmItem: TfrmItem
     ExplicitWidth = 882
     inherited lbEscape: TLabel
       Left = 637
-      Height = 16
+      Height = 17
       ExplicitLeft = 637
     end
     inherited lgndSave: TLabel
       Left = 716
-      Height = 16
+      Height = 17
       ExplicitLeft = 716
     end
     inherited lgndPrint: TLabel
       Left = 803
-      Height = 16
+      Height = 17
       ExplicitLeft = 803
     end
   end
@@ -249,7 +249,7 @@ inherited frmItem: TfrmItem
     Height = 305
     Align = alClient
     TabOrder = 1
-    Properties.ActivePage = tsRack
+    Properties.ActivePage = tsUOM
     Properties.CustomButtons.Buttons = <>
     Properties.TabHeight = 30
     ClientRectBottom = 305
@@ -258,9 +258,6 @@ inherited frmItem: TfrmItem
     object tsUOM: TcxTabSheet
       Caption = 'Konversi && Harga Satuan [F2]'
       ImageIndex = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object cxGrid1: TcxGrid
         AlignWithMargins = True
         Left = 3
@@ -538,9 +535,6 @@ inherited frmItem: TfrmItem
     object tsRack: TcxTabSheet
       Caption = 'Update Informasi Rak [F3]'
       ImageIndex = 2
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object cxGrid2: TcxGrid
         Left = 0
         Top = 0
