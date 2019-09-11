@@ -255,6 +255,7 @@ type
     procedure ExportToXLS(sFileName: String = ''; DoShowInfo: Boolean = True);
     function GetKeyValue: Variant;
     function GetID: Variant;
+    function GetColumnValue(aColumnName: string): Variant;
     procedure LoadFromSQL(ASQL, AKeyName: String);
     procedure SetExtLookupCombo(ExtLookupProp: TcxExtLookupComboBoxProperties;
         IDField, DisplayField: String; HideIDField: Boolean = True); overload;
@@ -2361,6 +2362,18 @@ begin
   Result := 0;
   if not VarIsNull(GetKeyValue) then
     Result := VarToInt(GetKeyValue);
+end;
+
+function TcxServerGridHelper.GetColumnValue(aColumnName: string): Variant;
+var
+  iCol: Integer;
+begin
+  Result := null;
+  if Self.Controller.SelectedRecordCount > 0 then
+  begin
+    iCol   := Self.GetColumnByFieldName(aColumnName).Index;
+    Result := Self.Controller.SelectedRecords[0].Values[iCol];
+  end;
 end;
 
 procedure TcxServerGridHelper.LoadFromSQL(ASQL, AKeyName: String);

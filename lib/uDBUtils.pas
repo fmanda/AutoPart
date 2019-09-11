@@ -32,6 +32,8 @@ type
     class function CopyDataset(Source: TClientDataSet): TClientDataSet;
     class function ConnectDB(ADBEngine, AServer, ADatabase, AUser , APassword,
         APort : String): Boolean;
+    class function CreateMSSQLConn(AServer, ADatabase, AUser, APassword: String;
+        APort: String = ''): TFDConnection;
     class function DSToCDS(aDataset: TDataSet; aOwner: TComponent; FreeDataSet:
         Boolean = True): TClientDataset; overload;
 
@@ -58,6 +60,8 @@ type
     class procedure RollBack;
     class procedure SetUserLogin(aUser: string);
     class function GetUserLogin: String;
+    class function OpenQueryConn(AConn: TFDConnection; ASQL: String; AOwner:
+        TComponent = nil): TFDQuery;
   end;
 
 function Cabang: string;
@@ -477,6 +481,30 @@ begin
   Self.FieldValues[DestFieldName] := SourceDataSet.FieldValues[SourceField];
 end;
 
+class function TDBUtils.CreateMSSQLConn(AServer, ADatabase, AUser, APassword:
+    String; APort: String = ''): TFDConnection;
+begin
+  Result := TFDConnection.Create(Application);
+
+  Result.Transaction                            := TFDTransaction.Create(Result);;
+  Result.Transaction.Options.Isolation          := xiReadCommitted;
+  Result.Transaction.Options.DisconnectAction   := xdRollback;
+  Result.Transaction.Options.ReadOnly           := false;
+
+  Result.DriverName := 'MSSQL';
+  Result.LoginPrompt:= False;
+
+  Result.Params.Add('Server=' + AServer);
+  Result.Params.Add('Database=' + ADatabase);
+  Result.Params.Add('User_Name=' + AUser);
+  Result.Params.Add('Password=' + APassword);
+
+  if APort <> '' then
+    FDConnection.Params.Add('Port=' + APort);
+
+  Result.Connected := True;
+end;
+
 class function TDBUtils.CopyDataset(Source: TClientDataSet): TClientDataSet;
 var
   i: Integer;
@@ -637,6 +665,15 @@ end;
 class function TDBUtils.GetUserLogin: String;
 begin
   Result := UserLogin;
+end;
+
+class function TDBUtils.OpenQueryConn(AConn: TFDConnection; ASQL: String;
+    AOwner: TComponent = nil): TFDQuery;
+begin
+  Result := TFDQuery.Create(AOwner);
+  Result.Connection := AConn;
+  Result.SQL.Text := ASQL;
+  Result.Open;
 end;
 
 initialization

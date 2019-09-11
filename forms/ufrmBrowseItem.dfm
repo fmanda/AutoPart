@@ -26,32 +26,33 @@ inherited frmBrowseItem: TfrmBrowseItem
       ExplicitLeft = 840
     end
     inherited btnExport: TcxButton
-      Left = 496
+      Left = 609
       ExplicitLeft = 496
     end
     inherited btnHapus: TcxButton
-      Left = 415
+      Left = 528
       OnClick = btnHapusClick
       ExplicitLeft = 415
     end
     inherited btnEdit: TcxButton
-      Left = 334
+      Left = 447
       OnClick = btnEditClick
       ExplicitLeft = 334
     end
     inherited btnLihat: TcxButton
-      Left = 167
+      Left = 280
       OnClick = btnLihatClick
       ExplicitLeft = 167
     end
     inherited btnBaru: TcxButton
-      Left = 86
+      Left = 199
       OnClick = btnBaruClick
       ExplicitLeft = 86
     end
     inherited btnPrint: TcxButton
-      Left = 248
+      Left = 361
       ExplicitLeft = 248
+      ExplicitTop = 5
     end
     object btnStock: TcxButton
       AlignWithMargins = True
@@ -65,6 +66,21 @@ inherited frmBrowseItem: TfrmBrowseItem
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 7
       OnClick = btnStockClick
+      ExplicitLeft = -26
+      ExplicitTop = 3
+    end
+    object btnStockCabang: TcxButton
+      AlignWithMargins = True
+      Left = 86
+      Top = 5
+      Width = 107
+      Height = 25
+      Align = alLeft
+      Caption = '&Stock Cabang'
+      OptionsImage.ImageIndex = 67
+      OptionsImage.Images = frmMain.ImageList
+      TabOrder = 8
+      OnClick = btnStockCabangClick
     end
   end
   inherited cxGroupBox1: TcxGroupBox
@@ -77,10 +93,12 @@ inherited frmBrowseItem: TfrmBrowseItem
     inherited EndDate: TcxDateEdit
       Left = 734
       ExplicitLeft = 734
+      ExplicitHeight = 25
     end
     inherited StartDate: TcxDateEdit
       Left = 609
       ExplicitLeft = 609
+      ExplicitHeight = 25
     end
     inherited cxLabel1: TcxLabel
       Left = 539

@@ -11,13 +11,17 @@ uses
   Vcl.Menus, Vcl.ComCtrls, dxCore, cxDateUtils, cxClasses, cxLabel, cxTextEdit,
   cxMaskEdit, cxDropDownEdit, cxCalendar, Vcl.StdCtrls, cxButtons, cxGroupBox,
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridServerModeTableView, cxGrid, uDXUtils, cxMemo;
+  cxGridServerModeTableView, cxGrid, uDXUtils, cxMemo, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
 
 type
   TfrmBrowseItem = class(TfrmDefaultServerBrowse)
     styleNonActive: TcxStyle;
     btnStock: TcxButton;
     cxMemo1: TcxMemo;
+    btnStockCabang: TcxButton;
     procedure btnBaruClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnLihatClick(Sender: TObject);
@@ -30,6 +34,7 @@ type
         TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift: TShiftState;
         var AHandled: Boolean);
     procedure cxGrdMainKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btnStockCabangClick(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -46,7 +51,8 @@ var
 implementation
 
 uses
-  ufrmItem, uDBUtils, uAppUtils, uItem, ufrmCXMsgInfo, Datasnap.DBClient;
+  ufrmItem, uDBUtils, uAppUtils, uItem, ufrmCXMsgInfo, Datasnap.DBClient,
+  uVariable;
 
 {$R *.dfm}
 
@@ -108,6 +114,89 @@ begin
       Free;
     End;
   end;
+end;
+
+procedure TfrmBrowseItem.btnStockCabangClick(Sender: TObject);
+var
+  lCDS: TClientDataset;
+  lConn: TFDConnection;
+  QProj: TFDQuery;
+  lQ: TFDQuery;
+  S: string;
+begin
+  inherited;
+  lCDS := TClientDataSet.Create(Self);
+  Try
+    lCDS.AddField('Cabang',ftString);
+    lCDS.AddField('Kode',ftString);
+    lCDS.AddField('Nama',ftString);
+    lCDS.AddField('Warehouse',ftString);
+    lCDS.AddField('UOM',ftString);
+    lCDS.AddField('Stock',ftFloat);
+    lCDS.CreateDataSet;
+
+    QProj := TDBUtils.OpenQuery('select * from TProject');
+    while not QProj.Eof do
+    begin
+      if (QProj.FieldByName('IP_ADDRESS').AsString = '')
+        or (QProj.FieldByName('DB_NAME').AsString = '')
+        or (QProj.FieldByName('DB_USER').AsString = '')
+        or (QProj.FieldByName('DB_PASSWORD').AsString = '')
+      then
+      begin
+        QProj.Next;
+        continue;
+      end;
+
+      Try
+        lConn := TDBUtils.CreateMSSQLConn(
+            QProj.FieldByName('IP_ADDRESS').AsString,
+            QProj.FieldByName('DB_NAME').AsString,
+            QProj.FieldByName('DB_USER').AsString,
+            QProj.FieldByName('DB_PASSWORD').AsString
+          );
+
+        S := 'SELECT * FROM FN_VIEW_STOCKBYITEM((SELECT DISTINCT ID FROM TITEM WHERE KODE='
+          + QuotedStr(VarToStr(cxGrdMain.GetColumnValue('KODE') )) +'),getdate())';
+
+        if QProj.FieldByName('PROJECT_CODE').AsString = AppVariable.Kode_Cabang then
+          lQ := TDBUtils.OpenQuery(S)
+        else
+          lQ := TDBUtils.OpenQueryConn(lConn, S );
+        Try
+
+          while not lQ.Eof do
+          begin
+            lCDS.Append;
+            lCDS.FieldByName('Cabang').AsString := QProj.FieldByName('Project_Name').AsString;
+            lCDS.FieldByName('Kode').AsString := lQ.FieldByName('Kode').AsString;
+            lCDS.FieldByName('Nama').AsString := lQ.FieldByName('Nama').AsString;
+            lCDS.FieldByName('Warehouse').AsString := lQ.FieldByName('Warehouse').AsString;
+            lCDS.FieldByName('UOM').AsString := lQ.FieldByName('UOM').AsString;
+            lCDS.FieldByName('Stock').AsFloat := lQ.FieldByName('Stock').AsFloat;
+            lCDS.Post;
+            lQ.Next;
+          end;
+        Finally
+          lQ.Free;
+          lConn.Free;
+        End;
+      except
+        on  E:Exception do
+        begin
+          TAppUtils.Error(E.Message);
+        end;
+      End;
+      QProj.Next;
+    end;
+
+    if lCDS.RecordCount > 0 then
+      TfrmCXMsgInfo.ShowSimpleMsg('Stock Gudang', lCDS, []);
+  Finally
+    lCDS.Free;
+  End;
+
+
 end;
 
 procedure TfrmBrowseItem.btnStockClick(Sender: TObject);
