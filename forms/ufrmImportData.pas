@@ -51,7 +51,7 @@ var
 implementation
 
 uses
-  uItem, uAppUtils, uPriceQuotation, System.IOUtils;
+  uItem, uAppUtils, uPriceQuotation, System.IOUtils, uImportLog;
 
 {$R *.dfm}
 
@@ -76,6 +76,8 @@ begin
   ImportItem;
   ImportQuotation;
   TAppUtils.Information('Semua data berhasil diimport');
+
+  TImportLog.SaveLog(edFile.Text);
 end;
 
 procedure TfrmImportData.edFileKeyDown(Sender: TObject; var Key: Word; Shift:
@@ -277,6 +279,9 @@ begin
       if lMerk <> nil then FreeAndNil(lMerk);
 
       lMerk := TJSONUtils.JSONToObject(lJSONObj, lClass) as TMerk;
+
+      if lMerk.Kode = '' then continue;
+      
       lMerk.SaveToDB();
       AddLog('Merk : ' + lMerk.Nama + ' Updated');
     end;
@@ -310,8 +315,8 @@ begin
     if lClass = TItemGroup then
     begin
       if lGroup <> nil then FreeAndNil(lGroup);
-
       lGroup := TJSONUtils.JSONToObject(lJSONObj, lClass) as TItemGroup;
+      if lGroup.Kode = '' then continue;
       lGroup.SaveToDB();
       AddLog('Group : ' + lGroup.Nama + ' Updated');
     end;
@@ -375,6 +380,8 @@ var
   SS: TStrings;
 begin
 //  mmJSON.Lines.LoadFromFile(edFile.Text);
+  if not TImportLog.ConfirmImport(edFile.Text) then exit;
+
   SS := TStringList.Create;
   Try
     SS.LoadFromFile(edFile.Text);

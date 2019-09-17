@@ -1285,6 +1285,14 @@ begin
     if UpperCase(LPair.JsonString.Value) = 'ID' then
     begin
       Result.LoadByCode(lPair.JsonValue.Value);
+
+      //2019-09-17 : update kode ke Object, utk identifikasi kode mana yg blm ada di DB
+      prop := Result.PropFromAttr(AttributeOfCode, False);
+      if prop <> nil then
+        if prop.IsWritable then
+          if not Result.IsPropertyIgnoreJSON(prop) then
+            prop.SetValue(Result, LPair.JsonValue.Value);
+
       break;
     end;
   end;

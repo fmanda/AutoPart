@@ -28,7 +28,6 @@ inherited frmTransferStock: TfrmTransferStock
       Left = 496
       OnClick = btnSaveClick
       ExplicitLeft = 496
-      ExplicitTop = 3
     end
     object btnTransfer: TcxButton
       AlignWithMargins = True
@@ -42,7 +41,6 @@ inherited frmTransferStock: TfrmTransferStock
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 3
       OnClick = btnTransferClick
-      ExplicitLeft = 384
     end
   end
   inherited Panel2: TPanel

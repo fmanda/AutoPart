@@ -1691,7 +1691,7 @@ end;
 
 function TSalesInvoice.LogLevel: Integer;
 begin
-  Result := 0; //0 : no log
+  Result := 2; //0 : no log
   //1 : all
   //2 : update and delete only
  end;

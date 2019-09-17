@@ -760,7 +760,7 @@ var
   S: string;
 begin
   S := 'select id, logdate, username, objectclass, objectid, REFNO, TRANSTYPE, OBJECTQUERY'
-      +' from tlog where logdate between :startdate AND :enddate';
+      +' from tlog where cast(logdate as date) between :startdate AND :enddate';
 
   cxLookup := TfrmCXServerLookup.Execute(S, 'ID', Now(), Now() );
   Try

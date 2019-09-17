@@ -180,6 +180,7 @@ procedure TfrmARAging.RefreshData;
 var
   lParent: string;
   S: string;
+
 begin
   if CDSDetail <> nil then
     FreeAndNil(FCDSDetail);
@@ -203,7 +204,7 @@ begin
     CDSMain.EmptyDataSet;
     while not CDSDetail.Eof do
     begin
-      if CDSMain.Locate(lParent, CDSDetail.FieldByName(lParent).AsString, [loCaseInsensitive])
+      if CDSMain.Locate(lParent, CDSDetail.FieldByName(lParent).Value, [loCaseInsensitive])
       then
         CDSMain.Edit
       else

@@ -74,11 +74,13 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     ExplicitWidth = 984
     inherited lbEscape: TLabel
       Left = 904
+      Height = 17
       ExplicitLeft = 904
     end
     inherited lgndSave: TLabel
       Left = 721
       Width = 77
+      Height = 17
       Margins.Right = 25
       Caption = '[F9] Opsi Bayar'
       ExplicitLeft = 721
@@ -86,6 +88,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
     end
     inherited lgndPrint: TLabel
       Left = 826
+      Height = 17
       Visible = True
       ExplicitLeft = 826
     end

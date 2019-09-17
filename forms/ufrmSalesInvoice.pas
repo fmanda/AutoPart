@@ -1722,6 +1722,10 @@ begin
 //  end;
 
   if not IsValidTransDate(dtInvoice.Date) then exit;
+
+  if not ConfirmDiffClientDate(dtInvoice.Date) then exit;
+
+
   if not CheckStock then exit;
 
   if not CheckCreditLimit then

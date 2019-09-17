@@ -617,7 +617,21 @@ var
   S: string;
 //  S: string;
 begin
-  //item
+  //check item first
+  S := '';
+  for lTSItem in lTS.Items do
+  begin
+    if lTSItem.Item.ID > 0 then continue;
+    S := S + #13 + lTSItem.Item.Kode ;
+  end;
+
+  if S <> '' then
+    raise Exception.Create('Ada Kode Item Yang tidak ditemukan di Database '
+      + #13 + 'Silahkan Update Data Barang Anda, Kode yang tidak ditemukan : '
+      + S
+    );
+
+
   CDS.EmptyDataSet;
   for lTSItem in lTS.Items do
   begin
@@ -689,7 +703,10 @@ procedure TfrmTransferStock.RenameFileImport;
 begin
   Try
     TImportLog.SaveLog(opDialog.FileName);
-    RenameFile(opDialog.FileName, ChangeFileExt(opDialog.FileName, '.imported'))
+    if not RenameFile(opDialog.FileName, ChangeFileExt(opDialog.FileName, '.imported')) then
+      TAppUtils.Warning('Gagal merename File Yang Sudah diimport : ' + opDialog.FileName
+        + ' menjadi ' + ChangeFileExt(opDialog.FileName, '.imported')
+      );
   except
   End;
 end;

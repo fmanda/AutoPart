@@ -66,6 +66,8 @@ type
 
 function Cabang: string;
 
+function ConfirmDiffClientDate(aClientDate: TDatetime): Boolean;
+
 function IsValidTransDate(aDate: TDatetime): Boolean;
 
 var
@@ -91,6 +93,39 @@ uses
 function Cabang: string;
 begin
   Result := AppVariable.Kode_Cabang;
+end;
+
+function ConfirmDiffClientDate(aClientDate: TDatetime): Boolean;
+var
+  S: string;
+  ServerDate: TDatetime;
+begin
+  Result := True;
+
+  aClientDate := EncodeDateTime(YearOf(aClientDate), MonthOf(aClientDate), DayOf(aClientDate), 0,0,0, 0);
+  ServerDate := 0;
+  S := 'select cast(getdate() as date) ServerDate';
+  With TDBUtils.OpenQuery(S) do
+  begin
+    Try
+      if not eof then
+        ServerDate := EncodeDateTime(YearOf(Fields[0].AsDateTime), MonthOf(Fields[0].AsDateTime), DayOf(Fields[0].AsDateTime), 0,0,0, 0);
+    Finally
+      free;
+    End;
+  end;
+
+  //jika sudah EOD
+  if aClientDate <> ServerDate then
+  begin
+    Result :=  TAppUtils.Confirm('Tanggal Transaksi berbeda dengan Tanggal Server'
+      +#13 + 'Tgl Transaksi : ' + DateToStr(aClientDate)
+      +#13 + 'Tgl Server : ' + DateToStr(ServerDate)
+      +#13 + 'Apakah Anda yakin melanjutkan Simpan ?'
+    );
+
+  end;
+
 end;
 
 function IsValidTransDate(aDate: TDatetime): Boolean;

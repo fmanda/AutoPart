@@ -73,6 +73,7 @@ inherited frmProfitLoss: TfrmProfitLoss
         'Juni'
         'Juli'
         'Agustus'
+        'September'
         'Oktober'
         'November'
         'Desember')
