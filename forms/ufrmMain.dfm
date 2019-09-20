@@ -61,7 +61,6 @@ object frmMain: TfrmMain
     TabOrder = 1
     TabStop = False
     object dxRTApp: TdxRibbonTab
-      Active = True
       Caption = 'Aplikasi'
       Groups = <
         item
@@ -84,6 +83,7 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxRTInventory: TdxRibbonTab
+      Active = True
       Caption = 'Inventory'
       Groups = <
         item
@@ -349,6 +349,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton94'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton95'
         end>
       OneOnRow = False
       Row = 0
@@ -359,7 +363,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar6: TdxBar
       Caption = 'Lap Inventory'
       CaptionButtons = <>
-      DockedLeft = 432
+      DockedLeft = 458
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8
@@ -1160,6 +1164,11 @@ object frmMain: TfrmMain
       Action = actTransferRequest
       Category = 0
     end
+    object dxBarButton95: TdxBarButton
+      Action = actPrintTrfReqFile
+      Category = 0
+      ImageIndex = 68
+    end
   end
   object ActionManager: TActionManager
     Images = ImageList
@@ -1526,6 +1535,11 @@ object frmMain: TfrmMain
       Caption = 'Transfer Request'
       ImageIndex = 39
       OnExecute = actTransferRequestExecute
+    end
+    object actPrintTrfReqFile: TAction
+      Category = 'Inventory'
+      Caption = 'Cetak Trf Request File'
+      OnExecute = actPrintTrfReqFileExecute
     end
   end
   object ImageList: TcxImageList
@@ -4783,5 +4797,10 @@ object frmMain: TfrmMain
     Left = 56
     Top = 256
     PixelsPerInch = 96
+  end
+  object opDialog: TOpenDialog
+    FilterIndex = 0
+    Left = 16
+    Top = 353
   end
 end

@@ -610,7 +610,7 @@ type
   public
     destructor Destroy; override;
     function GenerateNo: String;
-    class procedure PrintData(aTransferReqID: Integer);
+    class procedure PrintData(aTransferReq: TTransferRequest);
     function SaveRepeat(DoShowMsg: Boolean = True; aRepeatCount: Integer = 2):
         Boolean;
     procedure SetGenerateNo;
@@ -661,7 +661,8 @@ const
 implementation
 
 uses
-  System.StrUtils, uFinancialTransaction, uAppUtils, uSalesFee, uDMReport;
+  System.StrUtils, uFinancialTransaction, uAppUtils, uSalesFee, uDMReport,
+  Datasnap.DBClient, Data.DB;
 
 destructor TCRUDTransDetail.Destroy;
 begin
@@ -2359,13 +2360,47 @@ begin
   Result := Refno;
 end;
 
-class procedure TTransferRequest.PrintData(aTransferReqID: Integer);
+class procedure TTransferRequest.PrintData(aTransferReq: TTransferRequest);
 var
-  S: string;
+  lCDS: TClientDataset;
+  lDetail: TTransferRequestItem;
 begin
-  S := '';
+  lCDS := TClientDataSet.Create(nil);
+  Try
+    lCDS.AddField('RefNo', ftString);
+    lCDS.AddField('TransDate', ftDateTime);
+    lCDS.AddField('Notes', ftString);
+    lCDS.AddField('Kode', ftString);
+    lCDS.AddField('Nama', ftString);
+    lCDS.AddField('UOM', ftString);
+    lCDS.AddField('Qty', ftFloat);
+    lCDS.AddField('ModifiedDate', ftDateTime);
+    lCDS.AddField('ModifiedBy', ftString);
+    lCDS.CreateDataSet;
 
-  DMReport.ExecuteReport('SlipTransferRequest', S);
+
+    for lDetail in aTransferReq.Items do
+    begin
+      lDetail.Item.ReLoad(False);
+      lDetail.UOM.ReLoad(False);
+      lCDS.Append;
+      lCDS.FieldByName('RefNo').AsString := aTransferReq.Refno;
+      lCDS.FieldByName('TransDate').AsDateTime := aTransferReq.TransDate;
+      lCDS.FieldByName('Notes').AsString := aTransferReq.Notes;
+      lCDS.FieldByName('ModifiedDate').AsDateTime := aTransferReq.ModifiedDate;
+      lCDS.FieldByName('ModifiedBy').AsString := aTransferReq.ModifiedBy;
+      lCDS.FieldByName('Kode').AsString := lDetail.Item.Kode;
+      lCDS.FieldByName('Nama').AsString := lDetail.Item.Nama;
+      lCDS.FieldByName('UOM').AsString := lDetail.UOM.UOM;
+      lCDS.FieldByName('Qty').AsFloat := lDetail.Qty;
+      lCDS.Post;
+    end;
+
+
+    DMReport.ExecuteReport('SlipTransferRequest', lCDS);
+  Finally
+    lCDS.Free;
+  End;
 end;
 
 function TTransferRequest.SaveRepeat(DoShowMsg: Boolean = True; aRepeatCount: Integer =

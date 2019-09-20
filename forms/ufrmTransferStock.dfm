@@ -1,31 +1,55 @@
 inherited frmTransferStock: TfrmTransferStock
   Caption = 'Transfer Stock Antar Gudang'
   ClientHeight = 535
-  ClientWidth = 753
+  ClientWidth = 780
   KeyPreview = True
   OnKeyDown = FormKeyDown
-  ExplicitWidth = 769
+  ExplicitWidth = 796
   ExplicitHeight = 574
   PixelsPerInch = 96
   TextHeight = 13
+  object lbWarning: TLabel [0]
+    AlignWithMargins = True
+    Left = 3
+    Top = 140
+    Width = 762
+    Height = 18
+    Margins.Top = 1
+    Margins.Right = 15
+    Margins.Bottom = 1
+    Align = alTop
+    Caption = 
+      'Sebelum Simpan, Pastikan Item yang diimport sama dengan Dokumen ' +
+      'Transfer / Surat Jalan yang diampirkan !!!'
+    Color = 8454143
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -12
+    Font.Name = 'Trebuchet MS'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+    Transparent = False
+    ExplicitWidth = 627
+  end
   inherited cxGroupBox2: TcxGroupBox
     Top = 500
     TabOrder = 2
     ExplicitTop = 500
     ExplicitWidth = 753
-    Width = 753
+    Width = 780
     inherited btnCancel: TcxButton
-      Left = 668
+      Left = 695
       ExplicitLeft = 668
     end
     inherited btnPrint: TcxButton
-      Left = 582
+      Left = 609
       Visible = True
       OnClick = btnPrintClick
       ExplicitLeft = 582
     end
     inherited btnSave: TcxButton
-      Left = 496
+      Left = 523
       OnClick = btnSaveClick
       ExplicitLeft = 496
     end
@@ -45,35 +69,57 @@ inherited frmTransferStock: TfrmTransferStock
   end
   inherited Panel2: TPanel
     Top = 479
-    Width = 753
+    Width = 780
     TabOrder = 3
     ExplicitTop = 479
     ExplicitWidth = 753
     inherited lbEscape: TLabel
-      Left = 673
+      Left = 700
       Height = 17
       ExplicitLeft = 673
     end
     inherited lgndSave: TLabel
-      Left = 508
+      Left = 535
       Height = 17
       ExplicitLeft = 508
     end
     inherited lgndPrint: TLabel
-      Left = 595
+      Left = 622
       Height = 17
       Visible = True
       ExplicitLeft = 595
     end
+    object Label1: TLabel
+      AlignWithMargins = True
+      Left = 3
+      Top = 1
+      Width = 538
+      Height = 17
+      Margins.Top = 1
+      Margins.Right = 15
+      Margins.Bottom = 1
+      Align = alLeft
+      Caption = 
+        'Sebelum Klik Tombol Simpan, Lakukan pengecekan Item Import denga' +
+        'n dokumen Fisik Transfer'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Trebuchet MS'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ExplicitHeight = 18
+    end
   end
-  object cxGroupBox1: TcxGroupBox [2]
+  object cxGroupBox1: TcxGroupBox [3]
     Left = 0
     Top = 0
     Align = alTop
     Caption = '  Header Transfer [F1] '
     TabOrder = 0
+    ExplicitWidth = 753
     Height = 139
-    Width = 753
+    Width = 780
     object cxLabel1: TcxLabel
       Left = 212
       Top = 21
@@ -181,14 +227,17 @@ inherited frmTransferStock: TfrmTransferStock
       OnClick = btnLoadFromFileClick
     end
   end
-  object cxGrid1: TcxGrid [3]
+  object cxGrid1: TcxGrid [4]
     Left = 0
-    Top = 139
-    Width = 753
-    Height = 340
+    Top = 159
+    Width = 780
+    Height = 320
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
+    ExplicitTop = 139
+    ExplicitWidth = 753
+    ExplicitHeight = 340
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown

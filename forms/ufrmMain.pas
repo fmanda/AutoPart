@@ -15,7 +15,7 @@ uses
   FireDAC.Phys, FireDAC.Phys.MSSQL, FireDAC.Phys.MSSQLDef, FireDAC.VCLUI.Wait,
   Data.DB, FireDAC.Comp.Client, Vcl.StdCtrls, dxRibbonBackstageView,
   cxImageList, dxNavBarOfficeNavigationBar, Vcl.Menus, cxButtons,
-  ufrmLapStockOpname, FireDAC.Stan.StorageJSON;
+  ufrmLapStockOpname, FireDAC.Stan.StorageJSON, uTransDetail, Datasnap.DBClient;
 
 type
   TfrmMain = class(TForm)
@@ -211,6 +211,9 @@ type
     dxBarButton92: TdxBarButton;
     dxBarButton93: TdxBarButton;
     dxBarButton94: TdxBarButton;
+    actPrintTrfReqFile: TAction;
+    dxBarButton95: TdxBarButton;
+    opDialog: TOpenDialog;
     procedure actAccountExecute(Sender: TObject);
     procedure actAgingARExecute(Sender: TObject);
     procedure actAgingStockExecute(Sender: TObject);
@@ -241,6 +244,7 @@ type
     procedure actMerkExecute(Sender: TObject);
     procedure actMutasiKasExecute(Sender: TObject);
     procedure actPiutangReturExecute(Sender: TObject);
+    procedure actPrintTrfReqFileExecute(Sender: TObject);
     procedure actPurchaseInvoiceExecute(Sender: TObject);
     procedure actPurchaseInvoiceHistoryExecute(Sender: TObject);
     procedure actPurchaseReturExecute(Sender: TObject);
@@ -294,7 +298,7 @@ uses
   ufrmBrowseUOM, ufrmBrowseItemGroup, ufrmBrowseMerk, uItem, ufrmBrowseItem,
   ufrmBrowseService, ufrmBrowseCustomer, ufrmBrowseSupplier, ufrmAgingStock,
   ufrmBrowseWarehouse, ufrmBrowseRekening, ufrmCXServerLookup,
-  ufrmBrowsePurchaseInvoice, uTransDetail, ufrmKartuStock,
+  ufrmBrowsePurchaseInvoice, ufrmKartuStock,
   ufrmBrowsePurchaseRetur, ufrmBrowseTransferStock, ufrmLapStock,
   ufrmBrowseSalesman, ufrmBrowseMekanik, ufrmBrowseSalesInvoice, ufrmVariable,
   uVariable, ufrmSalesInvoiceHistory, ufrmPurchaseInvoiceHistory,
@@ -307,7 +311,8 @@ uses
   ufrmSalesAnalysis, ufrmProfitLoss, ufrmARAging, ufrmSuggestionOrder,
   ufrmLapFeeSalesman, ufrmBrowseUser, uUser, ufrmLapPembelian,
   ufrmLapPenjualan, ufrmGantiPassword, ufrmPiutangRetur, ufrmHutangRetur,
-  ufrmBrowseKKSO, ufrmExportData, ufrmImportData, ufrmBrowseTransferRequest;
+  ufrmBrowseKKSO, ufrmExportData, ufrmImportData, ufrmBrowseTransferRequest,
+  System.IOUtils, CRUDObject, System.JSON;
 
 {$R *.dfm}
 
@@ -513,6 +518,44 @@ end;
 procedure TfrmMain.actPiutangReturExecute(Sender: TObject);
 begin
   ShowForm(TfrmPiutangRetur);
+end;
+
+procedure TfrmMain.actPrintTrfReqFileExecute(Sender: TObject);
+var
+  JSON: TJSONObject;
+  JSONVal: TJSONValue;
+  lClass: TCRUDObjectClass;
+  lTQ: TTransferRequest;
+  SS: TStringList;
+begin
+  opDialog.DefaultExt := '*.trq';
+  opDialog.Filter := 'AutoPart Transfer Request|*.trq';
+  opDialog.InitialDir := TApputils.BacaRegistry('LastImportDir');
+  if opDialog.InitialDir = '' then
+    opDialog.InitialDir := TPath.GetDocumentsPath;
+
+  if not opDialog.Execute then exit;
+  SS := TStringList.Create;
+  Try
+    SS.LoadFromFile(opDialog.FileName);
+    JSONVal := TJSONObject.ParseJSONValue(SS.Text);
+    if not(JSONVal is TJSONObject) then
+      raise Exception.Create('File Import (JSON) tidak sesuai. Expected JSONObject');
+
+    JSON      := JSONVal as TJSONObject;
+    lClass    := TJSONUtils.GetClass(JSON);
+
+    if lClass = TTransferRequest then
+    begin
+      lTQ := TJSONUtils.JSONToObject(JSON, lClass) as TTransferRequest;
+      TTransferRequest.PrintData(lTQ);
+
+      if lTQ <> nil then FreeAndNil(lTQ);
+    end else
+      raise Exception.Create('Class Transfer Request tidak ditemukan di file yang dipilih');
+  Finally
+    SS.Free;
+  End;
 end;
 
 procedure TfrmMain.actPurchaseInvoiceExecute(Sender: TObject);

@@ -45,6 +45,8 @@ type
     opDialog: TOpenDialog;
     SaveDlg: TSaveDialog;
     btnTransfer: TcxButton;
+    Label1: TLabel;
+    lbWarning: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure colKodePropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
@@ -788,6 +790,7 @@ begin
   end;
 
   btnLoadFromFile.Visible := rbTransfer.ItemIndex in [1,2];
+  lbWarning.Visible := rbTransfer.ItemIndex = Transfer_External_In;
 
 
   cxLookupWHAsal.Clear;
