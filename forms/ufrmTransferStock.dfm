@@ -89,27 +89,6 @@ inherited frmTransferStock: TfrmTransferStock
       Visible = True
       ExplicitLeft = 595
     end
-    object Label1: TLabel
-      AlignWithMargins = True
-      Left = 3
-      Top = 1
-      Width = 538
-      Height = 17
-      Margins.Top = 1
-      Margins.Right = 15
-      Margins.Bottom = 1
-      Align = alLeft
-      Caption = 
-        'Sebelum Klik Tombol Simpan, Lakukan pengecekan Item Import denga' +
-        'n dokumen Fisik Transfer'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Trebuchet MS'
-      Font.Style = [fsBold]
-      ParentFont = False
-      ExplicitHeight = 18
-    end
   end
   object cxGroupBox1: TcxGroupBox [3]
     Left = 0

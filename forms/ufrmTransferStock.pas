@@ -45,7 +45,6 @@ type
     opDialog: TOpenDialog;
     SaveDlg: TSaveDialog;
     btnTransfer: TcxButton;
-    Label1: TLabel;
     lbWarning: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure colKodePropertiesButtonClick(Sender: TObject;

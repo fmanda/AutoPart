@@ -1103,6 +1103,7 @@ begin
     cxLookupRekening.EditValue := SalesInv.Rekening.ID;
 
     cxLookupGudang.SetDefaultValue();
+    SalesInv.ClearRetur;
   end;
 //  else
 //  begin
@@ -1141,6 +1142,11 @@ begin
   begin
     SalesInv.SalesRetur.ReLoad(False);
     crRetur.Value := Salesinv.SalesRetur.Amount;
+    edRetur.Text := SalesInv.SalesRetur.Refno;
+  end else
+  begin
+    crRetur.Clear;
+    edRetur.Clear;
   end;
 
   crPPN.Value := SalesInv.PPN;
