@@ -83,7 +83,6 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxRTInventory: TdxRibbonTab
-      Active = True
       Caption = 'Inventory'
       Groups = <
         item
@@ -120,6 +119,7 @@ object frmMain: TfrmMain
       Index = 4
     end
     object dxRTManagement: TdxRibbonTab
+      Active = True
       Caption = 'Manajemen'
       Groups = <
         item
@@ -409,6 +409,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton70'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton96'
         end>
       OneOnRow = False
       Row = 0
@@ -496,7 +500,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar11: TdxBar
       Caption = 'Lap Manajemen'
       CaptionButtons = <>
-      DockedLeft = 95
+      DockedLeft = 132
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8
@@ -1169,6 +1173,11 @@ object frmMain: TfrmMain
       Category = 0
       ImageIndex = 68
     end
+    object dxBarButton96: TdxBarButton
+      Action = actDeleteEOD
+      Category = 0
+      ImageIndex = 3
+    end
   end
   object ActionManager: TActionManager
     Images = ImageList
@@ -1540,6 +1549,11 @@ object frmMain: TfrmMain
       Category = 'Inventory'
       Caption = 'Cetak Trf Request File'
       OnExecute = actPrintTrfReqFileExecute
+    end
+    object actDeleteEOD: TAction
+      Category = 'Manajemen'
+      Caption = 'Hapus End Of Day'
+      OnExecute = actDeleteEODExecute
     end
   end
   object ImageList: TcxImageList

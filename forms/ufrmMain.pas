@@ -214,12 +214,15 @@ type
     actPrintTrfReqFile: TAction;
     dxBarButton95: TdxBarButton;
     opDialog: TOpenDialog;
+    actDeleteEOD: TAction;
+    dxBarButton96: TdxBarButton;
     procedure actAccountExecute(Sender: TObject);
     procedure actAgingARExecute(Sender: TObject);
     procedure actAgingStockExecute(Sender: TObject);
     procedure actCashInExecute(Sender: TObject);
     procedure actCashOutExecute(Sender: TObject);
     procedure actCustomerExecute(Sender: TObject);
+    procedure actDeleteEODExecute(Sender: TObject);
     procedure actDetPenjualanExecute(Sender: TObject);
     procedure actEndOfDayExecute(Sender: TObject);
     procedure actExportDataExecute(Sender: TObject);
@@ -312,7 +315,7 @@ uses
   ufrmLapFeeSalesman, ufrmBrowseUser, uUser, ufrmLapPembelian,
   ufrmLapPenjualan, ufrmGantiPassword, ufrmPiutangRetur, ufrmHutangRetur,
   ufrmBrowseKKSO, ufrmExportData, ufrmImportData, ufrmBrowseTransferRequest,
-  System.IOUtils, CRUDObject, System.JSON;
+  System.IOUtils, CRUDObject, System.JSON, ufrmDeleteEOD;
 
 {$R *.dfm}
 
@@ -366,6 +369,11 @@ end;
 procedure TfrmMain.actCustomerExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseCustomer);
+end;
+
+procedure TfrmMain.actDeleteEODExecute(Sender: TObject);
+begin
+  ShowForm(TfrmDeleteEndOfDay).ShowModal;
 end;
 
 procedure TfrmMain.actDetPenjualanExecute(Sender: TObject);

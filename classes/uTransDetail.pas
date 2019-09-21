@@ -2365,7 +2365,7 @@ var
   lCDS: TClientDataset;
   lDetail: TTransferRequestItem;
 begin
-  lCDS := TClientDataSet.Create(nil);
+  lCDS := TClientDataSet.Create(DMReport);
   Try
     lCDS.AddField('RefNo', ftString);
     lCDS.AddField('TransDate', ftDateTime);
@@ -2399,7 +2399,8 @@ begin
 
     DMReport.ExecuteReport('SlipTransferRequest', lCDS);
   Finally
-    lCDS.Free;
+//    if lCDS <> nil then
+//      lCDS.Free;
   End;
 end;
 

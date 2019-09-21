@@ -142,7 +142,7 @@ end;
 procedure TDMReport.actPrintCloseExecute(Sender: TObject);
 begin
   PrintReport(False);
-  Close;
+  actCloseExecute(Self);
 end;
 
 procedure TDMReport.actPrintDlgExecute(Sender: TObject);

@@ -259,7 +259,7 @@ begin
 //    TAppUtils.InformationBerhasilSimpan;
 //    Self.ModalResult := mrOK;
     btnPrint.Click;
-    LoadByID(0, rbHarga.ItemIndex, False);
+    LoadByID(0, rbJenis.ItemIndex, False);
   end;
 end;
 

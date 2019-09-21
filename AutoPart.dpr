@@ -125,7 +125,8 @@ uses
   ufrmImportData in 'forms\ufrmImportData.pas' {frmImportData},
   ufrmTransferRequest in 'forms\ufrmTransferRequest.pas' {frmTransferRequest},
   ufrmBrowseTransferRequest in 'forms\ufrmBrowseTransferRequest.pas' {frmBrowseTransferRequest},
-  uImportLog in 'classes\uImportLog.pas';
+  uImportLog in 'classes\uImportLog.pas',
+  ufrmDeleteEOD in 'forms\ufrmDeleteEOD.pas' {frmDeleteEndOfDay};
 
 {$R *.res}
 
