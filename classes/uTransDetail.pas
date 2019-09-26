@@ -883,6 +883,8 @@ begin
   //create if not exit;
   for lItem in Self.Items do
   begin
+    if lItem.Harga = 0 then continue;
+
     GetOrAddAvgCost(lItem);
 
     lItem.HargaAvg  := lItem.Harga;
@@ -954,7 +956,7 @@ begin
     Result.Item               := TItem.CreateID(aDetail.Item.ID);
     Result.Item.ReLoad(True);
 
-    if Result.Item.GetAvgCostPCS = (aDetail.Harga * aDetail.Konversi) then
+    if Abs(Result.Item.GetAvgCostPCS - (aDetail.Harga * aDetail.Konversi))<1 then
       exit;  //no need save this
     
     
@@ -1268,6 +1270,7 @@ end;
 
 procedure TAvgCostUpdate.CalcNewAvg;
 var
+  dLastStock: Double;
   lAllQty: Double;
   lAllValue: Double;
   lUOM: TItemUOM;
@@ -1286,8 +1289,13 @@ begin
   end;
 
   //new one
-  lAllValue   := (LastStockPCS * LastAvgCost) + (TransTotalValue);
-  lAllQty     := LastStockPCS + TransTotalPCS;
+  if LastStockPCS < 0 then
+    dLastStock  := 0
+  else
+    dLastStock  := LastStockPCS;
+
+  lAllValue   := (dLastStock * LastAvgCost) + (TransTotalValue);
+  lAllQty     := dLastStock + TransTotalPCS;
 
   //def
   Self.NewAvgCost := 0; 

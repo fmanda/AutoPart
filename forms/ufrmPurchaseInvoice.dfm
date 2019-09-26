@@ -307,6 +307,7 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
     object cxGrdMain: TcxGridDBTableView
+      PopupMenu = pmMain
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -330,6 +331,7 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       OptionsView.GroupByBox = False
       OptionsView.HeaderHeight = 30
       Styles.ContentOdd = styleOdd
+      Styles.OnGetContentStyle = cxGrdMainStylesGetContentStyle
       object cxGrdMainColumn1: TcxGridDBColumn
         Caption = 'No.'
         OnGetDisplayText = cxGrdMainColumn1GetDisplayText
@@ -441,6 +443,10 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
         Properties.DisplayFormat = ',0.00;(,0.00)'
         Visible = False
       end
+      object colPriceType: TcxGridDBColumn
+        DataBinding.FieldName = 'PriceType'
+        Visible = False
+      end
     end
     object cxGrid1Level1: TcxGridLevel
       Caption = 'Detail Transaksi [F2]'
@@ -470,7 +476,7 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
     end
     object Label2: TLabel
       AlignWithMargins = True
-      Left = 194
+      Left = 319
       Top = 1
       Width = 84
       Height = 17
@@ -485,6 +491,7 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      ExplicitLeft = 194
       ExplicitHeight = 16
     end
     object Label1: TLabel
@@ -506,10 +513,41 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       ParentFont = False
       ExplicitHeight = 16
     end
+    object Label3: TLabel
+      AlignWithMargins = True
+      Left = 194
+      Top = 1
+      Width = 109
+      Height = 17
+      Margins.Top = 1
+      Margins.Right = 13
+      Margins.Bottom = 1
+      Align = alLeft
+      Caption = 'F6 [Set Barang Bonus]'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Trebuchet MS'
+      Font.Style = []
+      ParentFont = False
+      ExplicitHeight = 16
+    end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 584
-    Top = 272
+    Left = 344
+    Top = 400
     PixelsPerInch = 96
+    object stylBonus: TcxStyle
+      AssignedValues = [svColor]
+      Color = 8454016
+    end
+  end
+  object pmMain: TPopupMenu
+    Left = 296
+    Top = 320
+    object SetSebagaiBarangBonus1: TMenuItem
+      Caption = 'Set Sebagai Barang Bonus'
+      OnClick = SetSebagaiBarangBonus1Click
+    end
   end
 end

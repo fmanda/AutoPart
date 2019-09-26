@@ -1043,7 +1043,7 @@ procedure TfrmSalesRetur.UpdateHarga(aPriceType: Integer);
 var
   lItemUOM: TItemUOM;
 begin
-  if CDS.Eof then exit;
+//  if CDS.Eof then exit;
   if CDS.State in [dsInsert, dsEdit] then CDS.Post;
 
   lItemUOM := TItemUOM.GetItemUOM(

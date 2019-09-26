@@ -14,6 +14,11 @@ inherited frmBrowseSalesman: TfrmBrowseSalesman
     end
     inherited btnBaru: TcxButton
       OnClick = btnBaruClick
+      ExplicitLeft = 3
+      ExplicitTop = 6
+    end
+    inherited btnPrint: TcxButton
+      ExplicitTop = 5
     end
   end
   inherited cxGroupBox1: TcxGroupBox
@@ -24,9 +29,11 @@ inherited frmBrowseSalesman: TfrmBrowseSalesman
       ExplicitHeight = 25
     end
     inherited cxLabel1: TcxLabel
+      ExplicitLeft = 260
       AnchorY = 18
     end
     inherited cxLabel2: TcxLabel
+      ExplicitLeft = 433
       AnchorY = 18
     end
     inherited lblTitle: TcxLabel

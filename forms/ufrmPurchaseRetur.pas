@@ -688,7 +688,7 @@ var
   S: string;
 begin
   if CDS.State in [dsInsert, dsEdit] then CDS.Post;
-  if CDS.Eof then exit;
+//  if CDS.Eof then exit;
 
   if PurchRetur.Supplier = nil then
   begin

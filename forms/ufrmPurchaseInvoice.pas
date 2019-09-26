@@ -64,6 +64,11 @@ type
     cxLabel12: TcxLabel;
     cxGrdMainColumn1: TcxGridDBColumn;
     colHrgBeli: TcxGridDBColumn;
+    pmMain: TPopupMenu;
+    SetSebagaiBarangBonus1: TMenuItem;
+    stylBonus: TcxStyle;
+    Label3: TLabel;
+    colPriceType: TcxGridDBColumn;
     procedure cxGrdMainEditKeyDown(Sender: TcxCustomGridTableView; AItem:
         TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Word; Shift:
         TShiftState);
@@ -88,7 +93,11 @@ type
     procedure btnPrintClick(Sender: TObject);
     procedure cxGrdMainColumn1GetDisplayText(Sender: TcxCustomGridTableItem;
         ARecord: TcxCustomGridRecord; var AText: string);
+    procedure SetSebagaiBarangBonus1Click(Sender: TObject);
     procedure spTempoPropertiesEditValueChanged(Sender: TObject);
+    procedure cxGrdMainStylesGetContentStyle(Sender: TcxCustomGridTableView;
+      ARecord: TcxCustomGridRecord; AItem: TcxCustomGridTableItem;
+      var AStyle: TcxStyle);
   private
     DisableTrigger: Boolean;
     FCDS: TClientDataset;
@@ -110,6 +119,7 @@ type
     procedure InitView;
     procedure LookupItem(aKey: string = '');
     procedure LookupSupplier(sKey: string = '');
+    procedure SetBarangBonus;
     procedure SetItemToGrid(aItem: TItem);
     procedure UpdateData;
     function ValidateData: Boolean;
@@ -358,6 +368,17 @@ begin
   end;
 end;
 
+procedure TfrmPurchaseInvoice.cxGrdMainStylesGetContentStyle(
+  Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
+  AItem: TcxCustomGridTableItem; var AStyle: TcxStyle);
+begin
+  inherited;
+  if ARecord = nil then exit;
+  if VarToFloat(ARecord.Values[colPriceType.Index]) = 1
+   then
+    AStyle := stylBonus;
+end;
+
 function TfrmPurchaseInvoice.DC: TcxGridDBDataController;
 begin
   Result := cxGrdMain.DataController;
@@ -428,6 +449,9 @@ begin
   begin
     FocusToGrid;
   end;
+
+  if Key = VK_F6 then
+    SetBarangBonus;
 end;
 
 function TfrmPurchaseInvoice.GetCDS: TClientDataset;
@@ -707,6 +731,19 @@ begin
   End;
 end;
 
+procedure TfrmPurchaseInvoice.SetBarangBonus;
+begin
+  if not TAppUtils.Confirm('Anda yakin menjadikan Barang ini menjadi barang bonus?')  then exit;
+  if CDS.State in [dsInsert, dsEdit] then CDS.Post;
+  CDS.Edit;
+  CDS.FieldByName('PriceType').AsInteger  := 1;
+  CDS.FieldByName('PriceList').AsFloat    := 0;
+  CDS.FieldByName('DiscP').AsInteger      := 0;
+  CDS.FieldByName('Harga').AsInteger      := 0;
+  CDS.Post;
+  CalculateAll;
+end;
+
 procedure TfrmPurchaseInvoice.SetItemToGrid(aItem: TItem);
 var
   lItemUOM: TItemUOM;
@@ -744,6 +781,11 @@ begin
       FreeAndNil(lItemUOM);
     End;
   end;
+end;
+
+procedure TfrmPurchaseInvoice.SetSebagaiBarangBonus1Click(Sender: TObject);
+begin
+  SetBarangBonus;
 end;
 
 procedure TfrmPurchaseInvoice.spTempoPropertiesEditValueChanged(
@@ -867,11 +909,11 @@ begin
     exit;
   end;
 
-  if CDS.Locate('Harga', 0, []) then
-  begin
-    TAppUtils.Warning('Harga tidak boleh 0' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
-    exit;
-  end;
+//  if CDS.Locate('Harga', 0, []) then
+//  begin
+//    TAppUtils.Warning('Harga tidak boleh 0' + #13 + 'Baris : ' +IntTostr(CDS.RecNo));
+//    exit;
+//  end;
 
   if CDS.Locate('Warehouse', 0, []) or CDS.Locate('Warehouse', null, []) then
   begin

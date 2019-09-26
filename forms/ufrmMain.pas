@@ -373,7 +373,7 @@ end;
 
 procedure TfrmMain.actDeleteEODExecute(Sender: TObject);
 begin
-  ShowForm(TfrmDeleteEndOfDay).ShowModal;
+  TfrmDeleteEndOfDay(ShowForm(TfrmDeleteEndOfDay)).ShowModalDlg;
 end;
 
 procedure TfrmMain.actDetPenjualanExecute(Sender: TObject);
@@ -392,7 +392,7 @@ end;
 
 procedure TfrmMain.actExportDataExecute(Sender: TObject);
 begin
-  ShowForm(TfrmExportData).ShowModal;
+  TfrmExportData(ShowForm(TfrmExportData)).ShowModalDlg;
 end;
 
 procedure TfrmMain.actGantiPassExecute(Sender: TObject);
@@ -407,7 +407,7 @@ end;
 
 procedure TfrmMain.actImportDataExecute(Sender: TObject);
 begin
-  ShowForm(TfrmImportData).ShowModal;
+  TfrmImportData(ShowForm(TfrmImportData)).ShowModalDlg;
 end;
 
 procedure TfrmMain.actInternalTransferExecute(Sender: TObject);
@@ -711,7 +711,7 @@ end;
 
 procedure TfrmMain.actVariableExecute(Sender: TObject);
 begin
-  ShowForm(TfrmVariable).ShowModal;
+  TfrmVariable(ShowForm(TfrmVariable)).ShowModalDlg;
 end;
 
 procedure TfrmMain.actWarehouseExecute(Sender: TObject);
