@@ -8,36 +8,45 @@ inherited frmDeleteEndOfDay: TfrmDeleteEndOfDay
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
     Top = 81
+    ExplicitTop = 81
+    ExplicitWidth = 277
     Width = 277
     inherited btnCancel: TcxButton
       Left = 192
+      ExplicitLeft = 192
     end
     inherited btnPrint: TcxButton
       Left = 106
+      ExplicitLeft = 106
     end
     inherited btnSave: TcxButton
       Left = 20
       Caption = '&Delete'
       OptionsImage.ImageIndex = 3
       OnClick = btnSaveClick
+      ExplicitLeft = 20
     end
   end
   inherited Panel2: TPanel
     Top = 60
     Width = 277
+    ExplicitTop = 60
+    ExplicitWidth = 277
     inherited lbEscape: TLabel
       Left = 197
       Height = 17
+      ExplicitLeft = 197
     end
     inherited lgndSave: TLabel
       Left = 32
       Height = 17
       Caption = 'Alt+D [Delete]'
-      ExplicitLeft = 338
+      ExplicitLeft = 32
     end
     inherited lgndPrint: TLabel
       Left = 119
       Height = 17
+      ExplicitLeft = 119
     end
   end
   object dtEOD: TcxDateEdit [2]

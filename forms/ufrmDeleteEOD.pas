@@ -8,7 +8,7 @@ uses
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   Vcl.Menus, cxStyles, cxClasses, Vcl.StdCtrls, Vcl.ExtCtrls, cxButtons,
   cxGroupBox, Vcl.ComCtrls, dxCore, cxDateUtils, cxLabel, cxTextEdit,
-  cxMaskEdit, cxDropDownEdit, cxCalendar;
+  cxMaskEdit, cxDropDownEdit, cxCalendar, System.DateUtils;
 
 type
   TfrmDeleteEndOfDay = class(TfrmDefaultInput)
@@ -38,6 +38,12 @@ var
   SS: TStrings;
 begin
   inherited;
+  if DateOf(dtEOD.Date) = DateOf(EndOfTheYear(dtEOD.Date)) then
+  begin
+    TAppUtils.Warning('EOD Akhir tahun tidak bisa dihapus');
+    exit;
+  end;
+
   if not TAppUtils.Confirm('Apakah Anda yakin menghapus Tanggal EOD ini?') then
     exit;
 

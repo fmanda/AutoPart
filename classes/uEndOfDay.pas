@@ -4,7 +4,7 @@ interface
 
 uses
   CRUDObject, uAccount, System.SysUtils, System.Generics.Collections,
-  System.StrUtils, System.Classes;
+  System.StrUtils, System.Classes, System.DateUtils;
 
 type
   TCashOpnameItem = class;
@@ -119,6 +119,10 @@ begin
     SS.Append('UPDATE TCASHRECEIPT SET CLOSED = 1 WHERE ISNULL(CLOSED,0) = 0 AND TRANSDATE <= ' + TAppUtils.QuotD(Self.TransDate));
     SS.Append('UPDATE TCASHTRANSFER SET CLOSED = 1 WHERE ISNULL(CLOSED,0) = 0 AND TRANSDATE <= ' + TAppUtils.QuotD(Self.TransDate));
     SS.Append('UPDATE TTRANSFERSTOCK SET CLOSED = 1 WHERE ISNULL(CLOSED,0) = 0 AND TRANSDATE <= ' + TAppUtils.QuotD(Self.TransDate));
+
+    if DateOf(Self.TransDate) = DateOf(EndOfTheYear(Self.TransDate)) then
+      SS.Append('EXEC SP_ENDOFYEAR ' + TAppUtils.QuotD(Self.TransDate));
+
     TDBUtils.ExecuteSQL(SS, False);
   Finally
     SS.Free;
