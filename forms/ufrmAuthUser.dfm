@@ -1,18 +1,20 @@
 object frmAuthUser: TfrmAuthUser
   Left = 0
   Top = 0
-  ClientHeight = 173
-  ClientWidth = 384
+  ClientHeight = 243
+  ClientWidth = 396
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   Position = poDesktopCenter
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object cxImage1: TcxImage
@@ -94,19 +96,22 @@ object frmAuthUser: TfrmAuthUser
       426082}
     Properties.ReadOnly = True
     Style.BorderStyle = ebsNone
-    TabOrder = 0
+    TabOrder = 1
     Transparent = True
-    Height = 132
+    ExplicitHeight = 132
+    Height = 159
     Width = 62
   end
   object Panel1: TPanel
     Left = 68
     Top = 35
-    Width = 316
-    Height = 138
+    Width = 328
+    Height = 165
     Align = alClient
     BevelOuter = bvNone
-    TabOrder = 1
+    TabOrder = 2
+    ExplicitWidth = 316
+    ExplicitHeight = 138
     object cxLabel1: TcxLabel
       AlignWithMargins = True
       Left = 5
@@ -116,7 +121,7 @@ object frmAuthUser: TfrmAuthUser
       Margins.Right = 5
       Margins.Bottom = 0
       Align = alTop
-      Caption = 'User Name '
+      Caption = 'Supervisor User'
       ParentFont = False
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
@@ -125,6 +130,7 @@ object frmAuthUser: TfrmAuthUser
       Style.Font.Style = []
       Style.IsFontAssigned = True
       Properties.Alignment.Vert = taVCenter
+      ExplicitWidth = 306
       AnchorY = 14
     end
     object txtUser: TcxTextEdit
@@ -137,6 +143,7 @@ object frmAuthUser: TfrmAuthUser
       Margins.Bottom = 5
       Align = alTop
       ParentFont = False
+      Properties.CharCase = ecUpperCase
       Style.BorderStyle = ebsFlat
       Style.Color = clInfoBk
       Style.Font.Charset = DEFAULT_CHARSET
@@ -146,15 +153,15 @@ object frmAuthUser: TfrmAuthUser
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 0
-      Text = 'admin'
-      Width = 306
+      Text = 'ADMIN'
+      ExplicitWidth = 306
+      Width = 318
     end
     object cxLabel2: TcxLabel
       AlignWithMargins = True
       Left = 5
-      Top = 54
+      Top = 55
       Margins.Left = 5
-      Margins.Top = 5
       Margins.Right = 5
       Margins.Bottom = 0
       Align = alTop
@@ -167,18 +174,21 @@ object frmAuthUser: TfrmAuthUser
       Style.Font.Style = []
       Style.IsFontAssigned = True
       Properties.Alignment.Vert = taVCenter
-      AnchorY = 63
+      ExplicitTop = 57
+      ExplicitWidth = 306
+      AnchorY = 64
     end
     object txtPassword: TcxTextEdit
       AlignWithMargins = True
       Left = 5
-      Top = 72
+      Top = 73
       Margins.Left = 5
       Margins.Top = 0
       Margins.Right = 5
       Margins.Bottom = 5
       Align = alTop
       ParentFont = False
+      Properties.CharCase = ecUpperCase
       Properties.EchoMode = eemPassword
       Properties.PasswordChar = '*'
       Style.BorderStyle = ebsFlat
@@ -190,48 +200,56 @@ object frmAuthUser: TfrmAuthUser
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 1
-      Text = 'admin'
+      Text = 'ADMIN'
       ExplicitTop = 75
-      Width = 306
+      ExplicitWidth = 306
+      Width = 318
     end
-    object cxGroupBox2: TcxGroupBox
-      Left = 0
-      Top = 95
-      Align = alBottom
-      PanelStyle.Active = True
-      Style.BorderStyle = ebsNone
-      Style.LookAndFeel.NativeStyle = False
-      StyleDisabled.BorderStyle = ebsNone
-      StyleDisabled.LookAndFeel.NativeStyle = False
+    object cxLabel3: TcxLabel
+      AlignWithMargins = True
+      Left = 5
+      Top = 105
+      Margins.Left = 5
+      Margins.Right = 5
+      Margins.Bottom = 0
+      Align = alTop
+      Caption = 'Notes '
+      ParentFont = False
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -12
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = []
+      Style.IsFontAssigned = True
+      Properties.Alignment.Vert = taVCenter
+      ExplicitTop = 115
+      ExplicitWidth = 302
+      AnchorY = 114
+    end
+    object txtNotes: TcxTextEdit
+      AlignWithMargins = True
+      Left = 5
+      Top = 123
+      Margins.Left = 5
+      Margins.Top = 0
+      Margins.Right = 5
+      Margins.Bottom = 5
+      Align = alClient
+      ParentFont = False
+      Properties.Alignment.Horz = taLeftJustify
+      Properties.Alignment.Vert = taTopJustify
+      Style.BorderStyle = ebsFlat
+      Style.Color = clInfoBk
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -13
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = []
+      Style.IsFontAssigned = True
       TabOrder = 2
-      Height = 43
-      Width = 316
-      object btnCancel: TcxButton
-        AlignWithMargins = True
-        Left = 184
-        Top = 5
-        Width = 127
-        Height = 33
-        Align = alRight
-        Caption = 'Batal'
-        OptionsImage.ImageIndex = 2
-        OptionsImage.Images = frmMain.ImageList
-        TabOrder = 1
-        OnClick = btnCancelClick
-      end
-      object btnLogin: TcxButton
-        AlignWithMargins = True
-        Left = 5
-        Top = 5
-        Width = 173
-        Height = 33
-        Align = alClient
-        Caption = 'Authorize'
-        OptionsImage.ImageIndex = 1
-        OptionsImage.Images = frmMain.ImageList
-        TabOrder = 0
-        OnClick = btnLoginClick
-      end
+      ExplicitTop = 149
+      ExplicitHeight = 24
+      Width = 318
     end
   end
   object cxGroupBox1: TcxGroupBox
@@ -242,15 +260,16 @@ object frmAuthUser: TfrmAuthUser
     Style.BorderStyle = ebsFlat
     Style.LookAndFeel.NativeStyle = False
     StyleDisabled.LookAndFeel.NativeStyle = False
-    TabOrder = 2
+    TabOrder = 0
+    ExplicitWidth = 384
     Height = 35
-    Width = 384
+    Width = 396
     object lblTitle: TcxLabel
       AlignWithMargins = True
       Left = 5
       Top = 5
       Align = alTop
-      Caption = 'AUTORISASI USER'
+      Caption = 'AUTORISASI SUPERVISOR'
       ParentFont = False
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
@@ -260,8 +279,64 @@ object frmAuthUser: TfrmAuthUser
       Style.IsFontAssigned = True
       Properties.Alignment.Horz = taCenter
       Properties.Alignment.Vert = taVCenter
-      AnchorX = 192
+      ExplicitWidth = 374
+      AnchorX = 198
       AnchorY = 14
+    end
+  end
+  object cxGroupBox2: TcxGroupBox
+    Left = 0
+    Top = 200
+    Align = alBottom
+    PanelStyle.Active = True
+    Style.BorderStyle = ebsNone
+    Style.LookAndFeel.NativeStyle = False
+    StyleDisabled.BorderStyle = ebsNone
+    StyleDisabled.LookAndFeel.NativeStyle = False
+    TabOrder = 3
+    ExplicitTop = 202
+    ExplicitWidth = 328
+    Height = 43
+    Width = 396
+    object btnCancel: TcxButton
+      AlignWithMargins = True
+      Left = 264
+      Top = 5
+      Width = 127
+      Height = 33
+      Align = alRight
+      Caption = 'Cancel [Escape]'
+      OptionsImage.ImageIndex = 2
+      OptionsImage.Images = frmMain.ImageList
+      TabOrder = 1
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      OnClick = btnCancelClick
+      ExplicitLeft = 196
+    end
+    object btnLogin: TcxButton
+      AlignWithMargins = True
+      Left = 5
+      Top = 5
+      Width = 253
+      Height = 33
+      Align = alClient
+      Caption = 'Authorize [CTRL+Enter]'
+      OptionsImage.ImageIndex = 1
+      OptionsImage.Images = frmMain.ImageList
+      TabOrder = 0
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      OnClick = btnLoginClick
+      ExplicitTop = 6
     end
   end
 end

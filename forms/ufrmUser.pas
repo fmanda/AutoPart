@@ -32,6 +32,7 @@ type
     cxGrid1Level1: TcxGridLevel;
     edPassw2: TcxTextEdit;
     cxLabel4: TcxLabel;
+    ckSupervisor: TcxCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
   private
@@ -153,6 +154,7 @@ begin
   edUser.Text := User.UserName;
   edPassw1.Text := User.Password;
   edPassw2.Text := User.Password;
+  ckSupervisor.Checked := User.IsSupervisor = 1;
 
   CDS.DisableControls;
   Try
@@ -183,6 +185,7 @@ begin
   User.Nama     := edNama.Text;
   User.Password := edPassw1.Text;
   User.Tasks.Clear;
+  User.IsSupervisor := TAppUtils.BoolToInt(ckSupervisor.Checked);
 
   CDS.DisableControls;
   Try

@@ -38,14 +38,17 @@ inherited frmSalesRetur: TfrmSalesRetur
     ExplicitWidth = 984
     inherited lbEscape: TLabel
       Left = 904
+      Height = 17
       ExplicitLeft = 904
     end
     inherited lgndSave: TLabel
       Left = 739
+      Height = 17
       ExplicitLeft = 739
     end
     inherited lgndPrint: TLabel
       Left = 826
+      Height = 17
       Visible = True
       ExplicitLeft = 826
     end
@@ -54,7 +57,7 @@ inherited frmSalesRetur: TfrmSalesRetur
       Left = 165
       Top = 1
       Width = 84
-      Height = 16
+      Height = 17
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -66,13 +69,14 @@ inherited frmSalesRetur: TfrmSalesRetur
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      ExplicitHeight = 16
     end
     object Label1: TLabel
       AlignWithMargins = True
       Left = 3
       Top = 1
       Width = 146
-      Height = 16
+      Height = 17
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -84,13 +88,14 @@ inherited frmSalesRetur: TfrmSalesRetur
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      ExplicitHeight = 16
     end
     object Label3: TLabel
       AlignWithMargins = True
       Left = 265
       Top = 1
       Width = 62
-      Height = 16
+      Height = 17
       Margins.Top = 1
       Margins.Bottom = 1
       Align = alLeft
@@ -104,13 +109,14 @@ inherited frmSalesRetur: TfrmSalesRetur
       ParentColor = False
       ParentFont = False
       Transparent = False
+      ExplicitHeight = 16
     end
     object Label4: TLabel
       AlignWithMargins = True
       Left = 333
       Top = 1
       Width = 71
-      Height = 16
+      Height = 17
       Margins.Top = 1
       Margins.Bottom = 1
       Align = alLeft
@@ -124,13 +130,14 @@ inherited frmSalesRetur: TfrmSalesRetur
       ParentColor = False
       ParentFont = False
       Transparent = False
+      ExplicitHeight = 16
     end
     object Label5: TLabel
       AlignWithMargins = True
       Left = 410
       Top = 1
       Width = 64
-      Height = 16
+      Height = 17
       Margins.Top = 1
       Margins.Bottom = 1
       Align = alLeft
@@ -144,13 +151,14 @@ inherited frmSalesRetur: TfrmSalesRetur
       ParentColor = False
       ParentFont = False
       Transparent = False
+      ExplicitHeight = 16
     end
     object Label6: TLabel
       AlignWithMargins = True
       Left = 480
       Top = 1
       Width = 67
-      Height = 16
+      Height = 17
       Margins.Top = 1
       Margins.Bottom = 1
       Align = alLeft
@@ -164,6 +172,7 @@ inherited frmSalesRetur: TfrmSalesRetur
       ParentColor = False
       ParentFont = False
       Transparent = False
+      ExplicitHeight = 16
     end
   end
   object cxGroupBox1: TcxGroupBox [2]

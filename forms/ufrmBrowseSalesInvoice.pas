@@ -11,7 +11,7 @@ uses
   Vcl.Menus, Vcl.ComCtrls, dxCore, cxDateUtils, cxClasses, cxLabel, cxTextEdit,
   cxMaskEdit, cxDropDownEdit, cxCalendar, Vcl.StdCtrls, cxButtons, cxGroupBox,
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridServerModeTableView, cxGrid;
+  cxGridServerModeTableView, cxGrid, ufrmAuthUser;
 
 type
   TfrmBrowseSalesInvoice = class(TfrmDefaultServerBrowse)
@@ -84,6 +84,13 @@ begin
     if LoadByID(Self.cxGrdMain.GetID) then
     begin
       if not IsValidTransDate(TransDate) then exit;
+
+      if not TfrmAuthUser.Authorize('Autorisasi Hapus Faktur', InvoiceNo, TransDate ) then
+      begin
+        TAppUtils.Warning('User tidak mendapatkan autorisasi hapus faktur');
+        exit;
+      end;
+
       if DeleteFromDB then
       begin
         TAppUtils.Information('Berhasil menghapus data');

@@ -14,7 +14,7 @@ uses
   cxClasses, cxGridCustomView, cxGrid, cxCheckBox, cxRadioGroup, cxDropDownEdit,
   cxLookupEdit, cxDBLookupEdit, cxMaskEdit, cxCalendar, cxMemo, cxLabel,
   cxGridDBDataDefinitions, Datasnap.DBClient, uItem, uTransDetail, cxDataUtils,
-  uDBUtils, uApputils;
+  uDBUtils, uApputils, ufrmAuthUser;
 
 type
   TfrmSalesRetur = class(TfrmDefaultInput)
@@ -1164,6 +1164,15 @@ begin
 //  end;
 
   if not IsValidTransDate(dtRetur.Date) then exit;
+
+  if (rbJenis.ItemIndex = 1) then
+  begin
+    if not TfrmAuthUser.Authorize('Autorisasi Retur Batal', edInv.Text, dtRetur.Date) then
+    begin
+      TAppUtils.Warning('User tidak mendapatkan autorisasi Retur Batal');
+      exit;
+    end;
+  end;
 
   Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
 

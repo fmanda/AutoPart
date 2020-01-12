@@ -451,7 +451,7 @@ begin
     exit;
   end;
 
-  if not TfrmAuthUser.Authorize then
+  if not TfrmAuthUser.Authorize('Autorisasi Diskon') then
   begin
     ErrorText := 'User tidak mendapatkan autorisasi diskon';
     Error := True;
@@ -484,7 +484,7 @@ begin
     DC.SetEditValue(colDiscP.Index, 0 , evsValue);
     exit;
   end;
-  if not TfrmAuthUser.Authorize then
+  if not TfrmAuthUser.Authorize('Autorisasi Diskon') then
   begin
     ErrorText := 'User tidak mendapatkan autorisasi diskon';
     Error := True;
@@ -573,7 +573,7 @@ begin
   inherited;
   if VarToFloat(DisplayValue) = 0 then exit;
 
-  if not TfrmAuthUser.Authorize then
+  if not TfrmAuthUser.Authorize('Autorisasi Diskon') then
   begin
     ErrorText := 'User tidak mendapatkan autorisasi diskon';
     Error := True;

@@ -15,6 +15,7 @@ type
     FNama: String;
     FPassword: String;
     FSuperUser: Integer;
+    FIsSupervisor: Integer;
     FTasks: TObjectList<TUserTask>;
     function GetTasks: TObjectList<TUserTask>;
   public
@@ -29,6 +30,7 @@ type
     property Nama: String read FNama write FNama;
     property Password: String read FPassword write FPassword;
     property SuperUser: Integer read FSuperUser write FSuperUser;
+    property IsSupervisor: Integer read FIsSupervisor write FIsSupervisor;
   end;
 
   TTask = class(TCRUDObject)
@@ -64,6 +66,22 @@ type
     [AttributeOfHeader]
     property User: TUser read FUser write FUser;
     property Task: TTask read FTask write FTask;
+  end;
+
+type
+  TAuthUser = class(TCRUDObject)
+  private
+    FNotes: String;
+    FTransDate: TDatetime;
+    FUser: TUser;
+    FTransNo: string;
+  public
+    destructor Destroy; override;
+  published
+    property Notes: String read FNotes write FNotes;
+    property TransDate: TDatetime read FTransDate write FTransDate;
+    property User: TUser read FUser write FUser;
+    property TransNo: string read FTransNo write FTransNo;
   end;
 
 
@@ -161,6 +179,13 @@ begin
   Finally
     lTask.Free;
   End;
+end;
+
+destructor TAuthUser.Destroy;
+begin
+  inherited;
+  if FUser <> nil then
+    FreeAndNil(FUser);
 end;
 
 end.

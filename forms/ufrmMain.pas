@@ -810,8 +810,17 @@ var
   cxLookup: TfrmCXServerLookup;
   S: string;
 begin
-  S := 'select id, logdate, username, objectclass, objectid, REFNO, TRANSTYPE, OBJECTQUERY'
-      +' from tlog where cast(logdate as date) between :startdate AND :enddate';
+  S := 'SELECT R.LOGDATE AS ID, R.* FROM '
+      +' ('
+      +' 	select ''AUTHORISASI'' AS TRANSTYPE,	CAST(AUTHDATE AS DATETIME) AS LOGDATE,'
+      +' 	TRANSNO AS REFNO, B.NAMA AS USERNAME,''AUTHUSER'' AS OBJECTCLASS,'
+      +' 	NOTES from tauthuser A'
+      +' 	INNER JOIN TUSER B ON A.USER_ID = B.ID'
+      +' 	WHERE CAST(A.AUTHDATE AS DATE) BETWEEN :STARTDATE AND :ENDDATE'
+      +' 	UNION ALL'
+      +' 	select TRANSTYPE, LOGDATE, REFNO, USERNAME, OBJECTCLASS, OBJECTQUERY AS NOTES from TLOG'
+      +' 	WHERE CAST(LOGDATE AS DATE) BETWEEN :STARTDATE AND :ENDDATE'
+      +' ) AS R'; // ORDER BY LOGDATE';
 
   cxLookup := TfrmCXServerLookup.Execute(S, 'ID', Now(), Now() );
   Try
