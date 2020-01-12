@@ -61,7 +61,6 @@ object frmMain: TfrmMain
     TabOrder = 1
     TabStop = False
     object dxRTApp: TdxRibbonTab
-      Active = True
       Caption = 'Aplikasi'
       Groups = <
         item
@@ -120,6 +119,7 @@ object frmMain: TfrmMain
       Index = 4
     end
     object dxRTManagement: TdxRibbonTab
+      Active = True
       Caption = 'Manajemen'
       Groups = <
         item

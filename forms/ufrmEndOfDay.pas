@@ -199,11 +199,11 @@ begin
     ErrorText := 'Tanggal End Of Day tidak boleh <= Tanggal EOD Terakhir';
   end;
 
-  if VarToDateTime(DisplayValue) > EndOfTheDay(Now()) then
-  begin
-    Error := True;
-    ErrorText := 'Tanggal End Of Day tidak melebihi hari ini';
-  end;
+//  if VarToDateTime(DisplayValue) > EndOfTheDay(Now()) then
+//  begin
+//    Error := True;
+//    ErrorText := 'Tanggal End Of Day tidak melebihi hari ini';
+//  end;
 end;
 
 procedure TfrmEndOfDay.FormCreate(Sender: TObject);
@@ -366,8 +366,22 @@ begin
     Result := TAppUtils.Confirm('Tanggal End Of Day melebihi tanggal hari ini'
       +#13 +'Apakah anda yakin melakukan Simpan End Of Day untuk tanggal : ' + DateToStr(dtEOD.Date)
     );
+
+    if (Result) and (DateOf(dtEOD.Date) = DateOf(EndOfTheYear(dtEOD.Date))) then
+      Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?'
+        + #13 +'EOD Akhir tahun tidak bisa dihapus lagi'
+        + #13 +'EOD akan melakukan migrasi saldo akhir tahun (stock && rekening) ke saldo awal tahun berikutnya'
+      );
   end else
-   Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
+  begin
+    if DateOf(dtEOD.Date) = DateOf(EndOfTheYear(dtEOD.Date)) then
+      Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?'
+        + #13 +'EOD Akhir tahun tidak bisa dihapus lagi'
+        + #13 +'EOD akan melakukan migrasi saldo akhir tahun (stock && rekening) ke saldo awal tahun berikutnya'
+      )
+    else
+      Result := TAppUtils.Confirm('Anda yakin data sudah sesuai?');
+  end;
 end;
 
 end.

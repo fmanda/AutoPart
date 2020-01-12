@@ -1080,6 +1080,19 @@ begin
     FreeAndNil(FSalesInv);
 
   SalesInv.LoadByID(aID);
+
+  //validate
+  if (SalesInv.PaymentFlag = PaymentFlag_Credit) then
+  begin
+    if (SalesInv.PaidAmount > 0) or (SalesInv.ReturAmount > 0) then
+    begin
+      TAppUtils.Warning('Faktur Credit/Tempo yang sudah ada pembayaran/retur tidak bisa diedit'
+        + #13 +'Silahkan hapus terlebih dahulu pembayaran/retur sebelum melakukan edit faktur ini'
+      );
+      IsReadOnly := True;
+    end;
+  end;
+
   CDS.EmptyDataSet;
   CDSService.EmptyDataSet;
 
