@@ -9,43 +9,43 @@ inherited frmUser: TfrmUser
   inherited cxGroupBox2: TcxGroupBox
     Top = 518
     TabOrder = 1
-    ExplicitTop = 440
-    ExplicitWidth = 666
+    ExplicitTop = 518
+    ExplicitWidth = 663
     Width = 663
     inherited btnCancel: TcxButton
       Left = 578
-      ExplicitLeft = 581
+      ExplicitLeft = 578
     end
     inherited btnPrint: TcxButton
       Left = 492
-      ExplicitLeft = 495
+      ExplicitLeft = 492
     end
     inherited btnSave: TcxButton
       Left = 406
       OnClick = btnSaveClick
-      ExplicitLeft = 409
+      ExplicitLeft = 406
     end
   end
   inherited Panel2: TPanel
     Top = 497
     Width = 663
     TabOrder = 2
-    ExplicitTop = 419
-    ExplicitWidth = 666
+    ExplicitTop = 497
+    ExplicitWidth = 663
     inherited lbEscape: TLabel
       Left = 583
       Height = 17
-      ExplicitLeft = 586
+      ExplicitLeft = 583
     end
     inherited lgndSave: TLabel
       Left = 418
       Height = 17
-      ExplicitLeft = 421
+      ExplicitLeft = 418
     end
     inherited lgndPrint: TLabel
       Left = 505
       Height = 17
-      ExplicitLeft = 508
+      ExplicitLeft = 505
     end
   end
   object cxGroupBox1: TcxGroupBox [2]
@@ -54,7 +54,6 @@ inherited frmUser: TfrmUser
     Align = alTop
     Caption = ' Informasi User '
     TabOrder = 0
-    ExplicitWidth = 603
     Height = 121
     Width = 663
     object cxLabel1: TcxLabel
@@ -109,6 +108,12 @@ inherited frmUser: TfrmUser
       Top = 85
       Caption = 'Ulangi Password'
     end
+    object ckSupervisor: TcxCheckBox
+      Left = 341
+      Top = 22
+      Caption = 'Supervisor'
+      TabOrder = 8
+    end
   end
   object cxGrid1: TcxGrid [3]
     Left = 0
@@ -118,10 +123,6 @@ inherited frmUser: TfrmUser
     Align = alClient
     TabOrder = 3
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitLeft = -87
-    ExplicitTop = 129
-    ExplicitWidth = 753
-    ExplicitHeight = 346
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -190,8 +191,8 @@ inherited frmUser: TfrmUser
     end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 472
-    Top = 16
+    Left = 560
+    Top = 65528
     PixelsPerInch = 96
   end
 end
