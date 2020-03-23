@@ -216,6 +216,8 @@ type
     opDialog: TOpenDialog;
     actDeleteEOD: TAction;
     dxBarButton96: TdxBarButton;
+    actPostAll: TAction;
+    dxBarButton97: TdxBarButton;
     procedure actAccountExecute(Sender: TObject);
     procedure actAgingARExecute(Sender: TObject);
     procedure actAgingStockExecute(Sender: TObject);
@@ -247,6 +249,7 @@ type
     procedure actMerkExecute(Sender: TObject);
     procedure actMutasiKasExecute(Sender: TObject);
     procedure actPiutangReturExecute(Sender: TObject);
+    procedure actPostAllExecute(Sender: TObject);
     procedure actPrintTrfReqFileExecute(Sender: TObject);
     procedure actPurchaseInvoiceExecute(Sender: TObject);
     procedure actPurchaseInvoiceHistoryExecute(Sender: TObject);
@@ -526,6 +529,25 @@ end;
 procedure TfrmMain.actPiutangReturExecute(Sender: TObject);
 begin
   ShowForm(TfrmPiutangRetur);
+end;
+
+procedure TfrmMain.actPostAllExecute(Sender: TObject);
+var
+  S: string;
+begin
+  S := 'exec sp_post_all';
+  Try
+    if TDBUtils.ExecuteSQL(S, True) then
+      TAppUtils.Information('Upload ke Hosting berhasil');
+  except
+    on E:Exception do
+    begin
+      TAppUtils.Error('Gagal upload ke hosting dengan pesan : '
+        + E.Message
+      )
+    end;
+  End;
+
 end;
 
 procedure TfrmMain.actPrintTrfReqFileExecute(Sender: TObject);

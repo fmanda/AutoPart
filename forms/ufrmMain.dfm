@@ -119,7 +119,6 @@ object frmMain: TfrmMain
       Index = 4
     end
     object dxRTManagement: TdxRibbonTab
-      Active = True
       Caption = 'Manajemen'
       Groups = <
         item
@@ -131,6 +130,7 @@ object frmMain: TfrmMain
       Index = 5
     end
     object dxRTUtilities: TdxRibbonTab
+      Active = True
       Caption = 'Utilities'
       Groups = <
         item
@@ -642,6 +642,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton91'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton97'
         end>
       OneOnRow = True
       Row = 0
@@ -1178,6 +1182,11 @@ object frmMain: TfrmMain
       Category = 0
       ImageIndex = 3
     end
+    object dxBarButton97: TdxBarButton
+      Action = actPostAll
+      Category = 0
+      ImageIndex = 64
+    end
   end
   object ActionManager: TActionManager
     Images = ImageList
@@ -1554,6 +1563,11 @@ object frmMain: TfrmMain
       Category = 'Manajemen'
       Caption = 'Hapus End Of Day'
       OnExecute = actDeleteEODExecute
+    end
+    object actPostAll: TAction
+      Category = 'Utilities'
+      Caption = 'Upload Data ke Hosting'
+      OnExecute = actPostAllExecute
     end
   end
   object ImageList: TcxImageList

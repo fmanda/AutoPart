@@ -142,6 +142,10 @@ begin
     Raise;
   End;
 
+  Try
+    TDBUTils.ExecuteSQL('exec sp_post_all', True);
+  except
+  End;
 
 end;
 
