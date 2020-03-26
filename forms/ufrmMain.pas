@@ -390,7 +390,7 @@ var
 begin
   lfrm := ShowForm(TfrmEndOfDay) as TfrmEndOfDay;
   if lfrm <> nil then
-    lfrm.ShowModal;
+    lfrm.ShowModalDlg;
 end;
 
 procedure TfrmMain.actExportDataExecute(Sender: TObject);

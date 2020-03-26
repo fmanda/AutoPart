@@ -30,43 +30,45 @@ inherited frmSalesAnalysis: TfrmSalesAnalysis
     Left = 0
     Top = 74
     Width = 809
-    Height = 299
+    Height = 276
     Align = alClient
     TabOrder = 2
     Properties.ActivePage = tsPivot
     Properties.CustomButtons.Buttons = <>
-    ClientRectBottom = 299
+    ExplicitHeight = 299
+    ClientRectBottom = 276
     ClientRectRight = 809
     ClientRectTop = 24
     object tsPivot: TcxTabSheet
       Caption = 'Pivot Data'
       ImageIndex = 0
+      ExplicitHeight = 275
       object cxGrdPivot: TcxDBPivotGrid
         Left = 0
         Top = 0
         Width = 809
-        Height = 275
+        Height = 252
         Align = alClient
         Groups = <>
         OptionsView.MarkNarrowCells = True
         OptionsView.RowTotalsLocation = rtlTree
         OptionsView.TotalsForSingleValues = True
         TabOrder = 0
+        ExplicitHeight = 275
       end
     end
     object tsChart: TcxTabSheet
       Caption = 'Grafis / Chart'
       ImageIndex = 1
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitHeight = 275
       object cxGrid1: TcxGrid
         Left = 0
         Top = 0
         Width = 809
-        Height = 275
+        Height = 252
         Align = alClient
         TabOrder = 0
+        ExplicitHeight = 275
         object cxChart: TcxGridChartView
           DiagramArea.AxisCategory.Visible = False
           DiagramBar.Active = True
@@ -86,16 +88,15 @@ inherited frmSalesAnalysis: TfrmSalesAnalysis
     object tsRaw: TcxTabSheet
       Caption = 'Data Mentah'
       ImageIndex = 2
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitHeight = 275
       object cxGrid2: TcxGrid
         Left = 0
         Top = 0
         Width = 809
-        Height = 275
+        Height = 252
         Align = alClient
         TabOrder = 0
+        ExplicitHeight = 275
         object cxGrdRaw: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -164,6 +165,28 @@ inherited frmSalesAnalysis: TfrmSalesAnalysis
       Top = 8
       Caption = 'Template Pivot '
     end
+  end
+  object cxLabel2: TcxLabel [4]
+    AlignWithMargins = True
+    Left = 3
+    Top = 353
+    Align = alBottom
+    Caption = ' *** Laporan ini diluar penjualan jasa / service'
+    ParentColor = False
+    ParentFont = False
+    Style.Color = clInfoBk
+    Style.Font.Charset = DEFAULT_CHARSET
+    Style.Font.Color = clWindowText
+    Style.Font.Height = -11
+    Style.Font.Name = 'Tahoma'
+    Style.Font.Style = [fsBold]
+    Style.TextColor = clRed
+    Style.IsFontAssigned = True
+    Properties.Alignment.Horz = taLeftJustify
+    Properties.Alignment.Vert = taVCenter
+    ExplicitTop = 151
+    ExplicitWidth = 293
+    AnchorY = 362
   end
   inherited styleRepo: TcxStyleRepository
     Left = 728

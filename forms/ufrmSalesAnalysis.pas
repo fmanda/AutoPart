@@ -38,6 +38,7 @@ type
     cxPivotGridChartConnection1: TcxPivotGridChartConnection;
     cbTemplate: TcxComboBox;
     cxLabel1: TcxLabel;
+    cxLabel2: TcxLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnExportClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
