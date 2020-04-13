@@ -193,7 +193,7 @@ type
     procedure LookupRetur(aKey: string = '');
     procedure SetCDSValidate(const Value: TClientDataset);
     procedure SetDefaultValueTipeHarga;
-    procedure SetItemToGrid(aItem: TItem);
+    procedure SetItemToGrid(aItem: TItem; IsFromLookup: Boolean = False);
     procedure UpdateData;
     procedure UpdateHarga(aPriceType: Integer);
     function ValidateData(WithPaymentDlg: Boolean = False): Boolean;
@@ -542,7 +542,7 @@ begin
   lItem := TItem.Create;
   Try
     if lItem.LoadByCode(VarToStr(DisplayValue)) then
-      SetItemToGrid(lItem)
+      SetItemToGrid(lItem, True)
     else
     begin
       Error := True;
@@ -1117,12 +1117,20 @@ begin
 
     cxLookupGudang.SetDefaultValue();
     SalesInv.ClearRetur;
+  end
+  else
+  begin
+    DisableTrigger := True;
+    Try
+      rbJenis.ItemIndex           := SalesInv.SalesType;
+      rbJenisPropertiesEditValueChanged(Self);
+      cxLookupRekening.EditValue  := SalesInv.Rekening.ID;
+      cbBayar.ItemIndex           := SalesInv.PaymentFlag;
+      cbBayarPropertiesEditValueChanged(Self);
+    Finally
+      DisableTrigger := False;
+    End;
   end;
-//  else
-//  begin
-//    rbJenis.ItemIndex     := SalesInv.SalesType;
-//    rbJenisPropertiesEditValueChanged(Self);
-//  end;
 
   if (aID <> 0) and (not IsReadOnly) then
   begin
@@ -1131,19 +1139,18 @@ begin
 
   edNoInv.Text := SalesInv.InvoiceNo;
 
-  if aID <> 0 then DisableTrigger := True;
-  Try
-    cbBayar.ItemIndex := SalesInv.PaymentFlag;
-    cbBayarPropertiesEditValueChanged(Self);
-
+//  if aID <> 0 then DisableTrigger := True;
+//  Try
+//    cbBayar.ItemIndex := SalesInv.PaymentFlag;
+//    cbBayarPropertiesEditValueChanged(Self);
 //    if SalesType = -1 then
-      SalesType := SalesInv.SalesType;
-
-    rbJenis.ItemIndex := SalesType;
-    rbJenisPropertiesEditValueChanged(Self);
-  Finally
-    DisableTrigger := False;
-  End;
+//      SalesType := SalesInv.SalesType;
+//
+//    rbJenis.ItemIndex := SalesType;
+//    rbJenisPropertiesEditValueChanged(Self);
+//  Finally
+//    DisableTrigger := False;
+//  End;
 
   dtInvoice.Date := SalesInv.TransDate;
   dtJtTempo.Date := SalesInv.DueDate;
@@ -1465,11 +1472,42 @@ begin
   end
 end;
 
-procedure TfrmSalesInvoice.SetItemToGrid(aItem: TItem);
+procedure TfrmSalesInvoice.SetItemToGrid(aItem: TItem; IsFromLookup: Boolean =
+    False);
 var
+  i: Integer;
   lItemUOM: TItemUOM;
+  sMsg: string;
 begin
   if aItem = nil then exit;
+
+  for i := 0 to DC.RecordCount-1 do
+  begin
+    if i = DC.FocusedRecordIndex then continue;
+
+    if VarToInt(DC.Values[i,colItemID.Index]) = aItem.ID then
+    begin
+      sMsg := 'Item : ' + aItem.Kode + ' : ' + aItem.Nama
+          + #13 + 'sudah pernah diinput di baris no : ' + IntToSTr(i + 1)
+          + ' sejumlah : ' + VarToStr(DC.Values[i, colQty.Index]) + ' '
+          + VarToStr(DC.DisplayTexts[i, colUOM.Index])
+          + #13#13 + 'Apakah Anda ingin mengganti jumlah Qty Item tersebut?';
+
+      if TAppUtils.Confirm(sMsg) then
+      begin
+        DC.Cancel;
+        DC.Controller.FocusedRecordIndex  := i;
+        if not IsFromLookup then
+          DC.Controller.FocusedItem       := colQty
+        else
+          DC.Controller.FocusedItem       := colUOM; //alwayas +1 from this because enter key event;
+
+        DC.Controller.EditingController.ShowEdit;
+        exit;
+      end
+    end;
+  end;
+
 
   DC.SetEditValue(colItemID.Index, aItem.ID, evsValue);
 //  DC.SetEditValue(colItemObject, Integer(aItem), evsValue);
