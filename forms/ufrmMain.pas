@@ -218,6 +218,8 @@ type
     dxBarButton96: TdxBarButton;
     actPostAll: TAction;
     dxBarButton97: TdxBarButton;
+    actHutangZakat: TAction;
+    dxBarButton98: TdxBarButton;
     procedure actAccountExecute(Sender: TObject);
     procedure actAgingARExecute(Sender: TObject);
     procedure actAgingStockExecute(Sender: TObject);
@@ -230,6 +232,7 @@ type
     procedure actExportDataExecute(Sender: TObject);
     procedure actGantiPassExecute(Sender: TObject);
     procedure actHutangReturExecute(Sender: TObject);
+    procedure actHutangZakatExecute(Sender: TObject);
     procedure actImportDataExecute(Sender: TObject);
     procedure actInternalTransferExecute(Sender: TObject);
     procedure actItemExecute(Sender: TObject);
@@ -304,7 +307,7 @@ uses
   ufrmBrowseUOM, ufrmBrowseItemGroup, ufrmBrowseMerk, uItem, ufrmBrowseItem,
   ufrmBrowseService, ufrmBrowseCustomer, ufrmBrowseSupplier, ufrmAgingStock,
   ufrmBrowseWarehouse, ufrmBrowseRekening, ufrmCXServerLookup,
-  ufrmBrowsePurchaseInvoice, ufrmKartuStock,
+  ufrmBrowsePurchaseInvoice, ufrmKartuStock, ufrmHutangZakat,
   ufrmBrowsePurchaseRetur, ufrmBrowseTransferStock, ufrmLapStock,
   ufrmBrowseSalesman, ufrmBrowseMekanik, ufrmBrowseSalesInvoice, ufrmVariable,
   uVariable, ufrmSalesInvoiceHistory, ufrmPurchaseInvoiceHistory,
@@ -406,6 +409,11 @@ end;
 procedure TfrmMain.actHutangReturExecute(Sender: TObject);
 begin
   ShowForm(TfrmHutangRetur);
+end;
+
+procedure TfrmMain.actHutangZakatExecute(Sender: TObject);
+begin
+  TfrmHutangZakat(ShowForm(TfrmHutangZakat)).ShowModalDlg;
 end;
 
 procedure TfrmMain.actImportDataExecute(Sender: TObject);

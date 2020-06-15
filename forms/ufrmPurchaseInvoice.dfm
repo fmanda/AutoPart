@@ -306,6 +306,7 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
+    ExplicitTop = 120
     object cxGrdMain: TcxGridDBTableView
       PopupMenu = pmMain
       Navigator.Buttons.CustomButtons = <>
@@ -491,7 +492,6 @@ inherited frmPurchaseInvoice: TfrmPurchaseInvoice
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
-      ExplicitLeft = 194
       ExplicitHeight = 16
     end
     object Label1: TLabel

@@ -103,9 +103,9 @@
         <UWP_DelphiLogo44>assets\autopart.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>assets\autopart.png</UWP_DelphiLogo150>
         <VerInfo_MinorVer>2020</VerInfo_MinorVer>
-        <VerInfo_Release>4</VerInfo_Release>
+        <VerInfo_Release>6</VerInfo_Release>
         <VerInfo_Build>1</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.2020.4.1;InternalName=;LegalCopyright=Fmanda;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.2020.6.1;InternalName=;LegalCopyright=Fmanda;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -532,6 +532,10 @@
         <DCCReference Include="classes\uImportLog.pas"/>
         <DCCReference Include="forms\ufrmDeleteEOD.pas">
             <Form>frmDeleteEndOfDay</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmHutangZakat.pas">
+            <Form>frmHutangZakat</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">

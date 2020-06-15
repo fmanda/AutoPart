@@ -126,7 +126,8 @@ uses
   ufrmTransferRequest in 'forms\ufrmTransferRequest.pas' {frmTransferRequest},
   ufrmBrowseTransferRequest in 'forms\ufrmBrowseTransferRequest.pas' {frmBrowseTransferRequest},
   uImportLog in 'classes\uImportLog.pas',
-  ufrmDeleteEOD in 'forms\ufrmDeleteEOD.pas' {frmDeleteEndOfDay};
+  ufrmDeleteEOD in 'forms\ufrmDeleteEOD.pas' {frmDeleteEndOfDay},
+  ufrmHutangZakat in 'forms\ufrmHutangZakat.pas' {frmHutangZakat};
 
 {$R *.res}
 
@@ -136,5 +137,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TDMReport, DMReport);
+  Application.CreateForm(TfrmHutangZakat, frmHutangZakat);
   Application.Run;
 end.

@@ -83,7 +83,6 @@ object frmMain: TfrmMain
       Index = 1
     end
     object dxRTInventory: TdxRibbonTab
-      Active = True
       Caption = 'Inventory'
       Groups = <
         item
@@ -106,6 +105,7 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxRTARAP: TdxRibbonTab
+      Active = True
       Caption = 'Hutang - Piutang'
       Groups = <
         item
@@ -554,6 +554,10 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton65'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton98'
         end>
       OneOnRow = False
       Row = 0
@@ -1187,6 +1191,11 @@ object frmMain: TfrmMain
       Category = 0
       ImageIndex = 64
     end
+    object dxBarButton98: TdxBarButton
+      Action = actHutangZakat
+      Category = 0
+      ImageIndex = 66
+    end
   end
   object ActionManager: TActionManager
     Images = ImageList
@@ -1568,6 +1577,11 @@ object frmMain: TfrmMain
       Category = 'Utilities'
       Caption = 'Upload Data ke Hosting'
       OnExecute = actPostAllExecute
+    end
+    object actHutangZakat: TAction
+      Category = 'Hutang Piutang'
+      Caption = 'Hutang Zakat'
+      OnExecute = actHutangZakatExecute
     end
   end
   object ImageList: TcxImageList
