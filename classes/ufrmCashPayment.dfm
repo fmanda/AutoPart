@@ -171,7 +171,7 @@ inherited frmCashPayment: TfrmCashPayment
     Height = 352
     Align = alClient
     TabOrder = 3
-    Properties.ActivePage = tsRetur
+    Properties.ActivePage = tsFee
     Properties.CustomButtons.Buttons = <>
     OnChange = pgcMainChange
     ClientRectBottom = 352
@@ -325,7 +325,6 @@ inherited frmCashPayment: TfrmCashPayment
     object tsRetur: TcxTabSheet
       Caption = 'Pembayaran Retur Customer'
       ImageIndex = 2
-      ExplicitTop = 23
       object cxGrid3: TcxGrid
         Left = 0
         Top = 0
@@ -333,7 +332,6 @@ inherited frmCashPayment: TfrmCashPayment
         Height = 328
         Align = alClient
         TabOrder = 0
-        ExplicitTop = -1
         object cxGrdRetur: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>

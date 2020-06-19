@@ -15,7 +15,8 @@ uses
   FireDAC.Phys, FireDAC.Phys.MSSQL, FireDAC.Phys.MSSQLDef, FireDAC.VCLUI.Wait,
   Data.DB, FireDAC.Comp.Client, Vcl.StdCtrls, dxRibbonBackstageView,
   cxImageList, dxNavBarOfficeNavigationBar, Vcl.Menus, cxButtons,
-  ufrmLapStockOpname, FireDAC.Stan.StorageJSON, uTransDetail, Datasnap.DBClient;
+  ufrmLapStockOpname, FireDAC.Stan.StorageJSON, uTransDetail,
+  Datasnap.DBClient, ufrmUangMukaZakat;
 
 type
   TfrmMain = class(TForm)
@@ -220,6 +221,10 @@ type
     dxBarButton97: TdxBarButton;
     actHutangZakat: TAction;
     dxBarButton98: TdxBarButton;
+    dxBarManagerBar15: TdxBar;
+    actUangMukaZakat: TAction;
+    dxBarButton99: TdxBarButton;
+    dxBarButton100: TdxBarButton;
     procedure actAccountExecute(Sender: TObject);
     procedure actAgingARExecute(Sender: TObject);
     procedure actAgingStockExecute(Sender: TObject);
@@ -281,6 +286,7 @@ type
     procedure actSupplierExecute(Sender: TObject);
     procedure actTransferRequestExecute(Sender: TObject);
     procedure actTransferStockExecute(Sender: TObject);
+    procedure actUangMukaZakatExecute(Sender: TObject);
     procedure actUserExecute(Sender: TObject);
     procedure actVariableExecute(Sender: TObject);
     procedure actWarehouseExecute(Sender: TObject);
@@ -321,7 +327,8 @@ uses
   ufrmLapFeeSalesman, ufrmBrowseUser, uUser, ufrmLapPembelian,
   ufrmLapPenjualan, ufrmGantiPassword, ufrmPiutangRetur, ufrmHutangRetur,
   ufrmBrowseKKSO, ufrmExportData, ufrmImportData, ufrmBrowseTransferRequest,
-  System.IOUtils, CRUDObject, System.JSON, ufrmDeleteEOD;
+  System.IOUtils, CRUDObject, System.JSON, ufrmDeleteEOD,
+  ufrmBrowseUangMukaZakat;
 
 {$R *.dfm}
 
@@ -732,6 +739,11 @@ end;
 procedure TfrmMain.actTransferStockExecute(Sender: TObject);
 begin
   ShowForm(TfrmBrowseTransferStock);
+end;
+
+procedure TfrmMain.actUangMukaZakatExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseUangMukaZakat);
 end;
 
 procedure TfrmMain.actUserExecute(Sender: TObject);

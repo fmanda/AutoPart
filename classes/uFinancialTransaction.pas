@@ -124,6 +124,7 @@ type
   private
     FFeeItems: TObjectList<TFeePaymentItem>;
     FRekening: TRekening;
+    FTahunZakat: Integer;
     function GetFeeItems: TObjectList<TFeePaymentItem>;
     function UpdateFee(aIsRevert: Boolean = False): Boolean;
   protected
@@ -139,6 +140,7 @@ type
         FFeeItems;
   published
     property Rekening: TRekening read FRekening write FRekening;
+    property TahunZakat: Integer read FTahunZakat write FTahunZakat;
   end;
 
   TSalesPayment = class(TCRUDFinance)
@@ -383,6 +385,7 @@ destructor TCashPayment.Destroy;
 begin
   inherited;
   if FFeeItems <> nil then FreeAndNil(FFeeItems);
+//  if Frekening <> nil then FreeAndNil(Frekening);
 end;
 
 function TCashPayment.AfterSaveToDB: Boolean;
@@ -431,6 +434,9 @@ begin
   lNum := 0;
   aDigitCount := 5;
   aPrefix := Cabang + '.KK' + FormatDateTime('yymm',Now()) + '.';
+
+  if Self.TahunZakat > 2000 then
+    aPrefix := Cabang + '.ZKT' + FormatDateTime('yymm',Now()) + '.';
 
 
   S := 'SELECT MAX(RefNo) FROM TCashPayment where Refno LIKE ' + QuotedStr(aPrefix + '%');

@@ -1,10 +1,10 @@
 inherited frmPurchasePayment: TfrmPurchasePayment
-  Caption = 'Pembayaran Faktur Pembelian'
+  Caption = 'Pembayaran Hutang / Faktur Pembelian'
   ClientHeight = 561
-  ClientWidth = 867
+  ClientWidth = 883
   KeyPreview = True
   OnKeyDown = FormKeyDown
-  ExplicitWidth = 883
+  ExplicitWidth = 899
   ExplicitHeight = 600
   PixelsPerInch = 96
   TextHeight = 13
@@ -13,39 +13,39 @@ inherited frmPurchasePayment: TfrmPurchasePayment
     TabOrder = 2
     ExplicitTop = 526
     ExplicitWidth = 867
-    Width = 867
+    Width = 883
     inherited btnCancel: TcxButton
-      Left = 782
+      Left = 798
       ExplicitLeft = 782
     end
     inherited btnPrint: TcxButton
-      Left = 696
+      Left = 712
       ExplicitLeft = 696
     end
     inherited btnSave: TcxButton
-      Left = 610
+      Left = 626
       OnClick = btnSaveClick
       ExplicitLeft = 610
     end
   end
   inherited Panel2: TPanel
     Top = 505
-    Width = 867
+    Width = 883
     TabOrder = 3
     ExplicitTop = 505
     ExplicitWidth = 867
     inherited lbEscape: TLabel
-      Left = 787
+      Left = 803
       Height = 17
       ExplicitLeft = 787
     end
     inherited lgndSave: TLabel
-      Left = 622
+      Left = 638
       Height = 17
       ExplicitLeft = 622
     end
     inherited lgndPrint: TLabel
-      Left = 709
+      Left = 725
       Height = 17
       ExplicitLeft = 709
     end
@@ -94,11 +94,12 @@ inherited frmPurchasePayment: TfrmPurchasePayment
     Align = alTop
     Caption = '  Header Invoice [F1] '
     TabOrder = 0
+    ExplicitTop = -6
     DesignSize = (
-      867
+      883
       121)
     Height = 121
-    Width = 867
+    Width = 883
     object cxLabel1: TcxLabel
       Left = 20
       Top = 28
@@ -175,14 +176,14 @@ inherited frmPurchasePayment: TfrmPurchasePayment
       Width = 259
     end
     object crRetur: TcxCurrencyEdit
-      Left = 680
-      Top = 57
+      Left = 691
+      Top = 56
       TabStop = False
       Anchors = [akTop, akRight]
       EditValue = 0.000000000000000000
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.##;(,0.##)'
+      Properties.DisplayFormat = ',0;(,0)'
       Properties.ReadOnly = True
       Style.Color = clCream
       Style.Font.Charset = DEFAULT_CHARSET
@@ -192,10 +193,10 @@ inherited frmPurchasePayment: TfrmPurchasePayment
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 8
-      Width = 170
+      Width = 184
     end
     object cxLabel2: TcxLabel
-      Left = 641
+      Left = 652
       Top = 84
       Anchors = [akTop, akRight]
       Caption = 'Total'
@@ -207,11 +208,11 @@ inherited frmPurchasePayment: TfrmPurchasePayment
       Style.Font.Style = []
       Style.IsFontAssigned = True
       Properties.Alignment.Horz = taRightJustify
-      AnchorX = 678
+      AnchorX = 689
     end
     object cxLabel3: TcxLabel
-      Left = 639
-      Top = 58
+      Left = 650
+      Top = 57
       Anchors = [akTop, akRight]
       Caption = 'Retur'
       ParentFont = False
@@ -222,17 +223,17 @@ inherited frmPurchasePayment: TfrmPurchasePayment
       Style.Font.Style = []
       Style.IsFontAssigned = True
       Properties.Alignment.Horz = taRightJustify
-      AnchorX = 678
+      AnchorX = 689
     end
     object crTotal: TcxCurrencyEdit
-      Left = 680
+      Left = 691
       Top = 83
       TabStop = False
       Anchors = [akTop, akRight]
       EditValue = 0.000000000000000000
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.##;(,0.##)'
+      Properties.DisplayFormat = ',0;(,0)'
       Properties.ReadOnly = True
       Style.Color = clCream
       Style.Font.Charset = DEFAULT_CHARSET
@@ -242,10 +243,10 @@ inherited frmPurchasePayment: TfrmPurchasePayment
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 9
-      Width = 170
+      Width = 184
     end
     object cxLabel5: TcxLabel
-      Left = 638
+      Left = 649
       Top = 27
       Anchors = [akTop, akRight]
       Caption = 'Cash'
@@ -257,27 +258,27 @@ inherited frmPurchasePayment: TfrmPurchasePayment
       Style.Font.Style = []
       Style.IsFontAssigned = True
       Properties.Alignment.Horz = taRightJustify
-      AnchorX = 678
+      AnchorX = 689
     end
     object crCash: TcxCurrencyEdit
-      Left = 680
-      Top = 22
+      Left = 691
+      Top = 24
       TabStop = False
       Anchors = [akTop, akRight]
       EditValue = 0.000000000000000000
       ParentFont = False
       Properties.Alignment.Horz = taRightJustify
-      Properties.DisplayFormat = ',0.##;(,0.##)'
+      Properties.DisplayFormat = ',0;(,0)'
       Properties.ReadOnly = True
       Style.Color = clMoneyGreen
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
-      Style.Font.Height = -24
+      Style.Font.Height = -21
       Style.Font.Name = 'Consolas'
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 10
-      Width = 170
+      Width = 184
     end
     object cbMedia: TcxComboBox
       Left = 414
@@ -292,7 +293,7 @@ inherited frmPurchasePayment: TfrmPurchasePayment
       Properties.OnEditValueChanged = cbMediaPropertiesEditValueChanged
       TabOrder = 4
       Text = 'CASH / TUNAI'
-      Width = 90
+      Width = 99
     end
     object cxLabel10: TcxLabel
       Left = 354
@@ -331,11 +332,12 @@ inherited frmPurchasePayment: TfrmPurchasePayment
   object cxGrid1: TcxGrid [3]
     Left = 0
     Top = 121
-    Width = 867
+    Width = 883
     Height = 384
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
+    ExplicitWidth = 867
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown

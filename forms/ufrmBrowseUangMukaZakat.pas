@@ -1,20 +1,22 @@
-unit ufrmBrowseCashPayment;
+unit ufrmBrowseUangMukaZakat;
 
 interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmDefaultServerBrowse, cxGraphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmDefaultBrowse, cxGraphics,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxStyles, cxCustomData,
   cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator,
-  cxDataControllerConditionalFormattingRulesManagerDialog, cxContainer,
-  Vcl.Menus, Vcl.ComCtrls, dxCore, cxDateUtils, cxClasses, cxLabel, cxTextEdit,
-  cxMaskEdit, cxDropDownEdit, cxCalendar, Vcl.StdCtrls, cxButtons, cxGroupBox,
-  cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridServerModeTableView, cxGrid;
+  cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
+  cxContainer, Vcl.Menus, Vcl.ComCtrls, dxCore, cxDateUtils, cxClasses, cxLabel,
+  cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar, Vcl.StdCtrls, cxButtons,
+  cxGroupBox, cxGridLevel, cxGridCustomView, cxGridCustomTableView,
+  cxGridTableView, cxGridDBTableView, cxGrid, uAppUtils, uFinancialTransaction,
+  ufrmUangMukaZakat, uDXUtils, uDBUtils, ufrmDefaultServerBrowse,
+  cxGridServerModeTableView;
 
 type
-  TfrmBrowseCashPayment = class(TfrmDefaultServerBrowse)
+  TfrmBrowseUangMukaZakat = class(TfrmDefaultServerBrowse)
     procedure btnBaruClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnHapusClick(Sender: TObject);
@@ -31,20 +33,19 @@ type
   end;
 
 var
-  frmBrowseCashPayment: TfrmBrowseCashPayment;
+  frmBrowseUangMukaZakat: TfrmBrowseUangMukaZakat;
 
 implementation
 
 uses
-  uAppUtils, uDXUtils, Dateutils, ufrmCashPayment, uFinancialTransaction,
-  uDBUtils;
+  System.DateUtils;
 
 {$R *.dfm}
 
-procedure TfrmBrowseCashPayment.btnBaruClick(Sender: TObject);
+procedure TfrmBrowseUangMukaZakat.btnBaruClick(Sender: TObject);
 begin
   inherited;
-  with TfrmCashPayment.Create(Application) do
+  with TfrmUangMukaZakat.Create(Application) do
   begin
     Try
       if ShowModalDlg = mrOK then
@@ -55,10 +56,10 @@ begin
   end;
 end;
 
-procedure TfrmBrowseCashPayment.btnEditClick(Sender: TObject);
+procedure TfrmBrowseUangMukaZakat.btnEditClick(Sender: TObject);
 begin
   inherited;
-  with TfrmCashPayment.Create(Application) do
+  with TfrmUangMukaZakat.Create(Application) do
   begin
     LoadByID(Self.cxGrdMain.GetID, False);
     Try
@@ -70,7 +71,7 @@ begin
   end;
 end;
 
-procedure TfrmBrowseCashPayment.btnHapusClick(Sender: TObject);
+procedure TfrmBrowseUangMukaZakat.btnHapusClick(Sender: TObject);
 begin
   inherited;
   if not TAppUtils.Confirm('Anda yakin menghapus data ini?') then exit;
@@ -90,10 +91,10 @@ begin
   end;
 end;
 
-procedure TfrmBrowseCashPayment.btnLihatClick(Sender: TObject);
+procedure TfrmBrowseUangMukaZakat.btnLihatClick(Sender: TObject);
 begin
   inherited;
-  with TfrmCashPayment.Create(Application) do
+  with TfrmUangMukaZakat.Create(Application) do
   begin
     LoadByID(Self.cxGrdMain.GetID, True);
     Try
@@ -104,29 +105,31 @@ begin
   end;
 end;
 
-procedure TfrmBrowseCashPayment.FormCreate(Sender: TObject);
+procedure TfrmBrowseUangMukaZakat.FormCreate(Sender: TObject);
 begin
-  StartDate.Date := (Now());
-  EndDate.Date := (Now());
-  inherited;
+//  inherited;
+  lblTitle.Caption  := Self.Caption;
+  StartDate.Date    := StartOfTheYear(Now());
+  EndDate.Date      := EndOfTheYear(Now());
+  RefreshData;
 end;
 
-function TfrmBrowseCashPayment.GetGroupName: string;
+function TfrmBrowseUangMukaZakat.GetGroupName: string;
 begin
   Result := 'Penjualan & Kas';
 end;
 
-function TfrmBrowseCashPayment.GetKeyField: string;
+function TfrmBrowseUangMukaZakat.GetKeyField: string;
 begin
   Result := 'id';
 end;
 
-function TfrmBrowseCashPayment.GetSQL: string;
+function TfrmBrowseUangMukaZakat.GetSQL: string;
 begin
-  Result := 'SELECT A.ID, A.REFNO, A.TRANSDATE, B.NAMA AS REKENING_ASAL, A.AMOUNT, A.NOTES, A.MODIFIEDDATE, A.MODIFIEDBY'
+  Result := 'SELECT A.ID, A.REFNO, A.TAHUNZAKAT, A.TRANSDATE, B.NAMA AS REKENING_ASAL, A.AMOUNT, A.NOTES, A.MODIFIEDDATE, A.MODIFIEDBY'
            +' FROM TCASHPAYMENT A'
            +' LEFT JOIN TREKENING B ON A.REKENING_ID = B.ID'
-           +' WHERE ISNULL(A.TAHUNZAKAT,0) = 0 AND A.TRANSDATE BETWEEN ' + TAppUtils.QuotD(StartDate.Date)
+           +' WHERE ISNULL(A.TAHUNZAKAT,0) > 0 AND A.TRANSDATE BETWEEN ' + TAppUtils.QuotD(StartDate.Date)
            +' AND ' + TAppUtils.QuotD(EndDate.Date);
 
 end;

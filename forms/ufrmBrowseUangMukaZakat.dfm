@@ -1,5 +1,5 @@
-inherited frmBrowsePurchaseInvoice: TfrmBrowsePurchaseInvoice
-  Caption = 'Browse Faktur Pembelian'
+inherited frmBrowseUangMukaZakat: TfrmBrowseUangMukaZakat
+  Caption = 'Browse Uang Muka Zakat'
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
@@ -14,10 +14,6 @@ inherited frmBrowsePurchaseInvoice: TfrmBrowsePurchaseInvoice
     end
     inherited btnBaru: TcxButton
       OnClick = btnBaruClick
-    end
-    inherited btnPrint: TcxButton
-      Visible = True
-      OnClick = btnPrintClick
     end
   end
   inherited cxGroupBox1: TcxGroupBox

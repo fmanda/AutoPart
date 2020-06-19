@@ -10,7 +10,11 @@ uses
   cxGroupBox, IPPeerClient, REST.Client, Data.Bind.Components,
   Data.Bind.ObjectScope, Vcl.ComCtrls, dxCore, cxDateUtils, cxDropDownEdit,
   cxCalendar, cxMemo, cxButtonEdit, cxCurrencyEdit, cxSpinEdit, cxMaskEdit,
-  cxLabel, cxTextEdit, uTransDetail, uDBUtils, uSupplier;
+  cxLabel, cxTextEdit, uTransDetail, uDBUtils, uSupplier, cxCustomData,
+  cxFilter, cxData, cxDataStorage, cxNavigator,
+  cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
+  cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
+  cxGridDBTableView, cxGrid, Datasnap.DBClient;
 
 type
   TfrmHutangZakat = class(TfrmDefaultInput)
@@ -29,7 +33,12 @@ type
     cxLabel4: TcxLabel;
     cxLabel5: TcxLabel;
     crCalc: TcxCurrencyEdit;
-    cxGroupBox3: TcxGroupBox;
+    cbBulan2: TcxComboBox;
+    cxLabel11: TcxLabel;
+    spTahun2: TcxSpinEdit;
+    cxLabel12: TcxLabel;
+    cxLabel13: TcxLabel;
+    crUangMuka: TcxCurrencyEdit;
     cxLabel6: TcxLabel;
     edSupplier: TcxButtonEdit;
     edNotes: TcxMemo;
@@ -40,10 +49,11 @@ type
     dtInvoice: TcxDateEdit;
     cxLabel10: TcxLabel;
     crValue: TcxCurrencyEdit;
-    cbBulan2: TcxComboBox;
-    cxLabel11: TcxLabel;
-    spTahun2: TcxSpinEdit;
-    cxLabel12: TcxLabel;
+    cxGrid: TcxGrid;
+    cxGrdMain: TcxGridDBTableView;
+    lvl: TcxGridLevel;
+    cxMemo2: TcxMemo;
+    cxLabel14: TcxLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnCalcClick(Sender: TObject);
     procedure edSupplierKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -51,6 +61,7 @@ type
     procedure edSupplierPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
   private
+    FCDSDP: TClientDataset;
     FPurchInv: TPurchaseInvoice;
     function GetPurchInv: TPurchaseInvoice;
     procedure LookupSupplier(sKey: string = '');
@@ -59,6 +70,8 @@ type
     { Private declarations }
   public
     { Public declarations }
+  published
+    property CDSDP: TClientDataset read FCDSDP write FCDSDP;
   end;
 
 var
@@ -67,7 +80,7 @@ var
 implementation
 
 uses
-  System.JSON, StrUtils, DateUtils, uAppUtils, ufrmCXServerLookup;
+  System.JSON, StrUtils, DateUtils, uAppUtils, ufrmCXServerLookup, uDXUtils;
 
 {$R *.dfm}
 
@@ -84,6 +97,7 @@ var
   jArr: TJSONArray;
   jObj: TJSONObject;
   jValue: TJSONValue;
+  S: String;
 begin
   inherited;
   edNoInv.Text := 'ZKT.' + IntToStr(spTahun.Value) + RightStr('0' + IntToStr(cbBulan.ItemIndex + 1), 2);
@@ -106,7 +120,23 @@ begin
     crNetProfit.Value := StrToFloat(jObj.GetValue('netprofit').Value);
     crCalc.Value      := 0.025 * crNetProfit.Value;
 
-    crValue.Value     := crCalc.Value;
+    S := 'select REFNO, TRANSDATE, AMOUNT, B.NAMA AS REKENING, A.NOTES, A.TAHUNZAKAT, A.MODIFIEDBY'
+        +' from TCASHPAYMENT a left join TREKENING b on a.REKENING_ID = b.id'
+        +' where tahunzakat = ' + IntToStr(spTahun.Value);
+
+    if FCDSDP <> nil then FreeAndNil(FCDSDP);
+    FCDSDP := TDBUtils.OpenDataset(S, Self);
+
+    crUangMuka.Value := 0;
+    CDSDP.First;
+    while not CDSDP.Eof do
+    begin
+      crUangMuka.Value := crUangMuka.Value + CDSDP.FieldByName('Amount').AsFloat;
+      CDSDP.Next;
+    end;
+    cxGrdMain.LoadFromCDS(CDSDP);
+
+    crValue.Value := crCalc.Value - crUangMuka.Value;
   except
     on E:Exception do
     begin
@@ -123,6 +153,7 @@ begin
     TAppUtils.Warning('Nomor bukti kosong, pastikan sudah melakukan proses Hitung Data');
     exit;
   end;
+  if not IsValidTransDate(dtInvoice.Date) then exit;
   if not TAppUtils.Confirm('Anda yakin data sudah sesuai ?') then exit;
   UpdateData;
   if PurchInv.SaveToDB(True) then

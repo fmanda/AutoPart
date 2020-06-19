@@ -105,7 +105,6 @@ object frmMain: TfrmMain
       Index = 3
     end
     object dxRTARAP: TdxRibbonTab
-      Active = True
       Caption = 'Hutang - Piutang'
       Groups = <
         item
@@ -120,6 +119,7 @@ object frmMain: TfrmMain
       Index = 4
     end
     object dxRTManagement: TdxRibbonTab
+      Active = True
       Caption = 'Manajemen'
       Groups = <
         item
@@ -127,6 +127,9 @@ object frmMain: TfrmMain
         end
         item
           ToolbarName = 'dxBarManagerBar11'
+        end
+        item
+          ToolbarName = 'dxBarManagerBar15'
         end>
       Index = 5
     end
@@ -554,10 +557,6 @@ object frmMain: TfrmMain
         item
           Visible = True
           ItemName = 'dxBarButton65'
-        end
-        item
-          Visible = True
-          ItemName = 'dxBarButton98'
         end>
       OneOnRow = False
       Row = 0
@@ -652,6 +651,30 @@ object frmMain: TfrmMain
           ItemName = 'dxBarButton97'
         end>
       OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxBarManagerBar15: TdxBar
+      Caption = 'Zakat'
+      CaptionButtons = <>
+      DockedLeft = 352
+      DockedTop = 0
+      FloatLeft = 1384
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarButton99'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton100'
+        end>
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -1196,6 +1219,15 @@ object frmMain: TfrmMain
       Category = 0
       ImageIndex = 66
     end
+    object dxBarButton99: TdxBarButton
+      Action = actUangMukaZakat
+      Category = 0
+    end
+    object dxBarButton100: TdxBarButton
+      Action = actHutangZakat
+      Category = 0
+      ImageIndex = 66
+    end
   end
   object ActionManager: TActionManager
     Images = ImageList
@@ -1582,6 +1614,12 @@ object frmMain: TfrmMain
       Category = 'Hutang Piutang'
       Caption = 'Hutang Zakat'
       OnExecute = actHutangZakatExecute
+    end
+    object actUangMukaZakat: TAction
+      Category = 'Kasir & Penjualan'
+      Caption = 'Pembayaran Uang Muka Zakat'
+      ImageIndex = 41
+      OnExecute = actUangMukaZakatExecute
     end
   end
   object ImageList: TcxImageList

@@ -136,7 +136,6 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 6
       Visible = False
-      ExplicitTop = 3
     end
   end
   object cxGroupBox1: TcxGroupBox
@@ -171,7 +170,6 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 1
-      Visible = False
       Width = 100
     end
     object StartDate: TcxDateEdit
@@ -182,7 +180,6 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 2
-      Visible = False
       Width = 100
     end
     object cxLabel1: TcxLabel
@@ -191,7 +188,6 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Align = alRight
       Caption = 'Filter Periode'
       Properties.Alignment.Vert = taVCenter
-      Visible = False
       AnchorY = 18
     end
     object cxLabel2: TcxLabel
@@ -200,7 +196,6 @@ inherited frmDefaultServerBrowse: TfrmDefaultServerBrowse
       Align = alRight
       Caption = 's/d'
       Properties.Alignment.Vert = taVCenter
-      Visible = False
       AnchorY = 18
     end
     object lblTitle: TcxLabel

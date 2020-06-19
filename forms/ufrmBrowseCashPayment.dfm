@@ -15,6 +15,9 @@ inherited frmBrowseCashPayment: TfrmBrowseCashPayment
     inherited btnBaru: TcxButton
       OnClick = btnBaruClick
     end
+    inherited btnPrint: TcxButton
+      ExplicitTop = 5
+    end
   end
   inherited cxGroupBox1: TcxGroupBox
     inherited EndDate: TcxDateEdit
@@ -27,10 +30,12 @@ inherited frmBrowseCashPayment: TfrmBrowseCashPayment
     end
     inherited cxLabel1: TcxLabel
       Visible = True
+      ExplicitLeft = 260
       AnchorY = 18
     end
     inherited cxLabel2: TcxLabel
       Visible = True
+      ExplicitLeft = 433
       AnchorY = 18
     end
     inherited lblTitle: TcxLabel
@@ -39,6 +44,8 @@ inherited frmBrowseCashPayment: TfrmBrowseCashPayment
     end
   end
   inherited styleRepo: TcxStyleRepository
+    Left = 136
+    Top = 256
     PixelsPerInch = 96
   end
 end
