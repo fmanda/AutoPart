@@ -42,7 +42,6 @@ inherited frmLapPembelian: TfrmLapPembelian
     Caption = ' Laporan Pembelian '
     Style.TextStyle = [fsBold]
     TabOrder = 2
-    ExplicitLeft = 5
     Height = 54
     Width = 726
     object cxLabel3: TcxLabel

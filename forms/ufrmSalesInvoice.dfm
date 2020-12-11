@@ -4,6 +4,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
   ClientWidth = 984
   KeyPreview = True
   OnKeyDown = FormKeyDown
+  ExplicitTop = -113
   ExplicitWidth = 1000
   ExplicitHeight = 680
   PixelsPerInch = 96
@@ -50,6 +51,7 @@ inherited frmSalesInvoice: TfrmSalesInvoice
       Width = 100
       OnClick = btnSaveClick
       ExplicitLeft = 601
+      ExplicitTop = 6
       ExplicitWidth = 100
     end
     object btnPayment: TcxButton

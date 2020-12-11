@@ -76,6 +76,7 @@ begin
 
   FCDS := TDBUtils.OpenDataset(S, Self);
   cxGrdMain.LoadFromCDS(CDS);
+  cxGrdMain.SetSummaryByColumns(['SUBTOTAL']);
   cxGrdMain.EnableFiltering();
 end;
 

@@ -258,7 +258,16 @@ begin
   begin
 //    TAppUtils.InformationBerhasilSimpan;
 //    Self.ModalResult := mrOK;
-    btnPrint.Click;
+    try
+      btnPrint.Click;
+    except
+      on E:Exception do
+      begin
+        TAppUtils.Error(
+          'Gagal Cetak Invoice, Silahkan cetak ulang dari Browse' + #13 +
+          E.Message);
+      end;
+    end;
     LoadByID(0, rbJenis.ItemIndex, False);
   end;
 end;
@@ -1691,6 +1700,13 @@ begin
   begin
     TAppUtils.Warning('Customer belum dipilih');
     edCustomer.SetFocus;
+    exit;
+  end;
+
+  if VarToInt(cxLookupGudang.EditValue) = 0 then
+  begin
+    TAppUtils.Warning('Gudang wajib dipilih');
+    cxLookupGudang.SetFocus;
     exit;
   end;
 
