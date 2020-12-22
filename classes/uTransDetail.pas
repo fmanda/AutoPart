@@ -1553,9 +1553,13 @@ end;
 function TSalesInvoice.AfterSaveToDB: Boolean;
 var
   lSalesPayment: TSalesPayment;
+  S: string;
 begin
   if Self.PaymentFlag = PaymentFlag_Cash then
   begin
+    S := 'delete from tfinancialtransaction where refno = ' + QuotedStr(Self.InvoiceNo);
+    TDBUtils.ExecuteSQL(S, False);
+
     lSalesPayment :=  TSalesPayment.CreateOrGetFromInv(Self);
     Result := lSalesPayment.SaveToDB(False);  //updatesales here
   end else
@@ -1572,6 +1576,7 @@ function TSalesInvoice.BeforeDeleteFromDB: Boolean;
 var
   lSalesFee: TSalesFee;
   lSalesPayment: TSalesPayment;
+//  S: string;
 begin
 //  Result := True;
   lSalesPayment :=  TSalesPayment.Create;
@@ -1579,6 +1584,10 @@ begin
   Try
     if lSalesPayment.LoadByCode(Self.InvoiceNo) then
       lSalesPayment.DeleteFromDB(False);
+
+    //temporary, fixing bug
+//    S := 'delete from tfinancialtransaction where refno = ' + QuotedStr(Self.InvoiceNo);
+//    TDBUtils.ExecuteSQL(S, False);
 
     if lSalesFee.LoadByCode(Self.InvoiceNo) then
       lSalesFee.DeleteFromDB(False);
@@ -1595,6 +1604,7 @@ var
   lItem: TTransDetail;
   lSalesFee: TSalesFee;
   lSalesPayment: TSalesPayment;
+//  S: string;
 begin
   for lItem in Self.Items do
   begin
@@ -1616,6 +1626,10 @@ begin
   Try
     if lSalesPayment.LoadByCode(Self.InvoiceNo) then
       lSalesPayment.DeleteFromDB(False);
+
+    //temporary, fixing bug
+//    S := 'delete from tfinancialtransaction where refno = ' + QuotedStr(Self.InvoiceNo);
+//    TDBUtils.ExecuteSQL(S, False);
 
     if lSalesFee.LoadByCode(Self.InvoiceNo) then
       lSalesFee.DeleteFromDB(False);
