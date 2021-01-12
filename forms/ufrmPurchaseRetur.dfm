@@ -4,6 +4,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
   ClientWidth = 941
   KeyPreview = True
   OnKeyDown = FormKeyDown
+  ExplicitTop = -30
   ExplicitWidth = 957
   ExplicitHeight = 597
   PixelsPerInch = 96
@@ -29,6 +30,17 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       OnClick = btnSaveClick
       ExplicitLeft = 684
     end
+    object btnLookupPembelian: TcxButton
+      AlignWithMargins = True
+      Left = 5
+      Top = 5
+      Width = 154
+      Height = 25
+      Align = alLeft
+      Caption = 'Lookup Pembelian Terakhir'
+      TabOrder = 3
+      OnClick = btnLookupPembelianClick
+    end
   end
   inherited Panel2: TPanel
     Top = 502
@@ -38,14 +50,17 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     ExplicitWidth = 941
     inherited lbEscape: TLabel
       Left = 861
+      Height = 17
       ExplicitLeft = 861
     end
     inherited lgndSave: TLabel
       Left = 696
+      Height = 17
       ExplicitLeft = 696
     end
     inherited lgndPrint: TLabel
       Left = 783
+      Height = 17
       Visible = True
       ExplicitLeft = 783
     end
@@ -54,7 +69,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Left = 165
       Top = 1
       Width = 84
-      Height = 16
+      Height = 17
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -66,13 +81,14 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      ExplicitHeight = 16
     end
     object Label1: TLabel
       AlignWithMargins = True
       Left = 3
       Top = 1
       Width = 146
-      Height = 16
+      Height = 17
       Margins.Top = 1
       Margins.Right = 13
       Margins.Bottom = 1
@@ -84,6 +100,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      ExplicitHeight = 16
     end
   end
   object cxGroupBox1: TcxGroupBox [2]
@@ -336,7 +353,6 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     PopupMenu = pmMain
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitTop = 144
     object cxGrdMain: TcxGridDBTableView
       PopupMenu = pmMain
       Navigator.Buttons.CustomButtons = <>

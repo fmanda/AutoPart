@@ -12,20 +12,20 @@ inherited frmPurchasePayment: TfrmPurchasePayment
     Top = 526
     TabOrder = 2
     ExplicitTop = 526
-    ExplicitWidth = 867
+    ExplicitWidth = 883
     Width = 883
     inherited btnCancel: TcxButton
       Left = 798
-      ExplicitLeft = 782
+      ExplicitLeft = 798
     end
     inherited btnPrint: TcxButton
       Left = 712
-      ExplicitLeft = 696
+      ExplicitLeft = 712
     end
     inherited btnSave: TcxButton
       Left = 626
       OnClick = btnSaveClick
-      ExplicitLeft = 610
+      ExplicitLeft = 626
     end
   end
   inherited Panel2: TPanel
@@ -33,21 +33,21 @@ inherited frmPurchasePayment: TfrmPurchasePayment
     Width = 883
     TabOrder = 3
     ExplicitTop = 505
-    ExplicitWidth = 867
+    ExplicitWidth = 883
     inherited lbEscape: TLabel
       Left = 803
       Height = 17
-      ExplicitLeft = 787
+      ExplicitLeft = 803
     end
     inherited lgndSave: TLabel
       Left = 638
       Height = 17
-      ExplicitLeft = 622
+      ExplicitLeft = 638
     end
     inherited lgndPrint: TLabel
       Left = 725
       Height = 17
-      ExplicitLeft = 709
+      ExplicitLeft = 725
     end
     object Label1: TLabel
       AlignWithMargins = True
@@ -94,7 +94,6 @@ inherited frmPurchasePayment: TfrmPurchasePayment
     Align = alTop
     Caption = '  Header Invoice [F1] '
     TabOrder = 0
-    ExplicitTop = -6
     DesignSize = (
       883
       121)
@@ -337,7 +336,6 @@ inherited frmPurchasePayment: TfrmPurchasePayment
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitWidth = 867
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       OnEditKeyDown = cxGrdMainEditKeyDown

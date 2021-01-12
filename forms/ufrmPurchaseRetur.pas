@@ -62,6 +62,7 @@ type
     colHrgBeli: TcxGridDBColumn;
     pmMain: TPopupMenu;
     AmbilHargaDariFakturPembelian1: TMenuItem;
+    btnLookupPembelian: TcxButton;
     procedure AmbilHargaDariFakturPembelian1Click(Sender: TObject);
     procedure edInvKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -90,6 +91,7 @@ type
     procedure colNoGetDisplayText(Sender: TcxCustomGridTableItem; ARecord:
         TcxCustomGridRecord; var AText: string);
     procedure btnPrintClick(Sender: TObject);
+    procedure btnLookupPembelianClick(Sender: TObject);
   private
     FCDS: TClientDataset;
     FCDSValidate: TClientDataset;
@@ -115,6 +117,7 @@ type
     procedure LookupSupplier(sKey: string = '');
     procedure SetItemToGrid(aItem: TItem);
     procedure UpdateData;
+    procedure LookupPembelianTerakhir;
     function ValidateData: Boolean;
     function ValidateItem: Boolean;
     property CDS: TClientDataset read GetCDS write FCDS;
@@ -127,6 +130,7 @@ type
   public
     function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean);
+
     { Public declarations }
   end;
 
@@ -142,11 +146,77 @@ uses
 
 {$R *.dfm}
 
+procedure TfrmPurchaseRetur.LookupPembelianTerakhir;
+var
+  cxLookup: TfrmCXLookup;
+  lDisc: Double;
+  lItem: TItem;
+  S: string;
+begin
+  if edSupp.Text = '' then
+  begin
+    TAppUtils.Warning('Supplier belum dipilih');
+    exit;
+  end;
+
+  S := 'SELECT D.ITEM_ID, E.KODE, E.NAMA, D.QTY, D.PRICELIST, CASE WHEN D.PRICELIST = 0 THEN 0 ELSE'
+      +' (D.PRICELIST - D.HARGA) / D.PRICELIST * 100 END AS DISCP, D.HARGA AS NETT, A.INVOICENO, A.TRANSDATE AS TANGGAL, A.NOTES'
+      +' FROM TPURCHASEINVOICE A'
+      +' INNER JOIN TSUPPLIER B ON A.SUPPLIER_ID = B.ID'
+      +' INNER JOIN TWAREHOUSE C ON A.WAREHOUSE_ID = C.ID'
+      +' INNER JOIN TTRANSDETAIL D ON A.ID = D.HEADER_ID AND D.HEADER_FLAG = 100'
+      +' INNER JOIN TITEM E ON D.ITEM_ID = E.ID'
+      +' WHERE A.TRANSDATE BETWEEN :D1 AND :D2 '
+      +' AND A.SUPPLIER_ID = ' + IntToStr(PurchRetur.Supplier.ID)
+      +' ORDER BY A.TRANSDATE DESC, A.INVOICENO DESC';
+
+  cxLookup := TfrmCXLookup.ExecuteRange(S, StartOfTheYear(Now()-360), EndOfTheMonth(Now()), True ,
+    'Lookup Data Pembelian Terakhir'
+  );
+  lItem := TItem.Create;
+  Try
+    cxLookup.HideFields(['ITEM_ID']);
+    if cxLookup.ShowModal = mrOK then
+    begin
+      if VarToInt(DC.Values[DC.FocusedRecordIndex, colItemID.Index]) <> 0 then
+        DC.Append;
+
+      while not cxLookup.Data.Eof do
+      begin
+        lItem.LoadByID( cxLookup.Data.FieldByName('ITEM_ID').AsInteger ,False);
+        SetItemToGrid(lItem);
+        lDisc := 0;
+        if CDS.FieldByName('PriceList').AsFloat  <> 0 then
+          lDisc := (CDS.FieldByName('PriceList').AsFloat - CDS.FieldByName('Harga').AsFloat)
+            /CDS.FieldByName('PriceList').AsFloat*100;
+        DC.SetEditValue(colHrgBeli.Index, cxLookup.Data.FieldByName('PriceList').AsFloat , evsValue);
+        DC.SetEditValue(colDisc.Index, lDisc , evsValue);
+        cxLookup.Data.Next;
+        if not cxLookup.Data.Eof then DC.Append;
+      end;
+
+
+    end;
+  finally
+    CalculateAll;
+    lItem.Free;
+    cxLookup.Free;
+  end;
+
+end;
+
+
 procedure TfrmPurchaseRetur.AmbilHargaDariFakturPembelian1Click(Sender:
     TObject);
 begin
   inherited;
   LookupHargaPembelian;
+end;
+
+procedure TfrmPurchaseRetur.btnLookupPembelianClick(Sender: TObject);
+begin
+  inherited;
+  LookupPembelianTerakhir;
 end;
 
 procedure TfrmPurchaseRetur.btnPrintClick(Sender: TObject);
@@ -236,6 +306,7 @@ begin
   inherited;
   edInv.Enabled := ckReferensiFaktur.Checked;
   dtInvoice.Enabled := ckReferensiFaktur.Checked;
+  btnLookupPembelian.Enabled := not ckReferensiFaktur.Checked;
   if not DisableEvent then
   begin
     if not ckReferensiFaktur.Checked then

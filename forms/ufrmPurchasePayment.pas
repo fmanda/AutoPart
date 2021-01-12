@@ -203,7 +203,7 @@ begin
     cxLookupRekening.EditValue := Payment.Rekening.ID;
 
     cxLookupRekening.CDS.Filtered := True;
-    cxLookupRekening.CDS.Filter := 'Jenis = 0';
+    cxLookupRekening.CDS.Filter := 'Jenis = 0 or NAMA = ''OWNER'' ';
 
   end;
   if cbMedia.ItemIndex = Media_Tranfer then
