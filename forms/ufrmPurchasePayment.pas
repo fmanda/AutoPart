@@ -27,7 +27,7 @@ type
     dtTransDate: TcxDateEdit;
     cxLabel8: TcxLabel;
     dtDueDate: TcxDateEdit;
-    cxLabel9: TcxLabel;
+    lbDueDate: TcxLabel;
     edSupplier: TcxButtonEdit;
     crRetur: TcxCurrencyEdit;
     cxLabel2: TcxLabel;
@@ -204,19 +204,20 @@ begin
 
     cxLookupRekening.CDS.Filtered := True;
     cxLookupRekening.CDS.Filter := 'Jenis = 0 or NAMA = ''OWNER'' ';
-
+    lbDueDate.Caption := 'Jt. Tempo';
   end;
   if cbMedia.ItemIndex = Media_Tranfer then
   begin
     edNoMedia.Enabled := True;
-    dtDueDate.Enabled := False;
+    dtDueDate.Enabled := True;
     edNoMedia.Clear;
-    dtDueDate.Clear;
+//    dtDueDate.Clear;
     lbNoMedia.Caption := 'No Referensi';
     lbRekening.Caption := 'Rekening Asal';
 
     cxLookupRekening.CDS.Filtered := True;
     cxLookupRekening.CDS.Filter := 'Jenis = 1';
+    lbDueDate.Caption := 'Tgl. Transfer';
   end;
   if cbMedia.ItemIndex = Media_Cek then
   begin
@@ -229,6 +230,7 @@ begin
 
     cxLookupRekening.CDS.Filtered := True;
     cxLookupRekening.CDS.Filter := 'Jenis = 1';
+    lbDueDate.Caption := 'Jt. Tempo';
   end;
 end;
 

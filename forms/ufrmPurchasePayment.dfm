@@ -154,7 +154,7 @@ inherited frmPurchasePayment: TfrmPurchasePayment
       OnKeyDown = dtDueDateKeyDown
       Width = 90
     end
-    object cxLabel9: TcxLabel
+    object lbDueDate: TcxLabel
       Left = 361
       Top = 88
       Caption = 'Jt. Tempo'
