@@ -33,7 +33,8 @@ type
     class function ConnectDB(ADBEngine, AServer, ADatabase, AUser , APassword,
         APort : String): Boolean;
     class function CreateMSSQLConn(AServer, ADatabase, AUser, APassword: String;
-        APort: String = ''): TFDConnection;
+        aTimeOut: Integer = 30; APort: String = ''; DoConnect: Boolean = True):
+        TFDConnection;
     class function DSToCDS(aDataset: TDataSet; aOwner: TComponent; FreeDataSet:
         Boolean = True): TClientDataset; overload;
 
@@ -517,7 +518,8 @@ begin
 end;
 
 class function TDBUtils.CreateMSSQLConn(AServer, ADatabase, AUser, APassword:
-    String; APort: String = ''): TFDConnection;
+    String; aTimeOut: Integer = 30; APort: String = ''; DoConnect: Boolean =
+    True): TFDConnection;
 begin
   Result := TFDConnection.Create(Application);
 
@@ -534,10 +536,15 @@ begin
   Result.Params.Add('User_Name=' + AUser);
   Result.Params.Add('Password=' + APassword);
 
+
   if APort <> '' then
     FDConnection.Params.Add('Port=' + APort);
 
-  Result.Connected := True;
+  Result.Params.Add('LoginTimeout=' + IntToStr(aTimeOut));
+
+
+
+  Result.Connected := DoConnect;
 end;
 
 class function TDBUtils.CopyDataset(Source: TClientDataSet): TClientDataSet;

@@ -27,32 +27,31 @@ inherited frmBrowseItem: TfrmBrowseItem
     end
     inherited btnExport: TcxButton
       Left = 609
-      ExplicitLeft = 496
+      ExplicitLeft = 609
     end
     inherited btnHapus: TcxButton
       Left = 528
       OnClick = btnHapusClick
-      ExplicitLeft = 415
+      ExplicitLeft = 528
     end
     inherited btnEdit: TcxButton
       Left = 447
       OnClick = btnEditClick
-      ExplicitLeft = 334
+      ExplicitLeft = 447
     end
     inherited btnLihat: TcxButton
       Left = 280
       OnClick = btnLihatClick
-      ExplicitLeft = 167
+      ExplicitLeft = 280
     end
     inherited btnBaru: TcxButton
       Left = 199
       OnClick = btnBaruClick
-      ExplicitLeft = 86
+      ExplicitLeft = 199
     end
     inherited btnPrint: TcxButton
       Left = 361
-      ExplicitLeft = 248
-      ExplicitTop = 5
+      ExplicitLeft = 361
     end
     object btnStock: TcxButton
       AlignWithMargins = True
@@ -66,8 +65,6 @@ inherited frmBrowseItem: TfrmBrowseItem
       OptionsImage.Images = frmMain.ImageList
       TabOrder = 7
       OnClick = btnStockClick
-      ExplicitLeft = -26
-      ExplicitTop = 3
     end
     object btnStockCabang: TcxButton
       AlignWithMargins = True
@@ -140,11 +137,24 @@ inherited frmBrowseItem: TfrmBrowseItem
     Width = 914
   end
   inherited styleRepo: TcxStyleRepository
-    Top = 65520
+    Left = 168
+    Top = 112
     PixelsPerInch = 96
     object styleNonActive: TcxStyle
       AssignedValues = [svColor]
       Color = clScrollBar
     end
+  end
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      'Query Timeout=5'
+      'Database=test'
+      'User_Name=sa'
+      'Password=masterkey'
+      'Server=192.168.0.1'
+      'MonitorBy=FlatFile'
+      'DriverID=MSSQL')
+    Left = 232
+    Top = 168
   end
 end

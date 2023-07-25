@@ -129,7 +129,9 @@ uses
   ufrmDeleteEOD in 'forms\ufrmDeleteEOD.pas' {frmDeleteEndOfDay},
   ufrmHutangZakat in 'forms\ufrmHutangZakat.pas' {frmHutangZakat},
   ufrmUangMukaZakat in 'forms\ufrmUangMukaZakat.pas' {frmUangMukaZakat},
-  ufrmBrowseUangMukaZakat in 'forms\ufrmBrowseUangMukaZakat.pas' {frmBrowseUangMukaZakat};
+  ufrmBrowseUangMukaZakat in 'forms\ufrmBrowseUangMukaZakat.pas' {frmBrowseUangMukaZakat},
+  uDBThread in 'classes\uDBThread.pas',
+  ufrmStockCabang in 'forms\ufrmStockCabang.pas' {frmStockCabang};
 
 {$R *.res}
 

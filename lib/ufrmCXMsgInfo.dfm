@@ -58,7 +58,6 @@ object frmCXMsgInfo: TfrmCXMsgInfo
       StyleFocused.LookAndFeel.Kind = lfUltraFlat
       StyleHot.LookAndFeel.Kind = lfUltraFlat
       TabOrder = 0
-      ExplicitHeight = 32
       Height = 46
       Width = 630
     end
@@ -132,6 +131,7 @@ object frmCXMsgInfo: TfrmCXMsgInfo
       Font.Name = 'Trebuchet MS'
       Font.Style = []
       ParentFont = False
+      OnClick = btnOKClick
     end
     object btnIgnore: TcxButton
       AlignWithMargins = True
@@ -205,8 +205,6 @@ object frmCXMsgInfo: TfrmCXMsgInfo
     ParentFont = False
     TabOrder = 2
     LookAndFeel.Kind = lfUltraFlat
-    ExplicitTop = 40
-    ExplicitHeight = 281
     object cxGrdMain: TcxGridDBTableView
       PopupMenu = PopupMenu1
       Navigator.Buttons.CustomButtons = <>

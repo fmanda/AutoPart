@@ -44,6 +44,7 @@ type
     procedure Timer1Timer(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btnOKClick(Sender: TObject);
   private
     FCDSResult: TClientDataset;
     FAutoFreeForm: Boolean;
@@ -74,6 +75,8 @@ type
     class function ShowSimpleMsg(ListMessage: WideString; CDSInput: TDataSet;
         HiddenCols: Array Of String; ShowModal: Boolean = True): TfrmCXMsgInfo;
         overload;
+    class function ShowSimpleMsgMDI(ListMessage: WideString; CDSInput: TDataSet;
+        HiddenCols: Array Of String): TfrmCXMsgInfo; overload;
     class function ShowWarning(ListMessage: WideString; CDSInput: TClientDataset;
         HideCols: Array Of String; AllowSaveExcel: Boolean = False): TfrmCXMsgInfo;
         overload;
@@ -232,6 +235,12 @@ begin
 end;
 
 
+procedure TfrmCXMsgInfo.btnOKClick(Sender: TObject);
+begin
+  if not (fsModal in FormState) then
+    Self.Close;
+end;
+
 procedure TfrmCXMsgInfo.btnSaveExcelClick(Sender: TObject);
 begin
   cxGrdMain.ExportToXLS;
@@ -364,6 +373,14 @@ begin
   Result.btnSaveExcel.Visible := False;
   if ShowModal then
     Result.ShowModal;
+end;
+
+class function TfrmCXMsgInfo.ShowSimpleMsgMDI(ListMessage: WideString;
+    CDSInput: TDataSet; HiddenCols: Array Of String): TfrmCXMsgInfo;
+begin
+  Result := TfrmCXMsgInfo.ShowSimpleMsg(ListMessage, CDSInput, HiddenCols, False);
+  Result.FormStyle := fsMDIChild;
+  Result.Show;
 end;
 
 class function TfrmCXMsgInfo.ShowWarning(ListMessage: WideString; CDSInput:
