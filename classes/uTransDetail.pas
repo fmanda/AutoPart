@@ -1262,7 +1262,7 @@ end;
 function TAvgCostUpdate.BeforeSaveToDB: Boolean;
 begin
   TransPricePcs := 0;
-  if TransPricePcs <> 0 then
+  if TransTotalPCS <> 0 then
     TransPricePcs := TransTotalValue / TransTotalPCS;
 
   UpdateAvgCost;
