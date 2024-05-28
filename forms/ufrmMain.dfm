@@ -69,6 +69,7 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxRTMaster: TdxRibbonTab
+      Active = True
       Caption = 'Master Data'
       Groups = <
         item
@@ -94,7 +95,6 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
-      Active = True
       Caption = 'Penjualan & Kas'
       Groups = <
         item
@@ -366,7 +366,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar6: TdxBar
       Caption = 'Lap Inventory'
       CaptionButtons = <>
-      DockedLeft = 458
+      DockedLeft = 457
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8
@@ -463,7 +463,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar10: TdxBar
       Caption = 'Laporan'
       CaptionButtons = <>
-      DockedLeft = 302
+      DockedLeft = 301
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8

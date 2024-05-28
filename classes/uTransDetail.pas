@@ -1096,10 +1096,13 @@ var
 begin
   lItemUOM := TItemUOM.GetItemUOM(Self.Item.ID, Self.UOM.ID);
   Try
-    Self.HargaAvg := lItemUOM.HargaAvg;
-    Self.LastCost := lItemUOM.HargaBeli;
-    if Self.HargaAvg <= 0 then
-      Self.HargaAvg := Self.LastCost;
+//    Self.HargaAvg := lItemUOM.HargaAvg;
+//    Self.LastCost := lItemUOM.HargaBeli;
+//    if Self.HargaAvg <= 0 then
+//      Self.HargaAvg := Self.LastCost;
+
+    //2024 for Motoroli - use lastcost
+    Self.HargaAvg := Self.LastCost;
   Finally
     lItemUOM.Free;
   End;
@@ -2188,6 +2191,8 @@ begin
 
     if Self.HargaAvg <= 0 then
       Self.HargaAvg := Self.LastCost;
+
+
   Finally
     lItemUOM.Free;
   End;

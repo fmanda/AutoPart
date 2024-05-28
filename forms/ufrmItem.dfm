@@ -4,7 +4,6 @@ inherited frmItem: TfrmItem
   ClientWidth = 882
   KeyPreview = True
   OnKeyDown = FormKeyDown
-  ExplicitTop = -148
   ExplicitWidth = 898
   ExplicitHeight = 599
   PixelsPerInch = 96
@@ -28,7 +27,6 @@ inherited frmItem: TfrmItem
       Left = 625
       OnClick = btnSaveClick
       ExplicitLeft = 625
-      ExplicitTop = 6
     end
     object btnDel: TcxButton
       AlignWithMargins = True
@@ -588,6 +586,7 @@ inherited frmItem: TfrmItem
     end
     object tsAvgCost: TcxTabSheet
       Caption = 'History Harga Pokok Penjualan / Harga Average'
+      Enabled = False
       ImageIndex = 1
       object cxGroupBox3: TcxGroupBox
         Left = 0
