@@ -102,10 +102,10 @@
         <Icon_MainIcon>AutoPart_Icon.ico</Icon_MainIcon>
         <UWP_DelphiLogo44>assets\autopart.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>assets\autopart.png</UWP_DelphiLogo150>
-        <VerInfo_MinorVer>2023</VerInfo_MinorVer>
-        <VerInfo_Release>7</VerInfo_Release>
-        <VerInfo_Build>5</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.2023.7.5;InternalName=;LegalCopyright=Fmanda;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_MinorVer>2024</VerInfo_MinorVer>
+        <VerInfo_Release>6</VerInfo_Release>
+        <VerInfo_Build>1</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.2024.6.1;InternalName=;LegalCopyright=Fmanda;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -572,20 +572,6 @@
                     <Source Name="MainSource">AutoPart.dpr</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="C:\Windows\SysWOW64\dclfrxIntIOIndy25.bpl">File C:\Windows\SysWOW64\dclfrxIntIOIndy25.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Windows\SysWOW64\dclfrxIntIO25.bpl">File C:\Windows\SysWOW64\dclfrxIntIO25.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Windows\SysWOW64\dclfrxe25.bpl">File C:\Windows\SysWOW64\dclfrxe25.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Windows\SysWOW64\dclfrxTee25.bpl">File C:\Windows\SysWOW64\dclfrxTee25.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Windows\SysWOW64\dclfrxDBX25.bpl">File C:\Windows\SysWOW64\dclfrxDBX25.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Windows\SysWOW64\dclfrxIBX25.bpl">File C:\Windows\SysWOW64\dclfrxIBX25.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Windows\SysWOW64\dclfrxADO25.bpl">File C:\Windows\SysWOW64\dclfrxADO25.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Windows\SysWOW64\dclfrxDB25.bpl">File C:\Windows\SysWOW64\dclfrxDB25.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Windows\SysWOW64\dclfrx25.bpl">File C:\Windows\SysWOW64\dclfrx25.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Windows\SysWOW64\dclfsTee25.bpl">File C:\Windows\SysWOW64\dclfsTee25.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Windows\SysWOW64\dclfsIBX25.bpl">File C:\Windows\SysWOW64\dclfsIBX25.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Windows\SysWOW64\dclfsADO25.bpl">File C:\Windows\SysWOW64\dclfsADO25.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Windows\SysWOW64\dclfsDB25.bpl">File C:\Windows\SysWOW64\dclfsDB25.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Windows\SysWOW64\dclfs25.bpl">File C:\Windows\SysWOW64\dclfs25.bpl not found</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k250.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dclofficexp250.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
