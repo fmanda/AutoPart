@@ -1097,7 +1097,7 @@ begin
   lItemUOM := TItemUOM.GetItemUOM(Self.Item.ID, Self.UOM.ID);
   Try
 //    Self.HargaAvg := lItemUOM.HargaAvg;
-//    Self.LastCost := lItemUOM.HargaBeli;
+    Self.LastCost := lItemUOM.HargaBeli;
 //    if Self.HargaAvg <= 0 then
 //      Self.HargaAvg := Self.LastCost;
 
