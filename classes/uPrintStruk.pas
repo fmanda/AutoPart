@@ -38,6 +38,7 @@ uses
 
 procedure PrintStrings(aSS: TStrings);
 var
+  cut: AnsiString;
   Handle: THandle;
   N: DWORD;
   DocInfo1: TDocInfo1;
@@ -69,6 +70,13 @@ begin
 //    WritePrinter(Handle, PChar(aSS[i]), Length(aSS[i]), N);
 
   WritePrinter(Handle, PChar(aSS.Text), Length(aSS.Text)*SizeOf(Char), N);
+
+  if TAppUtils.BacaRegistry('AutoCutPrinter') = '1' then
+  begin
+    cut:= AnsiString(#29#86#0);
+    WritePrinter(Handle, PAnsiString(cut), Length(cut), N);
+  end;
+
 
   EndPagePrinter(Handle);
   EndDocPrinter(Handle);

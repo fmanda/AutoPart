@@ -1,49 +1,49 @@
 inherited frmAccount: TfrmAccount
   Caption = 'Data Account COA'
-  ClientHeight = 237
-  ClientWidth = 475
-  ExplicitWidth = 491
-  ExplicitHeight = 276
+  ClientHeight = 405
+  ClientWidth = 494
+  ExplicitWidth = 510
+  ExplicitHeight = 444
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
-    Top = 202
+    Top = 370
     TabOrder = 7
     ExplicitTop = 202
     ExplicitWidth = 475
-    Width = 475
+    Width = 494
     inherited btnCancel: TcxButton
-      Left = 390
+      Left = 409
       ExplicitLeft = 390
     end
     inherited btnPrint: TcxButton
-      Left = 304
+      Left = 323
       ExplicitLeft = 304
     end
     inherited btnSave: TcxButton
-      Left = 218
+      Left = 237
       OnClick = btnSaveClick
       ExplicitLeft = 218
     end
   end
   inherited Panel2: TPanel
-    Top = 181
-    Width = 475
+    Top = 349
+    Width = 494
     TabOrder = 8
     ExplicitTop = 181
     ExplicitWidth = 475
     inherited lbEscape: TLabel
-      Left = 395
+      Left = 414
       Height = 17
       ExplicitLeft = 395
     end
     inherited lgndSave: TLabel
-      Left = 230
+      Left = 249
       Height = 17
       ExplicitLeft = 230
     end
     inherited lgndPrint: TLabel
-      Left = 317
+      Left = 336
       Height = 17
       ExplicitLeft = 317
     end
@@ -124,8 +124,8 @@ inherited frmAccount: TfrmAccount
     ItemIndex = 0
     TabOrder = 6
     Visible = False
-    Height = 36
-    Width = 292
+    Height = 140
+    Width = 307
   end
   inherited styleRepo: TcxStyleRepository
     PixelsPerInch = 96

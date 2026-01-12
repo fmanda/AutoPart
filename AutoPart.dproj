@@ -443,8 +443,8 @@
             <Form>frmSalesAnalysis</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="forms\ufrmProfitLoss.pas">
-            <Form>frmProfitLoss</Form>
+        <DCCReference Include="forms\ufrmProfitLossOps.pas">
+            <Form>frmProfitLossOps</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="classes\uPrintStruk.pas"/>
@@ -549,6 +549,39 @@
         <DCCReference Include="classes\uDBThread.pas"/>
         <DCCReference Include="forms\ufrmStockCabang.pas">
             <Form>frmStockCabang</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="classes\uJournalMemorial.pas"/>
+        <DCCReference Include="forms\ufrmLapNeraca.pas">
+            <Form>frmLapNeraca</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmLabaRugi.pas">
+            <Form>frmLabaRugi</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmProfitLoss.pas">
+            <Form>frmProfitLoss</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmPostingJournal.pas">
+            <Form>frmPostingJournal</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmJournalMemorial.pas">
+            <Form>frmJournalMemorial</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmBrowseJournalMemorial.pas">
+            <Form>frmBrowseJournalMemorial</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmBukuBesar.pas">
+            <Form>frmBukuBesar</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="forms\ufrmJournalListing.pas">
+            <Form>frmJournalListing</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">

@@ -225,6 +225,19 @@ type
     actUangMukaZakat: TAction;
     dxBarButton99: TdxBarButton;
     dxBarButton100: TdxBarButton;
+    dxBarManagerBar16: TdxBar;
+    actPostingJournal: TAction;
+    actJournalListing: TAction;
+    actBukuBesar: TAction;
+    actProfitLoss: TAction;
+    actBalanceSheet: TAction;
+    actJournalMemorial: TAction;
+    dxBarButton101: TdxBarButton;
+    dxBarButton102: TdxBarButton;
+    dxBarButton103: TdxBarButton;
+    dxBarButton104: TdxBarButton;
+    dxBarButton105: TdxBarButton;
+    dxBarButton106: TdxBarButton;
     procedure actAccountExecute(Sender: TObject);
     procedure actAgingARExecute(Sender: TObject);
     procedure actAgingStockExecute(Sender: TObject);
@@ -292,6 +305,12 @@ type
     procedure actWarehouseExecute(Sender: TObject);
     procedure cxButton1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure dxBarButton101Click(Sender: TObject);
+    procedure dxBarButton102Click(Sender: TObject);
+    procedure dxBarButton103Click(Sender: TObject);
+    procedure dxBarButton104Click(Sender: TObject);
+    procedure dxBarButton105Click(Sender: TObject);
+    procedure dxBarButton106Click(Sender: TObject);
   private
     function ConnectDB: Boolean;
     procedure ShowLog;
@@ -323,12 +342,14 @@ uses
   ufrmBrowseCashTransfer, ufrmBrowsePriceQuotation, ufrmBrowseAccount,
   ufrmBrowseCashPayment, ufrmBrowseCashReceipt, ufrmBrowseStockOpname,
   ufrmBrowseStockAdjustment, ufrmEndOfDay, ufrmLapCashOpname,
-  ufrmSalesAnalysis, ufrmProfitLoss, ufrmARAging, ufrmSuggestionOrder,
+  ufrmSalesAnalysis, ufrmProfitLossOps, ufrmARAging, ufrmSuggestionOrder,
   ufrmLapFeeSalesman, ufrmBrowseUser, uUser, ufrmLapPembelian,
   ufrmLapPenjualan, ufrmGantiPassword, ufrmPiutangRetur, ufrmHutangRetur,
   ufrmBrowseKKSO, ufrmExportData, ufrmImportData, ufrmBrowseTransferRequest,
   System.IOUtils, CRUDObject, System.JSON, ufrmDeleteEOD,
-  ufrmBrowseUangMukaZakat;
+  ufrmBrowseUangMukaZakat, ufrmPostingJournal, ufrmJournalMemorial,
+  ufrmJournalListing, ufrmBrowseJournalMemorial, ufrmBukuBesar, ufrmLapNeraca,
+  ufrmLabaRugi;
 
 {$R *.dfm}
 
@@ -488,7 +509,7 @@ end;
 
 procedure TfrmMain.actLabaRugiExecute(Sender: TObject);
 begin
-  ShowForm(TfrmProfitLoss);
+  ShowForm(TfrmProfitLossOps);
 end;
 
 procedure TfrmMain.actLapCashOpnameExecute(Sender: TObject);
@@ -840,6 +861,36 @@ begin
       Free;
     End;
   end;
+end;
+
+procedure TfrmMain.dxBarButton101Click(Sender: TObject);
+begin
+  ShowForm(TfrmPostingJournal).ShowModal;
+end;
+
+procedure TfrmMain.dxBarButton102Click(Sender: TObject);
+begin
+  ShowForm(TfrmJournalListing);
+end;
+
+procedure TfrmMain.dxBarButton103Click(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseJournalMemorial);
+end;
+
+procedure TfrmMain.dxBarButton104Click(Sender: TObject);
+begin
+  ShowForm(TfrmBukuBesar);
+end;
+
+procedure TfrmMain.dxBarButton105Click(Sender: TObject);
+begin
+  ShowForm(TfrmLapNeraca);
+end;
+
+procedure TfrmMain.dxBarButton106Click(Sender: TObject);
+begin
+  ShowForm(TfrmLabaRugi);
 end;
 
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);

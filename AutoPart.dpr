@@ -101,7 +101,7 @@ uses
   ufrmEndOfDay in 'forms\ufrmEndOfDay.pas' {frmEndOfDay},
   ufrmLapCashOpname in 'forms\ufrmLapCashOpname.pas' {frmLapCashOpname},
   ufrmSalesAnalysis in 'forms\ufrmSalesAnalysis.pas' {frmSalesAnalysis},
-  ufrmProfitLoss in 'forms\ufrmProfitLoss.pas' {frmProfitLoss},
+  ufrmProfitLossOps in 'forms\ufrmProfitLossOps.pas' {frmProfitLossOps},
   uPrintStruk in 'classes\uPrintStruk.pas',
   ufrmAgingStock in 'forms\ufrmAgingStock.pas' {frmAgingStock},
   ufrmAuthUser in 'forms\ufrmAuthUser.pas' {frmAuthUser},
@@ -131,7 +131,16 @@ uses
   ufrmUangMukaZakat in 'forms\ufrmUangMukaZakat.pas' {frmUangMukaZakat},
   ufrmBrowseUangMukaZakat in 'forms\ufrmBrowseUangMukaZakat.pas' {frmBrowseUangMukaZakat},
   uDBThread in 'classes\uDBThread.pas',
-  ufrmStockCabang in 'forms\ufrmStockCabang.pas' {frmStockCabang};
+  ufrmStockCabang in 'forms\ufrmStockCabang.pas' {frmStockCabang},
+  uJournalMemorial in 'classes\uJournalMemorial.pas',
+  ufrmLapNeraca in 'forms\ufrmLapNeraca.pas' {frmLapNeraca},
+  ufrmLabaRugi in 'forms\ufrmLabaRugi.pas' {frmLabaRugi},
+  ufrmProfitLoss in 'forms\ufrmProfitLoss.pas' {frmProfitLoss},
+  ufrmPostingJournal in 'forms\ufrmPostingJournal.pas' {frmPostingJournal},
+  ufrmJournalMemorial in 'forms\ufrmJournalMemorial.pas' {frmJournalMemorial},
+  ufrmBrowseJournalMemorial in 'forms\ufrmBrowseJournalMemorial.pas' {frmBrowseJournalMemorial},
+  ufrmBukuBesar in 'forms\ufrmBukuBesar.pas' {frmBukuBesar},
+  ufrmJournalListing in 'forms\ufrmJournalListing.pas' {frmJournalListing};
 
 {$R *.res}
 

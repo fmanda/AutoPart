@@ -2,8 +2,8 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   Caption = 'AutoPart - [Software Manajemen Bengkel & Toko Sparepart]'
-  ClientHeight = 729
-  ClientWidth = 1350
+  ClientHeight = 1176
+  ClientWidth = 1515
   Color = clScrollBar
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,8 +19,8 @@ object frmMain: TfrmMain
   TextHeight = 13
   object dxStatusBar: TdxRibbonStatusBar
     Left = 0
-    Top = 706
-    Width = 1350
+    Top = 1153
+    Width = 1515
     Height = 23
     Panels = <
       item
@@ -47,11 +47,13 @@ object frmMain: TfrmMain
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+    ExplicitTop = 706
+    ExplicitWidth = 1350
   end
   object dxRBMain: TdxRibbon
     Left = 0
     Top = 0
-    Width = 1350
+    Width = 1515
     Height = 122
     BarManager = dxBarManager
     Style = rs2013
@@ -60,6 +62,7 @@ object frmMain: TfrmMain
     Contexts = <>
     TabOrder = 1
     TabStop = False
+    ExplicitWidth = 1350
     object dxRTApp: TdxRibbonTab
       Caption = 'Aplikasi'
       Groups = <
@@ -69,7 +72,6 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxRTMaster: TdxRibbonTab
-      Active = True
       Caption = 'Master Data'
       Groups = <
         item
@@ -120,16 +122,22 @@ object frmMain: TfrmMain
       Index = 4
     end
     object dxRTManagement: TdxRibbonTab
-      Caption = 'Manajemen'
+      Active = True
+      Caption = 'Manajemen & Accounting'
       Groups = <
         item
           ToolbarName = 'dxBarManagerBar7'
+        end
+        item
+          ToolbarName = 'dxBarManagerBar16'
         end
         item
           ToolbarName = 'dxBarManagerBar11'
         end
         item
           ToolbarName = 'dxBarManagerBar15'
+        end
+        item
         end>
       Index = 5
     end
@@ -366,7 +374,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar6: TdxBar
       Caption = 'Lap Inventory'
       CaptionButtons = <>
-      DockedLeft = 457
+      DockedLeft = 458
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8
@@ -418,7 +426,7 @@ object frmMain: TfrmMain
           ItemName = 'dxBarButton96'
         end>
       OneOnRow = False
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -463,7 +471,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar10: TdxBar
       Caption = 'Laporan'
       CaptionButtons = <>
-      DockedLeft = 301
+      DockedLeft = 302
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8
@@ -503,7 +511,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar11: TdxBar
       Caption = 'Lap Manajemen'
       CaptionButtons = <>
-      DockedLeft = 132
+      DockedLeft = 511
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8
@@ -535,7 +543,7 @@ object frmMain: TfrmMain
           ItemName = 'dxBarButton82'
         end>
       OneOnRow = False
-      Row = 0
+      Row = 1
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -573,6 +581,7 @@ object frmMain: TfrmMain
       FloatTop = 8
       FloatClientWidth = 0
       FloatClientHeight = 0
+      Images = ImageList
       ItemLinks = <
         item
           Visible = True
@@ -583,12 +592,13 @@ object frmMain: TfrmMain
           ItemName = 'dxBarButton67'
         end
         item
+          Position = ipBeginsNewColumn
           Visible = True
-          ItemName = 'dxBarButton74'
+          ItemName = 'dxBarButton87'
         end
         item
           Visible = True
-          ItemName = 'dxBarButton87'
+          ItemName = 'dxBarButton74'
         end>
       OneOnRow = False
       Row = 0
@@ -599,7 +609,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar8: TdxBar
       Caption = 'Laporan Piutang'
       CaptionButtons = <>
-      DockedLeft = 476
+      DockedLeft = 487
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8
@@ -615,12 +625,13 @@ object frmMain: TfrmMain
           ItemName = 'dxBarButton71'
         end
         item
+          Position = ipBeginsNewColumn
           Visible = True
-          ItemName = 'dxBarButton75'
+          ItemName = 'dxBarButton86'
         end
         item
           Visible = True
-          ItemName = 'dxBarButton86'
+          ItemName = 'dxBarButton75'
         end>
       OneOnRow = False
       Row = 0
@@ -659,7 +670,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar15: TdxBar
       Caption = 'Zakat'
       CaptionButtons = <>
-      DockedLeft = 352
+      DockedLeft = 749
       DockedTop = 0
       FloatLeft = 1384
       FloatTop = 8
@@ -675,6 +686,48 @@ object frmMain: TfrmMain
           ItemName = 'dxBarButton100'
         end>
       OneOnRow = False
+      Row = 1
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
+    object dxBarManagerBar16: TdxBar
+      Caption = 'Accounting'
+      CaptionButtons = <>
+      DockedLeft = 132
+      DockedTop = 0
+      FloatLeft = 1549
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'dxBarButton101'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton102'
+        end
+        item
+          Position = ipBeginsNewColumn
+          Visible = True
+          ItemName = 'dxBarButton103'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton104'
+        end
+        item
+          Position = ipBeginsNewColumn
+          Visible = True
+          ItemName = 'dxBarButton105'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton106'
+        end>
+      OneOnRow = True
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -1121,6 +1174,7 @@ object frmMain: TfrmMain
     object dxBarButton79: TdxBarButton
       Action = actInventoryMov
       Category = 0
+      ImageIndex = 14
     end
     object dxBarButton80: TdxBarButton
       Action = actAgingStock
@@ -1135,10 +1189,12 @@ object frmMain: TfrmMain
     object dxBarButton82: TdxBarButton
       Action = actCashFlow
       Category = 0
+      ImageIndex = 79
     end
     object dxBarButton83: TdxBarButton
       Action = actLapFeeSalesman
       Category = 0
+      ImageIndex = 26
     end
     object dxBarButton84: TdxBarButton
       Action = actLapPembelian
@@ -1153,10 +1209,12 @@ object frmMain: TfrmMain
     object dxBarButton86: TdxBarButton
       Action = actPiutangRetur
       Category = 0
+      ImageIndex = 59
     end
     object dxBarButton87: TdxBarButton
       Action = actHutangRetur
       Category = 0
+      ImageIndex = 59
     end
     object dxBarButton88: TdxBarButton
       Action = actKKSO
@@ -1227,6 +1285,36 @@ object frmMain: TfrmMain
       Action = actHutangZakat
       Category = 0
       ImageIndex = 66
+    end
+    object dxBarButton101: TdxBarButton
+      Action = actPostingJournal
+      Category = 0
+      OnClick = dxBarButton101Click
+    end
+    object dxBarButton102: TdxBarButton
+      Action = actJournalListing
+      Category = 0
+      OnClick = dxBarButton102Click
+    end
+    object dxBarButton103: TdxBarButton
+      Action = actJournalMemorial
+      Category = 0
+      OnClick = dxBarButton103Click
+    end
+    object dxBarButton104: TdxBarButton
+      Action = actBukuBesar
+      Category = 0
+      OnClick = dxBarButton104Click
+    end
+    object dxBarButton105: TdxBarButton
+      Action = actBalanceSheet
+      Category = 0
+      OnClick = dxBarButton105Click
+    end
+    object dxBarButton106: TdxBarButton
+      Action = actProfitLoss
+      Category = 0
+      OnClick = dxBarButton106Click
     end
   end
   object ActionManager: TActionManager
@@ -1522,11 +1610,13 @@ object frmMain: TfrmMain
     object actLabaRugi: TAction
       Category = 'Manajemen'
       Caption = 'Laba Rugi Usaha'
+      ImageIndex = 84
       OnExecute = actLabaRugiExecute
     end
     object actInventoryMov: TAction
       Category = 'Manajemen'
       Caption = 'Inventory Movement'
+      ImageIndex = 50
     end
     object actAgingAR: TAction
       Category = 'Manajemen'
@@ -1536,6 +1626,7 @@ object frmMain: TfrmMain
     object actCashFlow: TAction
       Category = 'Manajemen'
       Caption = 'Cash FLow'
+      ImageIndex = 42
     end
     object actSuggestionOrder: TAction
       Category = 'Inventory'
@@ -1620,6 +1711,36 @@ object frmMain: TfrmMain
       Caption = 'Pembayaran Uang Muka Zakat'
       ImageIndex = 41
       OnExecute = actUangMukaZakatExecute
+    end
+    object actPostingJournal: TAction
+      Category = 'Manajemen'
+      Caption = 'Posting Jurnal'
+      ImageIndex = 5
+    end
+    object actJournalListing: TAction
+      Category = 'Manajemen'
+      Caption = 'Journal Listing'
+      ImageIndex = 42
+    end
+    object actBukuBesar: TAction
+      Category = 'Manajemen'
+      Caption = 'Buku Besar'
+      ImageIndex = 21
+    end
+    object actProfitLoss: TAction
+      Category = 'Manajemen'
+      Caption = 'Laba Rugi / Profit & Loss'
+      ImageIndex = 84
+    end
+    object actBalanceSheet: TAction
+      Category = 'Manajemen'
+      Caption = 'Neraca / Balance Sheet'
+      ImageIndex = 69
+    end
+    object actJournalMemorial: TAction
+      Category = 'Manajemen'
+      Caption = 'Journal Memorial'
+      ImageIndex = 49
     end
   end
   object ImageList: TcxImageList

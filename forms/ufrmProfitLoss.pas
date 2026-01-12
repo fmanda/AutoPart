@@ -25,26 +25,25 @@ type
     spTahun: TcxSpinEdit;
     cxLabel2: TcxLabel;
     chkPeriode: TcxCheckBox;
-    cxGrid1: TcxGrid;
-    cxGrdMain: TcxGridDBTableView;
-    cxGrid1Level1: TcxGridLevel;
-    cxGrdMainColumn1: TcxGridDBColumn;
-    colReportval: TcxGridDBColumn;
-    colReportgroup: TcxGridDBColumn;
     cxStyleRepository1: TcxStyleRepository;
     styleCaption: TcxStyle;
     styleFooter: TcxStyle;
     styleGrossProfit: TcxStyle;
     styleNetProfit: TcxStyle;
     styleBackGround: TcxStyle;
+    cxGrid2: TcxGrid;
+    cxGrdMain: TcxGridDBTableView;
+    clDesription: TcxGridDBColumn;
+    clMTD: TcxGridDBColumn;
+    clYTD: TcxGridDBColumn;
+    cxGridLevel1: TcxGridLevel;
+    clReportFlag: TcxGridDBColumn;
+    clHasValue: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure chkPeriodePropertiesEditValueChanged(Sender: TObject);
     procedure cbBulanPropertiesEditValueChanged(Sender: TObject);
     procedure spTahunPropertiesEditValueChanged(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
-    procedure cxGrdMainStylesGetContentStyle(Sender: TcxCustomGridTableView;
-      ARecord: TcxCustomGridRecord; AItem: TcxCustomGridTableItem;
-      var AStyle: TcxStyle);
   private
     CDS: TClientDataset;
     procedure LoadData;
@@ -102,45 +101,6 @@ begin
 
 end;
 
-procedure TfrmProfitLoss.cxGrdMainStylesGetContentStyle(
-  Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
-  AItem: TcxCustomGridTableItem; var AStyle: TcxStyle);
-begin
-  inherited;
-  if ARecord = nil then
-    exit;
-
-  if (VarToInt(ARecord.Values[colReportgroup.Index]) >= 100)
-    and (VarIsNull(ARecord.Values[colReportval.Index]))
-  then
-    AStyle := styleCaption;
-
-  if (VarToInt(ARecord.Values[colReportgroup.Index]) >= 100)
-    and (not VarIsNull(ARecord.Values[colReportval.Index]))
-  then
-    AStyle := styleFooter;
-
-  if (VarToInt(ARecord.Values[colReportgroup.Index]) = 250)
-    and (not VarIsNull(ARecord.Values[colReportval.Index]))
-  then
-    AStyle := styleGrossProfit;
-
-//  if (VarToInt(ARecord.Values[colReportgroup.Index]) = 300)
-//    and (not VarIsNull(ARecord.Values[colReportval.Index]))
-//  then
-//    AStyle := styleExpense;
-//
-//  if (VarToInt(ARecord.Values[colReportgroup.Index]) = 400)
-//    and (not VarIsNull(ARecord.Values[colReportval.Index]))
-//  then
-//    AStyle := styleExpense;
-
-  if (VarToInt(ARecord.Values[colReportgroup.Index]) = 500)
-    and (not VarIsNull(ARecord.Values[colReportval.Index]))
-  then
-    AStyle := styleNetProfit;
-end;
-
 function TfrmProfitLoss.GetGroupName: string;
 begin
   Result := 'Manajemen';
@@ -153,8 +113,7 @@ begin
   if CDS <> nil then
     FreeAndNil(CDS);
 
-  S := 'SELECT * FROM FN_PROFITLOSS(' + TAppUtils.QuotD(dtStart.Date)
-        + ',' + TAppUtils.QuotD(dtEnd.Date) +')';
+  S := 'SELECT * FROM FN_PROFITLOSS_MTD_YTD(' + TAppUtils.QuotD(dtEnd.Date) +')';
 
   CDS := TDBUtils.OpenDataset(S, Self);
 

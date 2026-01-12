@@ -43,6 +43,7 @@ inherited frmProfitLoss: TfrmProfitLoss
       Left = 352
       Top = 6
       TabOrder = 0
+      Visible = False
       Width = 117
     end
     object dtEnd: TcxDateEdit
@@ -51,12 +52,14 @@ inherited frmProfitLoss: TfrmProfitLoss
       Properties.SaveTime = False
       Properties.ShowTime = False
       TabOrder = 1
+      Visible = False
       Width = 117
     end
     object cxLabel5: TcxLabel
       Left = 472
       Top = 7
       Caption = 's/d'
+      Visible = False
     end
     object cbBulan: TcxComboBox
       Left = 47
@@ -107,71 +110,91 @@ inherited frmProfitLoss: TfrmProfitLoss
       Caption = 'Periode'
       Properties.OnEditValueChanged = chkPeriodePropertiesEditValueChanged
       TabOrder = 7
+      Visible = False
     end
   end
-  object cxGrid1: TcxGrid [3]
+  object cxGrid2: TcxGrid [3]
     AlignWithMargins = True
     Left = 3
     Top = 68
     Width = 694
     Height = 478
     Align = alClient
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
     TabOrder = 3
+    ExplicitTop = 20
+    ExplicitWidth = 430
+    ExplicitHeight = 564
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
-      DataController.Summary.DefaultGroupSummaryItems = <>
+      DataController.Summary.DefaultGroupSummaryItems = <
+        item
+          Format = ',0;(,0)'
+          Kind = skSum
+          Position = spFooter
+          Column = clYTD
+        end
+        item
+          Format = ',0;(,0)'
+          Kind = skSum
+          Position = spFooter
+          Column = clMTD
+        end>
       DataController.Summary.FooterSummaryItems = <
         item
-          Format = ',0.##;(,0.##)'
+          Format = ',0;(,0)'
           Kind = skSum
+          Column = clYTD
+        end
+        item
+          Format = ',0;(,0)'
+          Kind = skSum
+          Column = clMTD
         end>
       DataController.Summary.SummaryGroups = <>
-      OptionsCustomize.ColumnFiltering = False
-      OptionsCustomize.ColumnSorting = False
       OptionsData.CancelOnExit = False
       OptionsData.Deleting = False
       OptionsData.DeletingConfirmation = False
       OptionsData.Editing = False
       OptionsData.Inserting = False
-      OptionsSelection.CellSelect = False
-      OptionsSelection.HideSelection = True
-      OptionsSelection.UnselectFocusedRecordOnExit = False
+      OptionsView.Footer = True
+      OptionsView.FooterMultiSummaries = True
       OptionsView.GridLines = glNone
       OptionsView.GroupByBox = False
-      OptionsView.Header = False
-      OptionsView.HeaderHeight = 25
-      Styles.OnGetContentStyle = cxGrdMainStylesGetContentStyle
-      object cxGrdMainColumn1: TcxGridDBColumn
-        Caption = 'Account'
-        DataBinding.FieldName = 'REPORTNAME'
-        PropertiesClassName = 'TcxTextEditProperties'
+      OptionsView.GroupFooterMultiSummaries = True
+      OptionsView.GroupFooters = gfAlwaysVisible
+      OptionsView.HeaderHeight = 30
+      object clDesription: TcxGridDBColumn
+        Caption = 'DESCRIPTION'
+        DataBinding.FieldName = 'Description'
         HeaderAlignmentHorz = taCenter
-        Width = 446
+        HeaderGlyphAlignmentHorz = taCenter
+        Width = 240
       end
-      object colReportval: TcxGridDBColumn
-        Caption = 'Nilai'
-        DataBinding.FieldName = 'REPORTVAL'
+      object clMTD: TcxGridDBColumn
+        DataBinding.FieldName = 'MTD'
         PropertiesClassName = 'TcxCurrencyEditProperties'
-        Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0.00;(,0.00)'
+        Properties.DisplayFormat = ',0;(,0)'
         HeaderAlignmentHorz = taCenter
-        Width = 163
+        HeaderGlyphAlignmentHorz = taCenter
+        Width = 90
       end
-      object colReportgroup: TcxGridDBColumn
-        DataBinding.FieldName = 'REPORTGROUP'
-        Visible = False
+      object clYTD: TcxGridDBColumn
+        DataBinding.FieldName = 'YTD'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.DisplayFormat = ',0;(,0)'
         HeaderAlignmentHorz = taCenter
-        Width = 191
+        HeaderGlyphAlignmentHorz = taCenter
+        Width = 90
+      end
+      object clReportFlag: TcxGridDBColumn
+        Visible = False
+      end
+      object clHasValue: TcxGridDBColumn
+        Visible = False
       end
     end
-    object cxGrid1Level1: TcxGridLevel
-      Caption = 'Data Hutang'
+    object cxGridLevel1: TcxGridLevel
+      Caption = 'A K T I V A'
       GridView = cxGrdMain
     end
   end
@@ -181,8 +204,8 @@ inherited frmProfitLoss: TfrmProfitLoss
     PixelsPerInch = 96
   end
   object cxStyleRepository1: TcxStyleRepository
-    Left = 384
-    Top = 88
+    Left = 520
+    Top = 112
     PixelsPerInch = 96
     object styleCaption: TcxStyle
       AssignedValues = [svFont]
