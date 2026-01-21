@@ -22,6 +22,7 @@ type
     FToleransi_Piutang: Double;
     FCheck_Stock: Integer;
     FCheck_CreditLimit: Integer;
+    FPPN: Double;
   public
     function GetAccountExpense: TAccount;
     function GetAccountOthIncome: TAccount;
@@ -45,6 +46,7 @@ type
     property Check_Stock: Integer read FCheck_Stock write FCheck_Stock;
     property Check_CreditLimit: Integer read FCheck_CreditLimit write
         FCheck_CreditLimit;
+    property PPN: Double read FPPN write FPPN;
   end;
 
 
@@ -118,6 +120,9 @@ begin
 
     if lCDS.Locate('varname','Check_CreditLimit',[loCaseInsensitive]) then
       Check_CreditLimit := lCDS.FieldByName('VarValue').AsInteger;
+
+    if lCDS.Locate('varname','PPN',[loCaseInsensitive]) then
+      PPN := lCDS.FieldByName('VarValue').AsFloat;
   Finally
     lCDS.Free;
   End;

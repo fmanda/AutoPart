@@ -15,7 +15,7 @@ uses
   cxDBExtLookupComboBox, cxTextEdit, cxLabel, cxCurrencyEdit, dxBarBuiltInMenu,
   cxPC, Vcl.ComCtrls, dxCore, cxDateUtils, cxCalendar, Datasnap.DBClient, uItem,
   cxCheckBox, Vcl.ExtCtrls, cxGridServerModeTableView, cxSpinEdit,
-  cxGridDBTableView, cxButtonEdit;
+  cxGridDBTableView, cxButtonEdit, uVariable;
 
 type
   TfrmItem = class(TfrmDefaultInput)
@@ -85,6 +85,11 @@ type
     colRak: TcxGridDBColumn;
     colWarehouse: TcxGridDBColumn;
     cxGridLevel2: TcxGridLevel;
+    colPPNBeli: TcxGridDBBandedColumn;
+    colPPN1: TcxGridDBBandedColumn;
+    colPPN2: TcxGridDBBandedColumn;
+    colPPN3: TcxGridDBBandedColumn;
+    colPPN4: TcxGridDBBandedColumn;
     procedure FormCreate(Sender: TObject);
     procedure btnDelClick(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
@@ -217,6 +222,9 @@ begin
   if iRec = nil then exit;
 
   lPriceList := iRec.Values[colPriceList.Index];
+  //keluarkan PriceList dari PPN
+
+  lPriceList := lPriceList / (1.0 + (crPPN.Value / 100.0)) ;
 
   if IsMargin then
   begin
@@ -239,16 +247,39 @@ begin
     case aIndexPrice of
       0 : cxGrdUOM.DataController.SetEditValue(colMarginBeli.Index,
           (lPriceList - iRec.Values[colHrgBeli.Index]) / lPriceList * 100,  evsValue);
+
       1 : cxGrdUOM.DataController.SetEditValue(colMargin1.Index,
           (lPriceList - iRec.Values[colHrgJual1.Index]) / lPriceList * 100,  evsValue);
+
       2 : cxGrdUOM.DataController.SetEditValue(colMargin2.Index,
           (lPriceList - iRec.Values[colHrgJual2.Index]) / lPriceList * 100,  evsValue);
+
       3 : cxGrdUOM.DataController.SetEditValue(colMargin3.Index,
           (lPriceList - iRec.Values[colHrgJual3.Index]) / lPriceList * 100,  evsValue);
+
       4 : cxGrdUOM.DataController.SetEditValue(colMargin4.Index,
           (lPriceList - iRec.Values[colHrgJual4.Index]) / lPriceList * 100,  evsValue);
     end;
   end;
+
+  //calculate all PPN Value dulu
+  case aIndexPrice of
+    0 : cxGrdUOM.DataController.SetEditValue(colPPNBeli.Index,
+        ( (1.0 + (crPPN.Value/100.0)) * iRec.Values[colHrgBeli.Index]) ,  evsValue);
+
+    1 : cxGrdUOM.DataController.SetEditValue(colPPN1.Index,
+        ( (1.0 + (crPPN.Value/100.0)) * iRec.Values[colHrgJual1.Index]) ,  evsValue);
+
+    2 : cxGrdUOM.DataController.SetEditValue(colPPN2.Index,
+        ( (1.0 + (crPPN.Value/100.0)) * iRec.Values[colHrgJual2.Index]) ,  evsValue);
+
+    3 : cxGrdUOM.DataController.SetEditValue(colPPN3.Index,
+        ( (1.0 + (crPPN.Value/100.0)) * iRec.Values[colHrgJual3.Index]) ,  evsValue);
+
+    4 : cxGrdUOM.DataController.SetEditValue(colPPN4.Index,
+        ( (1.0 + (crPPN.Value/100.0)) * iRec.Values[colHrgJual4.Index]) ,  evsValue);
+  end;
+
 
 end;
 
@@ -373,6 +404,9 @@ begin
   initView;
   StartDate.Date  := StartOfTheYear(Now());
   EndDate.Date    := Now();
+
+
+  crPPN.Value := AppVariable.PPN;
 end;
 
 procedure TfrmItem.FormKeyDown(Sender: TObject; var Key: Word; Shift:
@@ -405,6 +439,13 @@ begin
     FCDS.AddField('Margin2',ftFloat);
     FCDS.AddField('Margin3',ftFloat);
     FCDS.AddField('Margin4',ftFloat);
+
+    FCDS.AddField('IncPPNBeli',ftFloat);
+    FCDS.AddField('IncPPN1',ftFloat);
+    FCDS.AddField('IncPPN2',ftFloat);
+    FCDS.AddField('IncPPN3',ftFloat);
+    FCDS.AddField('IncPPN4',ftFloat);
+
     FCDS.CreateDataSet;
   end;
   Result := FCDS;
@@ -514,6 +555,12 @@ begin
     CDS.Append;
     lItemUOM.UpdateToDataset(CDS);
 
+    CDS.FieldByName('IncPPNBeli').AsFloat := (1.0 + (crPPN.Value/100.0)) * lItemUOM.HargaBeli;
+    CDS.FieldByName('IncPPN1').AsFloat := (1.0 + (crPPN.Value/100.0))  * lItemUOM.HargaJual1;
+    CDS.FieldByName('IncPPN2').AsFloat := (1.0 + (crPPN.Value/100.0))  * lItemUOM.HargaJual2;
+    CDS.FieldByName('IncPPN3').AsFloat := (1.0 + (crPPN.Value/100.0))  * lItemUOM.HargaJual3;
+    CDS.FieldByName('IncPPN4').AsFloat := (1.0 + (crPPN.Value/100.0))  * lItemUOM.HargaJual4;
+
     if lItemUOM.PriceList = 0 then
     begin
       CDS.FieldByName('MarginBeli').AsFloat := 0;
@@ -523,12 +570,15 @@ begin
       CDS.FieldByName('Margin4').AsFloat := 0;
     end else
     begin
-      CDS.FieldByName('MarginBeli').AsFloat := (lItemUOM.PriceList - lItemUOM.HargaBeli) / lItemUOM.PriceList * 100;
-      CDS.FieldByName('Margin1').AsFloat := (lItemUOM.PriceList - lItemUOM.HargaJual1) / lItemUOM.PriceList * 100;
-      CDS.FieldByName('Margin2').AsFloat := (lItemUOM.PriceList - lItemUOM.HargaJual2) / lItemUOM.PriceList * 100;
-      CDS.FieldByName('Margin3').AsFloat := (lItemUOM.PriceList - lItemUOM.HargaJual3) / lItemUOM.PriceList * 100;
-      CDS.FieldByName('Margin4').AsFloat := (lItemUOM.PriceList - lItemUOM.HargaJual4) / lItemUOM.PriceList * 100;
+      CDS.FieldByName('MarginBeli').AsFloat := (lItemUOM.PriceList - CDS.FieldByName('IncPPNBeli').AsFloat ) / lItemUOM.PriceList * 100;
+      CDS.FieldByName('Margin1').AsFloat := (lItemUOM.PriceList - CDS.FieldByName('IncPPN1').AsFloat ) / lItemUOM.PriceList * 100;
+      CDS.FieldByName('Margin2').AsFloat := (lItemUOM.PriceList - CDS.FieldByName('IncPPN2').AsFloat ) / lItemUOM.PriceList * 100;
+      CDS.FieldByName('Margin3').AsFloat := (lItemUOM.PriceList - CDS.FieldByName('IncPPN3').AsFloat) / lItemUOM.PriceList * 100;
+      CDS.FieldByName('Margin4').AsFloat := (lItemUOM.PriceList - CDS.FieldByName('IncPPN4').AsFloat ) / lItemUOM.PriceList * 100;
     end;
+
+
+
 
     CDS.Post;
   end;
@@ -602,7 +652,7 @@ begin
   Item.Notes := edNotes.Text;
 
   Item.ModifiedBy := UserLogin;
-  Item.PPN := crPPN.Value;
+  Item.PPN := 1; //crPPN.Value;
   Item.ModifiedDate := Now();
   Item.ItemUOMs.Clear;
   Item.ItemRacks.Clear;
