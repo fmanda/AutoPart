@@ -241,6 +241,8 @@ type
     procedure actAccountExecute(Sender: TObject);
     procedure actAgingARExecute(Sender: TObject);
     procedure actAgingStockExecute(Sender: TObject);
+    procedure actBalanceSheetExecute(Sender: TObject);
+    procedure actBukuBesarExecute(Sender: TObject);
     procedure actCashInExecute(Sender: TObject);
     procedure actCashOutExecute(Sender: TObject);
     procedure actCustomerExecute(Sender: TObject);
@@ -256,6 +258,8 @@ type
     procedure actItemExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actItemGroupExecute(Sender: TObject);
+    procedure actJournalListingExecute(Sender: TObject);
+    procedure actJournalMemorialExecute(Sender: TObject);
     procedure actKartuStockExecute(Sender: TObject);
     procedure actKKSOExecute(Sender: TObject);
     procedure actLabaRugiExecute(Sender: TObject);
@@ -271,7 +275,9 @@ type
     procedure actMutasiKasExecute(Sender: TObject);
     procedure actPiutangReturExecute(Sender: TObject);
     procedure actPostAllExecute(Sender: TObject);
+    procedure actPostingJournalExecute(Sender: TObject);
     procedure actPrintTrfReqFileExecute(Sender: TObject);
+    procedure actProfitLossExecute(Sender: TObject);
     procedure actPurchaseInvoiceExecute(Sender: TObject);
     procedure actPurchaseInvoiceHistoryExecute(Sender: TObject);
     procedure actPurchaseReturExecute(Sender: TObject);
@@ -305,12 +311,6 @@ type
     procedure actWarehouseExecute(Sender: TObject);
     procedure cxButton1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure dxBarButton101Click(Sender: TObject);
-    procedure dxBarButton102Click(Sender: TObject);
-    procedure dxBarButton103Click(Sender: TObject);
-    procedure dxBarButton104Click(Sender: TObject);
-    procedure dxBarButton105Click(Sender: TObject);
-    procedure dxBarButton106Click(Sender: TObject);
   private
     function ConnectDB: Boolean;
     procedure ShowLog;
@@ -388,6 +388,16 @@ end;
 procedure TfrmMain.actAgingStockExecute(Sender: TObject);
 begin
   ShowForm(TfrmAgingStock);
+end;
+
+procedure TfrmMain.actBalanceSheetExecute(Sender: TObject);
+begin
+  ShowForm(TfrmLapNeraca);
+end;
+
+procedure TfrmMain.actBukuBesarExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBukuBesar);
 end;
 
 procedure TfrmMain.actCashInExecute(Sender: TObject);
@@ -497,6 +507,16 @@ begin
   ShowForm(TfrmBrowseItemGroup);
 end;
 
+procedure TfrmMain.actJournalListingExecute(Sender: TObject);
+begin
+  ShowForm(TfrmJournalListing);
+end;
+
+procedure TfrmMain.actJournalMemorialExecute(Sender: TObject);
+begin
+  ShowForm(TfrmBrowseJournalMemorial);
+end;
+
 procedure TfrmMain.actKartuStockExecute(Sender: TObject);
 begin
   ShowForm(TfrmKartuStock);
@@ -586,6 +606,11 @@ begin
 
 end;
 
+procedure TfrmMain.actPostingJournalExecute(Sender: TObject);
+begin
+  ShowForm(TfrmPostingJournal).ShowModal;
+end;
+
 procedure TfrmMain.actPrintTrfReqFileExecute(Sender: TObject);
 var
   JSON: TJSONObject;
@@ -622,6 +647,11 @@ begin
   Finally
     SS.Free;
   End;
+end;
+
+procedure TfrmMain.actProfitLossExecute(Sender: TObject);
+begin
+  ShowForm(TfrmLabaRugi);
 end;
 
 procedure TfrmMain.actPurchaseInvoiceExecute(Sender: TObject);
@@ -861,36 +891,6 @@ begin
       Free;
     End;
   end;
-end;
-
-procedure TfrmMain.dxBarButton101Click(Sender: TObject);
-begin
-  ShowForm(TfrmPostingJournal).ShowModal;
-end;
-
-procedure TfrmMain.dxBarButton102Click(Sender: TObject);
-begin
-  ShowForm(TfrmJournalListing);
-end;
-
-procedure TfrmMain.dxBarButton103Click(Sender: TObject);
-begin
-  ShowForm(TfrmBrowseJournalMemorial);
-end;
-
-procedure TfrmMain.dxBarButton104Click(Sender: TObject);
-begin
-  ShowForm(TfrmBukuBesar);
-end;
-
-procedure TfrmMain.dxBarButton105Click(Sender: TObject);
-begin
-  ShowForm(TfrmLapNeraca);
-end;
-
-procedure TfrmMain.dxBarButton106Click(Sender: TObject);
-begin
-  ShowForm(TfrmLabaRugi);
 end;
 
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);

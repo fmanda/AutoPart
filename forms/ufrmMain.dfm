@@ -47,8 +47,6 @@ object frmMain: TfrmMain
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    ExplicitTop = 706
-    ExplicitWidth = 1350
   end
   object dxRBMain: TdxRibbon
     Left = 0
@@ -62,7 +60,6 @@ object frmMain: TfrmMain
     Contexts = <>
     TabOrder = 1
     TabStop = False
-    ExplicitWidth = 1350
     object dxRTApp: TdxRibbonTab
       Caption = 'Aplikasi'
       Groups = <
@@ -97,6 +94,7 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
+      Active = True
       Caption = 'Penjualan & Kas'
       Groups = <
         item
@@ -122,7 +120,6 @@ object frmMain: TfrmMain
       Index = 4
     end
     object dxRTManagement: TdxRibbonTab
-      Active = True
       Caption = 'Manajemen & Accounting'
       Groups = <
         item
@@ -426,7 +423,7 @@ object frmMain: TfrmMain
           ItemName = 'dxBarButton96'
         end>
       OneOnRow = False
-      Row = 1
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -543,7 +540,7 @@ object frmMain: TfrmMain
           ItemName = 'dxBarButton82'
         end>
       OneOnRow = False
-      Row = 1
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -686,7 +683,7 @@ object frmMain: TfrmMain
           ItemName = 'dxBarButton100'
         end>
       OneOnRow = False
-      Row = 1
+      Row = 0
       UseOwnFont = False
       Visible = True
       WholeRow = False
@@ -727,7 +724,7 @@ object frmMain: TfrmMain
           Visible = True
           ItemName = 'dxBarButton106'
         end>
-      OneOnRow = True
+      OneOnRow = False
       Row = 0
       UseOwnFont = False
       Visible = True
@@ -1289,32 +1286,26 @@ object frmMain: TfrmMain
     object dxBarButton101: TdxBarButton
       Action = actPostingJournal
       Category = 0
-      OnClick = dxBarButton101Click
     end
     object dxBarButton102: TdxBarButton
       Action = actJournalListing
       Category = 0
-      OnClick = dxBarButton102Click
     end
     object dxBarButton103: TdxBarButton
       Action = actJournalMemorial
       Category = 0
-      OnClick = dxBarButton103Click
     end
     object dxBarButton104: TdxBarButton
       Action = actBukuBesar
       Category = 0
-      OnClick = dxBarButton104Click
     end
     object dxBarButton105: TdxBarButton
       Action = actBalanceSheet
       Category = 0
-      OnClick = dxBarButton105Click
     end
     object dxBarButton106: TdxBarButton
       Action = actProfitLoss
       Category = 0
-      OnClick = dxBarButton106Click
     end
   end
   object ActionManager: TActionManager
@@ -1716,31 +1707,37 @@ object frmMain: TfrmMain
       Category = 'Manajemen'
       Caption = 'Posting Jurnal'
       ImageIndex = 5
+      OnExecute = actPostingJournalExecute
     end
     object actJournalListing: TAction
       Category = 'Manajemen'
       Caption = 'Journal Listing'
       ImageIndex = 42
+      OnExecute = actJournalListingExecute
     end
     object actBukuBesar: TAction
       Category = 'Manajemen'
       Caption = 'Buku Besar'
       ImageIndex = 21
+      OnExecute = actBukuBesarExecute
     end
     object actProfitLoss: TAction
       Category = 'Manajemen'
       Caption = 'Laba Rugi / Profit & Loss'
       ImageIndex = 84
+      OnExecute = actProfitLossExecute
     end
     object actBalanceSheet: TAction
       Category = 'Manajemen'
       Caption = 'Neraca / Balance Sheet'
       ImageIndex = 69
+      OnExecute = actBalanceSheetExecute
     end
     object actJournalMemorial: TAction
       Category = 'Manajemen'
       Caption = 'Journal Memorial'
       ImageIndex = 49
+      OnExecute = actJournalMemorialExecute
     end
   end
   object ImageList: TcxImageList

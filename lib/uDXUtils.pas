@@ -155,6 +155,7 @@ type
     function CDS: TClientDataSet;
     procedure EnableFiltering(ContainsMode: Boolean = True);
     procedure ExportToXLS(sFileName: String = ''; DoShowInfo: Boolean = True);
+    procedure ExportToXLSDialog(sFileName: String = ''; DoShowInfo: Boolean = True);
     function GetFooterSummary(sFieldName : String): Variant; overload;
     function GetFooterSummary(aColumn: TcxGridDBColumn): Variant; overload;
     procedure LoadFromCDS(ACDS: TClientDataSet; DoCreateAllItem: Boolean = True;
@@ -772,7 +773,7 @@ end;
 procedure TcxExtLookupPropHelper.LoadFromSQL(aOwnerForm: TComponent; aSQL,
     DisplayField: String; IDField: String = 'ID');
 begin
-  Self.LoadFromSQL(aSQL,'ID',DisplayField,['ID'], aOwnerForm);
+  Self.LoadFromSQL(aSQL,IDField,DisplayField,[IDField], aOwnerForm);
 end;
 
 procedure TcxExtLookupPropHelper.SetMultiPurposeLookup;
@@ -1216,6 +1217,36 @@ begin
       lSaveDlg.Free;
     End;
   end;
+
+  If DoSave then
+  begin
+    Try
+      ExportGridToExcel(sFileName, TcxGrid(Self.Control));
+      If DoSHowInfo then TAppUtils.Information('Data berhasil diexport ke: ' + sFileName);
+    except
+      If DoSHowInfo then TAppUtils.Warning('Gagal menyimpan data ke excel');
+    end;
+  end;
+end;
+
+procedure TcxDBGridHelper.ExportToXLSDialog(sFileName: String = ''; DoShowInfo:
+    Boolean = True);
+var
+  DoSave: Boolean;
+  lSaveDlg: TSaveDialog;
+begin
+  DoSave := True;
+
+    lSaveDlg := TSaveDialog.Create(nil);
+    Try
+      lSaveDlg.FileName := sFileName;
+      if lSaveDlg.Execute then
+        sFileName := lSaveDlg.FileName
+      else
+        DoSave := False;
+    Finally
+      lSaveDlg.Free;
+    End;
 
   If DoSave then
   begin
@@ -1990,12 +2021,12 @@ var
   I: Integer;
 begin
   Result := nil;
-  
+
   for I := 0 to Self.Owner.ComponentCount - 1 do
   begin
     if Self.Owner.Components[i] is TcxGridLevel then
       Result :=  Self.Owner.Components[i] as TcxGridLevel;
-    
+
   end;
 
 end;
@@ -2127,7 +2158,7 @@ begin
   end;
 
   IsEmpty := False;
-  
+
   for j := 0 to Self.ColumnCount - 1 do
   begin
     if not (Self.Columns[j].Tag = 1) then continue;
@@ -2169,7 +2200,7 @@ begin
         IsEmpty := Self.Double(k,j) = 0;
         if IsEmpty then
           Break;
-      end;        
+      end;
     end;
 
     if IsEmpty then
@@ -2177,7 +2208,7 @@ begin
       sMsg := 'Data ' + Self.Columns[j].Caption + ' Baris ' + IntToStr(k+1) + ' Masih Salah';
       TAppUtils.Warning(sMsg);
       Exit;
-    end;    
+    end;
   end;
 
   Result := True;

@@ -6,23 +6,8 @@ uses
   CRUDObject;
 
 type
-  TRekening = class(TCRUDObject)
-  private
-    FKode: String;
-    FNama: String;
-    FJenis: Integer;
-    FIsActive: Integer;
-  public
-    constructor Create;
-  published
-    [AttributeOfCode]
-    property Kode: String read FKode write FKode;
-    property Nama: String read FNama write FNama;
-    property Jenis: Integer read FJenis write FJenis;  //0 : Gdg Baik, Gd Rusak, Gd Promosi
-    property IsActive: Integer read FIsActive write FIsActive;
-  end;
 
-type
+
   TAccount = class(TCRUDObject)
   private
     FKode: String;
@@ -43,6 +28,24 @@ type
     property IsActive: Integer read FIsActive write FIsActive;
     property IsDetail: Integer read FIsDetail write FIsDetail;
     property IsCredit: Integer read FIsCredit write FIsCredit;
+  end;
+
+  TRekening = class(TCRUDObject)
+  private
+    FAccount: TAccount;
+    FKode: String;
+    FNama: String;
+    FJenis: Integer;
+    FIsActive: Integer;
+  public
+    constructor Create;
+  published
+    property Account: TAccount read FAccount write FAccount;
+    [AttributeOfCode]
+    property Kode: String read FKode write FKode;
+    property Nama: String read FNama write FNama;
+    property Jenis: Integer read FJenis write FJenis;  //0 : Gdg Baik, Gd Rusak, Gd Promosi
+    property IsActive: Integer read FIsActive write FIsActive;
   end;
 
 implementation

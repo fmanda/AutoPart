@@ -1,49 +1,49 @@
 inherited frmRekening: TfrmRekening
   Caption = 'Update Data Rekening'
-  ClientHeight = 237
-  ClientWidth = 450
-  ExplicitWidth = 466
-  ExplicitHeight = 276
+  ClientHeight = 369
+  ClientWidth = 452
+  ExplicitWidth = 468
+  ExplicitHeight = 408
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
-    Top = 202
+    Top = 334
     TabOrder = 4
     ExplicitTop = 202
     ExplicitWidth = 450
-    Width = 450
+    Width = 452
     inherited btnCancel: TcxButton
-      Left = 365
+      Left = 367
       ExplicitLeft = 365
     end
     inherited btnPrint: TcxButton
-      Left = 279
+      Left = 281
       ExplicitLeft = 279
     end
     inherited btnSave: TcxButton
-      Left = 193
+      Left = 195
       OnClick = btnSaveClick
       ExplicitLeft = 193
     end
   end
   inherited Panel2: TPanel
-    Top = 181
-    Width = 450
+    Top = 313
+    Width = 452
     TabOrder = 5
     ExplicitTop = 181
     ExplicitWidth = 450
     inherited lbEscape: TLabel
-      Left = 370
+      Left = 372
       Height = 17
       ExplicitLeft = 370
     end
     inherited lgndSave: TLabel
-      Left = 205
+      Left = 207
       Height = 17
       ExplicitLeft = 205
     end
     inherited lgndPrint: TLabel
-      Left = 292
+      Left = 294
       Height = 17
       ExplicitLeft = 292
     end
@@ -81,8 +81,8 @@ inherited frmRekening: TfrmRekening
     TabOrder = 1
   end
   object rbJenis: TcxRadioGroup [7]
-    Left = 56
-    Top = 69
+    Left = 28
+    Top = 189
     Caption = ' Jenis Rekening '
     Properties.Items = <
       item
@@ -98,6 +98,17 @@ inherited frmRekening: TfrmRekening
     TabOrder = 3
     Height = 94
     Width = 345
+  end
+  object cxLabel3: TcxLabel [8]
+    Left = 60
+    Top = 65
+    Caption = 'Account'
+  end
+  object cxLookupCOA: TcxExtLookupComboBox [9]
+    Left = 109
+    Top = 64
+    TabOrder = 9
+    Width = 292
   end
   inherited styleRepo: TcxStyleRepository
     PixelsPerInch = 96

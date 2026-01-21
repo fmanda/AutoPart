@@ -7,7 +7,9 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufrmDefaultInput, cxGraphics,
   cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer, cxEdit,
   Vcl.Menus, Vcl.StdCtrls, cxButtons, cxGroupBox, cxRadioGroup, cxCheckBox,
-  cxTextEdit, cxLabel, uCustomer, uAccount, Vcl.ExtCtrls, cxStyles, cxClasses;
+  cxTextEdit, cxLabel, uCustomer, uAccount, Vcl.ExtCtrls, cxStyles, cxClasses,
+  cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit,
+  cxDBExtLookupComboBox, uDXUtils;
 
 type
   TfrmRekening = class(TfrmDefaultInput)
@@ -17,6 +19,8 @@ type
     edNama: TcxTextEdit;
     chkActive: TcxCheckBox;
     rbJenis: TcxRadioGroup;
+    cxLabel3: TcxLabel;
+    cxLookupCOA: TcxExtLookupComboBox;
     procedure btnSaveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -38,7 +42,7 @@ var
 implementation
 
 uses
-  uAppUtils, uDBUtils, uDXUtils;
+  uAppUtils, uDBUtils;
 
 {$R *.dfm}
 
@@ -58,6 +62,8 @@ procedure TfrmRekening.FormCreate(Sender: TObject);
 begin
   inherited;
   Self.AssignKeyDownEvent;
+  cxLookupCOA.LoadFromSQL('select id, kode + '' - '' + nama as nama from taccount where isdetail = 1', 'id', 'nama', Self);
+
   LoadByID(0);
 end;
 
@@ -84,6 +90,9 @@ begin
   rbJenis.ItemIndex := Rekening.Jenis;
   chkActive.Checked := Rekening.IsActive = 1;
   btnSave.Enabled   := not IsReadOnly;
+
+  if Rekening.Account <> nil then
+    cxLookupCOA.EditValue := Rekening.Account.ID;
 end;
 
 procedure TfrmRekening.UpdateData;
@@ -92,6 +101,7 @@ begin
   Rekening.Nama         := edNama.Text;
   Rekening.Jenis        := rbJenis.ItemIndex;
   Rekening.IsActive     := TAppUtils.BoolToInt(chkActive.Checked);
+  Rekening.Account      := TAccount.CreateID(VarToInt(cxLookupCOA.EditValue));
 end;
 
 function TfrmRekening.ValidateData: Boolean;
