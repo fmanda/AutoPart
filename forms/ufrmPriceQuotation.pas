@@ -55,6 +55,13 @@ type
     styleGreen: TcxStyle;
     pmGrid: TPopupMenu;
     F6LookupDataBarangterakhirdiinputedit1: TMenuItem;
+    colPPNBeli: TcxGridDBBandedColumn;
+    colPPN1: TcxGridDBBandedColumn;
+    colPPN2: TcxGridDBBandedColumn;
+    colPPN3: TcxGridDBBandedColumn;
+    colPPN4: TcxGridDBBandedColumn;
+    cxLabel7: TcxLabel;
+    crPPN: TcxCurrencyEdit;
     procedure cxGrdMainEditKeyDown(Sender: TcxCustomGridTableView; AItem:
         TcxCustomGridTableItem; AEdit: TcxCustomEdit; var Key: Word; Shift:
         TShiftState);
@@ -117,7 +124,7 @@ implementation
 
 uses
   uDXUtils, Dateutils, uDBUtils, ufrmCXServerLookup, cxDataUtils, uAppUtils,
-  Strutils, ufrmCXLookup;
+  Strutils, ufrmCXLookup, uVariable;
 
 {$R *.dfm}
 
@@ -145,6 +152,7 @@ begin
   if iRec = nil then exit;
 
   lPriceList := iRec.Values[colPriceList.Index];
+  lPriceList := lPriceList / (1.0 + (crPPN.Value / 100.0)) ;
 
   if IsMargin then
   begin
@@ -176,6 +184,24 @@ begin
       4 : cxGrdMain.DataController.SetEditValue(colMargin4.Index,
           (lPriceList - iRec.Values[colHrgJual4.Index]) / lPriceList * 100,  evsValue);
     end;
+  end;
+
+  //calculate all PPN Value dulu
+  case aIndexPrice of
+    0 : cxGrdMain.DataController.SetEditValue(colPPNBeli.Index,
+        ( (1.0 + (crPPN.Value/100.0)) * iRec.Values[colHrgBeli.Index]) ,  evsValue);
+
+    1 : cxGrdMain.DataController.SetEditValue(colPPN1.Index,
+        ( (1.0 + (crPPN.Value/100.0)) * iRec.Values[colHrgJual1.Index]) ,  evsValue);
+
+    2 : cxGrdMain.DataController.SetEditValue(colPPN2.Index,
+        ( (1.0 + (crPPN.Value/100.0)) * iRec.Values[colHrgJual2.Index]) ,  evsValue);
+
+    3 : cxGrdMain.DataController.SetEditValue(colPPN3.Index,
+        ( (1.0 + (crPPN.Value/100.0)) * iRec.Values[colHrgJual3.Index]) ,  evsValue);
+
+    4 : cxGrdMain.DataController.SetEditValue(colPPN4.Index,
+        ( (1.0 + (crPPN.Value/100.0)) * iRec.Values[colHrgJual4.Index]) ,  evsValue);
   end;
 
 end;
@@ -344,6 +370,9 @@ begin
   inherited;
   cxGrdMain.OptionsView.Header := False;
   Self.AssignKeyDownEvent;
+
+  crPPN.Value := AppVariable.PPN;
+
   InitView;
   LoadByID(0);
 end;
@@ -372,6 +401,12 @@ begin
     FCDS.AddField('Margin2',ftFloat);
     FCDS.AddField('Margin3',ftFloat);
     FCDS.AddField('Margin4',ftFloat);
+
+    FCDS.AddField('IncPPNBeli',ftFloat);
+    FCDS.AddField('IncPPN1',ftFloat);
+    FCDS.AddField('IncPPN2',ftFloat);
+    FCDS.AddField('IncPPN3',ftFloat);
+    FCDS.AddField('IncPPN4',ftFloat);
     FCDS.CreateDataSet;
   end;
   Result := FCDS;
@@ -445,6 +480,13 @@ begin
     lItem.Item.ReLoad();
     CDS.FieldByName('ItemCode').AsString := lItem.Item.Kode;
     CDS.FieldByName('ItemName').AsString := lItem.Item.Nama;
+
+
+    CDS.FieldByName('IncPPNBeli').AsFloat := (1.0 + (crPPN.Value/100.0)) * lItem.HargaBeli;
+    CDS.FieldByName('IncPPN1').AsFloat := (1.0 + (crPPN.Value/100.0))  * lItem.HargaJual1;
+    CDS.FieldByName('IncPPN2').AsFloat := (1.0 + (crPPN.Value/100.0))  * lItem.HargaJual2;
+    CDS.FieldByName('IncPPN3').AsFloat := (1.0 + (crPPN.Value/100.0))  * lItem.HargaJual3;
+    CDS.FieldByName('IncPPN4').AsFloat := (1.0 + (crPPN.Value/100.0))  * lItem.HargaJual4;
 
     if lItem.PriceList = 0 then
     begin
@@ -548,6 +590,7 @@ var
   i: Integer;
   IsAppendRec: Boolean;
   lItemUOM: TItemUOM;
+  lPPNFactor: Double;
 begin
   if aItem = nil then exit;
 
@@ -581,6 +624,8 @@ begin
     end;
 //      DC.FocusedRecordIndex := DC.AppendRecord;
 
+    lPPNFactor := 1 + (crPPN.Value/100.0);
+
     DC.SetEditValue(colItemID.Index, aItem.ID, evsValue);
     DC.SetEditValue(colItemCode.Index, aItem.Kode, evsValue);
     DC.SetEditValue(colItemName.Index, aItem.Nama, evsValue);
@@ -599,6 +644,14 @@ begin
     DC.SetEditValue(colMargin2.Index, lItemUOM.GetPriceListMargin(2), evsValue);
     DC.SetEditValue(colMargin3.Index, lItemUOM.GetPriceListMargin(3), evsValue);
     DC.SetEditValue(colMargin4.Index, lItemUOM.GetPriceListMargin(4), evsValue);
+
+    DC.SetEditValue(colPPNBeli.Index, lItemUOM.HargaBeli * lPPNFactor, evsValue);
+    DC.SetEditValue(colPPN1.Index, lItemUOM.HargaJual1 * lPPNFactor, evsValue);
+    DC.SetEditValue(colPPN2.Index, lItemUOM.HargaJual2 * lPPNFactor, evsValue);
+    DC.SetEditValue(colPPN3.Index, lItemUOM.HargaJual3 * lPPNFactor, evsValue);
+    DC.SetEditValue(colPPN4.Index, lItemUOM.HargaJual4 * lPPNFactor, evsValue);
+
+
     DC.Post();
 
     IsAppendRec := True;

@@ -2,7 +2,7 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   Caption = 'AutoPart - [Software Manajemen Bengkel & Toko Sparepart]'
-  ClientHeight = 1176
+  ClientHeight = 1061
   ClientWidth = 1515
   Color = clScrollBar
   Font.Charset = DEFAULT_CHARSET
@@ -19,7 +19,7 @@ object frmMain: TfrmMain
   TextHeight = 13
   object dxStatusBar: TdxRibbonStatusBar
     Left = 0
-    Top = 1153
+    Top = 1038
     Width = 1515
     Height = 23
     Panels = <
@@ -61,6 +61,7 @@ object frmMain: TfrmMain
     TabOrder = 1
     TabStop = False
     object dxRTApp: TdxRibbonTab
+      Active = True
       Caption = 'Aplikasi'
       Groups = <
         item
@@ -94,7 +95,6 @@ object frmMain: TfrmMain
       Index = 2
     end
     object dxRTSales: TdxRibbonTab
-      Active = True
       Caption = 'Penjualan & Kas'
       Groups = <
         item

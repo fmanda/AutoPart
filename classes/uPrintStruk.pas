@@ -136,7 +136,7 @@ begin
       begin
         Result.Add(
           TAppUtils.StrPadRight(LeftStr(lDetail.Item.Nama,29),29,' ') +' '
-          + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',lDetail.Harga),10,' ')
+          + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',lDetail.GetHargaPPN),10,' ')
         );
       end
       else
@@ -150,8 +150,8 @@ begin
         sTemp :=
               TAppUtils.StrPadLeftCut(FloatToStr(Abs(lDetail.Qty)),10,' ') + ' '
             + TAppUtils.StrPadRight(lDetail.UOM.UOM,5,' ') + 'x'
-            + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',lDetail.Harga),10,' ')
-            + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Abs(lDetail.Qty*lDetail.Harga)),13,' ');
+            + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',lDetail.GetHargaPPN),10,' ')
+            + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Abs(lDetail.Qty*lDetail.GetHargaPPN)),13,' ');
 
         Result.Add(sTemp);
       end;
@@ -162,7 +162,7 @@ begin
            TAppUtils.StrPadLeftCut(RightStr('Diskon ',20),20,' ')
           +TAppUtils.StrPadRight(' ',9,' ')
           +TAppUtils.StrPadRight(' (',3,' ')
-          +TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Abs(lDetail.Qty* lDetail.Discount)),7,' ')
+          +TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Abs(lDetail.Qty* lDetail.GetDiscountPPN)),7,' ')
           +TAppUtils.StrPadRight(')',1,' ')
         );
       end
@@ -180,7 +180,7 @@ begin
       begin
         Result.Add(
           TAppUtils.StrPadRight(LeftStr(lService.Service.Nama,29),29,' ') +' '
-          + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',lService.Harga),10,' ')
+          + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',lService.GetHargaPPN),10,' ')
         );
       end
       else
@@ -189,8 +189,8 @@ begin
         sTemp :=
               TAppUtils.StrPadLeftCut(FloatToStr(Abs(lService.Qty)),10,' ') + ' '
             + TAppUtils.StrPadRight('PCS',5,' ') + 'x'
-            + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',lService.Harga),10,' ')
-            + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Abs(lService.Qty*lService.Harga)),13,' ');
+            + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',lService.GetHargaPPN),10,' ')
+            + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Abs(lService.Qty*lService.GetHargaPPN)),13,' ');
 
         Result.Add(sTemp);
       end;
@@ -201,7 +201,7 @@ begin
            TAppUtils.StrPadLeftCut(RightStr('Diskon ',20),20,' ')
           +TAppUtils.StrPadRight(' ',9,' ')
           +TAppUtils.StrPadRight(' (',3,' ')
-          +TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Abs(lService.Qty* lService.Discount)),7,' ')
+          +TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Abs(lService.Qty* lService.GetDiscountPPN)),7,' ')
           +TAppUtils.StrPadRight(')',1,' ')
         );
       end
@@ -321,7 +321,7 @@ begin
       begin
         Result.Add(
           TAppUtils.StrPadRight(LeftStr(lDetail.Item.Nama,29),29,' ') +' '
-          + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',lDetail.Harga),10,' ')
+          + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',lDetail.GetHargaPPN),10,' ')
         );
       end
       else
@@ -335,8 +335,8 @@ begin
         sTemp :=
               TAppUtils.StrPadLeftCut(FloatToStr(Abs(lDetail.Qty)),10,' ') + ' '
             + TAppUtils.StrPadRight(lDetail.UOM.UOM,5,' ') + 'x'
-            + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',lDetail.Harga),10,' ')
-            + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Abs(lDetail.Qty*lDetail.Harga)),13,' ');
+            + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',lDetail.GetHargaPPN),10,' ')
+            + TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Abs(lDetail.Qty*lDetail.GetHargaPPN)),13,' ');
 
         Result.Add(sTemp);
       end;
@@ -347,7 +347,7 @@ begin
            TAppUtils.StrPadLeftCut(RightStr('Diskon ',20),20,' ')
           +TAppUtils.StrPadRight(' ',9,' ')
           +TAppUtils.StrPadRight(' (',3,' ')
-          +TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Abs(lDetail.Qty* lDetail.Discount)),7,' ')
+          +TAppUtils.StrPadLeftCut(FormatFloat('#,##0',Abs(lDetail.Qty* lDetail.GetDiscountPPN)),7,' ')
           +TAppUtils.StrPadRight(')',1,' ')
         );
       end

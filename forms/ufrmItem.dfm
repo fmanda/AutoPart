@@ -12,21 +12,21 @@ inherited frmItem: TfrmItem
     Top = 525
     TabOrder = 2
     ExplicitTop = 525
-    ExplicitWidth = 882
+    ExplicitWidth = 1194
     Width = 1194
     inherited btnCancel: TcxButton
       Left = 1109
-      ExplicitLeft = 797
+      ExplicitLeft = 1109
     end
     inherited btnPrint: TcxButton
       Left = 1023
       OnClick = btnPrintClick
-      ExplicitLeft = 711
+      ExplicitLeft = 1023
     end
     inherited btnSave: TcxButton
       Left = 937
       OnClick = btnSaveClick
-      ExplicitLeft = 625
+      ExplicitLeft = 937
     end
     object btnDel: TcxButton
       AlignWithMargins = True
@@ -62,21 +62,21 @@ inherited frmItem: TfrmItem
     Width = 1194
     TabOrder = 3
     ExplicitTop = 504
-    ExplicitWidth = 882
+    ExplicitWidth = 1194
     inherited lbEscape: TLabel
       Left = 949
       Height = 17
-      ExplicitLeft = 637
+      ExplicitLeft = 949
     end
     inherited lgndSave: TLabel
       Left = 1028
       Height = 17
-      ExplicitLeft = 716
+      ExplicitLeft = 1028
     end
     inherited lgndPrint: TLabel
       Left = 1115
       Height = 17
-      ExplicitLeft = 803
+      ExplicitLeft = 1115
     end
   end
   object cxGroupBox1: TcxGroupBox [2]
@@ -85,7 +85,6 @@ inherited frmItem: TfrmItem
     Align = alTop
     Caption = ' Informasi Barang [F1] '
     TabOrder = 0
-    ExplicitWidth = 882
     Height = 177
     Width = 1194
     object cxLabel1: TcxLabel
@@ -255,16 +254,12 @@ inherited frmItem: TfrmItem
     Properties.ActivePage = tsUOM
     Properties.CustomButtons.Buttons = <>
     Properties.TabHeight = 30
-    ExplicitWidth = 882
-    ExplicitHeight = 305
     ClientRectBottom = 287
     ClientRectRight = 1194
     ClientRectTop = 32
     object tsUOM: TcxTabSheet
       Caption = 'Konversi && Harga Satuan [F2]'
       ImageIndex = 0
-      ExplicitWidth = 882
-      ExplicitHeight = 273
       object cxGrid1: TcxGrid
         AlignWithMargins = True
         Left = 3
@@ -273,8 +268,6 @@ inherited frmItem: TfrmItem
         Height = 249
         Align = alClient
         TabOrder = 0
-        ExplicitWidth = 876
-        ExplicitHeight = 267
         object cxGrdUOM: TcxGridDBBandedTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -562,6 +555,7 @@ inherited frmItem: TfrmItem
           object colPPNBeli: TcxGridDBBandedColumn
             DataBinding.FieldName = 'IncPPNBeli'
             PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0.##;(,0.##)'#10
             Options.Editing = False
             Position.BandIndex = 19
@@ -571,6 +565,7 @@ inherited frmItem: TfrmItem
           object colPPN1: TcxGridDBBandedColumn
             DataBinding.FieldName = 'IncPPN1'
             PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0.##;(,0.##)'#10
             Options.Editing = False
             Position.BandIndex = 20
@@ -580,6 +575,7 @@ inherited frmItem: TfrmItem
           object colPPN2: TcxGridDBBandedColumn
             DataBinding.FieldName = 'IncPPN2'
             PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0.##;(,0.##)'#10
             Options.Editing = False
             Position.BandIndex = 21
@@ -589,6 +585,7 @@ inherited frmItem: TfrmItem
           object colPPN3: TcxGridDBBandedColumn
             DataBinding.FieldName = 'IncPPN3'
             PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0.##;(,0.##)'#10
             Options.Editing = False
             Position.BandIndex = 22
@@ -598,6 +595,7 @@ inherited frmItem: TfrmItem
           object colPPN4: TcxGridDBBandedColumn
             DataBinding.FieldName = 'IncPPN4'
             PropertiesClassName = 'TcxCurrencyEditProperties'
+            Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0.##;(,0.##)'#10
             Options.Editing = False
             Position.BandIndex = 23
@@ -614,14 +612,10 @@ inherited frmItem: TfrmItem
       Caption = 'History Perubahan Harga'
       ImageIndex = 1
       TabVisible = False
-      ExplicitWidth = 882
-      ExplicitHeight = 273
     end
     object tsRack: TcxTabSheet
       Caption = 'Update Informasi Rak [F3]'
       ImageIndex = 2
-      ExplicitWidth = 882
-      ExplicitHeight = 273
       object cxGrid2: TcxGrid
         Left = 0
         Top = 0
@@ -629,8 +623,6 @@ inherited frmItem: TfrmItem
         Height = 255
         Align = alClient
         TabOrder = 0
-        ExplicitWidth = 882
-        ExplicitHeight = 273
         object cxGrdRak: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -680,8 +672,6 @@ inherited frmItem: TfrmItem
       Caption = 'History Harga Pokok Penjualan / Harga Average'
       Enabled = False
       ImageIndex = 1
-      ExplicitWidth = 882
-      ExplicitHeight = 273
       object cxGroupBox3: TcxGroupBox
         Left = 0
         Top = 0
@@ -691,7 +681,6 @@ inherited frmItem: TfrmItem
         Style.LookAndFeel.NativeStyle = False
         StyleDisabled.LookAndFeel.NativeStyle = False
         TabOrder = 0
-        ExplicitWidth = 882
         Height = 35
         Width = 1194
         object btnRefresh: TcxButton
@@ -706,7 +695,6 @@ inherited frmItem: TfrmItem
           OptionsImage.Images = frmMain.ImageList
           TabOrder = 0
           OnClick = btnRefreshClick
-          ExplicitLeft = 802
         end
         object EndDate: TcxDateEdit
           AlignWithMargins = True
@@ -716,7 +704,6 @@ inherited frmItem: TfrmItem
           Properties.SaveTime = False
           Properties.ShowTime = False
           TabOrder = 1
-          ExplicitLeft = 696
           Width = 100
         end
         object StartDate: TcxDateEdit
@@ -727,7 +714,6 @@ inherited frmItem: TfrmItem
           Properties.SaveTime = False
           Properties.ShowTime = False
           TabOrder = 2
-          ExplicitLeft = 571
           Width = 100
         end
         object cxLabel9: TcxLabel
@@ -736,7 +722,6 @@ inherited frmItem: TfrmItem
           Align = alRight
           Caption = 'Filter Periode'
           Properties.Alignment.Vert = taVCenter
-          ExplicitLeft = 501
           AnchorY = 18
         end
         object cxLabel10: TcxLabel
@@ -745,7 +730,6 @@ inherited frmItem: TfrmItem
           Align = alRight
           Caption = 's/d'
           Properties.Alignment.Vert = taVCenter
-          ExplicitLeft = 674
           AnchorY = 18
         end
       end
@@ -756,8 +740,6 @@ inherited frmItem: TfrmItem
         Height = 220
         Align = alClient
         TabOrder = 1
-        ExplicitWidth = 882
-        ExplicitHeight = 238
         object cxGrdAvg: TcxGridServerModeTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -798,7 +780,6 @@ inherited frmItem: TfrmItem
     Style.IsFontAssigned = True
     StyleDisabled.TextColor = clBlack
     TabOrder = 4
-    ExplicitWidth = 882
     Height = 40
     Width = 1194
   end

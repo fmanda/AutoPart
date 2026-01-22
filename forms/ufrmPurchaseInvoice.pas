@@ -31,7 +31,7 @@ type
     edSupplier: TcxButtonEdit;
     crSubTotal: TcxCurrencyEdit;
     cxLabel2: TcxLabel;
-    cxLabel3: TcxLabel;
+    lbPPN: TcxLabel;
     crPPN: TcxCurrencyEdit;
     cxLabel5: TcxLabel;
     crTotal: TcxCurrencyEdit;
@@ -177,6 +177,7 @@ procedure TfrmPurchaseInvoice.CalculateAll;
 var
   dPPN: Double;
   dSubTotal: Double;
+  lPriceListDPP: Double;
 begin
   if CDS.State in [dsInsert, dsEdit] then
     CDS.Post;
@@ -191,14 +192,18 @@ begin
     while not CDSClone.Eof do
     begin
       CDSClone.Edit;
+
+      lPriceListDPP := CDSClone.FieldByName('PriceList').AsFloat / (1 + (AppVariable.PPN/100.0));
+
       CDSClone.FieldByName('Harga').AsFloat :=
         (1 - (CDSClone.FieldByName('DiscP').AsFloat /100))
-        * CDSClone.FieldByName('PriceList').AsFloat;
+        * lPriceListDPP;
 
 
       CDSClone.FieldByName('SubTotal').AsFloat :=
         CDSClone.FieldByName('Harga').AsFloat * CdSClone.FieldByName('QTY').AsFloat;
       dSubTotal := dSubTotal +  CDSClone.FieldByName('SubTotal').AsFloat;
+
       dPPN :=  dPPN + (CDSClone.FieldByName('PPN').AsFloat * CDSClone.FieldByName('SubTotal').AsFloat / 100);
 
       CDSClone.Post;
@@ -435,6 +440,8 @@ begin
   inherited;
   InitView;
   Self.AssignKeyDownEvent;
+
+  lbPPN.Caption := 'PPN ' + FloatToStr(AppVariable.PPN) + '%';
   LoadByID(0, False);
 end;
 
@@ -523,6 +530,7 @@ procedure TfrmPurchaseInvoice.LoadByID(aID: Integer; IsReadOnly: Boolean =
     True);
 var
   lItem: TTransDetail;
+  lPriceListExcl: Double;
 begin
   if FPurchInv <> nil then
     FreeAndNil(FPurchInv);
@@ -578,9 +586,12 @@ begin
     CDS.FieldByName('DiscP').AsFloat := 0;
 
     if lItem.PriceList > 0 then
+    begin
+      lPriceListExcl := lItem.PriceList / (1 + (AppVariable.PPN / 100.0));
       CDS.FieldByName('DiscP').AsFloat :=
-        (CDS.FieldByName('PriceList').AsFloat - CDS.FieldByName('Harga').AsFloat)
-          /CDS.FieldByName('PriceList').AsFloat*100;
+        (lPriceListExcl - CDS.FieldByName('Harga').AsFloat)
+          /lPriceListExcl *100;
+    end;
 
     CDS.Post;
   end;
@@ -760,7 +771,7 @@ begin
   DC.SetEditValue(colHrgBeli.Index, 0, evsValue);
   DC.SetEditValue(colDisc.Index, 0, evsValue);
   DC.SetEditValue(colSubTotal.Index, 0, evsValue);
-  DC.SetEditValue(colPPN.Index, aItem.PPN, evsValue);
+  DC.SetEditValue(colPPN.Index, AppVariable.PPN , evsValue);
 
   //def uom
   if aItem.StockUOM <> nil then

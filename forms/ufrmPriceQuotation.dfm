@@ -1,53 +1,53 @@
 inherited frmPriceQuotation: TfrmPriceQuotation
   Caption = 'Price Quotation / Update Price List'
-  ClientHeight = 611
-  ClientWidth = 1034
+  ClientHeight = 691
+  ClientWidth = 1186
   KeyPreview = True
   OnKeyDown = FormKeyDown
-  ExplicitWidth = 1050
-  ExplicitHeight = 650
+  ExplicitWidth = 1202
+  ExplicitHeight = 730
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
-    Top = 576
+    Top = 656
     TabOrder = 2
-    ExplicitTop = 576
-    ExplicitWidth = 1034
-    Width = 1034
+    ExplicitTop = 656
+    ExplicitWidth = 1186
+    Width = 1186
     inherited btnCancel: TcxButton
-      Left = 949
-      ExplicitLeft = 949
+      Left = 1101
+      ExplicitLeft = 1101
     end
     inherited btnPrint: TcxButton
-      Left = 863
-      ExplicitLeft = 863
+      Left = 1015
+      ExplicitLeft = 1015
     end
     inherited btnSave: TcxButton
-      Left = 777
+      Left = 929
       OnClick = btnSaveClick
-      ExplicitLeft = 777
+      ExplicitLeft = 929
     end
   end
   inherited Panel2: TPanel
-    Top = 555
-    Width = 1034
+    Top = 635
+    Width = 1186
     TabOrder = 3
-    ExplicitTop = 555
-    ExplicitWidth = 1034
+    ExplicitTop = 635
+    ExplicitWidth = 1186
     inherited lbEscape: TLabel
-      Left = 954
+      Left = 1106
       Height = 17
-      ExplicitLeft = 954
+      ExplicitLeft = 1106
     end
     inherited lgndSave: TLabel
-      Left = 789
+      Left = 941
       Height = 17
-      ExplicitLeft = 789
+      ExplicitLeft = 941
     end
     inherited lgndPrint: TLabel
-      Left = 876
+      Left = 1028
       Height = 17
-      ExplicitLeft = 876
+      ExplicitLeft = 1028
     end
     object Label1: TLabel
       AlignWithMargins = True
@@ -95,7 +95,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
     Caption = '  Header [F1] '
     TabOrder = 0
     Height = 81
-    Width = 1034
+    Width = 1186
     object cxLabel1: TcxLabel
       Left = 25
       Top = 20
@@ -172,13 +172,31 @@ inherited frmPriceQuotation: TfrmPriceQuotation
       TabOrder = 10
       Width = 133
     end
+    object cxLabel7: TcxLabel
+      Left = 850
+      Top = 19
+      Caption = 'PPN (%)'
+      Enabled = False
+    end
+    object crPPN: TcxCurrencyEdit
+      Left = 897
+      Top = 18
+      TabStop = False
+      EditValue = 0.000000000000000000
+      Enabled = False
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DecimalPlaces = 0
+      Properties.DisplayFormat = ',0.00;(,0.00)'
+      TabOrder = 12
+      Width = 69
+    end
   end
   object cxGrid1: TcxGrid [3]
     AlignWithMargins = True
     Left = 3
     Top = 84
-    Width = 1028
-    Height = 446
+    Width = 1180
+    Height = 526
     Align = alClient
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
@@ -224,71 +242,71 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         end
         item
           Caption = 'Harga Beli'
-          Width = 131
+          Width = 220
         end
         item
           Caption = 'Harga Umum'
-          Width = 118
+          Width = 220
         end
         item
           Caption = '%'
           Position.BandIndex = 6
           Position.ColIndex = 0
-          Width = 35
+          Width = 25
         end
         item
           Caption = 'Rp'
           Position.BandIndex = 6
           Position.ColIndex = 1
-          Width = 75
+          Width = 80
         end
         item
           Caption = 'Harga Bengkel'
-          Width = 110
+          Width = 220
         end
         item
           Caption = '%'
           Position.BandIndex = 9
           Position.ColIndex = 0
-          Width = 35
+          Width = 25
         end
         item
           Caption = 'Rp'
           Position.BandIndex = 9
           Position.ColIndex = 1
-          Width = 75
+          Width = 80
         end
         item
           Caption = 'Harga Grosir'
-          Width = 110
+          Width = 220
         end
         item
           Caption = '%'
           Position.BandIndex = 12
           Position.ColIndex = 0
-          Width = 35
+          Width = 25
         end
         item
           Caption = 'Rp'
           Position.BandIndex = 12
           Position.ColIndex = 1
-          Width = 75
+          Width = 80
         end
         item
           Caption = 'Harga Keliling'
-          Width = 110
+          Width = 220
         end
         item
           Caption = '%'
           Position.BandIndex = 15
           Position.ColIndex = 0
-          Width = 35
+          Width = 25
         end
         item
           Caption = 'Rp'
           Position.BandIndex = 15
           Position.ColIndex = 1
-          Width = 75
+          Width = 80
         end
         item
           Caption = 'Harga Avg'
@@ -299,13 +317,43 @@ inherited frmPriceQuotation: TfrmPriceQuotation
           Caption = '%'
           Position.BandIndex = 5
           Position.ColIndex = 0
-          Width = 42
+          Width = 25
         end
         item
           Caption = 'Rp'
           Position.BandIndex = 5
           Position.ColIndex = 1
-          Width = 74
+          Width = 80
+        end
+        item
+          Caption = '+PPN'
+          Position.BandIndex = 5
+          Position.ColIndex = 2
+          Width = 80
+        end
+        item
+          Caption = '+PPN'
+          Position.BandIndex = 6
+          Position.ColIndex = 2
+          Width = 80
+        end
+        item
+          Caption = '+PPN'
+          Position.BandIndex = 9
+          Position.ColIndex = 2
+          Width = 80
+        end
+        item
+          Caption = '+PPN'
+          Position.BandIndex = 12
+          Position.ColIndex = 2
+          Width = 80
+        end
+        item
+          Caption = '+PPN'
+          Position.BandIndex = 15
+          Position.ColIndex = 2
+          Width = 80
         end>
       object colItemCode: TcxGridDBBandedColumn
         DataBinding.FieldName = 'ItemCode'
@@ -356,7 +404,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         DataBinding.FieldName = 'HargaBeli'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0;(,0)'
+        Properties.DisplayFormat = ',0.##;(,0.##)'#10
         Properties.OnEditValueChanged = colHrgBeliPropertiesEditValueChanged
         Styles.Content = styleOdd
         Position.BandIndex = 20
@@ -378,7 +426,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         DataBinding.FieldName = 'HargaJual1'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0;(,0)'
+        Properties.DisplayFormat = ',0.##;(,0.##)'#10
         Properties.OnEditValueChanged = colHrgJual1PropertiesEditValueChanged
         Styles.Content = styleGreen
         Position.BandIndex = 8
@@ -400,7 +448,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         DataBinding.FieldName = 'HargaJual2'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0;(,0)'
+        Properties.DisplayFormat = ',0.##;(,0.##)'#10
         Properties.OnEditValueChanged = colHrgJual2PropertiesEditValueChanged
         Styles.Content = styleOdd
         Position.BandIndex = 11
@@ -422,7 +470,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         DataBinding.FieldName = 'HargaJual3'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0;(,0)'
+        Properties.DisplayFormat = ',0.##;(,0.##)'#10
         Properties.OnEditValueChanged = colHrgJual3PropertiesEditValueChanged
         Styles.Content = styleGreen
         Position.BandIndex = 14
@@ -444,7 +492,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         DataBinding.FieldName = 'HargaJual4'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0;(,0)'
+        Properties.DisplayFormat = ',0.##;(,0.##)'#10
         Properties.OnEditValueChanged = colHrgJual4PropertiesEditValueChanged
         Styles.Content = styleOdd
         Position.BandIndex = 17
@@ -462,7 +510,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         DataBinding.FieldName = 'PriceList'
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
-        Properties.DisplayFormat = ',0;(,0)'
+        Properties.DisplayFormat = ',0.##;(,0.##)'#10
         Properties.OnEditValueChanged = colPriceListPropertiesEditValueChanged
         Styles.Content = styleGreen
         Position.BandIndex = 4
@@ -480,6 +528,56 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         Position.ColIndex = 0
         Position.RowIndex = 0
       end
+      object colPPNBeli: TcxGridDBBandedColumn
+        DataBinding.FieldName = 'IncPPNBeli'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##;(,0.##)'#10
+        Options.Editing = False
+        Position.BandIndex = 21
+        Position.ColIndex = 0
+        Position.RowIndex = 0
+      end
+      object colPPN1: TcxGridDBBandedColumn
+        DataBinding.FieldName = 'IncPPN1'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##;(,0.##)'#10
+        Options.Editing = False
+        Position.BandIndex = 22
+        Position.ColIndex = 0
+        Position.RowIndex = 0
+      end
+      object colPPN2: TcxGridDBBandedColumn
+        DataBinding.FieldName = 'IncPPN2'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##;(,0.##)'#10
+        Options.Editing = False
+        Position.BandIndex = 23
+        Position.ColIndex = 0
+        Position.RowIndex = 0
+      end
+      object colPPN3: TcxGridDBBandedColumn
+        DataBinding.FieldName = 'IncPPN3'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##;(,0.##)'#10
+        Options.Editing = False
+        Position.BandIndex = 24
+        Position.ColIndex = 0
+        Position.RowIndex = 0
+      end
+      object colPPN4: TcxGridDBBandedColumn
+        DataBinding.FieldName = 'IncPPN4'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##;(,0.##)'#10
+        Options.Editing = False
+        Position.BandIndex = 25
+        Position.ColIndex = 0
+        Position.RowIndex = 0
+      end
     end
     object cxGrid1Level1: TcxGridLevel
       Caption = 'Detail Item'
@@ -488,7 +586,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
   end
   object cxMemo1: TcxMemo [4]
     Left = 0
-    Top = 533
+    Top = 613
     Align = alBottom
     Enabled = False
     Lines.Strings = (
@@ -505,9 +603,11 @@ inherited frmPriceQuotation: TfrmPriceQuotation
     StyleDisabled.TextColor = clBlack
     TabOrder = 4
     Height = 22
-    Width = 1034
+    Width = 1186
   end
   inherited styleRepo: TcxStyleRepository
+    Left = 312
+    Top = 344
     PixelsPerInch = 96
     object styleGreen: TcxStyle
       AssignedValues = [svColor]
@@ -515,8 +615,8 @@ inherited frmPriceQuotation: TfrmPriceQuotation
     end
   end
   object pmGrid: TPopupMenu
-    Left = 352
-    Top = 320
+    Left = 312
+    Top = 288
     object F6LookupDataBarangterakhirdiinputedit1: TMenuItem
       Caption = 'Lookup Data Barang terakhir diinput / edit [F6]'
       OnClick = F6LookupDataBarangterakhirdiinputedit1Click

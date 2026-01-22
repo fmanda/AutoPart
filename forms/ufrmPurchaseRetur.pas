@@ -31,7 +31,7 @@ type
     edInv: TcxButtonEdit;
     crSubTotal: TcxCurrencyEdit;
     cxLabel2: TcxLabel;
-    cxLabel3: TcxLabel;
+    lbPPN: TcxLabel;
     crPPN: TcxCurrencyEdit;
     cxLabel5: TcxLabel;
     crTotal: TcxCurrencyEdit;
@@ -142,7 +142,7 @@ implementation
 uses
   uDBUtils, uDXUtils, uAppUtils, Strutils, ufrmCXServerLookup,
   System.DateUtils, uSupplier, ufrmCXMsgInfo, uWarehouse, ufrmLookupItem,
-  ufrmCXLookup;
+  ufrmCXLookup, uVariable;
 
 {$R *.dfm}
 
@@ -151,6 +151,7 @@ var
   cxLookup: TfrmCXLookup;
   lDisc: Double;
   lItem: TItem;
+  lPriceListDPP: Double;
   S: string;
 begin
   if edSupp.Text = '' then
@@ -159,8 +160,10 @@ begin
     exit;
   end;
 
-  S := 'SELECT D.ITEM_ID, E.KODE, E.NAMA, D.QTY, D.PRICELIST, CASE WHEN D.PRICELIST = 0 THEN 0 ELSE'
-      +' (D.PRICELIST - D.HARGA) / D.PRICELIST * 100 END AS DISCP, D.HARGA AS NETT, A.INVOICENO, A.TRANSDATE AS TANGGAL, A.NOTES'
+  S := 'SELECT D.ITEM_ID, E.KODE, E.NAMA, D.QTY, D.PRICELIST,'
+//      +', CASE WHEN D.PRICELIST = 0 THEN 0 ELSE'
+//      +' (D.PRICELIST / (1 + (D.PPN / 100.0)) - D.HARGA) / (D.PRICELIST / (1 + (D.PPN / 100.0))) * 100 END AS DISCP,'
+      +' D.HARGA AS HARGABELI, A.INVOICENO, A.TRANSDATE AS TANGGAL, A.NOTES'
       +' FROM TPURCHASEINVOICE A'
       +' INNER JOIN TSUPPLIER B ON A.SUPPLIER_ID = B.ID'
       +' INNER JOIN TWAREHOUSE C ON A.WAREHOUSE_ID = C.ID'
@@ -186,9 +189,15 @@ begin
         lItem.LoadByID( cxLookup.Data.FieldByName('ITEM_ID').AsInteger ,False);
         SetItemToGrid(lItem);
         lDisc := 0;
+
         if CDS.FieldByName('PriceList').AsFloat  <> 0 then
-          lDisc := (CDS.FieldByName('PriceList').AsFloat - CDS.FieldByName('Harga').AsFloat)
-            /CDS.FieldByName('PriceList').AsFloat*100;
+        begin
+
+          lPriceListDPP := CDS.FieldByName('PriceList').AsFloat / (1 + (AppVariable.PPN/100.0));
+          lDisc := (lPriceListDPP - CDS.FieldByName('Harga').AsFloat)
+            /lPriceListDPP*100;
+        end;
+
         DC.SetEditValue(colHrgBeli.Index, cxLookup.Data.FieldByName('PriceList').AsFloat , evsValue);
         DC.SetEditValue(colDisc.Index, lDisc , evsValue);
         cxLookup.Data.Next;
@@ -242,6 +251,7 @@ procedure TfrmPurchaseRetur.CalculateAll;
 var
   dPPN: Double;
   dSubTotal: Double;
+  lPriceListDPP: Double;
 begin
   if CDS.State in [dsInsert, dsEdit] then
     CDS.Post;
@@ -256,15 +266,18 @@ begin
     while not CDSClone.Eof do
     begin
       CDSClone.Edit;
+
+      lPriceListDPP := CDSClone.FieldByName('PriceList').AsFloat / (1 + (AppVariable.PPN/100.0));
+
       CDSClone.FieldByName('Harga').AsFloat :=
         (1 - (CDSClone.FieldByName('DiscP').AsFloat /100))
-        * CDSClone.FieldByName('PriceList').AsFloat;
+        * lPriceListDPP;
 
 
       CDSClone.FieldByName('SubTotal').AsFloat :=
         CDSClone.FieldByName('Harga').AsFloat * CdSClone.FieldByName('QTY').AsFloat;
       dSubTotal := dSubTotal +  CDSClone.FieldByName('SubTotal').AsFloat;
-      dPPN :=  dPPN + (CDSClone.FieldByName('PPN').AsFloat * CDSClone.FieldByName('SubTotal').AsFloat / 100);
+      dPPN :=  dPPN + (AppVariable.PPN/100.0 * CDSClone.FieldByName('SubTotal').AsFloat);
 
       CDSClone.Post;
       CDSClone.Next;
@@ -289,6 +302,7 @@ procedure TfrmPurchaseRetur.FormCreate(Sender: TObject);
 begin
   inherited;
   InitView;
+  lbPPN.Caption := 'PPN ' + FloatToStr(AppVariable.PPN) + '%';
   Self.AssignKeyDownEvent;
   LoadByID(0, False);
   DisableEvent := False;
@@ -654,6 +668,7 @@ end;
 procedure TfrmPurchaseRetur.LoadAllInvoiceItem;
 var
   lItem: TTransDetail;
+  lPriceListExcl: Double;
 begin
   for lItem in PurchRetur.Invoice.Items do
   begin
@@ -664,9 +679,13 @@ begin
     CDS.FieldByName('Nama').AsString := lItem.Item.Nama;
 
     if lItem.PriceList > 0 then
+    begin
+      lPriceListExcl := lItem.PriceList / (1 + (AppVariable.PPN / 100.0));
       CDS.FieldByName('DiscP').AsFloat :=
-        (CDS.FieldByName('PriceList').AsFloat - CDS.FieldByName('Harga').AsFloat)
-          /CDS.FieldByName('PriceList').AsFloat*100;
+        (lPriceListExcl - CDS.FieldByName('Harga').AsFloat)
+          /lPriceListExcl *100;
+    end;
+
 
     CDS.Post;
   end;
@@ -676,6 +695,7 @@ end;
 procedure TfrmPurchaseRetur.LoadByID(aID: Integer; IsReadOnly: Boolean);
 var
   lItem: TTransDetail;
+  lPriceListExcl: Double;
 begin
   if FPurchRetur <> nil then
     FreeAndNil(FPurchRetur);
@@ -743,9 +763,12 @@ begin
     CDS.FieldByName('DiscP').AsFloat := 0;
 
     if lItem.PriceList > 0 then
+    begin
+      lPriceListExcl := lItem.PriceList / (1 + (AppVariable.PPN / 100.0));
       CDS.FieldByName('DiscP').AsFloat :=
-        (CDS.FieldByName('PriceList').AsFloat - CDS.FieldByName('Harga').AsFloat)
-          /CDS.FieldByName('PriceList').AsFloat*100;
+        (lPriceListExcl - CDS.FieldByName('Harga').AsFloat)
+          /lPriceListExcl*100;
+    end;
 
     CDS.Post;
   end;
@@ -756,6 +779,7 @@ end;
 procedure TfrmPurchaseRetur.LookupHargaPembelian;
 var
   cxLookup: TfrmCXServerLookup;
+  lPriceListExcl: Double;
   S: string;
 begin
   if CDS.State in [dsInsert, dsEdit] then CDS.Post;
@@ -800,10 +824,15 @@ begin
       CDS.Edit;
       CDS.FieldByName('PriceList').AsFloat  := cxLookup.FieldValue('PriceList');
       CDS.FieldByName('Harga').AsFloat      := cxLookup.FieldValue('Harga');
+
       if CDS.FieldByName('PriceList').AsFloat  <> 0 then
+      begin
+        lPriceListExcl := CDS.FieldByName('PriceList').AsFloat / (1 + (AppVariable.PPN / 100.0));
+
         CDS.FieldByName('DiscP').AsFloat :=
-        (CDS.FieldByName('PriceList').AsFloat - CDS.FieldByName('Harga').AsFloat)
-          /CDS.FieldByName('PriceList').AsFloat*100;
+        (lPriceListExcl - CDS.FieldByName('Harga').AsFloat)
+          /lPriceListExcl*100;
+      end;
 
       CDS.Post;
       CalculateAll;
@@ -993,7 +1022,7 @@ begin
   DC.SetEditValue(colHrgBeli.Index, 0, evsValue);
   DC.SetEditValue(colDisc.Index, 0, evsValue);
   DC.SetEditValue(colSubTotal.Index, 0, evsValue);
-  DC.SetEditValue(colPPN.Index, aItem.PPN, evsValue);
+  DC.SetEditValue(colPPN.Index, AppVariable.PPN, evsValue);
 
   //def uom
   if aItem.StockUOM <> nil then

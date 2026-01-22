@@ -1,32 +1,31 @@
 inherited frmPurchaseRetur: TfrmPurchaseRetur
   Caption = 'Retur Pembelian'
-  ClientHeight = 558
-  ClientWidth = 941
+  ClientHeight = 642
+  ClientWidth = 1084
   KeyPreview = True
   OnKeyDown = FormKeyDown
-  ExplicitTop = -30
-  ExplicitWidth = 957
-  ExplicitHeight = 597
+  ExplicitWidth = 1100
+  ExplicitHeight = 681
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
-    Top = 523
+    Top = 607
     TabOrder = 2
     ExplicitTop = 523
     ExplicitWidth = 941
-    Width = 941
+    Width = 1084
     inherited btnCancel: TcxButton
-      Left = 856
+      Left = 999
       ExplicitLeft = 856
     end
     inherited btnPrint: TcxButton
-      Left = 770
+      Left = 913
       Visible = True
       OnClick = btnPrintClick
       ExplicitLeft = 770
     end
     inherited btnSave: TcxButton
-      Left = 684
+      Left = 827
       OnClick = btnSaveClick
       ExplicitLeft = 684
     end
@@ -43,23 +42,23 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     end
   end
   inherited Panel2: TPanel
-    Top = 502
-    Width = 941
+    Top = 586
+    Width = 1084
     TabOrder = 3
     ExplicitTop = 502
     ExplicitWidth = 941
     inherited lbEscape: TLabel
-      Left = 861
+      Left = 1004
       Height = 17
       ExplicitLeft = 861
     end
     inherited lgndSave: TLabel
-      Left = 696
+      Left = 839
       Height = 17
       ExplicitLeft = 696
     end
     inherited lgndPrint: TLabel
-      Left = 783
+      Left = 926
       Height = 17
       Visible = True
       ExplicitLeft = 783
@@ -109,11 +108,12 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     Align = alTop
     Caption = '  Header Data [F1] '
     TabOrder = 0
+    ExplicitWidth = 941
     DesignSize = (
-      941
+      1084
       147)
     Height = 147
-    Width = 941
+    Width = 1084
     object cxLabel1: TcxLabel
       Left = 182
       Top = 20
@@ -174,7 +174,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Width = 139
     end
     object crSubTotal: TcxCurrencyEdit
-      Left = 746
+      Left = 889
       Top = 47
       TabStop = False
       Anchors = [akTop, akRight]
@@ -191,13 +191,14 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 8
+      ExplicitLeft = 746
       Width = 180
     end
     object cxLabel2: TcxLabel
-      Left = 674
+      Left = 853
       Top = 48
       Anchors = [akTop, akRight]
-      Caption = 'Sub Total'
+      Caption = 'DPP'
       ParentFont = False
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
@@ -205,9 +206,11 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
+      Properties.Alignment.Horz = taRightJustify
+      AnchorX = 883
     end
-    object cxLabel3: TcxLabel
-      Left = 710
+    object lbPPN: TcxLabel
+      Left = 853
       Top = 75
       Anchors = [akTop, akRight]
       Caption = 'PPN'
@@ -218,9 +221,12 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
+      Properties.Alignment.Horz = taRightJustify
+      ExplicitLeft = 710
+      AnchorX = 883
     end
     object crPPN: TcxCurrencyEdit
-      Left = 746
+      Left = 889
       Top = 74
       TabStop = False
       Anchors = [akTop, akRight]
@@ -237,10 +243,11 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 9
+      ExplicitLeft = 746
       Width = 180
     end
     object cxLabel5: TcxLabel
-      Left = 687
+      Left = 830
       Top = 103
       Anchors = [akTop, akRight]
       Caption = 'TOTAL'
@@ -251,9 +258,10 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
+      ExplicitLeft = 687
     end
     object crTotal: TcxCurrencyEdit
-      Left = 746
+      Left = 889
       Top = 100
       TabStop = False
       Anchors = [akTop, akRight]
@@ -270,6 +278,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 10
+      ExplicitLeft = 746
       Width = 180
     end
     object cxLabel7: TcxLabel
@@ -304,8 +313,8 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Caption = 'Tgl Faktur'
     end
     object rbJenis: TcxRadioGroup
-      Left = 15
-      Top = 24
+      Left = 102
+      Top = 19
       Anchors = [akTop, akRight]
       Caption = ' Jenis Retur Pembelian'
       Properties.Items = <
@@ -318,6 +327,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
       Properties.OnEditValueChanged = rbJenisPropertiesEditValueChanged
       ItemIndex = 0
       TabOrder = 0
+      ExplicitLeft = 15
       Height = 77
       Width = 136
     end
@@ -347,12 +357,14 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
   object cxGrid1: TcxGrid [3]
     Left = 0
     Top = 147
-    Width = 941
-    Height = 311
+    Width = 1084
+    Height = 395
     Align = alClient
     PopupMenu = pmMain
     TabOrder = 1
     RootLevelOptions.DetailTabsPosition = dtpTop
+    ExplicitWidth = 941
+    ExplicitHeight = 311
     object cxGrdMain: TcxGridDBTableView
       PopupMenu = pmMain
       Navigator.Buttons.CustomButtons = <>
@@ -449,6 +461,14 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
         HeaderAlignmentHorz = taCenter
         Width = 63
       end
+      object colHrgBeli: TcxGridDBColumn
+        Caption = 'Harga Beli'
+        DataBinding.FieldName = 'Harga'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##;(,0.##)'
+        Options.Editing = False
+      end
       object colSubTotal: TcxGridDBColumn
         Caption = 'Sub Total'
         DataBinding.FieldName = 'SubTotal'
@@ -481,11 +501,6 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
         DataBinding.FieldName = 'PPN'
         Visible = False
       end
-      object colHrgBeli: TcxGridDBColumn
-        DataBinding.FieldName = 'Harga'
-        PropertiesClassName = 'TcxCurrencyEditProperties'
-        Visible = False
-      end
     end
     object cxGrid1Level1: TcxGridLevel
       Caption = 'Detail Transaksi [F2]'
@@ -495,7 +510,7 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
   object cxMemo1: TcxMemo [4]
     AlignWithMargins = True
     Left = 3
-    Top = 461
+    Top = 545
     Align = alBottom
     Enabled = False
     Lines.Strings = (
@@ -510,8 +525,10 @@ inherited frmPurchaseRetur: TfrmPurchaseRetur
     StyleDisabled.TextColor = clBlack
     TabOrder = 4
     Visible = False
+    ExplicitTop = 461
+    ExplicitWidth = 935
     Height = 38
-    Width = 935
+    Width = 1078
   end
   inherited styleRepo: TcxStyleRepository
     PixelsPerInch = 96

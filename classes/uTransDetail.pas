@@ -75,6 +75,9 @@ type
     function GetSQLRetrieveDetails(Header_ID: Integer): String; override;
   public
     destructor Destroy; override;
+    function GetHargaPPN: Double;
+    function GetDiscountPPN: Double;
+    function GetHargaNetPPN: Double;
     procedure MakePositive;
     procedure MakeNegative;
     procedure SetAvgCost;
@@ -405,6 +408,9 @@ type
     FSalesInvoice: TSalesInvoice;
   public
     destructor Destroy; override;
+    function GetDiscountPPN: Double;
+    function GetHargaNetPPN: Double;
+    function GetHargaPPN: Double;
   published
     property Discount: Double read FDiscount write FDiscount;
     property Harga: Double read FHarga write FHarga;
@@ -1045,6 +1051,21 @@ begin
   if FItem <> nil then FreeAndNil(FItem);
   if FUOM <> nil then FreeAndNil(FUOM);
   if FWarehouse <> nil then FreeAndNil(FWarehouse);
+end;
+
+function TTransDetail.GetHargaPPN: Double;
+begin
+  Result := (1 + (PPN / 100.0)) * (Harga);
+end;
+
+function TTransDetail.GetDiscountPPN: Double;
+begin
+  Result := (1 + (PPN / 100.0)) * (Discount);
+end;
+
+function TTransDetail.GetHargaNetPPN: Double;
+begin
+  Result := (1 + (PPN / 100.0)) * (Harga - Discount);
 end;
 
 function TTransDetail.GetSQLDeleteDetails(Header_ID: Integer): String;
@@ -1928,6 +1949,21 @@ destructor TServiceDetail.Destroy;
 begin
   inherited;
   if FService <> nil then FreeAndNil(FService);
+end;
+
+function TServiceDetail.GetDiscountPPN: Double;
+begin
+  Result := (1 + (PPN / 100.0)) * (Discount);
+end;
+
+function TServiceDetail.GetHargaNetPPN: Double;
+begin
+  Result := (1 + (PPN / 100.0)) * (Harga - Discount);
+end;
+
+function TServiceDetail.GetHargaPPN: Double;
+begin
+  Result := (1 + (PPN / 100.0)) * (Harga);
 end;
 
 function TStockOpname.AddKKSO(aKKSO_ID: Integer): TStockOpnameKKSO;

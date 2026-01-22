@@ -169,7 +169,7 @@ type
 implementation
 
 uses
-  uDBUtils, Strutils, FireDAC.Comp.Client;
+  uDBUtils, Strutils, FireDAC.Comp.Client, uVariable;
 
 destructor TItem.Destroy;
 begin
@@ -342,7 +342,7 @@ end;
 
 function TItemUOM.GetHarga(aTipeHarga: Integer): Double;
 begin
-//  Result := 0;      
+//  Result := 0;
   Case aTipeHarga of
     0 : Result := HargaJual1;
     1 : Result := HargaJual2;
@@ -375,17 +375,26 @@ begin
 end;
 
 function TItemUOM.GetPriceListMargin(aPriceIndex: Integer): Double;
+var
+  aPPN: Double;
+  aPriceListExcl: Double;
+  lPPNFactor: Double;
 begin
+  aPPN := AppVariable.PPN;
+  lPPNFactor := 1 + (aPPN / 100.0);
+
   Result := 0;
   if Self.PriceList = 0 then
     exit;
 
+  aPriceListExcl := Self.PriceList / lPPNFactor;
+
   case aPriceIndex of
-    0 : Result := (Self.PriceList - Self.HargaBeli) / Self.PriceList * 100;
-    1 : Result := (Self.PriceList - Self.HargaJual1) / Self.PriceList * 100;
-    2 : Result := (Self.PriceList - Self.HargaJual2) / Self.PriceList * 100;
-    3 : Result := (Self.PriceList - Self.HargaJual3) / Self.PriceList * 100;
-    4 : Result := (Self.PriceList - Self.HargaJual4) / Self.PriceList * 100;
+    0 : Result := (aPriceListExcl - Self.HargaBeli) / aPriceListExcl * 100;
+    1 : Result := (aPriceListExcl - Self.HargaJual1) / aPriceListExcl * 100;
+    2 : Result := (aPriceListExcl - Self.HargaJual2) / aPriceListExcl * 100;
+    3 : Result := (aPriceListExcl - Self.HargaJual3) / aPriceListExcl * 100;
+    4 : Result := (aPriceListExcl - Self.HargaJual4) / aPriceListExcl * 100;
   end;
 end;
 

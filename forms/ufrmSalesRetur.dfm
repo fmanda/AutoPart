@@ -1,10 +1,10 @@
 inherited frmSalesRetur: TfrmSalesRetur
   Caption = 'Retur Penjualan'
   ClientHeight = 561
-  ClientWidth = 984
+  ClientWidth = 1017
   KeyPreview = True
   OnKeyDown = FormKeyDown
-  ExplicitWidth = 1000
+  ExplicitWidth = 1033
   ExplicitHeight = 600
   PixelsPerInch = 96
   TextHeight = 13
@@ -13,41 +13,44 @@ inherited frmSalesRetur: TfrmSalesRetur
     TabOrder = 1
     ExplicitTop = 526
     ExplicitWidth = 984
-    Width = 984
+    Width = 1017
     inherited btnCancel: TcxButton
-      Left = 899
+      Left = 932
+      OptionsImage.Images = frmMain.ImageList
       ExplicitLeft = 899
     end
     inherited btnPrint: TcxButton
-      Left = 813
+      Left = 846
+      OptionsImage.Images = frmMain.ImageList
       Visible = True
       OnClick = btnPrintClick
       ExplicitLeft = 813
     end
     inherited btnSave: TcxButton
-      Left = 727
+      Left = 760
+      OptionsImage.Images = frmMain.ImageList
       OnClick = btnSaveClick
       ExplicitLeft = 727
     end
   end
   inherited Panel2: TPanel
     Top = 505
-    Width = 984
+    Width = 1017
     TabOrder = 2
     ExplicitTop = 505
     ExplicitWidth = 984
     inherited lbEscape: TLabel
-      Left = 904
+      Left = 937
       Height = 17
       ExplicitLeft = 904
     end
     inherited lgndSave: TLabel
-      Left = 739
+      Left = 772
       Height = 17
       ExplicitLeft = 739
     end
     inherited lgndPrint: TLabel
-      Left = 826
+      Left = 859
       Height = 17
       Visible = True
       ExplicitLeft = 826
@@ -108,7 +111,7 @@ inherited frmSalesRetur: TfrmSalesRetur
       Font.Style = []
       ParentColor = False
       ParentFont = False
-      Transparent = False
+      Transparent = True
       ExplicitHeight = 16
     end
     object Label4: TLabel
@@ -129,7 +132,7 @@ inherited frmSalesRetur: TfrmSalesRetur
       Font.Style = []
       ParentColor = False
       ParentFont = False
-      Transparent = False
+      Transparent = True
       ExplicitHeight = 16
     end
     object Label5: TLabel
@@ -150,7 +153,7 @@ inherited frmSalesRetur: TfrmSalesRetur
       Font.Style = []
       ParentColor = False
       ParentFont = False
-      Transparent = False
+      Transparent = True
       ExplicitHeight = 16
     end
     object Label6: TLabel
@@ -171,7 +174,7 @@ inherited frmSalesRetur: TfrmSalesRetur
       Font.Style = []
       ParentColor = False
       ParentFont = False
-      Transparent = False
+      Transparent = True
       ExplicitHeight = 16
     end
   end
@@ -181,11 +184,12 @@ inherited frmSalesRetur: TfrmSalesRetur
     Align = alTop
     Caption = '  Header Data [F1] '
     TabOrder = 0
+    ExplicitWidth = 984
     DesignSize = (
-      984
+      1017
       147)
     Height = 147
-    Width = 984
+    Width = 1017
     object cxLabel1: TcxLabel
       Left = 174
       Top = 20
@@ -246,7 +250,7 @@ inherited frmSalesRetur: TfrmSalesRetur
       Width = 139
     end
     object crSubTotal: TcxCurrencyEdit
-      Left = 796
+      Left = 829
       Top = 45
       TabStop = False
       Anchors = [akTop, akRight]
@@ -263,13 +267,14 @@ inherited frmSalesRetur: TfrmSalesRetur
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 8
+      ExplicitLeft = 796
       Width = 180
     end
     object cxLabel2: TcxLabel
-      Left = 724
+      Left = 793
       Top = 46
       Anchors = [akTop, akRight]
-      Caption = 'Sub Total'
+      Caption = 'DPP'
       ParentFont = False
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
@@ -277,9 +282,12 @@ inherited frmSalesRetur: TfrmSalesRetur
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
+      Properties.Alignment.Horz = taRightJustify
+      ExplicitLeft = 760
+      AnchorX = 823
     end
-    object cxLabel3: TcxLabel
-      Left = 760
+    object lbPPN: TcxLabel
+      Left = 793
       Top = 73
       Anchors = [akTop, akRight]
       Caption = 'PPN'
@@ -290,9 +298,12 @@ inherited frmSalesRetur: TfrmSalesRetur
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
+      Properties.Alignment.Horz = taRightJustify
+      ExplicitLeft = 760
+      AnchorX = 823
     end
     object crPPN: TcxCurrencyEdit
-      Left = 796
+      Left = 829
       Top = 72
       TabStop = False
       Anchors = [akTop, akRight]
@@ -309,10 +320,11 @@ inherited frmSalesRetur: TfrmSalesRetur
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 9
+      ExplicitLeft = 796
       Width = 180
     end
     object cxLabel5: TcxLabel
-      Left = 737
+      Left = 770
       Top = 101
       Anchors = [akTop, akRight]
       Caption = 'TOTAL'
@@ -323,9 +335,12 @@ inherited frmSalesRetur: TfrmSalesRetur
       Style.Font.Name = 'Tahoma'
       Style.Font.Style = []
       Style.IsFontAssigned = True
+      Properties.Alignment.Horz = taRightJustify
+      ExplicitLeft = 737
+      AnchorX = 825
     end
     object crTotal: TcxCurrencyEdit
-      Left = 796
+      Left = 829
       Top = 98
       TabStop = False
       Anchors = [akTop, akRight]
@@ -342,6 +357,7 @@ inherited frmSalesRetur: TfrmSalesRetur
       Style.Font.Style = []
       Style.IsFontAssigned = True
       TabOrder = 10
+      ExplicitLeft = 796
       Width = 180
     end
     object cxLabel7: TcxLabel
@@ -406,8 +422,9 @@ inherited frmSalesRetur: TfrmSalesRetur
       Width = 298
     end
     object ckReferensiFaktur: TcxCheckBox
-      Left = 710
+      Left = 829
       Top = 18
+      Anchors = [akTop, akRight]
       Caption = 'Dengan Referensi Faktur'
       Properties.ImmediatePost = True
       Properties.OnEditValueChanged = ckReferensiFakturPropertiesEditValueChanged
@@ -447,11 +464,12 @@ inherited frmSalesRetur: TfrmSalesRetur
   object cxGrid1: TcxGrid [3]
     Left = 0
     Top = 147
-    Width = 984
+    Width = 1017
     Height = 314
     Align = alClient
     TabOrder = 3
     RootLevelOptions.DetailTabsPosition = dtpTop
+    ExplicitWidth = 984
     object cxGrdMain: TcxGridDBTableView
       PopupMenu = pmMain
       Navigator.Buttons.CustomButtons = <>
@@ -530,8 +548,18 @@ inherited frmSalesRetur: TfrmSalesRetur
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Options.Focusing = False
-        Styles.OnGetContentStyle = colHrgJualStylesGetContentStyle
         Width = 90
+      end
+      object colPPN: TcxGridDBColumn
+        Caption = 'PPN%'
+        DataBinding.FieldName = 'PPN'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##;(,0.##)'
+        HeaderAlignmentHorz = taCenter
+        Options.Editing = False
+        Options.Focusing = False
+        Width = 46
       end
       object colDiscP: TcxGridDBColumn
         Caption = 'Disc %'
@@ -542,7 +570,7 @@ inherited frmSalesRetur: TfrmSalesRetur
         Properties.OnEditValueChanged = colDiscPPropertiesEditValueChanged
         Properties.OnValidate = colDiscPPropertiesValidate
         HeaderAlignmentHorz = taCenter
-        Width = 53
+        Width = 45
       end
       object colDisc: TcxGridDBColumn
         Caption = 'Disc Rp'
@@ -553,6 +581,7 @@ inherited frmSalesRetur: TfrmSalesRetur
         Properties.ReadOnly = False
         Properties.OnEditValueChanged = colDiscPropertiesEditValueChanged
         Properties.OnValidate = colDiscPropertiesValidate
+        Visible = False
         HeaderAlignmentHorz = taCenter
         Width = 63
       end
@@ -562,10 +591,34 @@ inherited frmSalesRetur: TfrmSalesRetur
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'
+        Visible = False
         HeaderAlignmentHorz = taCenter
         Options.Editing = False
         Options.Focusing = False
         Width = 100
+      end
+      object colNetPrice: TcxGridDBColumn
+        Caption = 'Harga Bersih'
+        DataBinding.FieldName = 'NetPrice'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##;(,0.##)'
+        HeaderAlignmentHorz = taCenter
+        Options.Editing = False
+        Options.Focusing = False
+        Styles.OnGetContentStyle = colHrgJualStylesGetContentStyle
+        Width = 88
+      end
+      object colNetAmt: TcxGridDBColumn
+        Caption = 'Total'
+        DataBinding.FieldName = 'NetAmt'
+        PropertiesClassName = 'TcxCurrencyEditProperties'
+        Properties.Alignment.Horz = taRightJustify
+        Properties.DisplayFormat = ',0.##;(,0.##)'
+        HeaderAlignmentHorz = taCenter
+        Options.Editing = False
+        Options.Focusing = False
+        Width = 80
       end
       object colWarehouse: TcxGridDBColumn
         Caption = 'Gudang'
@@ -583,10 +636,6 @@ inherited frmSalesRetur: TfrmSalesRetur
         DataBinding.FieldName = 'Konversi'
         Visible = False
         Options.Editing = False
-      end
-      object colPPN: TcxGridDBColumn
-        DataBinding.FieldName = 'PPN'
-        Visible = False
       end
       object colPriceType: TcxGridDBColumn
         DataBinding.FieldName = 'PriceType'
@@ -616,15 +665,18 @@ inherited frmSalesRetur: TfrmSalesRetur
     StyleDisabled.TextColor = clBlack
     TabOrder = 4
     Visible = False
+    ExplicitWidth = 978
     Height = 38
-    Width = 978
+    Width = 1011
   end
   inherited styleRepo: TcxStyleRepository
+    Left = 152
+    Top = 376
     PixelsPerInch = 96
   end
   object pmMain: TPopupMenu
-    Left = 256
-    Top = 328
+    Left = 208
+    Top = 376
     object UpdateKeHargaUmum1: TMenuItem
       Caption = 'Update ke Harga Umum'
       OnClick = UpdateKeHargaUmum1Click

@@ -104,6 +104,14 @@ type
     btnPayment: TcxButton;
     Label8: TLabel;
     colDiscP: TcxGridDBColumn;
+    lbPPN: TcxLabel;
+    crDPP: TcxCurrencyEdit;
+    cxLabel18: TcxLabel;
+    colNetPrice: TcxGridDBColumn;
+    colNetAmt: TcxGridDBColumn;
+    styleHeader: TcxStyle;
+    colSrvNetPrice: TcxGridDBColumn;
+    colSrvNetAmt: TcxGridDBColumn;
     procedure edCustomerKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edNotesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -137,9 +145,6 @@ type
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
     procedure colSrvDiscPropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
-    procedure colHargaStylesGetContentStyle(Sender: TcxCustomGridTableView;
-      ARecord: TcxCustomGridRecord; AItem: TcxCustomGridTableItem;
-      var AStyle: TcxStyle);
     procedure colNoGetDisplayText(Sender: TcxCustomGridTableItem; ARecord:
         TcxCustomGridRecord; var AText: string);
     procedure edReturKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -157,6 +162,9 @@ type
     procedure colDiscPPropertiesEditValueChanged(Sender: TObject);
     procedure colDiscPPropertiesValidate(Sender: TObject;
       var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+    procedure colNetPriceStylesGetContentStyle(Sender: TcxCustomGridTableView;
+      ARecord: TcxCustomGridRecord; AItem: TcxCustomGridTableItem;
+      var AStyle: TcxStyle);
   private
     DisableTrigger: Boolean;
     FCDS: TClientDataset;
@@ -276,6 +284,8 @@ procedure TfrmSalesInvoice.CalculateAll;
 var
   dPPN: Double;
   dSubTotal: Double;
+  lItemPriceExcl: Double;
+  lItemPriceIncl: Double;
 begin
   DisableTrigger := True;
   if CDS.State in [dsInsert, dsEdit] then
@@ -295,11 +305,21 @@ begin
     while not CDSClone.Eof do
     begin
       CDSClone.Edit;
-      CDSClone.FieldByName('SubTotal').AsFloat :=
-        (CDSClone.FieldByName('Harga').AsFloat - CDSClone.FieldByName('Discount').AsFloat)
-        * CdSClone.FieldByName('QTY').AsFloat;
+
+      lItemPriceExcl := (CDSClone.FieldByName('Harga').AsFloat - CDSClone.FieldByName('Discount').AsFloat);
+      lItemPriceIncl :=  (1 + (AppVariable.PPN/100.0)) * lItemPriceExcl;
+
+      CDSClone.FieldByName('NetPrice').AsFloat := lItemPriceIncl;
+      CDSClone.FieldByName('NetAmt').AsFloat := lItemPriceIncl * CdSClone.FieldByName('QTY').AsFloat;
+
+
+      CDSClone.FieldByName('SubTotal').AsFloat := lItemPriceExcl * CdSClone.FieldByName('QTY').AsFloat;
+
+
       dSubTotal := dSubTotal +  CDSClone.FieldByName('SubTotal').AsFloat;
-      dPPN :=  dPPN + (CDSClone.FieldByName('PPN').AsFloat * CDSClone.FieldByName('SubTotal').AsFloat / 100);
+      dPPN :=  dPPN + (AppVariable.PPN/100.0 * CDSClone.FieldByName('SubTotal').AsFloat);
+
+
 
       CDSClone.Post;
       CDSClone.Next;
@@ -309,16 +329,29 @@ begin
     while not CDSCloneServ.Eof do
     begin
       CDSCloneServ.Edit;
+
+
+      lItemPriceExcl := CDSCloneServ.FieldByName('Harga').AsFloat;
+      lItemPriceIncl :=  (1 + (AppVariable.PPN/100.0)) * lItemPriceExcl;
+
+      CDSCloneServ.FieldByName('NetPrice').AsFloat := lItemPriceIncl;
+      CDSCloneServ.FieldByName('NetAmt').AsFloat   := lItemPriceIncl * CDSCloneServ.FieldByName('QTY').AsFloat;
+
+
+
       CDSCloneServ.FieldByName('SubTotal').AsFloat :=
         (CDSCloneServ.FieldByName('Harga').AsFloat - CDSCloneServ.FieldByName('Discount').AsFloat)
         * CDSCloneServ.FieldByName('QTY').AsFloat;
+
+
       dSubTotal := dSubTotal +  CDSCloneServ.FieldByName('SubTotal').AsFloat;
-      dPPN :=  dPPN + (CDSCloneServ.FieldByName('PPN').AsFloat * CDSCloneServ.FieldByName('SubTotal').AsFloat / 100);
+      dPPN :=  dPPN + (AppVariable.PPN/100.0 * CDSCloneServ.FieldByName('SubTotal').AsFloat);
 
       CDSCloneServ.Post;
       CDSCloneServ.Next;
     end;
 
+    crDPP.Value       := dSubTotal;
     crPPN.Value       := dPPN;
     crAmount.Value    := dSubTotal + dPPN;
     crTotal.Value     := crAmount.Value - crRetur.Value;
@@ -511,25 +544,6 @@ begin
 
 end;
 
-procedure TfrmSalesInvoice.colHargaStylesGetContentStyle(
-  Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
-  AItem: TcxCustomGridTableItem; var AStyle: TcxStyle);
-var
-  iPriceType: Integer;
-begin
-  inherited;
-  if ARecord = nil then exit;
-//  if AItem = nil then exit;
-  iPriceType := VarToInt(ARecord.Values[colPriceType.Index]);
-
-  case iPriceType of
-    0 : AStyle := styleUmum;
-    1 : AStyle := styleBengkel;
-    2 : AStyle := styleGrosir;
-    3 : AStyle := styleKeliling;
-  end;
-end;
-
 procedure TfrmSalesInvoice.colKodePropertiesButtonClick(Sender: TObject;
   AButtonIndex: Integer);
 var
@@ -560,6 +574,25 @@ begin
   Finally
     lItem.Free;
   End;
+end;
+
+procedure TfrmSalesInvoice.colNetPriceStylesGetContentStyle(
+  Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
+  AItem: TcxCustomGridTableItem; var AStyle: TcxStyle);
+var
+  iPriceType: Integer;
+begin
+  inherited;
+  if ARecord = nil then exit;
+//  if AItem = nil then exit;
+  iPriceType := VarToInt(ARecord.Values[colPriceType.Index]);
+
+  case iPriceType of
+    0 : AStyle := styleUmum;
+    1 : AStyle := styleBengkel;
+    2 : AStyle := styleGrosir;
+    3 : AStyle := styleKeliling;
+  end;
 end;
 
 procedure TfrmSalesInvoice.colNoGetDisplayText(Sender: TcxCustomGridTableItem;
@@ -603,8 +636,14 @@ begin
   if CDSMasterService.Locate('id', iServiceID, []) then
   begin
     DCService.SetEditValue(colSrvHarga.Index, CDSMasterService.FieldByName('Biaya').AsFloat, evsValue);
-    DCService.SetEditValue(colSrvPPN.Index, CDSMasterService.FieldByName('PPN').AsFloat, evsValue);
+    DCService.SetEditValue(colSrvPPN.Index, AppVariable.PPN, evsValue);
     DCService.SetEditValue(colSrvDisc.Index, 0, evsValue);
+
+    DCService.SetEditValue(colSrvNetPrice.Index,
+      ((1 + (AppVariable.PPN / 100.0))
+      * CDSMasterService.FieldByName('Biaya').AsFloat)
+      , evsValue);
+
   end;
   colSrvQty.FocusWithSelection;
   cxGrdService.Controller.EditingController.ShowEdit;
@@ -625,7 +664,7 @@ begin
   if CDSMasterService.Locate('id', iServiceID, []) then
   begin
     DCService.SetEditValue(colSrvHarga.Index, CDSMasterService.FieldByName('Biaya').AsFloat, evsValue);
-    DCService.SetEditValue(colSrvPPN.Index, CDSMasterService.FieldByName('PPN').AsFloat, evsValue);
+    DCService.SetEditValue(colSrvPPN.Index, AppVariable.PPN, evsValue);
     DCService.SetEditValue(colSrvDisc.Index, 0, evsValue);
   end;
   colSrvQty.FocusWithSelection;
@@ -858,6 +897,7 @@ procedure TfrmSalesInvoice.FormCreate(Sender: TObject);
 begin
   inherited;
   InitView;
+  lbPPN.Caption := 'PPN ' + FloatToStr(AppVariable.PPN) + '%';
   Self.AssignKeyDownEvent;
   LoadByID(0, 0, False);
 end;
@@ -960,6 +1000,11 @@ begin
     FCDS.AddField('Nama',ftString);
     FCDS.AddField('SubTotal',ftFloat);
     FCDS.AddField('DiscP',ftFloat);
+
+    FCDS.AddField('NetPrice',ftFloat);
+    FCDS.AddField('NetAmt',ftFloat);
+
+
     FCDS.AfterInsert := CDSAfterInsert;
     FCDS.AfterDelete := CDSAfterDelete;
 //    FCDS.AfterPost := CDSAfterPost;
@@ -976,6 +1021,9 @@ begin
   begin
     FCDSService := TServiceDetail.CreateDataSet(Self, False);
     FCDSService.AddField('SubTotal',ftFloat);
+
+    FCDSService.AddField('NetPrice',ftFloat);
+    FCDSService.AddField('NetAmt',ftFloat);
     FCDSService.AfterDelete := CDSAfterDelete;
     FCDSService.CreateDataSet;
   end;
@@ -1174,7 +1222,7 @@ begin
     edRetur.Text := SalesInv.SalesRetur.Refno;
   end else
   begin
-    crRetur.Clear;
+    crRetur.Value := 0;
     edRetur.Clear;
   end;
 
@@ -1485,6 +1533,7 @@ procedure TfrmSalesInvoice.SetItemToGrid(aItem: TItem; IsFromLookup: Boolean =
     False);
 var
   i: Integer;
+  lHarga: Double;
   lItemUOM: TItemUOM;
   sMsg: string;
 begin
@@ -1529,7 +1578,10 @@ begin
   DC.SetEditValue(colDisc.Index, 0, evsValue);
   DC.SetEditValue(colDiscP.Index, 0, evsValue);
   DC.SetEditValue(colSubTotal.Index, 0, evsValue);
-  DC.SetEditValue(colPPN.Index, aItem.PPN, evsValue);
+  DC.SetEditValue(colPPN.Index, AppVariable.PPN, evsValue);
+
+  DC.SetEditValue(colNetPrice.Index, 0, evsValue);
+  DC.SetEditValue(colNetAmt.Index, 0, evsValue);
 
   //def uom
   if aItem.StockUOM <> nil then
@@ -1542,9 +1594,13 @@ begin
     );
     if lItemUOM = nil then exit;
     Try
+      lHarga := lItemUOM.GetHarga(rbHarga.ItemIndex);
       DC.SetEditValue(colKonversi.Index, lItemUOM.Konversi, evsValue);
-      DC.SetEditValue(colHarga.Index, lItemUOM.GetHarga(rbHarga.ItemIndex), evsValue);
+      DC.SetEditValue(colHarga.Index, lHarga, evsValue);
       DC.SetEditValue(colPriceType.Index, rbHarga.ItemIndex , evsValue);
+
+
+      DC.SetEditValue(colNetPrice.Index, (1 + (AppVariable.PPN/100.0)) * lHarga, evsValue);
     Finally
       FreeAndNil(lItemUOM);
     End;
