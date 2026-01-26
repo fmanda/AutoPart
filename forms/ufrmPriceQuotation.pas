@@ -85,6 +85,11 @@ type
     procedure colMarginBeliPropertiesEditValueChanged(Sender: TObject);
     procedure colPriceListPropertiesEditValueChanged(Sender: TObject);
     procedure F6LookupDataBarangterakhirdiinputedit1Click(Sender: TObject);
+    procedure colPPNBeliPropertiesEditValueChanged(Sender: TObject);
+    procedure colPPN1PropertiesEditValueChanged(Sender: TObject);
+    procedure colPPN2PropertiesEditValueChanged(Sender: TObject);
+    procedure colPPN3PropertiesEditValueChanged(Sender: TObject);
+    procedure colPPN4PropertiesEditValueChanged(Sender: TObject);
   private
     FCDS: TClientDataset;
     FCDSClone: TClientDataset;
@@ -111,6 +116,7 @@ type
     { Private declarations }
   protected
   public
+    procedure CalcPriceExclPPN(aIndexPrice: Integer);
     function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = False);
     { Public declarations }
@@ -139,6 +145,35 @@ begin
     TAppUtils.InformationBerhasilSimpan;
     Self.ModalResult := mrOK;
   end;
+end;
+
+procedure TfrmPriceQuotation.CalcPriceExclPPN(aIndexPrice: Integer);
+var
+  iRec: TcxCustomGridRecord;
+  lPriceList: Double;
+begin
+  cxGrdMain.DataController.Post();
+  iRec      := cxGrdMain.Controller.FocusedRecord;
+  if iRec = nil then exit;
+
+  case aIndexPrice of
+    0 : cxGrdMain.DataController.SetEditValue(colHrgBeli.Index,
+        iRec.Values[colPPNBeli.Index] / (1 + (crPPN.Value / 100.0) ),  evsValue);
+
+    1 : cxGrdMain.DataController.SetEditValue(colHrgJual1.Index,
+        iRec.Values[colPPN1.Index] / (1 + (crPPN.Value / 100.0) ),  evsValue);
+
+    2 : cxGrdMain.DataController.SetEditValue(colHrgJual2.Index,
+        iRec.Values[colPPN2.Index] / (1 + (crPPN.Value / 100.0) ),  evsValue);
+
+    3 : cxGrdMain.DataController.SetEditValue(colHrgJual3.Index,
+        iRec.Values[colPPN3.Index] / (1 + (crPPN.Value / 100.0) ),  evsValue);
+
+    4 : cxGrdMain.DataController.SetEditValue(colHrgJual4.Index,
+        iRec.Values[colPPN4.Index] / (1 + (crPPN.Value / 100.0) ),  evsValue);
+  end;
+
+  CalcSellPrice(aIndexPrice, False);
 end;
 
 procedure TfrmPriceQuotation.CalcSellPrice(aIndexPrice: Integer; IsMargin:
@@ -306,6 +341,37 @@ procedure TfrmPriceQuotation.colMarginBeliPropertiesEditValueChanged(
 begin
   inherited;
   CalcSellPrice(0, True);
+end;
+
+procedure TfrmPriceQuotation.colPPN1PropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalcPriceExclPPN(1);
+end;
+
+procedure TfrmPriceQuotation.colPPN2PropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalcPriceExclPPN(2);
+end;
+
+procedure TfrmPriceQuotation.colPPN3PropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalcPriceExclPPN(3);
+end;
+
+procedure TfrmPriceQuotation.colPPN4PropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalcPriceExclPPN(4);
+end;
+
+procedure TfrmPriceQuotation.colPPNBeliPropertiesEditValueChanged(
+  Sender: TObject);
+begin
+  inherited;
+  CalcPriceExclPPN(0);
 end;
 
 procedure TfrmPriceQuotation.colPriceListPropertiesEditValueChanged(

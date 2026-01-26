@@ -90,6 +90,8 @@ type
     colPPN2: TcxGridDBBandedColumn;
     colPPN3: TcxGridDBBandedColumn;
     colPPN4: TcxGridDBBandedColumn;
+    pmMain: TPopupMenu;
+    pmMenuSetHargaIncPPN: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure btnDelClick(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
@@ -114,6 +116,13 @@ type
     procedure colRakPropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
     procedure btnPrintClick(Sender: TObject);
+    procedure pmMainPopup(Sender: TObject);
+    procedure pmMenuSetHargaIncPPNClick(Sender: TObject);
+    procedure colPPNBeliPropertiesEditValueChanged(Sender: TObject);
+    procedure colPPN1PropertiesEditValueChanged(Sender: TObject);
+    procedure colPPN2PropertiesEditValueChanged(Sender: TObject);
+    procedure colPPN3PropertiesEditValueChanged(Sender: TObject);
+    procedure colPPN4PropertiesEditValueChanged(Sender: TObject);
   private
     FCDS: TClientDataset;
     FCDSRak: TClientDataset;
@@ -137,6 +146,7 @@ type
     { Private declarations }
   public
     procedure CalcSellPrice(aIndexPrice: Integer; IsMargin: Boolean);
+    procedure CalcPriceExclPPN(aIndexPrice: Integer);
     function GetGroupName: string; override;
     procedure LoadByID(aID: Integer; IsReadOnly: Boolean = True);
     { Public declarations }
@@ -283,6 +293,35 @@ begin
 
 end;
 
+procedure TfrmItem.CalcPriceExclPPN(aIndexPrice: Integer);
+var
+  iRec: TcxCustomGridRecord;
+  lPriceList: Double;
+begin
+  cxGrdUOM.DataController.Post();
+  iRec      := cxGrdUOM.Controller.FocusedRecord;
+  if iRec = nil then exit;
+
+  case aIndexPrice of
+    0 : cxGrdUOM.DataController.SetEditValue(colHrgBeli.Index,
+        iRec.Values[colPPNBeli.Index] / (1 + (crPPN.Value / 100.0) ),  evsValue);
+
+    1 : cxGrdUOM.DataController.SetEditValue(colHrgJual1.Index,
+        iRec.Values[colPPN1.Index] / (1 + (crPPN.Value / 100.0) ),  evsValue);
+
+    2 : cxGrdUOM.DataController.SetEditValue(colHrgJual2.Index,
+        iRec.Values[colPPN2.Index] / (1 + (crPPN.Value / 100.0) ),  evsValue);
+
+    3 : cxGrdUOM.DataController.SetEditValue(colHrgJual3.Index,
+        iRec.Values[colPPN3.Index] / (1 + (crPPN.Value / 100.0) ),  evsValue);
+
+    4 : cxGrdUOM.DataController.SetEditValue(colHrgJual4.Index,
+        iRec.Values[colPPN4.Index] / (1 + (crPPN.Value / 100.0) ),  evsValue);
+  end;
+
+  CalcSellPrice(aIndexPrice, False);
+end;
+
 procedure TfrmItem.colHrgBeliPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
@@ -341,6 +380,36 @@ procedure TfrmItem.colMarginBeliPropertiesEditValueChanged(Sender: TObject);
 begin
   inherited;
   CalcSellPrice(0, True);
+end;
+
+procedure TfrmItem.colPPN1PropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalcPriceExclPPN(1);
+end;
+
+procedure TfrmItem.colPPN2PropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalcPriceExclPPN(2);
+end;
+
+procedure TfrmItem.colPPN3PropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalcPriceExclPPN(3);
+end;
+
+procedure TfrmItem.colPPN4PropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalcPriceExclPPN(4);
+end;
+
+procedure TfrmItem.colPPNBeliPropertiesEditValueChanged(Sender: TObject);
+begin
+  inherited;
+  CalcPriceExclPPN(0);
 end;
 
 procedure TfrmItem.colPriceListPropertiesEditValueChanged(Sender: TObject);
@@ -629,6 +698,46 @@ begin
   Finally
     cxLookup.Free;
   End;
+end;
+
+procedure TfrmItem.pmMainPopup(Sender: TObject);
+begin
+  inherited;
+  pmMenuSetHargaIncPPN.Enabled := cxGrdUOM.Controller.FocusedColumn.Index 
+    in [colHrgBeli.Index, colHrgJual1.Index, colHrgJual2.Index, colHrgJual3.Index, colHrgJual4.Index];
+  
+  if pmMenuSetHargaIncPPN.Enabled  then  
+    pmMenuSetHargaIncPPN.Caption := 'Set Harga ' + cxGrdUOM.Controller.FocusedColumn.Caption + ' Include PPN'
+  else
+    pmMenuSetHargaIncPPN.Caption := '';  
+end;
+
+procedure TfrmItem.pmMenuSetHargaIncPPNClick(Sender: TObject);
+var
+  iColIndex: Integer;
+  iRow: TcxCustomGridRecord;
+  lHarga: Double;
+  lHargaPPN: Double;
+  lPriceList: Double;
+begin
+  inherited;
+  
+  iColIndex   := cxGrdUOM.Controller.FocusedColumn.Index;
+
+  iRow        := cxGrdUOM.Controller.FocusedRecord;
+
+  lHargaPPN   := VarToFloat(iRow.Values[iColIndex]);
+  lHarga      := lHargaPPN / ( 1 + (crPPN.Value / 100.0));
+  lPriceList  := VarToFloat(iRow.Values[colPriceList.Index]);
+  
+  cxGrdUOM.DataController.SetEditValue( iColIndex , lHarga,  evsValue);
+  
+  if (iColIndex = colHrgBeli.Index) then CalcSellPrice(0, False);
+  if (iColIndex = colHrgJual1.Index) then CalcSellPrice(1, False);
+  if (iColIndex = colHrgJual2.Index) then CalcSellPrice(2, False);
+  if (iColIndex = colHrgJual3.Index) then CalcSellPrice(3, False);
+  if (iColIndex = colHrgJual4.Index) then CalcSellPrice(4, False);
+
 end;
 
 procedure TfrmItem.UpdateData;

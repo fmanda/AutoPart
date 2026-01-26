@@ -36,17 +36,14 @@ inherited frmPriceQuotation: TfrmPriceQuotation
     ExplicitWidth = 1186
     inherited lbEscape: TLabel
       Left = 1106
-      Height = 17
       ExplicitLeft = 1106
     end
     inherited lgndSave: TLabel
       Left = 941
-      Height = 17
       ExplicitLeft = 941
     end
     inherited lgndPrint: TLabel
       Left = 1028
-      Height = 17
       ExplicitLeft = 1028
     end
     object Label1: TLabel
@@ -533,7 +530,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'#10
-        Options.Editing = False
+        Properties.OnEditValueChanged = colPPNBeliPropertiesEditValueChanged
         Position.BandIndex = 21
         Position.ColIndex = 0
         Position.RowIndex = 0
@@ -543,7 +540,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'#10
-        Options.Editing = False
+        Properties.OnEditValueChanged = colPPN1PropertiesEditValueChanged
         Position.BandIndex = 22
         Position.ColIndex = 0
         Position.RowIndex = 0
@@ -553,7 +550,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'#10
-        Options.Editing = False
+        Properties.OnEditValueChanged = colPPN2PropertiesEditValueChanged
         Position.BandIndex = 23
         Position.ColIndex = 0
         Position.RowIndex = 0
@@ -563,7 +560,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'#10
-        Options.Editing = False
+        Properties.OnEditValueChanged = colPPN3PropertiesEditValueChanged
         Position.BandIndex = 24
         Position.ColIndex = 0
         Position.RowIndex = 0
@@ -573,7 +570,7 @@ inherited frmPriceQuotation: TfrmPriceQuotation
         PropertiesClassName = 'TcxCurrencyEditProperties'
         Properties.Alignment.Horz = taRightJustify
         Properties.DisplayFormat = ',0.##;(,0.##)'#10
-        Options.Editing = False
+        Properties.OnEditValueChanged = colPPN4PropertiesEditValueChanged
         Position.BandIndex = 25
         Position.ColIndex = 0
         Position.RowIndex = 0

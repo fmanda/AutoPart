@@ -1,15 +1,15 @@
 inherited frmItem: TfrmItem
   Caption = 'Update Data Barang'
-  ClientHeight = 560
+  ClientHeight = 588
   ClientWidth = 1194
   KeyPreview = True
   OnKeyDown = FormKeyDown
   ExplicitWidth = 1210
-  ExplicitHeight = 599
+  ExplicitHeight = 627
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
-    Top = 525
+    Top = 553
     TabOrder = 2
     ExplicitTop = 525
     ExplicitWidth = 1194
@@ -58,24 +58,21 @@ inherited frmItem: TfrmItem
     end
   end
   inherited Panel2: TPanel
-    Top = 504
+    Top = 532
     Width = 1194
     TabOrder = 3
     ExplicitTop = 504
     ExplicitWidth = 1194
     inherited lbEscape: TLabel
       Left = 949
-      Height = 17
       ExplicitLeft = 949
     end
     inherited lgndSave: TLabel
       Left = 1028
-      Height = 17
       ExplicitLeft = 1028
     end
     inherited lgndPrint: TLabel
       Left = 1115
-      Height = 17
       ExplicitLeft = 1115
     end
   end
@@ -248,27 +245,31 @@ inherited frmItem: TfrmItem
     Left = 0
     Top = 177
     Width = 1194
-    Height = 287
+    Height = 315
     Align = alClient
     TabOrder = 1
     Properties.ActivePage = tsUOM
     Properties.CustomButtons.Buttons = <>
     Properties.TabHeight = 30
-    ClientRectBottom = 287
+    ExplicitHeight = 287
+    ClientRectBottom = 315
     ClientRectRight = 1194
     ClientRectTop = 32
     object tsUOM: TcxTabSheet
       Caption = 'Konversi && Harga Satuan [F2]'
       ImageIndex = 0
+      ExplicitHeight = 255
       object cxGrid1: TcxGrid
         AlignWithMargins = True
         Left = 3
         Top = 3
         Width = 1188
-        Height = 249
+        Height = 277
         Align = alClient
         TabOrder = 0
+        ExplicitHeight = 249
         object cxGrdUOM: TcxGridDBBandedTableView
+          PopupMenu = pmMain
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
           DataController.Summary.FooterSummaryItems = <>
@@ -442,6 +443,7 @@ inherited frmItem: TfrmItem
             Position.RowIndex = 0
           end
           object colHrgBeli: TcxGridDBBandedColumn
+            Caption = 'Harga Beli'
             DataBinding.FieldName = 'HargaBeli'
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
@@ -465,6 +467,7 @@ inherited frmItem: TfrmItem
             Position.RowIndex = 0
           end
           object colHrgJual1: TcxGridDBBandedColumn
+            Caption = 'Harga Umum'
             DataBinding.FieldName = 'HargaJual1'
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
@@ -487,6 +490,7 @@ inherited frmItem: TfrmItem
             Position.RowIndex = 0
           end
           object colHrgJual2: TcxGridDBBandedColumn
+            Caption = 'Harga Bengkel'
             DataBinding.FieldName = 'HargaJual2'
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
@@ -509,6 +513,7 @@ inherited frmItem: TfrmItem
             Position.RowIndex = 0
           end
           object colHrgJual3: TcxGridDBBandedColumn
+            Caption = 'Harga Grosir'
             DataBinding.FieldName = 'HargaJual3'
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
@@ -531,6 +536,7 @@ inherited frmItem: TfrmItem
             Position.RowIndex = 0
           end
           object colHrgJual4: TcxGridDBBandedColumn
+            Caption = 'Harga Keliling'
             DataBinding.FieldName = 'HargaJual4'
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
@@ -557,7 +563,7 @@ inherited frmItem: TfrmItem
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0.##;(,0.##)'#10
-            Options.Editing = False
+            Properties.OnEditValueChanged = colPPNBeliPropertiesEditValueChanged
             Position.BandIndex = 19
             Position.ColIndex = 0
             Position.RowIndex = 0
@@ -567,7 +573,7 @@ inherited frmItem: TfrmItem
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0.##;(,0.##)'#10
-            Options.Editing = False
+            Properties.OnEditValueChanged = colPPN1PropertiesEditValueChanged
             Position.BandIndex = 20
             Position.ColIndex = 0
             Position.RowIndex = 0
@@ -577,7 +583,7 @@ inherited frmItem: TfrmItem
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0.##;(,0.##)'#10
-            Options.Editing = False
+            Properties.OnEditValueChanged = colPPN2PropertiesEditValueChanged
             Position.BandIndex = 21
             Position.ColIndex = 0
             Position.RowIndex = 0
@@ -587,7 +593,7 @@ inherited frmItem: TfrmItem
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0.##;(,0.##)'#10
-            Options.Editing = False
+            Properties.OnEditValueChanged = colPPN3PropertiesEditValueChanged
             Position.BandIndex = 22
             Position.ColIndex = 0
             Position.RowIndex = 0
@@ -597,7 +603,7 @@ inherited frmItem: TfrmItem
             PropertiesClassName = 'TcxCurrencyEditProperties'
             Properties.Alignment.Horz = taRightJustify
             Properties.DisplayFormat = ',0.##;(,0.##)'#10
-            Options.Editing = False
+            Properties.OnEditValueChanged = colPPN4PropertiesEditValueChanged
             Position.BandIndex = 23
             Position.ColIndex = 0
             Position.RowIndex = 0
@@ -612,17 +618,20 @@ inherited frmItem: TfrmItem
       Caption = 'History Perubahan Harga'
       ImageIndex = 1
       TabVisible = False
+      ExplicitHeight = 255
     end
     object tsRack: TcxTabSheet
       Caption = 'Update Informasi Rak [F3]'
       ImageIndex = 2
+      ExplicitHeight = 255
       object cxGrid2: TcxGrid
         Left = 0
         Top = 0
         Width = 1194
-        Height = 255
+        Height = 283
         Align = alClient
         TabOrder = 0
+        ExplicitHeight = 255
         object cxGrdRak: TcxGridDBTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -672,6 +681,7 @@ inherited frmItem: TfrmItem
       Caption = 'History Harga Pokok Penjualan / Harga Average'
       Enabled = False
       ImageIndex = 1
+      ExplicitHeight = 255
       object cxGroupBox3: TcxGroupBox
         Left = 0
         Top = 0
@@ -737,9 +747,10 @@ inherited frmItem: TfrmItem
         Left = 0
         Top = 35
         Width = 1194
-        Height = 220
+        Height = 248
         Align = alClient
         TabOrder = 1
+        ExplicitHeight = 220
         object cxGrdAvg: TcxGridServerModeTableView
           Navigator.Buttons.CustomButtons = <>
           DataController.Summary.DefaultGroupSummaryItems = <>
@@ -763,7 +774,7 @@ inherited frmItem: TfrmItem
   end
   object cxMemo1: TcxMemo [4]
     Left = 0
-    Top = 464
+    Top = 492
     Align = alBottom
     Enabled = False
     Lines.Strings = (
@@ -780,6 +791,7 @@ inherited frmItem: TfrmItem
     Style.IsFontAssigned = True
     StyleDisabled.TextColor = clBlack
     TabOrder = 4
+    ExplicitTop = 464
     Height = 40
     Width = 1194
   end
@@ -799,6 +811,15 @@ inherited frmItem: TfrmItem
     object styleInfoBk: TcxStyle
       AssignedValues = [svColor]
       Color = clInfoBk
+    end
+  end
+  object pmMain: TPopupMenu
+    OnPopup = pmMainPopup
+    Left = 440
+    Top = 337
+    object pmMenuSetHargaIncPPN: TMenuItem
+      Caption = 'Set Harga Include PPN'
+      OnClick = pmMenuSetHargaIncPPNClick
     end
   end
 end

@@ -1101,14 +1101,14 @@ procedure TTransDetail.MakePositive;
 begin
   Self.Qty := Abs(Self.Qty);
   Self.Total := Abs(Self.Total);
-  Self.PPN := Abs(Self.Total);
+
 end;
 
 procedure TTransDetail.MakeNegative;
 begin
   Self.Qty := Abs(Self.Qty) * -1;
   Self.Total := Abs(Self.Total) * -1;
-  Self.PPN := Abs(Self.Total) * -1;
+
 end;
 
 procedure TTransDetail.SetAvgCost;
