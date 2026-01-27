@@ -238,6 +238,8 @@ type
     dxBarButton104: TdxBarButton;
     dxBarButton105: TdxBarButton;
     dxBarButton106: TdxBarButton;
+    dxBarButton107: TdxBarButton;
+    actDownloadJournal: TAction;
     procedure actAccountExecute(Sender: TObject);
     procedure actAgingARExecute(Sender: TObject);
     procedure actAgingStockExecute(Sender: TObject);
@@ -248,6 +250,7 @@ type
     procedure actCustomerExecute(Sender: TObject);
     procedure actDeleteEODExecute(Sender: TObject);
     procedure actDetPenjualanExecute(Sender: TObject);
+    procedure actDownloadJournalExecute(Sender: TObject);
     procedure actEndOfDayExecute(Sender: TObject);
     procedure actExportDataExecute(Sender: TObject);
     procedure actGantiPassExecute(Sender: TObject);
@@ -349,7 +352,7 @@ uses
   System.IOUtils, CRUDObject, System.JSON, ufrmDeleteEOD,
   ufrmBrowseUangMukaZakat, ufrmPostingJournal, ufrmJournalMemorial,
   ufrmJournalListing, ufrmBrowseJournalMemorial, ufrmBukuBesar, ufrmLapNeraca,
-  ufrmLabaRugi;
+  ufrmLabaRugi, ufrmDownloadDataCabang;
 
 {$R *.dfm}
 
@@ -423,6 +426,11 @@ end;
 procedure TfrmMain.actDetPenjualanExecute(Sender: TObject);
 begin
   ShowForm(TfrmLapPenjualan);
+end;
+
+procedure TfrmMain.actDownloadJournalExecute(Sender: TObject);
+begin
+  ShowForm(TfrmDownloadDataCabang).ShowModal;
 end;
 
 procedure TfrmMain.actEndOfDayExecute(Sender: TObject);

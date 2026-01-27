@@ -8,15 +8,15 @@ inherited frmPostingJournal: TfrmPostingJournal
   TextHeight = 13
   inherited cxGroupBox2: TcxGroupBox
     Top = 555
-    ExplicitTop = 480
-    ExplicitWidth = 794
+    ExplicitTop = 555
+    ExplicitWidth = 984
     ExplicitHeight = 56
     Height = 56
     Width = 984
     inherited btnCancel: TcxButton
       Left = 899
       Height = 46
-      ExplicitLeft = 709
+      ExplicitLeft = 899
       ExplicitHeight = 46
     end
     inherited btnPrint: TcxButton
@@ -40,7 +40,7 @@ inherited frmPostingJournal: TfrmPostingJournal
       OptionsImage.ImageIndex = 4
       OnClick = btnSaveClick
       ExplicitLeft = 143
-      ExplicitWidth = 560
+      ExplicitWidth = 750
       ExplicitHeight = 46
     end
   end
@@ -48,23 +48,23 @@ inherited frmPostingJournal: TfrmPostingJournal
     Top = 534
     Width = 984
     Visible = False
-    ExplicitTop = 459
-    ExplicitWidth = 794
+    ExplicitTop = 534
+    ExplicitWidth = 984
     inherited lbEscape: TLabel
       Left = 904
       Height = 17
-      ExplicitLeft = 714
+      ExplicitLeft = 904
     end
     inherited lgndSave: TLabel
       Left = 739
       Height = 17
       Visible = False
-      ExplicitLeft = 549
+      ExplicitLeft = 739
     end
     inherited lgndPrint: TLabel
       Left = 826
       Height = 17
-      ExplicitLeft = 636
+      ExplicitLeft = 826
     end
   end
   object cxGroupBox1: TcxGroupBox [2]
@@ -78,7 +78,6 @@ inherited frmPostingJournal: TfrmPostingJournal
     Caption = ' Periode '
     Style.TextStyle = [fsBold]
     TabOrder = 2
-    ExplicitWidth = 794
     Height = 94
     Width = 984
     object cbMonth: TcxComboBox
@@ -157,9 +156,6 @@ inherited frmPostingJournal: TfrmPostingJournal
     Align = alClient
     TabOrder = 3
     RootLevelOptions.DetailTabsPosition = dtpTop
-    ExplicitLeft = 8
-    ExplicitWidth = 788
-    ExplicitHeight = 356
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <>
@@ -196,8 +192,8 @@ inherited frmPostingJournal: TfrmPostingJournal
     end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 672
-    Top = 32
+    Left = 816
+    Top = 16
     PixelsPerInch = 96
   end
   object cxPropertiesStore1: TcxPropertiesStore

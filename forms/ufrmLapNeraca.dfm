@@ -385,8 +385,8 @@ inherited frmLapNeraca: TfrmLapNeraca
     end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 488
-    Top = 96
+    Left = 504
+    Top = 160
     PixelsPerInch = 96
     object styleBold: TcxStyle
       AssignedValues = [svFont]

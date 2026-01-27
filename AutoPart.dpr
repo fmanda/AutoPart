@@ -139,7 +139,8 @@ uses
   ufrmJournalMemorial in 'forms\ufrmJournalMemorial.pas' {frmJournalMemorial},
   ufrmBrowseJournalMemorial in 'forms\ufrmBrowseJournalMemorial.pas' {frmBrowseJournalMemorial},
   ufrmBukuBesar in 'forms\ufrmBukuBesar.pas' {frmBukuBesar},
-  ufrmJournalListing in 'forms\ufrmJournalListing.pas' {frmJournalListing};
+  ufrmJournalListing in 'forms\ufrmJournalListing.pas' {frmJournalListing},
+  ufrmDownloadDataCabang in 'forms\ufrmDownloadDataCabang.pas' {frmDownloadDataCabang};
 
 {$R *.res}
 

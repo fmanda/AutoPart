@@ -508,7 +508,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar11: TdxBar
       Caption = 'Lap Manajemen'
       CaptionButtons = <>
-      DockedLeft = 521
+      DockedLeft = 570
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8
@@ -667,7 +667,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar15: TdxBar
       Caption = 'Zakat'
       CaptionButtons = <>
-      DockedLeft = 759
+      DockedLeft = 808
       DockedTop = 0
       FloatLeft = 1384
       FloatTop = 8
@@ -704,12 +704,16 @@ object frmMain: TfrmMain
         end
         item
           Visible = True
-          ItemName = 'dxBarButton102'
+          ItemName = 'dxBarButton107'
         end
         item
           Position = ipBeginsNewColumn
           Visible = True
           ItemName = 'dxBarButton103'
+        end
+        item
+          Visible = True
+          ItemName = 'dxBarButton102'
         end
         item
           Visible = True
@@ -1308,6 +1312,10 @@ object frmMain: TfrmMain
       Action = actProfitLoss
       Category = 0
     end
+    object dxBarButton107: TdxBarButton
+      Action = actDownloadJournal
+      Category = 0
+    end
   end
   object ActionManager: TActionManager
     Images = ImageList
@@ -1739,6 +1747,12 @@ object frmMain: TfrmMain
       Caption = 'Journal Memorial'
       ImageIndex = 49
       OnExecute = actJournalMemorialExecute
+    end
+    object actDownloadJournal: TAction
+      Category = 'Manajemen'
+      Caption = 'Download Data Cabang'
+      ImageIndex = 51
+      OnExecute = actDownloadJournalExecute
     end
   end
   object ImageList: TcxImageList
