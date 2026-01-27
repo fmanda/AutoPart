@@ -18,17 +18,17 @@ inherited frmLapNeraca: TfrmLapNeraca
     Height = 57
     Width = 1234
     inherited lblTitle: TcxLabel
-      Left = 861
-      Top = 13
+      Left = 382
+      Top = 3
       Align = alNone
       Caption = 'Neraca'
       Style.IsFontAssigned = True
       Visible = False
-      ExplicitLeft = 861
-      ExplicitTop = 13
+      ExplicitLeft = 382
+      ExplicitTop = 3
       ExplicitWidth = 43
       ExplicitHeight = 17
-      AnchorY = 22
+      AnchorY = 12
     end
     object cbMonth: TcxComboBox
       Left = 68
@@ -86,8 +86,8 @@ inherited frmLapNeraca: TfrmLapNeraca
       Style.IsFontAssigned = True
     end
     object cbMonthPrev: TcxComboBox
-      Left = 463
-      Top = 24
+      Left = 1023
+      Top = 23
       ParentFont = False
       Properties.Items.Strings = (
         'Januari'
@@ -115,8 +115,8 @@ inherited frmLapNeraca: TfrmLapNeraca
       Width = 98
     end
     object spYearPrev: TcxSpinEdit
-      Left = 563
-      Top = 24
+      Left = 1123
+      Top = 23
       ParentFont = False
       Style.Font.Charset = DEFAULT_CHARSET
       Style.Font.Color = clWindowText
@@ -130,13 +130,29 @@ inherited frmLapNeraca: TfrmLapNeraca
       Width = 74
     end
     object chkDetail: TCheckBox
-      Left = 256
+      Left = 640
       Top = 25
       Width = 169
       Height = 17
       Caption = 'Tampilkan Detail Per COA'
       TabOrder = 6
       OnClick = chkDetailClick
+    end
+    object ckCabang: TCheckBox
+      Left = 256
+      Top = 25
+      Width = 120
+      Height = 17
+      Caption = 'Filter By Cabang'
+      TabOrder = 7
+      OnClick = ckCabangClick
+    end
+    object cxLookupCabang: TcxExtLookupComboBox
+      Left = 371
+      Top = 24
+      Properties.ImmediatePost = True
+      TabOrder = 8
+      Width = 232
     end
   end
   inherited cxGroupBox2: TcxGroupBox
@@ -369,8 +385,8 @@ inherited frmLapNeraca: TfrmLapNeraca
     end
   end
   inherited styleRepo: TcxStyleRepository
-    Left = 800
-    Top = 8
+    Left = 488
+    Top = 96
     PixelsPerInch = 96
     object styleBold: TcxStyle
       AssignedValues = [svFont]

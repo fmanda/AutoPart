@@ -29,6 +29,8 @@ type
     cxGridLevel1: TcxGridLevel;
     cxPropertiesStore1: TcxPropertiesStore;
     cxGrdMain: TcxGridDBTableView;
+    cxGridLevel2: TcxGridLevel;
+    cxGrdSummary: TcxGridDBTableView;
     procedure FormCreate(Sender: TObject);
     procedure cbBulanClick(Sender: TObject);
     procedure cbMonthPropertiesChange(Sender: TObject);
@@ -37,10 +39,12 @@ type
     procedure btnPrintClick(Sender: TObject);
   private
     FCDS: TClientDataset;
+    FCDSSum: TClientDataset;
     procedure PostingJournal;
     procedure PreviewData;
     procedure SetDefaultPeriod;
     property CDS: TClientDataset read FCDS write FCDS;
+    property CDSSum: TClientDataset read FCDSSum write FCDSSum;
     { Private declarations }
   public
     function GetGroupName: string; override;
@@ -128,7 +132,25 @@ begin
 
   FCDS := TDBUtils.OpenDataset(S);
   cxGrdMain.LoadFromCDS(CDS);
-  cxGrdMain.SetSummaryByColumns(['debet','credit']);
+//  cxGrdMain.SetSummaryByColumns(['debet','credit']);
+
+
+  S := 'SELECT'
+      +' A.ACCOUNTCODE, B.NAMA AS ACCOUNTNAME,'
+      +' CASE WHEN SUM(A.DEBET-A.CREDIT) > 0 THEN  SUM(A.DEBET-A.CREDIT) ELSE 0 END AS DEBET,'
+      +' CASE WHEN SUM(A.CREDIT-A.DEBET) > 0 THEN  SUM(A.CREDIT-A.DEBET) ELSE 0 END AS CREDIT '
+      +' FROM [FN_JOURNAL_ALL](' + TAppUtils.QuotD(dtStart.Date)
+      + ', ' + TAppUtils.QuotD(dtEnd.Date) +') A  '
+      +' INNER JOIN TACCOUNT B ON A.ACCOUNTCODE = B.KODE'
+      +' group by A.ACCOUNTCODE, B.NAMA'
+      +' order by a.ACCOUNTCODE';
+
+  if FCDSSum <> nil then
+    FreeAndNil(FCDSSum);
+
+  FCDSSum := TDBUtils.OpenDataset(S);
+  cxGrdSummary.LoadFromCDS(CDSSum);
+  cxGrdSummary.SetSummaryByColumns(['debet','credit']);
 end;
 
 procedure TfrmPostingJournal.SetDefaultPeriod;

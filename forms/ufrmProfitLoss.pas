@@ -12,7 +12,8 @@ uses
   cxTLdxBarBuiltInMenu, cxDataControllerConditionalFormattingRulesManagerDialog,
   cxInplaceContainer, cxFilter, cxData, cxDataStorage, cxNavigator, Data.DB,
   cxDBData, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGridLevel, cxGridCustomView, cxGrid, Datasnap.DBClient;
+  cxGridLevel, cxGridCustomView, cxGrid, Datasnap.DBClient, cxLookupEdit,
+  cxDBLookupEdit, cxDBExtLookupComboBox;
 
 type
   TfrmProfitLoss = class(TfrmDefaultReport)
@@ -39,11 +40,14 @@ type
     cxGridLevel1: TcxGridLevel;
     clReportFlag: TcxGridDBColumn;
     clHasValue: TcxGridDBColumn;
+    cxLookupCabang: TcxExtLookupComboBox;
+    ckCabang: TCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure chkPeriodePropertiesEditValueChanged(Sender: TObject);
     procedure cbBulanPropertiesEditValueChanged(Sender: TObject);
     procedure spTahunPropertiesEditValueChanged(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
+    procedure ckCabangClick(Sender: TObject);
   private
     CDS: TClientDataset;
     procedure LoadData;
@@ -60,7 +64,7 @@ var
 implementation
 
 uses
-  System.DateUtils, uAppUtils, uDBUtils, uDXUtils;
+  System.DateUtils, uAppUtils, uDBUtils, uDXUtils, uVariable;
 
 {$R *.dfm}
 
@@ -71,6 +75,11 @@ begin
   spTahun.Value := YearOf(Now());
   chkPeriode.Checked := False;
   chkPeriodePropertiesEditValueChanged(Self);
+
+  cxLookupCabang.LoadFromSQL('select project_code, project_name from tproject','project_code','project_name', Self);
+  ckCabang.Checked := False;
+  cxLookupCabang.Clear;
+  ckCabangClick(Self);
 end;
 
 procedure TfrmProfitLoss.btnRefreshClick(Sender: TObject);
@@ -101,6 +110,16 @@ begin
 
 end;
 
+procedure TfrmProfitLoss.ckCabangClick(Sender: TObject);
+begin
+  inherited;
+  cxLookupCabang.Enabled := ckCabang.Checked;
+  if not ckCabang.Checked then
+    cxLookupCabang.Clear
+  else
+    cxLookupCabang.EditValue := AppVariable.Kode_Cabang;
+end;
+
 function TfrmProfitLoss.GetGroupName: string;
 begin
   Result := 'Manajemen';
@@ -113,7 +132,7 @@ begin
   if CDS <> nil then
     FreeAndNil(CDS);
 
-  S := 'SELECT * FROM FN_PROFITLOSS_MTD_YTD(' + TAppUtils.QuotD(dtEnd.Date) +')';
+  S := 'SELECT * FROM FN_PROFITLOSS_MTD_YTD(' + TAppUtils.QuotD(dtEnd.Date) +',' +  QuotedStr(VarToStr(cxLookupCabang.EditValue))  +')';
 
   CDS := TDBUtils.OpenDataset(S, Self);
 

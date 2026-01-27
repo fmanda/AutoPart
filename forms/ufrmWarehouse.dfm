@@ -34,14 +34,17 @@ inherited frmWarehouse: TfrmWarehouse
     ExplicitWidth = 485
     inherited lbEscape: TLabel
       Left = 405
+      Height = 17
       ExplicitLeft = 405
     end
     inherited lgndSave: TLabel
       Left = 240
+      Height = 17
       ExplicitLeft = 240
     end
     inherited lgndPrint: TLabel
       Left = 327
+      Height = 17
       ExplicitLeft = 327
     end
   end

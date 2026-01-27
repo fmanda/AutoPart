@@ -560,10 +560,6 @@
             <Form>frmLabaRugi</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="forms\ufrmProfitLoss.pas">
-            <Form>frmProfitLoss</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="forms\ufrmPostingJournal.pas">
             <Form>frmPostingJournal</Form>
             <FormType>dfm</FormType>

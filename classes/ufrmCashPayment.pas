@@ -332,8 +332,8 @@ begin
   cxLookupRekening.Properties.LoadFromSQL(Self,
     'select id, nama from trekening','nama');
 
-  S := 'select id, kode + '' - '' + nama as nama from taccount where isdetail = 1'
-      +' and parent_id = ' + IntToStr(AppVariable.GetAccountExpense.ID);
+  S := 'select id, kode + '' - '' + nama as nama from v_account_cashpayment';
+
   TcxExtLookup(colCostAccount.Properties).LoadFromSQL(Self,
     S,'nama');
 

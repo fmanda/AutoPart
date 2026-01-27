@@ -34,6 +34,22 @@ inherited frmLabaRugi: TfrmLabaRugi
       Properties.Alignment.Vert = taVCenter
       AnchorY = 18
     end
+    object ckCabang: TCheckBox
+      Left = 286
+      Top = 9
+      Width = 101
+      Height = 17
+      Caption = 'Filter By Cabang'
+      TabOrder = 3
+      OnClick = ckCabangClick
+    end
+    object cxLookupCabang: TcxExtLookupComboBox
+      Left = 393
+      Top = 8
+      Properties.ImmediatePost = True
+      TabOrder = 4
+      Width = 190
+    end
   end
   inherited cxGroupBox2: TcxGroupBox
     Top = 624

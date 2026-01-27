@@ -135,7 +135,6 @@ uses
   uJournalMemorial in 'classes\uJournalMemorial.pas',
   ufrmLapNeraca in 'forms\ufrmLapNeraca.pas' {frmLapNeraca},
   ufrmLabaRugi in 'forms\ufrmLabaRugi.pas' {frmLabaRugi},
-  ufrmProfitLoss in 'forms\ufrmProfitLoss.pas' {frmProfitLoss},
   ufrmPostingJournal in 'forms\ufrmPostingJournal.pas' {frmPostingJournal},
   ufrmJournalMemorial in 'forms\ufrmJournalMemorial.pas' {frmJournalMemorial},
   ufrmBrowseJournalMemorial in 'forms\ufrmBrowseJournalMemorial.pas' {frmBrowseJournalMemorial},

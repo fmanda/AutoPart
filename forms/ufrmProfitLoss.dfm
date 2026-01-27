@@ -1,14 +1,14 @@
 inherited frmProfitLoss: TfrmProfitLoss
   Caption = 'Laba Rugi'
   ClientHeight = 584
-  ClientWidth = 700
-  ExplicitWidth = 716
+  ClientWidth = 720
+  ExplicitWidth = 736
   ExplicitHeight = 623
   PixelsPerInch = 96
   TextHeight = 13
   inherited cxGroupBox1: TcxGroupBox
     ExplicitWidth = 700
-    Width = 700
+    Width = 720
     inherited lblTitle: TcxLabel
       Style.IsFontAssigned = True
       AnchorY = 18
@@ -18,9 +18,9 @@ inherited frmProfitLoss: TfrmProfitLoss
     Top = 549
     ExplicitTop = 549
     ExplicitWidth = 700
-    Width = 700
+    Width = 720
     inherited btnTutup: TcxButton
-      Left = 620
+      Left = 640
       ExplicitLeft = 620
     end
     inherited btnRefresh: TcxButton
@@ -37,17 +37,18 @@ inherited frmProfitLoss: TfrmProfitLoss
     PanelStyle.Active = True
     Style.BorderStyle = ebsNone
     TabOrder = 2
+    ExplicitWidth = 700
     Height = 30
-    Width = 700
+    Width = 720
     object dtStart: TcxDateEdit
-      Left = 352
+      Left = 608
       Top = 6
       TabOrder = 0
       Visible = False
       Width = 117
     end
     object dtEnd: TcxDateEdit
-      Left = 492
+      Left = 748
       Top = 6
       Properties.SaveTime = False
       Properties.ShowTime = False
@@ -56,7 +57,7 @@ inherited frmProfitLoss: TfrmProfitLoss
       Width = 117
     end
     object cxLabel5: TcxLabel
-      Left = 472
+      Left = 728
       Top = 7
       Caption = 's/d'
       Visible = False
@@ -105,25 +106,39 @@ inherited frmProfitLoss: TfrmProfitLoss
       Caption = 'Tahun'
     end
     object chkPeriode: TcxCheckBox
-      Left = 294
+      Left = 550
       Top = 6
       Caption = 'Periode'
       Properties.OnEditValueChanged = chkPeriodePropertiesEditValueChanged
       TabOrder = 7
       Visible = False
     end
+    object cxLookupCabang: TcxExtLookupComboBox
+      Left = 362
+      Top = 6
+      Properties.ImmediatePost = True
+      TabOrder = 8
+      Width = 190
+    end
+    object ckCabang: TCheckBox
+      Left = 255
+      Top = 7
+      Width = 101
+      Height = 17
+      Caption = 'Filter By Cabang'
+      TabOrder = 9
+      OnClick = ckCabangClick
+    end
   end
   object cxGrid2: TcxGrid [3]
     AlignWithMargins = True
     Left = 3
     Top = 68
-    Width = 694
+    Width = 714
     Height = 478
     Align = alClient
     TabOrder = 3
-    ExplicitTop = 20
-    ExplicitWidth = 430
-    ExplicitHeight = 564
+    ExplicitWidth = 694
     object cxGrdMain: TcxGridDBTableView
       Navigator.Buttons.CustomButtons = <>
       DataController.Summary.DefaultGroupSummaryItems = <

@@ -12,7 +12,8 @@ uses
   cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar,
-  cxCurrencyEdit, cxPropertiesStore, Datasnap.DBClient, cxSpinEdit, uDMReport;
+  cxCurrencyEdit, cxPropertiesStore, Datasnap.DBClient, cxSpinEdit, uDMReport,
+  cxLookupEdit, cxDBLookupEdit, cxDBExtLookupComboBox;
 
 type
   TfrmLapNeraca = class(TfrmDefaultReport)
@@ -42,6 +43,8 @@ type
     cxGrdMerge: TcxGridDBTableView;
     cxGrid3Level1: TcxGridLevel;
     cxGrid3: TcxGrid;
+    ckCabang: TCheckBox;
+    cxLookupCabang: TcxExtLookupComboBox;
     procedure FormCreate(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
@@ -58,6 +61,7 @@ type
     procedure spYearPropertiesChange(Sender: TObject);
     procedure btnExportClick(Sender: TObject);
     procedure btnPrintClick(Sender: TObject);
+    procedure ckCabangClick(Sender: TObject);
   private
     FCDSActiva: TClientDataset;
     FCDSPassiva: TClientDataset;
@@ -82,7 +86,8 @@ var
 implementation
 
 uses
-  uAppUtils, uDXUtils, System.DateUtils, uDBUtils, cxExport, cxGridExportLink;
+  uAppUtils, uDXUtils, System.DateUtils, uDBUtils, cxExport, cxGridExportLink,
+  uVariable;
 
 {$R *.dfm}
 
@@ -92,6 +97,12 @@ begin
 //  dtDate.Date := Now();
   cbMonth.ItemIndex := MonthOf(Now())-1;
   spYear.Value      := YearOf(Now());
+
+
+  cxLookupCabang.LoadFromSQL('select project_code, project_name from tproject','project_code','project_name', Self);
+  ckCabang.Checked := False;
+  cxLookupCabang.Clear;
+  ckCabangClick(Self);
 end;
 
 procedure TfrmLapNeraca.btnExportClick(Sender: TObject);
@@ -127,6 +138,16 @@ procedure TfrmLapNeraca.cbMonthPropertiesChange(Sender: TObject);
 begin
   inherited;
   SetColumnCaption;
+end;
+
+procedure TfrmLapNeraca.ckCabangClick(Sender: TObject);
+begin
+  inherited;
+  cxLookupCabang.Enabled := ckCabang.Checked;
+  if not ckCabang.Checked then
+    cxLookupCabang.Clear
+  else
+    cxLookupCabang.EditValue := AppVariable.Kode_Cabang;
 end;
 
 procedure TfrmLapNeraca.chkDetailClick(Sender: TObject);
@@ -224,7 +245,8 @@ begin
   S := 'select * from fn_balancesheet_activa_2c' + sPrefix;
 
   S := S + '(' + TAppUtils.QuotD(currentMonth) +','
-      + TAppUtils.QuotD(prevMonth) +') order by parent,SubAccount';
+      + TAppUtils.QuotD(prevMonth) +',' +  QuotedStr(VarToStr(cxLookupCabang.EditValue))
+      +') order by parent,SubAccount';
 
   if FCDSActiva <> nil then FreeAndNil(FCDSActiva);
   FCDSActiva := TDBUtils.OpenDataset(S);
@@ -233,7 +255,8 @@ begin
   S := 'select * from fn_balancesheet_passiva_2c' + sPrefix;
 
   S := S + '(' + TAppUtils.QuotD(currentMonth) +','
-      + TAppUtils.QuotD(prevMonth) +') order by parent,SubAccount';
+      + TAppUtils.QuotD(prevMonth) +',' +  QuotedStr(VarToStr(cxLookupCabang.EditValue))
+      +') order by parent,SubAccount';
 
   if FCDSPassiva <> nil then FreeAndNil(FCDSPassiva);
   FCDSPassiva := TDBUtils.OpenDataset(S);

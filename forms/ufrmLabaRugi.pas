@@ -12,7 +12,8 @@ uses
   cxCurrencyEdit, Vcl.ComCtrls, dxCore, cxDateUtils, cxTextEdit, cxMaskEdit,
   cxDropDownEdit, cxCalendar, cxGridLevel, cxGridCustomTableView,
   cxGridTableView, cxGridDBTableView, cxGridCustomView, cxGrid,
-  Datasnap.DBClient, System.DateUtils, uDMReport;
+  Datasnap.DBClient, System.DateUtils, uDMReport, cxLookupEdit, cxDBLookupEdit,
+  cxDBExtLookupComboBox;
 
 type
   TfrmLabaRugi = class(TfrmDefaultReport)
@@ -27,6 +28,8 @@ type
     clHasValue: TcxGridDBColumn;
     cxGridLevel1: TcxGridLevel;
     styleBold: TcxStyle;
+    ckCabang: TCheckBox;
+    cxLookupCabang: TcxExtLookupComboBox;
     procedure FormCreate(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnExportClick(Sender: TObject);
@@ -34,6 +37,7 @@ type
       ARecord: TcxCustomGridRecord; AItem: TcxCustomGridTableItem;
       var AStyle: TcxStyle);
     procedure btnPrintClick(Sender: TObject);
+    procedure ckCabangClick(Sender: TObject);
   private
     FCDS: TClientDataset;
     procedure LoadData;
@@ -50,7 +54,7 @@ var
 implementation
 
 uses
-  uAppUtils, uDXUtils, uDBUtils;
+  uAppUtils, uDXUtils, uDBUtils, uVariable;
 
 {$R *.dfm}
 
@@ -58,6 +62,11 @@ procedure TfrmLabaRugi.FormCreate(Sender: TObject);
 begin
   inherited;
   dtDate.Date := EndOfTheMonth(Now());
+
+  cxLookupCabang.LoadFromSQL('select project_code, project_name from tproject','project_code','project_name', Self);
+  ckCabang.Checked := False;
+  cxLookupCabang.Clear;
+  ckCabangClick(Self);
 end;
 
 procedure TfrmLabaRugi.btnExportClick(Sender: TObject);
@@ -77,6 +86,16 @@ procedure TfrmLabaRugi.btnRefreshClick(Sender: TObject);
 begin
   inherited;
   LoadData;
+end;
+
+procedure TfrmLabaRugi.ckCabangClick(Sender: TObject);
+begin
+  inherited;
+  cxLookupCabang.Enabled := ckCabang.Checked;
+  if not ckCabang.Checked then
+    cxLookupCabang.Clear
+  else
+    cxLookupCabang.EditValue := AppVariable.Kode_Cabang;
 end;
 
 procedure TfrmLabaRugi.clDesriptionStylesGetContentStyle(
@@ -103,7 +122,8 @@ begin
   if CDS <> nil then
     FreeAndNil(FCDS);
 
-  S := 'SELECT * FROM FN_PROFITLOSS_MTD_YTD(' + TAppUtils.QuotD(dtDate.Date) +')';
+//  S := 'SELECT * FROM FN_PROFITLOSS_MTD_YTD(' + TAppUtils.QuotD(dtDate.Date) +')';
+  S := 'SELECT * FROM FN_PROFITLOSS_MTD_YTD(' + TAppUtils.QuotD(dtDate.Date) +',' +  QuotedStr(VarToStr(cxLookupCabang.EditValue))  +')';
 
   CDS := TDBUtils.OpenDataset(S, Self);
 

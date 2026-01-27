@@ -69,7 +69,6 @@ object frmMain: TfrmMain
       Index = 0
     end
     object dxRTMaster: TdxRibbonTab
-      Active = True
       Caption = 'Master Data'
       Groups = <
         item
@@ -120,6 +119,7 @@ object frmMain: TfrmMain
       Index = 4
     end
     object dxRTManagement: TdxRibbonTab
+      Active = True
       Caption = 'Manajemen & Accounting'
       Groups = <
         item
@@ -371,7 +371,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar6: TdxBar
       Caption = 'Lap Inventory'
       CaptionButtons = <>
-      DockedLeft = 458
+      DockedLeft = 477
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8
@@ -508,7 +508,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar11: TdxBar
       Caption = 'Lap Manajemen'
       CaptionButtons = <>
-      DockedLeft = 511
+      DockedLeft = 521
       DockedTop = 0
       FloatLeft = 901
       FloatTop = 8
@@ -667,7 +667,7 @@ object frmMain: TfrmMain
     object dxBarManagerBar15: TdxBar
       Caption = 'Zakat'
       CaptionButtons = <>
-      DockedLeft = 749
+      DockedLeft = 759
       DockedTop = 0
       FloatLeft = 1384
       FloatTop = 8
@@ -1216,6 +1216,7 @@ object frmMain: TfrmMain
     object dxBarButton88: TdxBarButton
       Action = actKKSO
       Category = 0
+      ImageIndex = 41
     end
     object dxBarSubItem4: TdxBarSubItem
       Caption = 'New SubItem'
@@ -1723,7 +1724,7 @@ object frmMain: TfrmMain
     end
     object actProfitLoss: TAction
       Category = 'Manajemen'
-      Caption = 'Laba Rugi / Profit & Loss'
+      Caption = 'Laba Rugi / Profit && Loss'
       ImageIndex = 84
       OnExecute = actProfitLossExecute
     end

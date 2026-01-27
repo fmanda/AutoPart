@@ -97,7 +97,7 @@ end;
 procedure TfrmWarehouse.FormCreate(Sender: TObject);
 begin
   inherited;
-  cxLookupCabang.LoadFromSQL('select * from tproject','project_code','project_name', Self);
+  cxLookupCabang.LoadFromSQL('select project_code, project_name from tproject','project_code','project_name', Self);
   Self.AssignKeyDownEvent;
   cxGrdRak.PrepareFromCDS(CDS);
   LoadByID(0);
